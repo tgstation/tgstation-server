@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Sockets;
 using System.Text;
@@ -11,6 +12,7 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Core;
@@ -81,6 +83,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IServerPortProvider serverPortProvider;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for the <see cref="SessionControllerFactory"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -94,6 +101,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly Api.Models.Instance instance;
+
+
 
 		/// <summary>
 		/// Change a given <paramref name="securityLevel"/> into the appropriate DreamDaemon command line word
@@ -145,6 +154,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IByondManager byond,
@@ -157,6 +167,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IPlatformIdentifier platformIdentifier,
 			IBridgeRegistrar bridgeRegistrar,
 			IServerPortProvider serverPortProvider,
+			EventConsumer eventConsumer,
 			ILoggerFactory loggerFactory,
 			ILogger<SessionControllerFactory> logger,
 			Api.Models.Instance instance)
@@ -173,6 +184,7 @@ namespace Tgstation.Server.Host.Components.Session
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -344,6 +356,17 @@ namespace Tgstation.Server.Host.Components.Session
 							launchParameters.StartupTimeout,
 							false,
 							apiValidate);
+
+						// If this isnt a staging DD (From a Deployment), fire off an event
+						if (!apiValidate)
+							await eventConsumer.HandleEvent(
+								EventType.DreamDaemonLaunch,
+								new List<string>
+								{
+									process.Id.ToString(CultureInfo.InvariantCulture)
+								},
+								cancellationToken)
+								.ConfigureAwait(false);
 
 						return sessionController;
 					}

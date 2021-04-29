@@ -271,6 +271,7 @@ namespace Tgstation.Server.Host.Components
 						platformIdentifier,
 						bridgeRegistrar,
 						serverPortProvider,
+						eventConsumer,
 						loggerFactory,
 						loggerFactory.CreateLogger<SessionControllerFactory>(),
 						metadata);
