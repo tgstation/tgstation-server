@@ -278,17 +278,6 @@ namespace Tgstation.Server.Host.Components.Session
 						noShellExecute,
 						noShellExecute: noShellExecute);
 
-					// If this isnt a staging DD (From a Deployment), fire off an event
-					if(!apiValidate)
-						await eventConsumer.HandleEvent(
-							EventType.DreamDaemonLaunch,
-							new List<string>
-							{
-								process.Id.ToString(CultureInfo.InvariantCulture)
-							},
-							cancellationToken)
-							.ConfigureAwait(false);
-
 					async Task<string> GetDDOutput()
 					{
 						// DCT x2: None available
@@ -367,6 +356,17 @@ namespace Tgstation.Server.Host.Components.Session
 							launchParameters.StartupTimeout,
 							false,
 							apiValidate);
+
+						// If this isnt a staging DD (From a Deployment), fire off an event
+						if (!apiValidate)
+							await eventConsumer.HandleEvent(
+								EventType.DreamDaemonLaunch,
+								new List<string>
+								{
+									process.Id.ToString(CultureInfo.InvariantCulture)
+								},
+								cancellationToken)
+								.ConfigureAwait(false);
 
 						return sessionController;
 					}
