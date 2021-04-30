@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Include(x => x.CancelledBy)
 						.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue)
 						.OrderByDescending(x => x.StartedAt))),
-				null,
+				AddJobProgressResponseTransformer,
 				page,
 				pageSize,
 				cancellationToken);
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Include(x => x.CancelledBy)
 						.Where(x => x.Instance.Id == Instance.Id)
 						.OrderByDescending(x => x.StartedAt))),
-				null,
+				AddJobProgressResponseTransformer,
 				page,
 				pageSize,
 				cancellationToken);
@@ -167,6 +167,15 @@ namespace Tgstation.Server.Host.Controllers
 			var api = job.ToApi();
 			api.Progress = jobManager.JobProgress(job);
 			return Json(api);
+		}
+
+		/// <summary>
+		/// Supplements <see cref="JobResponse"/> <see cref="PaginatedResponse{TModel}"/>s with their <see cref="JobResponse.Progress"/>.
+		/// </summary>
+		/// <param name="jobResponse">The <see cref="JobResponse"/> to augment.</param>
+		private void AddJobProgressResponseTransformer(JobResponse jobResponse)
+		{
+			jobResponse.Progress = jobManager.JobProgress(jobResponse);
 		}
 	}
 }

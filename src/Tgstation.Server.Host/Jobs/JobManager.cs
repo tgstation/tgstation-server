@@ -303,7 +303,7 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public int? JobProgress(Job job)
+		public int? JobProgress(Api.Models.Internal.Job job)
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
