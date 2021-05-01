@@ -69,6 +69,16 @@ namespace Tgstation.Server.Tests.Instance
 
 			clone = await repositoryClient.Clone(cloneRequest, cancellationToken).ConfigureAwait(false);
 
+			// throwing this small jobs consistency test in here
+			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken).ConfigureAwait(false);
+			var activeJobs = await JobsClient.ListActive(null, cancellationToken);
+			var allJobs = await JobsClient.List(null, cancellationToken).ConfigureAwait(false);
+
+			Assert.IsTrue(activeJobs.Any(x => x.Id == clone.ActiveJob.Id));
+			Assert.IsTrue(allJobs.Any(x => x.Id == clone.ActiveJob.Id));
+			Assert.IsTrue(activeJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
+			Assert.IsTrue(allJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
+
 			await WaitForJob(clone.ActiveJob, 9000, false, null, cancellationToken).ConfigureAwait(false);
 			var readAfterClone = await repositoryClient.Read(cancellationToken);
 

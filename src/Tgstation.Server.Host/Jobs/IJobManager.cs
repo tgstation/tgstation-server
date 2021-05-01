@@ -13,9 +13,9 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// Get the <see cref="Api.Models.Response.JobResponse.Progress"/> for a <paramref name="job"/>
 		/// </summary>
-		/// <param name="job">The <see cref="Job"/> to get <see cref="Api.Models.Response.JobResponse.Progress"/> for</param>
+		/// <param name="job">The <see cref="Api.Models.Internal.Job"/> to get <see cref="Api.Models.Response.JobResponse.Progress"/> for</param>
 		/// <returns>The <see cref="Api.Models.Response.JobResponse.Progress"/> of <paramref name="job"/></returns>
-		int? JobProgress(Job job);
+		int? JobProgress(Api.Models.Internal.Job job);
 
 		/// <summary>
 		/// Registers a given <see cref="Job"/> and begins running it
