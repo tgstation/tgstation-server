@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Controllers.JobController.AddJobProgressResponseTransformer" name="Tgstation.Server.Host.Controllers.JobController.AddJobProgressResponseTransformer">
+<area shape="rect" id="node1" title="Supplements JobResponse PaginatedResponse&lt;TModel&gt;s with their JobResponse.Progress." alt="" coords="5,5,260,61"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ab11ade56e234fc8972862376034a2311" title="Get the Api.Models.Response.JobResponse.Progress for a job" alt="" coords="308,13,491,54"/>
+</map>

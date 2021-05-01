@@ -100,9 +100,9 @@ Collaboration diagram for Tgstation.Server.Host.Jobs.IJobManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae7faeff247c3770617a353653bf21c4c"><td class="memItemLeft" align="right" valign="top">int?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ae7faeff247c3770617a353653bf21c4c">JobProgress</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job)</td></tr>
-<tr class="memdesc:ae7faeff247c3770617a353653bf21c4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive">Api.Models.Response.JobResponse.Progress</a> for a <em>job</em>   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ae7faeff247c3770617a353653bf21c4c">More...</a><br /></td></tr>
-<tr class="separator:ae7faeff247c3770617a353653bf21c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab11ade56e234fc8972862376034a2311"><td class="memItemLeft" align="right" valign="top">int?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ab11ade56e234fc8972862376034a2311">JobProgress</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html">Api.Models.Internal.Job</a> job)</td></tr>
+<tr class="memdesc:ab11ade56e234fc8972862376034a2311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive">Api.Models.Response.JobResponse.Progress</a> for a <em>job</em>   <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ab11ade56e234fc8972862376034a2311">More...</a><br /></td></tr>
+<tr class="separator:ab11ade56e234fc8972862376034a2311"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21be789f798adf9985f2432d3499b4cd"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#abe2e95d4f3351023b424d607ba514854">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a21be789f798adf9985f2432d3499b4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it  <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">More...</a><br /></td></tr>
 <tr class="separator:a21be789f798adf9985f2432d3499b4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -218,8 +218,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ae7faeff247c3770617a353653bf21c4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7faeff247c3770617a353653bf21c4c">&#9670;&nbsp;</a></span>JobProgress()</h2>
+<a id="ab11ade56e234fc8972862376034a2311"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab11ade56e234fc8972862376034a2311">&#9670;&nbsp;</a></span>JobProgress()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,7 +227,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">int? Tgstation.Server.Host.Jobs.IJobManager.JobProgress </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html">Api.Models.Internal.Job</a>&#160;</td>
           <td class="paramname"><em>job</em></td><td>)</td>
           <td></td>
         </tr>
@@ -237,22 +237,23 @@ Here is the caller graph for this function:</div>
 <p>Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive">Api.Models.Response.JobResponse.Progress</a> for a <em>job</em>  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">job</td><td>The Job to get <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive">Api.Models.Response.JobResponse.Progress</a> for</td></tr>
+    <tr><td class="paramname">job</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html" title="Represents a long running job">Api.Models.Internal.Job</a> to get <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive">Api.Models.Response.JobResponse.Progress</a> for</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive">Api.Models.Response.JobResponse.Progress</a> of <em>job</em> </dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a6a3b177c596c04fc167b8a56c70289af">Tgstation.Server.Host.Jobs.JobManager</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ae02a20c4ad38df8dffadc8dbb9526d64">Tgstation.Server.Host.Jobs.JobManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_controller_8cs_source.html#l00155">Tgstation.Server.Host.Controllers.JobController.GetId()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_controller_8cs_source.html#l00176">Tgstation.Server.Host.Controllers.JobController.AddJobProgressResponseTransformer()</a>, and <a class="el" href="_job_controller_8cs_source.html#l00155">Tgstation.Server.Host.Controllers.JobController.GetId()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ae7faeff247c3770617a353653bf21c4c_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ae7faeff247c3770617a353653bf21c4c_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ae7faeff247c3770617a353653bf21c4c_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ae7faeff247c3770617a353653bf21c4c_icgraph">
-<area shape="rect" title="Get the Api.Models.Response.JobResponse.Progress for a job" alt="" coords="269,5,452,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#aad5f209a424e97eeb42d75c6ff37f07d" title="Get a specific JobResponse." alt="" coords="5,5,221,47"/>
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ab11ade56e234fc8972862376034a2311_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ab11ade56e234fc8972862376034a2311_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ab11ade56e234fc8972862376034a2311_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ab11ade56e234fc8972862376034a2311_icgraph">
+<area shape="rect" title="Get the Api.Models.Response.JobResponse.Progress for a job" alt="" coords="308,49,491,90"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#af4f43930016b04228ba114b0c7fd5185" title="Supplements JobResponse PaginatedResponse&lt;TModel&gt;s with their JobResponse.Progress." alt="" coords="5,5,260,61"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#aad5f209a424e97eeb42d75c6ff37f07d" title="Get a specific JobResponse." alt="" coords="25,85,241,126"/>
 </map>
 </div>
 
