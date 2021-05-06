@@ -137,5 +137,11 @@ namespace Tgstation.Server.Host.Components.Events
 		/// </summary>
 		[EventScript("WorldPrime")]
 		WorldPrime,
+
+		/// <summary>
+		/// After DD has launched. Not the same as WatchdogLaunch. Parameters: PID of DreamDaemon
+		/// </summary>
+		[EventScript("DreamDaemonLaunch")]
+		DreamDaemonLaunch,
 	}
 }
