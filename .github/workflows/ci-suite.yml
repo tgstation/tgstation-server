@@ -436,7 +436,7 @@ jobs:
         path: ./swagger
 
     - name: Lint OpenAPI Spec
-      run: npx lint-openapi -p -c build/OpenApiValidationSettings.json ./swagger/swagger.json
+      run: npx lint-openapi -v -p -c build/OpenApiValidationSettings.json ./swagger/swagger.json
 
   upload-code-coverage:
     name: Upload Code Coverage
