@@ -68,23 +68,29 @@
   },
   "oas3": {
     "operations": {
-      "no_request_body_content": "error",
       "no_request_body_name": "off"
     },
-    "parameters": {
-      "no_in_property": "error",
-      "invalid_in_property": "error",
-      "missing_schema_or_content": "error",
-      "has_schema_and_content": "error"
-    },
     "responses": {
-      "no_response_codes": "error",
       "no_success_response_codes": "error",
       "no_response_body": "error",
       "ibm_status_code_guidelines": "off"
     },
     "schemas": {
       "json_or_param_binary_string": "error"
+    }
+  },
+  "spectral": {
+    "rules": {
+      "content-entry-provided": "off",
+      "major-version-in-path": "off",
+      "oas3-api-servers": "off",
+      "openapi-tags": "off",
+      "operation-description": "off",
+      "operation-tag-defined": "off",
+      "request-body-object": "off",
+      "response-error-response-schema": "off",
+      "response-example-provided": "off",
+      "oas3-schema": "off"
     }
   }
 }
