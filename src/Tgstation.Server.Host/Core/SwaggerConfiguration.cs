@@ -342,6 +342,12 @@ namespace Tgstation.Server.Host.Core
 			if (context == null)
 				throw new ArgumentNullException(nameof(context));
 
+			swaggerDoc.ExternalDocs = new OpenApiExternalDocs
+			{
+				Description = "API Usage Documentation",
+				Url = new Uri("https://tgstation.github.io/tgstation-server/api.html"),
+			};
+
 			swaggerDoc.Components.Parameters.Add(ApiHeaders.InstanceIdHeader, new OpenApiParameter
 			{
 				In = ParameterLocation.Header,
