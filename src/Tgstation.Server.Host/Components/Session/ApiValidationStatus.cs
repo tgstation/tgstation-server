@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
-	/// Status of DMAPI validation
+	/// Status of DMAPI validation.
 	/// </summary>
 	enum ApiValidationStatus
 	{

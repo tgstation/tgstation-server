@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Host.Core
+﻿namespace Tgstation.Server.Host.Core
 {
 	/// <summary>
 	/// The result of a call to start a server update.

@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Linq;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host.Controllers
 		public IActionResult EarlyOut { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PaginatableResult{TModel}"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PaginatableResult{TModel}"/> class.
 		/// </summary>
 		/// <param name="results">The value of <see cref="Results"/>.</param>
 		public PaginatableResult(IOrderedQueryable<TModel> results)
@@ -30,7 +31,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PaginatableResult{TModel}"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PaginatableResult{TModel}"/> class.
 		/// </summary>
 		/// <param name="earlyOut">The value of <see cref="EarlyOut"/>.</param>
 		public PaginatableResult(IActionResult earlyOut)

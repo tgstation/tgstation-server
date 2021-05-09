@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents the state of the DreamMaker compiler. Create action starts a new compile. Delete action cancels the current compile
+	/// Represents the state of the DreamMaker compiler. Create action starts a new compile. Delete action cancels the current compile.
 	/// </summary>
 	public abstract class DreamMakerSettings
 	{
@@ -15,14 +15,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string? ProjectName { get; set; }
 
 		/// <summary>
-		/// The port used during compilation to validate the DMAPI
+		/// The port used during compilation to validate the DMAPI.
 		/// </summary>
 		[Required]
 		[Range(1, 65535)]
 		public ushort? ApiValidationPort { get; set; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level used to validate the DMAPI
+		/// The <see cref="DreamDaemonSecurity"/> level used to validate the DMAPI.
 		/// </summary>
 		[Required]
 		public DreamDaemonSecurity? ApiValidationSecurityLevel { get; set; }

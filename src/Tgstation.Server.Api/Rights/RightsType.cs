@@ -1,7 +1,7 @@
-namespace Tgstation.Server.Api.Rights
+﻿namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// The type of rights a model uses
+	/// The type of rights a model uses.
 	/// </summary>
 	public enum RightsType : ulong
 	{
@@ -48,6 +48,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// <see cref="InstancePermissionSetRights"/>
 		/// </summary>
-		InstancePermissionSet
+		InstancePermissionSet,
 	}
 }

@@ -1,4 +1,5 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models.Response
@@ -7,7 +8,7 @@ namespace Tgstation.Server.Api.Models.Response
 	public class UserResponse : UserApiBase
 	{
 		/// <summary>
-		/// The <see cref="UserResponse"/> who created this <see cref="UserResponse"/>
+		/// The <see cref="UserResponse"/> who created this <see cref="UserResponse"/>.
 		/// </summary>
 		[Required]
 		public UserName? CreatedBy { get; set; }

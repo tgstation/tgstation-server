@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
-	/// Represents the action to take when /world/Reboot() is called
+	/// Represents the action to take when /world/Reboot() is called.
 	/// </summary>
 	public enum RebootState : int
 	{
@@ -18,6 +18,6 @@
 		/// <summary>
 		/// Restart the DreamDaemon process
 		/// </summary>
-		Restart = 2
+		Restart = 2,
 	}
 }

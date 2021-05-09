@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
-	/// <see cref="IPostWriteHandler"/> for Windows systems
+	/// <see cref="IPostWriteHandler"/> for Windows systems.
 	/// </summary>
 	sealed class WindowsPostWriteHandler : IPostWriteHandler
 	{

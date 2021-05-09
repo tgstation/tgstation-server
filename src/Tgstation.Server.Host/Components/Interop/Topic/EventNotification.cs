@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Tgstation.Server.Host.Components.Events;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
@@ -22,14 +23,14 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public IReadOnlyCollection<string> Parameters { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="EventNotification"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="EventNotification"/> class.
 		/// </summary>
 		/// <param name="eventType">The value of <see cref="Type"/>.</param>
 		/// <param name="parameters">The <see cref="IEnumerable{T}"/> that forms the value of <see cref="Parameters"/>.</param>
 		public EventNotification(EventType eventType, IEnumerable<string> parameters = null)
 		{
 			Type = eventType;
-			Parameters = parameters?.ToList() ?? throw new ArgumentNullException(nameof(parameters)); ;
+			Parameters = parameters?.ToList() ?? throw new ArgumentNullException(nameof(parameters));
 		}
 	}
 }

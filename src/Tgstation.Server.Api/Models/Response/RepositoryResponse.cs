@@ -1,10 +1,11 @@
-using System;
+﻿using System;
+
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
-	/// Represents a git repository
+	/// Represents a git repository.
 	/// </summary>
 	public sealed class RepositoryResponse : RepositoryApiBase, IGitRemoteInformation
 	{

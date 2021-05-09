@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database.Design

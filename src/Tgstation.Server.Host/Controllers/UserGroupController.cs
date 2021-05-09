@@ -1,11 +1,13 @@
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -15,6 +17,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+
 using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Controllers
@@ -31,10 +34,10 @@ namespace Tgstation.Server.Host.Controllers
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="UserGroupController"/> <see langword="clas"/>.
+		/// Initializes a new instance of the <see cref="UserGroupController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public UserGroupController(
@@ -80,7 +83,7 @@ namespace Tgstation.Server.Host.Controllers
 			var permissionSet = new Models.PermissionSet
 			{
 				AdministrationRights = model.PermissionSet?.AdministrationRights ?? AdministrationRights.None,
-				InstanceManagerRights = model.PermissionSet?.InstanceManagerRights ?? InstanceManagerRights.None
+				InstanceManagerRights = model.PermissionSet?.InstanceManagerRights ?? InstanceManagerRights.None,
 			};
 
 			var dbGroup = new UserGroup
@@ -137,7 +140,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.ReadUsers))
 				return Json(new UserGroupResponse
 				{
-					Id = currentGroup.Id
+					Id = currentGroup.Id,
 				});
 
 			return Json(currentGroup.ToApi(true));

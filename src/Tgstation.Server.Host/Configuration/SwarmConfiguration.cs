@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+
 using Tgstation.Server.Api.Models.Internal;
 using YamlDotNet.Serialization;
 

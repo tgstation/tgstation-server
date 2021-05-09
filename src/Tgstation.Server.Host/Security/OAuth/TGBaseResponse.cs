@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Host.Security.OAuth
+﻿namespace Tgstation.Server.Host.Security.OAuth
 {
 	/// <summary>
 	/// Base <see langword="class"/> for tgstation forum responses.

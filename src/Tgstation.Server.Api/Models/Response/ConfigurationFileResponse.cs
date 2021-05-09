@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models.Response
+﻿namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Response when reading configuration files.
@@ -13,12 +13,12 @@ namespace Tgstation.Server.Api.Models.Response
 		public string? LastReadHash { get; set; }
 
 		/// <summary>
-		/// If <see cref="Path"/> represents a directory
+		/// If <see cref="Path"/> represents a directory.
 		/// </summary>
 		public bool? IsDirectory { get; set; }
 
 		/// <summary>
-		/// If access to the <see cref="IConfigurationFile"/> file was denied for the operation
+		/// If access to the <see cref="IConfigurationFile"/> file was denied for the operation.
 		/// </summary>
 		[ResponseOptions]
 		public bool? AccessDenied { get; set; }

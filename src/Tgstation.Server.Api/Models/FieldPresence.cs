@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models
+﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Indicates whether a request field is <see cref="Required"/> or <see cref="Ignored"/>.
@@ -18,6 +18,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The field is ignored or should not appear.
 		/// </summary>
-		Ignored
+		Ignored,
 	}
 }

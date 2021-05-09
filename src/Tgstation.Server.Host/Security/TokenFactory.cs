@@ -1,11 +1,13 @@
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -25,15 +27,15 @@ namespace Tgstation.Server.Host.Security
 		readonly SecurityConfiguration securityConfiguration;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="TokenFactory"/>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="TokenFactory"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// Construct a <see cref="TokenFactory"/>
+		/// Initializes a new instance of the <see cref="TokenFactory"/> class.
 		/// </summary>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
-		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/></param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> used to generate the issuer name.</param>
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
 		public TokenFactory(
@@ -71,7 +73,7 @@ namespace Tgstation.Server.Host.Security
 
 				RequireSignedTokens = true,
 
-				RequireExpirationTime = true
+				RequireExpirationTime = true,
 			};
 		}
 
@@ -102,14 +104,14 @@ namespace Tgstation.Server.Host.Security
 				new Claim(JwtRegisteredClaimNames.Exp, expiry.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Nbf, nowUnix.ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Iss, ValidationParameters.ValidIssuer),
-				new Claim(JwtRegisteredClaimNames.Aud, ValidationParameters.ValidAudience)
+				new Claim(JwtRegisteredClaimNames.Aud, ValidationParameters.ValidAudience),
 			};
 
 			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(ValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
 			return new TokenResponse
 			{
 				Bearer = new JwtSecurityTokenHandler().WriteToken(token),
-				ExpiresAt = expiry
+				ExpiresAt = expiry,
 			};
 		}
 	}

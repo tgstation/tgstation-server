@@ -1,5 +1,7 @@
+﻿using System;
+
 using Microsoft.Extensions.Logging;
-using System;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Core;
@@ -36,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		readonly ILogger<RemoteDeploymentManagerFactory> logger;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RemoteDeploymentManagerFactory"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="RemoteDeploymentManagerFactory"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>

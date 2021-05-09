@@ -1,6 +1,7 @@
-using LibGit2Sharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using LibGit2Sharp;
 
 namespace Tgstation.Server.Host.Components.Repository
 {

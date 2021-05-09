@@ -1,38 +1,46 @@
-using System;
+﻿using System;
 using System.Net.Http;
+
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
 	/// <summary>
-	/// Occurs when the client tries to use a currently unsupported API
+	/// Occurs when the client tries to use a currently unsupported API.
 	/// </summary>
 	public sealed class MethodNotSupportedException : ApiException
 	{
 		/// <summary>
-		/// Initialize a new instance of the <see cref="MethodNotSupportedException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="MethodNotSupportedException"/> class.
 		/// </summary>
 		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/>.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
 		public MethodNotSupportedException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
-		{ }
+		{
+		}
 
 		/// <summary>
-		/// Intializes a new instance of the <see cref="MethodNotSupportedException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="MethodNotSupportedException"/> class.
 		/// </summary>
-		public MethodNotSupportedException() { }
+		public MethodNotSupportedException()
+		{
+		}
 
 		/// <summary>
-		/// Construct an <see cref="MethodNotSupportedException"/> with a <paramref name="message"/>
+		/// Initializes a new instance of the <see cref="MethodNotSupportedException"/> class.
 		/// </summary>
-		/// <param name="message">The message for the <see cref="Exception"/></param>
-		public MethodNotSupportedException(string message) : base(message) { }
+		/// <param name="message">The message for the <see cref="Exception"/>.</param>
+		public MethodNotSupportedException(string message) : base(message)
+		{
+		}
 
 		/// <summary>
-		/// Construct an <see cref="MethodNotSupportedException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+		/// Initializes a new instance of the <see cref="MethodNotSupportedException"/> class.
 		/// </summary>
-		/// <param name="message">The message for the <see cref="Exception"/></param>
-		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/></param>
-		public MethodNotSupportedException(string message, Exception innerException) : base(message, innerException) { }
+		/// <param name="message">The message for the <see cref="Exception"/>.</param>
+		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
+		public MethodNotSupportedException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
 	}
 }

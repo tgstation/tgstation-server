@@ -1,10 +1,11 @@
 ﻿using System;
+
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
-	/// Temporary <see cref="IDmbProvider"/>
+	/// Temporary <see cref="IDmbProvider"/>.
 	/// </summary>
 	sealed class TemporaryDmbProvider : IDmbProvider
 	{
@@ -18,11 +19,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public CompileJob CompileJob { get; }
 
 		/// <summary>
-		/// Construct a <see cref="TemporaryDmbProvider"/>
+		/// Initializes a new instance of the <see cref="TemporaryDmbProvider"/> class.
 		/// </summary>
-		/// <param name="directory">The value of <see cref="Directory"/></param>
-		/// <param name="dmb">The value of <see cref="DmbName"/></param>
-		/// <param name="compileJob">The value of <see cref="CompileJob"/></param>
+		/// <param name="directory">The value of <see cref="Directory"/>.</param>
+		/// <param name="dmb">The value of <see cref="DmbName"/>.</param>
+		/// <param name="compileJob">The value of <see cref="CompileJob"/>.</param>
 		public TemporaryDmbProvider(string directory, string dmb, CompileJob compileJob)
 		{
 			DmbName = dmb ?? throw new ArgumentNullException(nameof(dmb));
@@ -31,7 +32,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
-		public void Dispose() { }
+		public void Dispose()
+		{
+		}
 
 		/// <inheritdoc />
 		public void KeepAlive() => throw new NotSupportedException();

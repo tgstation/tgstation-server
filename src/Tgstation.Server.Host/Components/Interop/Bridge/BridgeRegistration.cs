@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		Action onDispose;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="BridgeRegistration"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="BridgeRegistration"/> class.
 		/// </summary>
 		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
 		public BridgeRegistration(Action onDispose)
@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			lock(lockObject)
+			lock (lockObject)
 			{
 				onDispose?.Invoke();
 				onDispose = null;

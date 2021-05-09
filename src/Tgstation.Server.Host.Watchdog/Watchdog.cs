@@ -1,5 +1,4 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -10,54 +9,30 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+
 namespace Tgstation.Server.Host.Watchdog
 {
 	/// <inheritdoc />
 	sealed class Watchdog : IWatchdog
 	{
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="Watchdog"/>
+		/// The <see cref="ILogger"/> for the <see cref="Watchdog"/>.
 		/// </summary>
 		readonly ILogger<Watchdog> logger;
 
 		/// <summary>
-		/// Construct a <see cref="Watchdog"/>
+		/// Initializes a new instance of the <see cref="Watchdog"/> class.
 		/// </summary>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public Watchdog(ILogger<Watchdog> logger)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		string GetDotnetPath(bool isWindows)
-		{
-			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
-			var paths = enviromentPath.Split(';');
-
-			var exeName = "dotnet";
-			IEnumerable<string> enumerator;
-			if (isWindows)
-			{
-				exeName += ".exe";
-				enumerator = paths;
-			}
-			else
-				enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
-
-			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
-
-			return enumerator
-				.Where(x =>
-				{
-					logger.LogTrace("Checking for dotnet at {0}", x);
-					return File.Exists(x);
-				})
-				.FirstOrDefault();
-		}
-
 		/// <inheritdoc />
-		#pragma warning disable CA1502 // TODO: Decomplexify
-		#pragma warning disable CA1506
+#pragma warning disable CA1502 // TODO: Decomplexify
+#pragma warning disable CA1506
 		public async Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
@@ -135,7 +110,7 @@ namespace Tgstation.Server.Host.Watchdog
 							{
 								$"\"{assemblyPath}\"",
 								$"\"{updateDirectory}\"",
-								$"\"{watchdogVersion}\""
+								$"\"{watchdogVersion}\"",
 							};
 
 							if (args.Any(x => x.Equals("--attach-host-debugger", StringComparison.OrdinalIgnoreCase)))
@@ -185,11 +160,16 @@ namespace Tgstation.Server.Host.Watchdog
 									{
 										processCts.CancelAfter(TimeSpan.FromSeconds(10));
 									}
-									catch (ObjectDisposedException) { } // race conditions
+									catch (ObjectDisposedException)
+									{
+										// race conditions
+									}
 								}))
 									await tcs.Task.ConfigureAwait(false);
 							}
-							catch (InvalidOperationException) { }
+							catch (InvalidOperationException)
+							{
+							}
 							finally
 							{
 								try
@@ -201,7 +181,10 @@ namespace Tgstation.Server.Host.Watchdog
 										process.WaitForExit();
 									}
 								}
-								catch (InvalidOperationException) { }
+								catch (InvalidOperationException)
+								{
+								}
+
 								logger.LogInformation("Host exited!");
 							}
 
@@ -312,7 +295,38 @@ namespace Tgstation.Server.Host.Watchdog
 				logger.LogInformation("Host watchdog exiting...");
 			}
 		}
-		#pragma warning restore CA1502
-		#pragma warning restore CA1506
+#pragma warning restore CA1502
+#pragma warning restore CA1506
+
+		/// <summary>
+		/// Gets the path to the dotnet executable.
+		/// </summary>
+		/// <param name="isWindows">If the current system is a Windows OS.</param>
+		/// <returns>The path to the dotnet executable.</returns>
+		string GetDotnetPath(bool isWindows)
+		{
+			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
+			var paths = enviromentPath.Split(';');
+
+			var exeName = "dotnet";
+			IEnumerable<string> enumerator;
+			if (isWindows)
+			{
+				exeName += ".exe";
+				enumerator = paths;
+			}
+			else
+				enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
+
+			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
+
+			return enumerator
+				.Where(x =>
+				{
+					logger.LogTrace("Checking for dotnet at {0}", x);
+					return File.Exists(x);
+				})
+				.FirstOrDefault();
+		}
 	}
 }

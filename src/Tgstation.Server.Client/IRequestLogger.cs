@@ -5,24 +5,24 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Client
 {
 	/// <summary>
-	/// For logging HTTP requests and responses
+	/// For logging HTTP requests and responses.
 	/// </summary>
 	public interface IRequestLogger
 	{
 		/// <summary>
-		/// Log a request
+		/// Log a request.
 		/// </summary>
-		/// <param name="requestMessage">The <see cref="HttpRequestMessage"/> representing the request</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="requestMessage">The <see cref="HttpRequestMessage"/> representing the request.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task LogRequest(HttpRequestMessage requestMessage, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Log a response
+		/// Log a response.
 		/// </summary>
-		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> representing the request</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> representing the request.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task LogResponse(HttpResponseMessage responseMessage, CancellationToken cancellationToken);
 	}
 }

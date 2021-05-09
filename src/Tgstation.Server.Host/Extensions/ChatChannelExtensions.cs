@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
-	/// Extensions for the <see cref="ChatChannel"/> <see langword="class"/>.
+	/// Extensions for the <see cref="ChatChannel"/> class.
 	/// </summary>
 	static class ChatChannelExtensions
 	{

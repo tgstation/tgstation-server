@@ -1,12 +1,14 @@
-using Meebey.SmartIrc4net;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Meebey.SmartIrc4net;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
@@ -17,7 +19,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <summary>
-	/// <see cref="IProvider"/> for internet relay chat
+	/// <see cref="IProvider"/> for internet relay chat.
 	/// </summary>
 	sealed class IrcProvider : Provider
 	{
@@ -33,71 +35,71 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override string BotMention => client.Nickname;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="IrcProvider"/>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="IrcProvider"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IrcFeatures"/> client
+		/// The <see cref="IrcFeatures"/> client.
 		/// </summary>
 		readonly IrcFeatures client;
 
 		/// <summary>
-		/// Address of the server to connect to
+		/// Address of the server to connect to.
 		/// </summary>
 		readonly string address;
 
 		/// <summary>
-		/// Port of the server to connect to
+		/// Port of the server to connect to.
 		/// </summary>
 		readonly ushort port;
 
 		/// <summary>
-		/// IRC nickname
+		/// IRC nickname.
 		/// </summary>
 		readonly string nickname;
 
 		/// <summary>
-		/// Password which will used for authentication
+		/// Password which will used for authentication.
 		/// </summary>
 		readonly string password;
 
 		/// <summary>
-		/// The <see cref="IrcPasswordType"/> of <see cref="password"/>
+		/// The <see cref="IrcPasswordType"/> of <see cref="password"/>.
 		/// </summary>
 		readonly IrcPasswordType? passwordType;
 
 		/// <summary>
-		/// Map of <see cref="ChannelRepresentation.RealId"/>s to channel names
+		/// Map of <see cref="ChannelRepresentation.RealId"/>s to channel names.
 		/// </summary>
 		readonly Dictionary<ulong, string> channelIdMap;
 
 		/// <summary>
-		/// Map of <see cref="ChannelRepresentation.RealId"/>s to query users
+		/// Map of <see cref="ChannelRepresentation.RealId"/>s to query users.
 		/// </summary>
 		readonly Dictionary<ulong, string> queryChannelIdMap;
 
 		/// <summary>
-		/// Id counter for <see cref="channelIdMap"/>
+		/// Id counter for <see cref="channelIdMap"/>.
 		/// </summary>
 		ulong channelIdCounter;
 
 		/// <summary>
-		/// The <see cref="Task"/> used for <see cref="IrcConnection.Listen(bool)"/>
+		/// The <see cref="Task"/> used for <see cref="IrcConnection.Listen(bool)"/>.
 		/// </summary>
 		Task listenTask;
 
 		/// <summary>
-		/// If we are disconnecting
+		/// If we are disconnecting.
 		/// </summary>
 		bool disconnecting;
 
 		/// <summary>
-		/// Construct an <see cref="IrcProvider"/>
+		/// Initializes a new instance of the <see cref="IrcProvider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the provider.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
 		/// <param name="chatBot">The <see cref="Models.ChatBot"/> for the <see cref="Provider"/>.</param>
 		public IrcProvider(
@@ -136,7 +138,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
 				CtcpVersion = assemblyInformationProvider.VersionString,
-				UseSsl = ircBuilder.UseSsl.Value
+				UseSsl = ircBuilder.UseSsl.Value,
 			};
 			if (ircBuilder.UseSsl.Value)
 				client.ValidateServerCertificate = true; // dunno if it defaults to that or what
@@ -158,82 +160,166 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			await HardDisconnect(default).ConfigureAwait(false);
 		}
 
-		/// <summary>
-		/// Handle an IRC message
-		/// </summary>
-		/// <param name="e">The <see cref="IrcEventArgs"/></param>
-		/// <param name="isPrivate">If this is a query message</param>
-		void HandleMessage(IrcEventArgs e, bool isPrivate)
-		{
-			if (e.Data.Nick.ToUpperInvariant() == client.Nickname.ToUpperInvariant())
-				return;
-
-			var username = e.Data.Nick;
-			var channelName = isPrivate ? username : e.Data.Channel;
-
-			ulong MapAndGetChannelId(Dictionary<ulong, string> dicToCheck)
-			{
-				ulong? resultId = null;
-				if (!dicToCheck.Any(x =>
+		/// <inheritdoc />
+		public override Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(
+			IEnumerable<ChatChannel> channels,
+			CancellationToken cancellationToken)
+			=> Task.Factory.StartNew(
+				() =>
 				{
-					if (x.Value != channelName)
-						return false;
-					resultId = x.Key;
-					return true;
-				}))
-				{
-					resultId = channelIdCounter++;
-					dicToCheck.Add(resultId.Value, channelName);
-					if (dicToCheck == queryChannelIdMap)
-						channelIdMap.Add(resultId.Value, null);
-				}
-
-				return resultId.Value;
-			}
-
-			ulong userId, channelId;
-			lock (client)
-			{
-				userId = MapAndGetChannelId(queryChannelIdMap);
-				channelId = isPrivate ? userId : MapAndGetChannelId(channelIdMap);
-			}
-
-			var message = new Message
-			{
-				Content = e.Data.Message,
-				User = new ChatUser
-				{
-					Channel = new ChannelRepresentation
+					if (channels.Any(x => x.IrcChannel == null))
+						throw new InvalidOperationException("ChatChannel missing IrcChannel!");
+					lock (client)
 					{
-						ConnectionName = address,
-						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
-						RealId = channelId,
-						IsPrivateChannel = isPrivate
+						var channelsWithKeys = new Dictionary<string, string>();
+						var hs = new HashSet<string>(); // for unique inserts
+						foreach (var channel in channels)
+						{
+							var name = channel.GetIrcChannelName();
+							var key = channel.GetIrcChannelKey();
+							if (hs.Add(name) && key != null)
+								channelsWithKeys.Add(name, key);
+						}
 
-						// isAdmin and Tag populated by manager
-					},
-					FriendlyName = username,
-					RealId = userId,
-					Mention = username
+						var toPart = new List<string>();
+						foreach (var activeChannel in client.JoinedChannels)
+							if (!hs.Remove(activeChannel))
+								toPart.Add(activeChannel);
+
+						foreach (var channelToLeave in toPart)
+							client.RfcPart(channelToLeave, "Pretty nice abscond!");
+						foreach (var channelToJoin in hs)
+							if (channelsWithKeys.TryGetValue(channelToJoin, out var key))
+								client.RfcJoin(channelToJoin, key);
+							else
+								client.RfcJoin(channelToJoin);
+
+						return (IReadOnlyCollection<ChannelRepresentation>)channels
+							.Select(x =>
+							{
+								var channelName = x.GetIrcChannelName();
+								ulong? id = null;
+								if (!channelIdMap.Any(y =>
+								{
+									if (y.Value != channelName)
+										return false;
+									id = y.Key;
+									return true;
+								}))
+								{
+									id = channelIdCounter++;
+									channelIdMap.Add(id.Value, channelName);
+								}
+
+								return new ChannelRepresentation
+								{
+									RealId = id.Value,
+									IsAdminChannel = x.IsAdminChannel == true,
+									ConnectionName = address,
+									FriendlyName = channelIdMap[id.Value],
+									IsPrivateChannel = false,
+									Tag = x.Tag,
+								};
+							})
+							.ToList();
+					}
+				},
+				cancellationToken,
+				DefaultIOManager.BlockingTaskCreationOptions,
+				TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				// IRC doesn't allow newlines
+				message = String.Concat(
+					message
+						.Where(x => x != '\r')
+						.Select(x => x == '\n' ? '|' : x));
+
+				var channelName = channelIdMap[channelId];
+				SendType sendType;
+				if (channelName == null)
+				{
+					channelName = queryChannelIdMap[channelId];
+					sendType = SendType.Notice;
 				}
-			};
+				else
+					sendType = SendType.Message;
+				try
+				{
+					client.SendMessage(sendType, channelName, message);
+				}
+				catch (Exception e)
+				{
+					Logger.LogWarning(e, "Unable to send to channel {0}!", channelName);
+				}
+			},
+			cancellationToken,
+			DefaultIOManager.BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 
-			EnqueueMessage(message);
+		/// <inheritdoc />
+		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+			Models.RevisionInformation revisionInformation,
+			Version byondVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			ulong channelId,
+			bool localCommitPushed,
+			CancellationToken cancellationToken)
+		{
+			var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
+			string remoteCommitInsert;
+			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
+			{
+				commitInsert = String.Format(CultureInfo.InvariantCulture, localCommitPushed ? "^{0}" : "{0}", commitInsert);
+				remoteCommitInsert = String.Empty;
+			}
+			else
+				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
+
+			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0
+				? String.Empty
+				: String.Format(
+					CultureInfo.InvariantCulture,
+					" (Test Merges: {0})",
+					String.Join(
+						", ",
+						revisionInformation
+							.ActiveTestMerges
+							.Select(x => x.TestMerge)
+							.Select(x =>
+							{
+								var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha.Substring(0, 7));
+								if (x.Comment != null)
+									result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+								return result;
+							})));
+
+			await SendMessage(
+				channelId,
+				String.Format(
+					CultureInfo.InvariantCulture,
+					"DM: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
+					commitInsert,
+					testmergeInsert,
+					remoteCommitInsert,
+					byondVersion.Build > 0
+						? byondVersion.ToString()
+						: $"{byondVersion.Major}.{byondVersion.Minor}",
+					estimatedCompletionTime.HasValue
+						? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
+						: String.Empty),
+				cancellationToken).ConfigureAwait(false);
+
+			return (errorMessage, dreamMakerOutput) => SendMessage(
+				channelId,
+				$"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+				cancellationToken);
 		}
-
-		/// <summary>
-		/// When a query message is received in IRC
-		/// </summary>
-		/// <param name="sender">The sender of the event</param>
-		/// <param name="e">The <see cref="IrcEventArgs"/></param>
-		void Client_OnQueryMessage(object sender, IrcEventArgs e) => HandleMessage(e, true);
-
-		/// <summary>
-		/// When a channel message is received in IRC
-		/// </summary>
-		/// <param name="sender">The sender of the event</param>
-		/// <param name="e">The <see cref="IrcEventArgs"/></param>
-		void Client_OnChannelMessage(object sender, IrcEventArgs e) => HandleMessage(e, false);
 
 		/// <inheritdoc />
 		protected override async Task Connect(CancellationToken cancellationToken)
@@ -321,6 +407,116 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
 			}
 		}
+
+		/// <inheritdoc />
+		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
+		{
+			try
+			{
+				await Task.Factory.StartNew(
+					() =>
+					{
+						try
+						{
+							client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical); // priocritical otherwise it wont go through
+						}
+						catch (Exception e)
+						{
+							Logger.LogWarning(e, "Error quitting IRC!");
+						}
+					},
+					cancellationToken,
+					DefaultIOManager.BlockingTaskCreationOptions,
+					TaskScheduler.Current)
+					.ConfigureAwait(false);
+				await HardDisconnect(cancellationToken).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
+			catch (Exception e)
+			{
+				Logger.LogWarning(e, "Error disconnecting from IRC!");
+			}
+		}
+
+		/// <summary>
+		/// Handle an IRC message.
+		/// </summary>
+		/// <param name="e">The <see cref="IrcEventArgs"/>.</param>
+		/// <param name="isPrivate">If this is a query message.</param>
+		void HandleMessage(IrcEventArgs e, bool isPrivate)
+		{
+			if (e.Data.Nick.ToUpperInvariant() == client.Nickname.ToUpperInvariant())
+				return;
+
+			var username = e.Data.Nick;
+			var channelName = isPrivate ? username : e.Data.Channel;
+
+			ulong MapAndGetChannelId(Dictionary<ulong, string> dicToCheck)
+			{
+				ulong? resultId = null;
+				if (!dicToCheck.Any(x =>
+				{
+					if (x.Value != channelName)
+						return false;
+					resultId = x.Key;
+					return true;
+				}))
+				{
+					resultId = channelIdCounter++;
+					dicToCheck.Add(resultId.Value, channelName);
+					if (dicToCheck == queryChannelIdMap)
+						channelIdMap.Add(resultId.Value, null);
+				}
+
+				return resultId.Value;
+			}
+
+			ulong userId, channelId;
+			lock (client)
+			{
+				userId = MapAndGetChannelId(queryChannelIdMap);
+				channelId = isPrivate ? userId : MapAndGetChannelId(channelIdMap);
+			}
+
+			var message = new Message
+			{
+				Content = e.Data.Message,
+				User = new ChatUser
+				{
+					Channel = new ChannelRepresentation
+					{
+						ConnectionName = address,
+						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
+						RealId = channelId,
+						IsPrivateChannel = isPrivate,
+
+						// isAdmin and Tag populated by manager
+					},
+					FriendlyName = username,
+					RealId = userId,
+					Mention = username,
+				},
+			};
+
+			EnqueueMessage(message);
+		}
+
+		/// <summary>
+		/// When a query message is received in IRC.
+		/// </summary>
+		/// <param name="sender">The sender of the event.</param>
+		/// <param name="e">The <see cref="IrcEventArgs"/>.</param>
+		void Client_OnQueryMessage(object sender, IrcEventArgs e) => HandleMessage(e, true);
+
+		/// <summary>
+		/// When a channel message is received in IRC.
+		/// </summary>
+		/// <param name="sender">The sender of the event.</param>
+		/// <param name="e">The <see cref="IrcEventArgs"/>.</param>
+		void Client_OnChannelMessage(object sender, IrcEventArgs e) => HandleMessage(e, false);
 
 		/// <summary>
 		/// Perform a non-blocking <see cref="IrcConnection.Listen(bool)"/>.
@@ -414,39 +610,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			client.WriteLine("CAP END", Priority.Critical);
 		}
 
-		/// <inheritdoc />
-		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
-		{
-			try
-			{
-				await Task.Factory.StartNew(
-					() =>
-					{
-						try
-						{
-							client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical); // priocritical otherwise it wont go through
-						}
-						catch (Exception e)
-						{
-							Logger.LogWarning(e, "Error quitting IRC!");
-						}
-					},
-					cancellationToken,
-					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current)
-					.ConfigureAwait(false);
-				await HardDisconnect(cancellationToken).ConfigureAwait(false);
-			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				Logger.LogWarning(e, "Error disconnecting from IRC!");
-			}
-		}
-
+		/// <summary>
+		/// Attempt to disconnect from IRC immediately.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task HardDisconnect(CancellationToken cancellationToken)
 		{
 			if (!Connected)
@@ -483,150 +651,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					listenTask ?? Task.CompletedTask),
 				asyncDelayer.Delay(TimeSpan.FromSeconds(TimeoutSeconds), cancellationToken))
 				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public override Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(
-			IEnumerable<ChatChannel> channels,
-			CancellationToken cancellationToken)
-			=> Task.Factory.StartNew(() =>
-			{
-				if (channels.Any(x => x.IrcChannel == null))
-					throw new InvalidOperationException("ChatChannel missing IrcChannel!");
-				lock (client)
-				{
-					var channelsWithKeys = new Dictionary<string, string>();
-					var hs = new HashSet<string>(); // for unique inserts
-					foreach (var channel in channels)
-					{
-						var name = channel.GetIrcChannelName();
-						var key = channel.GetIrcChannelKey();
-						if (hs.Add(name) && key != null)
-							channelsWithKeys.Add(name, key);
-					}
-
-					var toPart = new List<string>();
-					foreach (var activeChannel in client.JoinedChannels)
-						if (!hs.Remove(activeChannel))
-							toPart.Add(activeChannel);
-
-					foreach (var channelToLeave in toPart)
-						client.RfcPart(channelToLeave, "Pretty nice abscond!");
-					foreach (var channelToJoin in hs)
-						if (channelsWithKeys.TryGetValue(channelToJoin, out var key))
-							client.RfcJoin(channelToJoin, key);
-						else
-							client.RfcJoin(channelToJoin);
-
-					return (IReadOnlyCollection<ChannelRepresentation>)channels
-						.Select(x =>
-						{
-							var channelName = x.GetIrcChannelName();
-							ulong? id = null;
-							if (!channelIdMap.Any(y =>
-							{
-								if (y.Value != channelName)
-									return false;
-								id = y.Key;
-								return true;
-							}))
-							{
-								id = channelIdCounter++;
-								channelIdMap.Add(id.Value, channelName);
-							}
-
-							return new ChannelRepresentation
-							{
-								RealId = id.Value,
-								IsAdminChannel = x.IsAdminChannel == true,
-								ConnectionName = address,
-								FriendlyName = channelIdMap[id.Value],
-								IsPrivateChannel = false,
-								Tag = x.Tag
-							};
-						})
-						.ToList();
-				}
-			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
-
-		/// <inheritdoc />
-		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			// IRC doesn't allow newlines
-			message = String.Concat(
-				message
-					.Where(x => x != '\r')
-					.Select(x => x == '\n' ? '|' : x));
-
-			var channelName = channelIdMap[channelId];
-			SendType sendType;
-			if (channelName == null)
-			{
-				channelName = queryChannelIdMap[channelId];
-				sendType = SendType.Notice;
-			}
-			else
-				sendType = SendType.Message;
-			try
-			{
-				client.SendMessage(sendType, channelName, message);
-			}
-			catch (Exception e)
-			{
-				Logger.LogWarning(e, "Unable to send to channel {0}!", channelName);
-			}
-		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
-
-		/// <inheritdoc />
-		public override async Task<Func<string, string, Task>> SendUpdateMessage(
-			Models.RevisionInformation revisionInformation,
-			Version byondVersion,
-			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
-			ulong channelId,
-			bool localCommitPushed,
-			CancellationToken cancellationToken)
-		{
-			var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
-			string remoteCommitInsert;
-			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
-			{
-				commitInsert = String.Format(CultureInfo.InvariantCulture, localCommitPushed ? "^{0}" : "{0}", commitInsert);
-				remoteCommitInsert = String.Empty;
-			}
-			else
-				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
-
-			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})",
-				String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
-				{
-					var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha.Substring(0, 7));
-					if (x.Comment != null)
-						result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
-					return result;
-				})));
-
-			await SendMessage(
-				channelId,
-				String.Format(
-					CultureInfo.InvariantCulture,
-					"DM: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
-					commitInsert,
-					testmergeInsert,
-					remoteCommitInsert,
-					byondVersion.Build > 0
-						? byondVersion.ToString()
-						: $"{byondVersion.Major}.{byondVersion.Minor}",
-					estimatedCompletionTime.HasValue
-						? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
-						: String.Empty),
-				cancellationToken).ConfigureAwait(false);
-
-			return (errorMessage, dreamMakerOutput) => SendMessage(
-				channelId,
-				$"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
-				cancellationToken);
 		}
 	}
 }

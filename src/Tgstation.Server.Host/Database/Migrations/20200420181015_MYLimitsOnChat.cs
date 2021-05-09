@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+
+using Microsoft.EntityFrameworkCore.Migrations;
+
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Database.Migrations

@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client.Components
@@ -34,10 +35,10 @@ namespace Tgstation.Server.Client.Components
 		public IJobsClient Jobs { get; }
 
 		/// <summary>
-		/// Construct a <see cref="InstanceClient"/>
+		/// Initializes a new instance of the <see cref="InstanceClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> used to construct component clients.</param>
-		/// <param name="instance">The value of <see cref="Metadata"/></param>
+		/// <param name="instance">The value of <see cref="Metadata"/>.</param>
 		public InstanceClient(IApiClient apiClient, Instance instance)
 		{
 			if (apiClient == null)

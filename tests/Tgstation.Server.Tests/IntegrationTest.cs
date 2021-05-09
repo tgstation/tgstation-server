@@ -19,6 +19,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -533,7 +534,7 @@ namespace Tgstation.Server.Tests
 		async Task<IServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
 		{
 			var giveUpAt = DateTimeOffset.UtcNow.AddMinutes(2);
-			for(var I = 1; ; ++I)
+			for (var I = 1; ; ++I)
 			{
 				try
 				{
@@ -712,7 +713,7 @@ namespace Tgstation.Server.Tests
 		public async Task TestServer()
 		{
 			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
-			if(procs.Any())
+			if (procs.Any())
 			{
 				foreach (var proc in procs)
 					proc.Dispose();
@@ -887,7 +888,7 @@ namespace Tgstation.Server.Tests
 					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPostTest(cancellationToken);
 				}
 			}
-			catch(ApiException ex)
+			catch (ApiException ex)
 			{
 				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
 				throw;

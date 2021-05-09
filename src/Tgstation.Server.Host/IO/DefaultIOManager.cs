@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
-	/// <see cref="IIOManager"/> that resolves paths to <see cref="Environment.CurrentDirectory"/>
+	/// <see cref="IIOManager"/> that resolves paths to <see cref="Environment.CurrentDirectory"/>.
 	/// </summary>
 	class DefaultIOManager : IIOManager
 	{
@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.IO
 		public const string CurrentDirectory = ".";
 
 		/// <summary>
-		/// Default <see cref="FileStream"/> buffer size used by .NET
+		/// Default <see cref="FileStream"/> buffer size used by .NET.
 		/// </summary>
 		public const int DefaultBufferSize = 4096;
 
@@ -30,11 +30,11 @@ namespace Tgstation.Server.Host.IO
 		public const TaskCreationOptions BlockingTaskCreationOptions = TaskCreationOptions.None;
 
 		/// <summary>
-		/// Recursively empty a directory
+		/// Recursively empty a directory.
 		/// </summary>
-		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		static async Task NormalizeAndDelete(DirectoryInfo dir, CancellationToken cancellationToken)
 		{
 			var tasks = new List<Task>();
@@ -62,54 +62,6 @@ namespace Tgstation.Server.Host.IO
 			await Task.WhenAll(tasks).ConfigureAwait(false);
 			cancellationToken.ThrowIfCancellationRequested();
 			dir.Delete(true);
-		}
-
-		/// <summary>
-		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>
-		/// </summary>
-		/// <param name="src">The source directory path</param>
-		/// <param name="dest">The destination directory path</param>
-		/// <param name="ignore">Files and folders to ignore at the root level</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operation</returns>
-		IEnumerable<Task> CopyDirectoryImpl(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
-		{
-			var dir = new DirectoryInfo(src);
-			var atLeastOneSubDir = false;
-			foreach (var I in dir.EnumerateDirectories())
-			{
-				if (ignore != null && ignore.Contains(I.Name))
-					continue;
-				foreach (var J in CopyDirectoryImpl(I.FullName, Path.Combine(dest, I.Name), null, cancellationToken))
-				{
-					atLeastOneSubDir = true;
-					yield return J;
-				}
-			}
-
-			async Task CopyThisDirectory()
-			{
-				if (!atLeastOneSubDir)
-					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false); // save on createdir calls
-
-				var tasks = new List<Task>();
-
-				await dir.EnumerateFiles()
-					.ToAsyncEnumerable()
-					.ForEachAsync(
-					fileInfo =>
-					{
-						if (ignore != null && ignore.Contains(fileInfo.Name))
-							return;
-						tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
-					},
-					cancellationToken)
-					.ConfigureAwait(false);
-
-				await Task.WhenAll(tasks).ConfigureAwait(false);
-			}
-
-			yield return CopyThisDirectory();
 		}
 
 		/// <inheritdoc />
@@ -192,43 +144,55 @@ namespace Tgstation.Server.Host.IO
 		public string GetFileNameWithoutExtension(string path) => Path.GetFileNameWithoutExtension(path ?? throw new ArgumentNullException(nameof(path)));
 
 		/// <inheritdoc />
-		public Task<List<string>> GetFilesWithExtension(string path, string extension, bool recursive, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			path = ResolvePath(path);
-			if (extension == null)
-				throw new ArgumentNullException(extension);
-			var results = new List<string>();
-			foreach (var I in Directory.EnumerateFiles(
-				path,
-				$"*.{extension}",
-				recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
+		public Task<List<string>> GetFilesWithExtension(string path, string extension, bool recursive, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
 			{
-				cancellationToken.ThrowIfCancellationRequested();
-				results.Add(I);
-			}
+				path = ResolvePath(path);
+				if (extension == null)
+					throw new ArgumentNullException(extension);
+				var results = new List<string>();
+				foreach (var fileName in Directory.EnumerateFiles(
+					path,
+					$"*.{extension}",
+					recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					results.Add(fileName);
+				}
 
-			return results;
-		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+				return results;
+			},
+			cancellationToken,
+			BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task MoveFile(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			if (destination == null)
-				throw new ArgumentNullException(nameof(destination));
-			source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
-			destination = ResolvePath(destination);
-			File.Move(source, destination);
-		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+		public Task MoveFile(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				if (destination == null)
+					throw new ArgumentNullException(nameof(destination));
+				source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
+				destination = ResolvePath(destination);
+				File.Move(source, destination);
+			},
+			cancellationToken,
+			BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task MoveDirectory(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			if (destination == null)
-				throw new ArgumentNullException(nameof(destination));
-			source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
-			destination = ResolvePath(destination);
-			Directory.Move(source, destination);
-		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+		public Task MoveDirectory(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				if (destination == null)
+					throw new ArgumentNullException(nameof(destination));
+				source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
+				destination = ResolvePath(destination);
+				Directory.Move(source, destination);
+			},
+			cancellationToken,
+			BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
@@ -268,34 +232,42 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<string>> GetDirectories(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			path = ResolvePath(path);
-			var results = new List<string>();
-			cancellationToken.ThrowIfCancellationRequested();
-			foreach (var I in Directory.EnumerateDirectories(path))
+		public Task<IReadOnlyList<string>> GetDirectories(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
 			{
-				results.Add(I);
+				path = ResolvePath(path);
+				var results = new List<string>();
 				cancellationToken.ThrowIfCancellationRequested();
-			}
+				foreach (var directoryName in Directory.EnumerateDirectories(path))
+				{
+					results.Add(directoryName);
+					cancellationToken.ThrowIfCancellationRequested();
+				}
 
-			return (IReadOnlyList<string>)results;
-		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+				return (IReadOnlyList<string>)results;
+			},
+			cancellationToken,
+			BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<string>> GetFiles(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			path = ResolvePath(path);
-			var results = new List<string>();
-			cancellationToken.ThrowIfCancellationRequested();
-			foreach (var I in Directory.EnumerateFiles(path))
+		public Task<IReadOnlyList<string>> GetFiles(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
 			{
-				results.Add(I);
+				path = ResolvePath(path);
+				var results = new List<string>();
 				cancellationToken.ThrowIfCancellationRequested();
-			}
+				foreach (var fileName in Directory.EnumerateFiles(path))
+				{
+					results.Add(fileName);
+					cancellationToken.ThrowIfCancellationRequested();
+				}
 
-			return (IReadOnlyList<string>)results;
-		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+				return (IReadOnlyList<string>)results;
+			},
+			cancellationToken,
+			BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
@@ -322,28 +294,98 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				path = ResolvePath(path);
+				if (zipFile == null)
+					throw new ArgumentNullException(nameof(zipFile));
+
+				using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read);
+				archive.ExtractToDirectory(path);
+			},
+			cancellationToken,
+			BlockingTaskCreationOptions,
+			TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public bool PathContainsParentAccess(string path) => path
+			?.Split(
+				new[]
+				{
+					Path.DirectorySeparatorChar,
+					Path.AltDirectorySeparatorChar,
+				})
+			.Any(x => x == "..")
+			?? throw new ArgumentNullException(nameof(path));
+
+		/// <inheritdoc />
+		public Task<DateTimeOffset> GetLastModified(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				path = ResolvePath(path ?? throw new ArgumentNullException(nameof(path)));
+				var fileInfo = new FileInfo(path);
+				return new DateTimeOffset(fileInfo.LastWriteTimeUtc);
+			},
+			cancellationToken,
+			BlockingTaskCreationOptions,
+			TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public FileStream GetFileStream(string path, bool shareWrite) => new FileStream(
+			ResolvePath(path),
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None),
+			DefaultBufferSize,
+			true);
+
+		/// <summary>
+		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>.
+		/// </summary>
+		/// <param name="src">The source directory path.</param>
+		/// <param name="dest">The destination directory path.</param>
+		/// <param name="ignore">Files and folders to ignore at the root level.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operation.</returns>
+		IEnumerable<Task> CopyDirectoryImpl(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
 		{
-			path = ResolvePath(path);
-			if (zipFile == null)
-				throw new ArgumentNullException(nameof(zipFile));
+			var dir = new DirectoryInfo(src);
+			var atLeastOneSubDir = false;
+			foreach (var subDirectory in dir.EnumerateDirectories())
+			{
+				if (ignore != null && ignore.Contains(subDirectory.Name))
+					continue;
+				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, cancellationToken))
+				{
+					atLeastOneSubDir = true;
+					yield return copyTask;
+				}
+			}
 
-			using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read);
-			archive.ExtractToDirectory(path);
-		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+			async Task CopyThisDirectory()
+			{
+				if (!atLeastOneSubDir)
+					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false); // save on createdir calls
 
-		/// <inheritdoc />
-		public bool PathContainsParentAccess(string path) => path?.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }).Any(x => x == "..") ?? throw new ArgumentNullException(nameof(path));
+				var tasks = new List<Task>();
 
-		/// <inheritdoc />
-		public Task<DateTimeOffset> GetLastModified(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			path = ResolvePath(path ?? throw new ArgumentNullException(nameof(path)));
-			var fileInfo = new FileInfo(path);
-			return new DateTimeOffset(fileInfo.LastWriteTimeUtc);
-		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+				await dir.EnumerateFiles()
+					.ToAsyncEnumerable()
+					.ForEachAsync(
+					fileInfo =>
+					{
+						if (ignore != null && ignore.Contains(fileInfo.Name))
+							return;
+						tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 
-		/// <inheritdoc />
-		public FileStream GetFileStream(string path, bool shareWrite) => new FileStream(ResolvePath(path), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None), DefaultBufferSize, true);
+				await Task.WhenAll(tasks).ConfigureAwait(false);
+			}
+
+			yield return CopyThisDirectory();
+		}
 	}
 }

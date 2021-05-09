@@ -1,9 +1,9 @@
-using Octokit;
+﻿using Octokit;
 
 namespace Tgstation.Server.Host.Core
 {
 	/// <summary>
-	/// For creating <see cref="IGitHubClient"/>s
+	/// For creating <see cref="IGitHubClient"/>s.
 	/// </summary>
 	public interface IGitHubClientFactory
 	{
@@ -14,10 +14,10 @@ namespace Tgstation.Server.Host.Core
 		IGitHubClient CreateClient();
 
 		/// <summary>
-		/// Create a client with authentication using a personal access token
+		/// Create a client with authentication using a personal access token.
 		/// </summary>
-		/// <param name="accessToken">The GitHub personal access token</param>
-		/// <returns>A new <see cref="IGitHubClient"/></returns>
+		/// <param name="accessToken">The GitHub personal access token.</param>
+		/// <returns>A new <see cref="IGitHubClient"/>.</returns>
 		IGitHubClient CreateClient(string accessToken);
 	}
 }

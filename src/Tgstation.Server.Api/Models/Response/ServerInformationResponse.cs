@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Tgstation.Server.Api.Models.Response
@@ -9,12 +9,12 @@ namespace Tgstation.Server.Api.Models.Response
 	public sealed class ServerInformationResponse : Internal.ServerInformationBase
 	{
 		/// <summary>
-		/// The version of the host
+		/// The version of the host.
 		/// </summary>
 		public Version? Version { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api"/> version of the host
+		/// The <see cref="Api"/> version of the host.
 		/// </summary>
 		public Version? ApiVersion { get; set; }
 

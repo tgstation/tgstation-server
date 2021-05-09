@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -66,7 +67,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					AlphaId = table.Column<long>(type: "bigint", nullable: true),
 					AlphaIsActive = table.Column<bool>(type: "boolean", nullable: false),
 					BravoId = table.Column<long>(type: "bigint", nullable: true),
-					InstanceId = table.Column<long>(type: "bigint", nullable: false)
+					InstanceId = table.Column<long>(type: "bigint", nullable: false),
 				},
 				constraints: table =>
 				{

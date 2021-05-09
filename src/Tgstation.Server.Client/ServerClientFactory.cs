@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models.Response;
 
@@ -13,19 +14,19 @@ namespace Tgstation.Server.Client
 	public sealed class ServerClientFactory : IServerClientFactory
 	{
 		/// <summary>
-		/// The <see cref="IApiClientFactory"/> for the <see cref="ServerClientFactory"/>
+		/// The <see cref="IApiClientFactory"/> for the <see cref="ServerClientFactory"/>.
 		/// </summary>
 		static readonly IApiClientFactory ApiClientFactory = new ApiClientFactory();
 
 		/// <summary>
-		/// The <see cref="ProductHeaderValue"/> for the <see cref="ServerClientFactory"/>
+		/// The <see cref="ProductHeaderValue"/> for the <see cref="ServerClientFactory"/>.
 		/// </summary>
 		readonly ProductHeaderValue productHeaderValue;
 
 		/// <summary>
-		/// Construct a <see cref="ServerClientFactory"/>
+		/// Initializes a new instance of the <see cref="ServerClientFactory"/> class.
 		/// </summary>
-		/// <param name="productHeaderValue">The value of <see cref="productHeaderValue"/></param>
+		/// <param name="productHeaderValue">The value of <see cref="productHeaderValue"/>.</param>
 		public ServerClientFactory(ProductHeaderValue productHeaderValue)
 		{
 			this.productHeaderValue = productHeaderValue ?? throw new ArgumentNullException(nameof(productHeaderValue));

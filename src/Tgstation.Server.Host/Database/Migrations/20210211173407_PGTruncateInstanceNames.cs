@@ -1,5 +1,6 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -15,13 +16,13 @@ namespace Tgstation.Server.Host.Database.Migrations
 				throw new ArgumentNullException(nameof(migrationBuilder));
 
 			migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Instances",
-                maxLength: 100,
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "character varying(10000)",
-                oldMaxLength: 10000);
+				name: "Name",
+				table: "Instances",
+				maxLength: 100,
+				nullable: false,
+				oldClrType: typeof(string),
+				oldType: "character varying(10000)",
+				oldMaxLength: 10000);
 		}
 
 		/// <inheritdoc />
@@ -31,13 +32,13 @@ namespace Tgstation.Server.Host.Database.Migrations
 				throw new ArgumentNullException(nameof(migrationBuilder));
 
 			migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Instances",
-                type: "character varying(10000)",
-                maxLength: 10000,
-                nullable: false,
-                oldClrType: typeof(string),
-                oldMaxLength: 100);
-        }
-    }
+				name: "Name",
+				table: "Instances",
+				type: "character varying(10000)",
+				maxLength: 10000,
+				nullable: false,
+				oldClrType: typeof(string),
+				oldMaxLength: 100);
+		}
+	}
 }

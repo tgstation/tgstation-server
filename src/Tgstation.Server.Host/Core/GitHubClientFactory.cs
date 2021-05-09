@@ -1,6 +1,8 @@
-using System;
+﻿using System;
+
 using Microsoft.Extensions.Options;
 using Octokit;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
@@ -10,7 +12,7 @@ namespace Tgstation.Server.Host.Core
 	sealed class GitHubClientFactory : IGitHubClientFactory
 	{
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="GitHubClientFactory"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="GitHubClientFactory"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
@@ -20,7 +22,7 @@ namespace Tgstation.Server.Host.Core
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// Construct a <see cref="GitHubClientFactory"/>
+		/// Initializes a new instance of the <see cref="GitHubClientFactory"/> class.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
@@ -30,11 +32,17 @@ namespace Tgstation.Server.Host.Core
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
+		/// <inheritdoc />
+		public IGitHubClient CreateClient() => CreateClientImpl(generalConfiguration.GitHubAccessToken);
+
+		/// <inheritdoc />
+		public IGitHubClient CreateClient(string accessToken) => CreateClientImpl(accessToken ?? throw new ArgumentNullException(nameof(accessToken)));
+
 		/// <summary>
 		/// Create a <see cref="GitHubClient"/>.
 		/// </summary>
 		/// <param name="accessToken">Optional access token to use as credentials.</param>
-		/// <returns>A new <see cref="GitHubClient"/></returns>
+		/// <returns>A new <see cref="GitHubClient"/>.</returns>
 		GitHubClient CreateClientImpl(string accessToken)
 		{
 			var client = new GitHubClient(
@@ -46,11 +54,5 @@ namespace Tgstation.Server.Host.Core
 
 			return client;
 		}
-
-		/// <inheritdoc />
-		public IGitHubClient CreateClient() => CreateClientImpl(generalConfiguration.GitHubAccessToken);
-
-		/// <inheritdoc />
-		public IGitHubClient CreateClient(string accessToken) => CreateClientImpl(accessToken ?? throw new ArgumentNullException(nameof(accessToken)));
 	}
 }

@@ -1,4 +1,4 @@
-using Byond.TopicSender;
+﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -435,7 +436,7 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			global::System.Console.WriteLine("TEST: WATCHDOG STARTING ENDLESS");
 			var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
-			if(dd.ActiveCompileJob == null)
+			if (dd.ActiveCompileJob == null)
 				await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);

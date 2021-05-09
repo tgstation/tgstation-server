@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -26,7 +27,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Online = table.Column<bool>(nullable: false),
 					ConfigurationType = table.Column<int>(nullable: false),
 					AutoUpdateInterval = table.Column<long>(nullable: false),
-					ChatBotLimit = table.Column<int>(nullable: false)
+					ChatBotLimit = table.Column<int>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -48,7 +49,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					PasswordHash = table.Column<string>(nullable: true),
 					CreatedById = table.Column<long>(nullable: true),
 					CanonicalName = table.Column<string>(nullable: false),
-					LastPasswordUpdate = table.Column<DateTimeOffset>(nullable: true)
+					LastPasswordUpdate = table.Column<DateTimeOffset>(nullable: true),
 				},
 				constraints: table =>
 				{
@@ -73,7 +74,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					ChannelLimit = table.Column<int>(nullable: false),
 					Provider = table.Column<int>(nullable: false),
 					ConnectionString = table.Column<string>(maxLength: 10000, nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -99,7 +100,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					StartupTimeout = table.Column<long>(nullable: false),
 					HeartbeatSeconds = table.Column<long>(nullable: false),
 					AutoStart = table.Column<bool>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -121,7 +122,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					ProjectName = table.Column<string>(maxLength: 10000, nullable: true),
 					ApiValidationPort = table.Column<int>(nullable: false),
 					ApiValidationSecurityLevel = table.Column<int>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -149,7 +150,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					AutoUpdatesKeepTestMerges = table.Column<bool>(nullable: false),
 					AutoUpdatesSynchronize = table.Column<bool>(nullable: false),
 					PostTestMergeComment = table.Column<bool>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -170,7 +171,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
 					CommitSha = table.Column<string>(maxLength: 40, nullable: false),
 					OriginCommitSha = table.Column<string>(maxLength: 40, nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -197,7 +198,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					RepositoryRights = table.Column<decimal>(nullable: false),
 					ChatBotRights = table.Column<decimal>(nullable: false),
 					ConfigurationRights = table.Column<decimal>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -232,7 +233,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					CancelRight = table.Column<decimal>(nullable: true),
 					StartedById = table.Column<long>(nullable: false),
 					CancelledById = table.Column<long>(nullable: true),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -269,7 +270,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					IsWatchdogChannel = table.Column<bool>(nullable: false),
 					IsUpdatesChannel = table.Column<bool>(nullable: false),
 					Tag = table.Column<string>(maxLength: 10000, nullable: true),
-					ChatSettingsId = table.Column<long>(nullable: false)
+					ChatSettingsId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -297,7 +298,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Author = table.Column<string>(nullable: false),
 					MergedAt = table.Column<DateTimeOffset>(nullable: false),
 					MergedById = table.Column<long>(nullable: false),
-					PrimaryRevisionInformationId = table.Column<long>(nullable: false)
+					PrimaryRevisionInformationId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -331,7 +332,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					ByondVersion = table.Column<string>(nullable: false),
 					DMApiMajorVersion = table.Column<int>(nullable: true),
 					DMApiMinorVersion = table.Column<int>(nullable: true),
-					DMApiPatchVersion = table.Column<int>(nullable: true)
+					DMApiPatchVersion = table.Column<int>(nullable: true),
 				},
 				constraints: table =>
 				{
@@ -357,7 +358,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
 					TestMergeId = table.Column<long>(nullable: false),
-					RevisionInformationId = table.Column<long>(nullable: false)
+					RevisionInformationId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -387,7 +388,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Port = table.Column<int>(nullable: false),
 					RebootState = table.Column<int>(nullable: false),
 					LaunchSecurityLevel = table.Column<int>(nullable: false),
-					CompileJobId = table.Column<long>(nullable: false)
+					CompileJobId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -409,7 +410,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					AlphaIsActive = table.Column<bool>(nullable: false),
 					InstanceId = table.Column<long>(nullable: false),
 					AlphaId = table.Column<long>(nullable: true),
-					BravoId = table.Column<long>(nullable: true)
+					BravoId = table.Column<long>(nullable: true),
 				},
 				constraints: table =>
 				{

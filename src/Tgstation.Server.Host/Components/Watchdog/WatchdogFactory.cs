@@ -1,6 +1,8 @@
+﻿using System;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
+
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -18,38 +20,38 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	class WatchdogFactory : IWatchdogFactory
 	{
 		/// <summary>
-		/// The <see cref="IServerControl"/> for the <see cref="WatchdogFactory"/>
+		/// The <see cref="IServerControl"/> for the <see cref="WatchdogFactory"/>.
 		/// </summary>
 		protected IServerControl ServerControl { get; }
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>.
 		/// </summary>
 		protected ILoggerFactory LoggerFactory { get; }
 
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>
+		/// The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.
 		/// </summary>
 		protected IJobManager JobManager { get; }
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.
 		/// </summary>
 		protected IAsyncDelayer AsyncDelayer { get; }
 
 		/// <summary>
-		/// The <see cref="Configuration.GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>
+		/// The <see cref="Configuration.GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.
 		/// </summary>
 		protected GeneralConfiguration GeneralConfiguration { get; }
 
 		/// <summary>
-		/// Construct a <see cref="WatchdogFactory"/>
+		/// Initializes a new instance of the <see cref="WatchdogFactory"/> class.
 		/// </summary>
-		/// <param name="serverControl">The value of <see cref="ServerControl"/></param>
-		/// <param name="loggerFactory">The value of <see cref="LoggerFactory"/></param>
-		/// <param name="jobManager">The value of <see cref="JobManager"/></param>
-		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/></param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/></param>
+		/// <param name="serverControl">The value of <see cref="ServerControl"/>.</param>
+		/// <param name="loggerFactory">The value of <see cref="LoggerFactory"/>.</param>
+		/// <param name="jobManager">The value of <see cref="JobManager"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/>.</param>
 		public WatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,

@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
+
+using Microsoft.Extensions.Logging;
 
 namespace Tgstation.Server.Host.Watchdog
 {

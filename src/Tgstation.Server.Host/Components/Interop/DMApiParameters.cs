@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Components.Interop
 	public abstract class DMApiParameters
 	{
 		/// <summary>
-		/// Used to identify and authenticate the DreamDaemon instance
+		/// Used to identify and authenticate the DreamDaemon instance.
 		/// </summary>
 		[Required]
 		public string AccessIdentifier { get; set; }

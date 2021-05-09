@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+
+using Microsoft.EntityFrameworkCore.Migrations;
+
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Database.Migrations
@@ -40,7 +42,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					ByondVersion = table.Column<string>(nullable: false),
 					DMApiMajorVersion = table.Column<int>(nullable: true),
 					DMApiMinorVersion = table.Column<int>(nullable: true),
-					DMApiPatchVersion = table.Column<int>(nullable: true)
+					DMApiPatchVersion = table.Column<int>(nullable: true),
 				},
 				constraints: table =>
 				{
@@ -99,7 +101,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					ByondVersion = table.Column<string>(nullable: false),
 					DMApiMajorVersion = table.Column<int>(nullable: true),
 					DMApiMinorVersion = table.Column<int>(nullable: true),
-					DMApiPatchVersion = table.Column<int>(nullable: true)
+					DMApiPatchVersion = table.Column<int>(nullable: true),
 				},
 				constraints: table =>
 				{
@@ -144,7 +146,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					ProjectName = table.Column<string>(maxLength: 10000, nullable: true),
 					ApiValidationPort = table.Column<ushort>(nullable: false),
 					ApiValidationSecurityLevel = table.Column<int>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{

@@ -1,13 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Octokit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Octokit;
+
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
@@ -17,7 +19,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
 	/// <summary>
-	/// <see cref="IRemoteDeploymentManager"/> for GitHub.com
+	/// <see cref="IRemoteDeploymentManager"/> for GitHub.com.
 	/// </summary>
 	sealed class GitHubRemoteDeploymentManager : BaseRemoteDeploymentManager
 	{
@@ -32,7 +34,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		readonly IGitHubClientFactory gitHubClientFactory;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GitHubRemoteDeploymentManager"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="GitHubRemoteDeploymentManager"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
@@ -103,7 +105,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 							Description = "TGS Game Deployment",
 							Environment = $"TGS: {Metadata.Name}",
 							ProductionEnvironment = true,
-							RequiredContexts = new Collection<string>()
+							RequiredContexts = new Collection<string>(),
 						})
 					.WithToken(cancellationToken)
 					.ConfigureAwait(false);
@@ -122,7 +124,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						new NewDeploymentStatus(DeploymentState.InProgress)
 						{
 							Description = "The project is being deployed",
-							AutoInactive = false
+							AutoInactive = false,
 						})
 					.WithToken(cancellationToken)
 					.ConfigureAwait(false);
@@ -143,60 +145,6 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				Logger.LogWarning(ex, "Unable to set compile job repository ID!");
 			}
-		}
-
-		async Task UpdateDeployment(
-			CompileJob compileJob,
-			string description,
-			DeploymentState deploymentState,
-			CancellationToken cancellationToken)
-		{
-			if (compileJob == null)
-				throw new ArgumentNullException(nameof(compileJob));
-
-			if (!compileJob.GitHubRepoId.HasValue || !compileJob.GitHubDeploymentId.HasValue)
-			{
-				Logger.LogTrace("Not updating deployment as it is missing a repo ID or deployment ID.");
-				return;
-			}
-
-			Logger.LogTrace("Updating deployment {0} to {1}...", compileJob.GitHubDeploymentId.Value, deploymentState);
-
-			string gitHubAccessToken = null;
-			await databaseContextFactory.UseContext(
-				async databaseContext =>
-					gitHubAccessToken = await databaseContext
-						.RepositorySettings
-						.AsQueryable()
-						.Where(x => x.InstanceId == Metadata.Id)
-						.Select(x => x.AccessToken)
-						.FirstAsync(cancellationToken)
-						.ConfigureAwait(false))
-				.ConfigureAwait(false);
-
-			if (gitHubAccessToken == null)
-			{
-				Logger.LogWarning(
-					"GitHub access token disappeared during deployment, can't update to {0}!",
-					deploymentState);
-				return;
-			}
-
-			var gitHubClient = gitHubClientFactory.CreateClient(gitHubAccessToken);
-
-			await gitHubClient
-				.Repository
-				.Deployment
-				.Status
-				.Create(
-					compileJob.GitHubRepoId.Value,
-					compileJob.GitHubDeploymentId.Value,
-					new NewDeploymentStatus(deploymentState)
-					{
-						Description = description
-					})
-				.WithToken(cancellationToken)
-				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -354,5 +302,67 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			compileJob.GitHubDeploymentId.HasValue
 				? $"{Environment.NewLine}[GitHub Deployments](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A%20{Metadata.Name})"
 				: String.Empty);
+
+		/// <summary>
+		/// Update the deployment for a given <paramref name="compileJob"/>.
+		/// </summary>
+		/// <param name="compileJob">The <see cref="CompileJob"/>.</param>
+		/// <param name="description">A description of the update.</param>
+		/// <param name="deploymentState">The new <see cref="DeploymentState"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task UpdateDeployment(
+			CompileJob compileJob,
+			string description,
+			DeploymentState deploymentState,
+			CancellationToken cancellationToken)
+		{
+			if (compileJob == null)
+				throw new ArgumentNullException(nameof(compileJob));
+
+			if (!compileJob.GitHubRepoId.HasValue || !compileJob.GitHubDeploymentId.HasValue)
+			{
+				Logger.LogTrace("Not updating deployment as it is missing a repo ID or deployment ID.");
+				return;
+			}
+
+			Logger.LogTrace("Updating deployment {0} to {1}...", compileJob.GitHubDeploymentId.Value, deploymentState);
+
+			string gitHubAccessToken = null;
+			await databaseContextFactory.UseContext(
+				async databaseContext =>
+					gitHubAccessToken = await databaseContext
+						.RepositorySettings
+						.AsQueryable()
+						.Where(x => x.InstanceId == Metadata.Id)
+						.Select(x => x.AccessToken)
+						.FirstAsync(cancellationToken)
+						.ConfigureAwait(false))
+				.ConfigureAwait(false);
+
+			if (gitHubAccessToken == null)
+			{
+				Logger.LogWarning(
+					"GitHub access token disappeared during deployment, can't update to {0}!",
+					deploymentState);
+				return;
+			}
+
+			var gitHubClient = gitHubClientFactory.CreateClient(gitHubAccessToken);
+
+			await gitHubClient
+				.Repository
+				.Deployment
+				.Status
+				.Create(
+					compileJob.GitHubRepoId.Value,
+					compileJob.GitHubDeploymentId.Value,
+					new NewDeploymentStatus(deploymentState)
+					{
+						Description = description,
+					})
+				.WithToken(cancellationToken)
+				.ConfigureAwait(false);
+		}
 	}
 }

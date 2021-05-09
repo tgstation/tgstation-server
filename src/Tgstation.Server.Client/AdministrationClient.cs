@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
@@ -14,12 +15,13 @@ namespace Tgstation.Server.Client
 	sealed class AdministrationClient : PaginatedClient, IAdministrationClient
 	{
 		/// <summary>
-		/// Construct an <see cref="AdministrationClient"/>
+		/// Initializes a new instance of the <see cref="AdministrationClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
 		public AdministrationClient(IApiClient apiClient)
 			: base(apiClient)
-		{ }
+		{
+		}
 
 		/// <inheritdoc />
 		public Task<AdministrationResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<AdministrationResponse>(Routes.Administration, cancellationToken);

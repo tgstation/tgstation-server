@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		public void Initialize()
 		{
 			var actualToken = Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_TOKEN");
-			if(!String.IsNullOrWhiteSpace(actualToken))
+			if (!String.IsNullOrWhiteSpace(actualToken))
 				testToken1 = new ChatBot
 				{
 					ConnectionString = actualToken,

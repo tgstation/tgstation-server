@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -13,15 +14,15 @@ namespace Tgstation.Server.Client.Components
 	sealed class ChatBotsClient : PaginatedClient, IChatBotsClient
 	{
 		/// <summary>
-		/// The <see cref="Instance"/> for the <see cref="ChatBotsClient"/>
+		/// The <see cref="Instance"/> for the <see cref="ChatBotsClient"/>.
 		/// </summary>
 		readonly Instance instance;
 
 		/// <summary>
-		/// Construct a <see cref="ChatBotsClient"/>
+		/// Initializes a new instance of the <see cref="ChatBotsClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
+		/// <param name="instance">The value of <see cref="instance"/>.</param>
 		public ChatBotsClient(IApiClient apiClient, Instance instance)
 			: base(apiClient)
 		{

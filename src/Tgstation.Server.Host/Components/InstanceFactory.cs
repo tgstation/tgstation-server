@@ -1,8 +1,10 @@
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
@@ -28,82 +30,82 @@ namespace Tgstation.Server.Host.Components
 	sealed class InstanceFactory : IInstanceFactory
 	{
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IIOManager"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="ITopicClientFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="ITopicClientFactory"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly ITopicClientFactory topicClientFactory;
 
 		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="ICryptographySuite"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="ISynchronousIOManager"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="ISynchronousIOManager"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly ISynchronousIOManager synchronousIOManager;
 
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="ISymlinkFactory"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
-		/// The <see cref="IByondInstaller"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IByondInstaller"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IByondInstaller byondInstaller;
 
 		/// <summary>
-		/// The <see cref="IChatManagerFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IChatManagerFactory"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IChatManagerFactory chatFactory;
 
 		/// <summary>
-		/// The <see cref="IProcessExecutor"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IProcessExecutor"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
-		/// The <see cref="IPostWriteHandler"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IPostWriteHandler"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IPostWriteHandler postWriteHandler;
 
 		/// <summary>
-		/// The <see cref="IWatchdogFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IWatchdogFactory"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IWatchdogFactory watchdogFactory;
 
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IJobManager"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="INetworkPromptReaper"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="INetworkPromptReaper"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly INetworkPromptReaper networkPromptReaper;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
@@ -143,24 +145,24 @@ namespace Tgstation.Server.Host.Components
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// Construct an <see cref="InstanceFactory"/>
+		/// Initializes a new instance of the <see cref="InstanceFactory"/> class.
 		/// </summary>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
-		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		/// <param name="topicClientFactory">The value of <see cref="topicClientFactory"/></param>
-		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
-		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
-		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/></param>
-		/// <param name="chatFactory">The value of <see cref="chatFactory"/></param>
-		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
-		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
-		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/></param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
-		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
+		/// <param name="topicClientFactory">The value of <see cref="topicClientFactory"/>.</param>
+		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
+		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/>.</param>
+		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
+		/// <param name="byondInstaller">The value of <see cref="byondInstaller"/>.</param>
+		/// <param name="chatFactory">The value of <see cref="chatFactory"/>.</param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
+		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
+		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
 		/// <param name="repositoryCommands">The value of <see cref="repositoryCommands"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>

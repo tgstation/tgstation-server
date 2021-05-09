@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Make commit shas non-unique per Instance for MSSQL
+	/// Make commit shas non-unique per Instance for MSSQL.
 	/// </summary>
 	public partial class MSFixRevInfoIndex : Migration
 	{

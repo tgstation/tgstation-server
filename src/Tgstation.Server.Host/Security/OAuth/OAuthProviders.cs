@@ -1,11 +1,13 @@
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -22,7 +24,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		readonly IReadOnlyCollection<IOAuthValidator> validators;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuthProviders"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="OAuthProviders"/> class.
 		/// </summary>
 		/// <param name="gitHubClientFactory">The <see cref="IGitHubClientFactory"/> to use.</param>
 		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> to use.</param>

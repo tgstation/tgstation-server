@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+
 using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
@@ -50,16 +51,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public Version NewServerVersion { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
-		/// </summary>
-		/// <param name="commandType">The value of <see cref="CommandType"/>.</param>
-		private TopicParameters(TopicCommandType commandType)
-		{
-			CommandType = commandType;
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="chatCommand">The value of <see cref="ChatCommand"/>.</param>
 		public TopicParameters(ChatCommand chatCommand)
@@ -69,7 +61,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="eventNotification">The value of <see cref="EventNotification"/>.</param>
 		public TopicParameters(EventNotification eventNotification)
@@ -79,7 +71,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="newPort">The value of <see cref="NewPort"/>.</param>
 		public TopicParameters(ushort newPort)
@@ -89,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="newRebootState">The value of <see cref="NewRebootState"/>.</param>
 		public TopicParameters(RebootState newRebootState)
@@ -99,7 +91,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="newInstanceName">The value of <see cref="NewInstanceName"/>.</param>
 		public TopicParameters(string newInstanceName)
@@ -109,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="channelsUpdate">The value of <see cref="ChatUpdate"/>.</param>
 		public TopicParameters(ChatUpdate channelsUpdate)
@@ -119,7 +111,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="newServerVersion">The value of <see cref="NewServerVersion"/>.</param>
 		/// <param name="serverPort">TGS's new API port.</param>
@@ -131,12 +123,21 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <remarks>Constructor for <see cref="TopicCommandType.Heartbeat"/>s.</remarks>
 		public TopicParameters()
 			: this(TopicCommandType.Heartbeat)
 		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
+		/// </summary>
+		/// <param name="commandType">The value of <see cref="CommandType"/>.</param>
+		TopicParameters(TopicCommandType commandType)
+		{
+			CommandType = commandType;
 		}
 	}
 }

@@ -1,6 +1,4 @@
-using McMaster.Extensions.CommandLineUtils;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Specialized;
 using System.Configuration.Install;
 using System.Diagnostics;
@@ -11,54 +9,60 @@ using System.Security.Principal;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
 {
 	/// <summary>
-	/// Contains the entrypoint for the application
+	/// Contains the entrypoint for the application.
 	/// </summary>
 	sealed class Program
 	{
 		/// <summary>
-		/// The <see cref="IWatchdogFactory"/> for the <see cref="Program"/>
+		/// The <see cref="IWatchdogFactory"/> for the <see cref="Program"/>.
 		/// </summary>
+#pragma warning disable SA1401 // Fields should be private
 		internal static IWatchdogFactory WatchdogFactory = new WatchdogFactory();
+#pragma warning restore SA1401 // Fields should be private
 
 		/// <summary>
-		/// The --uninstall or -u option
+		/// The --uninstall or -u option.
 		/// </summary>
 		[Option(ShortName = "u")]
 		public bool Uninstall { get; }
 
 		/// <summary>
-		/// The --install or -i option
+		/// The --install or -i option.
 		/// </summary>
 		[Option(ShortName = "i")]
 		public bool Install { get; set; }
 
 		/// <summary>
-		/// The --configure or -c option
+		/// The --configure or -c option.
 		/// </summary>
 		[Option(ShortName = "c")]
 		public bool Configure { get; set; }
 
 		/// <summary>
-		/// The --trace or -t option. Enables trace logs
+		/// The --trace or -t option. Enables trace logs.
 		/// </summary>
 		[Option(ShortName = "t")]
 		public bool Trace { get; set; }
 
 		/// <summary>
-		/// The --debug or -d option. Enables debug logs
+		/// The --debug or -d option. Enables debug logs.
 		/// </summary>
 		[Option(ShortName = "d")]
 		public bool Debug { get; set; }
 
 		/// <summary>
-		/// Check if the running user is a system administrator
+		/// Check if the running user is a system administrator.
 		/// </summary>
-		/// <returns><see langword="true"/> if the running user is a system administrator, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if the running user is a system administrator, <see langword="false"/> otherwise.</returns>
 		static bool IsAdministrator()
 		{
 			var user = WindowsIdentity.GetCurrent();
@@ -67,14 +71,16 @@ namespace Tgstation.Server.Host.Service
 		}
 
 		/// <summary>
-		/// Entrypoint for the application
+		/// Entrypoint for the application.
 		/// </summary>
+		/// <param name="args">The application arguments.</param>
+		/// <returns>A <see cref="Task"/> resulting in the <see cref="Program"/>'s exit code.</returns>
 		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
 
 		/// <summary>
-		/// Command line handler, always runs
+		/// Command line handler, always runs.
 		/// </summary>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		public async Task OnExecuteAsync()
 		{
 			if (Environment.UserInteractive)

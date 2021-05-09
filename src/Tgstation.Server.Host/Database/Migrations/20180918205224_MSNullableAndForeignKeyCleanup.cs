@@ -1,10 +1,11 @@
 ﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Cleans up of nullable columns and foreign keys MSSQL
+	/// Cleans up of nullable columns and foreign keys MSSQL.
 	/// </summary>
 	public partial class MSNullableAndForeignKeyCleanup : Migration
 	{

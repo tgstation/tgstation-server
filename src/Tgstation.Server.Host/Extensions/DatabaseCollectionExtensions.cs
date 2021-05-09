@@ -1,7 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
@@ -24,7 +26,7 @@ namespace Tgstation.Server.Host.Extensions
 				.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
 				.Select(x => new User
 				{
-					Id = x.Id
+					Id = x.Id,
 				})
 				.FirstAsync(cancellationToken);
 	}

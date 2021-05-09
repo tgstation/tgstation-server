@@ -1,5 +1,6 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {

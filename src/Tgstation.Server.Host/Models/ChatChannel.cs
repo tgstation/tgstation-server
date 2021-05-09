@@ -1,15 +1,15 @@
-namespace Tgstation.Server.Host.Models
+﻿namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	public sealed class ChatChannel : Api.Models.ChatChannel, IApiTransformable<Api.Models.ChatChannel>
 	{
 		/// <summary>
-		/// The row Id
+		/// The row Id.
 		/// </summary>
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.EntityId.Id"/>
+		/// The <see cref="Api.Models.EntityId.Id"/>.
 		/// </summary>
 		public long ChatSettingsId { get; set; }
 
@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Models
 			IsWatchdogChannel = IsWatchdogChannel,
 			IsUpdatesChannel = IsUpdatesChannel,
 			IrcChannel = IrcChannel,
-			Tag = Tag
+			Tag = Tag,
 		};
 	}
 }

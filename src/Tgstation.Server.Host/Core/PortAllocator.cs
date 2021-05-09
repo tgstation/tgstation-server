@@ -1,11 +1,13 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
@@ -36,7 +38,7 @@ namespace Tgstation.Server.Host.Core
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PortAllocator"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PortAllocator"/> class.
 		/// </summary>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
@@ -76,22 +78,22 @@ namespace Tgstation.Server.Host.Core
 				.ConfigureAwait(false);
 
 			var exceptions = new List<Exception>();
-			ushort I = 0;
+			ushort port = 0;
 			try
 			{
-				for (I = basePort; I < UInt16.MaxValue; ++I)
+				for (port = basePort; port < UInt16.MaxValue; ++port)
 				{
-					if (checkOne && I != basePort)
+					if (checkOne && port != basePort)
 						break;
 
-					if (I == serverPortProvider.HttpApiPort
-						|| ddPorts.Contains(I)
-						|| dmPorts.Contains(I))
+					if (port == serverPortProvider.HttpApiPort
+						|| ddPorts.Contains(port)
+						|| dmPorts.Contains(port))
 						continue;
 
 					try
 					{
-						SocketExtensions.BindTest(I, false);
+						SocketExtensions.BindTest(port, false);
 					}
 					catch (Exception ex)
 					{
@@ -99,8 +101,8 @@ namespace Tgstation.Server.Host.Core
 						continue;
 					}
 
-					logger.LogInformation("Allocated port {0}", I);
-					return I;
+					logger.LogInformation("Allocated port {0}", port);
+					return port;
 				}
 
 				logger.LogWarning("Unable to allocate port >= {0}!", basePort);
@@ -108,7 +110,7 @@ namespace Tgstation.Server.Host.Core
 			}
 			finally
 			{
-				logger.LogDebug(new AggregateException(exceptions), "Failed to allocate ports {0}-{1}!", basePort, I - 1);
+				logger.LogDebug(new AggregateException(exceptions), "Failed to allocate ports {0}-{1}!", basePort, port - 1);
 			}
 		}
 	}

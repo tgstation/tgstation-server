@@ -1,15 +1,14 @@
-using System;
-using System.Globalization;
+﻿using System;
 
 namespace Tgstation.Server.Api
 {
 	/// <summary>
-	/// Routes to a server actions
+	/// Routes to a server actions.
 	/// </summary>
 	public static class Routes
 	{
 		/// <summary>
-		/// The root controller
+		/// The root controller.
 		/// </summary>
 		public const string Root = "/";
 
@@ -49,17 +48,17 @@ namespace Tgstation.Server.Api
 		public const string Repository = Root + "Repository";
 
 		/// <summary>
-		/// The DreamDaemon controller
+		/// The DreamDaemon controller.
 		/// </summary>
 		public const string DreamDaemon = Root + "DreamDaemon";
 
 		/// <summary>
-		/// For accessing DD diagnostics
+		/// For accessing DD diagnostics.
 		/// </summary>
 		public const string Diagnostics = DreamDaemon + "/Diagnostics";
 
 		/// <summary>
-		/// The configuration controller
+		/// The configuration controller.
 		/// </summary>
 		public const string Configuration = Root + "Config";
 
@@ -69,7 +68,7 @@ namespace Tgstation.Server.Api
 		public const string File = "File";
 
 		/// <summary>
-		/// Full combination of <see cref="Configuration"/> and <see cref="File"/>
+		/// Full combination of <see cref="Configuration"/> and <see cref="File"/>.
 		/// </summary>
 		public const string ConfigurationFile = Configuration + "/" + File;
 
@@ -79,17 +78,17 @@ namespace Tgstation.Server.Api
 		public const string InstancePermissionSet = Root + "InstancePermissionSet";
 
 		/// <summary>
-		/// The chat bot controller
+		/// The chat bot controller.
 		/// </summary>
 		public const string Chat = Root + "Chat";
 
 		/// <summary>
-		/// The deployment controller
+		/// The deployment controller.
 		/// </summary>
 		public const string DreamMaker = Root + "DreamMaker";
 
 		/// <summary>
-		/// The jobs controller
+		/// The jobs controller.
 		/// </summary>
 		public const string Jobs = Root + "Job";
 
@@ -99,24 +98,24 @@ namespace Tgstation.Server.Api
 		public const string Transfer = Root + "Transfer";
 
 		/// <summary>
-		/// The postfix for list operations
+		/// The postfix for list operations.
 		/// </summary>
 		public const string List = "List";
 
 		/// <summary>
-		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>
+		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>.
 		/// </summary>
-		/// <param name="route">The route</param>
-		/// <param name="id">The ID</param>
-		/// <returns>The <paramref name="route"/> with <paramref name="id"/> appended</returns>
-		public static string SetID(string route, long id) => String.Format(CultureInfo.InvariantCulture, "{0}/{1}", route, id);
+		/// <param name="route">The route.</param>
+		/// <param name="id">The ID.</param>
+		/// <returns>The <paramref name="route"/> with <paramref name="id"/> appended.</returns>
+		public static string SetID(string route, long id) => $"{route}/{id}";
 
 		/// <summary>
-		/// Get the /List postfix for a <paramref name="route"/>
+		/// Get the /List postfix for a <paramref name="route"/>.
 		/// </summary>
-		/// <param name="route">The route</param>
-		/// <returns>The <paramref name="route"/> with /List appended</returns>
-		public static string ListRoute(string route) => String.Format(CultureInfo.InvariantCulture, "{0}/{1}", route, List);
+		/// <param name="route">The route.</param>
+		/// <returns>The <paramref name="route"/> with /List appended.</returns>
+		public static string ListRoute(string route) => $"{route}/{List}";
 
 		/// <summary>
 		/// Sanitize a <see cref="Models.Response.FileTicketResponse"/> path for use in a GET <see cref="Uri"/>.

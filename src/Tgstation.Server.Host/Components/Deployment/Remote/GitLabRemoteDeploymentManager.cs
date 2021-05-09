@@ -1,13 +1,15 @@
-using GitLabApiClient;
-using GitLabApiClient.Models.MergeRequests.Responses;
-using GitLabApiClient.Models.Notes.Requests;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using GitLabApiClient;
+using GitLabApiClient.Models.MergeRequests.Responses;
+using GitLabApiClient.Models.Notes.Requests;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
@@ -15,12 +17,12 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
 	/// <summary>
-	/// <see cref="IRemoteDeploymentManager"/> for GitLab.com
+	/// <see cref="IRemoteDeploymentManager"/> for GitLab.com.
 	/// </summary>
 	sealed class GitLabRemoteDeploymentManager : BaseRemoteDeploymentManager
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GitLabRemoteDeploymentManager"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="GitLabRemoteDeploymentManager"/> class.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
 		/// <param name="metadata">The <see cref="Api.Models.Instance"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
@@ -28,59 +30,6 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			: base(logger, metadata)
 		{
 		}
-
-		/// <inheritdoc />
-		protected override Task CommentOnTestMergeSource(
-			RepositorySettings repositorySettings,
-			string remoteRepositoryOwner,
-			string remoteRepositoryName,
-			string comment,
-			int testMergeNumber,
-			CancellationToken cancellationToken)
-		{
-			var client = repositorySettings.AccessToken != null
-				? new GitLabClient(GitLabRemoteFeatures.GitLabUrl, repositorySettings.AccessToken)
-				: new GitLabClient(GitLabRemoteFeatures.GitLabUrl);
-
-			return client
-				.MergeRequests
-				.CreateNoteAsync(
-					$"{remoteRepositoryOwner}/{remoteRepositoryName}",
-					testMergeNumber,
-					new CreateMergeRequestNoteRequest(comment))
-				.WithToken(cancellationToken);
-		}
-
-		/// <inheritdoc />
-		protected override string FormatTestMerge(
-			RepositorySettings repositorySettings,
-			CompileJob compileJob,
-			TestMerge testMerge,
-			string remoteRepositoryOwner,
-			string remoteRepositoryName,
-			bool updated) => String.Format(
-			CultureInfo.InvariantCulture,
-			"#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Merge Request: {2}{0}Server: {7}{3}",
-			Environment.NewLine,
-			repositorySettings.ShowTestMergeCommitters.Value
-				? String.Format(
-					CultureInfo.InvariantCulture,
-					"{0}{0}##### Merged By{0}{1}",
-					Environment.NewLine,
-					testMerge.MergedBy.Name)
-				: String.Empty,
-			testMerge.TargetCommitSha,
-			testMerge.Comment != null
-				? String.Format(
-					CultureInfo.InvariantCulture,
-					"{0}{0}##### Comment{0}{1}",
-					Environment.NewLine,
-					testMerge.Comment)
-				: String.Empty,
-			updated ? "Updated" : "Deployed",
-			Metadata.Name,
-			compileJob.RevisionInformation.OriginCommitSha,
-			compileJob.RevisionInformation.CommitSha);
 
 		/// <inheritdoc />
 		public override async Task<IReadOnlyCollection<RevInfoTestMerge>> RemoveMergedTestMerges(
@@ -152,7 +101,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public override Task ApplyDeployment(
 			CompileJob compileJob,
-			CompileJob oldCompileJob, CancellationToken cancellationToken) => Task.CompletedTask;
+			CompileJob oldCompileJob,
+			CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
 		public override Task FailDeployment(
@@ -171,5 +121,58 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			Api.Models.Internal.IGitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <inheritdoc />
+		protected override Task CommentOnTestMergeSource(
+			RepositorySettings repositorySettings,
+			string remoteRepositoryOwner,
+			string remoteRepositoryName,
+			string comment,
+			int testMergeNumber,
+			CancellationToken cancellationToken)
+		{
+			var client = repositorySettings.AccessToken != null
+				? new GitLabClient(GitLabRemoteFeatures.GitLabUrl, repositorySettings.AccessToken)
+				: new GitLabClient(GitLabRemoteFeatures.GitLabUrl);
+
+			return client
+				.MergeRequests
+				.CreateNoteAsync(
+					$"{remoteRepositoryOwner}/{remoteRepositoryName}",
+					testMergeNumber,
+					new CreateMergeRequestNoteRequest(comment))
+				.WithToken(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override string FormatTestMerge(
+			RepositorySettings repositorySettings,
+			CompileJob compileJob,
+			TestMerge testMerge,
+			string remoteRepositoryOwner,
+			string remoteRepositoryName,
+			bool updated) => String.Format(
+			CultureInfo.InvariantCulture,
+			"#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Merge Request: {2}{0}Server: {7}{3}",
+			Environment.NewLine,
+			repositorySettings.ShowTestMergeCommitters.Value
+				? String.Format(
+					CultureInfo.InvariantCulture,
+					"{0}{0}##### Merged By{0}{1}",
+					Environment.NewLine,
+					testMerge.MergedBy.Name)
+				: String.Empty,
+			testMerge.TargetCommitSha,
+			testMerge.Comment != null
+				? String.Format(
+					CultureInfo.InvariantCulture,
+					"{0}{0}##### Comment{0}{1}",
+					Environment.NewLine,
+					testMerge.Comment)
+				: String.Empty,
+			updated ? "Updated" : "Deployed",
+			Metadata.Name,
+			compileJob.RevisionInformation.OriginCommitSha,
+			compileJob.RevisionInformation.CommitSha);
 	}
 }

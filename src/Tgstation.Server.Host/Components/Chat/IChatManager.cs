@@ -1,46 +1,48 @@
-using Microsoft.Extensions.Hosting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Hosting;
+
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
-	/// For managing connected chat services
+	/// For managing connected chat services.
 	/// </summary>
 	public interface IChatManager : IHostedService, IAsyncDisposable
 	{
 		/// <summary>
-		/// Registers a <paramref name="customCommandHandler"/> to use
+		/// Registers a <paramref name="customCommandHandler"/> to use.
 		/// </summary>
-		/// <param name="customCommandHandler">A <see cref="ICustomCommandHandler"/></param>
+		/// <param name="customCommandHandler">A <see cref="ICustomCommandHandler"/>.</param>
 		void RegisterCommandHandler(ICustomCommandHandler customCommandHandler);
 
 		/// <summary>
-		/// Change chat settings. If the <see cref="Api.Models.EntityId.Id"/> is not currently in use, a new connection will be made instead
+		/// Change chat settings. If the <see cref="Api.Models.EntityId.Id"/> is not currently in use, a new connection will be made instead.
 		/// </summary>
-		/// <param name="newSettings">The new <see cref="Models.ChatBot"/></param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation. Will complete immediately if the <see cref="ChatBotSettings.Enabled"/> property of <paramref name="newSettings"/> is <see langword="false"/></returns>
+		/// <param name="newSettings">The new <see cref="Models.ChatBot"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation. Will complete immediately if the <see cref="ChatBotSettings.Enabled"/> property of <paramref name="newSettings"/> is <see langword="false"/>.</returns>
 		Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Disconnects and deletes a given connection
+		/// Disconnects and deletes a given connection.
 		/// </summary>
-		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the connection</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the connection.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task DeleteConnection(long connectionId, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Change chat channels
+		/// Change chat channels.
 		/// </summary>
-		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the connection</param>
-		/// <param name="newChannels">An <see cref="IEnumerable{T}"/> of the new list of <see cref="Api.Models.ChatChannel"/>s</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the connection.</param>
+		/// <param name="newChannels">An <see cref="IEnumerable{T}"/> of the new list of <see cref="Api.Models.ChatChannel"/>s.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task ChangeChannels(long connectionId, IEnumerable<Api.Models.ChatChannel> newChannels, CancellationToken cancellationToken);
 
 		/// <summary>

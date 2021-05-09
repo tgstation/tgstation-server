@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -12,20 +13,20 @@ namespace Tgstation.Server.Client.Components
 	sealed class DreamDaemonClient : IDreamDaemonClient
 	{
 		/// <summary>
-		/// The <see cref="IApiClient"/> for the <see cref="DreamDaemonClient"/>
+		/// The <see cref="IApiClient"/> for the <see cref="DreamDaemonClient"/>.
 		/// </summary>
 		readonly IApiClient apiClient;
 
 		/// <summary>
-		/// The <see cref="Instance"/> for the <see cref="DreamDaemonClient"/>
+		/// The <see cref="Instance"/> for the <see cref="DreamDaemonClient"/>.
 		/// </summary>
 		readonly Instance instance;
 
 		/// <summary>
-		/// Construct a <see cref="DreamDaemonClient"/>
+		/// Initializes a new instance of the <see cref="DreamDaemonClient"/> class.
 		/// </summary>
-		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
+		/// <param name="apiClient">The value of <see cref="apiClient"/>.</param>
+		/// <param name="instance">The value of <see cref="instance"/>.</param>
 		public DreamDaemonClient(IApiClient apiClient, Instance instance)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));

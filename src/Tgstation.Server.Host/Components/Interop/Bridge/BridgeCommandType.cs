@@ -33,6 +33,6 @@
 		/// <summary>
 		/// DreamDaemon requesting a <see cref="ChatMessage"/> be sent.
 		/// </summary>
-		ChatSend
+		ChatSend,
 	}
 }

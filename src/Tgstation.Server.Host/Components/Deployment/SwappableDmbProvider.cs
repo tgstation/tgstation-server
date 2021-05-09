@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
@@ -41,7 +42,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SwappableDmbProvider"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="SwappableDmbProvider"/> class.
 		/// </summary>
 		/// <param name="baseProvider">The value of <see cref="baseProvider"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>

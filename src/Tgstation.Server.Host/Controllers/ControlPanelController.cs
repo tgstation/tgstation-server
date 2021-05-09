@@ -1,12 +1,14 @@
+﻿using System;
+using System.Globalization;
+using System.Net.Mime;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
-using System;
-using System.Globalization;
-using System.Net.Mime;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Configuration;
 
@@ -35,7 +37,7 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ControlPanelConfiguration controlPanelConfiguration;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ControlPanelController"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ControlPanelController"/> class.
 		/// </summary>
 		/// <param name="hostEnvironment">The value of <see cref="hostEnvironment"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>

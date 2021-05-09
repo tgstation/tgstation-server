@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -23,11 +25,11 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing the deployment system.
 	/// </summary>
 	[Route(Routes.DreamMaker)]
-	#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class DreamMakerController : InstanceRequiredController
 	{
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
+		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
 
@@ -37,14 +39,14 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPortAllocator portAllocator;
 
 		/// <summary>
-		/// Construct a <see cref="DreamMakerController"/>
+		/// Initializes a new instance of the <see cref="DreamMakerController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public DreamMakerController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -105,24 +107,6 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Base query for pulling in all required <see cref="CompileJob"/> fields.
-		/// </summary>
-		/// <returns>An <see cref="IQueryable{T}"/> of <see cref="CompileJob"/> with all the inclusions.</returns>
-		IQueryable<CompileJob> BaseCompileJobsQuery() => DatabaseContext
-			.CompileJobs
-			.AsQueryable()
-			.Include(x => x.Job)
-				.ThenInclude(x => x.StartedBy)
-			.Include(x => x.RevisionInformation)
-				.ThenInclude(x => x.PrimaryTestMerge)
-					.ThenInclude(x => x.MergedBy)
-			.Include(x => x.RevisionInformation)
-				.ThenInclude(x => x.ActiveTestMerges)
-					.ThenInclude(x => x.TestMerge)
-						.ThenInclude(x => x.MergedBy)
-			.Where(x => x.Job.Instance.Id == Instance.Id);
-
-		/// <summary>
 		/// List all <see cref="CompileJob"/> <see cref="EntityId"/>s for the instance.
 		/// </summary>
 		/// <param name="page">The current page.</param>
@@ -161,7 +145,7 @@ namespace Tgstation.Server.Host.Controllers
 				StartedBy = AuthenticationContext.User,
 				CancelRightsType = RightsType.DreamMaker,
 				CancelRight = (ulong)DreamMakerRights.CancelCompile,
-				Instance = Instance
+				Instance = Instance,
 			};
 
 			await jobManager.RegisterOperation(
@@ -259,5 +243,23 @@ namespace Tgstation.Server.Host.Controllers
 
 			return await Read(cancellationToken).ConfigureAwait(false);
 		}
+
+		/// <summary>
+		/// Base query for pulling in all required <see cref="CompileJob"/> fields.
+		/// </summary>
+		/// <returns>An <see cref="IQueryable{T}"/> of <see cref="CompileJob"/> with all the inclusions.</returns>
+		IQueryable<CompileJob> BaseCompileJobsQuery() => DatabaseContext
+			.CompileJobs
+			.AsQueryable()
+			.Include(x => x.Job)
+				.ThenInclude(x => x.StartedBy)
+			.Include(x => x.RevisionInformation)
+				.ThenInclude(x => x.PrimaryTestMerge)
+					.ThenInclude(x => x.MergedBy)
+			.Include(x => x.RevisionInformation)
+				.ThenInclude(x => x.ActiveTestMerges)
+					.ThenInclude(x => x.TestMerge)
+						.ThenInclude(x => x.MergedBy)
+			.Where(x => x.Job.Instance.Id == Instance.Id);
 	}
 }

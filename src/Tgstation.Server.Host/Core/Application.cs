@@ -1,3 +1,10 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading.Tasks;
+
 using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,12 +22,7 @@ using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components;
@@ -61,12 +63,36 @@ namespace Tgstation.Server.Host.Core
 		readonly IWebHostEnvironment hostingEnvironment;
 
 		/// <summary>
-		/// The <see cref="ITokenFactory"/> for the <see cref="Application"/>
+		/// The <see cref="ITokenFactory"/> for the <see cref="Application"/>.
 		/// </summary>
 		ITokenFactory tokenFactory;
 
 		/// <summary>
-		/// Construct an <see cref="Application"/>
+		/// Create the default <see cref="IServerFactory"/>.
+		/// </summary>
+		/// <returns>A new <see cref="IServerFactory"/> with the default settings.</returns>
+		public static IServerFactory CreateDefaultServerFactory()
+			=> new ServerFactory(
+				AssemblyInformationProvider,
+				IOManager);
+
+		/// <summary>
+		/// Adds the <see cref="IWatchdogFactory"/> implementation.
+		/// </summary>
+		/// <typeparam name="TSystemWatchdogFactory">The <see cref="WatchdogFactory"/> child <see langword="class"/> for the current system.</typeparam>
+		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> to use.</param>
+		static void AddWatchdog<TSystemWatchdogFactory>(IServiceCollection services, IPostSetupServices postSetupServices)
+			where TSystemWatchdogFactory : class, IWatchdogFactory
+		{
+			if (postSetupServices.GeneralConfiguration.UseBasicWatchdog)
+				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+			else
+				services.AddSingleton<IWatchdogFactory, TSystemWatchdogFactory>();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Application"/> class.
 		/// </summary>
 		/// <param name="configuration">The <see cref="IConfiguration"/> for the <see cref="SetupApplication"/>.</param>
 		/// <param name="hostingEnvironment">The <see cref="IWebHostEnvironment"/> for the <see cref="SetupApplication"/>.</param>
@@ -77,15 +103,6 @@ namespace Tgstation.Server.Host.Core
 		{
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 		}
-
-		/// <summary>
-		/// Create the default <see cref="IServerFactory"/>.
-		/// </summary>
-		/// <returns>A new <see cref="IServerFactory"/> with the default settings.</returns>
-		public static IServerFactory CreateDefaultServerFactory()
-			=> new ServerFactory(
-				AssemblyInformationProvider,
-				IOManager);
 
 		/// <summary>
 		/// Configure the <see cref="Application"/>'s services.
@@ -181,7 +198,7 @@ namespace Tgstation.Server.Host.Core
 							.GetRequiredService<IClaimsInjector>()
 							.InjectClaimsIntoContext(
 								ctx,
-								ctx.HttpContext.RequestAborted)
+								ctx.HttpContext.RequestAborted),
 					};
 				});
 
@@ -207,7 +224,7 @@ namespace Tgstation.Server.Host.Core
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 					options.SerializerSettings.Converters = new List<JsonConverter>
 					{
-						new VersionConverter()
+						new VersionConverter(),
 					};
 				});
 
@@ -338,35 +355,16 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <summary>
-		/// Adds the <see cref="IWatchdogFactory"/> implementation.
+		/// Configure the <see cref="Application"/>.
 		/// </summary>
-		/// <typeparam name="TSystemWatchdogFactory">The <see cref="WatchdogFactory"/> child <see langword="class"/> for the current system.</typeparam>
-		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
-		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> to use.</param>
-		static void AddWatchdog<TSystemWatchdogFactory>(IServiceCollection services, IPostSetupServices postSetupServices)
-			where TSystemWatchdogFactory : class, IWatchdogFactory
-		{
-			if (postSetupServices.GeneralConfiguration.UseBasicWatchdog)
-				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
-			else
-				services.AddSingleton<IWatchdogFactory, TSystemWatchdogFactory>();
-		}
-
-		/// <inheritdoc />
-		protected override void ConfigureHostedService(IServiceCollection services)
-			=> services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
-
-		/// <summary>
-		/// Configure the <see cref="Application"/>
-		/// </summary>
-		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
-		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
-		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
+		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/>.</param>
+		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
 		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
-		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use</param>
-		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
+		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
+		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
 		public void Configure(
 			IApplicationBuilder applicationBuilder,
 			IServerControl serverControl,
@@ -465,7 +463,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					RequestPath = ControlPanelController.ControlPanelRoute,
 					EnableDefaultFiles = true,
-					EnableDirectoryBrowsing = false
+					EnableDirectoryBrowsing = false,
 				});
 			}
 			else
@@ -489,5 +487,9 @@ namespace Tgstation.Server.Host.Core
 
 			logger.LogDebug("Starting hosting on port {0}...", serverPortProvider.HttpApiPort);
 		}
+
+		/// <inheritdoc />
+		protected override void ConfigureHostedService(IServiceCollection services)
+			=> services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
 	}
 }

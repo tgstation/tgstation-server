@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.IO.Tests
 				await console.WriteAsync(null, true, default).ConfigureAwait(false);
 				await console.WriteAsync(String.Empty, false, default).ConfigureAwait(true);
 			}
-			catch(InvalidOperationException)
+			catch (InvalidOperationException)
 			{
 				Assert.IsFalse(console.Available);
 			}

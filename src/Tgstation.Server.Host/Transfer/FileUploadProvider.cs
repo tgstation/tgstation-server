@@ -1,8 +1,10 @@
-using Microsoft.AspNetCore.WebUtilities;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.WebUtilities;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Extensions;
@@ -42,10 +44,10 @@ namespace Tgstation.Server.Host.Transfer
 		ErrorMessageResponse errorMessage;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FileUploadProvider"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="FileUploadProvider"/> class.
 		/// </summary>
 		/// <param name="ticket">The value of <see cref="Ticket"/>.</param>
-		/// <param name="requireSynchronousIO">The value of <see cref="requireSynchronousIO"/></param>
+		/// <param name="requireSynchronousIO">The value of <see cref="requireSynchronousIO"/>.</param>
 		public FileUploadProvider(FileTicketResponse ticket, bool requireSynchronousIO)
 		{
 			Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));

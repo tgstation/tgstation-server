@@ -1,6 +1,7 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -52,7 +53,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					Id = table.Column<long>(nullable: false)
 						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-					Name = table.Column<string>(maxLength: 100, nullable: false)
+					Name = table.Column<string>(maxLength: 100, nullable: false),
 				},
 				constraints: table =>
 				{
@@ -68,7 +69,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					AdministrationRights = table.Column<ulong>(nullable: false),
 					InstanceManagerRights = table.Column<ulong>(nullable: false),
 					UserId = table.Column<long>(nullable: true),
-					GroupId = table.Column<long>(nullable: true)
+					GroupId = table.Column<long>(nullable: true),
 				},
 				constraints: table =>
 				{
@@ -101,7 +102,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					RepositoryRights = table.Column<ulong>(nullable: false),
 					ChatBotRights = table.Column<ulong>(nullable: false),
 					ConfigurationRights = table.Column<ulong>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -240,7 +241,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					InstanceId = table.Column<long>(type: "bigint", nullable: false),
 					InstanceUserRights = table.Column<ulong>(type: "bigint unsigned", nullable: false),
 					RepositoryRights = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-					UserId = table.Column<long>(type: "bigint", nullable: false)
+					UserId = table.Column<long>(type: "bigint", nullable: false),
 				},
 				constraints: table =>
 				{

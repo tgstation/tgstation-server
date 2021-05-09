@@ -1,9 +1,11 @@
-using Microsoft.Extensions.Logging;
-using Octokit;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Octokit;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -34,7 +36,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		readonly OAuthConfiguration oAuthConfiguration;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GitHubOAuthValidator"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="GitHubOAuthValidator"/> class.
 		/// </summary>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
@@ -67,7 +69,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 							oAuthConfiguration.ClientSecret,
 							code)
 						{
-							RedirectUri = oAuthConfiguration.RedirectUrl
+							RedirectUri = oAuthConfiguration.RedirectUrl,
 						})
 					.ConfigureAwait(false);
 
@@ -89,7 +91,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			{
 				throw;
 			}
-			catch(ApiException ex)
+			catch (ApiException ex)
 			{
 				logger.LogWarning(ex, "API error while completing OAuth handshake!");
 				return null;
@@ -101,7 +103,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			new OAuthProviderInfo
 			{
 				ClientId = oAuthConfiguration.ClientId,
-				RedirectUri = oAuthConfiguration.RedirectUrl
+				RedirectUri = oAuthConfiguration.RedirectUrl,
 			});
 	}
 }

@@ -1,12 +1,13 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
 	/// <summary>
-	/// Contains <see cref="IOAuthValidator"/>s
+	/// Contains <see cref="IOAuthValidator"/>s.
 	/// </summary>
 	public interface IOAuthProviders
 	{

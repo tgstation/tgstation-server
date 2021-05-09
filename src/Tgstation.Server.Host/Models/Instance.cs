@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
@@ -14,17 +15,17 @@ namespace Tgstation.Server.Host.Models
 		public const ushort DefaultChatBotLimit = 10;
 
 		/// <summary>
-		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>
+		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>.
 		/// </summary>
 		public DreamMakerSettings DreamMakerSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.DreamDaemonSettings"/> for the <see cref="Instance"/>
+		/// The <see cref="Models.DreamDaemonSettings"/> for the <see cref="Instance"/>.
 		/// </summary>
 		public DreamDaemonSettings DreamDaemonSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.RepositorySettings"/> for the <see cref="Instance"/>
+		/// The <see cref="Models.RepositorySettings"/> for the <see cref="Instance"/>.
 		/// </summary>
 		public RepositorySettings RepositorySettings { get; set; }
 
@@ -34,22 +35,22 @@ namespace Tgstation.Server.Host.Models
 		public string SwarmIdentifer { get; set; }
 
 		/// <summary>
-		/// The <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>
+		/// The <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>.
 		/// </summary>
 		public ICollection<InstancePermissionSet> InstancePermissionSets { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatBot"/>s for the <see cref="Instance"/>
+		/// The <see cref="ChatBot"/>s for the <see cref="Instance"/>.
 		/// </summary>
 		public ICollection<ChatBot> ChatSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevisionInformation"/>s in the <see cref="Instance"/>
+		/// The <see cref="RevisionInformation"/>s in the <see cref="Instance"/>.
 		/// </summary>
 		public ICollection<RevisionInformation> RevisionInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="Job"/>s in the <see cref="Instance"/>
+		/// The <see cref="Job"/>s in the <see cref="Instance"/>.
 		/// </summary>
 		public ICollection<Job> Jobs { get; set; }
 
@@ -62,7 +63,7 @@ namespace Tgstation.Server.Host.Models
 			Name = Name,
 			Path = Path,
 			Online = Online,
-			ChatBotLimit = ChatBotLimit
+			ChatBotLimit = ChatBotLimit,
 		};
 	}
 }

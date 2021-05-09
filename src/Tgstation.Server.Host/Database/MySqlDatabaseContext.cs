@@ -1,12 +1,14 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using System;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// <see cref="DatabaseContext"/> for MySQL
+	/// <see cref="DatabaseContext"/> for MySQL.
 	/// </summary>
 	sealed class MySqlDatabaseContext : DatabaseContext
 	{
@@ -14,11 +16,12 @@ namespace Tgstation.Server.Host.Database
 		protected override DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.Cascade;
 
 		/// <summary>
-		/// Construct a <see cref="MySqlDatabaseContext"/>
+		/// Initializes a new instance of the <see cref="MySqlDatabaseContext"/> class.
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
 		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions) : base(dbContextOptions)
-		{ }
+		{
+		}
 
 		/// <summary>
 		/// Configure the <see cref="MySqlDatabaseContext"/>.

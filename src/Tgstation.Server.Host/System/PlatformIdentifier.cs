@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.System
 		public string ScriptFileExtension { get; }
 
 		/// <summary>
-		/// Construct a <see cref="PlatformIdentifier"/>
+		/// Initializes a new instance of the <see cref="PlatformIdentifier"/> class.
 		/// </summary>
 		public PlatformIdentifier()
 		{

@@ -1,8 +1,10 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 
@@ -39,7 +41,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly Dictionary<TestMergeParameters, Models.TestMerge> cachedLookups;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GitRemoteFeaturesBase"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="GitRemoteFeaturesBase"/> class.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		/// <param name="remoteUrl">The remote repository <see cref="Uri"/>.</param>
@@ -81,7 +83,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <summary>
-		/// Implementation of <see cref="GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)"/>
+		/// Implementation of <see cref="GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)"/>.
 		/// </summary>
 		/// <param name="parameters">The <see cref="TestMergeParameters"/>.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>

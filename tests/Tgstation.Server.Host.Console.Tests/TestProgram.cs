@@ -4,6 +4,7 @@ using Moq;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Console.Tests

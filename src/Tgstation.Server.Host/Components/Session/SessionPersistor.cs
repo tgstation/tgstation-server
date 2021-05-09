@@ -1,12 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.System;
+
 using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Components.Session
@@ -15,12 +18,12 @@ namespace Tgstation.Server.Host.Components.Session
 	sealed class SessionPersistor : ISessionPersistor
 	{
 		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="SessionPersistor"/>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="SessionPersistor"/>.
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="IDmbFactory"/> for the <see cref="SessionPersistor"/>
+		/// The <see cref="IDmbFactory"/> for the <see cref="SessionPersistor"/>.
 		/// </summary>
 		readonly IDmbFactory dmbFactory;
 
@@ -30,23 +33,23 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="SessionPersistor"/>
+		/// The <see cref="ILogger"/> for the <see cref="SessionPersistor"/>.
 		/// </summary>
 		readonly ILogger<SessionPersistor> logger;
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionPersistor"/>
+		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionPersistor"/>.
 		/// </summary>
 		readonly Api.Models.Instance metadata;
 
 		/// <summary>
-		/// Construct a <see cref="SessionPersistor"/>
+		/// Initializes a new instance of the <see cref="SessionPersistor"/> class.
 		/// </summary>
-		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
-		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
-		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="metadata">The value of <see cref="metadata"/></param>
+		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
+		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/>.</param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public SessionPersistor(
 			IDatabaseContextFactory databaseContextFactory,
 			IDmbFactory dmbFactory,
@@ -83,7 +86,7 @@ namespace Tgstation.Server.Host.Components.Session
 				Port = reattachInformation.Port,
 				ProcessId = reattachInformation.ProcessId,
 				RebootState = reattachInformation.RebootState,
-				LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel
+				LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel,
 			};
 
 			db.ReattachInformations.Add(dbReattachInfo);

@@ -1,7 +1,9 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -25,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		IDmbProvider hardLinkedDmb;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PosixWatchdog"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PosixWatchdog"/> class.
 		/// </summary>
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
@@ -77,7 +79,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				  initialLaunchParameters,
 				  instance,
 				  autoStart)
-		{ }
+		{
+		}
 
 		/// <inheritdoc />
 		protected override async Task InitialLink(CancellationToken cancellationToken)

@@ -1,30 +1,31 @@
 ﻿using System;
+
 using Tgstation.Server.Host.Components.Chat;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
 	/// <summary>
-	/// Represents a chat command to be handled by DD
+	/// Represents a chat command to be handled by DD.
 	/// </summary>
 	sealed class ChatCommand
 	{
 		/// <summary>
-		/// The command name
+		/// The command name.
 		/// </summary>
 		public string Name { get; }
 
 		/// <summary>
-		/// The command params
+		/// The command params.
 		/// </summary>
 		public string Params { get; }
 
 		/// <summary>
-		/// The <see cref="ChatUser"/> that sent the command
+		/// The <see cref="ChatUser"/> that sent the command.
 		/// </summary>
 		public ChatUser User { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ChatCommand"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ChatCommand"/> class.
 		/// </summary>
 		/// <param name="user">The value of <see cref="User"/>.</param>
 		/// <param name="command">The value of <see cref="Name"/>.</param>

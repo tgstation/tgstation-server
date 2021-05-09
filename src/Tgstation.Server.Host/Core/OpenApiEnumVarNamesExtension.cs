@@ -1,8 +1,9 @@
-﻿using Microsoft.OpenApi;
+﻿using System;
+
+using Microsoft.OpenApi;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
-using System;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -17,9 +18,9 @@ namespace Tgstation.Server.Host.Core
 		readonly Type enumType;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenApiEnumVarNamesExtension"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="OpenApiEnumVarNamesExtension"/> class.
 		/// </summary>
-		/// <param name="enumType">The value of <see cref="enumType"/>,</param>
+		/// <param name="enumType">The value of <see cref="enumType"/>,.</param>
 		private OpenApiEnumVarNamesExtension(Type enumType)
 		{
 			this.enumType = enumType ?? throw new ArgumentNullException(nameof(enumType));

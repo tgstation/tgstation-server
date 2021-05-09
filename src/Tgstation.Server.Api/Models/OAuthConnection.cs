@@ -1,5 +1,6 @@
+﻿using System.ComponentModel.DataAnnotations;
+
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {

@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
 
@@ -16,14 +18,14 @@ namespace Tgstation.Server.Host.Security
 	sealed class ClaimsInjector : IClaimsInjector
 	{
 		/// <summary>
-		/// The <see cref="IAuthenticationContextFactory"/> for the <see cref="ClaimsInjector"/>
+		/// The <see cref="IAuthenticationContextFactory"/> for the <see cref="ClaimsInjector"/>.
 		/// </summary>
 		readonly IAuthenticationContextFactory authenticationContextFactory;
 
 		/// <summary>
-		/// Construct a <see cref="ClaimsInjector"/>
+		/// Initializes a new instance of the <see cref="ClaimsInjector"/> class.
 		/// </summary>
-		/// <param name="authenticationContextFactory">The value of <see cref="authenticationContextFactory"/></param>
+		/// <param name="authenticationContextFactory">The value of <see cref="authenticationContextFactory"/>.</param>
 		public ClaimsInjector(IAuthenticationContextFactory authenticationContextFactory)
 		{
 			this.authenticationContextFactory = authenticationContextFactory ?? throw new ArgumentNullException(nameof(authenticationContextFactory));
@@ -73,20 +75,20 @@ namespace Tgstation.Server.Host.Security
 
 			var enumerator = Enum.GetValues(typeof(RightsType));
 			var claims = new List<Claim>();
-			foreach (RightsType I in enumerator)
+			foreach (RightsType rightType in enumerator)
 			{
 				// if there's no instance user, do a weird thing and add all the instance roles
 				// we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
 				// if user is null that means they got the token with an expired password
 				var rightAsULong = authenticationContext.User == null
-					|| (RightsHelper.IsInstanceRight(I) && authenticationContext.InstancePermissionSet == null)
+					|| (RightsHelper.IsInstanceRight(rightType) && authenticationContext.InstancePermissionSet == null)
 					? ~0UL
-					: authenticationContext.GetRight(I);
-				var rightEnum = RightsHelper.RightToType(I);
+					: authenticationContext.GetRight(rightType);
+				var rightEnum = RightsHelper.RightToType(rightType);
 				var right = (Enum)Enum.ToObject(rightEnum, rightAsULong);
-				foreach (Enum J in Enum.GetValues(rightEnum))
-					if (right.HasFlag(J))
-						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, J)));
+				foreach (Enum enumeratedRight in Enum.GetValues(rightEnum))
+					if (right.HasFlag(enumeratedRight))
+						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(rightType, enumeratedRight)));
 			}
 
 			tokenValidatedContext.Principal.AddIdentity(new ClaimsIdentity(claims));

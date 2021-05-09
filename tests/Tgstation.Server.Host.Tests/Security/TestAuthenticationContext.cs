@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 

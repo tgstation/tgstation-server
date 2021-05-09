@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -10,7 +11,7 @@ using Tgstation.Server.Host.Components.Watchdog;
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
-	/// For displaying <see cref="Api.Models.Internal.RevisionInformation"/>
+	/// For displaying <see cref="Api.Models.Internal.RevisionInformation"/>.
 	/// </summary>
 	sealed class RevisionCommand : ICommand
 	{
@@ -24,20 +25,20 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly => false;
 
 		/// <summary>
-		/// The <see cref="IWatchdog"/> for the <see cref="PullRequestsCommand"/>
+		/// The <see cref="IWatchdog"/> for the <see cref="PullRequestsCommand"/>.
 		/// </summary>
 		readonly IWatchdog watchdog;
 
 		/// <summary>
-		/// The <see cref="IRepositoryManager"/> for the <see cref="PullRequestsCommand"/>
+		/// The <see cref="IRepositoryManager"/> for the <see cref="PullRequestsCommand"/>.
 		/// </summary>
 		readonly IRepositoryManager repositoryManager;
 
 		/// <summary>
-		/// Construct a <see cref="RevisionCommand"/>
+		/// Initializes a new instance of the <see cref="RevisionCommand"/> class.
 		/// </summary>
-		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
-		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/></param>
+		/// <param name="watchdog">The value of <see cref="watchdog"/>.</param>
+		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		public RevisionCommand(IWatchdog watchdog, IRepositoryManager repositoryManager)
 		{
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));

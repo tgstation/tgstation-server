@@ -1,4 +1,4 @@
-using Tgstation.Server.Api.Models;
+﻿using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -8,27 +8,27 @@ namespace Tgstation.Server.Client.Components
 	public interface IInstanceClient
 	{
 		/// <summary>
-		/// The <see cref="Instance"/> used to create the <see cref="IInstanceClient"/>
+		/// The <see cref="Instance"/> used to create the <see cref="IInstanceClient"/>.
 		/// </summary>
 		Instance Metadata { get; }
 
 		/// <summary>
-		/// Access the <see cref="IByondClient"/>
+		/// Access the <see cref="IByondClient"/>.
 		/// </summary>
 		IByondClient Byond { get; }
 
 		/// <summary>
-		/// Access the <see cref="IRepositoryClient"/>
+		/// Access the <see cref="IRepositoryClient"/>.
 		/// </summary>
 		IRepositoryClient Repository { get; }
 
 		/// <summary>
-		/// Access the <see cref="IDreamDaemonClient"/>
+		/// Access the <see cref="IDreamDaemonClient"/>.
 		/// </summary>
 		IDreamDaemonClient DreamDaemon { get; }
 
 		/// <summary>
-		/// Access the <see cref="IConfigurationClient"/>
+		/// Access the <see cref="IConfigurationClient"/>.
 		/// </summary>
 		IConfigurationClient Configuration { get; }
 
@@ -38,17 +38,17 @@ namespace Tgstation.Server.Client.Components
 		IInstancePermissionSetClient PermissionSets { get; }
 
 		/// <summary>
-		/// Access the <see cref="IChatBotsClient"/>
+		/// Access the <see cref="IChatBotsClient"/>.
 		/// </summary>
 		IChatBotsClient ChatBots { get; }
 
 		/// <summary>
-		/// Access the <see cref="IDreamMakerClient"/>
+		/// Access the <see cref="IDreamMakerClient"/>.
 		/// </summary>
 		IDreamMakerClient DreamMaker { get; }
 
 		/// <summary>
-		/// Access the <see cref="IJobsClient"/>
+		/// Access the <see cref="IJobsClient"/>.
 		/// </summary>
 		IJobsClient Jobs { get; }
 	}

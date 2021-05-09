@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -28,27 +28,6 @@ namespace Tgstation.Server.Client
 		{
 			var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 			return new CachedResponseStream(response, stream);
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CachedResponseStream"/> <see langword="class"/>.
-		/// </summary>
-		/// <param name="response">The value of <see cref="response"/>.</param>
-		/// <param name="responseStream">The value of <see cref="responseStream"/>.</param>
-		CachedResponseStream(HttpResponseMessage response, Stream responseStream)
-		{
-			this.response = response;
-			this.responseStream = responseStream;
-		}
-
-		/// <inheritdoc />
-		protected override void Dispose(bool disposing)
-		{
-			base.Dispose(disposing);
-			if (!disposing)
-				return;
-			responseStream.Dispose();
-			response.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -92,5 +71,26 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public override void Write(byte[] buffer, int offset, int count) => responseStream.Write(buffer, offset, count);
+
+		/// <inheritdoc />
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+			if (!disposing)
+				return;
+			responseStream.Dispose();
+			response.Dispose();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CachedResponseStream"/> class.
+		/// </summary>
+		/// <param name="response">The value of <see cref="response"/>.</param>
+		/// <param name="responseStream">The value of <see cref="responseStream"/>.</param>
+		CachedResponseStream(HttpResponseMessage response, Stream responseStream)
+		{
+			this.response = response;
+			this.responseStream = responseStream;
+		}
 	}
 }

@@ -1,12 +1,14 @@
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -29,7 +31,7 @@ namespace Tgstation.Server.Host
 		public IIOManager IOManager { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ServerFactory"/>.
+		/// Initializes a new instance of the <see cref="ServerFactory"/> class.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="ioManager">The value of <see cref="IOManager"/>.</param>
@@ -55,6 +57,7 @@ namespace Tgstation.Server.Host
 
 					builder.AddYamlFile("appsettings.yml", optional: true, reloadOnChange: true)
 						.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: true);
+
 					// reorganize the builder so our yaml configs don't override the env/cmdline configs
 					// values obtained via debugger
 					var environmentJsonConfig = builder.Sources[2];
@@ -62,6 +65,7 @@ namespace Tgstation.Server.Host
 					var cmdLineConfig = builder.Sources[4];
 					var baseYmlConfig = builder.Sources[5];
 					var environmentYmlConfig = builder.Sources[6];
+
 					builder.Sources[2] = baseYmlConfig;
 					builder.Sources[3] = environmentJsonConfig;
 					builder.Sources[4] = environmentYmlConfig;

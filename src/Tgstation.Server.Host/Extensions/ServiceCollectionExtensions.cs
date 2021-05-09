@@ -1,17 +1,19 @@
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Configuration;
-using System;
-using System.Diagnostics;
-using System.Globalization;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
-	/// Extensions for <see cref="IServiceCollection"/>
+	/// Extensions for <see cref="IServiceCollection"/>.
 	/// </summary>
 	static class ServiceCollectionExtensions
 	{
@@ -21,12 +23,12 @@ namespace Tgstation.Server.Host.Extensions
 		public const string SerilogContextTemplate = "(Instance:{Instance}|Job:{Job}|Request:{Request}|User:{User}|Monitor:{Monitor}|Bridge:{Bridge}|Chat:{ChatMessage}";
 
 		/// <summary>
-		/// Add a standard <typeparamref name="TConfig"/> binding
+		/// Add a standard <typeparamref name="TConfig"/> binding.
 		/// </summary>
-		/// <typeparam name="TConfig">The <see langword="class"/> to bind. Must have a <see langword="public"/> const/static <see cref="string"/> field named "Section"</typeparam>
-		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure</param>
-		/// <param name="configuration">The <see cref="IConfiguration"/> containing the <typeparamref name="TConfig"/></param>
-		/// <returns><paramref name="serviceCollection"/></returns>
+		/// <typeparam name="TConfig">The <see langword="class"/> to bind. Must have a <see langword="public"/> const/static <see cref="string"/> field named "Section".</typeparam>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <param name="configuration">The <see cref="IConfiguration"/> containing the <typeparamref name="TConfig"/>.</param>
+		/// <returns><paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration) where TConfig : class
 		{
 			if (serviceCollection == null)

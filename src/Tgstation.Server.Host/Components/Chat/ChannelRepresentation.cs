@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Globalization;
+
+using Newtonsoft.Json;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
@@ -11,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	public sealed class ChannelRepresentation
 	{
 		/// <summary>
-		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss
+		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss.
 		/// </summary>
 		public string Id { get; set; }
 
@@ -27,27 +28,27 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <summary>
-		/// The user friendly name of the <see cref="ChannelRepresentation"/>
+		/// The user friendly name of the <see cref="ChannelRepresentation"/>.
 		/// </summary>
 		public string FriendlyName { get; set; }
 
 		/// <summary>
-		/// The name of the connection the <see cref="ChannelRepresentation"/> belongs to
+		/// The name of the connection the <see cref="ChannelRepresentation"/> belongs to.
 		/// </summary>
 		public string ConnectionName { get; set; }
 
 		/// <summary>
-		/// If this is considered a channel for admin commands
+		/// If this is considered a channel for admin commands.
 		/// </summary>
 		public bool IsAdminChannel { get; set; }
 
 		/// <summary>
-		/// If this is a 1-to-1 chat channel
+		/// If this is a 1-to-1 chat channel.
 		/// </summary>
 		public bool IsPrivateChannel { get; set; }
 
 		/// <summary>
-		/// For user use
+		/// For user use.
 		/// </summary>
 		public string Tag { get; set; }
 	}

@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Jobs.Tests
 			var tcs = new TaskCompletionSource<object>();
 			currentWaitTask = tcs.Task;
 			cancelled = false;
-			using(var handler = new JobHandler(TestJob))
+			using (var handler = new JobHandler(TestJob))
 			{
 				handler.Start();
 				handler.Cancel();

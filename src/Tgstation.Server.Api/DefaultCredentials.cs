@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api
+﻿namespace Tgstation.Server.Api
 {
 	/// <summary>
 	/// Represents initial credentials used by the server.
@@ -6,12 +6,12 @@ namespace Tgstation.Server.Api
 	public static class DefaultCredentials
 	{
 		/// <summary>
-		/// The name of the default admin user
+		/// The name of the default admin user.
 		/// </summary>
 		public static readonly string AdminUserName = "Admin";
 
 		/// <summary>
-		/// The default admin password
+		/// The default admin password.
 		/// </summary>
 		public static readonly string DefaultAdminUserPassword = "ISolemlySwearToDeleteTheDataDirectory";
 	}

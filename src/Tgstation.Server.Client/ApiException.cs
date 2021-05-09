@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Net.Http;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
@@ -26,7 +27,7 @@ namespace Tgstation.Server.Client
 		public ErrorCode? ErrorCode { get; }
 
 		/// <summary>
-		/// Initialize a new instance of the <see cref="ApiException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ApiException"/> class.
 		/// </summary>
 		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> returned from the API.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
@@ -40,7 +41,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// Initialize a new instance of the <see cref="ApiException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ApiException"/> class.
 		/// </summary>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
 		/// <param name="message">The <see cref="Exception.Message"/>.</param>
@@ -51,14 +52,14 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// Initialize a new instance of the <see cref="ApiException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ApiException"/> class.
 		/// </summary>
 		protected ApiException()
 		{
 		}
 
 		/// <summary>
-		/// Initialize a new instance of the <see cref="ApiException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ApiException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		protected ApiException(string message) : base(message)
@@ -66,7 +67,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// Initialize a new instance of the <see cref="ApiException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ApiException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
 		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>

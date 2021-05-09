@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -17,24 +19,24 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for <see cref="Job"/>s
+	/// <see cref="ApiController"/> for <see cref="Job"/>s.
 	/// </summary>
 	[Route(Routes.Jobs)]
 	public sealed class JobController : InstanceRequiredController
 	{
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="JobController"/>
+		/// The <see cref="IJobManager"/> for the <see cref="JobController"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// Construct a <see cref="HomeController"/>
+		/// Initializes a new instance of the <see cref="JobController"/> class.
 		/// </summary>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public JobController(
 			IInstanceManager instanceManager,
 			IDatabaseContext databaseContext,
@@ -112,7 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202"><see cref="Job"/> cancellation requested successfully.</response>
 		/// <response code="404"><see cref="Job"/> does not exist in this instance.</response>
-		/// <response code="410"><see cref="Job"/> could not be found in the job manager. Has it already completed?</response>
+		/// <response code="410"><see cref="Job"/> could not be found in the job manager. Has it already completed?.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(JobResponse), 202)]

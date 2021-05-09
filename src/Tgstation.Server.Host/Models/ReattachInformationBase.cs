@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Session;
@@ -8,22 +9,22 @@ using Tgstation.Server.Host.Components.Session;
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
-	/// Base class for <see cref="ReattachInformation"/>
+	/// Base class for <see cref="ReattachInformation"/>.
 	/// </summary>
 	public abstract class ReattachInformationBase : DMApiParameters
 	{
 		/// <summary>
-		/// The system process ID
+		/// The system process ID.
 		/// </summary>
 		public int ProcessId { get; set; }
 
 		/// <summary>
-		/// The port DreamDaemon was last listening on
+		/// The port DreamDaemon was last listening on.
 		/// </summary>
 		public ushort Port { get; set; }
 
 		/// <summary>
-		/// The current DreamDaemon reboot state
+		/// The current DreamDaemon reboot state.
 		/// </summary>
 		public RebootState RebootState { get; set; }
 
@@ -34,14 +35,16 @@ namespace Tgstation.Server.Host.Models
 		public DreamDaemonSecurity? LaunchSecurityLevel { get; set; }
 
 		/// <summary>
-		/// Construct a <see cref="ReattachInformationBase"/>
+		/// Initializes a new instance of the <see cref="ReattachInformationBase"/> class.
 		/// </summary>
-		protected ReattachInformationBase() { }
+		protected ReattachInformationBase()
+		{
+		}
 
 		/// <summary>
-		/// Construct a <see cref="ReattachInformationBase"/> from a given <paramref name="copy"/>
+		/// Initializes a new instance of the <see cref="ReattachInformationBase"/> class.
 		/// </summary>
-		/// <param name="copy">The <see cref="ReattachInformationBase"/> to copy values from</param>
+		/// <param name="copy">The <see cref="ReattachInformationBase"/> to copy values from.</param>
 		protected ReattachInformationBase(ReattachInformationBase copy)
 		{
 			if (copy == null)

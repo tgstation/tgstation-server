@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Host.Models
+﻿namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Represents a host-side model that may be transformed into a <typeparamref name="TApiModel"/>.

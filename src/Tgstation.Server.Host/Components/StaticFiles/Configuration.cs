@@ -1,5 +1,4 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -8,6 +7,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Components.Events;
@@ -23,18 +25,39 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 	/// <inheritdoc />
 	sealed class Configuration : IConfiguration
 	{
+		/// <summary>
+		/// The CodeModifications directory name.
+		/// </summary>
 		const string CodeModificationsSubdirectory = "CodeModifications";
+
+		/// <summary>
+		/// The EventScripts directory name.
+		/// </summary>
 		const string EventScriptsSubdirectory = "EventScripts";
+
+		/// <summary>
+		/// The GameStaticFiles directory name.
+		/// </summary>
 		const string GameStaticFilesSubdirectory = "GameStaticFiles";
 
 		/// <summary>
-		/// Name of the ignore file in <see cref="GameStaticFilesSubdirectory"/>
+		/// Name of the ignore file in <see cref="GameStaticFilesSubdirectory"/>.
 		/// </summary>
 		const string StaticIgnoreFile = ".tgsignore";
 
+		/// <summary>
+		/// The HeadInclude.dm filename.
+		/// </summary>
 		const string CodeModificationsHeadFile = "HeadInclude.dm";
+
+		/// <summary>
+		/// The TailInclude.dm filename.
+		/// </summary>
 		const string CodeModificationsTailFile = "TailInclude.dm";
 
+		/// <summary>
+		/// Map of <see cref="EventType"/>s to the filename of the event scripts they trigger.
+		/// </summary>
 		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>(
 			Enum.GetValues(typeof(EventType))
 				.OfType<EventType>()
@@ -49,32 +72,32 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							.ScriptName)));
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>
+		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="ISynchronousIOManager"/> for <see cref="Configuration"/>
+		/// The <see cref="ISynchronousIOManager"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly ISynchronousIOManager synchronousIOManager;
 
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for <see cref="Configuration"/>
+		/// The <see cref="ISymlinkFactory"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
-		/// The <see cref="IProcessExecutor"/> for <see cref="Configuration"/>
+		/// The <see cref="IProcessExecutor"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
-		/// The <see cref="IPostWriteHandler"/> for <see cref="Configuration"/>
+		/// The <see cref="IPostWriteHandler"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly IPostWriteHandler postWriteHandler;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for <see cref="Configuration"/>
+		/// The <see cref="IPlatformIdentifier"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
@@ -84,7 +107,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for <see cref="Configuration"/>
+		/// The <see cref="ILogger"/> for <see cref="Configuration"/>.
 		/// </summary>
 		readonly ILogger<Configuration> logger;
 
@@ -104,16 +127,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		Task uploadTasks;
 
 		/// <summary>
-		/// Construct <see cref="Configuration"/>
+		/// Initializes a new instance of the <see cref="Configuration"/> class.
 		/// </summary>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
-		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
-		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
-		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
-		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/>.</param>
+		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
+		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public Configuration(
 			IIOManager ioManager,
 			ISynchronousIOManager synchronousIOManager,
@@ -146,30 +169,6 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			disposeCts.Dispose();
 		}
 
-		/// <summary>
-		/// Get the proper path to <see cref="StaticIgnoreFile"/>
-		/// </summary>
-		/// <returns>The <see cref="ioManager"/> relative path to <see cref="StaticIgnoreFile"/></returns>
-		string StaticIgnorePath() => ioManager.ConcatPath(GameStaticFilesSubdirectory, StaticIgnoreFile);
-
-		/// <summary>
-		/// Ensures standard configuration directories exist
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task EnsureDirectories(CancellationToken cancellationToken)
-		{
-			async Task ValidateStaticFolder()
-			{
-				await ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken).ConfigureAwait(false);
-				var staticIgnorePath = StaticIgnorePath();
-				if(!await ioManager.FileExists(staticIgnorePath, cancellationToken).ConfigureAwait(false))
-					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
-			}
-
-			await Task.WhenAll(ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken), ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken), ValidateStaticFolder()).ConfigureAwait(false);
-		}
-
 		/// <inheritdoc />
 		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
@@ -198,20 +197,6 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 				return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
 			}
-		}
-
-		string ValidateConfigRelativePath(string configurationRelativePath)
-		{
-			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
-			if (nullOrEmptyCheck)
-				configurationRelativePath = DefaultIOManager.CurrentDirectory;
-			if (configurationRelativePath[0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
-				configurationRelativePath = DefaultIOManager.CurrentDirectory + configurationRelativePath;
-			var resolved = ioManager.ResolvePath(configurationRelativePath);
-			var local = !nullOrEmptyCheck ? ioManager.ResolvePath() : null;
-			if (!nullOrEmptyCheck && resolved.Length < local.Length) // .. fuccbois
-				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
-			return resolved;
 		}
 
 		/// <inheritdoc />
@@ -323,7 +308,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							IsDirectory = false,
 							LastReadHash = originalSha,
 							AccessDenied = false,
-							Path = configurationRelativePath
+							Path = configurationRelativePath,
 						};
 					}
 					catch (UnauthorizedAccessException)
@@ -334,7 +319,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						{
 							isDirectory = synchronousIOManager.IsDirectory(path);
 						}
-						catch(Exception ex)
+						catch (Exception ex)
 						{
 							logger.LogDebug(ex, "IsDirectory exception!");
 							isDirectory = false;
@@ -342,7 +327,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 						result = new ConfigurationFileResponse
 						{
-							Path = configurationRelativePath
+							Path = configurationRelativePath,
 						};
 						if (!isDirectory)
 							result.AccessDenied = true;
@@ -466,9 +451,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 								if (!success)
 									fileTicket.SetErrorMessage(new ErrorMessageResponse(ErrorCode.ConfigurationFileUpdated)
 									{
-										AdditionalData = fileHash
+										AdditionalData = fileHash,
 									});
-								else if(uploadStream.Length > 0)
+								else if (uploadStream.Length > 0)
 									postWriteHandler.HandleWrite(path);
 							}
 						}
@@ -479,7 +464,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							LastReadHash = previousHash,
 							IsDirectory = false,
 							AccessDenied = false,
-							Path = configurationRelativePath
+							Path = configurationRelativePath,
 						};
 
 						lock (disposeCts)
@@ -493,7 +478,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						{
 							isDirectory = synchronousIOManager.IsDirectory(path);
 						}
-						catch(Exception ex)
+						catch (Exception ex)
 						{
 							logger.LogDebug(ex, "IsDirectory exception!");
 							isDirectory = false;
@@ -501,7 +486,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 						result = new ConfigurationFileResponse
 						{
-							Path = configurationRelativePath
+							Path = configurationRelativePath,
 						};
 						if (!isDirectory)
 							result.AccessDenied = true;
@@ -571,11 +556,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					return;
 				}
 
-				foreach (var I in scriptFiles)
+				foreach (var scriptFile in scriptFiles)
 				{
-					logger.LogTrace("Running event script {0}...", I);
+					logger.LogTrace("Running event script {0}...", scriptFile);
 					using (var script = processExecutor.LaunchProcess(
-						ioManager.ConcatPath(resolvedScriptsDir, I),
+						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
 						resolvedScriptsDir,
 						String.Join(
 							' ',
@@ -597,7 +582,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						cancellationToken.ThrowIfCancellationRequested();
 						var scriptOutput = await script.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
 						if (exitCode != 0)
-							throw new JobException($"Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
+							throw new JobException($"Script {scriptFile} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
 						else
 							logger.LogDebug("Script output:{0}{1}", Environment.NewLine, scriptOutput);
 					}
@@ -623,6 +608,49 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			}
 
 			return result;
+		}
+
+		/// <summary>
+		/// Get the proper path to <see cref="StaticIgnoreFile"/>.
+		/// </summary>
+		/// <returns>The <see cref="ioManager"/> relative path to <see cref="StaticIgnoreFile"/>.</returns>
+		string StaticIgnorePath() => ioManager.ConcatPath(GameStaticFilesSubdirectory, StaticIgnoreFile);
+
+		/// <summary>
+		/// Ensures standard configuration directories exist.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task EnsureDirectories(CancellationToken cancellationToken)
+		{
+			async Task ValidateStaticFolder()
+			{
+				await ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken).ConfigureAwait(false);
+				var staticIgnorePath = StaticIgnorePath();
+				if (!await ioManager.FileExists(staticIgnorePath, cancellationToken).ConfigureAwait(false))
+					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+			}
+
+			await Task.WhenAll(ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken), ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken), ValidateStaticFolder()).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Resolve a given <paramref name="configurationRelativePath"/> to it's full path or throw an <see cref="InvalidOperationException"/> if it violates rules.
+		/// </summary>
+		/// <param name="configurationRelativePath">A relative path in the instance's configuration directory.</param>
+		/// <returns>The full on-disk path of <paramref name="configurationRelativePath"/>.</returns>
+		string ValidateConfigRelativePath(string configurationRelativePath)
+		{
+			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
+			if (nullOrEmptyCheck)
+				configurationRelativePath = DefaultIOManager.CurrentDirectory;
+			if (configurationRelativePath[0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
+				configurationRelativePath = DefaultIOManager.CurrentDirectory + configurationRelativePath;
+			var resolved = ioManager.ResolvePath(configurationRelativePath);
+			var local = !nullOrEmptyCheck ? ioManager.ResolvePath() : null;
+			if (!nullOrEmptyCheck && resolved.Length < local.Length) // .. fuccbois
+				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
+			return resolved;
 		}
 	}
 }

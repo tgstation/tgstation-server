@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
@@ -16,12 +17,12 @@ namespace Tgstation.Server.Host.Models
 		public const string TgsSystemUserName = "TGS";
 
 		/// <summary>
-		/// The hash of the user's password
+		/// The hash of the user's password.
 		/// </summary>
 		public string PasswordHash { get; set; }
 
 		/// <summary>
-		/// See <see cref="UserResponse"/>
+		/// See <see cref="UserResponse"/>.
 		/// </summary>
 		public User CreatedBy { get; set; }
 
@@ -41,29 +42,29 @@ namespace Tgstation.Server.Host.Models
 		public PermissionSet PermissionSet { get; set; }
 
 		/// <summary>
-		/// The uppercase invariant of <see cref="UserName.Name"/>
+		/// The uppercase invariant of <see cref="UserName.Name"/>.
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public string CanonicalName { get; set; }
 
 		/// <summary>
-		/// When <see cref="PasswordHash"/> was last changed
+		/// When <see cref="PasswordHash"/> was last changed.
 		/// </summary>
 		public DateTimeOffset? LastPasswordUpdate { get; set; }
 
 		/// <summary>
-		/// <see cref="User"/>s created by this <see cref="User"/>
+		/// <see cref="User"/>s created by this <see cref="User"/>.
 		/// </summary>
 		public ICollection<User> CreatedUsers { get; set; }
 
 		/// <summary>
-		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>
+		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
 		public ICollection<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>
+		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
 		public ICollection<OAuthConnection> OAuthConnections { get; set; }
 
@@ -73,6 +74,9 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="name">The <see cref="UserName.Name"/>.</param>
 		/// <returns>The <see cref="CanonicalName"/>.</returns>
 		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
+
+		/// <inheritdoc />
+		public UserResponse ToApi() => CreateUserResponse(true);
 
 		/// <summary>
 		/// Generate a <see cref="UserResponse"/> from <see langword="this"/>.
@@ -95,8 +99,5 @@ namespace Tgstation.Server.Host.Models
 			result.PermissionSet = PermissionSet?.ToApi();
 			return result;
 		}
-
-		/// <inheritdoc />
-		public UserResponse ToApi() => CreateUserResponse(true);
 	}
 }

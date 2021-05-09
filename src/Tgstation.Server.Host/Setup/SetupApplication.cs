@@ -1,8 +1,10 @@
+﻿using System;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
-using System;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
@@ -28,12 +30,12 @@ namespace Tgstation.Server.Host.Setup
 		protected static readonly IAssemblyInformationProvider AssemblyInformationProvider = new AssemblyInformationProvider();
 
 		/// <summary>
-		/// The <see cref="IConfiguration"/> for the <see cref="SetupApplication"/>
+		/// The <see cref="IConfiguration"/> for the <see cref="SetupApplication"/>.
 		/// </summary>
 		protected IConfiguration Configuration { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SetupApplication"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="SetupApplication"/> class.
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="Configuration"/>.</param>
 		public SetupApplication(IConfiguration configuration)

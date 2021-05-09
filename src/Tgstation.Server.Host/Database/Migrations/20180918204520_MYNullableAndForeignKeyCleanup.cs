@@ -1,10 +1,11 @@
 ﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Cleans up of nullable columns and foreign keys MySQL/MariaDB
+	/// Cleans up of nullable columns and foreign keys MySQL/MariaDB.
 	/// </summary>
 	public partial class MYNullableAndForeignKeyCleanup : Migration
 	{

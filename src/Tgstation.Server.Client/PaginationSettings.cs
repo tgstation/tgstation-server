@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Client
+﻿namespace Tgstation.Server.Client
 {
 	/// <summary>
 	/// Settings for a paginated request.

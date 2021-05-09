@@ -12,7 +12,8 @@ namespace Tgstation.Server.Host.Components.Events.Tests
 		public void TestAllEventTypesHaveUniqueEventScriptAttributes()
 		{
 			var allScripts = new HashSet<string>();
-			foreach (var eventType in Enum.GetValues(typeof(EventType))) {
+			foreach (var eventType in Enum.GetValues(typeof(EventType)))
+			{
 				var list = typeof(EventType)
 					.GetField(eventType.ToString())
 					.GetCustomAttributes(false)
@@ -23,6 +24,6 @@ namespace Tgstation.Server.Host.Components.Events.Tests
 				var attribute = list.First();
 				Assert.IsTrue(allScripts.Add(attribute.ScriptName), $"Non-unique script Name: {attribute.ScriptName}");
 			}
-   		}
+		}
 	}
 }

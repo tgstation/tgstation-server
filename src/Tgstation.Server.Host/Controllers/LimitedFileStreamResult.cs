@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -19,7 +20,7 @@ namespace Tgstation.Server.Host.Controllers
 		public FileStream FileStream { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="LimitedFileStreamResult"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="LimitedFileStreamResult"/> class.
 		/// </summary>
 		/// <param name="stream">The value of <see cref="FileStream"/>.</param>
 		public LimitedFileStreamResult(FileStream stream)

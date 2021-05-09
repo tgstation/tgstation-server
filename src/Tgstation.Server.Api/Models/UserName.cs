@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models
+﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Base class for user names.
@@ -14,6 +14,12 @@ namespace Tgstation.Server.Api.Models
 		}
 
 		/// <summary>
+		/// Create a copy of the <see cref="UserName"/>.
+		/// </summary>
+		/// <returns>A new <see cref="UserName"/> copied from <see langword="this"/>.</returns>
+		public UserName CreateUserName() => CreateUserName<UserName>();
+
+		/// <summary>
 		/// Create a copy of the <see cref="UserName"/> as a given <typeparamref name="TResultType"/>.
 		/// </summary>
 		/// <typeparam name="TResultType">The child of <see cref="UserName"/> to create.</typeparam>
@@ -21,13 +27,7 @@ namespace Tgstation.Server.Api.Models
 		protected virtual TResultType CreateUserName<TResultType>() where TResultType : UserName, new() => new TResultType
 		{
 			Id = Id,
-			Name = Name
+			Name = Name,
 		};
-
-		/// <summary>
-		/// Create a copy of the <see cref="UserName"/>.
-		/// </summary>
-		/// <returns>A new <see cref="UserName"/> copied from <see langword="this"/>.</returns>
-		public UserName CreateUserName() => CreateUserName<UserName>();
 	}
 }

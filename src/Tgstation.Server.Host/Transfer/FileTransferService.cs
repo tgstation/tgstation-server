@@ -1,9 +1,11 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Core;
@@ -69,7 +71,7 @@ namespace Tgstation.Server.Host.Transfer
 		Task expireTask;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FileTransferService"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="FileTransferService"/> class.
 		/// </summary>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
@@ -113,42 +115,6 @@ namespace Tgstation.Server.Host.Transfer
 			await toAwait.ConfigureAwait(false);
 		}
 
-		/// <summary>
-		/// Creates a new <see cref="FileTicketResponse"/>.
-		/// </summary>
-		/// <returns>A new <see cref="FileTicketResponse"/>.</returns>
-		FileTicketResponse CreateTicket() => new FileTicketResponse
-		{
-			FileTicket = cryptographySuite.GetSecureString()
-		};
-
-		void QueueExpiry(Action expireAction)
-		{
-			Task oldExpireTask;
-			async Task ExpireAsync()
-			{
-				var expireAt = DateTimeOffset.UtcNow + TimeSpan.FromMinutes(TicketValidityMinutes);
-				try
-				{
-					await oldExpireTask.WithToken(disposeCts.Token).ConfigureAwait(false);
-
-					var now = DateTimeOffset.UtcNow;
-					if (now < expireAt)
-						await asyncDelayer.Delay(expireAt - now, disposeCts.Token).ConfigureAwait(false);
-				}
-				finally
-				{
-					expireAction();
-				}
-			}
-
-			lock (synchronizationLock)
-			{
-				oldExpireTask = expireTask;
-				expireTask = ExpireAsync();
-			}
-		}
-
 		/// <inheritdoc />
 		public FileTicketResponse CreateDownload(FileDownloadProvider downloadProvider)
 		{
@@ -164,7 +130,7 @@ namespace Tgstation.Server.Host.Transfer
 			QueueExpiry(() =>
 			{
 				lock (downloadTickets)
-					if(downloadTickets.Remove(ticketResult.FileTicket))
+					if (downloadTickets.Remove(ticketResult.FileTicket))
 						logger.LogTrace("Expired download ticket {0}...", ticketResult.FileTicket);
 			});
 
@@ -237,7 +203,7 @@ namespace Tgstation.Server.Host.Transfer
 					null,
 					new ErrorMessageResponse(ErrorCode.IOError)
 					{
-						AdditionalData = ex.ToString()
+						AdditionalData = ex.ToString(),
 					});
 			}
 
@@ -272,6 +238,46 @@ namespace Tgstation.Server.Host.Transfer
 			}
 
 			return await uploadProvider.Completion(stream, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Creates a new <see cref="FileTicketResponse"/>.
+		/// </summary>
+		/// <returns>A new <see cref="FileTicketResponse"/>.</returns>
+		FileTicketResponse CreateTicket() => new FileTicketResponse
+		{
+			FileTicket = cryptographySuite.GetSecureString(),
+		};
+
+		/// <summary>
+		/// Queue an <paramref name="expireAction"/> to run after <see cref="TicketValidityMinutes"/>.
+		/// </summary>
+		/// <param name="expireAction">The <see cref="Action"/> to take after <see cref="TicketValidityMinutes"/>.</param>
+		void QueueExpiry(Action expireAction)
+		{
+			Task oldExpireTask;
+			async Task ExpireAsync()
+			{
+				var expireAt = DateTimeOffset.UtcNow + TimeSpan.FromMinutes(TicketValidityMinutes);
+				try
+				{
+					await oldExpireTask.WithToken(disposeCts.Token).ConfigureAwait(false);
+
+					var now = DateTimeOffset.UtcNow;
+					if (now < expireAt)
+						await asyncDelayer.Delay(expireAt - now, disposeCts.Token).ConfigureAwait(false);
+				}
+				finally
+				{
+					expireAction();
+				}
+			}
+
+			lock (synchronizationLock)
+			{
+				oldExpireTask = expireTask;
+				expireTask = ExpireAsync();
+			}
 		}
 	}
 }

@@ -1,12 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -26,29 +28,29 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class UserController : ApiController
 	{
 		/// <summary>
-		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="UserController"/>
+		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="UserController"/>.
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="UserController"/>
+		/// The <see cref="ICryptographySuite"/> for the <see cref="UserController"/>.
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserController"/>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// Construct a <see cref="UserController"/>
+		/// Initializes a new instance of the <see cref="UserController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
-		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
+		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public UserController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -65,43 +67,6 @@ namespace Tgstation.Server.Host.Controllers
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-		}
-
-		/// <summary>
-		/// Check if a given <paramref name="model"/> has a valid <see cref="UserName.Name"/> specified.
-		/// </summary>
-		/// <param name="model">The <see cref="UserUpdateRequest"/> to check.</param>
-		/// <param name="newUser">If this is a new <see cref="UserResponse"/>.</param>
-		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
-		BadRequestObjectResult CheckValidName(UserUpdateRequest model, bool newUser)
-		{
-			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
-			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
-				return BadRequest(new ErrorMessageResponse(ErrorCode.UserMissingName));
-
-			model.Name = model.Name?.Trim();
-			if (model.Name != null && model.Name.Contains(':', StringComparison.InvariantCulture))
-				return BadRequest(new ErrorMessageResponse(ErrorCode.UserColonInName));
-			return null;
-		}
-
-		/// <summary>
-		/// Attempt to change the password of a given <paramref name="dbUser"/>.
-		/// </summary>
-		/// <param name="dbUser">The user to update.</param>
-		/// <param name="newPassword">The new password.</param>
-		/// <param name="newUser">If this is for a new <see cref="UserResponse"/>.</param>
-		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
-		BadRequestObjectResult TrySetPassword(User dbUser, string newPassword, bool newUser)
-		{
-			newPassword ??= String.Empty;
-			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)
-				return BadRequest(new ErrorMessageResponse(ErrorCode.UserPasswordLength)
-				{
-					AdditionalData = $"Required password length: {generalConfiguration.MinimumPasswordLength}"
-				});
-			cryptographySuite.SetUserPassword(dbUser, newPassword, newUser);
-			return null;
 		}
 
 		/// <summary>
@@ -287,7 +252,7 @@ namespace Tgstation.Server.Host.Controllers
 					originalUser.OAuthConnections.Add(new Models.OAuthConnection
 					{
 						Provider = updatedConnection.Provider,
-						ExternalUserId = updatedConnection.ExternalUserId
+						ExternalUserId = updatedConnection.ExternalUserId,
 					});
 			}
 
@@ -464,11 +429,48 @@ namespace Tgstation.Server.Host.Controllers
 					?.Select(x => new Models.OAuthConnection
 					{
 						Provider = x.Provider,
-						ExternalUserId = x.ExternalUserId
+						ExternalUserId = x.ExternalUserId,
 					})
 					.ToList()
 					?? new List<Models.OAuthConnection>(),
 			};
+		}
+
+		/// <summary>
+		/// Check if a given <paramref name="model"/> has a valid <see cref="UserName.Name"/> specified.
+		/// </summary>
+		/// <param name="model">The <see cref="UserUpdateRequest"/> to check.</param>
+		/// <param name="newUser">If this is a new <see cref="UserResponse"/>.</param>
+		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
+		BadRequestObjectResult CheckValidName(UserUpdateRequest model, bool newUser)
+		{
+			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
+			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserMissingName));
+
+			model.Name = model.Name?.Trim();
+			if (model.Name != null && model.Name.Contains(':', StringComparison.InvariantCulture))
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserColonInName));
+			return null;
+		}
+
+		/// <summary>
+		/// Attempt to change the password of a given <paramref name="dbUser"/>.
+		/// </summary>
+		/// <param name="dbUser">The user to update.</param>
+		/// <param name="newPassword">The new password.</param>
+		/// <param name="newUser">If this is for a new <see cref="UserResponse"/>.</param>
+		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
+		BadRequestObjectResult TrySetPassword(User dbUser, string newPassword, bool newUser)
+		{
+			newPassword ??= String.Empty;
+			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserPasswordLength)
+				{
+					AdditionalData = $"Required password length: {generalConfiguration.MinimumPasswordLength}",
+				});
+			cryptographySuite.SetUserPassword(dbUser, newPassword, newUser);
+			return null;
 		}
 	}
 }

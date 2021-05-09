@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// <see cref="ChatConnectionStringBuilder"/> for <see cref="ChatProvider.Irc"/>
+	/// <see cref="ChatConnectionStringBuilder"/> for <see cref="ChatProvider.Irc"/>.
 	/// </summary>
 	public sealed class IrcConnectionStringBuilder : ChatConnectionStringBuilder
 	{
@@ -14,44 +15,46 @@ namespace Tgstation.Server.Api.Models
 		public override bool Valid => Address != null && Port.HasValue && Port != 0 && UseSsl.HasValue && (PasswordType.HasValue ^ Password == null);
 
 		/// <summary>
-		/// The IP address or URL of the IRC server
+		/// The IP address or URL of the IRC server.
 		/// </summary>
 		public string? Address { get; set; }
 
 		/// <summary>
-		/// The port the server runs on
+		/// The port the server runs on.
 		/// </summary>
 		public ushort? Port { get; set; }
 
 		/// <summary>
-		/// The nickname for the bot to use
+		/// The nickname for the bot to use.
 		/// </summary>
 		public string? Nickname { get; set; }
 
 		/// <summary>
-		/// If the connection should be made using SSL
+		/// If the connection should be made using SSL.
 		/// </summary>
 		public bool? UseSsl { get; set; }
 
 		/// <summary>
-		/// The optional <see cref="IrcPasswordType"/> to use
+		/// The optional <see cref="IrcPasswordType"/> to use.
 		/// </summary>
 		public IrcPasswordType? PasswordType { get; set; }
 
 		/// <summary>
-		/// The optional password to use
+		/// The optional password to use.
 		/// </summary>
 		public string? Password { get; set; }
 
 		/// <summary>
-		/// Construct an <see cref="IrcConnectionStringBuilder"/>
+		/// Initializes a new instance of the <see cref="IrcConnectionStringBuilder"/> class.
 		/// </summary>
-		public IrcConnectionStringBuilder() { }
+		public IrcConnectionStringBuilder()
+		{
+		}
 
 		/// <summary>
-		/// Construct a <see cref="DiscordConnectionStringBuilder"/> from a <paramref name="connectionString"/>
+		/// Initializes a new instance of the <see cref="IrcConnectionStringBuilder"/> class.
 		/// </summary>
-		/// <param name="connectionString">The connection string</param>
+		/// <param name="connectionString">The connection string.</param>
 		public IrcConnectionStringBuilder(string connectionString)
 		{
 			if (connectionString == null)
@@ -109,8 +112,10 @@ namespace Tgstation.Server.Api.Models
 			sb.Append(';');
 			sb.Append(Nickname);
 			sb.Append(';');
-			if(UseSsl.HasValue)
+
+			if (UseSsl.HasValue)
 				sb.Append(Convert.ToInt32(UseSsl.Value));
+
 			if (PasswordType.HasValue)
 			{
 				sb.Append(';');

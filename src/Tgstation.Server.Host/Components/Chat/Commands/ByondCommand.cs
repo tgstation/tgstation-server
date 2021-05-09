@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -10,7 +11,7 @@ using Tgstation.Server.Host.Components.Watchdog;
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
-	/// For displaying the installed Byond version
+	/// For displaying the installed Byond version.
 	/// </summary>
 	sealed class ByondCommand : ICommand
 	{
@@ -24,20 +25,20 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly => false;
 
 		/// <summary>
-		/// The <see cref="IByondManager"/> for the <see cref="ByondCommand"/>
+		/// The <see cref="IByondManager"/> for the <see cref="ByondCommand"/>.
 		/// </summary>
 		readonly IByondManager byondManager;
 
 		/// <summary>
-		/// The <see cref="IWatchdog"/> for the <see cref="ByondCommand"/>
+		/// The <see cref="IWatchdog"/> for the <see cref="ByondCommand"/>.
 		/// </summary>
 		readonly IWatchdog watchdog;
 
 		/// <summary>
-		/// Construct a <see cref="ByondCommand"/>
+		/// Initializes a new instance of the <see cref="ByondCommand"/> class.
 		/// </summary>
-		/// <param name="byondManager">The value of <see cref="byondManager"/></param>
-		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
+		/// <param name="byondManager">The value of <see cref="byondManager"/>.</param>
+		/// <param name="watchdog">The value of <see cref="watchdog"/>.</param>
 		public ByondCommand(IByondManager byondManager, IWatchdog watchdog)
 		{
 			this.byondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));

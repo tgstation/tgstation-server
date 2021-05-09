@@ -1,26 +1,27 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	#pragma warning disable CA1724 // naming conflict with gitlab package
+#pragma warning disable CA1724 // naming conflict with gitlab package
 	public sealed class Job : Api.Models.Internal.Job, IApiTransformable<JobResponse>
-	#pragma warning restore CA1724
+#pragma warning restore CA1724
 	{
 		/// <summary>
-		/// See <see cref="JobResponse.StartedBy"/>
+		/// See <see cref="JobResponse.StartedBy"/>.
 		/// </summary>
 		[Required]
 		public User StartedBy { get; set; }
 
 		/// <summary>
-		/// See <see cref="JobResponse.CancelledBy"/>
+		/// See <see cref="JobResponse.CancelledBy"/>.
 		/// </summary>
 		public User CancelledBy { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.Instance"/> the job belongs to if any
+		/// The <see cref="Models.Instance"/> the job belongs to if any.
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
@@ -38,7 +39,7 @@ namespace Tgstation.Server.Host.Models
 			Description = Description,
 			ExceptionDetails = ExceptionDetails,
 			ErrorCode = ErrorCode,
-			StartedBy = StartedBy.CreateUserName()
+			StartedBy = StartedBy.CreateUserName(),
 		};
 	}
 }

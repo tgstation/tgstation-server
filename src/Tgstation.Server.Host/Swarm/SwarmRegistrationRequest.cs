@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Swarm

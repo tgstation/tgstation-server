@@ -1,6 +1,9 @@
+﻿using System;
+
 using Newtonsoft.Json;
-using System;
+
 using Tgstation.Server.Api;
+
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;

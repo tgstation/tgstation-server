@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
-	/// Represents a command made from DM code
+	/// Represents a command made from DM code.
 	/// </summary>
 	public sealed class CustomCommand : ICommand
 	{
@@ -19,14 +19,14 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly { get; set; }
 
 		/// <summary>
-		/// The <see cref="ICustomCommandHandler"/> for the <see cref="CustomCommand"/>
+		/// The <see cref="ICustomCommandHandler"/> for the <see cref="CustomCommand"/>.
 		/// </summary>
 		ICustomCommandHandler handler;
 
 		/// <summary>
-		/// Set a new <paramref name="handler"/>
+		/// Set a new <paramref name="handler"/>.
 		/// </summary>
-		/// <param name="handler">The value of <see cref="handler"/></param>
+		/// <param name="handler">The value of <see cref="handler"/>.</param>
 		public void SetHandler(ICustomCommandHandler handler)
 		{
 			if (this.handler != null)

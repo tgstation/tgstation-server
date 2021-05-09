@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Security.OAuth
@@ -29,11 +30,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public string GrantType { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuthTokenRequest"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="OAuthTokenRequest"/> class.
 		/// </summary>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> to build from.</param>
 		/// <param name="code">The value of <see cref="Code"/>.</param>
-		/// <param name="scope">The value of <see cref="Scope"/></param>
+		/// <param name="scope">The value of <see cref="Scope"/>.</param>
 		public OAuthTokenRequest(OAuthConfiguration oAuthConfiguration, string code, string scope)
 			: base(oAuthConfiguration)
 		{

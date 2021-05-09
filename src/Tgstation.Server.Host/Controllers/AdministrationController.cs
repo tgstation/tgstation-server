@@ -1,14 +1,16 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Octokit;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Octokit;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -26,40 +28,43 @@ using Tgstation.Server.Host.Transfer;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for <see cref="AdministrationResponse"/> purposes
+	/// <see cref="ApiController"/> for TGS administration purposes.
 	/// </summary>
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ApiController
 	{
+		/// <summary>
+		/// Default <see cref="Exception.Message"/> for <see cref="ApiException"/>s.
+		/// </summary>
 		const string OctokitException = "Bad GitHub API response, check configuration!";
 
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IGitHubClientFactory"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly IGitHubClientFactory gitHubClientFactory;
 
 		/// <summary>
-		/// The <see cref="IServerControl"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IServerControl"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly IServerControl serverControl;
 
 		/// <summary>
-		/// The <see cref="IServerUpdateInitiator"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IServerUpdateInitiator"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly IServerUpdateInitiator serverUpdater;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IIOManager"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
@@ -69,30 +74,30 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
-		/// The <see cref="UpdatesConfiguration"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="UpdatesConfiguration"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly UpdatesConfiguration updatesConfiguration;
 
 		/// <summary>
-		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly FileLoggingConfiguration fileLoggingConfiguration;
 
 		/// <summary>
-		/// Construct an <see cref="AdministrationController"/>
+		/// Initializes a new instance of the <see cref="AdministrationController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
-		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/>.</param>
+		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/>.</param>
 		public AdministrationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -159,8 +164,8 @@ namespace Tgstation.Server.Host.Controllers
 							updatesConfiguration.GitTagPrefix,
 							StringComparison.InvariantCulture));
 
-					foreach (var I in releases)
-						if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
+					foreach (var release in releases)
+						if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
 							&& version.Major == assemblyInformationProvider.Version.Major
 							&& (greatestVersion == null || version > greatestVersion))
 							greatestVersion = version;
@@ -186,7 +191,7 @@ namespace Tgstation.Server.Host.Controllers
 				Logger.LogWarning(e, OctokitException);
 				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
 				{
-					AdditionalData = e.Message
+					AdditionalData = e.Message,
 				});
 			}
 		}
@@ -217,7 +222,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.NewVersion == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure)
 				{
-					AdditionalData = "newVersion is required!"
+					AdditionalData = "newVersion is required!",
 				});
 
 			if (model.NewVersion.Major != assemblyInformationProvider.Version.Major)
@@ -237,7 +242,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				return Accepted(new ServerUpdateResponse
 				{
-					NewVersion = model.NewVersion
+					NewVersion = model.NewVersion,
 				});
 			}
 			catch (RateLimitExceededException e)
@@ -249,7 +254,7 @@ namespace Tgstation.Server.Host.Controllers
 				Logger.LogWarning(e, OctokitException);
 				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
 				{
-					AdditionalData = e.Message
+					AdditionalData = e.Message,
 				});
 			}
 		}
@@ -257,7 +262,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Attempts to restart the server.
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="204">Restart begun successfully.</response>
 		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
 		[HttpDelete]
@@ -312,7 +317,7 @@ namespace Tgstation.Server.Host.Controllers
 									.GetLastModified(
 										ioManager.ConcatPath(path, file),
 										cancellationToken)
-										.ConfigureAwait(false)
+										.ConfigureAwait(false),
 							})
 							.ToList();
 
@@ -329,7 +334,7 @@ namespace Tgstation.Server.Host.Controllers
 						return new PaginatableResult<LogFileResponse>(
 							Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 							{
-								AdditionalData = ex.ToString()
+								AdditionalData = ex.ToString(),
 							}));
 					}
 				},
@@ -380,14 +385,14 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Name = path,
 					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken).ConfigureAwait(false),
-					FileTicket = fileTransferTicket.FileTicket
+					FileTicket = fileTransferTicket.FileTicket,
 				});
 			}
 			catch (IOException ex)
 			{
 				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
-					AdditionalData = ex.ToString()
+					AdditionalData = ex.ToString(),
 				});
 			}
 		}

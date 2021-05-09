@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
@@ -39,7 +40,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.Annotation("Sqlite:Autoincrement", true),
 					CommitSha = table.Column<string>(maxLength: 40, nullable: false),
 					OriginCommitSha = table.Column<string>(maxLength: 40, nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{

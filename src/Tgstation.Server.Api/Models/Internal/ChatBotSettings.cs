@@ -1,15 +1,15 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Manage the server chat bots
+	/// Manage the server chat bots.
 	/// </summary>
 	public abstract class ChatBotSettings : NamedEntity
 	{
 		/// <summary>
-		/// If the connection is enabled
+		/// If the connection is enabled.
 		/// </summary>
 		public bool? Enabled { get; set; }
 
@@ -27,7 +27,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public ushort? ChannelLimit { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatProvider"/> used for the connection
+		/// The <see cref="ChatProvider"/> used for the connection.
 		/// </summary>
 		[Required]
 		[RequestOptions(FieldPresence.Required, PutOnly = true)]
@@ -35,7 +35,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public ChatProvider? Provider { get; set; }
 
 		/// <summary>
-		/// The information used to connect to the <see cref="Provider"/>
+		/// The information used to connect to the <see cref="Provider"/>.
 		/// </summary>
 		[Required]
 		[RequestOptions(FieldPresence.Required, PutOnly = true)]

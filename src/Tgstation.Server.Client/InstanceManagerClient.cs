@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -14,12 +15,13 @@ namespace Tgstation.Server.Client
 	sealed class InstanceManagerClient : PaginatedClient, IInstanceManagerClient
 	{
 		/// <summary>
-		/// Construct an <see cref="InstanceManagerClient"/>
+		/// Initializes a new instance of the <see cref="InstanceManagerClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
 		public InstanceManagerClient(IApiClient apiClient)
 			: base(apiClient)
-		{ }
+		{
+		}
 
 		/// <inheritdoc />
 		public Task<InstanceResponse> CreateOrAttach(InstanceCreateRequest instance, CancellationToken cancellationToken) => ApiClient.Create<InstanceCreateRequest, InstanceResponse>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);

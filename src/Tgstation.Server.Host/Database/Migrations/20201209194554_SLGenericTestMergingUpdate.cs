@@ -1,5 +1,6 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -57,7 +58,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					DMApiMinorVersion = table.Column<int>(nullable: true),
 					DMApiPatchVersion = table.Column<int>(nullable: true),
 					GitHubDeploymentId = table.Column<long>(nullable: true),
-					GitHubRepoId = table.Column<long>(nullable: true)
+					GitHubRepoId = table.Column<long>(nullable: true),
 				},
 				constraints: table =>
 				{

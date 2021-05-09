@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models
+﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Common base of entities with IDs.

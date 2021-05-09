@@ -1,6 +1,7 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -52,7 +53,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-					Name = table.Column<string>(maxLength: 100, nullable: false)
+					Name = table.Column<string>(maxLength: 100, nullable: false),
 				},
 				constraints: table =>
 				{
@@ -68,7 +69,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					AdministrationRights = table.Column<decimal>(nullable: false),
 					InstanceManagerRights = table.Column<decimal>(nullable: false),
 					UserId = table.Column<long>(nullable: true),
-					GroupId = table.Column<long>(nullable: true)
+					GroupId = table.Column<long>(nullable: true),
 				},
 				constraints: table =>
 				{
@@ -101,7 +102,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					RepositoryRights = table.Column<decimal>(nullable: false),
 					ChatBotRights = table.Column<decimal>(nullable: false),
 					ConfigurationRights = table.Column<decimal>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -240,7 +241,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					InstanceId = table.Column<long>(type: "bigint", nullable: false),
 					InstanceUserRights = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
 					RepositoryRights = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-					UserId = table.Column<long>(type: "bigint", nullable: false)
+					UserId = table.Column<long>(type: "bigint", nullable: false),
 				},
 				constraints: table =>
 				{

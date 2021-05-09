@@ -1,20 +1,20 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
-	/// Represents an error message returned by the server
+	/// Represents an error message returned by the server.
 	/// </summary>
 	public sealed class ErrorMessageResponse
 	{
 		/// <summary>
-		/// The version of the API the server is using
+		/// The version of the API the server is using.
 		/// </summary>
 		public Version? ServerApiVersion { get; set; }
 
 		/// <summary>
-		/// A human readable description of the error
+		/// A human readable description of the error.
 		/// </summary>
 		public string? Message { get; set; }
 
@@ -31,12 +31,14 @@ namespace Tgstation.Server.Api.Models.Response
 		public ErrorCode ErrorCode { get; set; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ErrorMessageResponse"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ErrorMessageResponse"/> class.
 		/// </summary>
-		public ErrorMessageResponse() { }
+		public ErrorMessageResponse()
+		{
+		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ErrorMessageResponse"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ErrorMessageResponse"/> class.
 		/// </summary>
 		/// <param name="errorCode">The <see cref="ErrorMessageResponse"/>.</param>
 		public ErrorMessageResponse(ErrorCode errorCode)

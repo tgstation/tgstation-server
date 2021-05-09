@@ -1,11 +1,13 @@
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Octokit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Octokit;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -41,7 +43,7 @@ namespace Tgstation.Server.Host.Core
 		readonly UpdatesConfiguration updatesConfiguration;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ServerUpdateInitiator"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ServerUpdateInitiator"/> class.
 		/// </summary>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>

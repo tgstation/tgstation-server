@@ -1,6 +1,8 @@
+﻿using System;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
+
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -25,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected ISymlinkFactory SymlinkFactory { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WindowsWatchdogFactory"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="WindowsWatchdogFactory"/> class.
 		/// </summary>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>.</param>

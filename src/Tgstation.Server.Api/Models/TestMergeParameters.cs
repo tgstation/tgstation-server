@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// Parameters for creating a <see cref="TestMerge"/>
+	/// Parameters for creating a <see cref="TestMerge"/>.
 	/// </summary>
 	public class TestMergeParameters
 	{
@@ -13,14 +13,14 @@ namespace Tgstation.Server.Api.Models
 		public int Number { get; set; }
 
 		/// <summary>
-		/// The sha of the test merge revision to merge. If not specified, the latest commit shall be used (semi-unsafe)
+		/// The sha of the test merge revision to merge. If not specified, the latest commit from the source will be used.
 		/// </summary>
 		[Required]
 		[StringLength(40)]
 		public virtual string? TargetCommitSha { get; set; }
 
 		/// <summary>
-		/// Optional comment about the test
+		/// Optional comment about the test.
 		/// </summary>
 		[ResponseOptions]
 		[StringLength(Limits.MaximumStringLength)]

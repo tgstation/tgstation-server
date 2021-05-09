@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -12,15 +13,15 @@ namespace Tgstation.Server.Client.Components
 	sealed class JobsClient : PaginatedClient, IJobsClient
 	{
 		/// <summary>
-		/// The <see cref="Instance"/> for the <see cref="JobsClient"/>
+		/// The <see cref="Instance"/> for the <see cref="JobsClient"/>.
 		/// </summary>
 		readonly Instance instance;
 
 		/// <summary>
-		/// Construct a <see cref="JobsClient"/>
+		/// Initializes a new instance of the <see cref="JobsClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
-		/// <param name="instance">The value of <see cref="Instance"/></param>
+		/// <param name="instance">The value of <see cref="Instance"/>.</param>
 		public JobsClient(IApiClient apiClient, Instance instance)
 			: base(apiClient)
 		{

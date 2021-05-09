@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
@@ -13,13 +15,14 @@ namespace Tgstation.Server.Host.Database
 		protected override DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.Cascade;
 
 		/// <summary>
-		/// Construct a <see cref="SqlServerDatabaseContext"/>
+		/// Initializes a new instance of the <see cref="PostgresSqlDatabaseContext"/> class.
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
 		public PostgresSqlDatabaseContext(
 			DbContextOptions<PostgresSqlDatabaseContext> dbContextOptions)
 			: base(dbContextOptions)
-		{ }
+		{
+		}
 
 		/// <summary>
 		/// Configure the <see cref="PostgresSqlDatabaseContext"/>.

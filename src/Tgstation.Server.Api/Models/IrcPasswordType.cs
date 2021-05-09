@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// Represents the type of a password for a <see cref="ChatProvider.Irc"/>
+	/// Represents the type of a password for a <see cref="ChatProvider.Irc"/>.
 	/// </summary>
 	public enum IrcPasswordType
 	{
@@ -18,6 +18,6 @@
 		/// <summary>
 		/// Use NickServ authentication
 		/// </summary>
-		NickServ
+		NickServ,
 	}
 }

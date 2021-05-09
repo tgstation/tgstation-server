@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Events
 		public string ScriptName { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="EventScriptAttribute"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="EventScriptAttribute"/> class.
 		/// </summary>
 		/// <param name="scriptName">The value of <see cref="ScriptName"/>.</param>
 		public EventScriptAttribute(string scriptName)

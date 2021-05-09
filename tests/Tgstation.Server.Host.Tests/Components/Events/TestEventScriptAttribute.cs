@@ -5,7 +5,7 @@ using System;
 namespace Tgstation.Server.Host.Components.Events.Tests
 {
 	/// <summary>
-	/// Tests for the <see cref="EventScriptAttribute"/> <see langword="class"/>.
+	/// Tests for the <see cref="EventScriptAttribute"/> class.
 	/// </summary>
 	[TestClass]
 	public sealed class TestEventScriptAttribute
