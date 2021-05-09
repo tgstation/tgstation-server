@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			nickname = ircBuilder.Nickname;
 
 			password = ircBuilder.Password;
-			passwordType = ircBuilder.PasswordType.Value;
+			passwordType = ircBuilder.PasswordType;
 
 			client = new IrcFeatures
 			{
