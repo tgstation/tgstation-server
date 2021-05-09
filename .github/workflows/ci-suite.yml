@@ -187,7 +187,9 @@ jobs:
     env:
       TGS4_TEST_DATABASE_TYPE: SqlServer
       TGS4_TEST_DUMP_API_SPEC: yes
+    concurrency: integration-${{ github.ref }
     strategy:
+      max-parallel: 1
       matrix:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
@@ -300,7 +302,9 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
+    concurrency: integration-${{ github.ref }
     strategy:
+      max-parallel: 1
       matrix:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'System' ]
