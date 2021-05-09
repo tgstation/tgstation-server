@@ -110,6 +110,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			if (assemblyInformationProvider == null)
 				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			var builder = chatBot.CreateConnectionStringBuilder();
@@ -121,7 +122,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			nickname = ircBuilder.Nickname;
 
 			password = ircBuilder.Password;
-			passwordType = ircBuilder.PasswordType.Value;
+			passwordType = ircBuilder.PasswordType;
 
 			client = new IrcFeatures
 			{
