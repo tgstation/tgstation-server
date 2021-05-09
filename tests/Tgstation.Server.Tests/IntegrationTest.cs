@@ -768,7 +768,7 @@ namespace Tgstation.Server.Tests
 					var rootTest = FailFast(new RawRequestTests().Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
-					instance = await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPreInstanceTest(cancellationToken);
+					instance = await new InstanceManagerTest(adminClient, server.Directory).RunPreInstanceTest(cancellationToken);
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
@@ -885,7 +885,7 @@ namespace Tgstation.Server.Tests
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
-					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPostTest(cancellationToken);
+					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(cancellationToken);
 				}
 			}
 			catch (ApiException ex)

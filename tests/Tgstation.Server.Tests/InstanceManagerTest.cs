@@ -1,10 +1,17 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
@@ -18,14 +25,16 @@ namespace Tgstation.Server.Tests
 	{
 		public const string TestInstanceName = "IntegrationTestInstance";
 
+		readonly IServerClient serverClient;
 		readonly IInstanceManagerClient instanceManagerClient;
 		readonly IUsersClient usersClient;
 		readonly string testRootPath;
 
-		public InstanceManagerTest(IInstanceManagerClient instanceManagerClient, IUsersClient usersClient, string testRootPath)
+		public InstanceManagerTest(IServerClient serverClient, string testRootPath)
 		{
-			this.instanceManagerClient = instanceManagerClient ?? throw new ArgumentNullException(nameof(instanceManagerClient));
-			this.usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
+			this.serverClient = serverClient ?? throw new ArgumentNullException(nameof(serverClient));
+			this.instanceManagerClient = serverClient.Instances;
+			this.usersClient = serverClient.Users;
 			this.testRootPath = testRootPath ?? throw new ArgumentNullException(nameof(testRootPath));
 		}
 
@@ -151,7 +160,43 @@ namespace Tgstation.Server.Tests
 			}, cancellationToken), ErrorCode.InstanceRelocateOnline).ConfigureAwait(false);
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
+			await RegressionTest1256(cancellationToken).ConfigureAwait(false);
+
 			return firstTest;
+		}
+
+		async Task RegressionTest1256(CancellationToken cancellationToken)
+		{
+			var allInstances = await instanceManagerClient.List(null, cancellationToken).ConfigureAwait(false);
+			Assert.IsTrue(allInstances.Count <= 6, "Need less than or 6 instances at this point");
+
+			for (var I = allInstances.Count; I < 6; ++I)
+				await instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
+				{
+					Name = $"RegressionTest1256-{I}",
+					Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
+				}, cancellationToken).ConfigureAwait(false);
+
+			var url = serverClient.Url;
+			var token = serverClient.Token.Bearer;
+			// check that 400s are returned appropriately
+			using var httpClient = new HttpClient();
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ListRoute(Routes.InstanceManager).Substring(1) + "?pageSize=2"))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RegressionTest1256", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				response.EnsureSuccessStatusCode();
+
+				var json = await response.Content.ReadAsStringAsync();
+				var paginated = JsonConvert.DeserializeObject<PaginatedResponse<InstanceResponse>>(json);
+
+				Assert.AreEqual(2, paginated.PageSize);
+				Assert.AreEqual(3, paginated.TotalPages);
+			}
 		}
 
 		public async Task RunPostTest(CancellationToken cancellationToken)
