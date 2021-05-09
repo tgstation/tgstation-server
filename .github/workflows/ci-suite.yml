@@ -187,9 +187,9 @@ jobs:
     env:
       TGS4_TEST_DATABASE_TYPE: SqlServer
       TGS4_TEST_DUMP_API_SPEC: yes
-    concurrency: integration-${{ github.ref }}
+    concurrency: integration-windows
     strategy:
-      max-parallel: 1
+      max-parallel: 2
       matrix:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
@@ -302,9 +302,9 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-    concurrency: integration-${{ github.ref }}
+    concurrency: integration-linux
     strategy:
-      max-parallel: 1
+      max-parallel: 2
       matrix:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'System' ]
@@ -787,3 +787,4 @@ jobs:
           asset_path: ./ServerUpdatePackage.zip
           asset_name: ServerUpdatePackage.zip
           asset_content_type: application/zip
+          
