@@ -231,9 +231,61 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			try
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				await client.StopAsync().ConfigureAwait(false);
-				Logger.LogTrace("Stopped.");
-				await client.LogoutAsync().ConfigureAwait(false);
+				var disconnectTcs = new TaskCompletionSource<object>();
+				Task DisconnectCallback(Exception exception)
+				{
+					if (exception != null)
+						Logger.LogTrace(exception, "Error stopping discord client!");
+
+					disconnectTcs.TrySetResult(null);
+					return Task.CompletedTask;
+				}
+
+				try
+				{
+					client.Disconnected += DisconnectCallback;
+
+					await client.StopAsync().ConfigureAwait(false);
+
+					Logger.LogTrace("Waiting for disconnect callback...");
+					using (cancellationToken.Register(() => disconnectTcs.SetCanceled()))
+						await disconnectTcs.Task.ConfigureAwait(false);
+
+					// https://github.com/discord-net/Discord.Net/blob/8afef8245cfd1f8b56956dd4b4577ed3c6904be5/src/Discord.Net.WebSocket/ConnectionManager.cs#L176
+					// State isn't set to disconnected until AFTER the callback fires
+					// Meaning if we check this.Connected right now it will still return true
+					// Yielding here will prevent this
+					await Task.Yield();
+
+					Logger.LogTrace("Stop async complete.");
+				}
+				finally
+				{
+					client.Disconnected -= DisconnectCallback;
+				}
+
+				cancellationToken.ThrowIfCancellationRequested();
+				var logoutTcs = new TaskCompletionSource<object>();
+				Task LogoutCallback()
+				{
+					logoutTcs.TrySetResult(null);
+					return Task.CompletedTask;
+				}
+
+				client.LoggedOut += LogoutCallback;
+				try
+				{
+					await client.LogoutAsync().ConfigureAwait(false);
+
+					Logger.LogTrace("Waiting for logout callback...");
+					using (cancellationToken.Register(() => logoutTcs.SetCanceled()))
+						await logoutTcs.Task.ConfigureAwait(false);
+				}
+				finally
+				{
+					client.LoggedOut -= LogoutCallback;
+				}
+
 				Logger.LogDebug("Disconnected!");
 			}
 			catch (OperationCanceledException)
