@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	sealed class DiscordProvider : Provider
 	{
 		/// <inheritdoc />
-		public override bool Connected => client.ConnectionState == ConnectionState.Connected;
+		public override bool Connected => client.ConnectionState != ConnectionState.Disconnected;
 
 		/// <inheritdoc />
 		public override string BotMention
@@ -194,10 +194,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogTrace("Logged in.");
 				cancellationToken.ThrowIfCancellationRequested();
 
-				await client.StartAsync().ConfigureAwait(false);
-
-				Logger.LogTrace("Started.");
-
 				var channelsAvailable = new TaskCompletionSource<object>();
 				Task ReadyCallback()
 				{
@@ -208,6 +204,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				client.Ready += ReadyCallback;
 				try
 				{
+					await client.StartAsync().ConfigureAwait(false);
+
+					Logger.LogTrace("Started.");
 					using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
 						await channelsAvailable.Task.ConfigureAwait(false);
 				}
