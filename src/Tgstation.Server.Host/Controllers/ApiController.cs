@@ -406,12 +406,15 @@ namespace Tgstation.Server.Host.Controllers
 				foreach (var I in finalResults)
 					resultTransformer(I);
 
+			var carryTheOne = totalResults % pageSize != 0
+				? 1
+				: 0;
 			return Json(
 				new PaginatedResponse<TResultModel>
 				{
 					Content = finalResults,
 					PageSize = pageSize,
-					TotalPages = (ushort)((totalResults / pageSize) + 1)
+					TotalPages = (ushort)(totalResults / pageSize) + carryTheOne
 				});
 		}
 	}
