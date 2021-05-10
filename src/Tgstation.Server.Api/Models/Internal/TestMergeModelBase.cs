@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Layer of test merge data required internally
+	/// Layer of test merge data required internally.
 	/// </summary>
 	public abstract class TestMergeModelBase : TestMergeParameters
 	{
@@ -35,14 +35,16 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string? Author { get; set; }
 
 		/// <summary>
-		/// Construct a <see cref="TestMergeModelBase"/>
+		/// Initializes a new instance of the <see cref="TestMergeModelBase"/> class.
 		/// </summary>
-		protected TestMergeModelBase() { }
+		protected TestMergeModelBase()
+		{
+		}
 
 		/// <summary>
-		/// Construct a <see cref="TestMergeModelBase"/> from a <paramref name="copy"/>
+		/// Initializes a new instance of the <see cref="TestMergeModelBase"/> class.
 		/// </summary>
-		/// <param name="copy">The <see cref="TestMergeModelBase"/> to copy data from</param>
+		/// <param name="copy">The <see cref="TestMergeModelBase"/> to copy data from.</param>
 		protected TestMergeModelBase(TestMergeModelBase copy)
 		{
 			if (copy == null)

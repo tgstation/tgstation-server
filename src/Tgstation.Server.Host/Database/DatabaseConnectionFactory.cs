@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.SqlClient;
+
 using Microsoft.Data.Sqlite;
 using MySql.Data.MySqlClient;
 using Npgsql;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
@@ -23,22 +25,22 @@ namespace Tgstation.Server.Host.Database
 				case DatabaseType.MySql:
 					return new MySqlConnection
 					{
-						ConnectionString = connectionString
+						ConnectionString = connectionString,
 					};
 				case DatabaseType.SqlServer:
 					return new SqlConnection
 					{
-						ConnectionString = connectionString
+						ConnectionString = connectionString,
 					};
 				case DatabaseType.Sqlite:
 					return new SqliteConnection
 					{
-						ConnectionString = connectionString
+						ConnectionString = connectionString,
 					};
 				case DatabaseType.PostgresSql:
 					return new NpgsqlConnection
 					{
-						ConnectionString = connectionString
+						ConnectionString = connectionString,
 					};
 				default:
 					throw new ArgumentOutOfRangeException(nameof(databaseType), databaseType, "Invalid DatabaseType!");

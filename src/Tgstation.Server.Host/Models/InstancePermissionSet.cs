@@ -1,4 +1,5 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
@@ -7,12 +8,12 @@ namespace Tgstation.Server.Host.Models
 	public sealed class InstancePermissionSet : Api.Models.Internal.InstancePermissionSet, IApiTransformable<InstancePermissionSetResponse>
 	{
 		/// <summary>
-		/// The row Id
+		/// The row Id.
 		/// </summary>
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="Instance"/>
+		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="Instance"/>.
 		/// </summary>
 		public long InstanceId { get; set; }
 
@@ -38,7 +39,7 @@ namespace Tgstation.Server.Host.Models
 			DreamMakerRights = DreamMakerRights,
 			RepositoryRights = RepositoryRights,
 			InstancePermissionSetRights = InstancePermissionSetRights,
-			PermissionSetId = PermissionSetId
+			PermissionSetId = PermissionSetId,
 		};
 	}
 }

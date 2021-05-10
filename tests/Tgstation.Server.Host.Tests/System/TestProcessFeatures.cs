@@ -1,9 +1,10 @@
-using Castle.Core.Logging;
+﻿using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System.Tests

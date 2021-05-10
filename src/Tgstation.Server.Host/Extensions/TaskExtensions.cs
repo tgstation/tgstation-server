@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
-	/// Extensions for the <see cref="Task"/> <see langword="class"/>.
+	/// Extensions for the <see cref="Task"/> class.
 	/// </summary>
 	static class TaskExtensions
 	{

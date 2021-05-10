@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data.SqlClient;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database.Tests

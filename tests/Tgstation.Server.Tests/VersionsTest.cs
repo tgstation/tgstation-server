@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
@@ -191,7 +192,7 @@ namespace Tgstation.Server.Tests
 				var migrationType = kvp.Key;
 				var migrationTimestamp = kvp.Value;
 
-				switch(migrationType.Name.Substring(0, 2))
+				switch (migrationType.Name.Substring(0, 2))
 				{
 					case "MS":
 						if (String.Compare(GetMigrationTimestampString(latestMigrationMS), migrationTimestamp) < 0)

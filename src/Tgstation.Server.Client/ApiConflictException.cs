@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Net.Http;
+
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
@@ -10,29 +11,36 @@ namespace Tgstation.Server.Client
 	public sealed class ApiConflictException : ApiException
 	{
 		/// <summary>
-		/// Construct an <see cref="ApiConflictException"/> using an <paramref name="errorMessage"/>
+		/// Initializes a new instance of the <see cref="ApiConflictException"/> class.
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/></param>
-		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/></param>
+		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/>.</param>
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
 		public ApiConflictException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
-		{ }
+		{
+		}
 
 		/// <summary>
-		/// Construct an <see cref="ApiConflictException"/>
+		/// Initializes a new instance of the <see cref="ApiConflictException"/> class.
 		/// </summary>
-		public ApiConflictException() { }
+		public ApiConflictException()
+		{
+		}
 
 		/// <summary>
-		/// Construct an <see cref="ApiConflictException"/> with a <paramref name="message"/>
+		/// Initializes a new instance of the <see cref="ApiConflictException"/> class.
 		/// </summary>
-		/// <param name="message">The message for the <see cref="Exception"/></param>
-		public ApiConflictException(string message) : base(message) { }
+		/// <param name="message">The message for the <see cref="Exception"/>.</param>
+		public ApiConflictException(string message) : base(message)
+		{
+		}
 
 		/// <summary>
-		/// Construct an <see cref="ApiConflictException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+		/// Initializes a new instance of the <see cref="ApiConflictException"/> class.
 		/// </summary>
-		/// <param name="message">The message for the <see cref="Exception"/></param>
-		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/></param>
-		public ApiConflictException(string message, Exception innerException) : base(message, innerException) { }
+		/// <param name="message">The message for the <see cref="Exception"/>.</param>
+		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
+		public ApiConflictException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
 	}
 }

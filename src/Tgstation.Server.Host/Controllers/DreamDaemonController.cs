@@ -1,12 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -22,7 +24,7 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for managing the <see cref="DreamDaemonResponse"/>
+	/// <see cref="ApiController"/> for managing the <see cref="DreamDaemonResponse"/>.
 	/// </summary>
 	[Route(Routes.DreamDaemon)]
 	public sealed class DreamDaemonController : InstanceRequiredController
@@ -38,14 +40,14 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPortAllocator portAllocator;
 
 		/// <summary>
-		/// Construct a <see cref="DreamDaemonController"/>
+		/// Initializes a new instance of the <see cref="DreamDaemonController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public DreamDaemonController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -84,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 					CancelRight = (ulong)DreamDaemonRights.Shutdown,
 					CancelRightsType = RightsType.DreamDaemon,
 					Instance = Instance,
-					StartedBy = AuthenticationContext.User
+					StartedBy = AuthenticationContext.User,
 				};
 				await jobManager.RegisterOperation(
 					job,
@@ -106,69 +108,6 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
-
-		/// <summary>
-		/// Implementation of <see cref="Read(CancellationToken)"/>
-		/// </summary>
-		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
-			=> WithComponentInstance(async instance =>
-			{
-				var dd = instance.Watchdog;
-
-				var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadMetadata) != 0;
-				var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadRevision) != 0;
-
-				if (settings == null)
-				{
-					settings = await DatabaseContext
-						.Instances
-						.AsQueryable()
-						.Where(x => x.Id == Instance.Id)
-						.Select(x => x.DreamDaemonSettings)
-						.FirstOrDefaultAsync(cancellationToken)
-						.ConfigureAwait(false);
-					if (settings == default)
-						return Gone();
-				}
-
-				var result = new DreamDaemonResponse();
-				if (metadata)
-				{
-					var alphaActive = dd.AlphaIsActive;
-					var llp = dd.LastLaunchParameters;
-					var rstate = dd.RebootState;
-					result.AutoStart = settings.AutoStart.Value;
-					result.CurrentPort = llp?.Port.Value;
-					result.CurrentSecurity = llp?.SecurityLevel.Value;
-					result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
-					result.Port = settings.Port.Value;
-					result.AllowWebClient = settings.AllowWebClient.Value;
-					result.Status = dd.Status;
-					result.SecurityLevel = settings.SecurityLevel.Value;
-					result.SoftRestart = rstate == RebootState.Restart;
-					result.SoftShutdown = rstate == RebootState.Shutdown;
-					result.StartupTimeout = settings.StartupTimeout.Value;
-					result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
-					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
-					result.AdditionalParameters = settings.AdditionalParameters;
-				}
-
-				if (revision)
-				{
-					var latestCompileJob = instance.LatestCompileJob();
-					result.ActiveCompileJob = ((instance.Watchdog.Status != WatchdogStatus.Offline
-						? dd.ActiveCompileJob
-						: latestCompileJob) ?? latestCompileJob)
-						?.ToApi();
-					if (latestCompileJob?.Id != result.ActiveCompileJob?.Id)
-						result.StagedCompileJob = latestCompileJob?.ToApi();
-				}
-
-				return Json(result);
-			});
 
 		/// <summary>
 		/// Stops the Watchdog if it's running.
@@ -208,8 +147,8 @@ namespace Tgstation.Server.Host.Controllers
 			| DreamDaemonRights.SetTopicTimeout)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		#pragma warning disable CA1502 // TODO: Decomplexify
-		#pragma warning disable CA1506
+#pragma warning disable CA1502 // TODO: Decomplexify
+#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] DreamDaemonResponse model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -301,8 +240,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Creates a <see cref="JobResponse"/> to restart the Watchdog. It will not start if it wasn't already running.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Restart <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
@@ -316,7 +255,7 @@ namespace Tgstation.Server.Host.Controllers
 					CancelRightsType = RightsType.DreamDaemon,
 					CancelRight = (ulong)DreamDaemonRights.Shutdown,
 					StartedBy = AuthenticationContext.User,
-					Description = "Restart Watchdog"
+					Description = "Restart Watchdog",
 				};
 
 				var watchdog = instance.Watchdog;
@@ -335,8 +274,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Creates a <see cref="JobResponse"/> to generate a DreamDaemon process dump.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202">Dump <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch(Routes.Diagnostics)]
 		[TgsAuthorize(DreamDaemonRights.CreateDump)]
@@ -350,7 +289,7 @@ namespace Tgstation.Server.Host.Controllers
 					CancelRightsType = RightsType.DreamDaemon,
 					CancelRight = (ulong)DreamDaemonRights.CreateDump,
 					StartedBy = AuthenticationContext.User,
-					Description = "Create DreamDaemon Process Dump"
+					Description = "Create DreamDaemon Process Dump",
 				};
 
 				var watchdog = instance.Watchdog;
@@ -360,9 +299,73 @@ namespace Tgstation.Server.Host.Controllers
 
 				await jobManager.RegisterOperation(
 					job,
-					(core, databaseContextFactory, paramJob, progressReporter, ct) => core.Watchdog.CreateDump(ct), cancellationToken)
+					(core, databaseContextFactory, paramJob, progressReporter, ct) => core.Watchdog.CreateDump(ct),
+					cancellationToken)
 					.ConfigureAwait(false);
 				return Accepted(job.ToApi());
+			});
+
+		/// <summary>
+		/// Implementation of <see cref="Read(CancellationToken)"/>.
+		/// </summary>
+		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
+			=> WithComponentInstance(async instance =>
+			{
+				var dd = instance.Watchdog;
+
+				var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadMetadata) != 0;
+				var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadRevision) != 0;
+
+				if (settings == null)
+				{
+					settings = await DatabaseContext
+						.Instances
+						.AsQueryable()
+						.Where(x => x.Id == Instance.Id)
+						.Select(x => x.DreamDaemonSettings)
+						.FirstOrDefaultAsync(cancellationToken)
+						.ConfigureAwait(false);
+					if (settings == default)
+						return Gone();
+				}
+
+				var result = new DreamDaemonResponse();
+				if (metadata)
+				{
+					var alphaActive = dd.AlphaIsActive;
+					var llp = dd.LastLaunchParameters;
+					var rstate = dd.RebootState;
+					result.AutoStart = settings.AutoStart.Value;
+					result.CurrentPort = llp?.Port.Value;
+					result.CurrentSecurity = llp?.SecurityLevel.Value;
+					result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
+					result.Port = settings.Port.Value;
+					result.AllowWebClient = settings.AllowWebClient.Value;
+					result.Status = dd.Status;
+					result.SecurityLevel = settings.SecurityLevel.Value;
+					result.SoftRestart = rstate == RebootState.Restart;
+					result.SoftShutdown = rstate == RebootState.Shutdown;
+					result.StartupTimeout = settings.StartupTimeout.Value;
+					result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
+					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
+					result.AdditionalParameters = settings.AdditionalParameters;
+				}
+
+				if (revision)
+				{
+					var latestCompileJob = instance.LatestCompileJob();
+					result.ActiveCompileJob = ((instance.Watchdog.Status != WatchdogStatus.Offline
+						? dd.ActiveCompileJob
+						: latestCompileJob) ?? latestCompileJob)
+						?.ToApi();
+					if (latestCompileJob?.Id != result.ActiveCompileJob?.Id)
+						result.StagedCompileJob = latestCompileJob?.ToApi();
+				}
+
+				return Json(result);
 			});
 	}
 }

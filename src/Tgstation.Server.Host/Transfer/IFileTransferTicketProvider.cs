@@ -1,4 +1,4 @@
-using Tgstation.Server.Api.Models.Response;
+﻿using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Transfer
 {

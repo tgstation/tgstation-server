@@ -1,10 +1,12 @@
-using Microsoft.Extensions.Logging;
-using Serilog.Context;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Serilog.Context;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
@@ -24,7 +26,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// Base class for <see cref="IWatchdog"/>s.
 	/// </summary>
-	#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 	abstract class WatchdogBase : IWatchdog, ICustomCommandHandler, IRestartHandler
 	{
 		/// <inheritdoc />
@@ -54,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public abstract RebootState? RebootState { get; }
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are running
+		/// <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are running.
 		/// </summary>
 		protected TaskCompletionSource<object> ActiveParametersUpdated { get; set; }
 
@@ -64,17 +66,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected ILogger<WatchdogBase> Logger { get; }
 
 		/// <summary>
-		/// The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>
+		/// The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		protected IChatManager Chat { get; }
 
 		/// <summary>
-		/// The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>
+		/// The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		protected ISessionControllerFactory SessionControllerFactory { get; }
 
 		/// <summary>
-		/// The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>
+		/// The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		protected IDmbFactory DmbFactory { get; }
 
@@ -84,7 +86,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected IAsyncDelayer AsyncDelayer { get; }
 
 		/// <summary>
-		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>
+		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>.
 		/// </summary>
 		protected IEventConsumer EventConsumer { get; }
 
@@ -104,7 +106,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly SemaphoreSlim controllerDisposeSemaphore;
 
 		/// <summary>
-		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>
+		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly ISessionPersistor sessionPersistor;
 
@@ -129,7 +131,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
-		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
+		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>.
 		/// </summary>
 		readonly bool autoStart;
 
@@ -139,12 +141,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		ReattachInformation releasedReattachInformation;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for the monitor loop
+		/// The <see cref="CancellationTokenSource"/> for the monitor loop.
 		/// </summary>
 		CancellationTokenSource monitorCts;
 
 		/// <summary>
-		/// The <see cref="Task"/> running the monitor loop
+		/// The <see cref="Task"/> running the monitor loop.
 		/// </summary>
 		Task monitorTask;
 
@@ -159,7 +161,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		int heartbeatsMissed;
 
 		/// <summary>
-		/// If the servers should be released instead of shutdown
+		/// If the servers should be released instead of shutdown.
 		/// </summary>
 		bool releaseServers;
 
@@ -169,22 +171,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool disposed;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WatchdogBase"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="WatchdogBase"/> class.
 		/// </summary>
-		/// <param name="chat">The value of <see cref="Chat"/></param>
-		/// <param name="sessionControllerFactory">The value of <see cref="SessionControllerFactory"/></param>
-		/// <param name="dmbFactory">The value of <see cref="DmbFactory"/></param>
-		/// <param name="sessionPersistor">The value of <see cref="sessionPersistor"/></param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
+		/// <param name="chat">The value of <see cref="Chat"/>.</param>
+		/// <param name="sessionControllerFactory">The value of <see cref="SessionControllerFactory"/>.</param>
+		/// <param name="dmbFactory">The value of <see cref="DmbFactory"/>.</param>
+		/// <param name="sessionPersistor">The value of <see cref="sessionPersistor"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with.</param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
 		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
-		/// <param name="logger">The value of <see cref="Logger"/></param>
-		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
-		/// <param name="metadata">The value of <see cref="metadata"/></param>
-		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
+		/// <param name="logger">The value of <see cref="Logger"/>.</param>
+		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified.</param>
+		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
+		/// <param name="autoStart">The value of <see cref="autoStart"/>.</param>
 		protected WatchdogBase(
 			IChatManager chat,
 			ISessionControllerFactory sessionControllerFactory,
@@ -254,110 +256,238 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			disposed = true;
 		}
 
-		/// <summary>
-		/// Implementation of <see cref="Terminate(bool, CancellationToken)"/>. Does not lock <see cref="synchronizationSemaphore"/>
-		/// </summary>
-		/// <param name="graceful">If <see langword="true"/> the termination will be delayed until a reboot is detected in the active server's DMAPI and this function will return immediately</param>
-		/// <param name="announce">If <see langword="true"/> the termination will be announced using <see cref="Chat"/></param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task TerminateNoLock(bool graceful, bool announce, CancellationToken cancellationToken)
+		/// <inheritdoc />
+		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
+		{
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
+			{
+				bool match = launchParameters.CanApplyWithoutReboot(ActiveLaunchParameters);
+				ActiveLaunchParameters = launchParameters;
+				if (match || Status == WatchdogStatus.Offline)
+					return;
+
+				ActiveParametersUpdated.TrySetResult(null); // queue an update
+				ActiveParametersUpdated = new TaskCompletionSource<object>();
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task<string> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
+		{
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
+			{
+				if (Status == WatchdogStatus.Offline)
+					return "TGS: Server offline!";
+
+				var commandObject = new ChatCommand(sender, commandName, arguments);
+
+				var command = new TopicParameters(commandObject);
+
+				var activeServer = GetActiveController();
+				var commandResult = await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false);
+
+				if (commandResult == null)
+					return "TGS: Bad topic exchange!";
+
+				if (commandResult.InteropResponse == null)
+					return "TGS: Bad topic response!";
+
+				return commandResult.InteropResponse.CommandResponseMessage ??
+					"TGS: Command processed but no DMAPI response returned!";
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task Launch(CancellationToken cancellationToken)
+		{
+			if (Status != WatchdogStatus.Offline)
+				throw new JobException(ErrorCode.WatchdogRunning);
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
+				await LaunchNoLock(true, true, true, null, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public virtual async Task ResetRebootState(CancellationToken cancellationToken)
+		{
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
+			{
+				if (Status == WatchdogStatus.Offline)
+					return;
+				var toClear = GetActiveController();
+				if (toClear != null)
+					await toClear.SetRebootState(Session.RebootState.Normal, cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task Restart(bool graceful, CancellationToken cancellationToken)
 		{
 			if (Status == WatchdogStatus.Offline)
-				return;
-			if (!graceful)
+				throw new JobException(ErrorCode.WatchdogNotRunning);
+
+			Logger.LogTrace("Begin Restart. Graceful: {0}", graceful);
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 			{
-				var eventTask = EventConsumer.HandleEvent(
-					releaseServers
-						? EventType.WatchdogDetach
-						: EventType.WatchdogShutdown,
-					Enumerable.Empty<string>(),
-					cancellationToken);
+				if (!graceful)
+				{
+					var chatTask = Chat.QueueWatchdogMessage("Manual restart triggered...", cancellationToken);
+					await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
+					await LaunchNoLock(true, false, true, null, cancellationToken).ConfigureAwait(false);
+					await chatTask.ConfigureAwait(false);
+					return;
+				}
 
-				var chatTask = announce ? Chat.QueueWatchdogMessage("Shutting down...", cancellationToken) : Task.CompletedTask;
+				var toReboot = GetActiveController();
+				if (toReboot != null
+					&& !await toReboot.SetRebootState(Session.RebootState.Restart, cancellationToken).ConfigureAwait(false))
+					Logger.LogWarning("Unable to send reboot state change event!");
+			}
+		}
 
-				await eventTask.ConfigureAwait(false);
-
-				await StopMonitor().ConfigureAwait(false);
-
-				LastLaunchParameters = null;
-
-				await chatTask.ConfigureAwait(false);
+		/// <inheritdoc />
+		public async Task StartAsync(CancellationToken cancellationToken)
+		{
+			var reattachInfo = await sessionPersistor.Load(cancellationToken).ConfigureAwait(false);
+			if (!autoStart && reattachInfo == null)
 				return;
-			}
 
-			// merely set the reboot state
-			var toKill = GetActiveController();
-			if (toKill != null)
+			var job = new Models.Job
 			{
-				await toKill.SetRebootState(Session.RebootState.Shutdown, cancellationToken).ConfigureAwait(false);
-				Logger.LogTrace("Graceful termination requested");
+				Instance = new Models.Instance
+				{
+					Id = metadata.Id,
+				},
+				Description = $"Instance startup watchdog {(reattachInfo != null ? "reattach" : "launch")}",
+				CancelRight = (ulong)DreamDaemonRights.Shutdown,
+				CancelRightsType = RightsType.DreamDaemon,
+			};
+			await jobManager.RegisterOperation(
+				job,
+				async (core, databaseContextFactory, paramJob, progressFunction, ct) =>
+				{
+					if (core.Watchdog != this)
+						throw new InvalidOperationException(Instance.DifferentCoreExceptionMessage);
+					using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct).ConfigureAwait(false))
+						await LaunchNoLock(true, true, true, reattachInfo, ct).ConfigureAwait(false);
+				},
+				cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task StopAsync(CancellationToken cancellationToken)
+		{
+			await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
+			if (releasedReattachInformation != null)
+			{
+				try
+				{
+					await sessionPersistor.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogCritical(
+						ex,
+						"Failed to persist session reattach information! To repair this, DreamDaemon will need to be manully stopped and then relaunched with TGS.");
+				}
+
+				releasedReattachInformation = null;
+				releaseServers = false;
 			}
+		}
+
+		/// <inheritdoc />
+		public async Task Terminate(bool graceful, CancellationToken cancellationToken)
+		{
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
+				await TerminateNoLock(graceful, !releaseServers, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
+		{
+			releaseServers = true;
+			if (Status == WatchdogStatus.Online)
+				await Chat.QueueWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
 			else
-				Logger.LogTrace("Could not gracefully terminate as there is no active controller!");
+				Logger.LogTrace("Not sending detach chat message as status is: {0}", Status);
+		}
+
+		/// <inheritdoc />
+		public abstract Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken);
+
+		/// <inheritdoc />
+		public async Task CreateDump(CancellationToken cancellationToken)
+		{
+			const string DumpDirectory = "ProcessDumps";
+			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken).ConfigureAwait(false);
+
+			var dumpFileName = diagnosticsIOManager.ResolvePath(
+				diagnosticsIOManager.ConcatPath(
+					DumpDirectory,
+					$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp"));
+
+			var session = GetActiveController();
+			if (session?.Lifetime.IsCompleted != false)
+				throw new JobException(ErrorCode.DreamDaemonOffline);
+
+			Logger.LogInformation("Dumping session to {0}...", dumpFileName);
+			await session.CreateDump(dumpFileName, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		{
+			if (parameters == null)
+				throw new ArgumentNullException(nameof(parameters));
+
+			// Method explicitly implemented to prevent accidental calls when this.eventConsumer should be used.
+			var activeServer = GetActiveController();
+
+			// Server may have ended
+			if (activeServer == null)
+				return;
+
+			var notification = new EventNotification(eventType, parameters);
+			var result = await activeServer.SendCommand(
+				new TopicParameters(notification),
+				cancellationToken)
+				.ConfigureAwait(false);
+
+			if (result?.InteropResponse?.ChatResponses != null)
+				foreach (var response in result.InteropResponse.ChatResponses)
+					Chat.QueueMessage(
+						response.Text,
+						response.ChannelIds
+							.Select(channelIdString =>
+							{
+								if (UInt64.TryParse(channelIdString, out var channelId))
+									return (ulong?)channelId;
+
+								return null;
+							})
+							.Where(nullableChannelId => nullableChannelId.HasValue)
+							.Select(nullableChannelId => nullableChannelId.Value));
 		}
 
 		/// <summary>
-		/// Handles a watchdog heartbeat.
+		/// Starts all <see cref="ISessionController"/>s.
 		/// </summary>
+		/// <param name="chatTask">A, possibly active, <see cref="Task"/> for an outgoing chat message.</param>
+		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the next <see cref="MonitorAction"/> to take.</returns>
-		async Task<MonitorAction> HandleHeartbeat(CancellationToken cancellationToken)
-		{
-			Logger.LogTrace("Sending heartbeat to active server...");
-			var activeServer = GetActiveController();
-			var response = await activeServer.SendCommand(new TopicParameters(), cancellationToken).ConfigureAwait(false);
-
-			var shouldShutdown = activeServer.RebootState == Session.RebootState.Shutdown;
-			if (response == null)
-			{
-				switch (++heartbeatsMissed)
-				{
-					case 1:
-						Logger.LogDebug("DEFCON 4: DreamDaemon missed first heartbeat!");
-						break;
-					case 2:
-						var message2 = "DEFCON 3: DreamDaemon has missed 2 heartbeats!";
-						Logger.LogInformation(message2);
-						await Chat.QueueWatchdogMessage(message2, cancellationToken).ConfigureAwait(false);
-						break;
-					case 3:
-						var actionToTake = shouldShutdown
-							? "shutdown"
-							: "be restarted";
-						var message3 = $"DEFCON 2: DreamDaemon has missed 3 heartbeats! If it does not respond to the next one, the watchdog will {actionToTake}!";
-						Logger.LogWarning(message3);
-						await Chat.QueueWatchdogMessage(message3, cancellationToken).ConfigureAwait(false);
-						break;
-					case 4:
-						var actionTaken = shouldShutdown
-							? "Shutting down due to graceful termination request"
-							: "Restarting";
-						var message4 = $"DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
-						Logger.LogWarning(message4);
-						await Chat.QueueWatchdogMessage(message4, cancellationToken).ConfigureAwait(false);
-						await DisposeAndNullControllers(cancellationToken).ConfigureAwait(false);
-						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
-					default:
-						Logger.LogError("Invalid heartbeats missed count: {0}", heartbeatsMissed);
-						break;
-				}
-			}
-			else
-				heartbeatsMissed = 0;
-
-			return MonitorAction.Continue;
-		}
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task InitControllers(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Launches the watchdog.
 		/// </summary>
-		/// <param name="startMonitor">If <see cref="MonitorLifetimes(CancellationToken)"/> should be started by this function</param>
-		/// <param name="announce">If the launch should be announced to chat by this function</param>
+		/// <param name="startMonitor">If <see cref="MonitorLifetimes(CancellationToken)"/> should be started by this function.</param>
+		/// <param name="announce">If the launch should be announced to chat by this function.</param>
 		/// <param name="announceFailure">If launch failure should be announced to chat by this function.</param>
-		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected async Task LaunchNoLock(
 			bool startMonitor,
 			bool announce,
@@ -439,9 +569,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// Stops <see cref="MonitorLifetimes(CancellationToken)"/>. Doesn't kill the servers
+		/// Stops <see cref="MonitorLifetimes(CancellationToken)"/>. Doesn't kill the servers.
 		/// </summary>
-		/// <returns><see langword="true"/> if the monitor was running, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if the monitor was running, <see langword="false"/> otherwise.</returns>
 		protected async Task<bool> StopMonitor()
 		{
 			Logger.LogTrace("StopMonitor");
@@ -521,7 +651,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected abstract ISessionController GetActiveController();
 
 		/// <summary>
-		/// Handles the actions to take when the monitor has to "wake up"
+		/// Handles the actions to take when the monitor has to "wake up".
 		/// </summary>
 		/// <param name="activationReason">The <see cref="MonitorActivationReason"/> that caused the invocation. Will never be <see cref="MonitorActivationReason.Heartbeat"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -614,8 +744,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		#pragma warning disable CA1502
-		private async Task MonitorLifetimes(CancellationToken cancellationToken)
+#pragma warning disable CA1502
+		async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Entered MonitorLifetimes");
 			Status = WatchdogStatus.Online;
@@ -812,229 +942,101 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			Logger.LogTrace("Monitor exiting...");
 		}
-		#pragma warning restore CA1502
+#pragma warning restore CA1502
 
 		/// <summary>
-		/// Starts all <see cref="ISessionController"/>s.
+		/// Implementation of <see cref="Terminate(bool, CancellationToken)"/>. Does not lock <see cref="synchronizationSemaphore"/>.
 		/// </summary>
-		/// <param name="chatTask">A, possibly active, <see cref="Task"/> for an outgoing chat message.</param>
-		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		protected abstract Task InitControllers(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken);
-
-		/// <inheritdoc />
-		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
-		{
-			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
-			{
-				bool match = launchParameters.CanApplyWithoutReboot(ActiveLaunchParameters);
-				ActiveLaunchParameters = launchParameters;
-				if (match || Status == WatchdogStatus.Offline)
-					return;
-
-				ActiveParametersUpdated.TrySetResult(null); // queue an update
-				ActiveParametersUpdated = new TaskCompletionSource<object>();
-			}
-		}
-
-		/// <inheritdoc />
-		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
-		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
-
-			// Method explicitly implemented to prevent accidental calls when this.eventConsumer should be used.
-			var activeServer = GetActiveController();
-
-			// Server may have ended
-			if (activeServer == null)
-				return;
-
-			var notification = new EventNotification(eventType, parameters);
-			var result = await activeServer.SendCommand(
-				new TopicParameters(notification),
-				cancellationToken)
-				.ConfigureAwait(false);
-
-			if (result?.InteropResponse?.ChatResponses != null)
-				foreach (var response in result.InteropResponse.ChatResponses)
-					Chat.QueueMessage(
-						response.Text,
-						response.ChannelIds
-							.Select(channelIdString =>
-							{
-								if (UInt64.TryParse(channelIdString, out var channelId))
-									return (ulong?)channelId;
-
-								return null;
-							})
-							.Where(nullableChannelId => nullableChannelId.HasValue)
-							.Select(nullableChannelId => nullableChannelId.Value));
-		}
-
-		/// <inheritdoc />
-		public async Task<string> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
-		{
-			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
-			{
-				if (Status == WatchdogStatus.Offline)
-					return "TGS: Server offline!";
-
-				var commandObject = new ChatCommand(sender, commandName, arguments);
-
-				var command = new TopicParameters(commandObject);
-
-				var activeServer = GetActiveController();
-				var commandResult = await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false);
-
-				if (commandResult == null)
-					return "TGS: Bad topic exchange!";
-
-				if (commandResult.InteropResponse == null)
-					return "TGS: Bad topic response!";
-
-				return commandResult.InteropResponse.CommandResponseMessage ??
-					"TGS: Command processed but no DMAPI response returned!";
-			}
-		}
-
-		/// <inheritdoc />
-		public async Task Launch(CancellationToken cancellationToken)
-		{
-			if (Status != WatchdogStatus.Offline)
-				throw new JobException(ErrorCode.WatchdogRunning);
-			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
-				await LaunchNoLock(true, true, true, null, cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public virtual async Task ResetRebootState(CancellationToken cancellationToken)
-		{
-			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
-			{
-				if (Status == WatchdogStatus.Offline)
-					return;
-				var toClear = GetActiveController();
-				if (toClear != null)
-					await toClear.SetRebootState(Session.RebootState.Normal, cancellationToken).ConfigureAwait(false);
-			}
-		}
-
-		/// <inheritdoc />
-		public async Task Restart(bool graceful, CancellationToken cancellationToken)
+		/// <param name="graceful">If <see langword="true"/> the termination will be delayed until a reboot is detected in the active server's DMAPI and this function will return immediately.</param>
+		/// <param name="announce">If <see langword="true"/> the termination will be announced using <see cref="Chat"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task TerminateNoLock(bool graceful, bool announce, CancellationToken cancellationToken)
 		{
 			if (Status == WatchdogStatus.Offline)
-				throw new JobException(ErrorCode.WatchdogNotRunning);
-
-			Logger.LogTrace("Begin Restart. Graceful: {0}", graceful);
-			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
-			{
-				if (!graceful)
-				{
-					var chatTask = Chat.QueueWatchdogMessage("Manual restart triggered...", cancellationToken);
-					await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
-					await LaunchNoLock(true, false, true, null, cancellationToken).ConfigureAwait(false);
-					await chatTask.ConfigureAwait(false);
-					return;
-				}
-
-				var toReboot = GetActiveController();
-				if (toReboot != null
-					&& !await toReboot.SetRebootState(Session.RebootState.Restart, cancellationToken).ConfigureAwait(false))
-					Logger.LogWarning("Unable to send reboot state change event!");
-			}
-		}
-
-		/// <inheritdoc />
-		public async Task StartAsync(CancellationToken cancellationToken)
-		{
-			var reattachInfo = await sessionPersistor.Load(cancellationToken).ConfigureAwait(false);
-			if (!autoStart && reattachInfo == null)
 				return;
-
-			var job = new Models.Job
+			if (!graceful)
 			{
-				Instance = new Models.Instance
-				{
-					Id = metadata.Id
-				},
-				Description = $"Instance startup watchdog {(reattachInfo != null ? "reattach" : "launch")}",
-				CancelRight = (ulong)DreamDaemonRights.Shutdown,
-				CancelRightsType = RightsType.DreamDaemon
-			};
-			await jobManager.RegisterOperation(
-				job,
-				async (core, databaseContextFactory, paramJob, progressFunction, ct) =>
-				{
-					if (core.Watchdog != this)
-						throw new InvalidOperationException(Instance.DifferentCoreExceptionMessage);
-					using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct).ConfigureAwait(false))
-						await LaunchNoLock(true, true, true, reattachInfo, ct).ConfigureAwait(false);
-				},
-				cancellationToken)
-				.ConfigureAwait(false);
-		}
+				var eventTask = EventConsumer.HandleEvent(
+					releaseServers
+						? EventType.WatchdogDetach
+						: EventType.WatchdogShutdown,
+					Enumerable.Empty<string>(),
+					cancellationToken);
 
-		/// <inheritdoc />
-		public async Task StopAsync(CancellationToken cancellationToken)
-		{
-			await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
-			if (releasedReattachInformation != null)
-			{
-				try
-				{
-					await sessionPersistor.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
-				}
-				catch (Exception ex)
-				{
-					Logger.LogCritical(
-						ex,
-						"Failed to persist session reattach information! To repair this, DreamDaemon will need to be manully stopped and then relaunched with TGS.");
-				}
+				var chatTask = announce ? Chat.QueueWatchdogMessage("Shutting down...", cancellationToken) : Task.CompletedTask;
 
-				releasedReattachInformation = null;
-				releaseServers = false;
+				await eventTask.ConfigureAwait(false);
+
+				await StopMonitor().ConfigureAwait(false);
+
+				LastLaunchParameters = null;
+
+				await chatTask.ConfigureAwait(false);
+				return;
 			}
-		}
 
-		/// <inheritdoc />
-		public async Task Terminate(bool graceful, CancellationToken cancellationToken)
-		{
-			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
-				await TerminateNoLock(graceful, !releaseServers, cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public async Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
-		{
-			releaseServers = true;
-			if (Status == WatchdogStatus.Online)
-				await Chat.QueueWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
+			// merely set the reboot state
+			var toKill = GetActiveController();
+			if (toKill != null)
+			{
+				await toKill.SetRebootState(Session.RebootState.Shutdown, cancellationToken).ConfigureAwait(false);
+				Logger.LogTrace("Graceful termination requested");
+			}
 			else
-				Logger.LogTrace("Not sending detach chat message as status is: {0}", Status);
+				Logger.LogTrace("Could not gracefully terminate as there is no active controller!");
 		}
 
-		/// <inheritdoc />
-		public abstract Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken);
-
-		/// <inheritdoc />
-		public async Task CreateDump(CancellationToken cancellationToken)
+		/// <summary>
+		/// Handles a watchdog heartbeat.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the next <see cref="MonitorAction"/> to take.</returns>
+		async Task<MonitorAction> HandleHeartbeat(CancellationToken cancellationToken)
 		{
-			const string DumpDirectory = "ProcessDumps";
-			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken).ConfigureAwait(false);
+			Logger.LogTrace("Sending heartbeat to active server...");
+			var activeServer = GetActiveController();
+			var response = await activeServer.SendCommand(new TopicParameters(), cancellationToken).ConfigureAwait(false);
 
-			var dumpFileName = diagnosticsIOManager.ResolvePath(
-				diagnosticsIOManager.ConcatPath(
-					DumpDirectory,
-					$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp"));
+			var shouldShutdown = activeServer.RebootState == Session.RebootState.Shutdown;
+			if (response == null)
+			{
+				switch (++heartbeatsMissed)
+				{
+					case 1:
+						Logger.LogDebug("DEFCON 4: DreamDaemon missed first heartbeat!");
+						break;
+					case 2:
+						var message2 = "DEFCON 3: DreamDaemon has missed 2 heartbeats!";
+						Logger.LogInformation(message2);
+						await Chat.QueueWatchdogMessage(message2, cancellationToken).ConfigureAwait(false);
+						break;
+					case 3:
+						var actionToTake = shouldShutdown
+							? "shutdown"
+							: "be restarted";
+						var message3 = $"DEFCON 2: DreamDaemon has missed 3 heartbeats! If it does not respond to the next one, the watchdog will {actionToTake}!";
+						Logger.LogWarning(message3);
+						await Chat.QueueWatchdogMessage(message3, cancellationToken).ConfigureAwait(false);
+						break;
+					case 4:
+						var actionTaken = shouldShutdown
+							? "Shutting down due to graceful termination request"
+							: "Restarting";
+						var message4 = $"DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
+						Logger.LogWarning(message4);
+						await Chat.QueueWatchdogMessage(message4, cancellationToken).ConfigureAwait(false);
+						await DisposeAndNullControllers(cancellationToken).ConfigureAwait(false);
+						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
+					default:
+						Logger.LogError("Invalid heartbeats missed count: {0}", heartbeatsMissed);
+						break;
+				}
+			}
+			else
+				heartbeatsMissed = 0;
 
-			var session = GetActiveController();
-			if (session?.Lifetime.IsCompleted != false)
-				throw new JobException(ErrorCode.DreamDaemonOffline);
-
-			Logger.LogInformation("Dumping session to {0}...", dumpFileName);
-			await session.CreateDump(dumpFileName, cancellationToken).ConfigureAwait(false);
+			return MonitorAction.Continue;
 		}
 	}
 }

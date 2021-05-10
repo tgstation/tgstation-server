@@ -1,10 +1,11 @@
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -14,7 +15,7 @@ namespace Tgstation.Server.Host.Controllers
 	public class LimitedFileStreamResultExecutor : FileResultExecutorBase, IActionResultExecutor<LimitedFileStreamResult>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="LimitedFileStreamResultExecutor"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="LimitedFileStreamResultExecutor"/> class.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="FileResultExecutorBase"/>.</param>
 		public LimitedFileStreamResultExecutor(ILogger<LimitedFileStreamResultExecutor> logger)

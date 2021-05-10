@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -14,15 +15,15 @@ namespace Tgstation.Server.Client.Components
 	sealed class ByondClient : PaginatedClient, IByondClient
 	{
 		/// <summary>
-		/// The <see cref="Instance"/> for the <see cref="ByondClient"/>
+		/// The <see cref="Instance"/> for the <see cref="ByondClient"/>.
 		/// </summary>
 		readonly Instance instance;
 
 		/// <summary>
-		/// Construct a <see cref="ByondClient"/>
+		/// Initializes a new instance of the <see cref="ByondClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
-		/// <param name="instance">The value of <see cref="Instance"/></param>
+		/// <param name="instance">The value of <see cref="Instance"/>.</param>
 		public ByondClient(IApiClient apiClient, Instance instance)
 			: base(apiClient)
 		{

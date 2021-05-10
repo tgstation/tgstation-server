@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
-	/// For managing the compiler
+	/// For managing the compiler.
 	/// </summary>
 	public interface IDreamMaker
 	{

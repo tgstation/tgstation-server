@@ -108,7 +108,7 @@ namespace ReleaseNotes
 							milestoneTask = GetMilestone();
 
 					// if (!fullPR.Merged)
-						//return;
+					//return;
 
 					async Task BuildNotesFromComment(string comment, User user)
 					{
@@ -261,7 +261,7 @@ namespace ReleaseNotes
 						var controlPanelVersionsPropertyGroup = project2.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
 
 						var coreVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCoreVersion").Value);
-						if(coreVersion != version)
+						if (coreVersion != version)
 						{
 							Console.WriteLine("Received a different version on command line than in Version.props!");
 							return 10;

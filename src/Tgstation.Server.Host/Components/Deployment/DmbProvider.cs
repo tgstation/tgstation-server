@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
@@ -14,32 +15,32 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public string Directory => ioManager.ResolvePath(CompileJob.DirectoryName.ToString() + directoryAppend);
 
 		/// <summary>
-		/// The <see cref="CompileJob"/> for the <see cref="DmbProvider"/>
+		/// The <see cref="CompileJob"/> for the <see cref="DmbProvider"/>.
 		/// </summary>
 		public CompileJob CompileJob { get; }
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="DmbProvider"/>
+		/// The <see cref="IIOManager"/> for the <see cref="DmbProvider"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// Extra path to add to the end of <see cref="Api.Models.Internal.CompileJob.DirectoryName"/>
+		/// Extra path to add to the end of <see cref="Api.Models.Internal.CompileJob.DirectoryName"/>.
 		/// </summary>
 		readonly string directoryAppend;
 
 		/// <summary>
-		/// The <see cref="Action"/> to run when <see cref="Dispose"/> is called
+		/// The <see cref="Action"/> to run when <see cref="Dispose"/> is called.
 		/// </summary>
 		Action onDispose;
 
 		/// <summary>
-		/// Construct a <see cref="DmbProvider"/>
+		/// Initializes a new instance of the <see cref="DmbProvider"/> class.
 		/// </summary>
-		/// <param name="compileJob">The value of <see cref="CompileJob"/></param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="onDispose">The value of <see cref="onDispose"/></param>
-		/// <param name="directoryAppend">The optional value of <see cref="directoryAppend"/></param>
+		/// <param name="compileJob">The value of <see cref="CompileJob"/>.</param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
+		/// <param name="directoryAppend">The optional value of <see cref="directoryAppend"/>.</param>
 		public DmbProvider(CompileJob compileJob, IIOManager ioManager, Action onDispose, string directoryAppend = null)
 		{
 			CompileJob = compileJob ?? throw new ArgumentNullException(nameof(compileJob));

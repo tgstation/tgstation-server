@@ -1,11 +1,11 @@
-namespace Tgstation.Server.Api.Models.Internal
+﻿namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
 	/// Represents a group of users.
 	/// </summary>
 	public class UserGroup : NamedEntity
 	{
-		/// <inheridoc />
+		/// <inheritdoc />
 		[RequestOptions(FieldPresence.Required)]
 		public override long? Id
 		{

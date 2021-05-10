@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -13,7 +14,7 @@ namespace Tgstation.Server.Client
 	sealed class UsersClient : PaginatedClient, IUsersClient
 	{
 		/// <summary>
-		/// Construct an <see cref="UsersClient"/>
+		/// Initializes a new instance of the <see cref="UsersClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
 		public UsersClient(IApiClient apiClient)

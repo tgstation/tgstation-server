@@ -1,8 +1,10 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
@@ -12,27 +14,27 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <summary>
-	/// <see cref="IByondInstaller"/> for windows systems
+	/// <see cref="IByondInstaller"/> for windows systems.
 	/// </summary>
 	sealed class WindowsByondInstaller : ByondInstallerBase, IDisposable
 	{
 		/// <summary>
-		/// Directory to byond installation configuration
+		/// Directory to byond installation configuration.
 		/// </summary>
 		const string ByondConfigDir = "byond/cfg";
 
 		/// <summary>
-		/// BYOND's DreamDaemon config file
+		/// BYOND's DreamDaemon config file.
 		/// </summary>
 		const string ByondDDConfig = "daemon.txt";
 
 		/// <summary>
-		/// Setting to add to <see cref="ByondDDConfig"/> to suppress an invisible user prompt for running a trusted mode .dmb
+		/// Setting to add to <see cref="ByondDDConfig"/> to suppress an invisible user prompt for running a trusted mode .dmb.
 		/// </summary>
 		const string ByondNoPromptTrustedMode = "trusted-check 0";
 
 		/// <summary>
-		/// The directory that contains the BYOND directx redistributable
+		/// The directory that contains the BYOND directx redistributable.
 		/// </summary>
 		const string ByondDXDir = "byond/directx";
 
@@ -49,24 +51,24 @@ namespace Tgstation.Server.Host.Components.Byond
 		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
 
 		/// <summary>
-		/// The <see cref="IProcessExecutor"/> for the <see cref="WindowsByondInstaller"/>
+		/// The <see cref="IProcessExecutor"/> for the <see cref="WindowsByondInstaller"/>.
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
-		/// The <see cref="SemaphoreSlim"/> for the <see cref="WindowsByondInstaller"/>
+		/// The <see cref="SemaphoreSlim"/> for the <see cref="WindowsByondInstaller"/>.
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
 
 		/// <summary>
-		/// If DirectX was installed
+		/// If DirectX was installed.
 		/// </summary>
 		bool installedDirectX;
 
 		/// <summary>
-		/// Construct a <see cref="WindowsByondInstaller"/>
+		/// Initializes a new instance of the <see cref="WindowsByondInstaller"/> class.
 		/// </summary>
-		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
 		public WindowsByondInstaller(IProcessExecutor processExecutor, IIOManager ioManager, ILogger<WindowsByondInstaller> logger)
@@ -90,6 +92,12 @@ namespace Tgstation.Server.Host.Components.Byond
 				InstallDirectX(path, cancellationToken),
 				AddDreamDaemonToFirewall(path, cancellationToken));
 
+		/// <summary>
+		/// Creates the BYOND cfg file that prevents the trusted mode dialog from appearing when launching DreamDaemon.
+		/// </summary>
+		/// <param name="path">The path to the BYOND installation.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task SetNoPromptTrusted(string path, CancellationToken cancellationToken)
 		{
 			var configPath = IOManager.ConcatPath(path, ByondConfigDir);
@@ -104,6 +112,12 @@ namespace Tgstation.Server.Host.Components.Byond
 				.ConfigureAwait(false);
 		}
 
+		/// <summary>
+		/// Attempt to install the DirectX redistributable included with BYOND.
+		/// </summary>
+		/// <param name="path">The path to the BYOND installation.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task InstallDirectX(string path, CancellationToken cancellationToken)
 		{
 			using var lockContext = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false);
@@ -142,6 +156,12 @@ namespace Tgstation.Server.Host.Components.Byond
 			}
 		}
 
+		/// <summary>
+		/// Attempt to add the DreamDaemon executable as an exception to the Windows firewall.
+		/// </summary>
+		/// <param name="path">The path to the BYOND installation.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task AddDreamDaemonToFirewall(string path, CancellationToken cancellationToken)
 		{
 			var dreamDaemonPath = IOManager.ResolvePath(

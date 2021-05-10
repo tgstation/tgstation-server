@@ -1,5 +1,7 @@
+﻿using System;
+
 using Microsoft.Extensions.Logging;
-using System;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 
@@ -24,7 +26,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILogger<GitRemoteFeaturesFactory> logger;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GitRemoteFeaturesFactory"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="GitRemoteFeaturesFactory"/> class.
 		/// </summary>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>

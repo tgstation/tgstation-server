@@ -1,4 +1,4 @@
-using Tgstation.Server.Api;
+﻿using Tgstation.Server.Api;
 
 namespace Tgstation.Server.Host.Swarm
 {

@@ -1,43 +1,43 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>
-	/// Abstraction over a <see cref="global::System.Diagnostics.Process"/>
+	/// Abstraction over a <see cref="global::System.Diagnostics.Process"/>.
 	/// </summary>
 	interface IProcess : IProcessBase, IDisposable
 	{
 		/// <summary>
-		/// The <see cref="IProcess"/>' ID
+		/// The <see cref="IProcess"/>' ID.
 		/// </summary>
 		int Id { get; }
 
 		/// <summary>
-		/// The <see cref="Task"/> representing the time until the <see cref="IProcess"/> becomes "idle"
+		/// The <see cref="Task"/> representing the time until the <see cref="IProcess"/> becomes "idle".
 		/// </summary>
 		Task Startup { get; }
 
 		/// <summary>
-		/// Get the stderr output of the <see cref="IProcess"/>
+		/// Get the stderr output of the <see cref="IProcess"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the stderr output of the <see cref="IProcess"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the stderr output of the <see cref="IProcess"/>.</returns>
 		Task<string> GetErrorOutput(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Get the stdout output of the <see cref="IProcess"/>
+		/// Get the stdout output of the <see cref="IProcess"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the stdout output of the <see cref="IProcess"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the stdout output of the <see cref="IProcess"/>.</returns>
 		Task<string> GetStandardOutput(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Get the stderr and stdout output of the <see cref="IProcess"/>
+		/// Get the stderr and stdout output of the <see cref="IProcess"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the stderr and stdout output of the <see cref="IProcess"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the stderr and stdout output of the <see cref="IProcess"/>.</returns>
 		Task<string> GetCombinedOutput(CancellationToken cancellationToken);
 
 		/// <summary>

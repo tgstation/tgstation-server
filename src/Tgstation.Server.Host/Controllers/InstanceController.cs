@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +6,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -28,10 +30,10 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for managing <see cref="Components.Instance"/>s
+	/// <see cref="ApiController"/> for managing <see cref="Components.Instance"/>s.
 	/// </summary>
 	[Route(Routes.InstanceManager)]
-	#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class InstanceController : ApiController
 	{
 		/// <summary>
@@ -45,22 +47,22 @@ namespace Tgstation.Server.Host.Controllers
 		const string MoveInstanceJobPrefix = "Move instance ID ";
 
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="InstanceController"/>
+		/// The <see cref="IJobManager"/> for the <see cref="InstanceController"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="InstanceController"/>
+		/// The <see cref="IInstanceManager"/> for the <see cref="InstanceController"/>.
 		/// </summary>
 		readonly IInstanceManager instanceManager;
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="InstanceController"/>
+		/// The <see cref="IIOManager"/> for the <see cref="InstanceController"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceController"/>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceController"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
@@ -80,14 +82,14 @@ namespace Tgstation.Server.Host.Controllers
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
-		/// Construct a <see cref="InstanceController"/>
+		/// Initializes a new instance of the <see cref="InstanceController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="instanceManager">The value of <see cref="instanceManager"/>.</param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
@@ -116,115 +118,6 @@ namespace Tgstation.Server.Host.Controllers
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
-		}
-
-		/// <summary>
-		/// Creates a default <see cref="Models.Instance"/> from <paramref name="initialSettings"/>.
-		/// </summary>
-		/// <param name="initialSettings">The <see cref="InstanceCreateRequest"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="Models.Instance"/> or <see langword="null"/> if ports could not be allocated.</returns>
-		async Task<Models.Instance> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
-		{
-			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken).ConfigureAwait(false);
-			if (!ddPort.HasValue)
-				return null;
-
-			// try to use the old default if possible
-			const ushort DefaultDreamDaemonPort = 1337;
-			if (ddPort.Value < DefaultDreamDaemonPort)
-				ddPort = await portAllocator.GetAvailablePort(DefaultDreamDaemonPort, false, cancellationToken).ConfigureAwait(false) ?? ddPort;
-
-			const ushort DefaultApiValidationPort = 1339;
-			var dmPort = await portAllocator
-				.GetAvailablePort(
-					Math.Min((ushort)(ddPort.Value + 1), DefaultApiValidationPort),
-					false,
-					cancellationToken)
-				.ConfigureAwait(false);
-			if (!dmPort.HasValue)
-				return null;
-
-			// try to use the old default if possible
-			if (dmPort < DefaultApiValidationPort)
-				dmPort = await portAllocator.GetAvailablePort(DefaultApiValidationPort, false, cancellationToken).ConfigureAwait(false) ?? dmPort;
-
-			return new Models.Instance
-			{
-				ConfigurationType = initialSettings.ConfigurationType ?? ConfigurationType.Disallowed,
-				DreamDaemonSettings = new DreamDaemonSettings
-				{
-					AllowWebClient = false,
-					AutoStart = false,
-					Port = ddPort,
-					SecurityLevel = DreamDaemonSecurity.Safe,
-					StartupTimeout = 60,
-					HeartbeatSeconds = 60,
-					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout,
-					AdditionalParameters = String.Empty,
-				},
-				DreamMakerSettings = new DreamMakerSettings
-				{
-					ApiValidationPort = dmPort,
-					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
-					RequireDMApiValidation = true
-				},
-				Name = initialSettings.Name,
-				Online = false,
-				Path = initialSettings.Path,
-				AutoUpdateInterval = initialSettings.AutoUpdateInterval ?? 0,
-				ChatBotLimit = initialSettings.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
-				RepositorySettings = new RepositorySettings
-				{
-					CommitterEmail = Components.Repository.Repository.DefaultCommitterEmail,
-					CommitterName = Components.Repository.Repository.DefaultCommitterName,
-					PushTestMergeCommits = false,
-					ShowTestMergeCommitters = false,
-					AutoUpdatesKeepTestMerges = false,
-					AutoUpdatesSynchronize = false,
-					PostTestMergeComment = false,
-					CreateGitHubDeployments = false
-				},
-				InstancePermissionSets = new List<InstancePermissionSet> // give this user full privileges on the instance
-				{
-					InstanceAdminPermissionSet(null)
-				},
-				SwarmIdentifer = swarmConfiguration.Identifier,
-			};
-		}
-
-		string NormalizePath(string path)
-		{
-			if (path == null)
-				return null;
-
-			path = ioManager.ResolvePath(path);
-			if (platformIdentifier.IsWindows)
-				path = path.ToUpperInvariant().Replace('\\', '/');
-
-			return path;
-		}
-
-		/// <summary>
-		/// Generate an <see cref="InstancePermissionSet"/> with full rights.
-		/// </summary>
-		/// <param name="permissionSetToModify">An optional existing <see cref="InstancePermissionSet"/> to update.</param>
-		/// <returns><paramref name="permissionSetToModify"/> or a new <see cref="InstancePermissionSet"/> with full rights.</returns>
-		InstancePermissionSet InstanceAdminPermissionSet(InstancePermissionSet permissionSetToModify)
-		{
-			if (permissionSetToModify == null)
-				permissionSetToModify = new InstancePermissionSet()
-				{
-					PermissionSetId = AuthenticationContext.PermissionSet.Id.Value
-				};
-			permissionSetToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
-			permissionSetToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
-			permissionSetToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
-			permissionSetToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();
-			permissionSetToModify.DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>();
-			permissionSetToModify.RepositoryRights = RightsHelper.AllRights<RepositoryRights>();
-			permissionSetToModify.InstancePermissionSetRights = RightsHelper.AllRights<InstancePermissionSetRights>();
-			return permissionSetToModify;
 		}
 
 		/// <summary>
@@ -282,7 +175,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Select(x => new Models.Instance
 						{
-							Path = x.Path
+							Path = x.Path,
 						})
 						.ForEachAsync(
 							otherInstance =>
@@ -364,7 +257,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
-					AdditionalData = e.Message
+					AdditionalData = e.Message,
 				});
 			}
 
@@ -448,7 +341,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1310 // Specify StringComparison
 				.Select(x => new Job
 				{
-					Id = x.Id
+					Id = x.Id,
 				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (moveJob != default)
@@ -557,7 +450,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (Exception e)
 			{
-				if(!(e is OperationCanceledException))
+				if (!(e is OperationCanceledException))
 					Logger.LogError(e, "Error changing instance online state!");
 				originalModel.Online = originalOnline;
 				originalModel.DreamDaemonSettings.AutoStart = oldAutoStart;
@@ -571,7 +464,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var api = (AuthenticationContext.GetRight(RightsType.InstanceManager) & (ulong)InstanceManagerRights.Read) != 0 ? originalModel.ToApi() : new InstanceResponse
 			{
-				Id = originalModel.Id
+				Id = originalModel.Id,
 			};
 
 			var moving = originalModelPath != null;
@@ -583,7 +476,7 @@ namespace Tgstation.Server.Host.Controllers
 					Instance = originalModel,
 					CancelRightsType = RightsType.InstanceManager,
 					CancelRight = (ulong)InstanceManagerRights.Relocate,
-					StartedBy = AuthenticationContext.User
+					StartedBy = AuthenticationContext.User,
 				};
 
 				await jobManager.RegisterOperation(
@@ -777,6 +670,120 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			return NoContent();
+		}
+
+		/// <summary>
+		/// Creates a default <see cref="Models.Instance"/> from <paramref name="initialSettings"/>.
+		/// </summary>
+		/// <param name="initialSettings">The <see cref="InstanceCreateRequest"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="Models.Instance"/> or <see langword="null"/> if ports could not be allocated.</returns>
+		async Task<Models.Instance> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
+		{
+			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken).ConfigureAwait(false);
+			if (!ddPort.HasValue)
+				return null;
+
+			// try to use the old default if possible
+			const ushort DefaultDreamDaemonPort = 1337;
+			if (ddPort.Value < DefaultDreamDaemonPort)
+				ddPort = await portAllocator.GetAvailablePort(DefaultDreamDaemonPort, false, cancellationToken).ConfigureAwait(false) ?? ddPort;
+
+			const ushort DefaultApiValidationPort = 1339;
+			var dmPort = await portAllocator
+				.GetAvailablePort(
+					Math.Min((ushort)(ddPort.Value + 1), DefaultApiValidationPort),
+					false,
+					cancellationToken)
+				.ConfigureAwait(false);
+			if (!dmPort.HasValue)
+				return null;
+
+			// try to use the old default if possible
+			if (dmPort < DefaultApiValidationPort)
+				dmPort = await portAllocator.GetAvailablePort(DefaultApiValidationPort, false, cancellationToken).ConfigureAwait(false) ?? dmPort;
+
+			return new Models.Instance
+			{
+				ConfigurationType = initialSettings.ConfigurationType ?? ConfigurationType.Disallowed,
+				DreamDaemonSettings = new DreamDaemonSettings
+				{
+					AllowWebClient = false,
+					AutoStart = false,
+					Port = ddPort,
+					SecurityLevel = DreamDaemonSecurity.Safe,
+					StartupTimeout = 60,
+					HeartbeatSeconds = 60,
+					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout,
+					AdditionalParameters = String.Empty,
+				},
+				DreamMakerSettings = new DreamMakerSettings
+				{
+					ApiValidationPort = dmPort,
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
+					RequireDMApiValidation = true,
+				},
+				Name = initialSettings.Name,
+				Online = false,
+				Path = initialSettings.Path,
+				AutoUpdateInterval = initialSettings.AutoUpdateInterval ?? 0,
+				ChatBotLimit = initialSettings.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
+				RepositorySettings = new RepositorySettings
+				{
+					CommitterEmail = Components.Repository.Repository.DefaultCommitterEmail,
+					CommitterName = Components.Repository.Repository.DefaultCommitterName,
+					PushTestMergeCommits = false,
+					ShowTestMergeCommitters = false,
+					AutoUpdatesKeepTestMerges = false,
+					AutoUpdatesSynchronize = false,
+					PostTestMergeComment = false,
+					CreateGitHubDeployments = false,
+				},
+				InstancePermissionSets = new List<InstancePermissionSet> // give this user full privileges on the instance
+				{
+					InstanceAdminPermissionSet(null),
+				},
+				SwarmIdentifer = swarmConfiguration.Identifier,
+			};
+		}
+
+		/// <summary>
+		/// Generate an <see cref="InstancePermissionSet"/> with full rights.
+		/// </summary>
+		/// <param name="permissionSetToModify">An optional existing <see cref="InstancePermissionSet"/> to update.</param>
+		/// <returns><paramref name="permissionSetToModify"/> or a new <see cref="InstancePermissionSet"/> with full rights.</returns>
+		InstancePermissionSet InstanceAdminPermissionSet(InstancePermissionSet permissionSetToModify)
+		{
+			if (permissionSetToModify == null)
+				permissionSetToModify = new InstancePermissionSet()
+				{
+					PermissionSetId = AuthenticationContext.PermissionSet.Id.Value,
+				};
+			permissionSetToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
+			permissionSetToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
+			permissionSetToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
+			permissionSetToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();
+			permissionSetToModify.DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>();
+			permissionSetToModify.RepositoryRights = RightsHelper.AllRights<RepositoryRights>();
+			permissionSetToModify.InstancePermissionSetRights = RightsHelper.AllRights<InstancePermissionSetRights>();
+			return permissionSetToModify;
+		}
+
+		/// <summary>
+		/// Normalize a given <paramref name="path"/> for an instance.
+		/// </summary>
+		/// <param name="path">The path to normalize.</param>
+		/// <returns>The normalized <paramref name="path"/>.</returns>
+		string NormalizePath(string path)
+		{
+			if (path == null)
+				return null;
+
+			path = ioManager.ResolvePath(path);
+			if (platformIdentifier.IsWindows)
+				path = path.ToUpperInvariant().Replace('\\', '/');
+
+			return path;
 		}
 	}
 }

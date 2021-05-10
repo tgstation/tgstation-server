@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service.Tests

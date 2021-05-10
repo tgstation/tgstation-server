@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
@@ -15,12 +16,12 @@ namespace Tgstation.Server.Client
 	abstract class PaginatedClient
 	{
 		/// <summary>
-		/// The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>
+		/// The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.
 		/// </summary>
 		protected IApiClient ApiClient { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PaginatedClient"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PaginatedClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="ApiClient"/>.</param>
 		public PaginatedClient(IApiClient apiClient)
@@ -65,7 +66,7 @@ namespace Tgstation.Server.Client
 
 				if (paginationSettings.Offset.HasValue)
 				{
-					if(paginationSettings.Offset.Value < 0)
+					if (paginationSettings.Offset.Value < 0)
 						throw new ArgumentOutOfRangeException(nameof(paginationSettings), "Offset cannot be less than 0!");
 
 					pageSize ??= paginationSettings.Offset.Value;
@@ -94,7 +95,7 @@ namespace Tgstation.Server.Client
 			do
 			{
 				// check if first page
-				if(currentPage > 1)
+				if (currentPage > 1)
 					currentResults = await GetPage().ConfigureAwait(false);
 
 				if (currentResults.Content == null)

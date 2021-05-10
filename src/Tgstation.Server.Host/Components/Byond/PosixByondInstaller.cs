@@ -1,20 +1,33 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond
 {
 	/// <summary>
-	/// <see cref="IByondInstaller"/> for Posix systems
+	/// <see cref="IByondInstaller"/> for Posix systems.
 	/// </summary>
 	sealed class PosixByondInstaller : ByondInstallerBase
 	{
+		/// <summary>
+		/// The name of the DreamDaemon binary file.
+		/// </summary>
 		const string DreamDaemonExecutableName = "DreamDaemon";
+
+		/// <summary>
+		/// The name of the DreamMaker binary file.
+		/// </summary>
 		const string DreamMakerExecutableName = "DreamMaker";
+
+		/// <summary>
+		/// File extension for shell scripts.
+		/// </summary>
 		const string ShellScriptExtension = ".sh";
 
 		/// <inheritdoc />
@@ -30,14 +43,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
 
 		/// <summary>
-		/// The <see cref="IPostWriteHandler"/> for the <see cref="PosixByondInstaller"/>
+		/// The <see cref="IPostWriteHandler"/> for the <see cref="PosixByondInstaller"/>.
 		/// </summary>
 		readonly IPostWriteHandler postWriteHandler;
 
 		/// <summary>
-		/// Construct a <see cref="WindowsByondInstaller"/>
+		/// Initializes a new instance of the <see cref="PosixByondInstaller"/> class.
 		/// </summary>
-		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
+		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
 		public PosixByondInstaller(IPostWriteHandler postWriteHandler, IIOManager ioManager, ILogger<PosixByondInstaller> logger)

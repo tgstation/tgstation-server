@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
-	/// Wrapper for managing <see cref="IInstance"/>s
+	/// Wrapper for managing <see cref="IInstance"/>s.
 	/// </summary>
 	sealed class InstanceContainer
 	{
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Components
 		ulong referenceCount;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="InstanceContainer"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="InstanceContainer"/> class.
 		/// </summary>
 		/// <param name="instance">The value of <see cref="Instance"/>.</param>
 		public InstanceContainer(IInstance instance)

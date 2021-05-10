@@ -1,4 +1,4 @@
-using Tgstation.Server.Host.Configuration;
+﻿using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Setup

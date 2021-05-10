@@ -23,7 +23,7 @@ namespace Tgstation.Server.Api.Rights.Tests
 					Assert.AreEqual(ulongType, Enum.GetUnderlyingType(rightType));
 					var asUlong = (ulong)J;
 					var isOne = asUlong == 1;
-					if(!isOne)
+					if (!isOne)
 						Assert.AreEqual(0U, asUlong % 2, String.Format("Enum {0} of {1} is not a power of 2!", Enum.GetName(rightType, asUlong), rightType));
 
 					if (expectedLog > -1)

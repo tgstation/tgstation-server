@@ -1,9 +1,11 @@
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Microsoft.Extensions.Logging;
 using Mono.Unix;
 using Mono.Unix.Native;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -29,7 +31,7 @@ namespace Tgstation.Server.Host.System
 		readonly ILogger<PosixProcessFeatures> logger;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PosixProcessFeatures"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PosixProcessFeatures"/> class.
 		/// </summary>
 		/// <param name="lazyLoadedProcessExecutor">The value of <see cref="lazyLoadedProcessExecutor"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>

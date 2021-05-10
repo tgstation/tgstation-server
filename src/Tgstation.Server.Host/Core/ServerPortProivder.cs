@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Linq;
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Linq;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Core
@@ -19,7 +21,7 @@ namespace Tgstation.Server.Host.Core
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ServerPortProivder"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ServerPortProivder"/> class.
 		/// </summary>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>

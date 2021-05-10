@@ -1,3 +1,9 @@
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Octokit;
-using System;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -28,33 +30,33 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// Main <see cref="ApiController"/> for the <see cref="Application"/>
+	/// Root <see cref="ApiController"/> for the <see cref="Application"/>.
 	/// </summary>
 	[Route(Routes.Root)]
 	public sealed class HomeController : ApiController
 	{
 		/// <summary>
-		/// The <see cref="ITokenFactory"/> for the <see cref="HomeController"/>
+		/// The <see cref="ITokenFactory"/> for the <see cref="HomeController"/>.
 		/// </summary>
 		readonly ITokenFactory tokenFactory;
 
 		/// <summary>
-		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="HomeController"/>
+		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="HomeController"/>.
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="HomeController"/>
+		/// The <see cref="ICryptographySuite"/> for the <see cref="HomeController"/>.
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="HomeController"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="HomeController"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IIdentityCache"/> for the <see cref="HomeController"/>
+		/// The <see cref="IIdentityCache"/> for the <see cref="HomeController"/>.
 		/// </summary>
 		readonly IIdentityCache identityCache;
 
@@ -84,27 +86,27 @@ namespace Tgstation.Server.Host.Controllers
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="HomeController"/>
+		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="HomeController"/>.
 		/// </summary>
 		readonly ControlPanelConfiguration controlPanelConfiguration;
 
 		/// <summary>
-		/// Construct a <see cref="HomeController"/>
+		/// Initializes a new instance of the <see cref="HomeController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
-		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
-		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
-		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
+		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
+		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="identityCache">The value of <see cref="identityCache"/>.</param>
 		/// <param name="oAuthProviders">The value of <see cref="oAuthProviders"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public HomeController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -140,7 +142,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Main page of the <see cref="Application"/>
+		/// Main page of the <see cref="Application"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>
@@ -156,10 +158,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (controlPanelConfiguration.Enable)
 				Response.Headers.Add(
 					HeaderNames.Vary,
-					new StringValues(
-						new[]{
-							ApiHeaders.ApiVersionHeader
-						}));
+					new StringValues(ApiHeaders.ApiVersionHeader));
 
 			if (ApiHeaders == null)
 			{
@@ -200,13 +199,13 @@ namespace Tgstation.Server.Host.Controllers
 				UpdateInProgress = serverControl.UpdateInProgress,
 			});
 		}
-		#pragma warning restore CA1506
+#pragma warning restore CA1506
 
 		/// <summary>
-		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>
+		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">User logged in and <see cref="TokenResponse"/> generated successfully.</response>
 		/// <response code="401">User authentication failed.</response>
 		/// <response code="403">User authenticated but is disabled by an administrator.</response>
@@ -260,7 +259,7 @@ namespace Tgstation.Server.Host.Controllers
 							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)
 							.ConfigureAwait(false);
 
-						Logger.LogTrace("External {0} UID: {1}", oAuthProvider, externalUserId); 
+						Logger.LogTrace("External {0} UID: {1}", oAuthProvider, externalUserId);
 					}
 					catch (RateLimitExceededException ex)
 					{
@@ -290,7 +289,7 @@ namespace Tgstation.Server.Host.Controllers
 						Id = x.Id,
 						PasswordHash = x.PasswordHash,
 						Enabled = x.Enabled,
-						Name = x.Name
+						Name = x.Name,
 					})
 					.ToListAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -323,7 +322,7 @@ namespace Tgstation.Server.Host.Controllers
 							Logger.LogDebug("User ID {0}'s password hash needs a refresh, updating database.", user.Id);
 							var updatedUser = new Models.User
 							{
-								Id = user.Id
+								Id = user.Id,
 							};
 							DatabaseContext.Users.Attach(updatedUser);
 							updatedUser.PasswordHash = user.PasswordHash;

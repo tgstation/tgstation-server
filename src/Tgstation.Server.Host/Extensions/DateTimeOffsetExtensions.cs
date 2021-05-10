@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
-	/// Extension methods for the <see cref="DateTimeOffset"/> <see langword="class"/>.
+	/// Extension methods for the <see cref="DateTimeOffset"/> class.
 	/// </summary>
 	static class DateTimeOffsetExtensions
 	{

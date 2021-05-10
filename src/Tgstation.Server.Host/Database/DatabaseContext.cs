@@ -1,14 +1,16 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Models;
@@ -16,7 +18,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// Backend abstract implementation of <see cref="IDatabaseContext"/>
+	/// Backend abstract implementation of <see cref="IDatabaseContext"/>.
 	/// </summary>
 #pragma warning disable CA1506 // TODO: Decomplexify
 	public abstract class DatabaseContext : DbContext, IDatabaseContext
@@ -82,34 +84,29 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext"/>
+		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevInfoTestMerge"/>s in the <see cref="DatabaseContext"/>
+		/// The <see cref="RevInfoTestMerge"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<RevInfoTestMerge> RevInfoTestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="OAuthConnection"/>s in the <see cref="DatabaseContext"/>
+		/// The <see cref="OAuthConnection"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
-		/// The <see cref="PermissionSet"/>s in the <see cref="DatabaseContext"/>
+		/// The <see cref="PermissionSet"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<PermissionSet> PermissionSets { get; set; }
 
 		/// <summary>
-		/// The <see cref="UserGroup"/>s in the <see cref="DatabaseContext"/>
+		/// The <see cref="UserGroup"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<UserGroup> Groups { get; set; }
-
-		/// <summary>
-		/// The <see cref="DeleteBehavior"/> for the <see cref="CompileJob"/>/<see cref="RevisionInformation"/> foreign key.
-		/// </summary>
-		protected virtual DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.ClientNoAction;
 
 		/// <inheritdoc />
 		IDatabaseCollection<User> IDatabaseContext.Users => usersCollection;
@@ -155,6 +152,11 @@ namespace Tgstation.Server.Host.Database
 
 		/// <inheritdoc />
 		IDatabaseCollection<PermissionSet> IDatabaseContext.PermissionSets => permissionSets;
+
+		/// <summary>
+		/// The <see cref="DeleteBehavior"/> for the <see cref="CompileJob"/>/<see cref="RevisionInformation"/> foreign key.
+		/// </summary>
+		protected virtual DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.ClientNoAction;
 
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Users"/>.
@@ -252,7 +254,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <summary>
-		/// Construct a <see cref="DatabaseContext"/>
+		/// Initializes a new instance of the <see cref="DatabaseContext"/> class.
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
 		protected DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
@@ -272,6 +274,33 @@ namespace Tgstation.Server.Host.Database
 			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections);
 			groups = new DatabaseCollection<UserGroup>(Groups);
 			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets);
+		}
+
+		/// <inheritdoc />
+		public Task Save(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
+
+		/// <inheritdoc />
+		public Task Drop(CancellationToken cancellationToken) => Database.EnsureDeletedAsync(cancellationToken);
+
+		/// <inheritdoc />
+		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
+		{
+			if (logger == null)
+				throw new ArgumentNullException(nameof(logger));
+			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
+			var wasEmpty = !migrations.Any();
+
+			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
+			{
+				logger.LogInformation("Migrating database...");
+				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+			}
+			else
+				logger.LogDebug("No migrations to apply");
+
+			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
+
+			return wasEmpty;
 		}
 
 		/// <inheritdoc />
@@ -342,33 +371,6 @@ namespace Tgstation.Server.Host.Database
 			instanceModel.HasMany(x => x.Jobs).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 		}
 
-		/// <inheritdoc />
-		public Task Save(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
-
-		/// <inheritdoc />
-		public Task Drop(CancellationToken cancellationToken) => Database.EnsureDeletedAsync(cancellationToken);
-
-		/// <inheritdoc />
-		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
-		{
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
-			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
-			var wasEmpty = !migrations.Any();
-
-			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
-			{
-				logger.LogInformation("Migrating database...");
-				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
-			}
-			else
-				logger.LogDebug("No migrations to apply");
-
-			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
-
-			return wasEmpty;
-		}
-
 		// HEY YOU
 		// IF YOU HAVE A TEST THAT'S CREATING ERRORS BECAUSE THESE VALUES AREN'T SET CORRECTLY THERE'S MORE TO FIXING IT THAN JUST UPDATING THEM
 		// IN THE FUNCTION BELOW YOU ALSO NEED TO CORRECTLY SET THE RIGHT MIGRATION TO DOWNLOAD TO FOR THE LAST TGS VERSION
@@ -402,7 +404,7 @@ namespace Tgstation.Server.Host.Database
 			DatabaseType currentDatabaseType,
 			CancellationToken cancellationToken)
 		{
-			if(logger == null)
+			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
 			if (targetVersion == null)
 				throw new ArgumentNullException(nameof(targetVersion));
@@ -486,7 +488,7 @@ namespace Tgstation.Server.Host.Database
 			// already setup
 			var migrationSubstitution = currentDatabaseType switch
 			{
-				DatabaseType.SqlServer => null,// already setup
+				DatabaseType.SqlServer => null, // already setup
 				DatabaseType.MySql => "MY{0}",
 				DatabaseType.Sqlite => "SL{0}",
 				DatabaseType.PostgresSql => "PG{0}",

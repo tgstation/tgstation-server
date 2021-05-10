@@ -1,9 +1,11 @@
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -19,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILogger<LibGit2RepositoryFactory> logger;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="LibGit2RepositoryFactory"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="LibGit2RepositoryFactory"/> class.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public LibGit2RepositoryFactory(ILogger<LibGit2RepositoryFactory> logger)
@@ -31,8 +33,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		public void CreateInMemory()
 		{
 			logger.LogTrace("Creating in-memory libgit2 repository...");
-			using var _ = new LibGit2Sharp.Repository();
-			logger.LogTrace("Success");
+			using (new LibGit2Sharp.Repository())
+				logger.LogTrace("Success");
 		}
 
 		/// <inheritdoc />
@@ -56,19 +58,23 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public Task Clone(Uri url, CloneOptions cloneOptions, string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			try
+		public Task Clone(Uri url, CloneOptions cloneOptions, string path, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
 			{
-				logger.LogTrace("Cloning {0} into {1}...", url, path);
-				LibGit2Sharp.Repository.Clone(url.ToString(), path, cloneOptions);
-			}
-			catch (UserCancelledException ex)
-			{
-				logger.LogTrace(ex, "Suppressing clone cancellation exception");
-				cancellationToken.ThrowIfCancellationRequested();
-			}
-		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+				try
+				{
+					logger.LogTrace("Cloning {0} into {1}...", url, path);
+					LibGit2Sharp.Repository.Clone(url.ToString(), path, cloneOptions);
+				}
+				catch (UserCancelledException ex)
+				{
+					logger.LogTrace(ex, "Suppressing clone cancellation exception");
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+			},
+			cancellationToken,
+			DefaultIOManager.BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public CredentialsHandler GenerateCredentialsHandler(string username, string password) => (a, b, supportedCredentialTypes) =>
@@ -82,7 +88,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				return new UsernamePasswordCredentials
 				{
 					Username = username,
-					Password = password
+					Password = password,
 				};
 
 			if (supportsAnonymous)

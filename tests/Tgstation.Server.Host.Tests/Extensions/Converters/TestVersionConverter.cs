@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+
 using Tgstation.Server.Api;
+
 using YamlDotNet.Serialization;
 
 namespace Tgstation.Server.Host.Extensions.Converters.Tests

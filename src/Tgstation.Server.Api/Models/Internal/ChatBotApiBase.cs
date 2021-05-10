@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,14 +8,14 @@ namespace Tgstation.Server.Api.Models.Internal
 	public abstract class ChatBotApiBase : ChatBotSettings
 	{
 		/// <summary>
-		/// Channels the Discord bot should listen/announce in
+		/// Channels the Discord bot should listen/announce in.
 		/// </summary>
 		public ICollection<ChatChannel>? Channels { get; set; }
 
 		/// <summary>
-		/// Validates <see cref="Channels"/> are correct for the <see cref="ChatBotSettings.Provider"/>
+		/// Validates <see cref="Channels"/> are correct for the <see cref="ChatBotSettings.Provider"/>.
 		/// </summary>
-		/// <returns><see langword="true"/> if the <see cref="Channels"/> are valid for the <see cref="ChatBotSettings.Provider"/>, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if the <see cref="Channels"/> are valid for the <see cref="ChatBotSettings.Provider"/>, <see langword="false"/> otherwise.</returns>
 		public bool ValidateProviderChannelTypes()
 		{
 			if (!Provider.HasValue)

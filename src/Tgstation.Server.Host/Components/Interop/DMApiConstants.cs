@@ -1,13 +1,15 @@
+﻿using System;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
+
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.Properties;
 
 namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
-	/// Constants used for communication with the DMAPI
+	/// Constants used for communication with the DMAPI.
 	/// </summary>
 	static class DMApiConstants
 	{
@@ -43,15 +45,15 @@ namespace Tgstation.Server.Host.Components.Interop
 		{
 			ContractResolver = new DefaultContractResolver
 			{
-				NamingStrategy = new CamelCaseNamingStrategy()
+				NamingStrategy = new CamelCaseNamingStrategy(),
 			},
 			Converters = new JsonConverter[]
 			{
 				new VersionConverter(),
-				new BoolConverter()
+				new BoolConverter(),
 			},
 			DefaultValueHandling = DefaultValueHandling.Ignore,
-			ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+			ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
 		};
 	}
 }

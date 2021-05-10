@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -8,14 +8,14 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class RepositorySettings
 	{
 		/// <summary>
-		/// The name of the committer
+		/// The name of the committer.
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumStringLength)]
 		public string? CommitterName { get; set; }
 
 		/// <summary>
-		/// The e-mail of the committer
+		/// The e-mail of the committer.
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumStringLength)]
@@ -23,14 +23,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string? CommitterEmail { get; set; }
 
 		/// <summary>
-		/// The username to access the git repository with
+		/// The username to access the git repository with.
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
 		[ResponseOptions]
 		public string? AccessUser { get; set; }
 
 		/// <summary>
-		/// The token/password to access the git repository with
+		/// The token/password to access the git repository with.
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
 		[ResponseOptions(Presence = FieldPresence.Ignored)]
@@ -49,13 +49,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? CreateGitHubDeployments { get; set; }
 
 		/// <summary>
-		/// If test merge commits are signed with the username of the person who merged it. Note this only affects future commits
+		/// If test merge commits are signed with the username of the person who merged it. Note this only affects future commits.
 		/// </summary>
 		[Required]
 		public bool? ShowTestMergeCommitters { get; set; }
 
 		/// <summary>
-		/// If test merge commits should be kept when auto updating. May cause merge conflicts which will block the update
+		/// If test merge commits should be kept when auto updating. May cause merge conflicts which will block the update.
 		/// </summary>
 		[Required]
 		public bool? AutoUpdatesKeepTestMerges { get; set; }

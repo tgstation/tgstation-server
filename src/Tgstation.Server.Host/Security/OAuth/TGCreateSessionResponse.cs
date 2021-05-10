@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Host.Security.OAuth
+﻿namespace Tgstation.Server.Host.Security.OAuth
 {
 	/// <summary>
 	/// Response when creating a tgstation forums session.

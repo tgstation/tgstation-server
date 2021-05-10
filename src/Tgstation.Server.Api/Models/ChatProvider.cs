@@ -1,18 +1,18 @@
 ﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// Represents a chat service provider
+	/// Represents a chat service provider.
 	/// </summary>
 	public enum ChatProvider
 	{
 		/// <summary>
-		/// Internet relay chat
+		/// Internet relay chat.
 		/// </summary>
 		Irc,
 
 		/// <summary>
-		/// Superior chat service
+		/// Superior chat service.
 		/// </summary>
-		Discord
+		Discord,
 	}
 }

@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Transfer
@@ -32,7 +33,7 @@ namespace Tgstation.Server.Host.Transfer
 		public bool ShareWrite { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FileDownloadProvider"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="FileDownloadProvider"/> class.
 		/// </summary>
 		/// <param name="activationCallback">The value of <see cref="ActivationCallback"/>.</param>
 		/// <param name="fileStreamProvider">The optional value of <see cref="FileStreamProvider"/>.</param>

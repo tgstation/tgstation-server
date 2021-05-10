@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +10,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -40,17 +42,17 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// The <see cref="HttpClientImplementation"/> for the <see cref="ApiClient"/>
+		/// The <see cref="HttpClientImplementation"/> for the <see cref="ApiClient"/>.
 		/// </summary>
 		readonly IHttpClient httpClient;
 
 		/// <summary>
-		/// The <see cref="IRequestLogger"/>s used by the <see cref="ApiClient"/>
+		/// The <see cref="IRequestLogger"/>s used by the <see cref="ApiClient"/>.
 		/// </summary>
 		readonly List<IRequestLogger> requestLoggers;
 
 		/// <summary>
-		/// Backing field for <see cref="Headers"/>
+		/// Backing field for <see cref="Headers"/>.
 		/// </summary>
 		readonly ApiHeaders? tokenRefreshHeaders;
 
@@ -60,16 +62,25 @@ namespace Tgstation.Server.Client
 		readonly SemaphoreSlim semaphoreSlim;
 
 		/// <summary>
-		/// Backing field for <see cref="Headers"/>
+		/// Backing field for <see cref="Headers"/>.
 		/// </summary>
 		ApiHeaders headers;
 
+		/// <summary>
+		/// Get the <see cref="JsonSerializerSettings"/> to use.
+		/// </summary>
+		/// <returns>A new <see cref="JsonSerializerSettings"/> instance.</returns>
 		static JsonSerializerSettings GetSerializerSettings() => new JsonSerializerSettings
 		{
 			ContractResolver = new CamelCasePropertyNamesContractResolver(),
-			Converters = new[] { new VersionConverter() }
+			Converters = new[] { new VersionConverter() },
 		};
 
+		/// <summary>
+		/// Handle a bad HTTP <paramref name="response"/>.
+		/// </summary>
+		/// <param name="response">The <see cref="HttpResponseMessage"/>.</param>
+		/// <param name="json">The JSON <see cref="string"/> if any.</param>
 		static void HandleBadResponse(HttpResponseMessage response, string json)
 		{
 			ErrorMessageResponse? errorMessage = null;
@@ -78,7 +89,9 @@ namespace Tgstation.Server.Client
 				// check if json serializes to an error message
 				errorMessage = JsonConvert.DeserializeObject<ErrorMessageResponse>(json, GetSerializerSettings());
 			}
-			catch (JsonException) { }
+			catch (JsonException)
+			{
+			}
 
 #pragma warning disable IDE0010 // Add missing cases
 			switch (response.StatusCode)
@@ -112,12 +125,12 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// Construct an <see cref="ApiClient"/>
+		/// Initializes a new instance of the <see cref="ApiClient"/> class.
 		/// </summary>
-		/// <param name="httpClient">The value of <see cref="httpClient"/></param>
-		/// <param name="url">The value of <see cref="Url"/></param>
-		/// <param name="apiHeaders">The value of <see cref="Headers"/></param>
-		/// <param name="tokenRefreshHeaders">The value of <see cref="tokenRefreshHeaders"/></param>
+		/// <param name="httpClient">The value of <see cref="httpClient"/>.</param>
+		/// <param name="url">The value of <see cref="Url"/>.</param>
+		/// <param name="apiHeaders">The value of <see cref="Headers"/>.</param>
+		/// <param name="tokenRefreshHeaders">The value of <see cref="tokenRefreshHeaders"/>.</param>
 		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders)
 		{
 			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
@@ -134,157 +147,6 @@ namespace Tgstation.Server.Client
 		{
 			httpClient.Dispose();
 			semaphoreSlim.Dispose();
-		}
-
-		/// <summary>
-		/// Main request method
-		/// </summary>
-		/// <typeparam name="TBody">The body <see cref="Type"/>.</typeparam>
-		/// <typeparam name="TResult">The resulting POCO type.</typeparam>
-		/// <param name="route">The route to run</param>
-		/// <param name="body">The body of the request</param>
-		/// <param name="method">The method of the request</param>
-		/// <param name="instanceId">The optional instance <see cref="EntityId.Id"/> for the request</param>
-		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success</returns>
-		Task<TResult> RunRequest<TBody, TResult>(
-			string route,
-			TBody? body,
-			HttpMethod method,
-			long? instanceId,
-			bool tokenRefresh,
-			CancellationToken cancellationToken)
-			where TBody : class
-		{
-			HttpContent? content = null;
-			if(body != null)
-				content = new StringContent(
-					JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),
-					Encoding.UTF8,
-					MediaTypeNames.Application.Json);
-
-			return RunRequest<TResult>(
-				route,
-				content,
-				method,
-				instanceId,
-				tokenRefresh,
-				cancellationToken);
-		}
-
-		/// <summary>
-		/// Main request method
-		/// </summary>
-		/// <typeparam name="TResult">The resulting POCO type</typeparam>
-		/// <param name="route">The route to run</param>
-		/// <param name="content">The <see cref="HttpContent"/> of the request if any.</param>
-		/// <param name="method">The method of the request</param>
-		/// <param name="instanceId">The optional instance <see cref="EntityId.Id"/> for the request</param>
-		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success</returns>
-		async Task<TResult> RunRequest<TResult>(
-			string route,
-			HttpContent? content,
-			HttpMethod method,
-			long? instanceId,
-			bool tokenRefresh,
-			CancellationToken cancellationToken)
-		{
-			if (route == null)
-				throw new ArgumentNullException(nameof(route));
-			if (method == null)
-				throw new ArgumentNullException(nameof(method));
-			if (content == null && (method == HttpMethod.Post || method == HttpMethod.Put))
-				throw new InvalidOperationException("content cannot be null for POST or PUT!");
-
-			HttpResponseMessage response;
-			var fullUri = new Uri(Url, route);
-			var serializerSettings = GetSerializerSettings();
-			var fileDownload = typeof(TResult) == typeof(Stream);
-			using (var request = new HttpRequestMessage(method, fullUri))
-			{
-				if (content != null)
-					request.Content = content;
-
-				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
-				headersToUse.SetRequestHeaders(request.Headers, instanceId);
-
-				if (fileDownload)
-					request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
-
-				await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
-
-				response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-			}
-
-			try
-			{
-				await Task.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken))).ConfigureAwait(false);
-
-				// just stream
-				if (fileDownload && response.IsSuccessStatusCode)
-					return (TResult)(object)await CachedResponseStream.Create(response).ConfigureAwait(false);
-			}
-			catch
-			{
-				response.Dispose();
-				throw;
-			}
-
-			using (response)
-			{
-				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-				if (!response.IsSuccessStatusCode)
-				{
-					if (!tokenRefresh
-						&& response.StatusCode == HttpStatusCode.Unauthorized
-						&& await RefreshToken(cancellationToken).ConfigureAwait(false))
-						return await RunRequest<TResult>(route, content, method, instanceId, false, cancellationToken).ConfigureAwait(false);
-					HandleBadResponse(response, json);
-				}
-
-				if (String.IsNullOrWhiteSpace(json))
-					json = JsonConvert.SerializeObject(new object());
-
-				try
-				{
-					return JsonConvert.DeserializeObject<TResult>(json, serializerSettings) !;
-				}
-				catch (JsonException)
-				{
-					throw new UnrecognizedResponseException(response);
-				}
-			}
-		}
-
-		async Task<bool> RefreshToken(CancellationToken cancellationToken)
-		{
-			if (tokenRefreshHeaders == null)
-				return false;
-
-			var startingToken = headers.Token;
-			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
-			try
-			{
-				if (startingToken != headers.Token)
-					return true;
-
-				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
-				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
-			}
-			catch (ClientException)
-			{
-				return false;
-			}
-			finally
-			{
-				semaphoreSlim.Release();
-			}
-
-			return true;
 		}
 
 		/// <inheritdoc />
@@ -376,11 +238,168 @@ namespace Tgstation.Server.Client
 						false,
 						cancellationToken)
 						.ConfigureAwait(false);
-					streamContent = null; //CA2000
+					streamContent = null; // CA2000
 				}
 				finally
 				{
 					streamContent?.Dispose();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Attempt to refresh the bearer token in the <see cref="headers"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the refresh was successful, <see langword="false"/> otherwise.</returns>
+		async Task<bool> RefreshToken(CancellationToken cancellationToken)
+		{
+			if (tokenRefreshHeaders == null)
+				return false;
+
+			var startingToken = headers.Token;
+			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
+				if (startingToken != headers.Token)
+					return true;
+
+				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
+				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
+			}
+			catch (ClientException)
+			{
+				return false;
+			}
+			finally
+			{
+				semaphoreSlim.Release();
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Main request method.
+		/// </summary>
+		/// <typeparam name="TBody">The body <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TResult">The resulting POCO type.</typeparam>
+		/// <param name="route">The route to run.</param>
+		/// <param name="body">The body of the request.</param>
+		/// <param name="method">The method of the request.</param>
+		/// <param name="instanceId">The optional instance <see cref="EntityId.Id"/> for the request.</param>
+		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success.</returns>
+		Task<TResult> RunRequest<TBody, TResult>(
+			string route,
+			TBody? body,
+			HttpMethod method,
+			long? instanceId,
+			bool tokenRefresh,
+			CancellationToken cancellationToken)
+			where TBody : class
+		{
+			HttpContent? content = null;
+			if (body != null)
+				content = new StringContent(
+					JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),
+					Encoding.UTF8,
+					MediaTypeNames.Application.Json);
+
+			return RunRequest<TResult>(
+				route,
+				content,
+				method,
+				instanceId,
+				tokenRefresh,
+				cancellationToken);
+		}
+
+		/// <summary>
+		/// Main request method.
+		/// </summary>
+		/// <typeparam name="TResult">The resulting POCO type.</typeparam>
+		/// <param name="route">The route to run.</param>
+		/// <param name="content">The <see cref="HttpContent"/> of the request if any.</param>
+		/// <param name="method">The method of the request.</param>
+		/// <param name="instanceId">The optional instance <see cref="EntityId.Id"/> for the request.</param>
+		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success.</returns>
+		async Task<TResult> RunRequest<TResult>(
+			string route,
+			HttpContent? content,
+			HttpMethod method,
+			long? instanceId,
+			bool tokenRefresh,
+			CancellationToken cancellationToken)
+		{
+			if (route == null)
+				throw new ArgumentNullException(nameof(route));
+			if (method == null)
+				throw new ArgumentNullException(nameof(method));
+			if (content == null && (method == HttpMethod.Post || method == HttpMethod.Put))
+				throw new InvalidOperationException("content cannot be null for POST or PUT!");
+
+			HttpResponseMessage response;
+			var fullUri = new Uri(Url, route);
+			var serializerSettings = GetSerializerSettings();
+			var fileDownload = typeof(TResult) == typeof(Stream);
+			using (var request = new HttpRequestMessage(method, fullUri))
+			{
+				if (content != null)
+					request.Content = content;
+
+				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
+				headersToUse.SetRequestHeaders(request.Headers, instanceId);
+
+				if (fileDownload)
+					request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
+
+				await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
+
+				response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+			}
+
+			try
+			{
+				await Task.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken))).ConfigureAwait(false);
+
+				// just stream
+				if (fileDownload && response.IsSuccessStatusCode)
+					return (TResult)(object)await CachedResponseStream.Create(response).ConfigureAwait(false);
+			}
+			catch
+			{
+				response.Dispose();
+				throw;
+			}
+
+			using (response)
+			{
+				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+				if (!response.IsSuccessStatusCode)
+				{
+					if (!tokenRefresh
+						&& response.StatusCode == HttpStatusCode.Unauthorized
+						&& await RefreshToken(cancellationToken).ConfigureAwait(false))
+						return await RunRequest<TResult>(route, content, method, instanceId, false, cancellationToken).ConfigureAwait(false);
+					HandleBadResponse(response, json);
+				}
+
+				if (String.IsNullOrWhiteSpace(json))
+					json = JsonConvert.SerializeObject(new object());
+
+				try
+				{
+					var result = JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
+					return result!;
+				}
+				catch (JsonException)
+				{
+					throw new UnrecognizedResponseException(response);
 				}
 			}
 		}

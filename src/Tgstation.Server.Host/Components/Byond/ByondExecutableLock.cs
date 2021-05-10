@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
@@ -35,13 +36,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		readonly string trustedFilePath;
 
 		/// <summary>
-		/// Construct a <see cref="ByondExecutableLock"/>
+		/// Initializes a new instance of the <see cref="ByondExecutableLock"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="trustedFileSemaphore">The value of <see cref="trustedFileSemaphore"/>.</param>
-		/// <param name="version">The value of <see cref="Version"/></param>
-		/// <param name="dreamDaemonPath">The value of <see cref="DreamDaemonPath"/></param>
-		/// <param name="dreamMakerPath">The value of <see cref="DreamMakerPath"/></param>
+		/// <param name="version">The value of <see cref="Version"/>.</param>
+		/// <param name="dreamDaemonPath">The value of <see cref="DreamDaemonPath"/>.</param>
+		/// <param name="dreamMakerPath">The value of <see cref="DreamMakerPath"/>.</param>
 		/// <param name="trustedFilePath">The value of <see cref="trustedFilePath"/>.</param>
 		public ByondExecutableLock(
 			IIOManager ioManager,
@@ -63,10 +64,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		// That changed at some point so these functions are intentioanlly left blank
 
 		/// <inheritdoc />
-		public void Dispose() { }
+		public void Dispose()
+		{
+		}
 
 		/// <inheritdoc />
-		public void DoNotDeleteThisSession() { }
+		public void DoNotDeleteThisSession()
+		{
+		}
 
 		/// <inheritdoc />
 		public async Task TrustDmbPath(string fullDmbPath, CancellationToken cancellationToken)

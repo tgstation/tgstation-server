@@ -1,12 +1,14 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
@@ -35,47 +37,47 @@ namespace Tgstation.Server.Host.Components
 		public Task Ready => readyTcs.Task;
 
 		/// <summary>
-		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IInstanceFactory instanceFactory;
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IIOManager"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IJobManager"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="IServerControl"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IServerControl"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IServerControl serverControl;
 
 		/// <summary>
-		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly IServerPortProvider serverPortProvider;
 
@@ -85,7 +87,7 @@ namespace Tgstation.Server.Host.Components
 		readonly ISwarmService swarmService;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
 
@@ -120,26 +122,26 @@ namespace Tgstation.Server.Host.Components
 		readonly TaskCompletionSource<object> readyTcs;
 
 		/// <summary>
-		/// If the <see cref="InstanceManager"/> has been <see cref="DisposeAsync"/>'d
+		/// If the <see cref="InstanceManager"/> has been <see cref="DisposeAsync"/>'d.
 		/// </summary>
 		bool disposed;
 
 		/// <summary>
-		/// Construct an <see cref="InstanceManager"/>
+		/// Initializes a new instance of the <see cref="InstanceManager"/> class.
 		/// </summary>
-		/// <param name="instanceFactory">The value of <see cref="instanceFactory"/></param>
-		/// <param name="ioManager">The value of <paramref name="ioManager"/></param>
-		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
+		/// <param name="instanceFactory">The value of <see cref="instanceFactory"/>.</param>
+		/// <param name="ioManager">The value of <paramref name="ioManager"/>.</param>
+		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public InstanceManager(
 			IInstanceFactory instanceFactory,
 			IIOManager ioManager,
@@ -185,8 +187,8 @@ namespace Tgstation.Server.Host.Components
 				disposed = true;
 			}
 
-			foreach (var I in instances)
-				await I.Value.Instance.DisposeAsync().ConfigureAwait(false);
+			foreach (var instanceKvp in instances)
+				await instanceKvp.Value.Instance.DisposeAsync().ConfigureAwait(false);
 
 			instanceStateChangeSemaphore.Dispose();
 
@@ -239,7 +241,7 @@ namespace Tgstation.Server.Host.Components
 					{
 						var targetInstance = new Models.Instance
 						{
-							Id = instance.Id
+							Id = instance.Id,
 						};
 						db.Instances.Attach(targetInstance);
 						targetInstance.Path = oldPath;
@@ -312,9 +314,10 @@ namespace Tgstation.Server.Host.Components
 						.Where(x => x.Instance.Id == metadata.Id)
 						.Select(x => new Models.Job
 						{
-							Id = x.Id
+							Id = x.Id,
 						});
-					await jobs.ForEachAsync(job =>
+					await jobs.ForEachAsync(
+						job =>
 					{
 						lock (tasks)
 							tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));
@@ -390,7 +393,6 @@ namespace Tgstation.Server.Host.Components
 				CheckSystemCompatibility();
 
 				await InitializeSwarm(cancellationToken).ConfigureAwait(false);
-
 
 				List<Models.Instance> dbInstances = null;
 				var instanceEnumeration = databaseContextFactory.UseContext(
@@ -469,22 +471,6 @@ namespace Tgstation.Server.Host.Components
 			}
 		}
 
-		/// <summary>
-		/// Check we have a valid system identity.
-		/// </summary>
-		private void CheckSystemCompatibility()
-		{
-			using (var systemIdentity = systemIdentityFactory.GetCurrent())
-			{
-				if (!systemIdentity.CanCreateSymlinks)
-					throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
-			}
-
-			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
-			// If it does fail, DD will be killed.
-			SocketExtensions.BindTest(serverPortProvider.HttpApiPort, true);
-		}
-
 		/// <inheritdoc />
 		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
@@ -546,6 +532,22 @@ namespace Tgstation.Server.Host.Components
 				instances.TryGetValue(metadata.Id.Value, out var container);
 				return container?.Instance;
 			}
+		}
+
+		/// <summary>
+		/// Check we have a valid system identity.
+		/// </summary>
+		private void CheckSystemCompatibility()
+		{
+			using (var systemIdentity = systemIdentityFactory.GetCurrent())
+			{
+				if (!systemIdentity.CanCreateSymlinks)
+					throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
+			}
+
+			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
+			// If it does fail, DD will be killed.
+			SocketExtensions.BindTest(serverPortProvider.HttpApiPort, true);
 		}
 
 		/// <summary>

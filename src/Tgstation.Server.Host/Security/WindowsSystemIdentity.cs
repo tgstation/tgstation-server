@@ -1,14 +1,15 @@
-using System;
+﻿using System;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
-	/// <see cref="ISystemIdentity"/> for windows systems
+	/// <see cref="ISystemIdentity"/> for windows systems.
 	/// </summary>
 	sealed class WindowsSystemIdentity : ISystemIdentity
 	{
@@ -22,12 +23,12 @@ namespace Tgstation.Server.Host.Security
 		public bool CanCreateSymlinks => canCreateSymlinks ?? throw new NotSupportedException();
 
 		/// <summary>
-		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>
+		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>.
 		/// </summary>
 		readonly WindowsIdentity identity;
 
 		/// <summary>
-		/// The <see cref="UserPrincipal"/> for the <see cref="WindowsSystemIdentity"/>
+		/// The <see cref="UserPrincipal"/> for the <see cref="WindowsSystemIdentity"/>.
 		/// </summary>
 		readonly UserPrincipal userPrincipal;
 
@@ -37,9 +38,9 @@ namespace Tgstation.Server.Host.Security
 		readonly bool? canCreateSymlinks;
 
 		/// <summary>
-		/// Construct a <see cref="WindowsSystemIdentity"/> using a <see cref="WindowsIdentity"/>
+		/// Initializes a new instance of the <see cref="WindowsSystemIdentity"/> class.
 		/// </summary>
-		/// <param name="identity">The value of <see cref="identity"/></param>
+		/// <param name="identity">The value of <see cref="identity"/>.</param>
 		public WindowsSystemIdentity(WindowsIdentity identity)
 		{
 			this.identity = identity ?? throw new ArgumentNullException(nameof(identity));
@@ -47,9 +48,9 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <summary>
-		/// Construct a <see cref="WindowsSystemIdentity"/> using a <see cref="UserPrincipal"/>
+		/// Initializes a new instance of the <see cref="WindowsSystemIdentity"/> class.
 		/// </summary>
-		/// <param name="userPrincipal">The value of <see cref="userPrincipal"/></param>
+		/// <param name="userPrincipal">The value of <see cref="userPrincipal"/>.</param>
 		public WindowsSystemIdentity(UserPrincipal userPrincipal)
 		{
 			this.userPrincipal = userPrincipal ?? throw new ArgumentNullException(nameof(userPrincipal));
@@ -84,13 +85,17 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public Task RunImpersonated(Action action, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			if (action == null)
-				throw new ArgumentNullException(nameof(action));
-			if (identity == null)
-				throw new InvalidOperationException("Impersonate using a UserPrincipal based WindowsSystemIdentity!");
-			WindowsIdentity.RunImpersonated(identity.AccessToken, action);
-		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+		public Task RunImpersonated(Action action, CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				if (action == null)
+					throw new ArgumentNullException(nameof(action));
+				if (identity == null)
+					throw new InvalidOperationException("Impersonate using a UserPrincipal based WindowsSystemIdentity!");
+				WindowsIdentity.RunImpersonated(identity.AccessToken, action);
+			},
+			cancellationToken,
+			DefaultIOManager.BlockingTaskCreationOptions,
+			TaskScheduler.Current);
 	}
 }

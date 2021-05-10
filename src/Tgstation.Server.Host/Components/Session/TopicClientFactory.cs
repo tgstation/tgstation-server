@@ -1,6 +1,7 @@
-﻿using Byond.TopicSender;
+﻿using System;
+
+using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace Tgstation.Server.Host.Components.Session
 {
@@ -13,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ILogger<TopicClient> logger;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TopicClientFactory"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TopicClientFactory"/> class.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public TopicClientFactory(ILogger<TopicClient> logger)
@@ -29,7 +30,7 @@ namespace Tgstation.Server.Host.Components.Session
 					ConnectTimeout = timeout,
 					DisconnectTimeout = timeout,
 					ReceiveTimeout = timeout,
-					SendTimeout = timeout
+					SendTimeout = timeout,
 				},
 				logger);
 	}

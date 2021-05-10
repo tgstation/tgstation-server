@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
-	/// Provider for <see cref="IInstanceCore"/>s
+	/// Provider for <see cref="IInstanceCore"/>s.
 	/// </summary>
 	interface IInstanceCoreProvider
 	{

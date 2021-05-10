@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -19,24 +21,24 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// The <see cref="ApiController"/> for <see cref="IConfigurationFile"/>s
+	/// The <see cref="ApiController"/> for <see cref="IConfigurationFile"/>s.
 	/// </summary>
 	[Route(Routes.Configuration)]
 	public sealed class ConfigurationController : InstanceRequiredController
 	{
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="ConfigurationController"/>
+		/// The <see cref="IIOManager"/> for the <see cref="ConfigurationController"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// Construct a <see cref="UserController"/>
+		/// Initializes a new instance of the <see cref="ConfigurationController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public ConfigurationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -50,26 +52,6 @@ namespace Tgstation.Server.Host.Controllers
 				  logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-		}
-
-		/// <summary>
-		/// If a <see cref="ForbidResult"/> should be returned from actions due to conflicts with one or both of the <see cref="Api.Models.Instance.ConfigurationType"/> or the <see cref="IAuthenticationContext.SystemIdentity"/> or a given <paramref name="path"/> tries to access parent directories
-		/// </summary>
-		/// <param name="path">The path to validate if any</param>
-		/// <param name="systemIdentityToUse">The <see cref="ISystemIdentity"/> to use when calling into <see cref="Components.StaticFiles.IConfiguration"/></param>
-		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise</returns>
-		bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)
-		{
-			if (Instance.ConfigurationType == ConfigurationType.Disallowed
-				|| (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null)
-				|| (path != null && ioManager.PathContainsParentAccess(path)))
-			{
-				systemIdentityToUse = null;
-				return true;
-			}
-
-			systemIdentityToUse = Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite ? AuthenticationContext.SystemIdentity : null;
-			return false;
 		}
 
 		/// <summary>
@@ -109,12 +91,12 @@ namespace Tgstation.Server.Host.Controllers
 					})
 					.ConfigureAwait(false);
 			}
-			catch(IOException e)
+			catch (IOException e)
 			{
 				Logger.LogInformation("IOException while updating file {0}: {1}", model.Path, e);
 				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
-					AdditionalData = e.Message
+					AdditionalData = e.Message,
 				});
 			}
 			catch (NotImplementedException)
@@ -124,11 +106,11 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Get the contents of a file at a <paramref name="filePath"/>
+		/// Get the contents of a file at a <paramref name="filePath"/>.
 		/// </summary>
-		/// <param name="filePath">The path of the file to get</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>>
+		/// <param name="filePath">The path of the file to get.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>>
 		/// <response code="200">File read successfully.</response>>
 		/// <response code="410">File does not currently exist.</response>
 		[HttpGet(Routes.File + "/{*filePath}")]
@@ -161,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 				Logger.LogInformation("IOException while reading file {0}: {1}", filePath, e);
 				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
-					AdditionalData = e.Message
+					AdditionalData = e.Message,
 				});
 			}
 			catch (NotImplementedException)
@@ -171,13 +153,13 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Get the contents of a directory at a <paramref name="directoryPath"/>
+		/// Get the contents of a directory at a <paramref name="directoryPath"/>.
 		/// </summary>
-		/// <param name="directoryPath">The path of the directory to get</param>
+		/// <param name="directoryPath">The path of the directory to get.</param>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Directory listed successfully.</response>>
 		/// <response code="410">Directory does not currently exist.</response>
 		[HttpGet(Routes.List + "/{*directoryPath}")]
@@ -267,7 +249,7 @@ namespace Tgstation.Server.Host.Controllers
 				var resultModel = new ConfigurationFileResponse
 				{
 					IsDirectory = true,
-					Path = model.Path
+					Path = model.Path,
 				};
 
 				return await WithComponentInstance(
@@ -284,7 +266,7 @@ namespace Tgstation.Server.Host.Controllers
 				Logger.LogInformation("IOException while creating directory {0}: {1}", model.Path, e);
 				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
-					Message = e.Message
+					Message = e.Message,
 				});
 			}
 			catch (NotImplementedException)
@@ -298,11 +280,11 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Deletes an empty <paramref name="directory"/>
+		/// Deletes an empty <paramref name="directory"/>.
 		/// </summary>
-		/// <param name="directory">A <see cref="ConfigurationFileRequest"/> representing the path to the directory to delete</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		/// <param name="directory">A <see cref="ConfigurationFileRequest"/> representing the path to the directory to delete.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="204">Empty directory deleted successfully.</response>
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
@@ -337,6 +319,26 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return Forbid();
 			}
+		}
+
+		/// <summary>
+		/// If a <see cref="ForbidResult"/> should be returned from actions due to conflicts with one or both of the <see cref="Api.Models.Instance.ConfigurationType"/> or the <see cref="IAuthenticationContext.SystemIdentity"/> or a given <paramref name="path"/> tries to access parent directories.
+		/// </summary>
+		/// <param name="path">The path to validate if any.</param>
+		/// <param name="systemIdentityToUse">The <see cref="ISystemIdentity"/> to use when calling into <see cref="Components.StaticFiles.IConfiguration"/>.</param>
+		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise.</returns>
+		bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)
+		{
+			if (Instance.ConfigurationType == ConfigurationType.Disallowed
+				|| (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null)
+				|| (path != null && ioManager.PathContainsParentAccess(path)))
+			{
+				systemIdentityToUse = null;
+				return true;
+			}
+
+			systemIdentityToUse = Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite ? AuthenticationContext.SystemIdentity : null;
+			return false;
 		}
 	}
 }

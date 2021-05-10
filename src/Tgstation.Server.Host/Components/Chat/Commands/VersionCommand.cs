@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
-	/// <see cref="ICommand"/> to return the <see cref="IAssemblyInformationProvider.VersionString"/>
+	/// <see cref="ICommand"/> to return the <see cref="IAssemblyInformationProvider.VersionString"/>.
 	/// </summary>
 	sealed class VersionCommand : ICommand
 	{
@@ -20,14 +21,14 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly => false;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="VersionCommand"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="VersionCommand"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// Construct a <see cref="VersionCommand"/>
+		/// Initializes a new instance of the <see cref="VersionCommand"/> class.
 		/// </summary>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		public VersionCommand(IAssemblyInformationProvider assemblyInformationProvider)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));

@@ -1,13 +1,15 @@
+﻿using System;
+using System.Net;
+using System.Net.Mime;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog.Context;
-using System;
-using System.Net;
-using System.Net.Mime;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 
@@ -28,17 +30,17 @@ namespace Tgstation.Server.Host.Controllers
 		static long requestsProcessed;
 
 		/// <summary>
-		/// The <see cref="IBridgeDispatcher"/> for the <see cref="BridgeController"/>
+		/// The <see cref="IBridgeDispatcher"/> for the <see cref="BridgeController"/>.
 		/// </summary>
 		readonly IBridgeDispatcher bridgeDispatcher;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="BridgeController"/>
+		/// The <see cref="ILogger"/> for the <see cref="BridgeController"/>.
 		/// </summary>
 		readonly ILogger<BridgeController> logger;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="BridgeController"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="BridgeController"/> class.
 		/// </summary>
 		/// <param name="bridgeDispatcher">The value of <see cref="bridgeDispatcher"/>.</param>
 		/// <param name="applicationLifetime">The <see cref="IHostApplicationLifetime"/> of the server.</param>
@@ -58,10 +60,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// Processes a bridge request.
 		/// </summary>
 		/// <param name="data">JSON encoded <see cref="BridgeParameters"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		[HttpGet]
-		public async Task<IActionResult> Process([FromQuery]string data, CancellationToken cancellationToken)
+		public async Task<IActionResult> Process([FromQuery] string data, CancellationToken cancellationToken)
 		{
 			// Nothing to see here
 			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;

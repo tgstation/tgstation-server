@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond.Tests
@@ -41,7 +42,7 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
-			
+
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, default)).ConfigureAwait(false);
 
 			var ourArray = Array.Empty<byte>();
@@ -60,7 +61,7 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
-			
+
 			const string FakePath = "fake";
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(null, null, default)).ConfigureAwait(false);
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(FakePath, null, default)).ConfigureAwait(false);

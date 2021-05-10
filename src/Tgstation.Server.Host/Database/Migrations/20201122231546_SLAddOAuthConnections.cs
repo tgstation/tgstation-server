@@ -1,5 +1,6 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -22,7 +23,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.Annotation("Sqlite:Autoincrement", true),
 					Provider = table.Column<int>(nullable: false),
 					ExternalUserId = table.Column<string>(nullable: false, maxLength: 100),
-					UserId = table.Column<long>(nullable: true)
+					UserId = table.Column<long>(nullable: true),
 				},
 				constraints: table =>
 				{

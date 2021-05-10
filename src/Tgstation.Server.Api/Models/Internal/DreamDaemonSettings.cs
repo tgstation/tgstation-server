@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -8,7 +8,7 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class DreamDaemonSettings : DreamDaemonLaunchParameters
 	{
 		/// <summary>
-		/// If the watchdog starts when it's <see cref="Instance"/> starts
+		/// If the watchdog starts when it's <see cref="Instance"/> starts.
 		/// </summary>
 		[Required]
 		[ResponseOptions]

@@ -1,6 +1,8 @@
+﻿using System;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
@@ -48,7 +50,7 @@ namespace Tgstation.Server.Host.Setup
 		readonly IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PostSetupServices{TLoggerType}"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PostSetupServices{TLoggerType}"/> class.
 		/// </summary>
 		/// <param name="platformIdentifier">The value of <see cref="PlatformIdentifier"/>.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> used to create <see cref="Logger"/>.</param>

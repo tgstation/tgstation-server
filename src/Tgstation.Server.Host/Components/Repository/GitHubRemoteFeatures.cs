@@ -1,8 +1,10 @@
-using Microsoft.Extensions.Logging;
-using Octokit;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Octokit;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Core;
@@ -36,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IGitHubClientFactory gitHubClientFactory;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GitHubRemoteFeatures"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="GitHubRemoteFeatures"/> class.
 		/// </summary>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="GitRemoteFeaturesBase"/>.</param>
@@ -110,7 +112,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				Comment = parameters.Comment,
 				Number = parameters.Number,
 				TargetCommitSha = revisionToUse,
-				Url = pr?.HtmlUrl ?? errorMessage
+				Url = pr?.HtmlUrl ?? errorMessage,
 			};
 
 			return testMerge;

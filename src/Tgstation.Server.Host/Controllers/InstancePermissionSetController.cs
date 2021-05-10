@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -14,6 +16,7 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+
 using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Controllers
@@ -25,12 +28,12 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class InstancePermissionSetController : InstanceRequiredController
 	{
 		/// <summary>
-		/// Construct a <see cref="UserController"/>
+		/// Initializes a new instance of the <see cref="InstancePermissionSetController"/> class.
 		/// </summary>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public InstancePermissionSetController(
 			IInstanceManager instanceManager,
 			IDatabaseContext databaseContext,
@@ -41,7 +44,8 @@ namespace Tgstation.Server.Host.Controllers
 				  databaseContext,
 				  authenticationContextFactory,
 				  logger)
-		{ }
+		{
+		}
 
 		/// <summary>
 		/// Create an <see cref="InstancePermissionSet"/>.
@@ -67,7 +71,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == model.PermissionSetId)
 				.Select(x => new Models.PermissionSet
 				{
-					UserId = x.UserId
+					UserId = x.UserId,
 				})
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -107,7 +111,7 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			return Created(dbUser.ToApi());
 		}
-		#pragma warning restore CA1506
+#pragma warning restore CA1506
 
 		/// <summary>
 		/// Update the permissions for an <see cref="InstancePermissionSet"/>.
@@ -121,7 +125,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(InstancePermissionSetRights.Write)]
 		[ProducesResponseType(typeof(InstancePermissionSetResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] InstancePermissionSetRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -154,7 +158,7 @@ namespace Tgstation.Server.Host.Controllers
 					? originalPermissionSet.ToApi()
 					: new InstancePermissionSetResponse
 					{
-						PermissionSetId = originalPermissionSet.PermissionSetId
+						PermissionSetId = originalPermissionSet.PermissionSetId,
 					});
 		}
 #pragma warning restore CA1506

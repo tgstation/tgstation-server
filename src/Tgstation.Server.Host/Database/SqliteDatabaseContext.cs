@@ -1,7 +1,9 @@
+﻿using System;
+using System.Linq;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Linq;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
@@ -17,11 +19,12 @@ namespace Tgstation.Server.Host.Database
 		public static bool DesignTime { get; set; }
 
 		/// <summary>
-		/// Construct a <see cref="MySqlDatabaseContext"/>
+		/// Initializes a new instance of the <see cref="SqliteDatabaseContext"/> class.
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/>.</param>
 		public SqliteDatabaseContext(DbContextOptions<SqliteDatabaseContext> dbContextOptions) : base(dbContextOptions)
-		{ }
+		{
+		}
 
 		/// <summary>
 		/// Configure the <see cref="SqliteDatabaseContext"/>.

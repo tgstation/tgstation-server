@@ -1,14 +1,16 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Serilog.Context;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Serilog.Context;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
@@ -50,7 +52,7 @@ namespace Tgstation.Server.Host.Controllers
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SwarmController"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="SwarmController"/> class.
 		/// </summary>
 		/// <param name="swarmOperations">The value of <see cref="swarmOperations"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
@@ -69,18 +71,12 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Check that the <see cref="RequestRegistrationId"/> is valid.
-		/// </summary>
-		/// <returns><see langword="true"/> if the <see cref="RequestRegistrationId"/> is valid, <see langword="false"/> otherwise.</returns>
-		bool ValidateRegistration() => swarmOperations.ValidateRegistration(RequestRegistrationId);
-
-		/// <summary>
 		/// Registration endpoint.
 		/// </summary>
 		/// <param name="registrationRequest">The <see cref="SwarmRegistrationRequest"/>.</param>
 		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPost(SwarmConstants.RegisterRoute)]
-		public IActionResult Register([FromBody]SwarmRegistrationRequest registrationRequest)
+		public IActionResult Register([FromBody] SwarmRegistrationRequest registrationRequest)
 		{
 			if (registrationRequest == null)
 				throw new ArgumentNullException(nameof(registrationRequest));
@@ -128,7 +124,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="serversUpdateRequest">The <see cref="SwarmServersUpdateRequest"/>.</param>
 		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPost]
-		public IActionResult UpdateNodeList([FromBody]SwarmServersUpdateRequest serversUpdateRequest)
+		public IActionResult UpdateNodeList([FromBody] SwarmServersUpdateRequest serversUpdateRequest)
 		{
 			if (serversUpdateRequest == null)
 				throw new ArgumentNullException(nameof(serversUpdateRequest));
@@ -147,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPut(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> PrepareUpdate([FromBody]SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
+		public async Task<IActionResult> PrepareUpdate([FromBody] SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
 			if (updateRequest == null)
 				throw new ArgumentNullException(nameof(updateRequest));
@@ -197,47 +193,55 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			using var _ = LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}");
-			logger.LogTrace("Swarm request from {0}...", Request.HttpContext.Connection.RemoteIpAddress);
-			if (swarmConfiguration.PrivateKey == null)
+			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
 			{
-				logger.LogDebug("Attempted swarm request without private key configured!");
-				await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
+				logger.LogTrace("Swarm request from {0}...", Request.HttpContext.Connection.RemoteIpAddress);
+				if (swarmConfiguration.PrivateKey == null)
+				{
+					logger.LogDebug("Attempted swarm request without private key configured!");
+					await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
+
+				if (!(Request.Headers.TryGetValue(SwarmConstants.ApiKeyHeader, out var apiKeyHeaderValues)
+					&& apiKeyHeaderValues.Count == 1
+					&& apiKeyHeaderValues.First() == swarmConfiguration.PrivateKey))
+				{
+					logger.LogDebug("Unauthorized swarm request!");
+					await Unauthorized().ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
+
+				if (!(Request.Headers.TryGetValue(SwarmConstants.RegistrationIdHeader, out var registrationHeaderValues)
+					&& registrationHeaderValues.Count == 1
+					&& Guid.TryParse(registrationHeaderValues.First(), out var registrationId)))
+				{
+					logger.LogDebug("Swarm request without registration ID!");
+					await BadRequest().ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
+
+				// we validate the registration itself on a case-by-case basis
+				if (ModelState?.IsValid == false)
+				{
+					var errors = ModelState
+						.SelectMany(x => x.Value.Errors)
+						.Select(x => x.Exception);
+
+					logger.LogDebug(new AggregateException(errors), "Swarm request model validation failed!");
+					await BadRequest().ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
+
+				logger.LogTrace("Starting swarm request processing...");
+				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 			}
-
-			if (!(Request.Headers.TryGetValue(SwarmConstants.ApiKeyHeader, out var apiKeyHeaderValues)
-				&& apiKeyHeaderValues.Count == 1
-				&& apiKeyHeaderValues.First() == swarmConfiguration.PrivateKey))
-			{
-				logger.LogDebug("Unauthorized swarm request!");
-				await Unauthorized().ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
-			}
-
-			if (!(Request.Headers.TryGetValue(SwarmConstants.RegistrationIdHeader, out var registrationHeaderValues)
-				&& registrationHeaderValues.Count == 1
-				&& Guid.TryParse(registrationHeaderValues.First(), out var registrationId)))
-			{
-				logger.LogDebug("Swarm request without registration ID!");
-				await BadRequest().ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
-			}
-
-			// we validate the registration itself on a case-by-case basis
-			if (ModelState?.IsValid == false)
-			{
-				var errors = ModelState
-					.SelectMany(x => x.Value.Errors)
-					.Select(x => x.Exception);
-
-				logger.LogDebug(new AggregateException(errors), "Swarm request model validation failed!");
-				await BadRequest().ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
-			}
-
-			logger.LogTrace("Starting swarm request processing...");
-			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 		}
+
+		/// <summary>
+		/// Check that the <see cref="RequestRegistrationId"/> is valid.
+		/// </summary>
+		/// <returns><see langword="true"/> if the <see cref="RequestRegistrationId"/> is valid, <see langword="false"/> otherwise.</returns>
+		bool ValidateRegistration() => swarmOperations.ValidateRegistration(RequestRegistrationId);
 	}
 }

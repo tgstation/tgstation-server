@@ -1,27 +1,29 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Console
 {
 	/// <summary>
-	/// Contains the entrypoint for the application
+	/// Contains the entrypoint for the application.
 	/// </summary>
 	static class Program
 	{
 		/// <summary>
-		/// The <see cref="IWatchdogFactory"/> for the <see cref="Program"/>
+		/// The <see cref="IWatchdogFactory"/> for the <see cref="Program"/>.
 		/// </summary>
 		internal static IWatchdogFactory WatchdogFactory { get; set; } = new WatchdogFactory();
 
 		/// <summary>
-		/// Entrypoint for the application
+		/// Entrypoint for the application.
 		/// </summary>
-		/// <param name="args">The arguments for the <see cref="Program"/></param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="args">The arguments for the <see cref="Program"/>.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		internal static async Task Main(string[] args)
 		{
 			using var loggerFactory = new LoggerFactory();

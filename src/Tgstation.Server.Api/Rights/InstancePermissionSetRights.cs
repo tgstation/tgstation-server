@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for an <see cref="Models.Instance"/>
+	/// Rights for an <see cref="Models.Instance"/>.
 	/// </summary>
 	[Flags]
 	public enum InstancePermissionSetRights : ulong
@@ -26,6 +26,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// Allow adding additional <see cref="Models.Internal.InstancePermissionSet"/>s to the <see cref="Models.Instance"/>.
 		/// </summary>
-		Create = 4
+		Create = 4,
 	}
 }

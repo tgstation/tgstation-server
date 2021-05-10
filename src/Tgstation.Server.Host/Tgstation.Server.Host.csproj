@@ -11,7 +11,7 @@
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <DocumentationFile>bin\$(Configuration)\netcoreapp3.1\Tgstation.Server.Host.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <NoWarn>API1000</NoWarn>
+    <NoWarn>API1000,IDE0004</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -92,6 +92,10 @@
     <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.1.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />

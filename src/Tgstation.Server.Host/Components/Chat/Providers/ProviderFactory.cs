@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Globalization;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Jobs;
@@ -12,12 +14,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	sealed class ProviderFactory : IProviderFactory
 	{
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="ProviderFactory"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="ProviderFactory"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="ProviderFactory"/>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="ProviderFactory"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
 
@@ -27,17 +29,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="ProviderFactory"/>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="ProviderFactory"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// Construct a <see cref="ProviderFactory"/>
+		/// Initializes a new instance of the <see cref="ProviderFactory"/> class.
 		/// </summary>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
-		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		public ProviderFactory(
 			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,

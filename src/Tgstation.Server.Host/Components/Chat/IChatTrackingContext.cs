@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Tgstation.Server.Host.Components.Chat.Commands;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
-	/// Represents a tracking of dynamic chat json files
+	/// Represents a tracking of dynamic chat json files.
 	/// </summary>
 	public interface IChatTrackingContext : IChannelSink, IDisposable
 	{

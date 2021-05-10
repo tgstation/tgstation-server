@@ -1,5 +1,6 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Online = table.Column<bool>(nullable: false),
 					ConfigurationType = table.Column<int>(nullable: false),
 					AutoUpdateInterval = table.Column<uint>(nullable: false),
-					ChatBotLimit = table.Column<ushort>(nullable: false)
+					ChatBotLimit = table.Column<ushort>(nullable: false),
 				},
 				constraints: table =>
 				{

@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
-	/// Type of database to user
+	/// Type of database to user.
 	/// </summary>
 	public enum DatabaseType
 	{

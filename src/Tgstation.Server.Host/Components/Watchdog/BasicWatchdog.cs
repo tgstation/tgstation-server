@@ -1,9 +1,11 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -38,7 +40,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool gracefulRebootRequired;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="BasicWatchdog"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="BasicWatchdog"/> class.
 		/// </summary>
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
@@ -84,7 +86,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 initialLaunchParameters,
 				 instance,
 				 autoStart)
-		{ }
+		{
+		}
+
+		/// <inheritdoc />
+		public override Task ResetRebootState(CancellationToken cancellationToken)
+		{
+			if (!gracefulRebootRequired)
+				return base.ResetRebootState(cancellationToken);
+
+			return Restart(true, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public sealed override Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+			=> Server?.InstanceRenamed(newInstanceName, cancellationToken) ?? Task.CompletedTask;
 
 		/// <inheritdoc />
 		protected override async Task<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
@@ -148,6 +164,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						default:
 							throw new InvalidOperationException($"Invalid reboot state: {rebootState}");
 					}
+
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
 					await Server.SetRebootState(Session.RebootState.Restart, cancellationToken).ConfigureAwait(false);
 					gracefulRebootRequired = true;
@@ -288,18 +305,5 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the modified <see cref="IDmbProvider"/> to be used.</returns>
 		protected virtual Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken) => Task.FromResult(dmbToUse);
-
-		/// <inheritdoc />
-		public override Task ResetRebootState(CancellationToken cancellationToken)
-		{
-			if (!gracefulRebootRequired)
-				return base.ResetRebootState(cancellationToken);
-
-			return Restart(true, cancellationToken);
-		}
-
-		/// <inheritdoc />
-		public sealed override Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
-			=> Server?.InstanceRenamed(newInstanceName, cancellationToken) ?? Task.CompletedTask;
 	}
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace Tgstation.Server.Api.Properties
@@ -22,7 +22,7 @@ namespace Tgstation.Server.Api.Properties
 		public string RawApiVersion { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ApiVersionAttribute"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ApiVersionAttribute"/> class.
 		/// </summary>
 		/// <param name="rawApiVersion">The value of <see cref="RawApiVersion"/>.</param>
 		public ApiVersionAttribute(

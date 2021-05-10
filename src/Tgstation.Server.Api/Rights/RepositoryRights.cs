@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -76,6 +76,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may cancel clone jobs.
 		/// </summary>
-		CancelClone = 4096
+		CancelClone = 4096,
 	}
 }

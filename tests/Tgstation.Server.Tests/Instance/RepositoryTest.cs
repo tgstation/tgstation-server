@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
@@ -165,7 +166,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNotNull(numberOnlyMerging.ActiveJob);
 			Assert.IsTrue(numberOnlyMerging.ActiveJob.Description.Contains(prNumber.ToString()));
 
-			await WaitForJob(numberOnlyMerging.ActiveJob, 20, false, null,cancellationToken);
+			await WaitForJob(numberOnlyMerging.ActiveJob, 20, false, null, cancellationToken);
 
 			var withMerge = await repositoryClient.Read(cancellationToken);
 			Assert.AreEqual(repository.Reference, withMerge.Reference);

@@ -1,11 +1,13 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -28,47 +30,47 @@ namespace Tgstation.Server.Host.Components.Session
 	sealed class SessionControllerFactory : ISessionControllerFactory
 	{
 		/// <summary>
-		/// The <see cref="IProcessExecutor"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IProcessExecutor"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
-		/// The <see cref="IByondManager"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IByondManager"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IByondManager byond;
 
 		/// <summary>
-		/// The <see cref="ITopicClientFactory"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="ITopicClientFactory"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly ITopicClientFactory topicClientFactory;
 
 		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="ICryptographySuite"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IIOManager"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IChatManager"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IChatManager"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IChatManager chat;
 
 		/// <summary>
-		/// The <see cref="INetworkPromptReaper"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="INetworkPromptReaper"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly INetworkPromptReaper networkPromptReaper;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
@@ -83,32 +85,30 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IServerPortProvider serverPortProvider;
 
 		/// <summary>
-		/// The <see cref="IEventConsumer"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IEventConsumer"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="ILogger"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly ILogger<SessionControllerFactory> logger;
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly Api.Models.Instance instance;
 
-
-
 		/// <summary>
-		/// Change a given <paramref name="securityLevel"/> into the appropriate DreamDaemon command line word
+		/// Change a given <paramref name="securityLevel"/> into the appropriate DreamDaemon command line word.
 		/// </summary>
-		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level to change</param>
-		/// <returns>A <see cref="string"/> representation of the command line parameter</returns>
+		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level to change.</param>
+		/// <returns>A <see cref="string"/> representation of the command line parameter.</returns>
 		static string SecurityWord(DreamDaemonSecurity securityLevel)
 		{
 			return securityLevel switch
@@ -138,21 +138,21 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <summary>
-		/// Construct a <see cref="SessionControllerFactory"/>
+		/// Initializes a new instance of the <see cref="SessionControllerFactory"/> class.
 		/// </summary>
-		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
-		/// <param name="byond">The value of <see cref="byond"/></param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
+		/// <param name="byond">The value of <see cref="byond"/>.</param>
 		/// <param name="topicClientFactory">The value of <see cref="topicClientFactory"/>.</param>
-		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="chat">The value of <see cref="chat"/></param>
-		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
-		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="instance">The value of <see cref="instance"/>.</param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="chat">The value of <see cref="chat"/>.</param>
+		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="bridgeRegistrar">The value of <see cref="bridgeRegistrar"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
-		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
 		public SessionControllerFactory(
@@ -190,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
 			IByondExecutableLock currentByondLock,
@@ -316,7 +316,8 @@ namespace Tgstation.Server.Host.Components.Session
 							var ddOutput = await GetDDOutput().ConfigureAwait(false);
 							logger.LogTrace(
 								"DreamDaemon Output:{0}{1}",
-								Environment.NewLine, ddOutput);
+								Environment.NewLine,
+								ddOutput);
 						}
 						catch (Exception ex)
 						{
@@ -363,7 +364,7 @@ namespace Tgstation.Server.Host.Components.Session
 								EventType.DreamDaemonLaunch,
 								new List<string>
 								{
-									process.Id.ToString(CultureInfo.InvariantCulture)
+									process.Id.ToString(CultureInfo.InvariantCulture),
 								},
 								cancellationToken)
 								.ConfigureAwait(false);
@@ -393,7 +394,7 @@ namespace Tgstation.Server.Host.Components.Session
 				throw;
 			}
 		}
-		#pragma warning restore CA1506
+#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		public async Task<ISessionController> Reattach(
@@ -476,7 +477,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/>.</param>
 		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level if any.</param>
 		/// <param name="apiValidateOnly">The value of <see cref="RuntimeInformation.ApiValidateOnly"/>.</param>
-		/// <returns>A new <see cref="RuntimeInformation"/> <see langword="class"/>.</returns>
+		/// <returns>A new <see cref="RuntimeInformation"/> class.</returns>
 		RuntimeInformation CreateRuntimeInformation(
 			IDmbProvider dmbProvider,
 			IChatTrackingContext chatTrackingContext,
@@ -510,7 +511,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var ourUserName = await ourProcess.GetExecutingUsername(cancellationToken).ConfigureAwait(false);
 			var otherUserName = await otherUsernameTask.ConfigureAwait(false);
 
-			if(otherUserName.Equals(ourUserName, StringComparison.Ordinal))
+			if (otherUserName.Equals(ourUserName, StringComparison.Ordinal))
 				throw new JobException(ErrorCode.DeploymentPagerRunning);
 		}
 	}

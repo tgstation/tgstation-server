@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Tgstation.Server.Host.Components.Interop.Topic;
 
 namespace Tgstation.Server.Host.Components.Session
@@ -19,7 +20,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public TopicResponse InteropResponse { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CombinedTopicResponse"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="CombinedTopicResponse"/> class.
 		/// </summary>
 		/// <param name="byondTopicResponse">The value of <see cref="ByondTopicResponse"/>.</param>
 		/// <param name="interopResponse">The optional value of <see cref="InteropResponse"/>.</param>

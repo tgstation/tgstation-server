@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models.Request
+﻿namespace Tgstation.Server.Api.Models.Request
 {
 	/// <summary>
 	/// Request to create a user group.

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -40,9 +40,9 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public IEnumerable<string> GetDirectories(string path, CancellationToken cancellationToken)
 		{
-			foreach (var I in Directory.EnumerateDirectories(path))
+			foreach (var directoryName in Directory.EnumerateDirectories(path))
 			{
-				yield return Path.GetFileName(I);
+				yield return Path.GetFileName(directoryName);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 		}
@@ -50,9 +50,9 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public IEnumerable<string> GetFiles(string path, CancellationToken cancellationToken)
 		{
-			foreach (var I in Directory.EnumerateFiles(path))
+			foreach (var fileName in Directory.EnumerateFiles(path))
 			{
-				yield return Path.GetFileName(I);
+				yield return Path.GetFileName(fileName);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 		}

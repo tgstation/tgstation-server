@@ -1,14 +1,16 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -31,12 +33,12 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferStreamHandler fileTransferService;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TransferController"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TransferController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public TransferController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -72,12 +74,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (!Request.GetTypedHeaders().Accept.Any(x => streamAccept.IsSubsetOf(x)))
 				return StatusCode(HttpStatusCode.NotAcceptable, new ErrorMessageResponse(ErrorCode.BadHeaders)
 				{
-					AdditionalData = $"File downloads must accept both {MediaTypeNames.Application.Octet} and {MediaTypeNames.Application.Json}!"
+					AdditionalData = $"File downloads must accept both {MediaTypeNames.Application.Octet} and {MediaTypeNames.Application.Json}!",
 				});
 
 			var fileTicketResult = new FileTicketResponse
 			{
-				FileTicket = ticket
+				FileTicket = ticket,
 			};
 
 			var tuple = await fileTransferService.RetrieveDownloadStream(fileTicketResult, cancellationToken).ConfigureAwait(false);
@@ -119,7 +121,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var fileTicketResult = new FileTicketResponse
 			{
-				FileTicket = ticket
+				FileTicket = ticket,
 			};
 
 			var result = await fileTransferService.SetUploadStream(fileTicketResult, Request.Body, cancellationToken).ConfigureAwait(false);

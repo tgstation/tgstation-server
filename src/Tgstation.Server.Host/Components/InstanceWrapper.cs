@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -35,7 +36,7 @@ namespace Tgstation.Server.Host.Components
 		IInstanceCore actualInstance;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="InstanceWrapper"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="InstanceWrapper"/> class.
 		/// </summary>
 		/// <param name="actualInstance">The value of <see cref="actualInstance"/>.</param>
 		/// <param name="onDisposed">The value of <see cref="onDisposed"/>.</param>

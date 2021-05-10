@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,12 +16,12 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// The real <see cref="HttpClient"/>
+		/// The real <see cref="HttpClient"/>.
 		/// </summary>
 		readonly HttpClient httpClient;
 
 		/// <summary>
-		/// Construct an <see cref="HttpClientImplementation"/>
+		/// Initializes a new instance of the <see cref="HttpClientImplementation"/> class.
 		/// </summary>
 		public HttpClientImplementation()
 		{

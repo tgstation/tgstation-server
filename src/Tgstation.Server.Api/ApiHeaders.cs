@@ -1,20 +1,22 @@
-using Microsoft.AspNetCore.Http.Headers;
-using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+
+using Microsoft.AspNetCore.Http.Headers;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Properties;
 
 namespace Tgstation.Server.Api
 {
 	/// <summary>
-	/// Represents the header that must be present for every server request
+	/// Represents the header that must be present for every server request.
 	/// </summary>
 	public sealed class ApiHeaders
 	{
@@ -34,62 +36,62 @@ namespace Tgstation.Server.Api
 		public const string OAuthProviderHeader = "OAuthProvider";
 
 		/// <summary>
-		/// The JWT authentication header scheme
+		/// The JWT authentication header scheme.
 		/// </summary>
 		public const string BearerAuthenticationScheme = "Bearer";
 
 		/// <summary>
-		/// The JWT authentication header scheme
+		/// The JWT authentication header scheme.
 		/// </summary>
 		public const string BasicAuthenticationScheme = "Basic";
 
 		/// <summary>
-		/// The JWT authentication header scheme
+		/// The JWT authentication header scheme.
 		/// </summary>
 		public const string OAuthAuthenticationScheme = "OAuth";
 
 		/// <summary>
-		/// The current <see cref="System.Reflection.AssemblyName"/>
-		/// </summary>
-		static readonly AssemblyName AssemblyName = Assembly.GetExecutingAssembly().GetName();
-
-		/// <summary>
-		/// Get the version of the <see cref="Api"/> the caller is using
+		/// Get the version of the <see cref="Api"/> the caller is using.
 		/// </summary>
 		public static readonly Version Version = Version.Parse(ApiVersionAttribute.Instance.RawApiVersion);
 
 		/// <summary>
-		/// The instance <see cref="EntityId.Id"/> being accessed
+		/// The current <see cref="System.Reflection.AssemblyName"/>.
+		/// </summary>
+		static readonly AssemblyName AssemblyName = Assembly.GetExecutingAssembly().GetName();
+
+		/// <summary>
+		/// The instance <see cref="EntityId.Id"/> being accessed.
 		/// </summary>
 		public long? InstanceId { get; set; }
 
 		/// <summary>
-		/// The client's user agent as a <see cref="ProductHeaderValue"/> if valid
+		/// The client's user agent as a <see cref="ProductHeaderValue"/> if valid.
 		/// </summary>
 		public ProductHeaderValue? UserAgent => ProductInfoHeaderValue.TryParse(RawUserAgent, out var userAgent) ? userAgent.Product : null;
 
 		/// <summary>
-		/// The client's raw user agent
+		/// The client's raw user agent.
 		/// </summary>
 		public string? RawUserAgent { get; }
 
 		/// <summary>
-		/// The client's API version
+		/// The client's API version.
 		/// </summary>
 		public Version ApiVersion { get; }
 
 		/// <summary>
-		/// The client's JWT
+		/// The client's JWT.
 		/// </summary>
 		public string? Token { get; }
 
 		/// <summary>
-		/// The client's username
+		/// The client's username.
 		/// </summary>
 		public string? Username { get; }
 
 		/// <summary>
-		/// The client's password
+		/// The client's password.
 		/// </summary>
 		public string? Password { get; }
 
@@ -104,17 +106,17 @@ namespace Tgstation.Server.Api
 		public bool IsTokenAuthentication => Token != null && !OAuthProvider.HasValue;
 
 		/// <summary>
-		/// Checks if a given <paramref name="otherVersion"/> is compatible with our own
+		/// Checks if a given <paramref name="otherVersion"/> is compatible with our own.
 		/// </summary>
-		/// <param name="otherVersion">The <see cref="Version"/> to test</param>
-		/// <returns><see langword="true"/> if the given version is compatible with the API. <see langword="false"/> otherwise</returns>
+		/// <param name="otherVersion">The <see cref="Version"/> to test.</param>
+		/// <returns><see langword="true"/> if the given version is compatible with the API. <see langword="false"/> otherwise.</returns>
 		public static bool CheckCompatibility(Version otherVersion) => Version.Major == (otherVersion?.Major ?? throw new ArgumentNullException(nameof(otherVersion)));
 
 		/// <summary>
-		/// Construct <see cref="ApiHeaders"/> for JWT authentication
+		/// Initializes a new instance of the <see cref="ApiHeaders"/> class. Used for token authentication.
 		/// </summary>
-		/// <param name="userAgent">The value of <see cref="UserAgent"/></param>
-		/// <param name="token">The value of <see cref="Token"/></param>
+		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
+		/// <param name="token">The value of <see cref="Token"/>.</param>
 		/// <param name="oauthProvider">The value of <see cref="OAuthProvider"/>.</param>
 		public ApiHeaders(ProductHeaderValue userAgent, string token, OAuthProvider? oauthProvider = null) : this(userAgent, token, null, null)
 		{
@@ -127,11 +129,11 @@ namespace Tgstation.Server.Api
 		}
 
 		/// <summary>
-		/// Construct <see cref="ApiHeaders"/> for password authentication
+		/// Initializes a new instance of the <see cref="ApiHeaders"/> class. Used for password authentication.
 		/// </summary>
-		/// <param name="userAgent">The value of <see cref="UserAgent"/></param>
-		/// <param name="username">The value of <see cref="Username"/></param>
-		/// <param name="password">The value of <see cref="Password"/></param>
+		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
+		/// <param name="username">The value of <see cref="Username"/>.</param>
+		/// <param name="password">The value of <see cref="Password"/>.</param>
 		public ApiHeaders(ProductHeaderValue userAgent, string username, string password) : this(userAgent, null, username, password)
 		{
 			if (userAgent == null)
@@ -143,9 +145,9 @@ namespace Tgstation.Server.Api
 		}
 
 		/// <summary>
-		/// Construct and validates <see cref="ApiHeaders"/> from a set of <paramref name="requestHeaders"/>
+		/// Initializes a new instance of the <see cref="ApiHeaders"/> class.
 		/// </summary>
-		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the <see cref="ApiHeaders"/></param>
+		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the serialized <see cref="ApiHeaders"/>.</param>
 		/// <param name="ignoreMissingAuth">If a missing <see cref="HeaderNames.Authorization"/> should be ignored.</param>
 		/// <exception cref="HeadersException">Thrown if the <paramref name="requestHeaders"/> constitue invalid <see cref="ApiHeaders"/>.</exception>
 #pragma warning disable CA1502
@@ -270,12 +272,12 @@ namespace Tgstation.Server.Api
 #pragma warning restore CA1502
 
 		/// <summary>
-		/// Construct <see cref="ApiHeaders"/>
+		/// Initializes a new instance of the <see cref="ApiHeaders"/> class.
 		/// </summary>
-		/// <param name="userAgent">The value of <see cref="UserAgent"/></param>
-		/// <param name="token">The value of <see cref="Token"/></param>
-		/// <param name="username">The value of <see cref="Username"/></param>
-		/// <param name="password">The value of <see cref="Password"/></param>
+		/// <param name="userAgent">The value of <see cref="UserAgent"/>.</param>
+		/// <param name="token">The value of <see cref="Token"/>.</param>
+		/// <param name="username">The value of <see cref="Username"/>.</param>
+		/// <param name="password">The value of <see cref="Password"/>.</param>
 		ApiHeaders(ProductHeaderValue userAgent, string? token, string? username, string? password)
 		{
 			RawUserAgent = userAgent?.ToString();
@@ -286,16 +288,16 @@ namespace Tgstation.Server.Api
 		}
 
 		/// <summary>
-		/// Checks if the <see cref="ApiVersion"/> is compatible with <see cref="Version"/>
+		/// Checks if the <see cref="ApiVersion"/> is compatible with <see cref="Version"/>.
 		/// </summary>
-		/// <returns><see langword="true"/> if the API is compatible, <see langword="false"/> otherwise</returns>
+		/// <returns><see langword="true"/> if the API is compatible, <see langword="false"/> otherwise.</returns>
 		public bool Compatible() => CheckCompatibility(ApiVersion);
 
 		/// <summary>
-		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>
+		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>.
 		/// </summary>
-		/// <param name="headers">The <see cref="HttpRequestHeaders"/> to set</param>
-		/// <param name="instanceId">The instance <see cref="EntityId.Id"/> for the request</param>
+		/// <param name="headers">The <see cref="HttpRequestHeaders"/> to set.</param>
+		/// <param name="instanceId">The instance <see cref="EntityId.Id"/> for the request.</param>
 		public void SetRequestHeaders(HttpRequestHeaders headers, long? instanceId = null)
 		{
 			if (headers == null)

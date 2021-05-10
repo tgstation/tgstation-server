@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -19,7 +20,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public Version ServerVersion { get; }
 
 		/// <summary>
-		/// The port the HTTP server is running on
+		/// The port the HTTP server is running on.
 		/// </summary>
 		public ushort ServerPort { get; }
 
@@ -29,17 +30,17 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public bool ApiValidateOnly { get; }
 
 		/// <summary>
-		/// The <see cref="NamedEntity.Name"/> of the owner at the time of launch
+		/// The <see cref="NamedEntity.Name"/> of the owner at the time of launch.
 		/// </summary>
 		public string InstanceName { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Internal.RevisionInformation"/> of the launch
+		/// The <see cref="Api.Models.Internal.RevisionInformation"/> of the launch.
 		/// </summary>
 		public Api.Models.Internal.RevisionInformation Revision { get; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level of the launch
+		/// The <see cref="DreamDaemonSecurity"/> level of the launch.
 		/// </summary>
 		public DreamDaemonSecurity? SecurityLevel { get; }
 
@@ -49,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public IReadOnlyCollection<TestMergeInformation> TestMerges { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RuntimeInformation"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="RuntimeInformation"/> class.
 		/// </summary>
 		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/> to use.</param>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> to get revision information from.</param>
@@ -77,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			{
 				CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
 				Timestamp = dmbProvider.CompileJob.RevisionInformation.Timestamp,
-				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
+				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha,
 			};
 
 			TestMerges = (IReadOnlyCollection<TestMergeInformation>)dmbProvider

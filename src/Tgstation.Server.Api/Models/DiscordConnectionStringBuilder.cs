@@ -1,11 +1,12 @@
-using System;
+﻿using System;
 using System.Linq;
+
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// <see cref="ChatConnectionStringBuilder"/> for <see cref="ChatProvider.Discord"/>
+	/// <see cref="ChatConnectionStringBuilder"/> for <see cref="ChatProvider.Discord"/>.
 	/// </summary>
 	public sealed class DiscordConnectionStringBuilder : ChatConnectionStringBuilder
 	{
@@ -29,7 +30,7 @@ namespace Tgstation.Server.Api.Models
 		public DiscordDMOutputDisplayType DMOutputDisplay { get; set; }
 
 		/// <summary>
-		/// Construct a <see cref="DiscordConnectionStringBuilder"/>
+		/// Initializes a new instance of the <see cref="DiscordConnectionStringBuilder"/> class.
 		/// </summary>
 		public DiscordConnectionStringBuilder()
 		{
@@ -37,12 +38,12 @@ namespace Tgstation.Server.Api.Models
 		}
 
 		/// <summary>
-		/// Construct a <see cref="DiscordConnectionStringBuilder"/> from a <paramref name="connectionString"/>
+		/// Initializes a new instance of the <see cref="DiscordConnectionStringBuilder"/> class.
 		/// </summary>
-		/// <param name="connectionString">The connection string</param>
+		/// <param name="connectionString">The connection string.</param>
 		public DiscordConnectionStringBuilder(string connectionString)
 		{
-			if(connectionString == null)
+			if (connectionString == null)
 				throw new ArgumentNullException(nameof(connectionString));
 
 			var splits = connectionString.Split(';');
@@ -56,7 +57,7 @@ namespace Tgstation.Server.Api.Models
 			}
 			else
 			{
-				BasedMeme = true; // Oranges said this needs to be true by default :pensive:
+				BasedMeme = true; // oranges said this needs to be true by default :pensive:
 			}
 		}
 

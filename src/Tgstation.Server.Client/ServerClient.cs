@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models.Response;
 
@@ -43,20 +44,20 @@ namespace Tgstation.Server.Client
 		public IUserGroupsClient Groups { get; }
 
 		/// <summary>
-		/// The <see cref="IApiClient"/> for the <see cref="ServerClient"/>
+		/// The <see cref="IApiClient"/> for the <see cref="ServerClient"/>.
 		/// </summary>
 		readonly IApiClient apiClient;
 
 		/// <summary>
-		/// Backing field for <see cref="Token"/>
+		/// Backing field for <see cref="Token"/>.
 		/// </summary>
 		TokenResponse token;
 
 		/// <summary>
-		/// Construct a <see cref="ServerClient"/>
+		/// Initializes a new instance of the <see cref="ServerClient"/> class.
 		/// </summary>
-		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
-		/// <param name="token">The value of <see cref="Token"/></param>
+		/// <param name="apiClient">The value of <see cref="apiClient"/>.</param>
+		/// <param name="token">The value of <see cref="Token"/>.</param>
 		public ServerClient(IApiClient apiClient, TokenResponse token)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));

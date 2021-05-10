@@ -1,8 +1,9 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
 
 namespace Tgstation.Server.Host.System
 {
@@ -15,15 +16,21 @@ namespace Tgstation.Server.Host.System
 		readonly IProcessFeatures processFeatures;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="ProcessExecutor"/>
+		/// The <see cref="ILogger"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
 		readonly ILogger<ProcessExecutor> logger;
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="ProcessExecutor"/>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
+		/// <summary>
+		/// Wrapper for <see cref="AttachExitHandler(global::System.Diagnostics.Process, Func{int})"/> to safely provide the process ID.
+		/// </summary>
+		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to attach an exit handler to.</param>
+		/// <param name="startupTask">A <see cref="Task"/> that completes once the process represented by <paramref name="handle"/> launches.</param>
+		/// <returns>The result of the call to <see cref="AttachExitHandler(global::System.Diagnostics.Process, Func{int})"/>.</returns>
 		async Task<Task<int>> AttachExitHandlerBeforeLaunch(global::System.Diagnostics.Process handle, Task startupTask)
 		{
 			var id = -1;
@@ -33,6 +40,12 @@ namespace Tgstation.Server.Host.System
 			return result;
 		}
 
+		/// <summary>
+		/// Attach an asychronous exit handler to a given process <paramref name="handle"/>.
+		/// </summary>
+		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to attach an exit handler to.</param>
+		/// <param name="idProvider">A <see cref="Func{TResult}"/> that can be called to get the <see cref="global::System.Diagnostics.Process.Id"/> safely.</param>
+		/// <returns>A <see cref="Task{TResult}"/> that completes with the exit code of the process represented by <paramref name="handle"/>.</returns>
 		Task<int> AttachExitHandler(global::System.Diagnostics.Process handle, Func<int> idProvider)
 		{
 			handle.EnableRaisingEvents = true;
@@ -79,11 +92,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <summary>
-		/// Construct a <see cref="ProcessExecutor"/>
+		/// Initializes a new instance of the <see cref="ProcessExecutor"/> class.
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		public ProcessExecutor(
 			IProcessFeatures processFeatures,
 			ILogger<ProcessExecutor> logger,
@@ -216,7 +229,8 @@ namespace Tgstation.Server.Host.System
 					outputTask,
 					errorTask,
 					combinedStringBuilder,
-					loggerFactory.CreateLogger<Process>(), false);
+					loggerFactory.CreateLogger<Process>(),
+					false);
 
 				return process;
 			}

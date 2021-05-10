@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
@@ -9,24 +10,24 @@ namespace Tgstation.Server.Host.Models
 	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiTransformable<CompileJobResponse>
 	{
 		/// <summary>
-		/// See <see cref="CompileJobResponse.Job"/>
+		/// See <see cref="CompileJobResponse.Job"/>.
 		/// </summary>
 		[Required]
 		public Job Job { get; set; }
 
 		/// <summary>
-		/// The <see cref="EntityId.Id"/> of <see cref="Job"/>
+		/// The <see cref="EntityId.Id"/> of <see cref="Job"/>.
 		/// </summary>
 		public long JobId { get; set; }
 
 		/// <summary>
-		/// See <see cref="CompileJobResponse.RevisionInformation"/>
+		/// See <see cref="CompileJobResponse.RevisionInformation"/>.
 		/// </summary>
 		[Required]
 		public RevisionInformation RevisionInformation { get; set; }
 
 		/// <summary>
-		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form
+		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form.
 		/// </summary>
 		[Required]
 		public string ByondVersion { get; set; }
@@ -71,6 +72,7 @@ namespace Tgstation.Server.Host.Models
 
 				return new Version(DMApiMajorVersion.Value, DMApiMinorVersion.Value, DMApiPatchVersion.Value);
 			}
+
 			set
 			{
 				DMApiMajorVersion = value?.Major;

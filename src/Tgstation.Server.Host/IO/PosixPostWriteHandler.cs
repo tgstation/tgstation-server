@@ -1,22 +1,23 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+
+using Microsoft.Extensions.Logging;
 using Mono.Unix;
 using Mono.Unix.Native;
-using System;
 
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
-	/// <see cref="IPostWriteHandler"/> for POSIX systems
+	/// <see cref="IPostWriteHandler"/> for POSIX systems.
 	/// </summary>
 	sealed class PosixPostWriteHandler : IPostWriteHandler
 	{
 		/// <summary>
-		/// The <see cref="ILogger{TCategoryName}"/> for the <see cref="PosixPostWriteHandler"/>
+		/// The <see cref="ILogger{TCategoryName}"/> for the <see cref="PosixPostWriteHandler"/>.
 		/// </summary>
 		readonly ILogger<PosixPostWriteHandler> logger;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PosixPostWriteHandler"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PosixPostWriteHandler"/> class.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public PosixPostWriteHandler(ILogger<PosixPostWriteHandler> logger)

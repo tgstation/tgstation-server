@@ -1,13 +1,15 @@
-using Microsoft.Net.Http.Headers;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
+
+using Microsoft.Net.Http.Headers;
+
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
 	/// <summary>
-	/// Occurs when a GitHub rate limit occurs
+	/// Occurs when a GitHub rate limit occurs.
 	/// </summary>
 	public sealed class RateLimitException : ApiException
 	{
@@ -17,7 +19,7 @@ namespace Tgstation.Server.Client
 		public DateTimeOffset? RetryAfter { get; }
 
 		/// <summary>
-		/// Initialize a new instance of the <see cref="MethodNotSupportedException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="RateLimitException"/> class.
 		/// </summary>
 		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/>.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
@@ -35,21 +37,27 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// Construct an <see cref="RateLimitException"/>
+		/// Initializes a new instance of the <see cref="RateLimitException"/> class.
 		/// </summary>
-		public RateLimitException() { }
+		public RateLimitException()
+		{
+		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RateLimitException"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="RateLimitException"/> class.
 		/// </summary>
 		/// <param name="message">The message for the <see cref="Exception"/>.</param>
-		public RateLimitException(string message) : base(message) { }
+		public RateLimitException(string message) : base(message)
+		{
+		}
 
 		/// <summary>
-		/// Construct an <see cref="RateLimitException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+		/// Initializes a new instance of the <see cref="RateLimitException"/> class.
 		/// </summary>
-		/// <param name="message">The message for the <see cref="Exception"/></param>
-		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/></param>
-		public RateLimitException(string message, Exception innerException) : base(message, innerException) { }
+		/// <param name="message">The message for the <see cref="Exception"/>.</param>
+		/// <param name="innerException">The inner <see cref="Exception"/> for the base <see cref="Exception"/>.</param>
+		public RateLimitException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
 	}
 }

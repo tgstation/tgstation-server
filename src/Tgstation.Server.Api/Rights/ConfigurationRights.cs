@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -31,6 +31,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may delete empty folders if the <see cref="Models.Instance"/> allows it.
 		/// </summary>
-		Delete = 8
+		Delete = 8,
 	}
 }

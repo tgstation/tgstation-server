@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
@@ -67,7 +68,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.AreEqual(true, updatedBot.Enabled);
 
-			var channelId = Environment.GetEnvironmentVariable("TGS4_TEST_IRC_CHANNEL");;
+			var channelId = Environment.GetEnvironmentVariable("TGS4_TEST_IRC_CHANNEL"); ;
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{

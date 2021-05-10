@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Host.Setup
+﻿namespace Tgstation.Server.Host.Setup
 {
 	/// <summary>
 	/// Determines if the <see cref="SetupWizard"/> will run.
@@ -23,6 +23,6 @@ namespace Tgstation.Server.Host.Setup
 		/// <summary>
 		/// Never run the wizard.
 		/// </summary>
-		Never
+		Never,
 	}
 }

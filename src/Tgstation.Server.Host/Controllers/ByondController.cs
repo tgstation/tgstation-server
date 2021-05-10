@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -26,7 +28,7 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class ByondController : InstanceRequiredController
 	{
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="ByondController"/>
+		/// The <see cref="IJobManager"/> for the <see cref="ByondController"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
 
@@ -36,14 +38,14 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
-		/// Construct a <see cref="ByondController"/>
+		/// Initializes a new instance of the <see cref="ByondController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public ByondController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -74,7 +76,7 @@ namespace Tgstation.Server.Host.Controllers
 				Task.FromResult<IActionResult>(
 					Json(new ByondResponse
 					{
-						Version = instance.ByondManager.ActiveVersion
+						Version = instance.ByondManager.ActiveVersion,
 					})));
 
 		/// <summary>
@@ -98,7 +100,7 @@ namespace Tgstation.Server.Host.Controllers
 								.InstalledVersions
 								.Select(x => new ByondResponse
 								{
-									Version = x
+									Version = x,
 								})
 								.AsQueryable()
 								.OrderBy(x => x.Version))),
@@ -174,7 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 							StartedBy = AuthenticationContext.User,
 							CancelRightsType = RightsType.Byond,
 							CancelRight = (ulong)ByondRights.CancelInstall,
-							Instance = Instance
+							Instance = Instance,
 						};
 
 						IFileUploadTicket fileUploadTicket = null;

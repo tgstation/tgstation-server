@@ -1,5 +1,6 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -45,7 +46,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					HeartbeatSeconds = table.Column<uint>(nullable: false),
 					AutoStart = table.Column<bool>(nullable: false),
 					InstanceId = table.Column<long>(nullable: false),
-					TopicRequestTimeout = table.Column<uint>(nullable: false)
+					TopicRequestTimeout = table.Column<uint>(nullable: false),
 				},
 				constraints: table =>
 				{

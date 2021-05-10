@@ -1,5 +1,6 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -25,7 +26,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Sqlite:Autoincrement", true),
-					Name = table.Column<string>(maxLength: 100, nullable: false)
+					Name = table.Column<string>(maxLength: 100, nullable: false),
 				},
 				constraints: table =>
 				{
@@ -41,7 +42,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					AdministrationRights = table.Column<ulong>(nullable: false),
 					InstanceManagerRights = table.Column<ulong>(nullable: false),
 					UserId = table.Column<long>(nullable: true),
-					GroupId = table.Column<long>(nullable: true)
+					GroupId = table.Column<long>(nullable: true),
 				},
 				constraints: table =>
 				{
@@ -74,7 +75,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					RepositoryRights = table.Column<ulong>(nullable: false),
 					ChatBotRights = table.Column<ulong>(nullable: false),
 					ConfigurationRights = table.Column<ulong>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -111,7 +112,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					CreatedById = table.Column<long>(nullable: true),
 					GroupId = table.Column<long>(nullable: true),
 					CanonicalName = table.Column<string>(nullable: false),
-					LastPasswordUpdate = table.Column<DateTimeOffset>(nullable: true)
+					LastPasswordUpdate = table.Column<DateTimeOffset>(nullable: true),
 				},
 				constraints: table =>
 				{
@@ -209,7 +210,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					InstanceId = table.Column<long>(type: "INTEGER", nullable: false),
 					InstanceUserRights = table.Column<ulong>(type: "INTEGER", nullable: false),
 					RepositoryRights = table.Column<ulong>(type: "INTEGER", nullable: false),
-					UserId = table.Column<long>(type: "INTEGER", nullable: false)
+					UserId = table.Column<long>(type: "INTEGER", nullable: false),
 				},
 				constraints: table =>
 				{
@@ -259,7 +260,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					CreatedById = table.Column<long>(nullable: true),
 					CanonicalName = table.Column<string>(maxLength: 100, nullable: false),
 					LastPasswordUpdate = table.Column<DateTimeOffset>(nullable: true),
-					GroupId = table.Column<long>(nullable: true)
+					GroupId = table.Column<long>(nullable: true),
 				},
 				constraints: table =>
 				{

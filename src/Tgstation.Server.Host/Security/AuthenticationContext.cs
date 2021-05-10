@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Linq;
+
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 
@@ -21,17 +22,19 @@ namespace Tgstation.Server.Host.Security
 		public ISystemIdentity SystemIdentity { get; }
 
 		/// <summary>
-		/// Construct an empty <see cref="AuthenticationContext"/>
+		/// Initializes a new instance of the <see cref="AuthenticationContext"/> class.
 		/// </summary>
-		public AuthenticationContext() { }
+		public AuthenticationContext()
+		{
+		}
 
 		/// <summary>
-		/// Construct an <see cref="AuthenticationContext"/>
+		/// Initializes a new instance of the <see cref="AuthenticationContext"/> class.
 		/// </summary>
-		/// <param name="systemIdentity">The value of <see cref="SystemIdentity"/></param>
-		/// <param name="user">The value of <see cref="User"/></param>
-		/// <param name="instanceUser">The value of <see cref="InstancePermissionSet"/></param>
-		public AuthenticationContext(ISystemIdentity systemIdentity, User user,  InstancePermissionSet instanceUser)
+		/// <param name="systemIdentity">The value of <see cref="SystemIdentity"/>.</param>
+		/// <param name="user">The value of <see cref="User"/>.</param>
+		/// <param name="instanceUser">The value of <see cref="InstancePermissionSet"/>.</param>
+		public AuthenticationContext(ISystemIdentity systemIdentity, User user, InstancePermissionSet instanceUser)
 		{
 			User = user ?? throw new ArgumentNullException(nameof(user));
 			if (systemIdentity == null && User.SystemIdentifier != null)

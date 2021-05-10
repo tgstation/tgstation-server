@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -6,9 +6,11 @@ using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -19,24 +21,25 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+
 using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for managing <see cref="ChatBot"/>s
+	/// <see cref="ApiController"/> for managing <see cref="ChatBot"/>s.
 	/// </summary>
 	[Route(Routes.Chat)]
-	#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class ChatController : InstanceRequiredController
 	{
 		/// <summary>
-		/// Construct a <see cref="ChatController"/>
+		/// Initializes a new instance of the <see cref="ChatController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public ChatController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -51,10 +54,10 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Converts <paramref name="api"/> to a <see cref="ChatChannel"/>
+		/// Converts <paramref name="api"/> to a <see cref="ChatChannel"/>.
 		/// </summary>
-		/// <param name="api">The <see cref="Api.Models.ChatChannel"/> </param>
-		/// <returns>A <see cref="ChatChannel"/> based on <paramref name="api"/></returns>
+		/// <param name="api">The <see cref="Api.Models.ChatChannel"/>. </param>
+		/// <returns>A <see cref="ChatChannel"/> based on <paramref name="api"/>.</returns>
 		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new Models.ChatChannel
 		{
 			DiscordChannelId = api.DiscordChannelId,
@@ -62,7 +65,7 @@ namespace Tgstation.Server.Host.Controllers
 			IsAdminChannel = api.IsAdminChannel ?? false,
 			IsWatchdogChannel = api.IsWatchdogChannel ?? false,
 			IsUpdatesChannel = api.IsUpdatesChannel ?? false,
-			Tag = api.Tag
+			Tag = api.Tag,
 		};
 
 		/// <summary>
@@ -107,7 +110,7 @@ namespace Tgstation.Server.Host.Controllers
 				InstanceId = Instance.Id.Value,
 				Provider = model.Provider,
 				ReconnectionInterval = model.ReconnectionInterval,
-				ChannelLimit = model.ChannelLimit
+				ChannelLimit = model.ChannelLimit,
 			};
 
 			DatabaseContext.ChatBots.Add(dbModel);
@@ -246,9 +249,9 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ChatBotResponse), 200)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		#pragma warning disable CA1502, CA1506 // TODO: Decomplexify
+#pragma warning disable CA1502, CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] ChatBotUpdateRequest model, CancellationToken cancellationToken)
-		#pragma warning restore CA1502, CA1506
+#pragma warning restore CA1502, CA1506
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -383,5 +386,5 @@ namespace Tgstation.Server.Host.Controllers
 			return null;
 		}
 	}
-	#pragma warning restore CA1506
+#pragma warning restore CA1506
 }

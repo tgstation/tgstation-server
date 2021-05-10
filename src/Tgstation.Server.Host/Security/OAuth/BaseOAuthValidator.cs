@@ -1,12 +1,14 @@
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
@@ -49,12 +51,12 @@ namespace Tgstation.Server.Host.Security.OAuth
 		{
 			ContractResolver = new DefaultContractResolver
 			{
-				NamingStrategy = new SnakeCaseNamingStrategy()
-			}
+				NamingStrategy = new SnakeCaseNamingStrategy(),
+			},
 		};
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GenericOAuthValidator"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="BaseOAuthValidator"/> class.
 		/// </summary>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>

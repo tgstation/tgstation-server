@@ -1,7 +1,9 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 
@@ -11,25 +13,25 @@ namespace Tgstation.Server.Host.Security
 	sealed class IdentityCache : IIdentityCache, IDisposable
 	{
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="IdentityCache"/>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="IdentityCache"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="IdentityCache"/>
+		/// The <see cref="ILogger"/> for the <see cref="IdentityCache"/>.
 		/// </summary>
 		readonly ILogger<IdentityCache> logger;
 
 		/// <summary>
-		/// The map of <see cref="Api.Models.EntityId.Id"/>s to <see cref="IdentityCacheObject"/>s
+		/// The map of <see cref="Api.Models.EntityId.Id"/>s to <see cref="IdentityCacheObject"/>s.
 		/// </summary>
 		readonly Dictionary<long, IdentityCacheObject> cachedIdentities;
 
 		/// <summary>
-		/// Construct an <see cref="IdentityCache"/>
+		/// Initializes a new instance of the <see cref="IdentityCache"/> class.
 		/// </summary>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public IdentityCache(IAsyncDelayer asyncDelayer, ILogger<IdentityCache> logger)
 		{
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
@@ -42,8 +44,8 @@ namespace Tgstation.Server.Host.Security
 		public void Dispose()
 		{
 			logger.LogTrace("Disposing...");
-			foreach (var I in cachedIdentities.Select(x => x.Value).ToList())
-				I.Dispose();
+			foreach (var cachedIdentity in cachedIdentities.Select(x => x.Value).ToList())
+				cachedIdentity.Dispose();
 		}
 
 		/// <inheritdoc />
@@ -53,6 +55,7 @@ namespace Tgstation.Server.Host.Security
 				throw new ArgumentNullException(nameof(user));
 			if (systemIdentity == null)
 				throw new ArgumentNullException(nameof(systemIdentity));
+
 			lock (cachedIdentities)
 			{
 				var uid = systemIdentity.Uid;
@@ -64,12 +67,16 @@ namespace Tgstation.Server.Host.Security
 					identCache.Dispose(); // also clears it out
 				}
 
-				identCache = new IdentityCacheObject(systemIdentity.Clone(), asyncDelayer, () =>
-				{
-					logger.LogDebug("Expiring system identity cache for user {1}", uid, user.Id);
-					lock (cachedIdentities)
-						cachedIdentities.Remove(user.Id.Value);
-				}, expiry);
+				identCache = new IdentityCacheObject(
+					systemIdentity.Clone(),
+					asyncDelayer,
+					() =>
+					{
+						logger.LogDebug("Expiring system identity cache for user {1}", uid, user.Id);
+						lock (cachedIdentities)
+							cachedIdentities.Remove(user.Id.Value);
+					},
+					expiry);
 				cachedIdentities.Add(user.Id.Value, identCache);
 			}
 		}

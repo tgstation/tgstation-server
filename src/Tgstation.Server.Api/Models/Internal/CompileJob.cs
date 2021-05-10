@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,19 +10,19 @@ namespace Tgstation.Server.Api.Models.Internal
 	public abstract class CompileJob : EntityId
 	{
 		/// <summary>
-		/// The .dme file used for compilation
+		/// The .dme file used for compilation.
 		/// </summary>
 		[Required]
 		public string? DmeName { get; set; }
 
 		/// <summary>
-		/// Textual output of DM
+		/// Textual output of DM.
 		/// </summary>
 		[Required]
 		public string? Output { get; set; }
 
 		/// <summary>
-		/// The Game folder the results were compiled into
+		/// The Game folder the results were compiled into.
 		/// </summary>
 		[Required]
 		public Guid? DirectoryName { get; set; }

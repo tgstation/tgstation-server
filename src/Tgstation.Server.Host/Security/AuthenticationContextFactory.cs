@@ -1,10 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
@@ -18,12 +20,12 @@ namespace Tgstation.Server.Host.Security
 		public IAuthenticationContext CurrentAuthenticationContext { get; private set; }
 
 		/// <summary>
-		/// The <see cref="IDatabaseContext"/> for the <see cref="AuthenticationContextFactory"/>
+		/// The <see cref="IDatabaseContext"/> for the <see cref="AuthenticationContextFactory"/>.
 		/// </summary>
 		readonly IDatabaseContext databaseContext;
 
 		/// <summary>
-		/// The <see cref="IIdentityCache"/> for the <see cref="AuthenticationContextFactory"/>
+		/// The <see cref="IIdentityCache"/> for the <see cref="AuthenticationContextFactory"/>.
 		/// </summary>
 		readonly IIdentityCache identityCache;
 
@@ -38,10 +40,10 @@ namespace Tgstation.Server.Host.Security
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
-		/// Construct an <see cref="AuthenticationContextFactory"/>
+		/// Initializes a new instance of the <see cref="AuthenticationContextFactory"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
-		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
+		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
+		/// <param name="identityCache">The value of <see cref="identityCache"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public AuthenticationContextFactory(

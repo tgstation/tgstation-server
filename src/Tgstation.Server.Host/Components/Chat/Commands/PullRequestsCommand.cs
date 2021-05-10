@@ -1,10 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -13,7 +15,7 @@ using Tgstation.Server.Host.Database;
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
-	/// Command for reading the active <see cref="TestMerge"/>s
+	/// Command for reading the active <see cref="TestMerge"/>s.
 	/// </summary>
 	sealed class PullRequestsCommand : ICommand
 	{
@@ -27,32 +29,32 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly => false;
 
 		/// <summary>
-		/// The <see cref="IWatchdog"/> for the <see cref="PullRequestsCommand"/>
+		/// The <see cref="IWatchdog"/> for the <see cref="PullRequestsCommand"/>.
 		/// </summary>
 		readonly IWatchdog watchdog;
 
 		/// <summary>
-		/// The <see cref="IRepositoryManager"/> for the <see cref="PullRequestsCommand"/>
+		/// The <see cref="IRepositoryManager"/> for the <see cref="PullRequestsCommand"/>.
 		/// </summary>
 		readonly IRepositoryManager repositoryManager;
 
 		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="PullRequestsCommand"/>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="PullRequestsCommand"/>.
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="Models.Instance"/> for the <see cref="PullRequestsCommand"/>
+		/// The <see cref="Models.Instance"/> for the <see cref="PullRequestsCommand"/>.
 		/// </summary>
 		readonly Models.Instance instance;
 
 		/// <summary>
-		/// Construct a <see cref="PullRequestsCommand"/>
+		/// Initializes a new instance of the <see cref="PullRequestsCommand"/> class.
 		/// </summary>
-		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
-		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/></param>
-		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
+		/// <param name="watchdog">The value of <see cref="watchdog"/>.</param>
+		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
+		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
+		/// <param name="instance">The value of <see cref="instance"/>.</param>
 		public PullRequestsCommand(IWatchdog watchdog, IRepositoryManager repositoryManager, IDatabaseContextFactory databaseContextFactory, Models.Instance instance)
 		{
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
@@ -63,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 
 		/// <inheritdoc />
 		// TODO: Decomplexify
-		#pragma warning disable CA1506
+#pragma warning disable CA1506
 		public async Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			IEnumerable<Models.TestMerge> results = null;
@@ -87,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 						.Select(x => new Models.TestMerge
 						{
 							Number = x.Number,
-							TargetCommitSha = x.TargetCommitSha
+							TargetCommitSha = x.TargetCommitSha,
 						})
 						.ToListAsync(cancellationToken)
 						.ConfigureAwait(false))
@@ -102,6 +104,6 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 
 			return !results.Any() ? "None!" : String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha.Substring(0, 7))));
 		}
-		#pragma warning restore CA1506
+#pragma warning restore CA1506
 	}
 }

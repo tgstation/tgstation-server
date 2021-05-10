@@ -1,4 +1,5 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
 using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models

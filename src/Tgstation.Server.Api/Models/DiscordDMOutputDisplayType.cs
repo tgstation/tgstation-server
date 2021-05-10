@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models
+﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// When the DM output section of Discord deployment embeds should be shown.
@@ -18,6 +18,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Never show.
 		/// </summary>
-		Never
+		Never,
 	}
 }

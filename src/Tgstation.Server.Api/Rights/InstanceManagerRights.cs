@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for managing <see cref="Models.Instance"/>s
+	/// Rights for managing <see cref="Models.Instance"/>s.
 	/// </summary>
 	[Flags]
 	public enum InstanceManagerRights : ulong

@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Api
 {
 	/// <summary>
-	/// Extensions for the <see cref="Version"/> <see langword="class"/>.
+	/// Extensions for the <see cref="Version"/> class.
 	/// </summary>
 	public static class VersionExtensions
 	{

@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.Components.Chat.Commands;
 
 namespace Tgstation.Server.Host.Components.Chat
@@ -80,7 +82,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		bool active;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ChatTrackingContext"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ChatTrackingContext"/> class.
 		/// </summary>
 		/// <param name="customCommandHandler">The value of <see cref="customCommandHandler"/>.</param>
 		/// <param name="initialChannels">The initial value of <see cref="Channels"/>.</param>

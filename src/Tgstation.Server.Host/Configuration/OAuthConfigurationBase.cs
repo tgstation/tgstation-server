@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Tgstation.Server.Host.Configuration
 {
@@ -18,12 +18,14 @@ namespace Tgstation.Server.Host.Configuration
 		public string ClientSecret { get; set; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuthConfigurationBase"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="OAuthConfigurationBase"/> class.
 		/// </summary>
-		public OAuthConfigurationBase() { }
+		public OAuthConfigurationBase()
+		{
+		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuthConfigurationBase"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="OAuthConfigurationBase"/> class.
 		/// </summary>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfigurationBase"/> to copy settings from.</param>
 		public OAuthConfigurationBase(OAuthConfigurationBase oAuthConfiguration)

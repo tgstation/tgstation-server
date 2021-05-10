@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Net.Http.Headers;
 using System.Reflection;
+
 using Tgstation.Server.Api;
 
 namespace Tgstation.Server.Host.System
@@ -29,7 +30,7 @@ namespace Tgstation.Server.Host.System
 			Version.ToString());
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AssemblyInformationProvider"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="AssemblyInformationProvider"/> class.
 		/// </summary>
 		public AssemblyInformationProvider()
 		{

@@ -1,16 +1,18 @@
-﻿using Microsoft.Extensions.Hosting;
-using System;
+﻿using System;
+
+using Microsoft.Extensions.Hosting;
+
 using Tgstation.Server.Host.Setup;
 
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
-	/// Extension methods for the <see cref="IHostBuilder"/> <see langword="class"/>.
+	/// Extension methods for the <see cref="IHostBuilder"/> class.
 	/// </summary>
 	static class HostBuilderExtensions
 	{
 		/// <summary>
-		/// Workaround for using the <see cref="SetupApplication"/> <see langword="class"/> for host startup.
+		/// Workaround for using the <see cref="SetupApplication"/> class for host startup.
 		/// </summary>
 		/// <param name="builder">The <see cref="IHostBuilder"/> to configure.</param>
 		/// <returns>The configured <paramref name="builder"/>.</returns>

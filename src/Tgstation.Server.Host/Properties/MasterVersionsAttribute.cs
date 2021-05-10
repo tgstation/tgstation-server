@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace Tgstation.Server.Host.Properties
@@ -37,12 +37,12 @@ namespace Tgstation.Server.Host.Properties
 		public string RawHostWatchdogVersion { get; }
 
 		/// <summary>
-		/// The compile time default
+		/// The compile time default.
 		/// </summary>
 		public string DefaultControlPanelChannel { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MasterVersionsAttribute"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="MasterVersionsAttribute"/> class.
 		/// </summary>
 		/// <param name="rawConfigurationVersion">The value of <see cref="RawConfigurationVersion"/>.</param>
 		/// <param name="rawInteropVersion">The value of <see cref="RawInteropVersion"/>.</param>

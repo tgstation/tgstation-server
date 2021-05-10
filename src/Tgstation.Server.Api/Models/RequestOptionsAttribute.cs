@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -19,7 +19,7 @@ namespace Tgstation.Server.Api.Models
 		public bool PutOnly { get; set; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RequestOptionsAttribute"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="RequestOptionsAttribute"/> class.
 		/// </summary>
 		/// <param name="presence">The value of <see cref="Presence"/>.</param>
 		public RequestOptionsAttribute(FieldPresence presence)

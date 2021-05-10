@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -14,15 +15,15 @@ namespace Tgstation.Server.Client.Components
 	sealed class InstancePermissionSetClient : PaginatedClient, IInstancePermissionSetClient
 	{
 		/// <summary>
-		/// The <see cref="Instance"/> for the <see cref="InstancePermissionSetClient"/>
+		/// The <see cref="Instance"/> for the <see cref="InstancePermissionSetClient"/>.
 		/// </summary>
 		readonly Instance instance;
 
 		/// <summary>
-		/// Construct an <see cref="InstancePermissionSetClient"/>
+		/// Initializes a new instance of the <see cref="InstancePermissionSetClient"/> class.
 		/// </summary>
 		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
+		/// <param name="instance">The value of <see cref="instance"/>.</param>
 		public InstancePermissionSetClient(IApiClient apiClient, Instance instance)
 			: base(apiClient)
 		{

@@ -1,16 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Helper for <see cref="RightsType"/>s
+	/// Helper for <see cref="RightsType"/>s.
 	/// </summary>
 	public static class RightsHelper
 	{
 		/// <summary>
-		/// Map of <see cref="RightsType"/>s to their respective flag <see cref="Enum"/>s
+		/// Map of <see cref="RightsType"/>s to their respective flag <see cref="Enum"/>s.
 		/// </summary>
 		static readonly IReadOnlyDictionary<RightsType, Type> TypeMap = new Dictionary<RightsType, Type>
 		{
@@ -22,29 +22,29 @@ namespace Tgstation.Server.Api.Rights
 			{ RightsType.DreamDaemon, typeof(DreamDaemonRights) },
 			{ RightsType.ChatBots, typeof(ChatBotRights) },
 			{ RightsType.Configuration, typeof(ConfigurationRights) },
-			{ RightsType.InstancePermissionSet, typeof(InstancePermissionSetRights) }
+			{ RightsType.InstancePermissionSet, typeof(InstancePermissionSetRights) },
 		};
 
 		/// <summary>
-		/// Map a given <paramref name="rightsType"/> to its respective <see cref="Enum"/> <see cref="Type"/>
+		/// Map a given <paramref name="rightsType"/> to its respective <see cref="Enum"/> <see cref="Type"/>.
 		/// </summary>
-		/// <param name="rightsType">The <see cref="RightsType"/> to lookup</param>
-		/// <returns>The <see cref="Enum"/> <see cref="Type"/> of the given <paramref name="rightsType"/></returns>
+		/// <param name="rightsType">The <see cref="RightsType"/> to lookup.</param>
+		/// <returns>The <see cref="Enum"/> <see cref="Type"/> of the given <paramref name="rightsType"/>.</returns>
 		public static Type RightToType(RightsType rightsType) => TypeMap[rightsType];
 
 		/// <summary>
-		/// Gets the role claim name used for a given <paramref name="right"/>
+		/// Gets the role claim name used for a given <paramref name="right"/>.
 		/// </summary>
-		/// <typeparam name="TRight">The <see cref="RightsType"/></typeparam>
-		/// <param name="right">The <typeparamref name="TRight"/></param>
-		/// <returns>A <see cref="string"/> representing the claim role name</returns>
+		/// <typeparam name="TRight">The <see cref="RightsType"/>.</typeparam>
+		/// <param name="right">The <typeparamref name="TRight"/>.</param>
+		/// <returns>A <see cref="string"/> representing the claim role name.</returns>
 		public static string RoleNames<TRight>(TRight right) where TRight : Enum
 		{
 			IEnumerable<string> GetRoleNames()
 			{
-				foreach (Enum J in Enum.GetValues(right.GetType()))
-					if (Convert.ToInt32(J, CultureInfo.InvariantCulture) != 0 && right.HasFlag(J))
-						yield return String.Concat(typeof(TRight).Name, '.', J.ToString());
+				foreach (Enum rightValue in Enum.GetValues(right.GetType()))
+					if (Convert.ToInt32(rightValue, CultureInfo.InvariantCulture) != 0 && right.HasFlag(rightValue))
+						yield return String.Concat(typeof(TRight).Name, '.', rightValue.ToString());
 			}
 
 			var names = GetRoleNames();
@@ -52,11 +52,11 @@ namespace Tgstation.Server.Api.Rights
 		}
 
 		/// <summary>
-		/// Gets the role claim name used for a given <paramref name="rightsType"/> and <paramref name="right"/>
+		/// Gets the role claim name used for a given <paramref name="rightsType"/> and <paramref name="right"/>.
 		/// </summary>
-		/// <param name="rightsType">The <see cref="RightsType"/></param>
-		/// <param name="right">The right value</param>
-		/// <returns>A <see cref="string"/> representing the claim role name</returns>
+		/// <param name="rightsType">The <see cref="RightsType"/>.</param>
+		/// <param name="right">The right value.</param>
+		/// <returns>A <see cref="string"/> representing the claim role name.</returns>
 		public static string RoleName(RightsType rightsType, Enum right)
 		{
 			var enumType = RightToType(rightsType);
@@ -64,10 +64,10 @@ namespace Tgstation.Server.Api.Rights
 		}
 
 		/// <summary>
-		/// Check if a given <paramref name="rightsType"/> is meant for an <see cref="Models.Instance"/>
+		/// Check if a given <paramref name="rightsType"/> is meant for an <see cref="Models.Instance"/>.
 		/// </summary>
-		/// <param name="rightsType">The <see cref="RightsType"/> to check</param>
-		/// <returns><see langword="true"/> if <paramref name="rightsType"/> is an instance right, <see langword="false"/> otherwise</returns>
+		/// <param name="rightsType">The <see cref="RightsType"/> to check.</param>
+		/// <returns><see langword="true"/> if <paramref name="rightsType"/> is an instance right, <see langword="false"/> otherwise.</returns>
 		public static bool IsInstanceRight(RightsType rightsType) => !(rightsType == RightsType.Administration || rightsType == RightsType.InstanceManager);
 
 		/// <summary>
@@ -78,8 +78,8 @@ namespace Tgstation.Server.Api.Rights
 		public static TRight AllRights<TRight>() where TRight : Enum
 		{
 			ulong rights = 0;
-			foreach (Enum J in Enum.GetValues(typeof(TRight)))
-				rights |= Convert.ToUInt64(J, CultureInfo.InvariantCulture);
+			foreach (Enum right in Enum.GetValues(typeof(TRight)))
+				rights |= Convert.ToUInt64(right, CultureInfo.InvariantCulture);
 
 			// cri evertim
 			return (TRight)(object)rights;

@@ -1,12 +1,14 @@
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
@@ -30,11 +32,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected abstract Uri UserInformationUrl { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GenericOAuthValidator"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="GenericOAuthValidator"/> class.
 		/// </summary>
-		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="BaseOAuthValidator"/></param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseOAuthValidator"/></param>
+		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="BaseOAuthValidator"/>.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		public GenericOAuthValidator(
 			IHttpClientFactory httpClientFactory,
@@ -48,27 +50,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 				 oAuthConfiguration)
 		{
 		}
-
-		/// <summary>
-		/// Decode the token payload <paramref name="responseJson"/>.
-		/// </summary>
-		/// <param name="responseJson">The token payload <see cref="JObject"/>.</param>
-		/// <returns>The OAuth2 bearer access token on success, <see langword="null"/> otherwise.</returns>
-		protected abstract string DecodeTokenPayload(dynamic responseJson);
-
-		/// <summary>
-		/// Decode the user information payload <paramref name="responseJson"/>.
-		/// </summary>
-		/// <param name="responseJson">The user information payload <see cref="JObject"/>.</param>
-		/// <returns>The user ID on success, <see langword="null"/> otherwise.</returns>
-		protected abstract string DecodeUserInformationPayload(dynamic responseJson);
-
-		/// <summary>
-		/// Create the <see cref="OAuthTokenRequest"/> for a given <paramref name="code"/>
-		/// </summary>
-		/// <param name="code">The OAuth code from the browser.</param>
-		/// <returns>The <see cref="OAuthTokenRequest"/> to send to <see cref="TokenUrl"/>.</returns>
-		protected abstract OAuthTokenRequest CreateTokenRequest(string code);
 
 		/// <inheritdoc />
 		public override async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
@@ -128,7 +109,28 @@ namespace Tgstation.Server.Host.Security.OAuth
 			{
 				ClientId = OAuthConfiguration.ClientId,
 				RedirectUri = OAuthConfiguration.RedirectUrl,
-				ServerUrl = OAuthConfiguration.ServerUrl
+				ServerUrl = OAuthConfiguration.ServerUrl,
 			});
+
+		/// <summary>
+		/// Decode the token payload <paramref name="responseJson"/>.
+		/// </summary>
+		/// <param name="responseJson">The token payload <see cref="JObject"/>.</param>
+		/// <returns>The OAuth2 bearer access token on success, <see langword="null"/> otherwise.</returns>
+		protected abstract string DecodeTokenPayload(dynamic responseJson);
+
+		/// <summary>
+		/// Decode the user information payload <paramref name="responseJson"/>.
+		/// </summary>
+		/// <param name="responseJson">The user information payload <see cref="JObject"/>.</param>
+		/// <returns>The user ID on success, <see langword="null"/> otherwise.</returns>
+		protected abstract string DecodeUserInformationPayload(dynamic responseJson);
+
+		/// <summary>
+		/// Create the <see cref="OAuthTokenRequest"/> for a given <paramref name="code"/>.
+		/// </summary>
+		/// <param name="code">The OAuth code from the browser.</param>
+		/// <returns>The <see cref="OAuthTokenRequest"/> to send to <see cref="TokenUrl"/>.</returns>
+		protected abstract OAuthTokenRequest CreateTokenRequest(string code);
 	}
 }

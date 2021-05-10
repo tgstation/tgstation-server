@@ -1,8 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 
@@ -89,10 +91,10 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<PermissionSet> PermissionSets { get; }
 
 		/// <summary>
-		/// Saves changes made to the <see cref="IDatabaseContext"/>
+		/// Saves changes made to the <see cref="IDatabaseContext"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task Save(CancellationToken cancellationToken);
 
 		/// <summary>
@@ -103,21 +105,21 @@ namespace Tgstation.Server.Host.Database
 		Task Drop(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Creates and migrates the <see cref="IDatabaseContext"/>
+		/// Creates and migrates the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		/// <param name="logger">The <see cref="DatabaseContext"/> <see cref="ILogger"/> to use.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the database should be seeded, <see langword="false"/> otherwise.</returns>
 		Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Attempt to downgrade the schema to the migration used for a given server <paramref name="targetVersion"/>
+		/// Attempt to downgrade the schema to the migration used for a given server <paramref name="targetVersion"/>.
 		/// </summary>
 		/// <param name="logger">The <see cref="DatabaseContext"/> <see cref="ILogger"/> to use.</param>
-		/// <param name="targetVersion">The tgstation-server <see cref="Version"/> that the schema should downgrade for</param>
+		/// <param name="targetVersion">The tgstation-server <see cref="Version"/> that the schema should downgrade for.</param>
 		/// <param name="currentDatabaseType">The <see cref="DatabaseType"/> in use.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task SchemaDowngradeForServerVersion(
 			ILogger<DatabaseContext> logger,
 			Version targetVersion,

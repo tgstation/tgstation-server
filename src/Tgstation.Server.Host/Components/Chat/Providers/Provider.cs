@@ -1,8 +1,10 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
@@ -32,12 +34,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// <see cref="Queue{T}"/> of received <see cref="Message"/>s
+		/// <see cref="Queue{T}"/> of received <see cref="Message"/>s.
 		/// </summary>
 		readonly Queue<Message> messageQueue;
 
 		/// <summary>
-		/// The backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="InitialConnectionJob"/>
+		/// The backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="InitialConnectionJob"/>.
 		/// </summary>
 		readonly TaskCompletionSource<object> initialConnectionTcs;
 
@@ -47,22 +49,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly object reconnectTaskLock;
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> that completes while <see cref="messageQueue"/> isn't empty
+		/// <see cref="TaskCompletionSource{TResult}"/> that completes while <see cref="messageQueue"/> isn't empty.
 		/// </summary>
 		TaskCompletionSource<object> nextMessage;
 
 		/// <summary>
-		/// The auto reconnect <see cref="Task"/>
+		/// The auto reconnect <see cref="Task"/>.
 		/// </summary>
 		Task reconnectTask;
 
 		/// <summary>
-		/// <see cref="CancellationTokenSource"/> for <see cref="reconnectTask"/>
+		/// <see cref="CancellationTokenSource"/> for <see cref="reconnectTask"/>.
 		/// </summary>
 		CancellationTokenSource reconnectCts;
 
 		/// <summary>
-		/// Construct a <see cref="Provider"/>
+		/// Initializes a new instance of the <see cref="Provider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
@@ -90,19 +92,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public bool Disposed { get; private set; }
 
-		/// <summary>
-		/// Queues a <paramref name="message"/> for <see cref="NextMessage(CancellationToken)"/>
-		/// </summary>
-		/// <param name="message">The <see cref="Message"/> to queue</param>
-		protected void EnqueueMessage(Message message)
-		{
-			lock (messageQueue)
-			{
-				messageQueue.Enqueue(message);
-				nextMessage.TrySetResult(null);
-			}
-		}
-
 		/// <inheritdoc />
 		public virtual async ValueTask DisposeAsync()
 		{
@@ -110,20 +99,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			await StopReconnectionTimer().ConfigureAwait(false);
 			Logger.LogTrace("Disposed");
 		}
-
-		/// <summary>
-		/// Attempt to connect the <see cref="Provider"/>.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task Connect(CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Gracefully disconnects the provider.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task DisconnectImpl(CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public async Task Disconnect(CancellationToken cancellationToken)
@@ -157,6 +132,64 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 		}
 
+		/// <inheritdoc />
+		public Task SetReconnectInterval(uint reconnectInterval, bool connectNow)
+		{
+			if (reconnectInterval == 0)
+				throw new ArgumentOutOfRangeException(nameof(reconnectInterval), reconnectInterval, "Reconnect interval cannot be zero!");
+
+			Task stopOldTimerTask;
+			lock (reconnectTaskLock)
+			{
+				stopOldTimerTask = StopReconnectionTimer();
+				reconnectCts = new CancellationTokenSource();
+				reconnectTask = ReconnectionLoop(reconnectInterval, connectNow, reconnectCts.Token);
+			}
+
+			return stopOldTimerTask;
+		}
+
+		/// <inheritdoc />
+		public abstract Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken);
+
+		/// <inheritdoc />
+		public abstract Task<Func<string, string, Task>> SendUpdateMessage(
+			RevisionInformation revisionInformation,
+			Version byondVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			ulong channelId,
+			bool localCommitPushed,
+			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Attempt to connect the <see cref="Provider"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task Connect(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Gracefully disconnects the provider.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task DisconnectImpl(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Queues a <paramref name="message"/> for <see cref="NextMessage(CancellationToken)"/>.
+		/// </summary>
+		/// <param name="message">The <see cref="Message"/> to queue.</param>
+		protected void EnqueueMessage(Message message)
+		{
+			lock (messageQueue)
+			{
+				messageQueue.Enqueue(message);
+				nextMessage.TrySetResult(null);
+			}
+		}
+
 		/// <summary>
 		/// Stops and awaits the <see cref="reconnectTask"/>.
 		/// </summary>
@@ -175,23 +208,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 
 			return Task.CompletedTask;
-		}
-
-		/// <inheritdoc />
-		public Task SetReconnectInterval(uint reconnectInterval, bool connectNow)
-		{
-			if (reconnectInterval == 0)
-				throw new ArgumentOutOfRangeException(nameof(reconnectInterval), reconnectInterval, "Reconnect interval cannot be zero!");
-
-			Task stopOldTimerTask;
-			lock (reconnectTaskLock)
-			{
-				stopOldTimerTask = StopReconnectionTimer();
-				reconnectCts = new CancellationTokenSource();
-				reconnectTask = ReconnectionLoop(reconnectInterval, connectNow, reconnectCts.Token);
-			}
-
-			return stopOldTimerTask;
 		}
 
 		/// <summary>
@@ -218,7 +234,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							Description = $"Reconnect chat bot: {ChatBot.Name}",
 							CancelRight = (ulong)ChatBotRights.WriteEnabled,
 							CancelRightsType = RightsType.ChatBots,
-							Instance = ChatBot.Instance
+							Instance = ChatBot.Instance,
 						};
 
 						await jobManager.RegisterOperation(
@@ -256,7 +272,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					break;
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					Logger.LogError(e, "Error reconnecting!");
 				}
@@ -267,19 +283,5 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			while (true);
 		}
-
-		/// <inheritdoc />
-		public abstract Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken);
-
-		/// <inheritdoc />
-		public abstract Task<Func<string, string, Task>> SendUpdateMessage(
-			RevisionInformation revisionInformation,
-			Version byondVersion,
-			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
-			ulong channelId,
-			bool localCommitPushed,
-			CancellationToken cancellationToken);
 	}
 }

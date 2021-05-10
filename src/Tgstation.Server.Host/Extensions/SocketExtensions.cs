@@ -4,7 +4,7 @@ using System.Net.Sockets;
 namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
-	/// Extension methods for the <see cref="Socket"/> <see langword="class"/>.
+	/// Extension methods for the <see cref="Socket"/> class.
 	/// </summary>
 	static class SocketExtensions
 	{

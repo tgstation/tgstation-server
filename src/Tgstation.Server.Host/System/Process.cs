@@ -1,10 +1,12 @@
-using Microsoft.Extensions.Logging;
-using Microsoft.Win32.SafeHandles;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.Win32.SafeHandles;
+
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 
@@ -28,29 +30,47 @@ namespace Tgstation.Server.Host.System
 		readonly IProcessFeatures processFeatures;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="Process"/>
+		/// The <see cref="ILogger"/> for the <see cref="Process"/>.
 		/// </summary>
 		readonly ILogger<Process> logger;
 
+		/// <summary>
+		/// The <see cref="global::System.Diagnostics.Process"/> <see cref="object"/>.
+		/// </summary>
 		readonly global::System.Diagnostics.Process handle;
 
+		/// <summary>
+		/// The <see cref="global::System.Diagnostics.Process.SafeHandle"/>.
+		/// </summary>
+		/// <remarks>We keep this to prevent .NET from closing the real handle too soon. See https://stackoverflow.com/a/47656845</remarks>
 		readonly SafeProcessHandle safeHandle;
 
+		/// <summary>
+		/// The <see cref="Task{TResult}"/> resulting in the process' standard output text.
+		/// </summary>
 		readonly Task<string> standardOutputTask;
+
+		/// <summary>
+		/// The <see cref="Task{TResult}"/> resulting in the process' standard error text.
+		/// </summary>
 		readonly Task<string> standardErrorTask;
+
+		/// <summary>
+		/// The <see cref="Task{TResult}"/> resulting in the process' unified standard output and standard error text.
+		/// </summary>
 		readonly StringBuilder combinedStringBuilder;
 
 		/// <summary>
-		/// Construct a <see cref="Process"/>
+		/// Initializes a new instance of the <see cref="Process"/> class.
 		/// </summary>
-		/// <param name="processFeatures">The value of <see cref="processFeatures"/></param>
-		/// <param name="handle">The value of <see cref="handle"/></param>
-		/// <param name="lifetime">The value of <see cref="Lifetime"/></param>
-		/// <param name="standardOutputTask">The value of <see cref="standardOutputTask"/></param>
-		/// <param name="standardErrorTask">The value of <see cref="standardErrorTask"/></param>
-		/// <param name="combinedStringBuilder">The value of <see cref="combinedStringBuilder"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created</param>
+		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
+		/// <param name="handle">The value of <see cref="handle"/>.</param>
+		/// <param name="lifetime">The value of <see cref="Lifetime"/>.</param>
+		/// <param name="standardOutputTask">The value of <see cref="standardOutputTask"/>.</param>
+		/// <param name="standardErrorTask">The value of <see cref="standardErrorTask"/>.</param>
+		/// <param name="combinedStringBuilder">The value of <see cref="combinedStringBuilder"/>.</param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created.</param>
 		public Process(
 			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
@@ -64,10 +84,8 @@ namespace Tgstation.Server.Host.System
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 
 			// Do this fast because the runtime will bitch if we try to access it after it ends
-			Id = handle.Id;
-
-			// https://stackoverflow.com/a/47656845
 			safeHandle = handle.SafeHandle;
+			Id = handle.Id;
 
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 
@@ -109,13 +127,6 @@ namespace Tgstation.Server.Host.System
 		{
 			safeHandle.Dispose();
 			handle.Dispose();
-		}
-
-		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
-		{
-			var exitCode = await lifetimeTask.ConfigureAwait(false);
-			logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
-			return exitCode;
 		}
 
 		/// <inheritdoc />
@@ -225,6 +236,18 @@ namespace Tgstation.Server.Host.System
 
 			logger.LogTrace("Dumping PID {0} to {1}...", Id, outputFile);
 			return processFeatures.CreateDump(handle, outputFile, cancellationToken);
+		}
+
+		/// <summary>
+		/// Attaches a log message to the process' exit event.
+		/// </summary>
+		/// <param name="lifetimeTask">The original lifetime <see cref="Task{TResult}"/>.</param>
+		/// <returns>A <see cref="Task{TResult}"/> functionally identical to <paramref name="lifetimeTask"/>.</returns>
+		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
+		{
+			var exitCode = await lifetimeTask.ConfigureAwait(false);
+			logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
+			return exitCode;
 		}
 	}
 }

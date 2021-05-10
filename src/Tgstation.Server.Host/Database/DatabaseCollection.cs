@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace Tgstation.Server.Host.Database
 {
@@ -17,7 +18,7 @@ namespace Tgstation.Server.Host.Database
 		readonly DbSet<TModel> dbSet;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DatabaseCollection{TModel}"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="DatabaseCollection{TModel}"/> class.
 		/// </summary>
 		/// <param name="dbSet">The value of <see cref="dbSet"/>.</param>
 		public DatabaseCollection(DbSet<TModel> dbSet)

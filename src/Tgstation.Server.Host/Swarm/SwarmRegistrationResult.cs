@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Host.Swarm
+﻿namespace Tgstation.Server.Host.Swarm
 {
 	/// <summary>
 	/// Result of attempting to register with a swarm controller.

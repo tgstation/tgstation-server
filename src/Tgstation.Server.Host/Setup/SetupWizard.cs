@@ -1,11 +1,4 @@
-using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using MySql.Data.MySqlClient;
-using Npgsql;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -16,12 +9,22 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using MySql.Data.MySqlClient;
+using Npgsql;
+
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+
 using YamlDotNet.Serialization;
 
 namespace Tgstation.Server.Host.Setup
@@ -30,37 +33,37 @@ namespace Tgstation.Server.Host.Setup
 	sealed class SetupWizard : IHostedService
 	{
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IIOManager"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IConsole"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IConsole"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly IConsole console;
 
 		/// <summary>
-		/// The <see cref="IHostEnvironment"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IHostEnvironment"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly IHostEnvironment hostingEnvironment;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IDatabaseConnectionFactory"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IDatabaseConnectionFactory"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly IDatabaseConnectionFactory dbConnectionFactory;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
 
@@ -70,7 +73,7 @@ namespace Tgstation.Server.Host.Setup
 		readonly IHostApplicationLifetime applicationLifetime;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
 
@@ -80,18 +83,18 @@ namespace Tgstation.Server.Host.Setup
 		TaskCompletionSource<object> reloadTcs;
 
 		/// <summary>
-		/// Construct a <see cref="SetupWizard"/>
+		/// Initializes a new instance of the <see cref="SetupWizard"/> class.
 		/// </summary>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="console">The value of <see cref="console"/></param>
-		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
-		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/></param>
-		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="console">The value of <see cref="console"/>.</param>
+		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> in use.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public SetupWizard(
 			IIOManager ioManager,
 			IConsole console,
@@ -124,12 +127,22 @@ namespace Tgstation.Server.Host.Setup
 					null);
 		}
 
+		/// <inheritdoc />
+		public async Task StartAsync(CancellationToken cancellationToken)
+		{
+			await CheckRunWizard(cancellationToken).ConfigureAwait(false);
+			applicationLifetime.StopApplication();
+		}
+
+		/// <inheritdoc />
+		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
 		/// <summary>
-		/// A prompt for a yes or no value
+		/// A prompt for a yes or no value.
 		/// </summary>
-		/// <param name="question">The question <see cref="string"/></param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> resulting in <see langword="true"/> if the user replied yes, <see langword="false"/> otherwise</returns>
+		/// <param name="question">The question <see cref="string"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> resulting in <see langword="true"/> if the user replied yes, <see langword="false"/> otherwise.</returns>
 		async Task<bool> PromptYesNo(string question, CancellationToken cancellationToken)
 		{
 			do
@@ -147,10 +160,10 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
-		/// Prompts the user to enter the port to host TGS on
+		/// Prompts the user to enter the port to host TGS on.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> resulting in the hosting port, or <see langword="null"/> to use the default</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> resulting in the hosting port, or <see langword="null"/> to use the default.</returns>
 		async Task<ushort?> PromptForHostingPort(CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
@@ -264,6 +277,12 @@ namespace Tgstation.Server.Host.Setup
 					ioManager.DeleteFile(databaseName, cancellationToken)).ConfigureAwait(false);
 		}
 
+		/// <summary>
+		/// Check that a given SQLite <paramref name="databaseName"/> is can be accessed. Also prompts the user if they want to use a relative or absolute path.
+		/// </summary>
+		/// <param name="databaseName">The path to the potential SQLite database file.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the SQLite database path to store in the configuration.</returns>
 		async Task<string> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
 		{
 			var resolvedPath = ioManager.ResolvePath(databaseName);
@@ -366,11 +385,11 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
-		/// Prompts the user to create a <see cref="DatabaseConfiguration"/>
+		/// Prompts the user to create a <see cref="DatabaseConfiguration"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="DatabaseConfiguration"/></returns>
-		#pragma warning disable CA1502 // TODO: Decomplexify
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="DatabaseConfiguration"/>.</returns>
+#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task<DatabaseConfiguration> ConfigureDatabase(CancellationToken cancellationToken)
 		{
 			bool firstTime = true;
@@ -380,7 +399,7 @@ namespace Tgstation.Server.Host.Setup
 
 				var databaseConfiguration = new DatabaseConfiguration
 				{
-					DatabaseType = await PromptDatabaseType(firstTime, cancellationToken).ConfigureAwait(false)
+					DatabaseType = await PromptDatabaseType(firstTime, cancellationToken).ConfigureAwait(false),
 				};
 				firstTime = false;
 
@@ -484,7 +503,7 @@ namespace Tgstation.Server.Host.Setup
 							var csb = new SqlConnectionStringBuilder
 							{
 								ApplicationName = assemblyInformationProvider.VersionPrefix,
-								DataSource = serverAddress ?? "(local)"
+								DataSource = serverAddress ?? "(local)",
 							};
 
 							if (useWinAuth)
@@ -509,7 +528,7 @@ namespace Tgstation.Server.Host.Setup
 							{
 								Server = serverAddress ?? "127.0.0.1",
 								UserID = username,
-								Password = password
+								Password = password,
 							};
 
 							if (serverPort.HasValue)
@@ -526,7 +545,7 @@ namespace Tgstation.Server.Host.Setup
 							var csb = new SqliteConnectionStringBuilder
 							{
 								DataSource = databaseName,
-								Mode = dbExists ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate
+								Mode = dbExists ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate,
 							};
 
 							CreateTestConnection(csb.ConnectionString);
@@ -541,7 +560,7 @@ namespace Tgstation.Server.Host.Setup
 								ApplicationName = assemblyInformationProvider.VersionPrefix,
 								Host = serverAddress ?? "127.0.0.1",
 								Password = password,
-								Username = username
+								Username = username,
 							};
 
 							if (serverPort.HasValue)
@@ -576,18 +595,18 @@ namespace Tgstation.Server.Host.Setup
 			}
 			while (true);
 		}
-		#pragma warning restore CA1502
+#pragma warning restore CA1502
 
 		/// <summary>
-		/// Prompts the user to create a <see cref="GeneralConfiguration"/>
+		/// Prompts the user to create a <see cref="GeneralConfiguration"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="GeneralConfiguration"/></returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="GeneralConfiguration"/>.</returns>
 		async Task<GeneralConfiguration> ConfigureGeneral(CancellationToken cancellationToken)
 		{
 			var newGeneralConfiguration = new GeneralConfiguration
 			{
-				SetupWizardMode = SetupWizardMode.Never
+				SetupWizardMode = SetupWizardMode.Never,
 			};
 
 			do
@@ -637,10 +656,10 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
-		/// Prompts the user to create a <see cref="FileLoggingConfiguration"/>
+		/// Prompts the user to create a <see cref="FileLoggingConfiguration"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="FileLoggingConfiguration"/></returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="FileLoggingConfiguration"/>.</returns>
 		async Task<FileLoggingConfiguration> ConfigureLogging(CancellationToken cancellationToken)
 		{
 			var fileLoggingConfiguration = new FileLoggingConfiguration();
@@ -722,16 +741,16 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
-		/// Prompts the user to create a <see cref="ControlPanelConfiguration"/>
+		/// Prompts the user to create a <see cref="ControlPanelConfiguration"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ControlPanelConfiguration"/></returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ControlPanelConfiguration"/>.</returns>
 		async Task<ControlPanelConfiguration> ConfigureControlPanel(CancellationToken cancellationToken)
 		{
 			var config = new ControlPanelConfiguration
 			{
 				Enable = await PromptYesNo("Enable the web control panel (Incomplete)? (y/n): ", cancellationToken).ConfigureAwait(false),
-				AllowAnyOrigin = await PromptYesNo("Allow web control panels hosted elsewhere to access the server? (Access-Control-Allow-Origin: *) (y/n): ", cancellationToken).ConfigureAwait(false)
+				AllowAnyOrigin = await PromptYesNo("Allow web control panels hosted elsewhere to access the server? (Access-Control-Allow-Origin: *) (y/n): ", cancellationToken).ConfigureAwait(false),
 			};
 
 			if (!config.AllowAnyOrigin)
@@ -808,17 +827,17 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
-		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>
+		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>.
 		/// </summary>
-		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to</param>
-		/// <param name="hostingPort">The hosting port to save</param>
-		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> to save</param>
-		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save</param>
-		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save</param>
-		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save</param>
+		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to.</param>
+		/// <param name="hostingPort">The hosting port to save.</param>
+		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> to save.</param>
+		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save.</param>
+		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save.</param>
+		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save.</param>
 		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/> to save.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task SaveConfiguration(
 			string userConfigFileName,
 			ushort? hostingPort,
@@ -893,11 +912,11 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
-		/// Runs the <see cref="SetupWizard"/>
+		/// Runs the <see cref="SetupWizard"/>.
 		/// </summary>
-		/// <param name="userConfigFileName">The path to the settings json to build</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		/// <param name="userConfigFileName">The path to the settings json to build.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
 		{
 			// welcome message
@@ -1007,15 +1026,5 @@ namespace Tgstation.Server.Host.Setup
 					await finalTask.ConfigureAwait(false);
 				}
 		}
-
-		/// <inheritdoc />
-		public async Task StartAsync(CancellationToken cancellationToken)
-		{
-			await CheckRunWizard(cancellationToken).ConfigureAwait(false);
-			applicationLifetime.StopApplication();
-		}
-
-		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 	}
 }

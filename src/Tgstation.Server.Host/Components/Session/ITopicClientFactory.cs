@@ -1,10 +1,11 @@
-﻿using Byond.TopicSender;
-using System;
+﻿using System;
+
+using Byond.TopicSender;
 
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
-	/// Factory for <see cref="ITopicClient"/>s
+	/// Factory for <see cref="ITopicClient"/>s.
 	/// </summary>
 	interface ITopicClientFactory
 	{

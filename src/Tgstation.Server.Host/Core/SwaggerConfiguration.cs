@@ -1,15 +1,17 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Net.Http.Headers;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Reflection;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -37,107 +39,6 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		const string TokenSecuritySchemeId = "Token_Authorization_Scheme";
 
-		static void AddDefaultResponses(OpenApiDocument document)
-		{
-			var errorMessageContent = new Dictionary<string, OpenApiMediaType>
-			{
-				{
-					MediaTypeNames.Application.Json,
-					new OpenApiMediaType
-					{
-						Schema = new OpenApiSchema
-						{
-							Reference = new OpenApiReference
-							{
-								Id = nameof(ErrorMessageResponse),
-								Type = ReferenceType.Schema
-							}
-						}
-					}
-				}
-			};
-
-			void AddDefaultResponse(HttpStatusCode code, OpenApiResponse concrete)
-			{
-				string responseKey = $"{(int)code}";
-
-				document.Components.Responses.Add(responseKey, concrete);
-
-				var referenceResponse = new OpenApiResponse
-				{
-					Reference = new OpenApiReference
-					{
-						Type = ReferenceType.Response,
-						Id = responseKey
-					}
-				};
-
-				foreach (var operation in document.Paths.SelectMany(path => path.Value.Operations))
-					operation.Value.Responses.TryAdd(responseKey, referenceResponse);
-			}
-
-			AddDefaultResponse(HttpStatusCode.BadRequest, new OpenApiResponse
-			{
-				Description = "A badly formatted request was made. See error message for details.",
-				Content = errorMessageContent,
-			});
-
-			AddDefaultResponse(HttpStatusCode.Unauthorized, new OpenApiResponse
-			{
-				Description = "Invalid Authentication header."
-			});
-
-			AddDefaultResponse(HttpStatusCode.Forbidden, new OpenApiResponse
-			{
-				Description = "User lacks sufficient permissions for the operation."
-			});
-
-			AddDefaultResponse(HttpStatusCode.Conflict, new OpenApiResponse
-			{
-				Description = "A data integrity check failed while performing the operation. See error message for details.",
-				Content = errorMessageContent
-			});
-
-			AddDefaultResponse(HttpStatusCode.NotAcceptable, new OpenApiResponse
-			{
-				Description = $"Invalid Accept header, TGS requires `{HeaderNames.Accept}: {MediaTypeNames.Application.Json}`.",
-				Content = errorMessageContent
-			});
-
-			AddDefaultResponse(HttpStatusCode.InternalServerError, new OpenApiResponse
-			{
-				Description = ErrorCode.InternalServerError.Describe(),
-				Content = errorMessageContent
-			});
-
-			AddDefaultResponse(HttpStatusCode.ServiceUnavailable, new OpenApiResponse
-			{
-				Description = "The server may be starting up or shutting down."
-			});
-
-			AddDefaultResponse(HttpStatusCode.NotImplemented, new OpenApiResponse
-			{
-				Description = ErrorCode.RequiresPosixSystemIdentity.Describe(),
-				Content = errorMessageContent
-			});
-		}
-
-		/// <summary>
-		/// Generates the OpenAPI schema ID for a given <paramref name="type"/>.
-		/// </summary>
-		/// <param name="type">The <see cref="Type"/> to generate a schema ID for.</param>
-		/// <returns>The generated schema ID for <see cref="Type"/>.</returns>
-		static string GenerateSchemaId(Type type)
-		{
-			if (type == typeof(UserName))
-				return "ShallowUserResponse";
-
-			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(PaginatedResponse<>))
-				return $"Paginated{type.GenericTypeArguments.First().Name}";
-
-			return type.Name;
-		}
-
 		/// <summary>
 		/// Configure the swagger settings.
 		/// </summary>
@@ -155,14 +56,14 @@ namespace Tgstation.Server.Host.Core
 					License = new OpenApiLicense
 					{
 						Name = "AGPL-3.0",
-						Url = new Uri("https://github.com/tgstation/tgstation-server/blob/dev/LICENSE")
+						Url = new Uri("https://github.com/tgstation/tgstation-server/blob/dev/LICENSE"),
 					},
 					Contact = new OpenApiContact
 					{
 						Name = "/tg/station 13",
-						Url = new Uri("https://github.com/tgstation")
+						Url = new Uri("https://github.com/tgstation"),
 					},
-					Description = "A production scale tool for BYOND server management"
+					Description = "A production scale tool for BYOND server management",
 				});
 
 			// Important to do this before applying our own filters
@@ -185,7 +86,7 @@ namespace Tgstation.Server.Host.Core
 				In = ParameterLocation.Header,
 				Type = SecuritySchemeType.Http,
 				Name = HeaderNames.Authorization,
-				Scheme = ApiHeaders.BasicAuthenticationScheme
+				Scheme = ApiHeaders.BasicAuthenticationScheme,
 			});
 
 			swaggerGenOptions.AddSecurityDefinition(OAuthSecuritySchemeId, new OpenApiSecurityScheme
@@ -193,7 +94,7 @@ namespace Tgstation.Server.Host.Core
 				In = ParameterLocation.Header,
 				Type = SecuritySchemeType.Http,
 				Name = HeaderNames.Authorization,
-				Scheme = ApiHeaders.OAuthAuthenticationScheme
+				Scheme = ApiHeaders.OAuthAuthenticationScheme,
 			});
 
 			swaggerGenOptions.AddSecurityDefinition(TokenSecuritySchemeId, new OpenApiSecurityScheme
@@ -202,219 +103,97 @@ namespace Tgstation.Server.Host.Core
 				In = ParameterLocation.Header,
 				Type = SecuritySchemeType.Http,
 				Name = HeaderNames.Authorization,
-				Scheme = ApiHeaders.BearerAuthenticationScheme
+				Scheme = ApiHeaders.BearerAuthenticationScheme,
 			});
 		}
 
-		/// <inheritdoc />
-		public void Apply(OpenApiOperation operation, OperationFilterContext context)
+		/// <summary>
+		/// Add the default error responses to a given <paramref name="document"/>.
+		/// </summary>
+		/// <param name="document">The <see cref="OpenApiDocument"/> to augment.</param>
+		static void AddDefaultResponses(OpenApiDocument document)
 		{
-			if (operation == null)
-				throw new ArgumentNullException(nameof(operation));
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
-
-			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
-
-			var authAttributes = context
-				.MethodInfo
-				.DeclaringType
-				.GetCustomAttributes(true)
-				.Union(
-					context
-					.MethodInfo
-					.GetCustomAttributes(true))
-					.OfType<TgsAuthorizeAttribute>();
-
-			if (authAttributes.Any())
+			var errorMessageContent = new Dictionary<string, OpenApiMediaType>
 			{
-				var tokenScheme = new OpenApiSecurityScheme
 				{
-					Reference = new OpenApiReference
+					MediaTypeNames.Application.Json,
+					new OpenApiMediaType
 					{
-						Type = ReferenceType.SecurityScheme,
-						Id = TokenSecuritySchemeId
-					}
-				};
-
-				operation.Security = new List<OpenApiSecurityRequirement>
-				{
-					new OpenApiSecurityRequirement
-					{
+						Schema = new OpenApiSchema
 						{
-							tokenScheme,
-							new List<string>()
-						}
-					}
-				};
-
-				if (typeof(InstanceRequiredController).IsAssignableFrom(context.MethodInfo.DeclaringType))
-					operation.Parameters.Insert(0, new OpenApiParameter
-					{
-						Reference = new OpenApiReference
-						{
-							Type = ReferenceType.Parameter,
-							Id = ApiHeaders.InstanceIdHeader
-						}
-					});
-				else if (typeof(TransferController).IsAssignableFrom(context.MethodInfo.DeclaringType))
-					if (context.MethodInfo.Name == nameof(TransferController.Upload))
-						operation.RequestBody = new OpenApiRequestBody
-						{
-							Content = new Dictionary<string, OpenApiMediaType>
+							Reference = new OpenApiReference
 							{
-								{
-									MediaTypeNames.Application.Octet,
-									new OpenApiMediaType
-									{
-										Schema = new OpenApiSchema
-										{
-											Type = "string",
-											Format = "binary"
-										}
-									}
-								}
-							}
-						};
-					else if (context.MethodInfo.Name == nameof(TransferController.Download))
-					{
-						var twoHundredResponseContents = operation.Responses["200"].Content;
-						var fileContent = twoHundredResponseContents[MediaTypeNames.Application.Json];
-						twoHundredResponseContents.Remove(MediaTypeNames.Application.Json);
-						twoHundredResponseContents.Add(MediaTypeNames.Application.Octet, fileContent);
+								Id = nameof(ErrorMessageResponse),
+								Type = ReferenceType.Schema,
+							},
+						},
 					}
-			}
-			else if (context.MethodInfo.Name == nameof(HomeController.CreateToken))
+				},
+			};
+
+			void AddDefaultResponse(HttpStatusCode code, OpenApiResponse concrete)
 			{
-				var passwordScheme = new OpenApiSecurityScheme
+				string responseKey = $"{(int)code}";
+
+				document.Components.Responses.Add(responseKey, concrete);
+
+				var referenceResponse = new OpenApiResponse
 				{
 					Reference = new OpenApiReference
 					{
-						Type = ReferenceType.SecurityScheme,
-						Id = PasswordSecuritySchemeId
-					}
+						Type = ReferenceType.Response,
+						Id = responseKey,
+					},
 				};
 
-				var oAuthScheme = new OpenApiSecurityScheme
-				{
-					Reference = new OpenApiReference
-					{
-						Type = ReferenceType.SecurityScheme,
-						Id = OAuthSecuritySchemeId
-					}
-				};
-
-				operation.Parameters.Add(new OpenApiParameter
-				{
-					In = ParameterLocation.Header,
-					Name = ApiHeaders.OAuthProviderHeader,
-					Description = "The external OAuth service provider.",
-					Style = ParameterStyle.Simple,
-					Example = new OpenApiString("Discord"),
-					Schema = new OpenApiSchema
-					{
-						Type = "string"
-					}
-				});
-
-				operation.Security = new List<OpenApiSecurityRequirement>
-				{
-					new OpenApiSecurityRequirement
-					{
-						{
-							passwordScheme,
-							new List<string>()
-						},
-						{
-							oAuthScheme,
-							new List<string>()
-						}
-					}
-				};
+				foreach (var operation in document.Paths.SelectMany(path => path.Value.Operations))
+					operation.Value.Responses.TryAdd(responseKey, referenceResponse);
 			}
-		}
 
-		/// <inheritdoc />
-		public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-		{
-			if (swaggerDoc == null)
-				throw new ArgumentNullException(nameof(swaggerDoc));
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
-
-			swaggerDoc.ExternalDocs = new OpenApiExternalDocs
+			AddDefaultResponse(HttpStatusCode.BadRequest, new OpenApiResponse
 			{
-				Description = "API Usage Documentation",
-				Url = new Uri("https://tgstation.github.io/tgstation-server/api.html"),
-			};
-
-			swaggerDoc.Components.Parameters.Add(ApiHeaders.InstanceIdHeader, new OpenApiParameter
-			{
-				In = ParameterLocation.Header,
-				Name = ApiHeaders.InstanceIdHeader,
-				Description = "The instance ID being accessed",
-				Required = true,
-				Style = ParameterStyle.Simple,
-				Schema = new OpenApiSchema
-				{
-					Type = "integer"
-				}
+				Description = "A badly formatted request was made. See error message for details.",
+				Content = errorMessageContent,
 			});
 
-			var productHeaderSchema = new OpenApiSchema
+			AddDefaultResponse(HttpStatusCode.Unauthorized, new OpenApiResponse
 			{
-				Type = "string",
-				Format = "productheader"
-			};
-
-			swaggerDoc.Components.Parameters.Add(ApiHeaders.ApiVersionHeader, new OpenApiParameter
-			{
-				In = ParameterLocation.Header,
-				Name = ApiHeaders.ApiVersionHeader,
-				Description = "The API version being used in the form \"Tgstation.Server.Api/[API version]\"",
-				Required = true,
-				Style = ParameterStyle.Simple,
-				Example = new OpenApiString($"Tgstation.Server.Api/{ApiHeaders.Version}"),
-				Schema = productHeaderSchema
+				Description = "Invalid Authentication header.",
 			});
 
-			swaggerDoc.Components.Parameters.Add(HeaderNames.UserAgent, new OpenApiParameter
+			AddDefaultResponse(HttpStatusCode.Forbidden, new OpenApiResponse
 			{
-				In = ParameterLocation.Header,
-				Name = HeaderNames.UserAgent,
-				Description = "The user agent of the calling client.",
-				Required = true,
-				Style = ParameterStyle.Simple,
-				Example = new OpenApiString("Your-user-agent/1.0.0.0"),
-				Schema = productHeaderSchema
+				Description = "User lacks sufficient permissions for the operation.",
 			});
 
-			var allSchemas = context
-				.SchemaRepository
-				.Schemas;
-			foreach (var path in swaggerDoc.Paths)
-				foreach (var operation in path.Value.Operations.Select(x => x.Value))
-				{
-					operation.Parameters.Insert(0, new OpenApiParameter
-					{
-						Reference = new OpenApiReference
-						{
-							Type = ReferenceType.Parameter,
-							Id = ApiHeaders.ApiVersionHeader
-						},
-					});
+			AddDefaultResponse(HttpStatusCode.Conflict, new OpenApiResponse
+			{
+				Description = "A data integrity check failed while performing the operation. See error message for details.",
+				Content = errorMessageContent,
+			});
 
-					operation.Parameters.Insert(1, new OpenApiParameter
-					{
-						Reference = new OpenApiReference
-						{
-							Type = ReferenceType.Parameter,
-							Id = HeaderNames.UserAgent
-						}
-					});
-				}
+			AddDefaultResponse(HttpStatusCode.NotAcceptable, new OpenApiResponse
+			{
+				Description = $"Invalid Accept header, TGS requires `{HeaderNames.Accept}: {MediaTypeNames.Application.Json}`.",
+				Content = errorMessageContent,
+			});
 
-			AddDefaultResponses(swaggerDoc);
+			AddDefaultResponse(HttpStatusCode.InternalServerError, new OpenApiResponse
+			{
+				Description = ErrorCode.InternalServerError.Describe(),
+				Content = errorMessageContent,
+			});
+
+			AddDefaultResponse(HttpStatusCode.ServiceUnavailable, new OpenApiResponse
+			{
+				Description = "The server may be starting up or shutting down.",
+			});
+
+			AddDefaultResponse(HttpStatusCode.NotImplemented, new OpenApiResponse
+			{
+				Description = ErrorCode.RequiresPosixSystemIdentity.Describe(),
+				Content = errorMessageContent,
+			});
 		}
 
 		/// <summary>
@@ -521,13 +300,241 @@ namespace Tgstation.Server.Host.Core
 				}
 				else if (responsePresence == FieldPresence.Required
 					&& requestOptions.All(x => x.Presence == FieldPresence.Required && !x.PutOnly))
-					// special tactics
-					subSchema.Nullable = subSchemaId.Equals(nameof(TestMergeParameters.TargetCommitSha), StringComparison.OrdinalIgnoreCase)
-						&& rootSchemaId == nameof(TestMergeParameters);
+					subSchema.Nullable = subSchemaId.Equals(
+						nameof(TestMergeParameters.TargetCommitSha),
+						StringComparison.OrdinalIgnoreCase)
+						&& rootSchemaId == nameof(TestMergeParameters); // special tactics
 
 				// otherwise, we have to assume it's a shared schema
 				// use what Swagger thinks the nullability is by default
 			}
+		}
+
+		/// <summary>
+		/// Generates the OpenAPI schema ID for a given <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The <see cref="Type"/> to generate a schema ID for.</param>
+		/// <returns>The generated schema ID for <see cref="Type"/>.</returns>
+		static string GenerateSchemaId(Type type)
+		{
+			if (type == typeof(UserName))
+				return "ShallowUserResponse";
+
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(PaginatedResponse<>))
+				return $"Paginated{type.GenericTypeArguments.First().Name}";
+
+			return type.Name;
+		}
+
+		/// <inheritdoc />
+		public void Apply(OpenApiOperation operation, OperationFilterContext context)
+		{
+			if (operation == null)
+				throw new ArgumentNullException(nameof(operation));
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
+
+			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
+
+			var authAttributes = context
+				.MethodInfo
+				.DeclaringType
+				.GetCustomAttributes(true)
+				.Union(
+					context
+					.MethodInfo
+					.GetCustomAttributes(true))
+					.OfType<TgsAuthorizeAttribute>();
+
+			if (authAttributes.Any())
+			{
+				var tokenScheme = new OpenApiSecurityScheme
+				{
+					Reference = new OpenApiReference
+					{
+						Type = ReferenceType.SecurityScheme,
+						Id = TokenSecuritySchemeId,
+					},
+				};
+
+				operation.Security = new List<OpenApiSecurityRequirement>
+				{
+					new OpenApiSecurityRequirement
+					{
+						{
+							tokenScheme,
+							new List<string>()
+						},
+					},
+				};
+
+				if (typeof(InstanceRequiredController).IsAssignableFrom(context.MethodInfo.DeclaringType))
+					operation.Parameters.Insert(0, new OpenApiParameter
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.Parameter,
+							Id = ApiHeaders.InstanceIdHeader,
+						},
+					});
+				else if (typeof(TransferController).IsAssignableFrom(context.MethodInfo.DeclaringType))
+					if (context.MethodInfo.Name == nameof(TransferController.Upload))
+						operation.RequestBody = new OpenApiRequestBody
+						{
+							Content = new Dictionary<string, OpenApiMediaType>
+							{
+								{
+									MediaTypeNames.Application.Octet,
+									new OpenApiMediaType
+									{
+										Schema = new OpenApiSchema
+										{
+											Type = "string",
+											Format = "binary",
+										},
+									}
+								},
+							},
+						};
+					else if (context.MethodInfo.Name == nameof(TransferController.Download))
+					{
+						var twoHundredResponseContents = operation.Responses["200"].Content;
+						var fileContent = twoHundredResponseContents[MediaTypeNames.Application.Json];
+						twoHundredResponseContents.Remove(MediaTypeNames.Application.Json);
+						twoHundredResponseContents.Add(MediaTypeNames.Application.Octet, fileContent);
+					}
+			}
+			else if (context.MethodInfo.Name == nameof(HomeController.CreateToken))
+			{
+				var passwordScheme = new OpenApiSecurityScheme
+				{
+					Reference = new OpenApiReference
+					{
+						Type = ReferenceType.SecurityScheme,
+						Id = PasswordSecuritySchemeId,
+					},
+				};
+
+				var oAuthScheme = new OpenApiSecurityScheme
+				{
+					Reference = new OpenApiReference
+					{
+						Type = ReferenceType.SecurityScheme,
+						Id = OAuthSecuritySchemeId,
+					},
+				};
+
+				operation.Parameters.Add(new OpenApiParameter
+				{
+					In = ParameterLocation.Header,
+					Name = ApiHeaders.OAuthProviderHeader,
+					Description = "The external OAuth service provider.",
+					Style = ParameterStyle.Simple,
+					Example = new OpenApiString("Discord"),
+					Schema = new OpenApiSchema
+					{
+						Type = "string",
+					},
+				});
+
+				operation.Security = new List<OpenApiSecurityRequirement>
+				{
+					new OpenApiSecurityRequirement
+					{
+						{
+							passwordScheme,
+							new List<string>()
+						},
+						{
+							oAuthScheme,
+							new List<string>()
+						},
+					},
+				};
+			}
+		}
+
+		/// <inheritdoc />
+		public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+		{
+			if (swaggerDoc == null)
+				throw new ArgumentNullException(nameof(swaggerDoc));
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
+
+			swaggerDoc.ExternalDocs = new OpenApiExternalDocs
+			{
+				Description = "API Usage Documentation",
+				Url = new Uri("https://tgstation.github.io/tgstation-server/api.html"),
+			};
+
+			swaggerDoc.Components.Parameters.Add(ApiHeaders.InstanceIdHeader, new OpenApiParameter
+			{
+				In = ParameterLocation.Header,
+				Name = ApiHeaders.InstanceIdHeader,
+				Description = "The instance ID being accessed",
+				Required = true,
+				Style = ParameterStyle.Simple,
+				Schema = new OpenApiSchema
+				{
+					Type = "integer",
+				},
+			});
+
+			var productHeaderSchema = new OpenApiSchema
+			{
+				Type = "string",
+				Format = "productheader",
+			};
+
+			swaggerDoc.Components.Parameters.Add(ApiHeaders.ApiVersionHeader, new OpenApiParameter
+			{
+				In = ParameterLocation.Header,
+				Name = ApiHeaders.ApiVersionHeader,
+				Description = "The API version being used in the form \"Tgstation.Server.Api/[API version]\"",
+				Required = true,
+				Style = ParameterStyle.Simple,
+				Example = new OpenApiString($"Tgstation.Server.Api/{ApiHeaders.Version}"),
+				Schema = productHeaderSchema,
+			});
+
+			swaggerDoc.Components.Parameters.Add(HeaderNames.UserAgent, new OpenApiParameter
+			{
+				In = ParameterLocation.Header,
+				Name = HeaderNames.UserAgent,
+				Description = "The user agent of the calling client.",
+				Required = true,
+				Style = ParameterStyle.Simple,
+				Example = new OpenApiString("Your-user-agent/1.0.0.0"),
+				Schema = productHeaderSchema,
+			});
+
+			var allSchemas = context
+				.SchemaRepository
+				.Schemas;
+			foreach (var path in swaggerDoc.Paths)
+				foreach (var operation in path.Value.Operations.Select(x => x.Value))
+				{
+					operation.Parameters.Insert(0, new OpenApiParameter
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.Parameter,
+							Id = ApiHeaders.ApiVersionHeader,
+						},
+					});
+
+					operation.Parameters.Insert(1, new OpenApiParameter
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.Parameter,
+							Id = HeaderNames.UserAgent,
+						},
+					});
+				}
+
+			AddDefaultResponses(swaggerDoc);
 		}
 
 		/// <inheritdoc />

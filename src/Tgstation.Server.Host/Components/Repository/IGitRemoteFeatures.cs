@@ -1,7 +1,7 @@
-namespace Tgstation.Server.Host.Components.Repository
+﻿namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
-	/// Provides features for remote git services
+	/// Provides features for remote git services.
 	/// </summary>
 	interface IGitRemoteFeatures : IGitRemoteAdditionalInformation
 	{
@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		string TestMergeRefSpecFormatter { get; }
 
 		/// <summary>
-		/// Get
+		/// Get.
 		/// </summary>
 		string TestMergeLocalBranchNameFormatter { get; }
 	}

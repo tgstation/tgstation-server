@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="myrules" Description="My rule set" ToolsVersion="15.0">
+<RuleSet Name="myrules" Description="My rule set" ToolsVersion="16.0">
   <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
     <Rule Id="UseConfigureAwait" Action="Warning" />
   </Rules>
@@ -30,7 +30,6 @@
     <Rule Id="CA1027" Action="Warning" />
     <Rule Id="CA1028" Action="Warning" />
     <Rule Id="CA1030" Action="Warning" />
-    <Rule Id="CA1031" Action="None" />
     <Rule Id="CA1032" Action="Warning" />
     <Rule Id="CA1033" Action="Warning" />
     <Rule Id="CA1034" Action="Warning" />
@@ -66,7 +65,6 @@
     <Rule Id="CA1300" Action="Warning" />
     <Rule Id="CA1301" Action="Warning" />
     <Rule Id="CA1302" Action="Warning" />
-    <Rule Id="CA1303" Action="None" />
     <Rule Id="CA1304" Action="Warning" />
     <Rule Id="CA1305" Action="Warning" />
     <Rule Id="CA1306" Action="Warning" />
@@ -1025,31 +1023,22 @@
     <Rule Id="SF1002" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-    <Rule Id="SA1000" Action="None" />
     <Rule Id="SA1101" Action="None" />
-    <Rule Id="SA1116" Action="None" />
-    <Rule Id="SA1117" Action="None" />
     <Rule Id="SA1118" Action="None" />
     <Rule Id="SA1121" Action="None" />
     <Rule Id="SA1127" Action="None" />
     <Rule Id="SA1128" Action="None" />
-    <Rule Id="SA1200" Action="None" />
     <Rule Id="SA1201" Action="None" />
-    <Rule Id="SA1202" Action="None" />
-    <Rule Id="SA1208" Action="None" />
-    <Rule Id="SA1312" Action="None" />
     <Rule Id="SA1400" Action="None" />
-    <Rule Id="SA1413" Action="None" />
-    <Rule Id="SA1501" Action="None" />
-    <Rule Id="SA1502" Action="None" />
+    <Rule Id="SA1412" Action="Warning" />
     <Rule Id="SA1503" Action="None" />
-    <Rule Id="SA1516" Action="None" />
     <Rule Id="SA1519" Action="None" />
     <Rule Id="SA1520" Action="None" />
     <Rule Id="SA1623" Action="None" />
-    <Rule Id="SA1629" Action="None" />
+    <Rule Id="SA1628" Action="Warning" />
     <Rule Id="SA1633" Action="None" />
-    <Rule Id="SA1642" Action="None" />
+    <Rule Id="SA1644" Action="Warning" />
+    <Rule Id="SX1101" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="Text.CSharp.Analyzers" RuleNamespace="Text.CSharp.Analyzers">
     <Rule Id="CA1704" Action="Warning" />

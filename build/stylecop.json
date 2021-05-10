@@ -1,8 +1,38 @@
 {
   "settings": {
+    "documentationRules": {
+      "documentPrivateElements": true,
+      "documentPrivateFields": true,
+      "excludeFromPunctuationCheck": [
+        "remarks"
+      ]
+    },
     "indentation": {
       "tabSize": 4,
       "useTabs": true
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
+    },
+    "maintainabilityRules": {
+      "topLevelTypes": [
+        "class",
+        "delegate",
+        "enum",
+        "interface",
+        "struct"
+      ]
+    },
+    "orderingRules": {
+      "blankLinesBetweenUsingGroups": "require",
+      "elementOrder": [
+        "constant",
+        "kind",
+        "static",
+        "readonly",
+        "accessibility"
+      ],
+      "usingDirectivesPlacement": "outsideNamespace"
     }
   }
 }

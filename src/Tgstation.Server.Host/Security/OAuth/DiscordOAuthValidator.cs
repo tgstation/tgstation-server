@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Net.Http;
+
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
@@ -13,7 +15,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 	sealed class DiscordOAuthValidator : GenericOAuthValidator
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DiscordOAuthValidator"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="DiscordOAuthValidator"/> class.
 		/// </summary>
 		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="GenericOAuthValidator"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="GenericOAuthValidator"/>.</param>

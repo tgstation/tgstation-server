@@ -1,20 +1,20 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents a test merge of a remote "pull request".
+	/// Represents a test merge of a remote commit source.
 	/// </summary>
 	public class TestMergeApiBase : TestMergeModelBase
 	{
 		/// <summary>
-		/// The ID of the <see cref="TestMergeApiBase"/>
+		/// The ID of the <see cref="TestMergeApiBase"/>.
 		/// </summary>
 		public long Id { get; set; }
 
 		/// <summary>
-		/// When the <see cref="TestMergeApiBase"/> was created
+		/// When the <see cref="TestMergeApiBase"/> was created.
 		/// </summary>
 		[Required]
 		public DateTimeOffset MergedAt { get; set; }

@@ -1,6 +1,4 @@
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,6 +6,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
@@ -33,11 +35,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		readonly List<Tuple<TGCreateSessionResponse, DateTimeOffset>> sessions;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TGForumsOAuthValidator"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="TGForumsOAuthValidator"/> class.
 		/// </summary>
-		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="BaseOAuthValidator"/></param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseOAuthValidator"/></param>
+		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="BaseOAuthValidator"/>.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		public TGForumsOAuthValidator(
 			IHttpClientFactory httpClientFactory,
@@ -65,7 +67,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			{
 				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_create_session.php")
 				{
-					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&return_uri={HttpUtility.UrlEncode(OAuthConfiguration.RedirectUrl.ToString())}"
+					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&return_uri={HttpUtility.UrlEncode(OAuthConfiguration.RedirectUrl.ToString())}",
 				};
 
 				using var request = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
@@ -90,7 +92,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				return new OAuthProviderInfo
 				{
 					ClientId = newSession.SessionPublicToken,
-					RedirectUri = OAuthConfiguration.RedirectUrl
+					RedirectUri = OAuthConfiguration.RedirectUrl,
 				};
 			}
 			catch (Exception ex)
@@ -106,7 +108,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			try
 			{
 				var sessionTuple = sessions.FirstOrDefault(x => x.Item1.SessionPublicToken == code);
-				if(sessionTuple == null)
+				if (sessionTuple == null)
 				{
 					Logger.LogWarning("No known session with this code active!");
 					return null;
@@ -116,7 +118,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_get_session_info.php")
 				{
-					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&session_private_token={HttpUtility.UrlEncode(sessionTuple.Item1.SessionPrivateToken)}"
+					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&session_private_token={HttpUtility.UrlEncode(sessionTuple.Item1.SessionPrivateToken)}",
 				};
 
 				using var request = new HttpRequestMessage(HttpMethod.Get, builder.Uri);

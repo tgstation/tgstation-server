@@ -1,5 +1,6 @@
+﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -56,7 +57,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					AutoUpdatesKeepTestMerges = table.Column<bool>(nullable: false),
 					AutoUpdatesSynchronize = table.Column<bool>(nullable: false),
 					PostTestMergeComment = table.Column<bool>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
 				},
 				constraints: table =>
 				{
@@ -94,7 +95,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					ByondVersion = table.Column<string>(nullable: false),
 					DMApiMajorVersion = table.Column<int>(nullable: true),
 					DMApiMinorVersion = table.Column<int>(nullable: true),
-					DMApiPatchVersion = table.Column<int>(nullable: true)
+					DMApiPatchVersion = table.Column<int>(nullable: true),
 				},
 				constraints: table =>
 				{

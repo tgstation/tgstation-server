@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
-	/// kek
+	/// kek.
 	/// </summary>
 	sealed class KekCommand : ICommand
 	{
 		/// <summary>
-		/// kek
+		/// kek.
 		/// </summary>
 		const string Kek = "kek";
 

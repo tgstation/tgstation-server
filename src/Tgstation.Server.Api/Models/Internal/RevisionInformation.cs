@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents information about a current git revison
+	/// Represents information about a current git revison.
 	/// </summary>
 	public class RevisionInformation
 	{

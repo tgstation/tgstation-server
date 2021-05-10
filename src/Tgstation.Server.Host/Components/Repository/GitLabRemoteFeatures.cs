@@ -1,8 +1,10 @@
-using GitLabApiClient;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using GitLabApiClient;
+using Microsoft.Extensions.Logging;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Extensions;
@@ -36,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public override string RemoteRepositoryName { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GitLabRemoteFeatures"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="GitLabRemoteFeatures"/> class.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="GitRemoteFeaturesBase"/>.</param>
 		/// <param name="remoteUrl">The remote repository <see cref="Uri"/>.</param>
@@ -80,7 +82,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					Comment = parameters.Comment,
 					Number = parameters.Number,
 					TargetCommitSha = mr.Sha,
-					Url = mr.WebUrl
+					Url = mr.WebUrl,
 				};
 			}
 			catch (Exception ex)
@@ -95,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					Comment = parameters.Comment,
 					Number = parameters.Number,
 					TargetCommitSha = parameters.TargetCommitSha,
-					Url = ex.Message
+					Url = ex.Message,
 				};
 			}
 		}

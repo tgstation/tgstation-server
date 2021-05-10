@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models.Internal
+﻿namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
 	/// Provides information about remote providers.
@@ -11,12 +11,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public RemoteGitProvider? RemoteGitProvider { get; }
 
 		/// <summary>
-		/// If <see cref="RemoteGitProvider"/> is not <see cref="RemoteGitProvider.Unknown"/> this will be set with the owner of the repository
+		/// If <see cref="RemoteGitProvider"/> is not <see cref="RemoteGitProvider.Unknown"/> this will be set with the owner of the repository.
 		/// </summary>
 		public string? RemoteRepositoryOwner { get; }
 
 		/// <summary>
-		/// If <see cref="RemoteGitProvider"/> is not <see cref="RemoteGitProvider.Unknown"/> this will be set with the name of the repository
+		/// If <see cref="RemoteGitProvider"/> is not <see cref="RemoteGitProvider.Unknown"/> this will be set with the name of the repository.
 		/// </summary>
 		public string? RemoteRepositoryName { get; }
 	}

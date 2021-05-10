@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.System
 		public CancellationToken Token => cancellationTokenSource?.Token ?? default;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ProgramShutdownTokenSource"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="ProgramShutdownTokenSource"/> class.
 		/// </summary>
 		public ProgramShutdownTokenSource()
 		{

@@ -51,6 +51,6 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// Notify the server of a reattach and potentially new version.
 		/// </summary>
-		ServerRestarted
+		ServerRestarted,
 	}
 }
