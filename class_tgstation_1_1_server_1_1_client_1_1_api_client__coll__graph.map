@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Client.ApiClient" name="Tgstation.Server.Client.ApiClient">
 <area shape="rect" id="node1" title=" " alt="" coords="800,122,956,163"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API" alt="" coords="485,5,563,32"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API." alt="" coords="485,5,563,32"/>
 <area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="60,17,151,44"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html" title="For sending HTTP requests" alt="" coords="446,57,602,98"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request" alt="" coords="443,122,605,163"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html" title="For sending HTTP requests." alt="" coords="446,57,602,98"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request." alt="" coords="443,122,605,163"/>
 <area shape="rect" id="node5" title=" " alt="" coords="5,79,205,105"/>
 <area shape="rect" id="node6" title=" " alt="" coords="29,129,181,156"/>
 <area shape="rect" id="node7" title=" " alt="" coords="61,248,150,275"/>

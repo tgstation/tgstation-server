@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Database.MySqlDatabaseContext" name="Tgstation.Server.Host.Database.MySqlDatabaseContext">
-<area shape="rect" id="node1" title="DatabaseContext for MySQL" alt="" coords="720,542,929,583"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext" alt="" coords="549,549,671,576"/>
+<area shape="rect" id="node1" title="DatabaseContext for MySQL." alt="" coords="720,542,929,583"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext." alt="" coords="549,549,671,576"/>
 <area shape="rect" id="node3" href="$class_db_context.html" title=" " alt="" coords="111,19,194,45"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="90,69,215,96"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title=" " alt="" coords="14,121,291,162"/>

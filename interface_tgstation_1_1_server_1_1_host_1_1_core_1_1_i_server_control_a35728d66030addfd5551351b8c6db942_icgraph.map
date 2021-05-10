@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Core.IServerControl.RegisterForRestart" name="Tgstation.Server.Host.Core.IServerControl.RegisterForRestart">
-<area shape="rect" id="node1" title="Register a given handler &#160;to run before stopping the server for a restart" alt="" coords="316,71,533,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae0a718f1cae22fe94e31e1c6103ddbed" title="Construct a ChatManager" alt="" coords="23,5,250,47"/>
+<area shape="rect" id="node1" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="316,71,533,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae0a718f1cae22fe94e31e1c6103ddbed" title="Initializes a new instance of the ChatManager class." alt="" coords="23,5,250,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a11368bb333735539b43845fed06c72a3" title="Initializes a new instance of the SwarmService class." alt="" coords="39,71,234,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5a114c04be3e48711271ab2ffd6be8fc" title="Initializes a new instance of the WatchdogBase class." alt="" coords="5,136,268,177"/>
 </map>

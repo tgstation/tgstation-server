@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.VersionCommand" name="Tgstation.Server.Host.Components.Chat.Commands.VersionCommand">
-<area shape="rect" id="node1" title="ICommand to return the IAssemblyInformationProvider.VersionString" alt="" coords="17,109,244,151"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots" alt="" coords="5,13,91,39"/>
+<area shape="rect" id="node1" title="ICommand to return the IAssemblyInformationProvider.VersionString." alt="" coords="17,109,244,151"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots." alt="" coords="5,13,91,39"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="114,5,313,47"/>
 </map>

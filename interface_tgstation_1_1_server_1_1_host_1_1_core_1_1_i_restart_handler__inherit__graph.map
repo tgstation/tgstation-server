@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Core.IRestartHandler" name="Tgstation.Server.Host.Core.IRestartHandler">
-<area shape="rect" id="node1" title="Handler for server restarts" alt="" coords="5,71,187,112"/>
+<area shape="rect" id="node1" title="Handler for server restarts." alt="" coords="5,71,187,112"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="235,5,461,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="235,71,461,112"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="251,136,445,177"/>

@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.ChatManager.MonitorMessages" name="Tgstation.Server.Host.Components.Chat.ChatManager.MonitorMessages">
-<area shape="rect" id="node1" title="Monitors active providers for new Messages" alt="" coords="5,39,240,80"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="314,5,495,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c" title="Processes a message" alt="" coords="288,71,521,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa8388f0bf72714eba49fd88540c8a397" title=" " alt="" coords="569,37,796,79"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027" title="Asynchronously send a given message &#160;to a set of channelIds ." alt="" coords="569,103,796,144"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9" title="Change chat channels" alt="" coords="844,37,1075,79"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa7ea797fb470d81d829992c1eaff6a34" title="Remove a IProvider from providers and mappedChannels optionally updating the trackingContexts as well" alt="" coords="1123,37,1351,79"/>
-</map>

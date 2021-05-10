@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Core.IServerControl.Die" name="Tgstation.Server.Host.Core.IServerControl.Die">
-<area shape="rect" id="node1" title="Kill the server with a fatal exception" alt="" coords="280,39,461,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aa3a612dcc02266964c47adfc09aef9dd" title="Configure the Application" alt="" coords="28,5,209,47"/>
+<area shape="rect" id="node1" title="Kill the server with a fatal exception." alt="" coords="280,39,461,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aa3a612dcc02266964c47adfc09aef9dd" title="Configure the Application." alt="" coords="28,5,209,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9f739bf99678bc5adb51f0b402b531af" title=" " alt="" coords="5,71,232,112"/>
 </map>

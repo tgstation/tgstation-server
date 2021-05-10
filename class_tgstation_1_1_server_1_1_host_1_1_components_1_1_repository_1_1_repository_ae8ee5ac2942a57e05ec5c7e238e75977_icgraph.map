@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Repository.Repository.CheckoutProgressHandler" name="Tgstation.Server.Host.Components.Repository.Repository.CheckoutProgressHandler">
-<area shape="rect" id="node1" title="Converts a given progressReporter &#160;to a LibGit2Sharp.Handlers.CheckoutProgressHandler" alt="" coords="567,5,824,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ace81561f45095dabdd6969b281a2be08" title="Runs a blocking force checkout to committish" alt="" coords="288,13,519,54"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ab400805727fc1130c18a878f131edce1" title="Attempt to merge the revision specified by a given set of testMergeParameters &#160;into HEAD" alt="" coords="5,13,240,54"/>
-</map>

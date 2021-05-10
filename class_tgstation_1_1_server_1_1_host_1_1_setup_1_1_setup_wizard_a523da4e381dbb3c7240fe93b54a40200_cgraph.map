@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.PromptDatabaseType" name="Tgstation.Server.Host.Setup.SetupWizard.PromptDatabaseType">
 <area shape="rect" id="node1" title="Prompt the user for the DatabaseType." alt="" coords="5,71,228,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="276,5,457,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a5bdc0f5d449d520355dccb0f01cc0694" title="Read a line from the IConsole" alt="" coords="283,71,451,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470" title="Write some text &#160;to the IConsole" alt="" coords="283,136,451,177"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="276,5,457,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a5bdc0f5d449d520355dccb0f01cc0694" title="Read a line from the IConsole." alt="" coords="283,71,451,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470" title="Write some text &#160;to the IConsole." alt="" coords="283,136,451,177"/>
 </map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Jobs.JobManager.RunJob" name="Tgstation.Server.Host.Jobs.JobManager.RunJob">
-<area shape="rect" id="node1" title="Runner for JobHandlers" alt="" coords="5,5,188,47"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext" alt="" coords="236,5,475,47"/>
-</map>

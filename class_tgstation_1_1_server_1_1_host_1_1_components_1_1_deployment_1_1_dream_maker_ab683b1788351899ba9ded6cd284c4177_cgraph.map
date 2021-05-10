@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.VerifyApi" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.VerifyApi">
-<area shape="rect" id="node1" title="Run a quick DD instance to test the DMAPI is installed on the target code" alt="" coords="5,39,232,80"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html#a668f15e64f55fafcf7bc5ce9933edf48" title="Create a ISessionController from a freshly launch DreamDaemon instance" alt="" coords="280,5,575,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="343,71,511,112"/>
-</map>

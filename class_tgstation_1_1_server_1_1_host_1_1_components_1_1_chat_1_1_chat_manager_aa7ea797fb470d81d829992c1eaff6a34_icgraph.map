@@ -1,7 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProvider" name="Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProvider">
-<area shape="rect" id="node1" title="Remove a IProvider from providers and mappedChannels optionally updating the trackingContexts as well" alt="" coords="1123,5,1351,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9" title="Change chat channels" alt="" coords="844,5,1075,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa8388f0bf72714eba49fd88540c8a397" title=" " alt="" coords="569,5,796,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c" title="Processes a message" alt="" coords="288,5,521,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2" title="Monitors active providers for new Messages" alt="" coords="5,5,240,47"/>
+<area shape="rect" id="node1" title="Remove a IProvider from providers and mappedChannels optionally updating the trackingContexts as well..." alt="" coords="284,5,512,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9" title="Change chat channels." alt="" coords="5,5,236,47"/>
 </map>

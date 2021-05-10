@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.ProviderFactory" name="Tgstation.Server.Host.Components.Chat.Providers.ProviderFactory">
 <area shape="rect" id="node1" title=" " alt="" coords="5,80,232,121"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders" alt="" coords="60,5,177,32"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders." alt="" coords="60,5,177,32"/>
 </map>

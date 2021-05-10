@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.IDmbFactory" name="Tgstation.Server.Host.Components.Deployment.IDmbFactory">
-<area shape="rect" id="node1" title="Factory for IDmbProviders" alt="" coords="151,80,377,121"/>
+<area shape="rect" id="node1" title="Factory for IDmbProviders." alt="" coords="151,80,377,121"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,5,184,32"/>
 <area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="208,5,320,32"/>
 <area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="344,5,435,32"/>

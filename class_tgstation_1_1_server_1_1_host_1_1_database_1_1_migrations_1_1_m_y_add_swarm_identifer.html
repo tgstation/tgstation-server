@@ -109,7 +109,7 @@ Protected Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Adds the swarm identifier column for MySQL. </p>
 
-<p class="definition">Definition at line <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html#l00009">9</a> of file <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html">20201222175357_MYAddSwarmIdentifer.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html#l00010">10</a> of file <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html">20201222175357_MYAddSwarmIdentifer.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a593b71c24e30c561b6fbc9954ab4e61f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a593b71c24e30c561b6fbc9954ab4e61f">&#9670;&nbsp;</a></span>BuildTargetModel()</h2>
@@ -1034,25 +1034,25 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html#l00034">34</a> of file <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html">20201222175357_MYAddSwarmIdentifer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            migrationBuilder.DropIndex(</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                name: <span class="stringliteral">&quot;IX_Instances_Path_SwarmIdentifer&quot;</span>,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            migrationBuilder.DropColumn(</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                name: <span class="stringliteral">&quot;SwarmIdentifer&quot;</span>,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            migrationBuilder.CreateIndex(</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                name: <span class="stringliteral">&quot;IX_Instances_Path&quot;</span>,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                column: <span class="stringliteral">&quot;Path&quot;</span>,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                unique: <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html#l00035">35</a> of file <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html">20201222175357_MYAddSwarmIdentifer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            migrationBuilder.DropIndex(</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                name: <span class="stringliteral">&quot;IX_Instances_Path_SwarmIdentifer&quot;</span>,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            migrationBuilder.DropColumn(</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                name: <span class="stringliteral">&quot;SwarmIdentifer&quot;</span>,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            migrationBuilder.CreateIndex(</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                name: <span class="stringliteral">&quot;IX_Instances_Path&quot;</span>,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                column: <span class="stringliteral">&quot;Path&quot;</span>,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                unique: <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1082,26 +1082,26 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html#l00012">12</a> of file <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html">20201222175357_MYAddSwarmIdentifer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            migrationBuilder.DropIndex(</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                name: <span class="stringliteral">&quot;IX_Instances_Path&quot;</span>,</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                name: <span class="stringliteral">&quot;SwarmIdentifer&quot;</span>,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            migrationBuilder.CreateIndex(</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                name: <span class="stringliteral">&quot;IX_Instances_Path_SwarmIdentifer&quot;</span>,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;Path&quot;</span>, <span class="stringliteral">&quot;SwarmIdentifer&quot;</span> },</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                unique: <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html#l00013">13</a> of file <a class="el" href="20201222175357___m_y_add_swarm_identifer_8cs_source.html">20201222175357_MYAddSwarmIdentifer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            migrationBuilder.DropIndex(</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                name: <span class="stringliteral">&quot;IX_Instances_Path&quot;</span>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                name: <span class="stringliteral">&quot;SwarmIdentifer&quot;</span>,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            migrationBuilder.CreateIndex(</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                name: <span class="stringliteral">&quot;IX_Instances_Path_SwarmIdentifer&quot;</span>,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;Path&quot;</span>, <span class="stringliteral">&quot;SwarmIdentifer&quot;</span> },</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                unique: <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>

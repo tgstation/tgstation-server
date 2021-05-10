@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Security.WindowsSystemIdentity.Clone" name="Tgstation.Server.Host.Security.WindowsSystemIdentity.Clone">
-<area shape="rect" id="node1" title="Clone the ISystemIdentity creating another copy that must have IDisposable.Dispose called on it" alt="" coords="5,13,207,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#a6b20afd81a3b07e0ef1f89fc134652ad" title="Construct a WindowsSystemIdentity using a WindowsIdentity" alt="" coords="255,5,516,61"/>
+<area shape="rect" id="node1" title="Clone the ISystemIdentity creating another copy that must have IDisposable.Dispose called on it." alt="" coords="5,13,207,54"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#a6b20afd81a3b07e0ef1f89fc134652ad" title="Initializes a new instance of the WindowsSystemIdentity class." alt="" coords="255,5,516,61"/>
 </map>

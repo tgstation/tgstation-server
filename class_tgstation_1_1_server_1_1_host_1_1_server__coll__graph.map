@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Server" name="Tgstation.Server.Host.Server">
 <area shape="rect" id="node1" title=" " alt="" coords="828,305,1017,332"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server.html" title="Represents the host" alt="" coords="484,5,548,32"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server.html" title="Represents the host." alt="" coords="484,5,548,32"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="463,56,569,83"/>
 <area shape="rect" id="node4" title=" " alt="" coords="55,123,110,149"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="401,174,631,215"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,174,631,215"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="419,239,613,281"/>
 <area shape="rect" id="node6" title=" " alt="" coords="412,305,620,332"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,187,160,213"/>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Byond.IByondExecutableLock" name="Tgstation.Server.Host.Components.Byond.IByondExecutableLock">
-<area shape="rect" id="node1" title="Represents usage of the two primary BYOND server executables" alt="" coords="5,80,232,121"/>
+<area shape="rect" id="node1" title="Represents usage of the two primary BYOND server executables." alt="" coords="5,80,232,121"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html" title=" " alt="" coords="5,169,232,211"/>
 <area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="73,5,164,32"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke" name="Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke">
-<area shape="rect" id="node1" title="Invoke the ICommand" alt="" coords="5,13,272,54"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a0a3d290a61fd94176c66692b35035eb2" title="Handle a chat command" alt="" coords="320,5,596,61"/>
+<area shape="rect" id="node1" title="Invoke the ICommand." alt="" coords="5,13,272,54"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a0a3d290a61fd94176c66692b35035eb2" title="Handle a chat command." alt="" coords="320,5,596,61"/>
 </map>

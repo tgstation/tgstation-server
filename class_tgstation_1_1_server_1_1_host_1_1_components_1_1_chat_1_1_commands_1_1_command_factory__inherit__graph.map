@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.CommandFactory" name="Tgstation.Server.Host.Components.Chat.Commands.CommandFactory">
 <area shape="rect" id="node1" title=" " alt="" coords="5,80,232,121"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html" title="Factory for built in ICommands" alt="" coords="55,5,183,32"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html" title="Factory for built in ICommands." alt="" coords="55,5,183,32"/>
 </map>

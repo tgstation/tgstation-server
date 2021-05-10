@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup">
-<area shape="rect" id="node1" title="Handles the actions to take when the monitor has to &quot;wake up&quot;" alt="" coords="5,111,313,152"/>
+<area shape="rect" id="node1" title="Handles the actions to take when the monitor has to &quot;wake up&quot;." alt="" coords="5,111,313,152"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a574b2b2de6422a7e43d448fa66f9a0e3" title="Handle a given eventType ." alt="" coords="395,5,629,47"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6789a31cac393a9677e9680154384ac" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="376,70,648,126"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1f6855c98ad2fd9d071eb31236630258" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="711,109,996,151"/>

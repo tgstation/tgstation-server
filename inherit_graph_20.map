@@ -1,15 +1,15 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,289,192,331"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a deployment run." alt="" coords="285,20,471,61"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html" title="Represents a long running job" alt="" coords="285,180,471,221"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html" title="Represents a long running job." alt="" coords="285,180,471,221"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="285,449,471,491"/>
 <area shape="rect" id="node32" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html" title="Represents a set of server permissions." alt="" coords="285,711,471,752"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_compile_job_response.html" title=" " alt="" coords="589,5,798,47"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html" title=" " alt="" coords="595,71,791,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html" title="Represents a long running job on the server. Model is read&#45;only, updates attempt to cancel the job" alt="" coords="600,136,787,177"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html" title="Represents a long running job on the server. Model is read&#45;only, updates attempt to cancel the job." alt="" coords="600,136,787,177"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html" title=" " alt="" coords="585,202,802,229"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="600,253,787,295"/>
-<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots" alt="" coords="600,384,787,425"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance." alt="" coords="600,253,787,295"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="600,384,787,425"/>
 <area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="600,515,787,556"/>
 <area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="600,580,787,621"/>
 <area shape="rect" id="node31" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html" title=" " alt="" coords="595,645,791,687"/>

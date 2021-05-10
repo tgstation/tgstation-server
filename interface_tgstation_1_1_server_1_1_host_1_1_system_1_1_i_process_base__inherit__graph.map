@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.System.IProcessBase" name="Tgstation.Server.Host.System.IProcessBase">
-<area shape="rect" id="node1" title="Represents process lifetime" alt="" coords="5,39,204,80"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess" alt="" coords="252,5,479,47"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process" alt="" coords="266,71,465,112"/>
+<area shape="rect" id="node1" title="Represents process lifetime." alt="" coords="5,39,204,80"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess." alt="" coords="252,5,479,47"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="266,71,465,112"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title=" " alt="" coords="527,5,753,47"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="541,71,739,112"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Security.ITokenFactory" name="Tgstation.Server.Host.Security.ITokenFactory">
-<area shape="rect" id="node1" title="For creating TokenResponses" alt="" coords="5,5,207,47"/>
+<area shape="rect" id="node1" title="For creating TokenResponses." alt="" coords="5,5,207,47"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html" title=" " alt="" coords="5,95,207,136"/>
 </map>

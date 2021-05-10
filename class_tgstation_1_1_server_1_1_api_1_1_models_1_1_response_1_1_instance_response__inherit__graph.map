@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Api.Models.Response.InstanceResponse" name="Tgstation.Server.Api.Models.Response.InstanceResponse">
 <area shape="rect" id="node1" title="Server response for Instances." alt="" coords="5,229,196,271"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="65,155,137,181"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance." alt="" coords="65,155,137,181"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="53,80,149,107"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="68,5,133,32"/>
 </map>

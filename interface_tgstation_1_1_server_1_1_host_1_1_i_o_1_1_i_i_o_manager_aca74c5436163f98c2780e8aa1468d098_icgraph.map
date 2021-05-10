@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetFiles" name="Tgstation.Server.Host.IO.IIOManager.GetFiles">
-<area shape="rect" id="node1" title="Returns file names in a given path" alt="" coords="299,41,467,83"/>
+<area shape="rect" id="node1" title="Returns file names in a given path ." alt="" coords="299,41,467,83"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ace0be18ae89c0d4b4e5b6f99173cf20f" title="List LogFileResponses present." alt="" coords="20,5,236,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination" alt="" coords="5,70,251,126"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination ." alt="" coords="5,70,251,126"/>
 </map>

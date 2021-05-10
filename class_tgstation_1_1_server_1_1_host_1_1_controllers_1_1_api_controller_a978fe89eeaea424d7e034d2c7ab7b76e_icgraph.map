@@ -4,11 +4,11 @@
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aacf3549e22bb38699d3226a156e3e0dc" title="Attempts to restart the server." alt="" coords="529,71,745,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a99370cde96d1f091c9dba881bdb2de0f" title="Downloads a file with a given ticket ." alt="" coords="529,136,745,177"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221" title="Response for missing/Invalid headers." alt="" coords="529,304,745,345"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a648bd5ead5349e7592e0bef30f5aea98" title="Main page of the Application" alt="" coords="251,195,467,236"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a648bd5ead5349e7592e0bef30f5aea98" title="Main page of the Application." alt="" coords="251,195,467,236"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae6314cf236db98c1e453639df84e8242" title=" " alt="" coords="236,260,481,301"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="529,421,745,463"/>
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a10c3be25fd9ac418bcab6bb9541bbd69" title="Get AdministrationResponse server information." alt="" coords="251,396,467,437"/>
 <area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a1adf02130d7d2a48225c05fc44db3690" title="Attempt to perform a server upgrade." alt="" coords="251,473,467,515"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a050adcf275d869f1db4760d553fadb6e" title=" " alt="" coords="5,231,188,272"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders" alt="" coords="251,325,467,367"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="251,325,467,367"/>
 </map>

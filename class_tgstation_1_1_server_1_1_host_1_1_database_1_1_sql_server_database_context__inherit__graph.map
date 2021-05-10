@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Database.SqlServerDatabaseContext" name="Tgstation.Server.Host.Database.SqlServerDatabaseContext">
-<area shape="rect" id="node1" title="DatabaseContext for Sqlserver" alt="" coords="6,155,215,196"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext" alt="" coords="50,80,171,107"/>
+<area shape="rect" id="node1" title="DatabaseContext for Sqlserver." alt="" coords="6,155,215,196"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext." alt="" coords="50,80,171,107"/>
 <area shape="rect" id="node3" href="$class_db_context.html" title=" " alt="" coords="5,5,88,32"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="112,5,237,32"/>
 </map>

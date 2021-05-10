@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Api.Models.TestMergeParameters" name="Tgstation.Server.Api.Models.TestMergeParameters">
-<area shape="rect" id="node1" title="Parameters for creating a TestMerge" alt="" coords="5,71,192,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_model_base.html" title="Layer of test merge data required internally" alt="" coords="240,71,435,112"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_api_base.html" title="Represents a test merge of a remote &quot;pull request&quot;." alt="" coords="505,37,692,79"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_test_merge_information.html" title="This model mirrors /datum/tgs_revision_information/test_merge" alt="" coords="483,103,715,144"/>
+<area shape="rect" id="node1" title="Parameters for creating a TestMerge." alt="" coords="5,71,192,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_model_base.html" title="Layer of test merge data required internally." alt="" coords="240,71,435,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_api_base.html" title="Represents a test merge of a remote commit source." alt="" coords="505,37,692,79"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_test_merge_information.html" title="This model mirrors /datum/tgs_revision_information/test_merge." alt="" coords="483,103,715,144"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html" title=" " alt="" coords="767,5,954,47"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html" title=" " alt="" coords="763,71,959,112"/>
 </map>

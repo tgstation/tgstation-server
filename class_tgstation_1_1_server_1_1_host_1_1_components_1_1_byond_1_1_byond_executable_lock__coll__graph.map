@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Components.Byond.ByondExecutableLock" name="Tgstation.Server.Host.Components.Byond.ByondExecutableLock">
 <area shape="rect" id="node1" title=" " alt="" coords="492,86,719,127"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables" alt="" coords="152,5,307,32"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables." alt="" coords="152,5,307,32"/>
 <area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="5,5,96,32"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="145,57,313,98"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="145,57,313,98"/>
 <area shape="rect" id="node5" title=" " alt="" coords="177,123,282,149"/>
 <area shape="rect" id="node6" title=" " alt="" coords="147,173,312,200"/>
 </map>

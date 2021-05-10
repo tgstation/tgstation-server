@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler" name="Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandler">
-<area shape="rect" id="node1" title=" " alt="" coords="580,71,807,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5f9469bcfa64fb349af62686e31c8a1e" title=" " alt="" coords="301,11,527,67"/>
+<area shape="rect" id="node1" title="Attach an asychronous exit handler to a given process handle ." alt="" coords="580,71,807,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5f9469bcfa64fb349af62686e31c8a1e" title="Wrapper for AttachExitHandler(global::System.Diagnostics.Process, Func&lt;int&gt;) to safely provide the pr..." alt="" coords="301,11,527,67"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877" title="Create a IProcess given an existing handle ." alt="" coords="296,103,532,159"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a584a9d2372706363eb65754fa18f5ed3" title="Launch a IProcess" alt="" coords="19,5,234,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a584a9d2372706363eb65754fa18f5ed3" title="Launch a IProcess." alt="" coords="19,5,234,47"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04581cbc596b3a53ef3e17752ca3cfb" title="Get a IProcess representing the running executable." alt="" coords="9,71,244,112"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#afc62b43888624c6f6098bbddabc08b33" title="Get a IProcess by id ." alt="" coords="27,136,226,177"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a09b2d58bfe8a6053bfc369b143211bfd" title="Get a IProcess with a given name ." alt="" coords="5,201,248,243"/>

@@ -109,7 +109,7 @@ Protected Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Renames the PullRequestRevision and adds the RepositoryOrigin columns for PostgresSQL. </p>
 
-<p class="definition">Definition at line <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html#l00009">9</a> of file <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html">20201209194500_PGGenericTestMergingUpdate.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html#l00010">10</a> of file <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html">20201209194500_PGGenericTestMergingUpdate.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a79e98191e20d6edc64c12f414d4123d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a79e98191e20d6edc64c12f414d4123d1">&#9670;&nbsp;</a></span>BuildTargetModel()</h2>
@@ -972,20 +972,20 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html#l00029">29</a> of file <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html">20201209194500_PGGenericTestMergingUpdate.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            migrationBuilder.RenameColumn(</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                name: <span class="stringliteral">&quot;TargetCommitSha&quot;</span>,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                table: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                newName: <span class="stringliteral">&quot;PullRequestRevision&quot;</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            migrationBuilder.DropColumn(</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                name: <span class="stringliteral">&quot;RepositoryOrigin&quot;</span>,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html#l00030">30</a> of file <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html">20201209194500_PGGenericTestMergingUpdate.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            migrationBuilder.RenameColumn(</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                name: <span class="stringliteral">&quot;TargetCommitSha&quot;</span>,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                table: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                newName: <span class="stringliteral">&quot;PullRequestRevision&quot;</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            migrationBuilder.DropColumn(</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                name: <span class="stringliteral">&quot;RepositoryOrigin&quot;</span>,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1015,21 +1015,21 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html#l00012">12</a> of file <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html">20201209194500_PGGenericTestMergingUpdate.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            migrationBuilder.RenameColumn(</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                name: <span class="stringliteral">&quot;PullRequestRevision&quot;</span>,</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                table: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                newName: <span class="stringliteral">&quot;TargetCommitSha&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                name: <span class="stringliteral">&quot;RepositoryOrigin&quot;</span>,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html#l00013">13</a> of file <a class="el" href="20201209194500___p_g_generic_test_merging_update_8cs_source.html">20201209194500_PGGenericTestMergingUpdate.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            migrationBuilder.RenameColumn(</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                name: <span class="stringliteral">&quot;PullRequestRevision&quot;</span>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                table: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                newName: <span class="stringliteral">&quot;TargetCommitSha&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                name: <span class="stringliteral">&quot;RepositoryOrigin&quot;</span>,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>

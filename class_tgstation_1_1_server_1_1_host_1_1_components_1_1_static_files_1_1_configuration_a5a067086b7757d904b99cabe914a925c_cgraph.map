@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.EnsureDirectories" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.EnsureDirectories">
-<area shape="rect" id="node1" title="Ensures standard configuration directories exist" alt="" coords="5,104,272,145"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path" alt="" coords="360,5,543,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a4088b7924c694d628acd99b5a0829c86" title="Check that the file at path &#160;exists" alt="" coords="367,71,535,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4a5436d55e83759de84d17871039d752" title="Get the proper path to StaticIgnoreFile" alt="" coords="320,136,583,177"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content" alt="" coords="366,201,537,243"/>
-</map>

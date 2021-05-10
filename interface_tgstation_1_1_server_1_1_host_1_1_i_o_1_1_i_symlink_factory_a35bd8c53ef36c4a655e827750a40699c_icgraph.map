@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.IO.ISymlinkFactory.CreateSymbolicLink" name="Tgstation.Server.Host.IO.ISymlinkFactory.CreateSymbolicLink">
-<area shape="rect" id="node1" title="Create a symbolic link" alt="" coords="1008,121,1243,162"/>
+<area shape="rect" id="node1" title="Create a symbolic link." alt="" coords="1008,121,1243,162"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="656,85,960,126"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination" alt="" coords="685,149,931,205"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination ." alt="" coords="685,149,931,205"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a8e8934ab54a29d00c8a6b6b39bd29cb1" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="316,5,608,61"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html#a848a86aa5ceb25bdab6d4957494ef166" title="Starts all ISessionControllers." alt="" coords="334,85,590,126"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a95894cd21ba5de89171ff97a53b7130c" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="335,150,589,191"/>

@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Api.Models.NamedEntity" name="Tgstation.Server.Api.Models.NamedEntity">
 <area shape="rect" id="node1" title="Base class for named entities." alt="" coords="119,397,305,439"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="358,136,545,177"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots" alt="" coords="358,332,545,373"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance." alt="" coords="358,136,545,177"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_settings.html" title="Manage the server chat bots." alt="" coords="358,332,545,373"/>
 <area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="358,397,545,439"/>
 <area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="358,463,545,504"/>
 <area shape="rect" id="node25" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html" title=" " alt="" coords="353,528,549,569"/>

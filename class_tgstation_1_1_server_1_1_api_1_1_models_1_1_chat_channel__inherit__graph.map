@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Api.Models.ChatChannel" name="Tgstation.Server.Api.Models.ChatChannel">
-<area shape="rect" id="node1" title="Indicates a chat channel" alt="" coords="10,5,197,47"/>
+<area shape="rect" id="node1" title="Indicates a chat channel." alt="" coords="10,5,197,47"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html" title=" " alt="" coords="5,95,201,136"/>
 </map>

@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.IDmbProvider" name="Tgstation.Server.Host.Components.Deployment.IDmbProvider">
-<area shape="rect" id="node1" title="Provides absolute paths to the latest compiled .dmbs" alt="" coords="144,71,371,112"/>
+<area shape="rect" id="node1" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="144,71,371,112"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title=" " alt="" coords="421,5,648,47"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="419,71,651,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider" alt="" coords="420,136,649,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider." alt="" coords="420,136,649,177"/>
 <area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,78,96,105"/>
 </map>

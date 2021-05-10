@@ -76,19 +76,19 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Extension methods for the IHostBuilder <code>class</code>.  
+<p>Extension methods for the IHostBuilder class.  
  <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_host_builder_extensions.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ae797b26258b28c3540df4af88ff850fe"><td class="memItemLeft" align="right" valign="top">static IHostBuilder&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_host_builder_extensions.html#ae797b26258b28c3540df4af88ff850fe">UseSetupApplication</a> (this IHostBuilder builder)</td></tr>
-<tr class="memdesc:ae797b26258b28c3540df4af88ff850fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Workaround for using the SetupApplication <code>class</code> for host startup.  <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_host_builder_extensions.html#ae797b26258b28c3540df4af88ff850fe">More...</a><br /></td></tr>
+<tr class="memdesc:ae797b26258b28c3540df4af88ff850fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Workaround for using the SetupApplication class for host startup.  <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_host_builder_extensions.html#ae797b26258b28c3540df4af88ff850fe">More...</a><br /></td></tr>
 <tr class="separator:ae797b26258b28c3540df4af88ff850fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Extension methods for the IHostBuilder <code>class</code>. </p>
+<div class="textblock"><p>Extension methods for the IHostBuilder class. </p>
 
-<p class="definition">Definition at line <a class="el" href="_host_builder_extensions_8cs_source.html#l00010">10</a> of file <a class="el" href="_host_builder_extensions_8cs_source.html">HostBuilderExtensions.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_host_builder_extensions_8cs_source.html#l00012">12</a> of file <a class="el" href="_host_builder_extensions_8cs_source.html">HostBuilderExtensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ae797b26258b28c3540df4af88ff850fe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae797b26258b28c3540df4af88ff850fe">&#9670;&nbsp;</a></span>UseSetupApplication()</h2>
@@ -114,7 +114,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Workaround for using the SetupApplication <code>class</code> for host startup. </p>
+<p>Workaround for using the SetupApplication class for host startup. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">builder</td><td>The IHostBuilder to configure.</td></tr>
@@ -123,18 +123,18 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The configured <em>builder</em> .</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_host_builder_extensions_8cs_source.html#l00017">17</a> of file <a class="el" href="_host_builder_extensions_8cs_source.html">HostBuilderExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">if</span> (builder == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(builder));</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keywordflow">return</span> builder.ConfigureServices((context, services) =&gt;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                var setupApplication = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html">SetupApplication</a>(context.Configuration);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                setupApplication.ConfigureServices(services);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            });</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html">Tgstation.Server.Host.Setup.SetupApplication</a></div><div class="ttdoc">DI root for configuring a SetupWizard.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_application_8cs_source.html#l00018">SetupApplication.cs:19</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_host_builder_extensions_8cs_source.html#l00019">19</a> of file <a class="el" href="_host_builder_extensions_8cs_source.html">HostBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="keywordflow">if</span> (builder == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(builder));</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keywordflow">return</span> builder.ConfigureServices((context, services) =&gt;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                var setupApplication = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html">SetupApplication</a>(context.Configuration);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                setupApplication.ConfigureServices(services);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            });</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html">Tgstation.Server.Host.Setup.SetupApplication</a></div><div class="ttdoc">DI root for configuring a SetupWizard.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_application_8cs_source.html#l00020">SetupApplication.cs:21</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

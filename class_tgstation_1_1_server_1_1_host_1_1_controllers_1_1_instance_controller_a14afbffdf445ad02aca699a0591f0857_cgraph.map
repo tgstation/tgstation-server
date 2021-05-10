@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance" name="Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance">
-<area shape="rect" id="node1" title="Creates a default Models.Instance from initialSettings ." alt="" coords="5,39,264,80"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html#ac989342d01f012e78c39eaed65f64ab1" title="Gets a port not currently in use by TGS." alt="" coords="362,5,565,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ac714cfe4953bcf2f3d276194438cd86f" title="Generate an InstancePermissionSet with full rights." alt="" coords="312,71,615,112"/>
-</map>

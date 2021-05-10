@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanJob" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanJob">
-<area shape="rect" id="node1" title="Delete the Api.Models.Internal.CompileJob.DirectoryName of job" alt="" coords="5,85,232,126"/>
+<area shape="rect" id="node1" title="Delete the Api.Models.Internal.CompileJob.DirectoryName of job ." alt="" coords="5,85,232,126"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="280,5,599,61"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="349,85,530,126"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a956c9afaf0a390c654c421c195a263f8" title="Mark the deplotment for a given compileJob &#160;as inactive." alt="" coords="310,149,569,205"/>

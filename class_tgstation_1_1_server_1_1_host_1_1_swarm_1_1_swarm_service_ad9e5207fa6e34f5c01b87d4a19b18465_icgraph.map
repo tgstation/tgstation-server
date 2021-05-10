@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate" name="Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate">
 <area shape="rect" id="node1" title="Abort an uncommitted update." alt="" coords="639,136,833,177"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9b85022c2273cf3a500083bc49bdda6" title="Signal to the swarm that an update is ready to be applied." alt="" coords="365,5,562,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a44ea2df8df1a5d14c30a85cce5f736aa" title="Implementation of PrepareUpdate(Version, CancellationToken)," alt="" coords="352,71,575,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a44ea2df8df1a5d14c30a85cce5f736aa" title="Implementation of PrepareUpdate(Version, CancellationToken),." alt="" coords="352,71,575,112"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad490d7407bc35a552ccf0e488d2e16c2" title="Remotely abort an uncommitted update." alt="" coords="349,136,577,177"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a429f30fb4ef531421f828f853456d0e3" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="336,201,591,243"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a13a8e3596303af235b87c9c44241d72b" title="Attempt to unregister a node with a given registrationId &#160;with the controller." alt="" coords="363,267,564,308"/>

@@ -1,11 +1,11 @@
 <map id="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;" name="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;">
-<area shape="rect" id="node1" title="Main request method" alt="" coords="5,188,161,244"/>
+<area shape="rect" id="node1" title="Main request method." alt="" coords="5,188,161,244"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a5fc7043512e27e131091fd2816e26295" title="Asyncronously creates a new CachedResponseStream." alt="" coords="209,13,416,54"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#aed28ea7a7fff4be99f3c65a8dcd0a47e" title=" " alt="" coords="500,107,699,149"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a7b81831316898d1d92a5103d3ecf145b" title=" " alt="" coords="213,130,412,171"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#abd283e3f14a6be71a3d4a8dedd12123e" title=" " alt="" coords="233,195,392,237"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#a7c73a8c52b38c69ed369036d186192de" title="Send an HTTP request" alt="" coords="235,261,391,302"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers" alt="" coords="217,326,408,367"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#aed28ea7a7fff4be99f3c65a8dcd0a47e" title="Get the JsonSerializerSettings to use." alt="" coords="500,107,699,149"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a7b81831316898d1d92a5103d3ecf145b" title="Handle a bad HTTP response ." alt="" coords="213,130,412,171"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#abd283e3f14a6be71a3d4a8dedd12123e" title="Attempt to refresh the bearer token in the headers." alt="" coords="233,195,392,237"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#a7c73a8c52b38c69ed369036d186192de" title="Send an HTTP request." alt="" coords="235,261,391,302"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="217,326,408,367"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#ace5fb89b6031e1a0f1367f55e5986a72" title=" " alt="" coords="235,391,391,433"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a02de7e3b54b7c09da6395fb286d4f68e" title="Initializes a new instance of the CachedResponseStream class." alt="" coords="464,5,735,61"/>
 </map>

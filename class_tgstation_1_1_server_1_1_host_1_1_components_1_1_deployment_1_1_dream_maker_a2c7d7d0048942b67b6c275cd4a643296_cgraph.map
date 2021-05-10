@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.RunDreamMaker" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.RunDreamMaker">
-<area shape="rect" id="node1" title="Compiles a .dme with DreamMaker" alt="" coords="5,39,272,80"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#ac496c8c47a22086a1cbb882c1c0d391c" title="Launch a IProcess" alt="" coords="320,5,539,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="345,71,513,112"/>
-</map>

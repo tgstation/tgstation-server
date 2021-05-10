@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Client_OnQueryMessage" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Client_OnQueryMessage">
-<area shape="rect" id="node1" title="When a query message is received in IRC" alt="" coords="292,5,519,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ac70109905b392e48e33911b5267e800c" title="Construct an IrcProvider" alt="" coords="5,13,244,54"/>
+<area shape="rect" id="node1" title="When a query message is received in IRC." alt="" coords="292,5,519,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ac70109905b392e48e33911b5267e800c" title="Initializes a new instance of the IrcProvider class." alt="" coords="5,13,244,54"/>
 </map>

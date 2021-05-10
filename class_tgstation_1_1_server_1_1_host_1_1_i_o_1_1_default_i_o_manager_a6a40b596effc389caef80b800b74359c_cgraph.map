@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.GetFilesWithExtension" name="Tgstation.Server.Host.IO.DefaultIOManager.GetFilesWithExtension">
-<area shape="rect" id="node1" title="Gets a list of files in path &#160;with the given extension" alt="" coords="5,5,267,47"/>
+<area shape="rect" id="node1" title="Gets a list of files in path &#160;with the given extension ." alt="" coords="5,5,267,47"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory." alt="" coords="315,5,519,47"/>
 </map>

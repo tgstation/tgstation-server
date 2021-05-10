@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.MoveDirectory" name="Tgstation.Server.Host.IO.IIOManager.MoveDirectory">
-<area shape="rect" id="node1" title="Moves a directory at source &#160;to destination" alt="" coords="309,71,485,112"/>
+<area shape="rect" id="node1" title="Moves a directory at source &#160;to destination ." alt="" coords="309,71,485,112"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html#a848a86aa5ceb25bdab6d4957494ef166" title="Starts all ISessionControllers." alt="" coords="5,5,261,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html#a4f3509ee8b0e7e47f95c9fba8cce33e3" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="17,71,249,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a232e9720186876671fb9709f433a507b" title="Move an IInstance" alt="" coords="20,136,247,177"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a232e9720186876671fb9709f433a507b" title="Move an IInstance." alt="" coords="20,136,247,177"/>
 </map>

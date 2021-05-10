@@ -1,5 +1,4 @@
 <map id="Tgstation.Server.Host.Jobs.JobManager.RegisterOperation" name="Tgstation.Server.Host.Jobs.JobManager.RegisterOperation">
-<area shape="rect" id="node1" title="Registers a given Job and begins running it" alt="" coords="5,5,205,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ab886226b72e336cfe28a37233ed807dc" title="Runner for JobHandlers" alt="" coords="253,5,436,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext" alt="" coords="484,5,723,47"/>
+<area shape="rect" id="node1" title="Registers a given Job and begins running it." alt="" coords="5,5,205,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ab886226b72e336cfe28a37233ed807dc" title="Runner for JobHandlers." alt="" coords="253,5,436,47"/>
 </map>

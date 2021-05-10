@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.IWatchdog" name="Tgstation.Server.Host.Components.Watchdog.IWatchdog">
-<area shape="rect" id="node1" title="Runs and monitors the twin server controllers" alt="" coords="165,80,392,121"/>
+<area shape="rect" id="node1" title="Runs and monitors the twin server controllers." alt="" coords="165,80,392,121"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="165,169,392,211"/>
 <area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,32"/>
 <area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="142,5,269,32"/>

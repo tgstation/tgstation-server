@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage" name="Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage">
-<area shape="rect" id="node1" title="Asynchronously send a given message &#160;to a set of channelIds ." alt="" coords="616,39,843,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c" title="Processes a message" alt="" coords="335,5,568,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a58ab5c0ce4dae64a8b7781df6fbe7559" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="338,71,565,112"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2" title="Monitors active providers for new Messages" alt="" coords="29,5,263,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4a3051f36861a7cf6ebff6215e39163f" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="5,71,287,112"/>
+<area shape="rect" id="node1" title="Asynchronously send a given message &#160;to a set of channelIds ." alt="" coords="609,5,836,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a58ab5c0ce4dae64a8b7781df6fbe7559" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="335,5,561,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4a3051f36861a7cf6ebff6215e39163f" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="5,5,287,47"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.HomeController.Home" name="Tgstation.Server.Host.Controllers.HomeController.Home">
-<area shape="rect" id="node1" title="Main page of the Application" alt="" coords="5,100,221,141"/>
+<area shape="rect" id="node1" title="Main page of the Application." alt="" coords="5,100,221,141"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a891845660d274caca11fb5f8ecc0cf34" title="Gets the list of SwarmServerResponses in the swarm, including the current one." alt="" coords="278,5,499,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221" title="Response for missing/Invalid headers." alt="" coords="281,71,497,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="556,100,772,141"/>

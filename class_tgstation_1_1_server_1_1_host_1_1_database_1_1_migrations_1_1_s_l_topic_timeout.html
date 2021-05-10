@@ -109,7 +109,7 @@ Protected Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Add BYOND topic timeouts for SQLite. </p>
 
-<p class="definition">Definition at line <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html#l00009">9</a> of file <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html">20200616180742_SLTopicTimeout.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html#l00010">10</a> of file <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html">20200616180742_SLTopicTimeout.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a384f0cec4e567e0b2e02cb49556773f0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a384f0cec4e567e0b2e02cb49556773f0">&#9670;&nbsp;</a></span>BuildTargetModel()</h2>
@@ -962,47 +962,47 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html#l00024">24</a> of file <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html">20200616180742_SLTopicTimeout.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            migrationBuilder.RenameTable(</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                newName: <span class="stringliteral">&quot;DreamDaemonSettings_down&quot;</span>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            migrationBuilder.CreateTable(</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                    AllowWebClient = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    SecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    PrimaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    SecondaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    StartupTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    AutoStart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    HeartbeatSeconds = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                },</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                constraints: table =&gt;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamDaemonSettings&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    table.ForeignKey(</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                        name: <span class="stringliteral">&quot;FK_DreamDaemonSettings_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                });</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            migrationBuilder.Sql(</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                $<span class="stringliteral">&quot;INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,SecondaryPort,StartupTimeout,AutoStart,InstanceId,HeartbeatSeconds FROM DreamDaemonSettings_down&quot;</span>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            migrationBuilder.DropTable(</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                name: <span class="stringliteral">&quot;DreamDaemonSettings_down&quot;</span>);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html#l00025">25</a> of file <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html">20200616180742_SLTopicTimeout.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            migrationBuilder.RenameTable(</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                newName: <span class="stringliteral">&quot;DreamDaemonSettings_down&quot;</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            migrationBuilder.CreateTable(</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    AllowWebClient = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    SecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    PrimaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    SecondaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    StartupTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    AutoStart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    HeartbeatSeconds = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                },</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                constraints: table =&gt;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamDaemonSettings&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    table.ForeignKey(</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        name: <span class="stringliteral">&quot;FK_DreamDaemonSettings_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                });</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            migrationBuilder.Sql(</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                $<span class="stringliteral">&quot;INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,SecondaryPort,StartupTimeout,AutoStart,InstanceId,HeartbeatSeconds FROM DreamDaemonSettings_down&quot;</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            migrationBuilder.DropTable(</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                name: <span class="stringliteral">&quot;DreamDaemonSettings_down&quot;</span>);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1032,16 +1032,16 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html#l00012">12</a> of file <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html">20200616180742_SLTopicTimeout.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            migrationBuilder.AddColumn&lt;uint&gt;(</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                name: <span class="stringliteral">&quot;TopicRequestTimeout&quot;</span>,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                defaultValue: 0u);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html#l00013">13</a> of file <a class="el" href="20200616180742___s_l_topic_timeout_8cs_source.html">20200616180742_SLTopicTimeout.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            migrationBuilder.AddColumn&lt;uint&gt;(</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                name: <span class="stringliteral">&quot;TopicRequestTimeout&quot;</span>,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                defaultValue: 0u);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>

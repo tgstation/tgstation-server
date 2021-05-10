@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Byond.IByondManager" name="Tgstation.Server.Host.Components.Byond.IByondManager">
-<area shape="rect" id="node1" title="For managing the BYOND installation" alt="" coords="11,80,237,121"/>
+<area shape="rect" id="node1" title="For managing the BYOND installation." alt="" coords="11,80,237,121"/>
 <area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,32"/>
 <area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="141,5,232,32"/>
 </map>

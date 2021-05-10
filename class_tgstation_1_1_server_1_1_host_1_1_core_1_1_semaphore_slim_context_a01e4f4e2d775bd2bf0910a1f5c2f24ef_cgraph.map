@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Core.SemaphoreSlimContext.Lock" name="Tgstation.Server.Host.Core.SemaphoreSlimContext.Lock">
-<area shape="rect" id="node1" title="Asyncronously locks a semaphore" alt="" coords="5,13,196,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Construct a SemaphoreSlimContext" alt="" coords="244,5,497,61"/>
+<area shape="rect" id="node1" title="Asyncronously locks a semaphore ." alt="" coords="5,13,196,54"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Initializes a new instance of the SemaphoreSlimContext class." alt="" coords="244,5,497,61"/>
 </map>

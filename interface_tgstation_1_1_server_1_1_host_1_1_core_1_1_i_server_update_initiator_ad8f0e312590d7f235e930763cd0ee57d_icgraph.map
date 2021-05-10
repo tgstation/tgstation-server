@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Core.IServerUpdateInitiator.BeginUpdate" name="Tgstation.Server.Host.Core.IServerUpdateInitiator.BeginUpdate">
 <area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="607,71,833,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a44ea2df8df1a5d14c30a85cce5f736aa" title="Implementation of PrepareUpdate(Version, CancellationToken)," alt="" coords="336,37,559,79"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a44ea2df8df1a5d14c30a85cce5f736aa" title="Implementation of PrepareUpdate(Version, CancellationToken),." alt="" coords="336,37,559,79"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a1adf02130d7d2a48225c05fc44db3690" title="Attempt to perform a server upgrade." alt="" coords="339,103,555,144"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a196a31fcacdc99c10ca9d592b2edf48b" title="Signal to the swarm that an update is requested." alt="" coords="48,5,245,47"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a14022c673cad7446b3ae67c9b2b34e29" title="Notify the node of an update request from the controller." alt="" coords="5,71,288,112"/>

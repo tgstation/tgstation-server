@@ -77,7 +77,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_extensions.html">Extensions</a> for the ChatChannel <code>class</code>.  
+<p><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_extensions.html">Extensions</a> for the ChatChannel class.  
  <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
@@ -96,9 +96,9 @@ Static Private Member Functions</h2></td></tr>
 <tr class="separator:a683c05c25e16d532bcc146cbf8be9e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_extensions.html">Extensions</a> for the ChatChannel <code>class</code>. </p>
+<div class="textblock"><p><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_extensions.html">Extensions</a> for the ChatChannel class. </p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_channel_extensions_8cs_source.html#l00011">11</a> of file <a class="el" href="_chat_channel_extensions_8cs_source.html">ChatChannelExtensions.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_chat_channel_extensions_8cs_source.html#l00012">12</a> of file <a class="el" href="_chat_channel_extensions_8cs_source.html">ChatChannelExtensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="acd8563e260bd596d20e0b7cfc0636e54"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd8563e260bd596d20e0b7cfc0636e54">&#9670;&nbsp;</a></span>GetIrcChannelKey()</h2>
@@ -133,16 +133,16 @@ Static Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The IRC channel key stored in the <em>chatChannel</em>  if it exists, <code>null</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_chat_channel_extensions_8cs_source.html#l00025">25</a> of file <a class="el" href="_chat_channel_extensions_8cs_source.html">ChatChannelExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            var splits = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions.html#a683c05c25e16d532bcc146cbf8be9e49">GetIrcChannelSplits</a>(chatChannel);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">if</span> (splits.Count &lt; 2)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keywordflow">return</span> splits.Last();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions_html_a683c05c25e16d532bcc146cbf8be9e49"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions.html#a683c05c25e16d532bcc146cbf8be9e49">Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelSplits</a></div><div class="ttdeci">static IReadOnlyCollection&lt; string &gt; GetIrcChannelSplits(ChatChannel chatChannel)</div><div class="ttdoc">Split a given chatChannel 's ChatChannel.IrcChannel.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_channel_extensions_8cs_source.html#l00038">ChatChannelExtensions.cs:38</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_chat_channel_extensions_8cs_source.html#l00026">26</a> of file <a class="el" href="_chat_channel_extensions_8cs_source.html">ChatChannelExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            var splits = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions.html#a683c05c25e16d532bcc146cbf8be9e49">GetIrcChannelSplits</a>(chatChannel);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">if</span> (splits.Count &lt; 2)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">return</span> splits.Last();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions_html_a683c05c25e16d532bcc146cbf8be9e49"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions.html#a683c05c25e16d532bcc146cbf8be9e49">Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelSplits</a></div><div class="ttdeci">static IReadOnlyCollection&lt; string &gt; GetIrcChannelSplits(ChatChannel chatChannel)</div><div class="ttdoc">Split a given chatChannel 's ChatChannel.IrcChannel.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_channel_extensions_8cs_source.html#l00039">ChatChannelExtensions.cs:39</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_chat_channel_extensions_8cs_source.html#l00038">Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelSplits()</a>.</p>
+<p class="reference">References <a class="el" href="_chat_channel_extensions_8cs_source.html#l00039">Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelSplits()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -223,21 +223,21 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A IReadOnlyCollection&lt;T&gt; of the <em>chatChannel</em> 's ChatChannel.IrcChannel string separated by the ':' char.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_chat_channel_extensions_8cs_source.html#l00038">38</a> of file <a class="el" href="_chat_channel_extensions_8cs_source.html">ChatChannelExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">if</span> (chatChannel == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(chatChannel));</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">if</span> (chatChannel.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943">IrcChannel</a> == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;IrcChannel must be set!&quot;</span>, nameof(chatChannel));</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">return</span> chatChannel.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943">IrcChannel</a>.Split(<span class="keyword">new</span>[] { <span class="charliteral">&#39;:&#39;</span> }, StringSplitOptions.RemoveEmptyEntries);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_chat_channel_extensions_8cs_source.html#l00039">39</a> of file <a class="el" href="_chat_channel_extensions_8cs_source.html">ChatChannelExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">if</span> (chatChannel == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(chatChannel));</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> (chatChannel.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943">IrcChannel</a> == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;IrcChannel must be set!&quot;</span>, nameof(chatChannel));</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">return</span> chatChannel.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943">IrcChannel</a>.Split(<span class="keyword">new</span>[] { <span class="charliteral">&#39;:&#39;</span> }, StringSplitOptions.RemoveEmptyEntries);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel_html_a1b5abf235612bc3aef37d6ba54c8c943"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a1b5abf235612bc3aef37d6ba54c8c943">Tgstation.Server.Api.Models.ChatChannel.IrcChannel</a></div><div class="ttdeci">string? IrcChannel</div><div class="ttdoc">The IRC channel name. Also potentially contains the channel passsword (if separated by a colon)....</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00016">ChatChannel.cs:16</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00016">Tgstation.Server.Api.Models.ChatChannel.IrcChannel</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_channel_extensions_8cs_source.html#l00025">Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelKey()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_channel_extensions_8cs_source.html#l00026">Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelKey()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

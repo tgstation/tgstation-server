@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.DisposeAsync" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.DisposeAsync">
 <area shape="rect" id="node1" title=" " alt="" coords="5,5,264,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ae40d9c01f43f39853f2bf8f15499579d" title=" " alt="" coords="312,5,581,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="629,5,811,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ae40d9c01f43f39853f2bf8f15499579d" title="Attempt to disconnect from IRC immediately." alt="" coords="312,5,581,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="629,5,811,47"/>
 </map>

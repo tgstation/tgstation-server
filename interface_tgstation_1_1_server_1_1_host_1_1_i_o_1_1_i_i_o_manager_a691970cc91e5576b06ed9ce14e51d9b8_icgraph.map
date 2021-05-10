@@ -1,11 +1,11 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetDirectoryName" name="Tgstation.Server.Host.IO.IIOManager.GetDirectoryName">
-<area shape="rect" id="node1" title="Gets the directory portion of a given path" alt="" coords="1264,71,1464,112"/>
+<area shape="rect" id="node1" title="Gets the directory portion of a given path ." alt="" coords="1264,71,1464,112"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a2b610f9600937f97857f303dcfe41823" title="Configure the Application&#39;s services." alt="" coords="1011,5,1206,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4234b15ede546c23f9b5d35bc5c8749b" title="Create a IServer" alt="" coords="1014,71,1203,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a8a3a9f933ee29e77d67fbd7223fd84ca" title=" " alt="" coords="1001,135,1216,191"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c" title="Entrypoint for the Program" alt="" coords="723,78,953,105"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a1deda504d8ba5d227a51c83564b72ca1" title="Prompts the user to create a DatabaseConfiguration" alt="" coords="735,143,941,184"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af95450fea6b5b6d723d91198b7b41d8e" title="Runs the SetupWizard" alt="" coords="487,143,675,184"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4234b15ede546c23f9b5d35bc5c8749b" title="Create a IServer." alt="" coords="1014,71,1203,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a8a3a9f933ee29e77d67fbd7223fd84ca" title="Check that a given SQLite databaseName &#160;is can be accessed. Also prompts the user if they want to use..." alt="" coords="1001,135,1216,191"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c" title="Entrypoint for the Program." alt="" coords="723,78,953,105"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a1deda504d8ba5d227a51c83564b72ca1" title="Prompts the user to create a DatabaseConfiguration." alt="" coords="735,143,941,184"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af95450fea6b5b6d723d91198b7b41d8e" title="Runs the SetupWizard." alt="" coords="487,143,675,184"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a3b92be081e2beac876e749532a6d1d87" title="Check if it should and run the SetupWizard if necessary." alt="" coords="241,143,439,184"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae78c3f7bde77d9470e413adba88d2ae4" title=" " alt="" coords="5,143,193,184"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob" name="Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob">
-<area shape="rect" id="node1" title="Gets a IDmbProvider for a given CompileJob" alt="" coords="280,5,548,47"/>
+<area shape="rect" id="node1" title="Gets a IDmbProvider for a given CompileJob." alt="" coords="280,5,548,47"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a7dc6adc59691130ff12e19193e4f54dd" title="Load a saved ReattachInformation." alt="" coords="5,5,232,47"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Models.Job" name="Tgstation.Server.Host.Models.Job">
 <area shape="rect" id="node1" title=" " alt="" coords="66,169,283,196"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html" title="Represents a long running job" alt="" coords="5,87,171,114"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html" title="Represents a long running job." alt="" coords="5,87,171,114"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="55,5,121,32"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="195,80,331,121"/>
 </map>

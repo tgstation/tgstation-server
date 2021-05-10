@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration" name="Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration">
-<area shape="rect" id="node1" title="Saves a given Configuration set to userConfigFileName" alt="" coords="5,71,208,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#ad674c458bbe343698fb0da3494bf3e37" title="Wait for a key press on the IConsole" alt="" coords="256,5,447,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content" alt="" coords="266,71,437,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470" title="Write some text &#160;to the IConsole" alt="" coords="267,136,435,177"/>
+<area shape="rect" id="node1" title="Saves a given Configuration set to userConfigFileName ." alt="" coords="5,71,208,112"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#ad674c458bbe343698fb0da3494bf3e37" title="Wait for a key press on the IConsole." alt="" coords="256,5,447,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="266,71,437,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470" title="Write some text &#160;to the IConsole." alt="" coords="267,136,435,177"/>
 </map>

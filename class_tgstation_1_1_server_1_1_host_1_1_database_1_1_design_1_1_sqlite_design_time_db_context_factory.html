@@ -105,7 +105,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IDesignTimeDbContextFactory&lt;TContext&gt; for creating <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for SQLite.">SqliteDatabaseContext</a>s. </p>
 
-<p class="definition">Definition at line <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html#l00009">9</a> of file <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html">SqliteDesignTimeDbContextFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html#l00010">10</a> of file <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html">SqliteDesignTimeDbContextFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a88c77d7409d55231d096416130531e93"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a88c77d7409d55231d096416130531e93">&#9670;&nbsp;</a></span>CreateDbContext()</h2>
@@ -125,17 +125,17 @@ Public Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html#l00012">12</a> of file <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html">SqliteDesignTimeDbContextFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            SqliteDatabaseContext.DesignTime = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> SqliteDatabaseContext(</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions&lt;SqliteDatabaseContext&gt;(</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                    <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                    <span class="stringliteral">&quot;Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate&quot;</span>));</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user</div><div class="ttdef"><b>Definition:</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:7</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html#l00013">13</a> of file <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html">SqliteDesignTimeDbContextFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            SqliteDatabaseContext.DesignTime = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> SqliteDatabaseContext(</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions&lt;SqliteDatabaseContext&gt;(</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                    <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                    <span class="stringliteral">&quot;Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate&quot;</span>));</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        }</div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user.</div><div class="ttdef"><b>Definition:</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_sqlite_database_context_8cs_source.html#l00017">Tgstation.Server.Host.Database.SqliteDatabaseContext.DesignTime</a>.</p>
+<p class="reference">References <a class="el" href="_sqlite_database_context_8cs_source.html#l00019">Tgstation.Server.Host.Database.SqliteDatabaseContext.DesignTime</a>.</p>
 
 </div>
 </div>

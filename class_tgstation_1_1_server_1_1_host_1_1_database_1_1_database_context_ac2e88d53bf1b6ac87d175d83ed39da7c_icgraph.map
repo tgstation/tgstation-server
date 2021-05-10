@@ -1,10 +1,10 @@
 <map id="Tgstation.Server.Host.Database.DatabaseContext.Save" name="Tgstation.Server.Host.Database.DatabaseContext.Save">
-<area shape="rect" id="node1" title="Saves changes made to the IDatabaseContext" alt="" coords="541,627,751,668"/>
+<area shape="rect" id="node1" title="Saves changes made to the IDatabaseContext." alt="" coords="541,627,751,668"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a45b987a90e54fd4d8ef831986fa3ebf7" title="Create a new chat bot model ." alt="" coords="257,5,473,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a90d8cbc7d3d0fee8337cbe57be14bf21" title="Create an InstancePermissionSet." alt="" coords="238,71,491,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a85513fdc1bb19ed81b17d3ae98a2562f" title="Create a new User." alt="" coords="257,136,473,177"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a4f7d1fa92af72dde8110932019eaffa0" title="Create a new UserGroup." alt="" coords="257,201,473,243"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders" alt="" coords="257,267,473,308"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="257,267,473,308"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad5ffc737feb4385afff13146e336a910" title="Delete the repository." alt="" coords="257,332,473,373"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a14134d386ac311c0f7a76b7ef312a2d6" title="Detach an Api.Models.Instance with the given id ." alt="" coords="257,397,473,439"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a69e19a7f501fca2dd5d707f34edb4c79" title="Get a specific Api.Models.Instance." alt="" coords="257,463,473,504"/>
