@@ -187,7 +187,7 @@ jobs:
     env:
       TGS4_TEST_DATABASE_TYPE: SqlServer
       TGS4_TEST_DUMP_API_SPEC: yes
-    concurrency: integration-windows
+    concurrency: integration-windows-${{ github.head_ref }}
     strategy:
       max-parallel: 2
       matrix:
@@ -302,7 +302,7 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-    concurrency: integration-linux
+    concurrency: integration-linux-${{ github.head_ref }}
     strategy:
       max-parallel: 2
       matrix:
