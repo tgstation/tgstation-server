@@ -213,6 +213,7 @@ Before `tgs.dm`:
 #define TGS_WRITE_GLOBAL(Name, Value) global.##Name = ##Value
 #define TGS_WORLD_ANNOUNCE(message) world << ##message
 #define TGS_INFO_LOG(message) world.log << "TGS Info: [##message]"
+#define TGS_WARNING_LOG(message) world.log << "TGS Warning: [##message]"
 #define TGS_ERROR_LOG(message) world.log << "TGS Error: [##message]"
 #define TGS_NOTIFY_ADMINS(event) world.log << "TGS Admin Message: [##event]"
 #define TGS_CLIENT_COUNT global.client_cout
@@ -226,7 +227,7 @@ var/global/client_count = 0
 /world/New()
 	..()
 	TgsNew()
-	TgsInitializationsComplete()
+	TgsInitializationComplete()
 
 /world/Reboot()
 	TgsReboot()
