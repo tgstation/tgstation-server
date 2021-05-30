@@ -219,6 +219,7 @@ Example</h2>
 <div class="line">#define TGS_WRITE_GLOBAL(Name, Value) global.##Name = ##Value</div>
 <div class="line">#define TGS_WORLD_ANNOUNCE(message) world &lt;&lt; ##message</div>
 <div class="line">#define TGS_INFO_LOG(message) world.log &lt;&lt; &quot;TGS Info: [##message]&quot;</div>
+<div class="line">#define TGS_WARNING_LOG(message) world.log &lt;&lt; &quot;TGS Warning: [##message]&quot;</div>
 <div class="line">#define TGS_ERROR_LOG(message) world.log &lt;&lt; &quot;TGS Error: [##message]&quot;</div>
 <div class="line">#define TGS_NOTIFY_ADMINS(event) world.log &lt;&lt; &quot;TGS Admin Message: [##event]&quot;</div>
 <div class="line">#define TGS_CLIENT_COUNT global.client_cout</div>
@@ -228,7 +229,7 @@ Example</h2>
 <div class="line">/world/New()</div>
 <div class="line">    ..()</div>
 <div class="line">    TgsNew()</div>
-<div class="line">    TgsInitializationsComplete()</div>
+<div class="line">    TgsInitializationComplete()</div>
 <div class="line"> </div>
 <div class="line">/world/Reboot()</div>
 <div class="line">    TgsReboot()</div>
