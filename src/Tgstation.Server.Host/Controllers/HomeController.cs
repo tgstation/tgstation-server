@@ -277,6 +277,9 @@ namespace Tgstation.Server.Host.Controllers
 				else
 				{
 					var canonicalUserName = Models.User.CanonicalizeName(ApiHeaders.Username);
+					if (canonicalUserName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+						return Unauthorized();
+
 					if (systemIdentity == null)
 						query = query.Where(x => x.CanonicalName == canonicalUserName);
 					else
