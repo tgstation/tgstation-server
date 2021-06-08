@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Setup
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
 
-			services.SetupLogging(config => config.MinimumLevel.Override("Microsoft", LogEventLevel.Warning));
+			services.SetupLogging(config => config.MinimumLevel.Override("Microsoft", LogEventLevel.Warning), Configuration);
 
 			services.AddSingleton(IOManager);
 			services.AddSingleton(AssemblyInformationProvider);
@@ -66,6 +66,7 @@ namespace Tgstation.Server.Host.Setup
 			services.UseStandardConfig<DatabaseConfiguration>(Configuration);
 			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 			services.UseStandardConfig<FileLoggingConfiguration>(Configuration);
+			services.UseStandardConfig<ElasticsearchConfiguration>(Configuration);
 
 			ConfigureHostedService(services);
 		}

@@ -151,6 +151,7 @@ namespace Tgstation.Server.Host.Core
 						config.MinimumLevel.Override("System.Net.Http.HttpClient", microsoftEventLevel.Value);
 					}
 				},
+				Configuration,
 				sinkConfig =>
 				{
 					if (postSetupServices.FileLoggingConfiguration.Disable)
