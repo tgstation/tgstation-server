@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 		}
 
 		[TestMethod]
-		public async Task TestWithUserStupiditiy()
+		public async Task TestWithUserStupidity()
 		{
 			var mockIOManager = new Mock<IIOManager>();
 			var mockConsole = new Mock<IConsole>();
@@ -203,6 +203,8 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"not actually verified because lol mocks /../!@#$%^&*()/..///.",
 				"Warning",
 				String.Empty,
+				// elasticsearch config
+				"n", // were not validating this travesty in CI
 				//cp config
 				"y",
 				"n",
