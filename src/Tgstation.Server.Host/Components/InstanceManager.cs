@@ -77,9 +77,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceManager"/>.
+		/// The <see cref="IServerAddressProvider"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
-		readonly IServerPortProvider serverPortProvider;
+		readonly IServerAddressProvider serverAddressProvider;
 
 		/// <summary>
 		/// The <see cref="ISwarmService"/> for the <see cref="InstanceManager"/>.
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
-		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
+		/// <param name="serverAddressProvider">The value of <see cref="serverAddressProvider"/>.</param>
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Components
 			IServerControl serverControl,
 			ISystemIdentityFactory systemIdentityFactory,
 			IAsyncDelayer asyncDelayer,
-			IServerPortProvider serverPortProvider,
+			IServerAddressProvider serverAddressProvider,
 			ISwarmService swarmService,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Components
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
-			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
+			this.serverAddressProvider = serverAddressProvider ?? throw new ArgumentNullException(nameof(serverAddressProvider));
 			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
@@ -547,7 +547,7 @@ namespace Tgstation.Server.Host.Components
 
 			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
 			// If it does fail, DD will be killed.
-			SocketExtensions.BindTest(serverPortProvider.HttpApiPort, true);
+			SocketExtensions.BindTest(Convert.ToUInt16(serverAddressProvider.AddressEndPoint.Port), true);
 		}
 
 		/// <summary>

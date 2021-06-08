@@ -21,9 +21,9 @@ namespace Tgstation.Server.Host.Configuration
 		public const string Section = "General";
 
 		/// <summary>
-		/// The default value of <see cref="ApiPort"/>.
+		/// The default value of <see cref="BindAddress"/>.
 		/// </summary>
-		public const ushort DefaultApiPort = 5000;
+		public const string DefaultBindAddress = "127.0.0.0:5000";
 
 		/// <summary>
 		/// The default value for <see cref="ServerInformationBase.MinimumPasswordLength"/>.
@@ -66,9 +66,10 @@ namespace Tgstation.Server.Host.Configuration
 		public Version ConfigVersion { get; set; }
 
 		/// <summary>
-		/// The port the TGS API listens on.
+		/// The bind address the TGS API listens on, takes the form of the ip address to bind to, followed by the port.
+		/// e.g 127.0.0.1:5000.
 		/// </summary>
-		public ushort ApiPort { get; set; }
+		public Uri BindAddress { get; set; }
 
 		/// <summary>
 		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes.

@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The new port for <see cref="TopicCommandType.ChangePort"/> or <see cref="TopicCommandType.ServerPortUpdate"/> requests.
 		/// </summary>
-		public ushort? NewPort { get; }
+		public int? NewPort { get; }
 
 		/// <summary>
 		/// The <see cref="RebootState"/> for <see cref="TopicCommandType.ChangeRebootState"/> requests.
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="newPort">The value of <see cref="NewPort"/>.</param>
-		public TopicParameters(ushort newPort)
+		public TopicParameters(int newPort)
 			: this(TopicCommandType.ChangePort)
 		{
 			NewPort = newPort;
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// </summary>
 		/// <param name="newServerVersion">The value of <see cref="NewServerVersion"/>.</param>
 		/// <param name="serverPort">TGS's new API port.</param>
-		public TopicParameters(Version newServerVersion, ushort serverPort)
+		public TopicParameters(Version newServerVersion, int serverPort)
 			: this(TopicCommandType.ServerRestarted)
 		{
 			NewServerVersion = newServerVersion ?? throw new ArgumentNullException(nameof(newServerVersion));

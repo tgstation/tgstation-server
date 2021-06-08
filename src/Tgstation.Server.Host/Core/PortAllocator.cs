@@ -18,9 +18,9 @@ namespace Tgstation.Server.Host.Core
 	sealed class PortAllocator : IPortAllocator
 	{
 		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="PortAllocator"/>.
+		/// The <see cref="IServerAddressProvider"/> for the <see cref="PortAllocator"/>.
 		/// </summary>
-		readonly IServerPortProvider serverPortProvider;
+		readonly IServerAddressProvider serverAddressProvider;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the <see cref="PortAllocator"/>.
@@ -40,17 +40,17 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PortAllocator"/> class.
 		/// </summary>
-		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
+		/// <param name="serverAddressProvider">The value of <see cref="serverAddressProvider"/>.</param>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public PortAllocator(
-			IServerPortProvider serverPortProvider,
+			IServerAddressProvider serverAddressProvider,
 			IDatabaseContext databaseContext,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<PortAllocator> logger)
 		{
-			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
+			this.serverAddressProvider = serverAddressProvider ?? throw new ArgumentNullException(nameof(serverAddressProvider));
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Core
 					if (checkOne && port != basePort)
 						break;
 
-					if (port == serverPortProvider.HttpApiPort
+					if (port == serverAddressProvider.AddressEndPoint.Port
 						|| ddPorts.Contains(port)
 						|| dmPorts.Contains(port))
 						continue;

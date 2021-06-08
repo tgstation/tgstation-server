@@ -80,9 +80,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IBridgeRegistrar bridgeRegistrar;
 
 		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="SessionControllerFactory"/>.
+		/// The <see cref="IServerAddressProvider"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
-		readonly IServerPortProvider serverPortProvider;
+		readonly IServerAddressProvider serverAddressProvider;
 
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for the <see cref="SessionControllerFactory"/>.
@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="bridgeRegistrar">The value of <see cref="bridgeRegistrar"/>.</param>
-		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
+		/// <param name="serverAddressProvider">The value of <see cref="serverAddressProvider"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Host.Components.Session
 			INetworkPromptReaper networkPromptReaper,
 			IPlatformIdentifier platformIdentifier,
 			IBridgeRegistrar bridgeRegistrar,
-			IServerPortProvider serverPortProvider,
+			IServerAddressProvider serverAddressProvider,
 			EventConsumer eventConsumer,
 			ILoggerFactory loggerFactory,
 			ILogger<SessionControllerFactory> logger,
@@ -183,7 +183,7 @@ namespace Tgstation.Server.Host.Components.Session
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
-			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
+			this.serverAddressProvider = serverAddressProvider ?? throw new ArgumentNullException(nameof(serverAddressProvider));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -241,7 +241,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
-					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.InteropVersion.Semver().ToString())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={byondTopicSender.SanitizeString(accessIdentifier)}";
+					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.InteropVersion.Semver().ToString())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverAddressProvider.AddressEndPoint.Port}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={byondTopicSender.SanitizeString(accessIdentifier)}";
 
 					if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
 						parameters = $"{parameters}&{launchParameters.AdditionalParameters}";
@@ -489,7 +489,7 @@ namespace Tgstation.Server.Host.Components.Session
 				assemblyInformationProvider.Version,
 				instance.Name,
 				securityLevel,
-				serverPortProvider.HttpApiPort,
+				serverAddressProvider.AddressEndPoint.Port,
 				apiValidateOnly);
 
 		/// <summary>

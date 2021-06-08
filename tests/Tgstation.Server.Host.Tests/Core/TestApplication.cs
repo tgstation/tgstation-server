@@ -47,17 +47,17 @@ namespace Tgstation.Server.Host.Core.Tests
 			mockInstanceManager.SetupGet(x => x.Ready).Returns(Extensions.TaskExtensions.InfiniteTask());
 			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockInstanceManager.Object, null, null, null, null));
 
-			var mockServerPortProvider = new Mock<IServerPortProvider>();
-			mockServerPortProvider.SetupGet(x => x.HttpApiPort).Returns(5345);
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockInstanceManager.Object, mockServerPortProvider.Object, null, null, null));
+			var mockserverAddressProvider = new Mock<IServerAddressProvider>();
+			mockserverAddressProvider.SetupGet(x => x.AddressEndPoint.Port).Returns(5345);
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockInstanceManager.Object, mockserverAddressProvider.Object, null, null, null));
 
 			var mockControlPanelOptions = new Mock<IOptions<ControlPanelConfiguration>>();
 			mockControlPanelOptions.SetupGet(x => x.Value).Returns(new ControlPanelConfiguration()).Verifiable();
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockInstanceManager.Object, mockServerPortProvider.Object, mockControlPanelOptions.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockInstanceManager.Object, mockserverAddressProvider.Object, mockControlPanelOptions.Object, null, null));
 
 			var mockGeneralOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockGeneralOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration()).Verifiable();
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockInstanceManager.Object, mockServerPortProvider.Object, mockControlPanelOptions.Object, mockGeneralOptions.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockInstanceManager.Object, mockserverAddressProvider.Object, mockControlPanelOptions.Object, mockGeneralOptions.Object, null));
 			mockControlPanelOptions.VerifyAll();
 			mockGeneralOptions.VerifyAll();
 		}

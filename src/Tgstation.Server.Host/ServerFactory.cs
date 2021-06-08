@@ -94,9 +94,9 @@ namespace Tgstation.Server.Host
 					webHostBuilder
 						.UseKestrel(kestrelOptions =>
 						{
-							var serverPortProvider = kestrelOptions.ApplicationServices.GetRequiredService<IServerPortProvider>();
-							kestrelOptions.ListenAnyIP(
-								serverPortProvider.HttpApiPort,
+							var serverAddressProvider = kestrelOptions.ApplicationServices.GetRequiredService<IServerAddressProvider>();
+							kestrelOptions.Listen(
+								serverAddressProvider.AddressEndPoint,
 								listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2);
 						})
 						.UseIIS()

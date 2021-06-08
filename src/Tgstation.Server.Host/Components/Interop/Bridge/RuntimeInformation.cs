@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The port the HTTP server is running on.
 		/// </summary>
-		public ushort ServerPort { get; }
+		public int ServerPort { get; }
 
 		/// <summary>
 		/// If DD should just respond if it's API is working and then exit.
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			Version serverVersion,
 			string instanceName,
 			DreamDaemonSecurity? securityLevel,
-			ushort serverPort,
+			int serverPort,
 			bool apiValidateOnly)
 			: base(chatTrackingContext?.Channels ?? throw new ArgumentNullException(nameof(chatTrackingContext)))
 		{

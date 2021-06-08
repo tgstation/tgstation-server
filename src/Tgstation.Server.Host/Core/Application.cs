@@ -328,7 +328,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
-			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
+			services.AddSingleton<IServerAddressProvider, ServerAddressProvider>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
@@ -362,7 +362,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
-		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
+		/// <param name="serverAddressProvider">The <see cref="IServerAddressProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
@@ -371,7 +371,7 @@ namespace Tgstation.Server.Host.Core
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
 			IInstanceManager instanceManager,
-			IServerPortProvider serverPortProvider,
+			IServerAddressProvider serverAddressProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Application> logger)
@@ -486,7 +486,7 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("DMAPI Interop version: {0}", masterVersionsAttribute.RawInteropVersion);
 			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
 
-			logger.LogDebug("Starting hosting on port {0}...", serverPortProvider.HttpApiPort);
+			logger.LogDebug("Starting hosting on {0}...", serverAddressProvider.AddressEndPoint.ToString());
 		}
 
 		/// <inheritdoc />

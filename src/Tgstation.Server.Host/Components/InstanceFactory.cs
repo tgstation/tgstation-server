@@ -120,9 +120,9 @@ namespace Tgstation.Server.Host.Components
 		readonly ILibGit2Commands repositoryCommands;
 
 		/// <summary>
-		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceFactory"/>.
+		/// The <see cref="IServerAddressProvider"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly IServerPortProvider serverPortProvider;
+		readonly IServerAddressProvider serverAddressProvider;
 
 		/// <summary>
 		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="InstanceFactory"/>.
@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
 		/// <param name="repositoryCommands">The value of <see cref="repositoryCommands"/>.</param>
-		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
+		/// <param name="serverAddressProvider">The value of <see cref="serverAddressProvider"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
@@ -189,7 +189,7 @@ namespace Tgstation.Server.Host.Components
 			IPlatformIdentifier platformIdentifier,
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands repositoryCommands,
-			IServerPortProvider serverPortProvider,
+			IServerAddressProvider serverAddressProvider,
 			IFileTransferTicketProvider fileTransferService,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
@@ -213,7 +213,7 @@ namespace Tgstation.Server.Host.Components
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.repositoryCommands = repositoryCommands ?? throw new ArgumentNullException(nameof(repositoryCommands));
-			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
+			this.serverAddressProvider = serverAddressProvider ?? throw new ArgumentNullException(nameof(serverAddressProvider));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
@@ -272,7 +272,7 @@ namespace Tgstation.Server.Host.Components
 						networkPromptReaper,
 						platformIdentifier,
 						bridgeRegistrar,
-						serverPortProvider,
+						serverAddressProvider,
 						eventConsumer,
 						loggerFactory,
 						loggerFactory.CreateLogger<SessionControllerFactory>(),

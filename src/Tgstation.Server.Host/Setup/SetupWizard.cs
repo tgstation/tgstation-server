@@ -160,29 +160,29 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
-		/// Prompts the user to enter the port to host TGS on.
+		/// Prompts the user to enter the bind address to host TGS on.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> resulting in the hosting port, or <see langword="null"/> to use the default.</returns>
-		async Task<ushort?> PromptForHostingPort(CancellationToken cancellationToken)
+		async Task<Uri> PromptForHostingAddress(CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-			await console.WriteAsync("What port would you like to connect to TGS on?", true, cancellationToken).ConfigureAwait(false);
+			await console.WriteAsync("What address would you like to connect to TGS on?", true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync("Note: If this is a docker container with the default port already mapped, use the default.", true, cancellationToken).ConfigureAwait(false);
 
 			do
 			{
 				await console.WriteAsync(
-					$"API Port (leave blank for default of {GeneralConfiguration.DefaultApiPort}): ",
+					$"<IP Address>:<port> (leave blank for default of {GeneralConfiguration.DefaultBindAddress}): ",
 					false,
 					cancellationToken)
 					.ConfigureAwait(false);
-				var portString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-				if (String.IsNullOrWhiteSpace(portString))
+				var bindString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+				if (String.IsNullOrWhiteSpace(bindString))
 					return null;
-				if (UInt16.TryParse(portString, out var port) && port != 0)
-					return port;
-				await console.WriteAsync("Invalid port! Please enter a value between 1 and 65535", true, cancellationToken).ConfigureAwait(false);
+				if (Uri.TryCreate(bindString, UriKind.Absolute, out var bindAddress))
+					return bindAddress;
+				await console.WriteAsync("Invalid bind address! Please enter a valid URI", true, cancellationToken).ConfigureAwait(false);
 			}
 			while (true);
 		}
@@ -880,7 +880,7 @@ namespace Tgstation.Server.Host.Setup
 		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>.
 		/// </summary>
 		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to.</param>
-		/// <param name="hostingPort">The hosting port to save.</param>
+		/// <param name="hostingAddress">The hosting address to save.</param>
 		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> to save.</param>
 		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save.</param>
 		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save.</param>
@@ -891,7 +891,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task SaveConfiguration(
 			string userConfigFileName,
-			ushort? hostingPort,
+			Uri hostingAddress,
 			DatabaseConfiguration databaseConfiguration,
 			GeneralConfiguration newGeneralConfiguration,
 			FileLoggingConfiguration fileLoggingConfiguration,
@@ -902,7 +902,7 @@ namespace Tgstation.Server.Host.Setup
 		{
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
-			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
+			newGeneralConfiguration.BindAddress = hostingAddress ?? new Uri(GeneralConfiguration.DefaultBindAddress);
 			newGeneralConfiguration.ConfigVersion = GeneralConfiguration.CurrentConfigVersion;
 			var map = new Dictionary<string, object>()
 			{
@@ -976,7 +976,7 @@ namespace Tgstation.Server.Host.Setup
 			await console.WriteAsync("Welcome to tgstation-server 4!", true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync("This wizard will help you configure your server.", true, cancellationToken).ConfigureAwait(false);
 
-			var hostingPort = await PromptForHostingPort(cancellationToken).ConfigureAwait(false);
+			var hostingAddress = await PromptForHostingAddress(cancellationToken).ConfigureAwait(false);
 
 			var databaseConfiguration = await ConfigureDatabase(cancellationToken).ConfigureAwait(false);
 
@@ -994,7 +994,7 @@ namespace Tgstation.Server.Host.Setup
 
 			await SaveConfiguration(
 				userConfigFileName,
-				hostingPort,
+				hostingAddress,
 				databaseConfiguration,
 				newGeneralConfiguration,
 				fileLoggingConfiguration,
