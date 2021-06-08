@@ -239,6 +239,8 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"fake",
 				"None",
 				"Critical",
+				// elasticsearch config
+				"n", // were not validating this travesty in CI
 				//cp config
 				"y",
 				"n",
