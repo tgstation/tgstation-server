@@ -175,6 +175,8 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"y",
 				//logging config
 				"no",
+				// elasticsearch config
+				"n", // were not validating this travesty in CI
 				//cp config
 				"y",
 				"y",
