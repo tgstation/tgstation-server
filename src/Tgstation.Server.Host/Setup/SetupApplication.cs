@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Setup
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
 
-			services.SetupLogging(config => config.MinimumLevel.Override("Microsoft", LogEventLevel.Warning), Configuration);
+			services.SetupLogging(config => config.MinimumLevel.Override("Microsoft", LogEventLevel.Warning));
 
 			services.AddSingleton(IOManager);
 			services.AddSingleton(AssemblyInformationProvider);
@@ -62,6 +62,7 @@ namespace Tgstation.Server.Host.Setup
 			services.AddSingleton<IPlatformIdentifier, PlatformIdentifier>();
 			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();
 
+			// these configs are what's injected into PostSetupServices
 			services.UseStandardConfig<GeneralConfiguration>(Configuration);
 			services.UseStandardConfig<DatabaseConfiguration>(Configuration);
 			services.UseStandardConfig<SecurityConfiguration>(Configuration);

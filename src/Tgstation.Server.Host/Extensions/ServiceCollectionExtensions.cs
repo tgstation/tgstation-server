@@ -3,13 +3,13 @@ using System.Diagnostics;
 using System.Globalization;
 
 using Elastic.CommonSchema.Serilog;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Sinks.Elasticsearch;
+
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Extensions
@@ -59,14 +59,14 @@ namespace Tgstation.Server.Host.Extensions
 		/// </summary>
 		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
 		/// <param name="configurationAction">Additional configuration for a given <see cref="LoggerConfiguration"/>.</param>
-		/// <param name="tgsConfiguration">The service configuration for a given <see cref="IConfiguration"/>.</param>
 		/// <param name="sinkConfigurationAction">Additional configuration for a given <see cref="LoggerSinkConfiguration"/>.</param>
+		/// <param name="esc">Configuration for a given <see cref="ElasticsearchConfiguration"/>.</param>
 		/// <returns>The updated <paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection SetupLogging(
 			this IServiceCollection serviceCollection,
 			Action<LoggerConfiguration> configurationAction,
-			IConfiguration tgsConfiguration,
-			Action<LoggerSinkConfiguration> sinkConfigurationAction = null)
+			Action<LoggerSinkConfiguration> sinkConfigurationAction = null,
+			ElasticsearchConfiguration esc = null)
 			=> serviceCollection.AddLogging(builder =>
 			{
 				builder.ClearProviders();
@@ -89,28 +89,24 @@ namespace Tgstation.Server.Host.Extensions
 						sinkConfigurationAction?.Invoke(sinkConfiguration);
 					});
 
-				string elasticsearchEndpoint = tgsConfiguration.GetSection("Elasticsearch").GetSection("Host").Value;
-				string elasticsearchUser = tgsConfiguration.GetSection("Elasticsearch").GetSection("Username").Value;
-				string elasticsearchPassword = tgsConfiguration.GetSection("Elasticsearch").GetSection("Password").Value;
-				string raw_bool = tgsConfiguration.GetSection("Elasticsearch").GetSection("Enable").Value;
-				bool elasticsearchEnabled = false;
-
-				if (!string.IsNullOrEmpty(raw_bool))
-					elasticsearchEnabled = bool.Parse(raw_bool);
-
-				if (elasticsearchEnabled)
+				if (esc != null)
 				{
-					if (elasticsearchEndpoint == null)
-						throw new InvalidOperationException("Elasticsearch endpoint is null!");
-
-					configuration.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticsearchEndpoint))
+					if (esc.Enable)
 					{
-						ModifyConnectionSettings = x => (!string.IsNullOrEmpty(elasticsearchUser) && !string.IsNullOrEmpty(elasticsearchPassword)) ? x.BasicAuthentication(elasticsearchUser, elasticsearchPassword) : null,
-						CustomFormatter = new EcsTextFormatter(),
-						AutoRegisterTemplate = true,
-						AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
-						IndexFormat = "tgs4-logs",
-					});
+						if (esc.Host == null)
+							throw new InvalidOperationException("Elasticsearch endpoint is null!");
+
+						configuration.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(esc.Host))
+						{
+							// Yes I know this means they cannot use a self signed cert unless they also have authentication, but lets be real here
+							// No one is going to be doing one of thsoe but not the other
+							ModifyConnectionSettings = x => (!string.IsNullOrEmpty(esc.Username) && !string.IsNullOrEmpty(esc.Password)) ? x.BasicAuthentication(esc.Username, esc.Password).ServerCertificateValidationCallback((o, certificate, arg3, arg4) => { return true; }) : null,
+							CustomFormatter = new EcsTextFormatter(),
+							AutoRegisterTemplate = true,
+							AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
+							IndexFormat = "tgs4-logs",
+						});
+					}
 				}
 
 				builder.AddSerilog(configuration.CreateLogger(), true);

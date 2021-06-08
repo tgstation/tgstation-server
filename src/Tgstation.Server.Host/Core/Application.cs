@@ -120,6 +120,7 @@ namespace Tgstation.Server.Host.Core
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
 			services.UseStandardConfig<SwarmConfiguration>(Configuration);
+			services.UseStandardConfig<ElasticsearchConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -151,7 +152,6 @@ namespace Tgstation.Server.Host.Core
 						config.MinimumLevel.Override("System.Net.Http.HttpClient", microsoftEventLevel.Value);
 					}
 				},
-				Configuration,
 				sinkConfig =>
 				{
 					if (postSetupServices.FileLoggingConfiguration.Disable)
@@ -179,7 +179,7 @@ namespace Tgstation.Server.Host.Core
 						flushToDiskInterval: TimeSpan.FromSeconds(2),
 						rollingInterval: RollingInterval.Day,
 						rollOnFileSizeLimit: true);
-				});
+				}, postSetupServices.ElasticsearchConfiguration);
 
 			// configure bearer token validation
 			services

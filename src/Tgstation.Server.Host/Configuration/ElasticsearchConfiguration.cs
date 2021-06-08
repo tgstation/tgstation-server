@@ -11,11 +11,6 @@
 		public const string Section = "Elasticsearch";
 
 		/// <summary>
-		/// Default value of <see cref="Enable"/>.
-		/// </summary>
-		const bool DefaultEnable = false;
-
-		/// <summary>
 		/// Default value of <see cref="Host"/>.
 		/// </summary>
 		const string DefaultHost = "http://127.0.0.1:9200"; // localhost
@@ -33,7 +28,7 @@
 		/// <summary>
 		/// Do we want to enable elasticsearch or not?.
 		/// </summary>
-		public bool Enable { get; set; } = DefaultEnable;
+		public bool Enable { get; set; }
 
 		/// <summary>
 		/// The host of the elasticsearch endpoint.
