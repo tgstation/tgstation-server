@@ -60,9 +60,9 @@ namespace Tgstation.Server.Host.Controllers
 				controlPanelChannel = ControlPanelRoute;
 
 			controlPanelChannel = controlPanelChannel
-				.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
-				.Replace("${Minor}", ApiHeaders.Version.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
-				.Replace("${Patch}", ApiHeaders.Version.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
+				?.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+				?.Replace("${Minor}", ApiHeaders.Version.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+				?.Replace("${Patch}", ApiHeaders.Version.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
 
 			return Json(new
 			{
