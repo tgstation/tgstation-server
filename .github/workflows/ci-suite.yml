@@ -257,6 +257,7 @@ jobs:
         dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Service
         cd ../Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Service/lib/Default
+        mv ../../Artifacts/Service/lib/Default/appsettings.yml ../../Artifacts/Service/appsettings.yml
 
     - name: Store Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
@@ -396,12 +397,14 @@ jobs:
         dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
         cd ../Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/Console/lib/Default
+        mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/ServerUpdate
+        rm ../../Artifacts/ServerUpdate/appsettings.yml
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
