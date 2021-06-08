@@ -745,7 +745,8 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ElasticsearchConfiguration"/>.</returns>
-		async Task<ElasticsearchConfiguration> ConfigureElasticsearch(CancellationToken cancellationToken) {
+		async Task<ElasticsearchConfiguration> ConfigureElasticsearch(CancellationToken cancellationToken)
+		{
 			var elasticsearchConfiguration = new ElasticsearchConfiguration();
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 			elasticsearchConfiguration.Enable = await PromptYesNo("Enable logging to an external ElasticSearch server? (y/n): ", cancellationToken).ConfigureAwait(false);
@@ -767,19 +768,23 @@ namespace Tgstation.Server.Host.Setup
 				{
 					await console.WriteAsync("Enter Elasticsearch username: ", false, cancellationToken).ConfigureAwait(false);
 					elasticsearchConfiguration.Username = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username)) {
+					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))
+					{
 						break;
 					}
-				} while (true);
+				}
+				while (true);
 
 				do
 				{
 					await console.WriteAsync("Enter password: ", false, cancellationToken).ConfigureAwait(false);
 					elasticsearchConfiguration.Password = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
-					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username)) {
+					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))
+					{
 						break;
 					}
-				} while (true);
+				}
+				while (true);
 			}
 
 			return elasticsearchConfiguration;
