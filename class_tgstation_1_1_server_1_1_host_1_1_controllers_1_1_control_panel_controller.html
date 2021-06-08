@@ -207,24 +207,24 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The VirtualFileResult to use.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00081">81</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            var fileInfo = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a125c56cecfff0096ecca0e9de82b2f8a">hostEnvironment</a>.WebRootFileProvider.GetFileInfo(appRoute);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (fileInfo.Exists)</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                var contentTypeProvider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keywordflow">if</span> (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    contentType = MediaTypeNames.Application.Octet;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contentType == MediaTypeNames.Application.Json)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    Response.Headers.Add(</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                        HeaderNames.CacheControl,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                        <span class="keyword">new</span> StringValues(<span class="keyword">new</span>[] { <span class="stringliteral">&quot;public&quot;</span>, <span class="stringliteral">&quot;max-age=31536000&quot;</span>, <span class="stringliteral">&quot;immutable&quot;</span> }));</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keywordflow">return</span> File(appRoute, contentType);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">return</span> File(<span class="stringliteral">&quot;index.html&quot;</span>, MediaTypeNames.Text.Html);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00083">83</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            var fileInfo = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a125c56cecfff0096ecca0e9de82b2f8a">hostEnvironment</a>.WebRootFileProvider.GetFileInfo(appRoute);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">if</span> (fileInfo.Exists)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                var contentTypeProvider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">if</span> (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    contentType = MediaTypeNames.Application.Octet;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contentType == MediaTypeNames.Application.Json)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    Response.Headers.Add(</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                        HeaderNames.CacheControl,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        <span class="keyword">new</span> StringValues(<span class="keyword">new</span>[] { <span class="stringliteral">&quot;public&quot;</span>, <span class="stringliteral">&quot;max-age=31536000&quot;</span>, <span class="stringliteral">&quot;immutable&quot;</span> }));</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="keywordflow">return</span> File(appRoute, contentType);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">return</span> File(<span class="stringliteral">&quot;index.html&quot;</span>, MediaTypeNames.Text.Html);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_control_panel_controller_8cs_source.html#l00032">Tgstation.Server.Host.Controllers.ControlPanelController.hostEnvironment</a>.</p>
 
@@ -253,18 +253,20 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            var controlPanelChannel = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a31996f6cfff0a0e0985e935723c07d0f">Channel</a>;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">if</span> (controlPanelChannel == <span class="stringliteral">&quot;local&quot;</span>)</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                controlPanelChannel = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            controlPanelChannel = controlPanelChannel</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                .Replace(<span class="stringliteral">&quot;${Major}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                .Replace(<span class="stringliteral">&quot;${Minor}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                .Replace(<span class="stringliteral">&quot;${Patch}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">return</span> Json(<span class="keyword">new</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                FormatVersion = 1,</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                Channel = controlPanelChannel,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            });</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(controlPanelChannel))</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                controlPanelChannel = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                controlPanelChannel = controlPanelChannel</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    .Replace(<span class="stringliteral">&quot;${Major}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    .Replace(<span class="stringliteral">&quot;${Minor}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    .Replace(<span class="stringliteral">&quot;${Patch}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">return</span> Json(<span class="keyword">new</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                FormatVersion = 1,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                Channel = controlPanelChannel,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            });</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a></div><div class="ttdoc">Represents the header that must be present for every server request.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00021">ApiHeaders.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a6741a096c8700041ac2995b55078302b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Tgstation.Server.Api.ApiHeaders.Version</a></div><div class="ttdeci">static readonly Version Version</div><div class="ttdoc">Get the version of the Api the caller is using.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00056">ApiHeaders.cs:56</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html_a31996f6cfff0a0e0985e935723c07d0f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a31996f6cfff0a0e0985e935723c07d0f">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Channel</a></div><div class="ttdeci">string Channel</div><div class="ttdoc">The channel to retrieve the webpanel from. &quot;local&quot; uses the bundled version.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00028">ControlPanelConfiguration.cs:28</a></div></div>
@@ -355,7 +357,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00032">32</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00044">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00081">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00044">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
 
 </div>
 </div>
