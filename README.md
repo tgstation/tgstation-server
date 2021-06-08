@@ -32,6 +32,9 @@ If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.
 
 Should you want a clean start, be sure to first uninstall the service by running `Tgstation.Server.Host.Service.exe -u` from the command line.
 
+If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
+
+
 #### Linux (Native)
 
 We recommend using Docker for Linux installations, see below. The content of this parent section may be skipped if you choose to do so.
@@ -43,6 +46,8 @@ The following dependencies are required to run tgstation-server on Linux alongsi
 - libssl1.0.0
 - gdb (for using gcore to create core dumps)
 - gcc-multilib (Only on 64-bit systems)
+
+To launch the server, run ./tgs.sh in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.
 
 Note that tgstation-server has only ever been tested on Linux via it's [docker environment](build/Dockerfile#L22). If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
 
@@ -142,7 +147,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `Swarm:Identifier` should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
 
-- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `Keycloak`, `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```yml
 Security:
   OAuth:
