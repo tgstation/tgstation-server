@@ -58,11 +58,13 @@ namespace Tgstation.Server.Host.Controllers
 			var controlPanelChannel = controlPanelConfiguration.Channel;
 			if (controlPanelChannel == "local")
 				controlPanelChannel = ControlPanelRoute;
-
-			controlPanelChannel = controlPanelChannel
-				.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
-				.Replace("${Minor}", ApiHeaders.Version.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
-				.Replace("${Patch}", ApiHeaders.Version.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
+			else if (String.IsNullOrWhiteSpace(controlPanelChannel))
+				controlPanelChannel = null;
+			else
+				controlPanelChannel = controlPanelChannel
+					.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+					.Replace("${Minor}", ApiHeaders.Version.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+					.Replace("${Patch}", ApiHeaders.Version.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
 
 			return Json(new
 			{
