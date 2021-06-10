@@ -62,10 +62,12 @@ namespace Tgstation.Server.Host.Setup
 			services.AddSingleton<IPlatformIdentifier, PlatformIdentifier>();
 			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();
 
+			// these configs are what's injected into PostSetupServices
 			services.UseStandardConfig<GeneralConfiguration>(Configuration);
 			services.UseStandardConfig<DatabaseConfiguration>(Configuration);
 			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 			services.UseStandardConfig<FileLoggingConfiguration>(Configuration);
+			services.UseStandardConfig<ElasticsearchConfiguration>(Configuration);
 
 			ConfigureHostedService(services);
 		}

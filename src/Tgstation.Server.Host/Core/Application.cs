@@ -178,7 +178,8 @@ namespace Tgstation.Server.Host.Core
 						flushToDiskInterval: TimeSpan.FromSeconds(2),
 						rollingInterval: RollingInterval.Day,
 						rollOnFileSizeLimit: true);
-				});
+				},
+				postSetupServices.ElasticsearchConfiguration);
 
 			// configure bearer token validation
 			services
