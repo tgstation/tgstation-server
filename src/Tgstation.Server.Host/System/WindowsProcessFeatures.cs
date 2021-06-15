@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using BetterWin32Errors;
+using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
@@ -17,17 +18,37 @@ namespace Tgstation.Server.Host.System
 	/// <inheritdoc />
 	sealed class WindowsProcessFeatures : IProcessFeatures
 	{
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="WindowsProcessFeatures"/>.
+		/// </summary>
+		readonly ILogger<WindowsProcessFeatures> logger;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WindowsProcessFeatures"/> class.
+		/// </summary>
+		/// <param name="logger">The value of logger.</param>
+		public WindowsProcessFeatures(ILogger<WindowsProcessFeatures> logger)
+		{
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		}
+
 		/// <inheritdoc />
 		public void ResumeProcess(global::System.Diagnostics.Process process)
 		{
 			if (process == null)
 				throw new ArgumentNullException(nameof(process));
 
+			process.Refresh();
 			foreach (ProcessThread thread in process.Threads)
 			{
-				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, (uint)thread.Id);
+				var threadId = (uint)thread.Id;
+				logger.LogTrace("Suspending thread {0}...", threadId);
+				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
 				if (pOpenThread == IntPtr.Zero)
+				{
+					logger.LogDebug(new Win32Exception(), "Failed to open thread {0}!", threadId);
 					continue;
+				}
 
 				try
 				{
@@ -47,11 +68,18 @@ namespace Tgstation.Server.Host.System
 			if (process == null)
 				throw new ArgumentNullException(nameof(process));
 
+			process.Refresh();
 			foreach (ProcessThread thread in process.Threads)
 			{
-				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, (uint)thread.Id);
+				var threadId = (uint)thread.Id;
+				logger.LogTrace("Resuming thread {0}...", threadId);
+				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
 				if (pOpenThread == IntPtr.Zero)
+				{
+					logger.LogDebug(new Win32Exception(), "Failed to open thread {0}!", threadId);
 					continue;
+				}
+
 				try
 				{
 					if (NativeMethods.SuspendThread(pOpenThread) == UInt32.MaxValue)

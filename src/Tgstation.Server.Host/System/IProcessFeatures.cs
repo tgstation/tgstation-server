@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Resume a given suspended <see cref="Process"/>.
 		/// </summary>
-		/// <param name="process">The <see cref="Process"/> to susperesumend.</param>
+		/// <param name="process">The <see cref="Process"/> to suspended.</param>
 		void ResumeProcess(global::System.Diagnostics.Process process);
 
 		/// <summary>

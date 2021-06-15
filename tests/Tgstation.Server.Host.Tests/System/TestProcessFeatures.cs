@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.System.Tests
 		public void Init()
 		{
 			features = new PlatformIdentifier().IsWindows
-				? (IProcessFeatures)new WindowsProcessFeatures()
+				? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 				: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => null), new DefaultIOManager(), Mock.Of<ILogger<PosixProcessFeatures>>());
 		}
 
