@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
@@ -116,6 +116,86 @@ namespace Tgstation.Server.Tests
 				}
 			}
 			Assert.IsTrue(server.RestartRequested, "Server not requesting restart!");
+		}
+
+		[TestMethod]
+		public async Task TestOneServerSwarmUpdate()
+		{
+			// cleanup existing directories
+			new TestingServer(null, false).Dispose();
+
+			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
+
+			var controllerAddress = new Uri("http://localhost:5011");
+			using (var controller = new TestingServer(new SwarmConfiguration
+			{
+				Address = controllerAddress,
+				Identifier = "controller",
+				PrivateKey = PrivateKey
+			}, false, 5011))
+			{
+				using var serverCts = new CancellationTokenSource();
+				var cancellationToken = serverCts.Token;
+				var serverTask = controller.Run(cancellationToken);
+
+				try
+				{
+					using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
+
+					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
+
+					static void CheckInfo(ServerInformationResponse serverInformation)
+					{
+						Assert.IsNotNull(serverInformation.SwarmServers);
+						Assert.AreEqual(1, serverInformation.SwarmServers.Count);
+						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
+						Assert.IsNotNull(controller);
+						Assert.AreEqual(controller.Address, "http://localhost:5011");
+						Assert.IsTrue(controller.Controller);
+					}
+
+					CheckInfo(controllerInfo);
+
+					// test update
+					var testUpdateVersion = new Version(4, 8, 1);
+					await controllerClient.Administration.Update(
+						new ServerUpdateRequest
+						{
+							NewVersion = testUpdateVersion
+						},
+						cancellationToken);
+					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
+					Assert.IsTrue(serverTask.IsCompleted);
+
+					void CheckServerUpdated(TestingServer server)
+					{
+						Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
+
+						var updatedAssemblyPath = Path.Combine(server.UpdatePath, "Tgstation.Server.Host.dll");
+						Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
+
+						var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
+						Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+						Directory.Delete(server.UpdatePath, true);
+					}
+
+					CheckServerUpdated(controller);
+				}
+				catch (RateLimitException ex)
+				{
+					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+						throw;
+
+					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
+				}
+				finally
+				{
+					serverCts.Cancel();
+					await serverTask;
+				}
+			}
+
+			new TestingServer(null, false).Dispose();
 		}
 
 		[TestMethod]
