@@ -856,6 +856,15 @@ namespace Tgstation.Server.Host.Swarm
 						swarmServers
 							.Where(x => !x.Controller)
 							.Select(x => x.Identifier));
+
+					if (nodesThatNeedToBeReadyToCommit.Count == 0)
+					{
+						logger.LogTrace("Controller has no nodes, setting commit-ready.");
+						var commitTcs = updateCommitTcs;
+						commitTcs?.TrySetResult(true);
+						return commitTcs != null;
+					}
+
 					tasks = swarmServers
 							.Where(x => !x.Controller)
 							.Select(RemotePrepareUpdate)
