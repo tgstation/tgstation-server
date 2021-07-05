@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string PathToUserByondFolder { get; }
 
 		/// <inheritdoc />
-		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
+		protected override string ByondRevisionsUrlTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
 
 		/// <summary>
 		/// The <see cref="IPostWriteHandler"/> for the <see cref="PosixByondInstaller"/>.
