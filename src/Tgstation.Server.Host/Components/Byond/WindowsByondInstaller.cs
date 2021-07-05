@@ -21,15 +21,15 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// Directory to byond installation configuration.
 		/// </summary>
-		const string ByondConfigDir = "byond/cfg";
+		const string ByondConfigDirectory = "byond/cfg";
 
 		/// <summary>
 		/// BYOND's DreamDaemon config file.
 		/// </summary>
-		const string ByondDDConfig = "daemon.txt";
+		const string ByondDreamDaemonConfigFilename = "daemon.txt";
 
 		/// <summary>
-		/// Setting to add to <see cref="ByondDDConfig"/> to suppress an invisible user prompt for running a trusted mode .dmb.
+		/// Setting to add to <see cref="ByondDreamDaemonConfigFilename"/> to suppress an invisible user prompt for running a trusted mode .dmb.
 		/// </summary>
 		const string ByondNoPromptTrustedMode = "trusted-check 0";
 
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string PathToUserByondFolder { get; }
 
 		/// <inheritdoc />
-		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
+		protected override string ByondRevisionsUrlTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="WindowsByondInstaller"/>.
@@ -100,10 +100,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task SetNoPromptTrusted(string path, CancellationToken cancellationToken)
 		{
-			var configPath = IOManager.ConcatPath(path, ByondConfigDir);
+			var configPath = IOManager.ConcatPath(path, ByondConfigDirectory);
 			await IOManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
 
-			var configFilePath = IOManager.ConcatPath(configPath, ByondDDConfig);
+			var configFilePath = IOManager.ConcatPath(configPath, ByondDreamDaemonConfigFilename);
 			Logger.LogTrace("Disabling trusted prompts in {0}...", configFilePath);
 			await IOManager.WriteAllBytes(
 				configFilePath,

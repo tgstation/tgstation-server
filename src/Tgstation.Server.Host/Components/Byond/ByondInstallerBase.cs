@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// Gets the URL formatter string for downloading a byond version of {0:Major} {1:Minor}.
 		/// </summary>
-		protected abstract string ByondRevisionsURLTemplate { get; }
+		protected abstract string ByondRevisionsUrlTemplate { get; }
 
 		/// <summary>
 		/// Gets the <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.
@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURLTemplate, version.Major, version.Minor);
+			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Major, version.Minor);
 
 			Logger.LogTrace("Downloading from: {0}", url);
 
