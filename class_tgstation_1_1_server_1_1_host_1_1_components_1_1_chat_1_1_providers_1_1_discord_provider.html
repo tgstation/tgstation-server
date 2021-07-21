@@ -501,43 +501,40 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;                    <span class="keywordflow">if</span> (mentionedUs)</div>
 <div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;                    {</div>
 <div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!&quot;</span>, e.Channel.Id, e.Channel.Name, e.Author.Id, e.Author.Username);</div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160; </div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;                        <span class="comment">// DCT: None available</span></div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;                        await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd">SendMessage</a>(e.Channel.Id, <span class="stringliteral">&quot;I do not respond to this channel!&quot;</span>, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;                    }</div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;                    }</div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160; </div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;                }</div>
 <div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160; </div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                }</div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160; </div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                var result = <span class="keyword">new</span> Message</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                {</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                    Content = content,</div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> = <span class="keyword">new</span> ChatUser</div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                    {</div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;                        RealId = e.Author.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;                        Channel = <span class="keyword">new</span> ChannelRepresentation</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;                        {</div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;                            RealId = e.Channel.Id,</div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;                            IsPrivateChannel = pm,</div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                            ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? <span class="stringliteral">&quot;UNKNOWN&quot;</span>,</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;                            FriendlyName = e.Channel.Name,</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160; </div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;                            <span class="comment">// isAdmin and Tag populated by manager</span></div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;                        },</div>
-<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;                        FriendlyName = e.Author.Username,</div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;                        Mention = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>(e.Author.Mention),</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;                    },</div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;                    Context = typingState,</div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;                };</div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160; </div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(result);</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                typingState = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;            }</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            <span class="keywordflow">finally</span></div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;            {</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;                typingState?.Dispose();</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;            }</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;        }</div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;                var result = <span class="keyword">new</span> Message</div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                {</div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                    Content = content,</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> = <span class="keyword">new</span> ChatUser</div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                    {</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                        RealId = e.Author.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                        Channel = <span class="keyword">new</span> ChannelRepresentation</div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                        {</div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;                            RealId = e.Channel.Id,</div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;                            IsPrivateChannel = pm,</div>
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;                            ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? <span class="stringliteral">&quot;UNKNOWN&quot;</span>,</div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;                            FriendlyName = e.Channel.Name,</div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160; </div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                            <span class="comment">// isAdmin and Tag populated by manager</span></div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;                        },</div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;                        FriendlyName = e.Author.Username,</div>
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;                        Mention = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>(e.Author.Mention),</div>
+<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;                    },</div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;                    Context = typingState,</div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;                };</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160; </div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(result);</div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;                typingState = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;            }</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;            <span class="keywordflow">finally</span></div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;            {</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                typingState?.Dispose();</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            }</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;        }</div>
 <div class="ttc" id="aclass_i_disposable_html"><div class="ttname"><a href="class_i_disposable.html">IDisposable</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a3cf5b9ba9079d6c9f582f61b5894f7c1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions</a></div><div class="ttdeci">static string NormalizeMentions(string fromDiscord)</div><div class="ttdoc">Normalize a discord mention string.</div></div>
