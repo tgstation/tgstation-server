@@ -358,7 +358,7 @@ tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on 
 
 ### Users
 
-All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](src/Tgstation.Server.Api/Models/User.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting.
+All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](src/Tgstation.Server.Api/DefaultCredentials.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting.
 
 Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be _database based_ or _system based_. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.
 
