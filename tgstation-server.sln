@@ -48,6 +48,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client.Tests", "tests\Tgstation.Server.Client.Tests\Tgstation.Server.Client.Tests.csproj", "{E5301AF1-4F74-4982-BF24-95F23CC5D5B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Tests", "tests\Tgstation.Server.Host.Tests\Tgstation.Server.Host.Tests.csproj", "{A3362FF6-550F-480F-859E-8EC1EB6EAB31}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5813CC33-B16C-485D-A74D-20204DDF6542} = {5813CC33-B16C-485D-A74D-20204DDF6542}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog", "src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj", "{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -180,6 +183,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEM
 		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Tests.Signals", "tests\Tgstation.Server.Host.Tests.Signals\Tgstation.Server.Host.Tests.Signals.csproj", "{5813CC33-B16C-485D-A74D-20204DDF6542}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -296,6 +301,14 @@ Global
 		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.ReleaseNoService|Any CPU.ActiveCfg = Release|Any CPU
 		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.ReleaseNoService|Any CPU.Build.0 = Release|Any CPU
+		{5813CC33-B16C-485D-A74D-20204DDF6542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5813CC33-B16C-485D-A74D-20204DDF6542}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5813CC33-B16C-485D-A74D-20204DDF6542}.DebugNoService|Any CPU.ActiveCfg = Debug|Any CPU
+		{5813CC33-B16C-485D-A74D-20204DDF6542}.DebugNoService|Any CPU.Build.0 = Debug|Any CPU
+		{5813CC33-B16C-485D-A74D-20204DDF6542}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5813CC33-B16C-485D-A74D-20204DDF6542}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5813CC33-B16C-485D-A74D-20204DDF6542}.ReleaseNoService|Any CPU.ActiveCfg = Release|Any CPU
+		{5813CC33-B16C-485D-A74D-20204DDF6542}.ReleaseNoService|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -322,6 +335,7 @@ Global
 		{103C61AB-67D6-46FE-AA47-CC633B88EE0F} = {82066812-6C73-4360-943B-B23F2F491261}
 		{28CDEB8F-2B2A-47A2-985B-5E2487E8D096} = {E82104F4-F5C4-4786-ACD4-B635166CDB21}
 		{CFFD7992-E73A-4D1F-9D7A-C817C07B7BEB} = {E82104F4-F5C4-4786-ACD4-B635166CDB21}
+		{5813CC33-B16C-485D-A74D-20204DDF6542} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

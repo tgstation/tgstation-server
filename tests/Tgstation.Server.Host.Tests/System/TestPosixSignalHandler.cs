@@ -1,14 +1,16 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mono.Unix.Native;
 using Moq;
 
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System.Tests
 {
@@ -32,44 +34,56 @@ namespace Tgstation.Server.Host.System.Tests
 			if (new PlatformIdentifier().IsWindows)
 				Assert.Inconclusive("POSIX only test.");
 
-			var mockServerControl = new Mock<IServerControl>();
+			// `kill`ing the test process results in it hanging, no idea why
+			// we need to run it as a standard dotnet process#if DEBUG
+#if DEBUG
+			const string CurrentConfig = "Debug";
+#else
+			const string CurrentConfig = "Release";
+#endif
 
-			var callCount = 0;
-			mockServerControl
-				.Setup(x => x.GracefulShutdown())
-				.Callback(() => ++callCount)
-				.Returns(Task.CompletedTask);
+			var pathToSignalTestApp = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/../../../../Tgstation.Server.Host.Tests.Signals";
+			var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			});
 
-			var signalHandler = new PosixSignalHandler(mockServerControl.Object, Mock.Of<ILogger<PosixSignalHandler>>());
+			IProcessExecutor processExecutor = null;
+			processExecutor = new ProcessExecutor(
+				new PosixProcessFeatures(
+					new Lazy<IProcessExecutor>(() => processExecutor),
+					new DefaultIOManager(),
+					loggerFactory.CreateLogger<PosixProcessFeatures>()),
+				loggerFactory.CreateLogger<ProcessExecutor>(),
+				loggerFactory);
+			using var subProc = processExecutor
+				.LaunchProcess(
+					"dotnet",
+					pathToSignalTestApp,
+					$"run -c {CurrentConfig} --no-build",
+					true,
+					true,
+					true);
 
-			Assert.AreEqual(0, callCount);
+			await Task.Delay(TimeSpan.FromSeconds(10));
 
-			await signalHandler.StartAsync(default);
-
-			Assert.AreEqual(0, callCount);
-
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => signalHandler.StartAsync(default));
-
-			Assert.AreEqual(0, callCount);
-
-			using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-			await signalHandler.StopAsync(default).WithToken(cts.Token).ConfigureAwait(false);
-			Assert.AreEqual(0, callCount);
-
-			signalHandler = new PosixSignalHandler(mockServerControl.Object, Mock.Of<ILogger<PosixSignalHandler>>());
-			await signalHandler.StartAsync(default);
-
-			await Task.Delay(TimeSpan.FromSeconds(1));
-			var currentPid = Syscall.getpid();
-
-			using var killProc = global::System.Diagnostics.Process.Start("kill", $"-SIGUSR1 {currentPid}");
+			using var killProc = global::System.Diagnostics.Process.Start("kill", $"-SIGUSR1 {subProc.Id}");
 			killProc.WaitForExit();
 
-			await Task.Delay(TimeSpan.FromSeconds(1));
-			Assert.AreEqual(1, callCount);
+			var exitTask = subProc.Lifetime;
 
-			using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-			await signalHandler.StopAsync(default).WithToken(cts2.Token).ConfigureAwait(false);
+			await Task.WhenAny(exitTask, Task.Delay(TimeSpan.FromSeconds(10)));
+
+			if (!exitTask.IsCompleted)
+				subProc.Terminate();
+
+			var exitCode = await exitTask;
+
+			using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+			global::System.Console.WriteLine(await subProc.GetCombinedOutput(cts.Token));
+
+			Assert.AreEqual(0, exitCode);
 		}
 	}
 }
