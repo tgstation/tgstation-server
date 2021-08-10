@@ -14,12 +14,22 @@ namespace Tgstation.Server.Host.System
 	/// <summary>
 	/// Handles POSIX signals.
 	/// </summary>
-	sealed class PosixSignalHandler : IHostedService
+	sealed class PosixSignalHandler : IHostedService, IDisposable
 	{
+		/// <summary>
+		/// Check for signals each time this amount of milliseconds pass.
+		/// </summary>
+		const int CheckDelayMs = 250;
+
 		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="PosixSignalHandler"/>.
 		/// </summary>
 		readonly IServerControl serverControl;
+
+		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="PosixSignalHandler"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="PosixSignalHandler"/>.
@@ -27,82 +37,94 @@ namespace Tgstation.Server.Host.System
 		readonly ILogger<PosixSignalHandler> logger;
 
 		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> used to stop the <see cref="signalCheckerTask"/>.
+		/// </summary>
+		readonly CancellationTokenSource cancellationTokenSource;
+
+		/// <summary>
 		/// The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix.UnixSignal.
 		/// </summary>
-		readonly Thread signalCheckerThread;
+		Task signalCheckerTask;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixSignalHandler"/> class.
 		/// </summary>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public PosixSignalHandler(IServerControl serverControl, ILogger<PosixSignalHandler> logger)
+		public PosixSignalHandler(IServerControl serverControl, IAsyncDelayer asyncDelayer, ILogger<PosixSignalHandler> logger)
 		{
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			signalCheckerThread = new Thread(SignalCheckerThread);
+			cancellationTokenSource = new CancellationTokenSource();
 		}
+
+		/// <inheritdoc />
+		public void Dispose() => cancellationTokenSource.Dispose();
 
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			if (signalCheckerThread.ThreadState != ThreadState.Unstarted)
+			if (signalCheckerTask != null)
 				throw new InvalidOperationException("Attempted to start PosixSignalHandler twice!");
 
-			signalCheckerThread.Start();
+			signalCheckerTask = SignalChecker();
 
 			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken)
+		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			if (signalCheckerThread.IsAlive)
-			{
-				logger.LogDebug("Interrupting SignalCheckerThread...");
-				signalCheckerThread.Interrupt();
-			}
+			if (signalCheckerTask?.IsCompleted != false)
+				return;
+
+			logger.LogDebug("Stopping SignalCheckerThread...");
+			cancellationTokenSource.Cancel();
 
 			logger.LogTrace("Joining SignalCheckerThread...");
-			signalCheckerThread.Join();
-
-			return Task.CompletedTask;
+			await signalCheckerTask.ConfigureAwait(false);
 		}
 
 		/// <summary>
 		/// Thread for listening to signal.
 		/// </summary>
-		void SignalCheckerThread()
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task SignalChecker()
 		{
 			try
 			{
-				logger.LogTrace("Started SignalCheckerThread");
-				Thread.CurrentThread.Name = "Signal Handler Thread";
+				logger.LogTrace("Started SignalChecker");
 
 				using var unixSignal = new UnixSignal(Signum.SIGUSR1);
-				if (unixSignal.Count == 0)
+				if (!unixSignal.IsSet)
 				{
 					logger.LogTrace("Waiting for SIGUSR1...");
-					unixSignal.WaitOne();
+					var cancellationToken = cancellationTokenSource.Token;
+					while (!unixSignal.IsSet)
+						await asyncDelayer.Delay(TimeSpan.FromMilliseconds(CheckDelayMs), cancellationToken);
+
+					logger.LogTrace("SIGUSR1 received!");
 				}
 				else
 					logger.LogDebug("SIGUSR1 has already been sent");
 
 				logger.LogTrace("Triggering graceful shutdown...");
-
-				// Pains me to actually call .Wait() on a Task, but it's the nature of the blocking signal beast
-				serverControl.GracefulShutdown().Wait();
-
-				logger.LogTrace("Exiting SignalCheckerThread...");
+				await serverControl.GracefulShutdown().ConfigureAwait(false);
 			}
-			catch (ThreadInterruptedException ex)
+			catch (OperationCanceledException ex)
 			{
-				logger.LogDebug(ex, "SignalCheckerThread interrupt received!");
+				logger.LogDebug(ex, "SignalChecker cancelled!");
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, "SignalCheckerThread crashed!");
+				logger.LogError(ex, "SignalChecker crashed!");
+			}
+			finally
+			{
+				logger.LogTrace("Exiting SignalChecker...");
 			}
 		}
 	}

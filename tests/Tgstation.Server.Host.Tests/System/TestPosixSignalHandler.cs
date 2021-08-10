@@ -9,7 +9,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System.Tests
@@ -20,12 +19,15 @@ namespace Tgstation.Server.Host.System.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(null, null, null));
 
 			var mockServerControl = Mock.Of<IServerControl>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, null, null));
 
-			new PosixSignalHandler(mockServerControl, Mock.Of<ILogger<PosixSignalHandler>>());
+			var mockAsyncDelayer = Mock.Of<IAsyncDelayer>();
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, mockAsyncDelayer, null));
+
+			new PosixSignalHandler(mockServerControl, mockAsyncDelayer, Mock.Of<ILogger<PosixSignalHandler>>()).Dispose();
 		}
 
 		[TestMethod]
