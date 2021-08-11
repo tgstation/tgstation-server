@@ -72,12 +72,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogDebug("Saving reattach information: {0}...", reattachInformation);
 
-			await db
-				.ReattachInformations
-				.AsQueryable()
-				.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id)
-				.DeleteAsync(cancellationToken)
-				.ConfigureAwait(false);
+			await ClearImpl(db, false, cancellationToken).ConfigureAwait(false);
 
 			var dbReattachInfo = new Models.ReattachInformation
 			{
@@ -129,23 +124,25 @@ namespace Tgstation.Server.Host.Components.Session
 				bool first = true;
 				foreach (var reattachInfo in dbReattachInfos)
 				{
-					if (!first)
+					if (first)
 					{
-						logger.LogWarning("Killing PID {0} associated with extra reattach information...", reattachInfo.ProcessId);
-						try
-						{
-							using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
-							process.Terminate();
-							await process.Lifetime.ConfigureAwait(false);
-						}
-						catch (Exception ex)
-						{
-							logger.LogWarning(ex, "Failed to kill process!");
-						}
+						first = false;
+						continue;
+					}
+
+					logger.LogWarning("Killing PID {0} associated with extra reattach information...", reattachInfo.ProcessId);
+					try
+					{
+						using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
+						process.Terminate();
+						await process.Lifetime.ConfigureAwait(false);
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Failed to kill process!");
 					}
 
 					db.ReattachInformations.Remove(reattachInfo);
-					first = false;
 				}
 
 				await db.Save(cancellationToken).ConfigureAwait(false);
@@ -172,6 +169,41 @@ namespace Tgstation.Server.Host.Components.Session
 			logger.LogDebug("Reattach information loaded: {0}", info);
 
 			return info;
+		}
+
+		/// <inheritdoc />
+		public Task Clear(CancellationToken cancellationToken) => databaseContextFactory
+			.UseContext(
+				db =>
+				{
+					logger.LogDebug("Clearing reattach information");
+					return ClearImpl(db, true, cancellationToken);
+				});
+
+		/// <summary>
+		/// Clear any stored <see cref="ReattachInformation"/>.
+		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
+		/// <param name="instant">If an SQL DELETE WHERE command should be used rather than an Entity Framework transaction.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task ClearImpl(IDatabaseContext databaseContext, bool instant, CancellationToken cancellationToken)
+		{
+			var baseQuery = databaseContext
+				.ReattachInformations
+				.AsQueryable()
+				.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id);
+
+			if (instant)
+				await baseQuery
+					.DeleteAsync(cancellationToken)
+					.ConfigureAwait(false);
+			else
+			{
+				var results = await baseQuery.ToListAsync(cancellationToken).ConfigureAwait(false);
+				foreach (var result in results)
+					databaseContext.ReattachInformations.Remove(result);
+			}
 		}
 	}
 }

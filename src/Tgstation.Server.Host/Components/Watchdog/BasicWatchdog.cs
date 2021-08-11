@@ -199,7 +199,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override ISessionController GetActiveController() => Server;
 
 		/// <inheritdoc />
-		protected override async Task InitControllers(
+		protected override async Task InitController(
 			Task chatTask,
 			ReattachInformation reattachInfo,
 			CancellationToken cancellationToken)
@@ -248,6 +248,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 
 				Server.SetHighPriority();
+
+				if (!reattachInProgress)
+					await SessionPersistor.Save(Server.ReattachInformation, cancellationToken).ConfigureAwait(false);
 
 				await CheckLaunchResult(Server, "Server", cancellationToken).ConfigureAwait(false);
 

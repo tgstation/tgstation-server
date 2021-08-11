@@ -40,6 +40,11 @@ namespace Tgstation.Server.Host.Components.Session
 		CompileJob CompileJob { get; }
 
 		/// <summary>
+		/// Gets the <see cref="Session.ReattachInformation"/> associated with the <see cref="ISessionController"/>.
+		/// </summary>
+		ReattachInformation ReattachInformation { get; }
+
+		/// <summary>
 		/// If the port should be rotated off when the world reboots.
 		/// </summary>
 		bool ClosePortOnReboot { get; set; }
@@ -67,8 +72,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>.
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/>.</returns>
-		Task<ReattachInformation> Release();
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task Release();
 
 		/// <summary>
 		/// Sends a command to DreamDaemon through /world/Topic().
