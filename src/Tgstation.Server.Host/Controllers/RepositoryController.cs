@@ -314,6 +314,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.CommitterEmail?.Length == 0)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoWhitespaceCommitterEmail));
 
+			var updateSubmodules = model?.UpdateSubmodules ?? false;
+
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
 			if (newTestMerges && !userRights.HasFlag(RepositoryRights.MergePullRequest))
@@ -583,7 +585,14 @@ namespace Tgstation.Server.Host.Controllers
 							if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
 								throw new JobException(ErrorCode.RepoSwappedShaOrReference);
 
-							await repo.CheckoutObject(committish, NextProgressReporter(), ct).ConfigureAwait(false);
+							await repo.CheckoutObject(
+								committish,
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								updateSubmodules,
+								NextProgressReporter(),
+								ct)
+								.ConfigureAwait(false);
 							await CallLoadRevInfo().ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
 						}
 						else
@@ -593,7 +602,13 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							if (!repo.Tracking)
 								throw new JobException(ErrorCode.RepoReferenceNotTracking);
-							await repo.ResetToOrigin(NextProgressReporter(), ct).ConfigureAwait(false);
+							await repo.ResetToOrigin(
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								updateSubmodules,
+								NextProgressReporter(),
+								ct)
+								.ConfigureAwait(false);
 							await repo.Sychronize(
 								currentModel.AccessUser,
 								currentModel.AccessToken,
@@ -774,6 +789,7 @@ namespace Tgstation.Server.Host.Controllers
 									currentModel.CommitterEmail,
 									currentModel.AccessUser,
 									currentModel.AccessToken,
+									updateSubmodules,
 									NextProgressReporter(),
 									ct).ConfigureAwait(false);
 
@@ -839,7 +855,14 @@ namespace Tgstation.Server.Host.Controllers
 
 					// Forget what we've done and abort
 					// DCTx2: Cancellation token is for job, operations should always run
-					await repo.CheckoutObject(startReference ?? startSha, NextProgressReporter(), default).ConfigureAwait(false);
+					await repo.CheckoutObject(
+						startReference ?? startSha,
+						currentModel.AccessUser,
+						currentModel.AccessToken,
+						true,
+						NextProgressReporter(),
+						default)
+						.ConfigureAwait(false);
 					if (startReference != null && repo.Head != startSha)
 						await repo.ResetToSha(startSha, NextProgressReporter(), default).ConfigureAwait(false);
 					else
