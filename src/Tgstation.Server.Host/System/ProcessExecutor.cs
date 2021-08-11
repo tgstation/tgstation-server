@@ -176,12 +176,16 @@ namespace Tgstation.Server.Host.System
 				{
 					combinedStringBuilder = new StringBuilder();
 
-					async Task<string> ConsumeReader(Func<TextReader> readerFunc)
+					async Task<string> ConsumeReader(Func<TextReader> readerFunc, bool isOutputStream)
 					{
 						var stringBuilder = new StringBuilder();
 						string text;
 
 						await processStartTcs.Task.ConfigureAwait(false);
+
+						var pid = handle.Id;
+						var streamType = isOutputStream ? "out" : "err";
+						logger.LogTrace("Starting std{0} read for PID {1}...", streamType, pid);
 
 						var reader = readerFunc();
 						while ((text = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
@@ -192,18 +196,20 @@ namespace Tgstation.Server.Host.System
 							stringBuilder.Append(text);
 						}
 
+						logger.LogTrace("Finished std{0} read for PID {1}", streamType, pid);
+
 						return stringBuilder.ToString();
 					}
 
 					if (readOutput)
 					{
-						outputTask = ConsumeReader(() => handle.StandardOutput);
+						outputTask = ConsumeReader(() => handle.StandardOutput, true);
 						handle.StartInfo.RedirectStandardOutput = true;
 					}
 
 					if (readError)
 					{
-						errorTask = ConsumeReader(() => handle.StandardError);
+						errorTask = ConsumeReader(() => handle.StandardError, false);
 						handle.StartInfo.RedirectStandardError = true;
 					}
 				}

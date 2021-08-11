@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host.Swarm
 		DateTimeOffset? lastControllerHealthCheck;
 
 		/// <summary>
-		/// If <see cref="IRestartHandler.HandleRestart(Version, CancellationToken)"/> was called.
+		/// If <see cref="IRestartHandler.HandleRestart(Version, bool, CancellationToken)"/> was called.
 		/// </summary>
 		bool restarting;
 
@@ -661,7 +661,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
+		public Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
 		{
 			restarting = true;
 			return Task.CompletedTask;

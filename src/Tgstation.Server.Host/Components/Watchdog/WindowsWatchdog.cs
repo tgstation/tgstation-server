@@ -105,7 +105,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			catch
 			{
-				_ = DisposeAsync();
+				// synchronous
+				DisposeAsync().AsTask().Wait();
 				throw;
 			}
 		}
