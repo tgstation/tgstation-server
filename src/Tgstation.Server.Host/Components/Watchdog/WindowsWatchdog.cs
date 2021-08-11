@@ -105,7 +105,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			catch
 			{
-				_ = DisposeAsync();
+				// Async dispose is for if we have controllers running, not the case here
+				DisposeAsync().AsTask().GetAwaiter().GetResult();
 				throw;
 			}
 		}
