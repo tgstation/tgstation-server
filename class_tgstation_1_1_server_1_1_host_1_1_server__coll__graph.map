@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Server" name="Tgstation.Server.Host.Server">
-<area shape="rect" id="node1" title=" " alt="" coords="828,305,1017,332"/>
+<area shape="rect" id="node1" title=" " alt="" coords="828,331,1017,357"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server.html" title="Represents the host." alt="" coords="484,5,548,32"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="463,56,569,83"/>
 <area shape="rect" id="node4" title=" " alt="" coords="55,123,110,149"/>
@@ -7,12 +7,13 @@
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="419,239,613,281"/>
 <area shape="rect" id="node6" title=" " alt="" coords="412,305,620,332"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,187,160,213"/>
-<area shape="rect" id="node9" title=" " alt="" coords="43,292,122,319"/>
-<area shape="rect" id="node10" title=" " alt="" coords="7,343,159,369"/>
-<area shape="rect" id="node11" title=" " alt="" coords="36,393,129,420"/>
-<area shape="rect" id="node12" title=" " alt="" coords="462,356,570,383"/>
-<area shape="rect" id="node13" title=" " alt="" coords="429,407,603,449"/>
-<area shape="rect" id="node14" title=" " alt="" coords="443,473,589,500"/>
-<area shape="rect" id="node15" title=" " alt="" coords="477,524,555,551"/>
-<area shape="rect" id="node16" title=" " alt="" coords="431,575,601,601"/>
+<area shape="rect" id="node9" title=" " alt="" coords="43,307,122,333"/>
+<area shape="rect" id="node10" title=" " alt="" coords="7,357,159,384"/>
+<area shape="rect" id="node11" title=" " alt="" coords="36,408,129,435"/>
+<area shape="rect" id="node12" title=" " alt="" coords="493,356,539,383"/>
+<area shape="rect" id="node13" title=" " alt="" coords="462,407,570,433"/>
+<area shape="rect" id="node14" title=" " alt="" coords="429,458,603,499"/>
+<area shape="rect" id="node15" title=" " alt="" coords="443,524,589,551"/>
+<area shape="rect" id="node16" title=" " alt="" coords="477,575,555,601"/>
+<area shape="rect" id="node17" title=" " alt="" coords="431,625,601,652"/>
 </map>

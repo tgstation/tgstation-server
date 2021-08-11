@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Core.ServerPortProivder" name="Tgstation.Server.Host.Core.ServerPortProivder">
-<area shape="rect" id="node1" title=" " alt="" coords="172,272,353,313"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="173,175,309,202"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="333,168,563,209"/>
+<area shape="rect" id="node1" title=" " alt="" coords="172,287,353,328"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="173,190,309,217"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="333,183,563,224"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,5,160,32"/>
 <area shape="rect" id="node5" title=" " alt="" coords="185,5,263,32"/>
 <area shape="rect" id="node6" title=" " alt="" coords="398,5,453,32"/>

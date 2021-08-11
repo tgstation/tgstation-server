@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.System.PosixSignalHandler" name="Tgstation.Server.Host.System.PosixSignalHandler">
+<area shape="rect" id="node1" title="Handles POSIX signals." alt="" coords="468,187,667,229"/>
+<area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="82,5,194,32"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="93,56,183,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="113,107,163,133"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="47,158,229,199"/>
+<area shape="rect" id="node6" title=" " alt="" coords="119,224,157,251"/>
+<area shape="rect" id="node7" title=" " alt="" coords="53,275,223,301"/>
+<area shape="rect" id="node8" title=" " alt="" coords="5,326,271,367"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="47,391,229,433"/>
+</map>

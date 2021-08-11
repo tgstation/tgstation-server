@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.12.1</span>
+   &#160;<span id="projectnumber">4.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -164,7 +164,7 @@ $(function() {
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                        .UseIISIntegration()</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                        .UseApplication(postSetupServices)</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                        .SuppressStatusMessages(<span class="keyword">true</span>)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                        .UseShutdownTimeout(TimeSpan.FromMilliseconds(postSetupServices.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a11ecc704e68650d06ce04f8da01e47d1">GeneralConfiguration</a>.RestartTimeout)));</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                        .UseShutdownTimeout(TimeSpan.FromMinutes(postSetupServices.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a11ecc704e68650d06ce04f8da01e47d1">GeneralConfiguration</a>.RestartTimeoutMinutes)));</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">if</span> (updatePath != <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                hostBuilder.UseContentRoot(</div>

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.12.1</span>
+   &#160;<span id="projectnumber">4.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -197,8 +197,11 @@ $(function() {
 <li>DefaultPassword
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_elasticsearch_configuration.html#a535f5df7cb83e92052c9b6fc8cdf3a1e">Tgstation.Server.Host.Configuration.ElasticsearchConfiguration</a>
 </li>
-<li>DefaultRestartTimeout
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a8aada49cbc40077cf605dcb0ec00d259">Tgstation.Server.Host.Configuration.GeneralConfiguration</a>
+<li>DefaultRestartTimeoutMinutes
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a687263233469a2a30d87fe2f7f5ba22c">Tgstation.Server.Host.Configuration.GeneralConfiguration</a>
+</li>
+<li>DefaultShutdownTimeoutMinutes
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#acc33c2e87eb87d74ac38ec2d46482c25">Tgstation.Server.Host.Configuration.GeneralConfiguration</a>
 </li>
 <li>DefaultTokenClockSkewMinutes
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#aca00b4c5b85393830515491a8ec92144">Tgstation.Server.Host.Configuration.SecurityConfiguration</a>
@@ -233,7 +236,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_permission_set_client.html#a57a45f3e108a0315ecaf7124cc9c3923">Tgstation.Server.Client.Components.InstancePermissionSetClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#a9f11dffd912b00c090bdb2809e86a8b2">Tgstation.Server.Client.Components.IRepositoryClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html#ab62fb3a68473a10e0753cc94d43da988">Tgstation.Server.Client.Components.RepositoryClient</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a64cf5a4f7ea0ce4a99164906fcdfd19a">Tgstation.Server.Client.IApiClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a6954d79598a2d4498c99e201481dc6b1">Tgstation.Server.Client.IApiClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_user_groups_client.html#a2eda3707a176a68e9da1a1e201de0aa8">Tgstation.Server.Client.IUserGroupsClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_user_groups_client.html#aa86136bea24ebaca5b2b28a6e6b57e72">Tgstation.Server.Client.UserGroupsClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aacf3549e22bb38699d3226a156e3e0dc">Tgstation.Server.Host.Controllers.AdministrationController</a>
@@ -391,6 +394,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#a69861e38af0e65778b2e6e5692fd87a4">Tgstation.Server.Host.Security.WindowsSystemIdentity</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a75ee7501b3cb59e3e34c05f382380292">Tgstation.Server.Host.Service.ServerService</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afcb4a8bb1a2121870606d28b15f6604b">Tgstation.Server.Host.Swarm.SwarmService</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#abc580c85a312fa4ecbc73d25326c614d">Tgstation.Server.Host.System.PosixSignalHandler</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a110b26835967f72e89837e6f47f4b1a1">Tgstation.Server.Host.System.Process</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html#a1c17ac001c62907054e00cf6216aba78">Tgstation.Server.Host.System.ProgramShutdownTokenSource</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#ab96927cd0efef08c6926838bc238d45a">Tgstation.Server.Host.System.WindowsNetworkPromptReaper</a>

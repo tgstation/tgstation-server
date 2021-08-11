@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Terminate" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Terminate">
+<area shape="rect" id="node1" title="Stops the watchdog." alt="" coords="311,5,543,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server." alt="" coords="5,5,263,47"/>
+</map>

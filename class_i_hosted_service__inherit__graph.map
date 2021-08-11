@@ -1,5 +1,5 @@
 <map id="IHostedService" name="IHostedService">
-<area shape="rect" id="node1" title=" " alt="" coords="5,339,117,366"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,373,117,399"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation." alt="" coords="165,5,392,47"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="165,71,392,112"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="165,136,392,177"/>
@@ -10,7 +10,8 @@
 <area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="165,463,392,504"/>
 <area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="187,528,370,569"/>
 <area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html" title=" " alt="" coords="185,593,373,635"/>
-<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="175,659,382,700"/>
+<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html" title="Handles POSIX signals." alt="" coords="179,659,378,700"/>
+<area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="175,724,382,765"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html" title=" " alt="" coords="440,5,667,47"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="440,71,667,112"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html" title="Standard IDmbFactory." alt="" coords="440,136,667,177"/>

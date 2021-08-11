@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.12.1</span>
+   &#160;<span id="projectnumber">4.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -172,9 +172,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a48472c2f53ddb8819253fbd1a1e2a901"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a48472c2f53ddb8819253fbd1a1e2a901">RegisterNode</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html">Api.Models.Internal.SwarmServer</a> node, Guid registrationId)</td></tr>
 <tr class="memdesc:a48472c2f53ddb8819253fbd1a1e2a901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to register a given <em>node</em>  with the controller.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a48472c2f53ddb8819253fbd1a1e2a901">More...</a><br /></td></tr>
 <tr class="separator:a48472c2f53ddb8819253fbd1a1e2a901"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afff39efb336e2e5078c77fff4e1047a9"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afff39efb336e2e5078c77fff4e1047a9">HandleRestart</a> (Version updateVersion, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:afff39efb336e2e5078c77fff4e1047a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afff39efb336e2e5078c77fff4e1047a9">More...</a><br /></td></tr>
-<tr class="separator:afff39efb336e2e5078c77fff4e1047a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73b60befbf39eb2bc863f0c213bbfc0d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a73b60befbf39eb2bc863f0c213bbfc0d">HandleRestart</a> (Version updateVersion, bool graceful, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a73b60befbf39eb2bc863f0c213bbfc0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a73b60befbf39eb2bc863f0c213bbfc0d">More...</a><br /></td></tr>
+<tr class="separator:a73b60befbf39eb2bc863f0c213bbfc0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a429f30fb4ef531421f828f853456d0e3"><td class="memItemLeft" align="right" valign="top">async Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a429f30fb4ef531421f828f853456d0e3">RemoteCommitRecieved</a> (Guid registrationId, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a429f30fb4ef531421f828f853456d0e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notify the controller that the node with the given <em>registrationId</em>  is ready to commit or notify the node of the controller telling it to commit.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a429f30fb4ef531421f828f853456d0e3">More...</a><br /></td></tr>
 <tr class="separator:a429f30fb4ef531421f828f853456d0e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -287,7 +287,7 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:af899d264f1aa12e8f7cce4a074da3a76"><td class="mdescLeft">&#160;</td><td class="mdescRight">The last DateTimeOffset when the controller checked on this node.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#af899d264f1aa12e8f7cce4a074da3a76">More...</a><br /></td></tr>
 <tr class="separator:af899d264f1aa12e8f7cce4a074da3a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18040c29ce8d6fd647289a250ed00024"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a18040c29ce8d6fd647289a250ed00024">restarting</a></td></tr>
-<tr class="memdesc:a18040c29ce8d6fd647289a250ed00024"><td class="mdescLeft">&#160;</td><td class="mdescRight">If IRestartHandler.HandleRestart(Version, CancellationToken) was called.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a18040c29ce8d6fd647289a250ed00024">More...</a><br /></td></tr>
+<tr class="memdesc:a18040c29ce8d6fd647289a250ed00024"><td class="mdescLeft">&#160;</td><td class="mdescRight">If IRestartHandler.HandleRestart(Version, bool, CancellationToken) was called.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a18040c29ce8d6fd647289a250ed00024">More...</a><br /></td></tr>
 <tr class="separator:a18040c29ce8d6fd647289a250ed00024"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac468acd7c153f9b080827fb202b6ab32"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac468acd7c153f9b080827fb202b6ab32">serversDirty</a></td></tr>
 <tr class="memdesc:ac468acd7c153f9b080827fb202b6ab32"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa74759b8947e504c1443403d7b1426d1" title="List&lt;T&gt; of connected SwarmServerResponses.">swarmServers</a> list has been updated and needs to be resent to clients.  <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac468acd7c153f9b080827fb202b6ab32">More...</a><br /></td></tr>
@@ -783,8 +783,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="afff39efb336e2e5078c77fff4e1047a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afff39efb336e2e5078c77fff4e1047a9">&#9670;&nbsp;</a></span>HandleRestart()</h2>
+<a id="a73b60befbf39eb2bc863f0c213bbfc0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73b60befbf39eb2bc863f0c213bbfc0d">&#9670;&nbsp;</a></span>HandleRestart()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -794,6 +794,12 @@ Here is the call graph for this function:</div>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>updateVersion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>graceful</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -811,14 +817,14 @@ Here is the call graph for this function:</div>
 
 <p>Handle a restart of the server. </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#ad7bcde59a7297d1ef3770943af92a93d">Tgstation.Server.Host.Core.IRestartHandler</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a03028e6082b0e88e2d46c4c9ea0e7af7">Tgstation.Server.Host.Core.IRestartHandler</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_swarm_service_8cs_source.html#l00664">664</a> of file <a class="el" href="_swarm_service_8cs_source.html">SwarmService.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;        {</div>
 <div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a18040c29ce8d6fd647289a250ed00024">restarting</a> = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;            <span class="keywordflow">return</span> Task.CompletedTask;</div>
 <div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a18040c29ce8d6fd647289a250ed00024"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a18040c29ce8d6fd647289a250ed00024">Tgstation.Server.Host.Swarm.SwarmService.restarting</a></div><div class="ttdeci">bool restarting</div><div class="ttdoc">If IRestartHandler.HandleRestart(Version, CancellationToken) was called.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_service_8cs_source.html#l00182">SwarmService.cs:182</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a18040c29ce8d6fd647289a250ed00024"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a18040c29ce8d6fd647289a250ed00024">Tgstation.Server.Host.Swarm.SwarmService.restarting</a></div><div class="ttdeci">bool restarting</div><div class="ttdoc">If IRestartHandler.HandleRestart(Version, bool, CancellationToken) was called.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_service_8cs_source.html#l00182">SwarmService.cs:182</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_swarm_service_8cs_source.html#l00182">Tgstation.Server.Host.Swarm.SwarmService.restarting</a>.</p>
 
@@ -3079,7 +3085,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>If IRestartHandler.HandleRestart(Version, CancellationToken) was called. </p>
+<p>If IRestartHandler.HandleRestart(Version, bool, CancellationToken) was called. </p>
 
 <p class="definition">Definition at line <a class="el" href="_swarm_service_8cs_source.html#l00182">182</a> of file <a class="el" href="_swarm_service_8cs_source.html">SwarmService.cs</a>.</p>
 

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.12.1</span>
+   &#160;<span id="projectnumber">4.13.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -110,6 +110,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">Tgstation.Server.Host.Security.IdentityCacheObject</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a80bf6f84e712996ae1d8894ec96e9ba3">Tgstation.Server.Host.Server</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">Tgstation.Server.Host.Service.ServerService</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a377bd62aa6926c1dba634817e82f7bcd">Tgstation.Server.Host.System.PosixSignalHandler</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html#a2b51b208174b00545d40d6cf58d82a6e">Tgstation.Server.Host.System.ProgramShutdownTokenSource</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a23cc7eb8e4b7ca1d16f8a3bbb220c8b8">Tgstation.Server.Host.System.WindowsNetworkPromptReaper</a>
 </li>
@@ -296,6 +297,9 @@ $(function() {
 <li>CheckCompatibility()
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3c5df000903796a032fe6a4cafdc8a73">Tgstation.Server.Api.ApiHeaders</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee">Tgstation.Server.Host.Configuration.GeneralConfiguration</a>
+</li>
+<li>CheckDelayMs
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_signal_handler.html#a6f874242f0198ba5457e2be36f0dbc6a">Tgstation.Server.Host.System.PosixSignalHandler</a>
 </li>
 <li>CheckDisposed()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab0660ae6440a38aa85f8473a8220533a">Tgstation.Server.Host.Components.Session.SessionController</a>
@@ -953,14 +957,12 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a32ce1266bccc40aebf2f9c284ed6e69a">Tgstation.Server.Host.Components.Chat.ChatManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
 </li>
-<li>CustomCommands
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#abfda6bc1a90add9d6bff98456cf550ec">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
-</li>
 <li>customCommands
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
 </li>
 <li>CustomCommands
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#a09fedbbe7a7681b0e28fe47158af766d">Tgstation.Server.Host.Components.Chat.IChatTrackingContext</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#abfda6bc1a90add9d6bff98456cf550ec">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#a09fedbbe7a7681b0e28fe47158af766d">Tgstation.Server.Host.Components.Chat.IChatTrackingContext</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a86c0726e12e80ae3c6f2b3742d3a229c">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html#a32fa34e507879cfa556254e8ec7f1fb9">Tgstation.Server.Host.Components.Interop.Topic.TopicResponse</a>
 </li>

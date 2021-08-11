@@ -6,8 +6,8 @@
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab03690c5e8fd15c8d3f7c746a36a9f37" title=" " alt="" coords="885,239,1172,280"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="583,268,809,309"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a574b2b2de6422a7e43d448fa66f9a0e3" title="Handle a given eventType ." alt="" coords="1604,453,1839,495"/>
-<area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance." alt="" coords="1576,609,1867,651"/>
-<area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a6f5b1099165bc7a389e85b5ce9c97d01" title="Executes and populate a given job ." alt="" coords="1591,188,1852,229"/>
+<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance." alt="" coords="1576,609,1867,651"/>
+<area shape="rect" id="node25" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a6f5b1099165bc7a389e85b5ce9c97d01" title="Executes and populate a given job ." alt="" coords="1591,188,1852,229"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore." alt="" coords="280,268,507,309"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,235,232,276"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,300,232,341"/>
@@ -22,5 +22,6 @@
 <area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions." alt="" coords="555,604,837,645"/>
 <area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aec4f16b34fe08499a4aaff0235ecdc76" title=" " alt="" coords="910,669,1147,711"/>
 <area shape="rect" id="node21" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog." alt="" coords="913,735,1145,776"/>
-<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="1245,669,1503,711"/>
+<area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server." alt="" coords="567,735,825,776"/>
+<area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="1245,669,1503,711"/>
 </map>

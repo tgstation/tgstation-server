@@ -4,4 +4,5 @@
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aec4f16b34fe08499a4aaff0235ecdc76" title=" " alt="" coords="336,71,573,112"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog." alt="" coords="339,136,571,177"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions." alt="" coords="5,5,288,47"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server." alt="" coords="18,136,275,177"/>
 </map>
