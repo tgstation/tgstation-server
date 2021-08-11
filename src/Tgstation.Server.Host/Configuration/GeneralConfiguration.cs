@@ -51,9 +51,14 @@ namespace Tgstation.Server.Host.Configuration
 		const uint DefaultByondTopicTimeout = 5000;
 
 		/// <summary>
-		/// The default value for <see cref="RestartTimeout"/>.
+		/// The default value for <see cref="RestartTimeoutMinutes"/>.
 		/// </summary>
-		const uint DefaultRestartTimeout = 60000;
+		const uint DefaultRestartTimeoutMinutes = 1;
+
+		/// <summary>
+		/// The default value for <see cref="ShutdownTimeoutMinutes"/>.
+		/// </summary>
+		const uint DefaultShutdownTimeoutMinutes = 300;
 
 		/// <summary>
 		/// The current <see cref="ConfigVersion"/>.
@@ -87,9 +92,14 @@ namespace Tgstation.Server.Host.Configuration
 		public uint ByondTopicTimeout { get; set; } = DefaultByondTopicTimeout;
 
 		/// <summary>
-		/// The timeout milliseconds for restarting the server.
+		/// The timeout minutes for restarting the server.
 		/// </summary>
-		public uint RestartTimeout { get; set; } = DefaultRestartTimeout;
+		public uint RestartTimeoutMinutes { get; set; } = DefaultRestartTimeoutMinutes;
+
+		/// <summary>
+		/// The timeout minutes for gracefully stopping the server.
+		/// </summary>
+		public uint ShutdownTimeoutMinutes { get; set; } = DefaultShutdownTimeoutMinutes;
 
 		/// <summary>
 		/// If the <see cref="Components.Watchdog.BasicWatchdog"/> should be preferred.

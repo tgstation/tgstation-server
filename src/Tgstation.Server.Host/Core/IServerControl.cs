@@ -44,6 +44,12 @@ namespace Tgstation.Server.Host.Core
 		Task Restart();
 
 		/// <summary>
+		/// Gracefully shutsdown the <see cref="Host"/>.
+		/// </summary>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task GracefulShutdown();
+
+		/// <summary>
 		/// Kill the server with a fatal exception.
 		/// </summary>
 		/// <param name="exception">The <see cref="Exception"/> to propagate to the watchdog if any.</param>

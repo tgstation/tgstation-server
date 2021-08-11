@@ -115,6 +115,7 @@ namespace Tgstation.Server.Tests
 						Assert.Inconclusive(notSupportedException.Message);
 				}
 			}
+
 			Assert.IsTrue(server.RestartRequested, "Server not requesting restart!");
 		}
 

@@ -381,8 +381,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
+		public async Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
 		{
+			if (graceful)
+			{
+				await Terminate(true, cancellationToken).ConfigureAwait(false);
+
+				if (Status != WatchdogStatus.Offline)
+				{
+					Logger.LogTrace("Waiting for server to gracefully shut down.");
+					await monitorTask.WithToken(cancellationToken).ConfigureAwait(false);
+				}
+				else
+					Logger.LogTrace("Graceful shutdown requested but server is already offline.");
+
+				return;
+			}
+
 			releaseServers = true;
 			if (Status == WatchdogStatus.Online)
 				await Chat.QueueWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
