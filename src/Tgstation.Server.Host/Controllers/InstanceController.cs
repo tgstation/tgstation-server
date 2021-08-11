@@ -264,6 +264,7 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
 
 			var api = newInstance.ToApi();
+			api.Accessible = true; // instances are always accessible by their creator
 			return attached ? (IActionResult)Json(api) : Created(api);
 		}
 
@@ -495,6 +496,7 @@ namespace Tgstation.Server.Host.Controllers
 					await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
 			}
 
+			await CheckAccessible(api, cancellationToken).ConfigureAwait(false);
 			return moving ? (IActionResult)Accepted(api) : Json(api);
 		}
 #pragma warning restore CA1502
@@ -552,10 +554,11 @@ namespace Tgstation.Server.Host.Controllers
 					new PaginatableResult<Models.Instance>(
 						GetBaseQuery()
 							.OrderBy(x => x.Id))),
-				instance =>
+				async instance =>
 				{
 					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
 					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id)?.ToApi();
+					await CheckAccessible(instance, cancellationToken).ConfigureAwait(false);
 				},
 				page,
 				pageSize,
@@ -623,6 +626,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			api.MoveJob = moveJob?.ToApi();
+			await CheckAccessible(api, cancellationToken).ConfigureAwait(false);
 			return Json(api);
 		}
 
@@ -784,6 +788,21 @@ namespace Tgstation.Server.Host.Controllers
 				path = path.ToUpperInvariant().Replace('\\', '/');
 
 			return path;
+		}
+
+		/// <summary>
+		/// Populate the <see cref="InstanceResponse.Accessible"/> property of a given <paramref name="instanceResponse"/>.
+		/// </summary>
+		/// <param name="instanceResponse">The <see cref="InstanceResponse"/> to populate.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task CheckAccessible(InstanceResponse instanceResponse, CancellationToken cancellationToken)
+		{
+			instanceResponse.Accessible = await DatabaseContext
+				.InstancePermissionSets
+				.AsQueryable()
+				.Where(x => x.InstanceId == instanceResponse.Id && x.PermissionSetId == AuthenticationContext.PermissionSet.Id)
+				.AnyAsync(cancellationToken);
 		}
 	}
 }

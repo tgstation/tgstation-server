@@ -198,6 +198,8 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (connectionStrings)
 						chatBot.ConnectionString = null;
+
+					return Task.CompletedTask;
 				},
 				page,
 				pageSize,
