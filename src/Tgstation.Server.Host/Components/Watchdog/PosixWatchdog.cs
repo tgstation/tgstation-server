@@ -105,11 +105,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task InitControllers(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected override async Task InitController(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
 			try
 			{
-				await base.InitControllers(chatTask, reattachInfo, cancellationToken).ConfigureAwait(false);
+				await base.InitController(chatTask, reattachInfo, cancellationToken).ConfigureAwait(false);
 			}
 			finally
 			{
