@@ -143,5 +143,11 @@
 		/// </summary>
 		[EventScript("DreamDaemonLaunch")]
 		DreamDaemonLaunch,
+
+		/// <summary>
+		/// After a single submodule update is performed. Parameters: Updated submodule name
+		/// </summary>
+		[EventScript("RepoSubmoduleUpdate")]
+		RepoSubmoduleUpdate,
 	}
 }

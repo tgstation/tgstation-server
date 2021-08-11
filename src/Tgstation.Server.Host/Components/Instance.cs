@@ -404,7 +404,13 @@ namespace Tgstation.Server.Host.Components
 					if (!preserveTestMerges)
 					{
 						logger.LogTrace("Resetting to origin...");
-						await repo.ResetToOrigin(NextProgressReporter(), cancellationToken).ConfigureAwait(false);
+						await repo.ResetToOrigin(
+							repositorySettings.AccessUser,
+							repositorySettings.AccessToken,
+							true,
+							NextProgressReporter(),
+							cancellationToken)
+						.ConfigureAwait(false);
 
 						var currentHead = repo.Head;
 
