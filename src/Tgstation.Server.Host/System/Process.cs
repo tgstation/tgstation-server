@@ -134,24 +134,31 @@ namespace Tgstation.Server.Host.System
 		{
 			if (combinedStringBuilder == null)
 				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
-			await Task.WhenAll(standardOutputTask, standardErrorTask).WithToken(cancellationToken).ConfigureAwait(false);
+			await Task.WhenAll(
+				GetStandardOutput(cancellationToken),
+				GetErrorOutput(cancellationToken))
+				.ConfigureAwait(false);
 			return combinedStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
 		}
 
 		/// <inheritdoc />
-		public Task<string> GetErrorOutput(CancellationToken cancellationToken)
+		public async Task<string> GetErrorOutput(CancellationToken cancellationToken)
 		{
 			if (standardErrorTask == null)
 				throw new InvalidOperationException("Error stream reading was not enabled!");
-			return standardErrorTask.WithToken(cancellationToken);
+			if (!standardErrorTask.IsCompleted)
+				logger.LogTrace("Waiting for PID {0} to close error stream...", Id);
+			return await standardErrorTask.WithToken(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public Task<string> GetStandardOutput(CancellationToken cancellationToken)
+		public async Task<string> GetStandardOutput(CancellationToken cancellationToken)
 		{
 			if (standardOutputTask == null)
 				throw new InvalidOperationException("Output stream reading was not enabled!");
-			return standardOutputTask.WithToken(cancellationToken);
+			if (!standardOutputTask.IsCompleted)
+				logger.LogTrace("Waiting for PID {0} to close output stream...", Id);
+			return await standardOutputTask.WithToken(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
