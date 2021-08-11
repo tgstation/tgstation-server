@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -181,22 +181,20 @@ namespace Tgstation.Server.Tests
 			var token = serverClient.Token.Bearer;
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ListRoute(Routes.InstanceManager).Substring(1) + "?pageSize=2"))
-			{
-				request.Headers.Accept.Clear();
-				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RegressionTest1256", "1.0.0"));
-				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
-				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
-				using var response = await httpClient.SendAsync(request, cancellationToken);
-				response.EnsureSuccessStatusCode();
+			using var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ListRoute(Routes.InstanceManager).Substring(1) + "?pageSize=2");
+			request.Headers.Accept.Clear();
+			request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RegressionTest1256", "1.0.0"));
+			request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+			request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+			request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+			using var response = await httpClient.SendAsync(request, cancellationToken);
+			response.EnsureSuccessStatusCode();
 
-				var json = await response.Content.ReadAsStringAsync();
-				var paginated = JsonConvert.DeserializeObject<PaginatedResponse<InstanceResponse>>(json);
+			var json = await response.Content.ReadAsStringAsync();
+			var paginated = JsonConvert.DeserializeObject<PaginatedResponse<InstanceResponse>>(json);
 
-				Assert.AreEqual(2, paginated.PageSize);
-				Assert.AreEqual(3, paginated.TotalPages);
-			}
+			Assert.AreEqual(2, paginated.PageSize);
+			Assert.AreEqual(3, paginated.TotalPages);
 		}
 
 		public async Task RunPostTest(CancellationToken cancellationToken)
@@ -205,9 +203,14 @@ namespace Tgstation.Server.Tests
 			var firstTest = instances.Single(x => x.Name == TestInstanceName);
 			var instanceClient = instanceManagerClient.CreateClient(firstTest);
 
+			Assert.IsTrue(firstTest.Accessible);
+
 			//can regain permissions on instance without instance user
 			var ourInstanceUser = await instanceClient.PermissionSets.Read(cancellationToken).ConfigureAwait(false);
 			await instanceClient.PermissionSets.Delete(ourInstanceUser, cancellationToken).ConfigureAwait(false);
+
+			firstTest = await instanceManagerClient.GetId(firstTest, cancellationToken);
+			Assert.IsFalse(firstTest.Accessible);
 
 			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => instanceClient.PermissionSets.Read(cancellationToken)).ConfigureAwait(false);
 
@@ -215,6 +218,10 @@ namespace Tgstation.Server.Tests
 			{
 				Id = firstTest.Id
 			}, cancellationToken).ConfigureAwait(false);
+
+			firstTest = await instanceManagerClient.GetId(firstTest, cancellationToken);
+			Assert.IsTrue(firstTest.Accessible);
+
 			ourInstanceUser = await instanceClient.PermissionSets.Read(cancellationToken).ConfigureAwait(false);
 
 			Assert.AreEqual(RightsHelper.AllRights<DreamDaemonRights>(), ourInstanceUser.DreamDaemonRights.Value);
