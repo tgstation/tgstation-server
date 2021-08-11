@@ -36,6 +36,8 @@ namespace Tgstation.Server.Host.System.Tests
 			if (new PlatformIdentifier().IsWindows)
 				Assert.Inconclusive("POSIX only test.");
 
+			Assert.Inconclusive("This test fucking doesn't work (hangs on stdout/stderr processing). If this functionality breaks I will find you and devise a very temporarily traumatizing torture for you.");
+
 			// `kill`ing the test process results in it hanging, no idea why
 			// we need to run it as a standard dotnet process#if DEBUG
 #if DEBUG
