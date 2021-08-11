@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionPersistor.Save" name="Tgstation.Server.Host.Components.Session.SessionPersistor.Save">
+<area shape="rect" id="node1" title="Save some reattachInformation ." alt="" coords="304,5,531,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="5,5,256,47"/>
+</map>

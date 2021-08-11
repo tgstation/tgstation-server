@@ -1,7 +1,10 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAsync" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,49,263,90"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a875fe1589eb86e57a50a0e793b0d74f5" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="311,41,577,97"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2f8ea066a8ae2408f1c86f828d7974f8" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="625,5,892,61"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore ." alt="" coords="663,85,854,126"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Initializes a new instance of the SemaphoreSlimContext class." alt="" coords="940,77,1193,133"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,77,263,119"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a875fe1589eb86e57a50a0e793b0d74f5" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="311,70,577,126"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#aebef451cedbed6fe5a4367fe035470a7" title="Clear any stored ReattachInformation." alt="" coords="645,5,872,47"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2f8ea066a8ae2408f1c86f828d7974f8" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="625,70,892,126"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore ." alt="" coords="663,149,854,191"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#aa948dc00c200539206747c99b95986af" title="Clear any stored ReattachInformation." alt="" coords="952,5,1181,47"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a" title="Remove a given model &#160;from the the working set." alt="" coords="1241,5,1451,47"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Initializes a new instance of the SemaphoreSlimContext class." alt="" coords="940,142,1193,198"/>
 </map>

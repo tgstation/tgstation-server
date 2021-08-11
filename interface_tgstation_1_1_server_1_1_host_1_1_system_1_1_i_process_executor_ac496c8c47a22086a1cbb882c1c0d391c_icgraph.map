@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.System.IProcessExecutor.LaunchProcess" name="Tgstation.Server.Host.System.IProcessExecutor.LaunchProcess">
-<area shape="rect" id="node1" title="Launch a IProcess." alt="" coords="649,93,868,134"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a6e7516f6939712dc72c480a31b87a3d8" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="326,5,586,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ace687a0a8ab8b2c11dfa48715dc83c87" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="339,85,573,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance." alt="" coords="311,165,601,206"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="5,165,263,206"/>
+<area shape="rect" id="node1" title="Launch a IProcess." alt="" coords="643,93,861,134"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a6e7516f6939712dc72c480a31b87a3d8" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="319,5,579,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ace687a0a8ab8b2c11dfa48715dc83c87" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="332,85,567,141"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance." alt="" coords="304,165,595,206"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="5,165,256,206"/>
 </map>

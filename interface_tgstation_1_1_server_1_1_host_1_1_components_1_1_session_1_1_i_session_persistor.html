@@ -96,12 +96,44 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1893d3e0b81183484ed4d762fa8b8337"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html">ReattachInformation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a1893d3e0b81183484ed4d762fa8b8337">Load</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a1893d3e0b81183484ed4d762fa8b8337"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a saved <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a1893d3e0b81183484ed4d762fa8b8337">More...</a><br /></td></tr>
 <tr class="separator:a1893d3e0b81183484ed4d762fa8b8337"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d95026a414e6323100ca9f0ae2e8804"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a3d95026a414e6323100ca9f0ae2e8804">Clear</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a3d95026a414e6323100ca9f0ae2e8804"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear any stored <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a3d95026a414e6323100ca9f0ae2e8804">More...</a><br /></td></tr>
+<tr class="separator:a3d95026a414e6323100ca9f0ae2e8804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Handles saving and loading <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>. </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_session_persistor_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_session_persistor_8cs_source.html">ISessionPersistor.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3d95026a414e6323100ca9f0ae2e8804"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d95026a414e6323100ca9f0ae2e8804">&#9670;&nbsp;</a></span>Clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.Components.Session.ISessionPersistor.Clear </td>
+          <td>(</td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clear any stored <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#aebef451cedbed6fe5a4367fe035470a7">Tgstation.Server.Host.Components.Session.SessionPersistor</a>.</p>
+
+</div>
+</div>
 <a id="a1893d3e0b81183484ed4d762fa8b8337"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1893d3e0b81183484ed4d762fa8b8337">&#9670;&nbsp;</a></span>Load()</h2>
 
@@ -128,17 +160,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the stored <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session.">ReattachInformation</a> if any.</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a7dc6adc59691130ff12e19193e4f54dd">Tgstation.Server.Host.Components.Session.SessionPersistor</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00348">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor_a1893d3e0b81183484ed4d762fa8b8337_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor_a1893d3e0b81183484ed4d762fa8b8337_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor_a1893d3e0b81183484ed4d762fa8b8337_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor_a1893d3e0b81183484ed4d762fa8b8337_icgraph">
-<area shape="rect" title="Load a saved ReattachInformation." alt="" coords="292,5,519,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="5,5,244,47"/>
-</map>
-</div>
 
 </div>
 </div>
@@ -179,17 +200,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a4fb87f9615a098b3b6a6e2ae3dfb5558">Tgstation.Server.Host.Components.Session.SessionPersistor</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00378">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StopAsync()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor_ad37308dbcca09a8621c7b1f7c443d6c3_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor_ad37308dbcca09a8621c7b1f7c443d6c3_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor_ad37308dbcca09a8621c7b1f7c443d6c3_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor_ad37308dbcca09a8621c7b1f7c443d6c3_icgraph">
-<area shape="rect" title="Save some reattachInformation ." alt="" coords="291,5,517,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aec4f16b34fe08499a4aaff0235ecdc76" title=" " alt="" coords="5,5,243,47"/>
-</map>
-</div>
 
 </div>
 </div>
