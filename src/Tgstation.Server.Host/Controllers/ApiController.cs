@@ -296,14 +296,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated and returned.</typeparam>
 		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
-		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
+		/// <param name="resultTransformer">A <see cref="Func{T, TResult}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
 		/// <param name="pageQuery">The requested page from the query.</param>
 		/// <param name="pageSizeQuery">The requested page size from the query.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		protected Task<IActionResult> Paginated<TModel>(
 			Func<Task<PaginatableResult<TModel>>> queryGenerator,
-			Action<TModel> resultTransformer,
+			Func<TModel, Task> resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken) => PaginatedImpl(
@@ -319,14 +319,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated.</typeparam>
 		/// <typeparam name="TApiModel">The <see cref="Type"/> of model being returned.</typeparam>
 		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
-		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TApiModel"/>s after being queried.</param>
+		/// <param name="resultTransformer">A <see cref="Func{T, TResult}"/> to transform the <typeparamref name="TApiModel"/>s after being queried.</param>
 		/// <param name="pageQuery">The requested page from the query.</param>
 		/// <param name="pageSizeQuery">The requested page size from the query.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		protected Task<IActionResult> Paginated<TModel, TApiModel>(
 			Func<Task<PaginatableResult<TModel>>> queryGenerator,
-			Action<TApiModel> resultTransformer,
+			Func<TApiModel, Task> resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
@@ -344,14 +344,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated. If different from <typeparamref name="TResultModel"/>, must implement <see cref="IApiTransformable{TApiModel}"/> for <typeparamref name="TResultModel"/>.</typeparam>
 		/// <typeparam name="TResultModel">The <see cref="Type"/> of model being returned.</typeparam>
 		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
-		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TResultModel"/>s after being queried.</param>
+		/// <param name="resultTransformer">A <see cref="Func{T, TResult}"/> to transform the <typeparamref name="TResultModel"/>s after being queried.</param>
 		/// <param name="pageQuery">The requested page from the query.</param>
 		/// <param name="pageSizeQuery">The requested page size from the query.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		async Task<IActionResult> PaginatedImpl<TModel, TResultModel>(
 			Func<Task<PaginatableResult<TModel>>> queryGenerator,
-			Action<TResultModel> resultTransformer,
+			Func<TResultModel, Task> resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
@@ -406,7 +406,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (resultTransformer != null)
 				foreach (var finalResult in finalResults)
-					resultTransformer(finalResult);
+					await resultTransformer(finalResult).ConfigureAwait(false);
 
 			var carryTheOne = totalResults % pageSize != 0
 				? 1

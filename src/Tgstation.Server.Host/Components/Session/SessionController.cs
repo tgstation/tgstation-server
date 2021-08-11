@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Session
 	sealed class SessionController : ISessionController, IBridgeHandler, IChannelSink
 	{
 		/// <inheritdoc />
-		public DMApiParameters DMApiParameters => reattachInformation;
+		public DMApiParameters DMApiParameters => ReattachInformation;
 
 		/// <inheritdoc />
 		public ApiValidationStatus ApiValidationStatus
@@ -41,10 +41,10 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Models.CompileJob CompileJob => reattachInformation.Dmb.CompileJob;
+		public Models.CompileJob CompileJob => ReattachInformation.Dmb.CompileJob;
 
 		/// <inheritdoc />
-		public RebootState RebootState => reattachInformation.RebootState;
+		public RebootState RebootState => ReattachInformation.RebootState;
 
 		/// <inheritdoc />
 		public Version DMApiVersion { get; private set; }
@@ -68,12 +68,12 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task OnPrime => primeTcs.Task;
 
 		/// <inheritdoc />
-		public bool DMApiAvailable => reattachInformation.Dmb.CompileJob.DMApiVersion?.Major == DMApiConstants.InteropVersion.Major;
+		public bool DMApiAvailable => ReattachInformation.Dmb.CompileJob.DMApiVersion?.Major == DMApiConstants.InteropVersion.Major;
 
 		/// <summary>
-		/// The up to date <see cref="ReattachInformation"/>.
+		/// The up to date <see cref="Session.ReattachInformation"/>.
 		/// </summary>
-		readonly ReattachInformation reattachInformation;
+		public ReattachInformation ReattachInformation { get; }
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD makes it's first bridge request.
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SessionController"/> class.
 		/// </summary>
-		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/>.</param>
+		/// <param name="reattachInformation">The value of <see cref="ReattachInformation"/>.</param>
 		/// <param name="metadata">The owning <see cref="Instance"/>.</param>
 		/// <param name="process">The value of <see cref="process"/>.</param>
 		/// <param name="byondLock">The value of <see cref="byondLock"/>.</param>
@@ -203,7 +203,7 @@ namespace Tgstation.Server.Host.Components.Session
 			bool reattached,
 			bool apiValidate)
 		{
-			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
+			ReattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
 			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
@@ -277,7 +277,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			process.Dispose();
 			bridgeRegistration?.Dispose();
-			reattachInformation.Dmb?.Dispose(); // will be null when released
+			ReattachInformation.Dmb?.Dispose(); // will be null when released
 			chatTrackingContext.Dispose();
 			reattachTopicCts.Dispose();
 
@@ -346,13 +346,13 @@ namespace Tgstation.Server.Host.Components.Session
 
 							var currentPort = parameters.CurrentPort.Value;
 							if (!nextPort.HasValue)
-								reattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
+								ReattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
 							else
 							{
 								// nextPort is ready, tell DD to switch to that
 								// if it fails it'll kill itself
 								response.NewPort = nextPort.Value;
-								reattachInformation.Port = nextPort.Value;
+								ReattachInformation.Port = nextPort.Value;
 								nextPort = null;
 
 								// we'll also get here from SetPort so complete that task
@@ -398,12 +398,12 @@ namespace Tgstation.Server.Host.Components.Session
 
 						response.RuntimeInformation = new RuntimeInformation(
 							chatTrackingContext,
-							reattachInformation.Dmb,
-							reattachInformation.RuntimeInformation.ServerVersion,
-							reattachInformation.RuntimeInformation.InstanceName,
-							reattachInformation.RuntimeInformation.SecurityLevel,
-							reattachInformation.RuntimeInformation.ServerPort,
-							reattachInformation.RuntimeInformation.ApiValidateOnly);
+							ReattachInformation.Dmb,
+							ReattachInformation.RuntimeInformation.ServerVersion,
+							ReattachInformation.RuntimeInformation.InstanceName,
+							ReattachInformation.RuntimeInformation.SecurityLevel,
+							ReattachInformation.RuntimeInformation.ServerPort,
+							ReattachInformation.RuntimeInformation.ApiValidateOnly);
 
 						// Load custom commands
 						chatTrackingContext.CustomCommands = parameters.CustomCommands;
@@ -436,19 +436,18 @@ namespace Tgstation.Server.Host.Components.Session
 		public void EnableCustomChatCommands() => chatTrackingContext.Active = DMApiAvailable;
 
 		/// <inheritdoc />
-		public async Task<ReattachInformation> Release()
+		public async Task Release()
 		{
 			CheckDisposed();
 
 			// we still don't want to dispose the dmb yet, even though we're keeping it alive
-			var tmpProvider = reattachInformation.Dmb;
-			reattachInformation.Dmb = null;
+			var tmpProvider = ReattachInformation.Dmb;
+			ReattachInformation.Dmb = null;
 			released = true;
 			await DisposeAsync().ConfigureAwait(false);
 			byondLock.DoNotDeleteThisSession();
 			tmpProvider.KeepAlive();
-			reattachInformation.Dmb = tmpProvider;
-			return reattachInformation;
+			ReattachInformation.Dmb = tmpProvider;
 		}
 
 		/// <inheritdoc />
@@ -471,7 +470,7 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
-			parameters.AccessIdentifier = reattachInformation.AccessIdentifier;
+			parameters.AccessIdentifier = ReattachInformation.AccessIdentifier;
 
 			var json = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
 			logger.LogTrace("Topic request: {0}", json);
@@ -483,7 +482,7 @@ namespace Tgstation.Server.Host.Components.Session
 					byondTopicSender.SanitizeString(DMApiConstants.TopicData),
 					byondTopicSender.SanitizeString(json));
 
-				var targetPort = reattachInformation.Port;
+				var targetPort = ReattachInformation.Port;
 
 				var topicResponse = await byondTopicSender.SendTopic(
 					new IPEndPoint(IPAddress.Loopback, targetPort),
@@ -547,7 +546,7 @@ namespace Tgstation.Server.Host.Components.Session
 				if (commandResult.InteropResponse?.ErrorMessage != null)
 					return false;
 
-				reattachInformation.Port = port;
+				ReattachInformation.Port = port;
 				return true;
 			}
 
@@ -572,7 +571,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Changing reboot state to {0}", newRebootState);
 
-			reattachInformation.RebootState = newRebootState;
+			ReattachInformation.RebootState = newRebootState;
 			var result = await SendCommand(
 				new TopicParameters(newRebootState),
 				cancellationToken)
@@ -586,7 +585,7 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			CheckDisposed();
 			logger.LogTrace("Resetting reboot state...");
-			reattachInformation.RebootState = RebootState.Normal;
+			ReattachInformation.RebootState = RebootState.Normal;
 		}
 
 		/// <inheritdoc />
@@ -601,15 +600,15 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public void ReplaceDmbProvider(IDmbProvider dmbProvider)
 		{
-			var oldDmb = reattachInformation.Dmb;
-			reattachInformation.Dmb = dmbProvider ?? throw new ArgumentNullException(nameof(dmbProvider));
+			var oldDmb = ReattachInformation.Dmb;
+			ReattachInformation.Dmb = dmbProvider ?? throw new ArgumentNullException(nameof(dmbProvider));
 			oldDmb.Dispose();
 		}
 
 		/// <inheritdoc />
 		public Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
 		{
-			reattachInformation.RuntimeInformation.InstanceName = newInstanceName;
+			ReattachInformation.RuntimeInformation.InstanceName = newInstanceName;
 			return SendCommand(new TopicParameters(newInstanceName), cancellationToken);
 		}
 
@@ -667,7 +666,7 @@ namespace Tgstation.Server.Host.Components.Session
 				var reattachResponse = await SendCommand(
 					new TopicParameters(
 						assemblyInformationProvider.Version,
-						reattachInformation.RuntimeInformation.ServerPort),
+						ReattachInformation.RuntimeInformation.ServerPort),
 					reattachTopicCts.Token)
 					.ConfigureAwait(false);
 

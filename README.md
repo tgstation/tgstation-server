@@ -137,6 +137,15 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
 
+- `Elasticsearch`: tgstation-server-v4 also supports automatically ingesting its logs to ElasticSearch. You can set this up in the setup wizard, or with the following configuration:
+  ```yml
+  Elasticsearch:
+    Enable: true
+    Host: http://192.168.0.200:9200
+    Username: youruserhere
+    Password: yourpasshere
+  ```
+
 - `Swarm`: This section should be left `null` unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.
 
 - `Swarm:PrivateKey`: Should be a secure string set identically on all swarmed servers.

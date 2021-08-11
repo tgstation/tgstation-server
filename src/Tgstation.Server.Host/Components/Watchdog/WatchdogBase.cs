@@ -61,6 +61,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected TaskCompletionSource<object> ActiveParametersUpdated { get; set; }
 
 		/// <summary>
+		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.
+		/// </summary>
+		protected ISessionPersistor SessionPersistor { get; }
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		protected ILogger<WatchdogBase> Logger { get; }
@@ -106,11 +111,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly SemaphoreSlim controllerDisposeSemaphore;
 
 		/// <summary>
-		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.
-		/// </summary>
-		readonly ISessionPersistor sessionPersistor;
-
-		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
@@ -134,11 +134,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>.
 		/// </summary>
 		readonly bool autoStart;
-
-		/// <summary>
-		/// Used when detaching servers.
-		/// </summary>
-		ReattachInformation releasedReattachInformation;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the monitor loop.
@@ -176,7 +171,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="Chat"/>.</param>
 		/// <param name="sessionControllerFactory">The value of <see cref="SessionControllerFactory"/>.</param>
 		/// <param name="dmbFactory">The value of <see cref="DmbFactory"/>.</param>
-		/// <param name="sessionPersistor">The value of <see cref="sessionPersistor"/>.</param>
+		/// <param name="sessionPersistor">The value of <see cref="SessionPersistor"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with.</param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
@@ -206,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			SessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			DmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
-			this.sessionPersistor = sessionPersistor ?? throw new ArgumentNullException(nameof(sessionPersistor));
+			SessionPersistor = sessionPersistor ?? throw new ArgumentNullException(nameof(sessionPersistor));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
@@ -347,7 +342,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			var reattachInfo = await sessionPersistor.Load(cancellationToken).ConfigureAwait(false);
+			var reattachInfo = await SessionPersistor.Load(cancellationToken).ConfigureAwait(false);
 			if (!autoStart && reattachInfo == null)
 				return;
 
@@ -375,26 +370,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task StopAsync(CancellationToken cancellationToken)
-		{
-			await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
-			if (releasedReattachInformation != null)
-			{
-				try
-				{
-					await sessionPersistor.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
-				}
-				catch (Exception ex)
-				{
-					Logger.LogCritical(
-						ex,
-						"Failed to persist session reattach information! To repair this, DreamDaemon will need to be manully stopped and then relaunched with TGS.");
-				}
-
-				releasedReattachInformation = null;
-				releaseServers = false;
-			}
-		}
+		public Task StopAsync(CancellationToken cancellationToken) =>
+			TerminateNoLock(false, !releaseServers, cancellationToken);
 
 		/// <inheritdoc />
 		public async Task Terminate(bool graceful, CancellationToken cancellationToken)
@@ -404,8 +381,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
+		public async Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
 		{
+			if (graceful)
+			{
+				await Terminate(true, cancellationToken).ConfigureAwait(false);
+
+				if (Status != WatchdogStatus.Offline)
+				{
+					Logger.LogTrace("Waiting for server to gracefully shut down.");
+					await monitorTask.WithToken(cancellationToken).ConfigureAwait(false);
+				}
+				else
+					Logger.LogTrace("Graceful shutdown requested but server is already offline.");
+
+				return;
+			}
+
 			releaseServers = true;
 			if (Status == WatchdogStatus.Online)
 				await Chat.QueueWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
@@ -477,7 +469,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task InitControllers(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken);
+		protected abstract Task InitController(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Launches the watchdog.
@@ -525,11 +517,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			try
 			{
-				await InitControllers(announceTask, reattachInfo, cancellationToken).ConfigureAwait(false);
+				await InitController(announceTask, reattachInfo, cancellationToken).ConfigureAwait(false);
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
-				Logger.LogTrace("Controller initialization canceled!");
+				Logger.LogTrace(ex, "Controller initialization cancelled!");
 				throw;
 			}
 			catch (Exception e)
@@ -610,7 +602,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// Call from <see cref="InitControllers(Task, ReattachInformation, CancellationToken)"/> when a reattach operation fails to attempt a fresh start.
+		/// Call from <see cref="InitController(Task, ReattachInformation, CancellationToken)"/> when a reattach operation fails to attempt a fresh start.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
@@ -623,7 +615,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogWarning(FailReattachMessage);
 
 			var chatTask = Chat.QueueWatchdogMessage(FailReattachMessage, cancellationToken);
-			await InitControllers(chatTask, null, cancellationToken).ConfigureAwait(false);
+			await InitController(chatTask, null, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -641,7 +633,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			Logger.LogTrace("DisposeAndNullControllers");
 			using (await SemaphoreSlimContext.Lock(controllerDisposeSemaphore, cancellationToken).ConfigureAwait(false))
+			{
 				await DisposeAndNullControllersImpl().ConfigureAwait(false);
+				if (!releaseServers)
+					await SessionPersistor.Clear(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <summary>
@@ -931,8 +927,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				if (releaseServers)
 				{
-					Logger.LogTrace("Detaching servers...");
-					releasedReattachInformation = await GetActiveController().Release().ConfigureAwait(false);
+					Logger.LogTrace("Detaching server...");
+					var controller = GetActiveController();
+					await controller.Release().ConfigureAwait(false);
 				}
 			}
 

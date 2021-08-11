@@ -119,6 +119,19 @@ namespace Tgstation.Server.Host.Components.Repository
 		static CheckoutProgressHandler CheckoutProgressHandler(Action<int> progressReporter) => (a, completedSteps, totalSteps) => progressReporter((int)(((float)completedSteps) / totalSteps * 100));
 
 		/// <summary>
+		/// Generate a <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> from a given <paramref name="progressReporter"/> and <paramref name="cancellationToken"/>.
+		/// </summary>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A new <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
+		static TransferProgressHandler TransferProgressHandler(Action<int> progressReporter, CancellationToken cancellationToken) => (transferProgress) =>
+		{
+			var percentage = 100 * (((float)transferProgress.IndexedObjects + transferProgress.ReceivedObjects) / (transferProgress.TotalObjects * 2));
+			progressReporter((int)percentage);
+			return !cancellationToken.IsCancellationRequested;
+		};
+
+		/// <summary>
 		/// Rethrow the authentication failure message as a <see cref="JobException"/> if it is one.
 		/// </summary>
 		/// <param name="exception">The current <see cref="LibGit2SharpException"/>.</param>
@@ -187,6 +200,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string committerEmail,
 			string username,
 			string password,
+			bool updateSubmodules,
 			Action<int> progressReporter,
 			CancellationToken cancellationToken)
 		{
@@ -250,12 +264,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								{
 									Prune = true,
 									OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-									OnTransferProgress = (a) =>
-									{
-										var percentage = 50 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-										progressReporter((int)percentage);
-										return !cancellationToken.IsCancellationRequested;
-									},
+									OnTransferProgress = TransferProgressHandler(percentage => progressReporter(percentage / 2), cancellationToken),
 									OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 									CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 								},
@@ -287,7 +296,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							FailOnConflict = true,
 							FastForwardStrategy = FastForwardStrategy.NoFastForward,
 							SkipReuc = true,
-							OnCheckoutProgress = (a, completedSteps, totalSteps) => progressReporter(50 + ((int)(((float)completedSteps) / totalSteps * 50))),
+							OnCheckoutProgress = CheckoutProgressHandler(percentage => progressReporter(50 + (percentage / 2))),
 						});
 					}
 					finally
@@ -328,7 +337,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				return null;
 			}
 
-			if (commitMessage != null && result.Status != MergeStatus.UpToDate)
+			if (result.Status != MergeStatus.UpToDate)
 			{
 				logger.LogTrace("Committing merge: \"{0}\"...", commitMessage);
 				await Task.Factory.StartNew(
@@ -340,6 +349,9 @@ namespace Tgstation.Server.Host.Components.Repository
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
 					.ConfigureAwait(false);
+
+				if (updateSubmodules)
+					await UpdateSubmodules(percentage => progressReporter(66 + (percentage / 3)), username, password, cancellationToken).ConfigureAwait(false);
 			}
 
 			await eventConsumer.HandleEvent(
@@ -358,7 +370,13 @@ namespace Tgstation.Server.Host.Components.Repository
 #pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public async Task CheckoutObject(string committish, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task CheckoutObject(
+			string committish,
+			string username,
+			string password,
+			bool updateSubmodules,
+			Action<int> progressReporter,
+			CancellationToken cancellationToken)
 		{
 			if (committish == null)
 				throw new ArgumentNullException(nameof(committish));
@@ -370,12 +388,15 @@ namespace Tgstation.Server.Host.Components.Repository
 				() =>
 				{
 					libGitRepo.RemoveUntrackedFiles();
-					RawCheckout(committish, progressReporter, cancellationToken);
+					RawCheckout(committish, percentage => progressReporter(percentage * (updateSubmodules ? 2 : 3) / 3), cancellationToken);
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current)
 				.ConfigureAwait(false);
+
+			if (updateSubmodules)
+				await UpdateSubmodules(percentage => progressReporter(66 + (percentage / 3)), username, password, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -401,12 +422,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							{
 								Prune = true,
 								OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-								OnTransferProgress = (a) =>
-								{
-									var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-									progressReporter((int)percentage);
-									return !cancellationToken.IsCancellationRequested;
-								},
+								OnTransferProgress = TransferProgressHandler(progressReporter, cancellationToken),
 								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 								CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 							},
@@ -428,7 +444,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task ResetToOrigin(Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task ResetToOrigin(string username, string password, bool updateSubmodules, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
@@ -437,7 +453,14 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogTrace("Reset to origin...");
 			var trackedBranch = libGitRepo.Head.TrackedBranch;
 			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken).ConfigureAwait(false);
-			await ResetToSha(trackedBranch.Tip.Sha, progressReporter, cancellationToken).ConfigureAwait(false);
+			await ResetToSha(
+				trackedBranch.Tip.Sha,
+				percentage => progressReporter(percentage / (updateSubmodules ? 2 : 1)),
+				cancellationToken)
+				.ConfigureAwait(false);
+
+			if (updateSubmodules)
+				await UpdateSubmodules(percentage => progressReporter(50 + (percentage / 2)), username, password, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -890,5 +913,78 @@ namespace Tgstation.Server.Host.Components.Repository
 			},
 			CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 		};
+
+		/// <summary>
+		/// Recusively update all <see cref="Submodule"/>s in the <see cref="libGitRepo"/>.
+		/// </summary>
+		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
+		/// <param name="username">The username for the <see cref="credentialsProvider"/>.</param>
+		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task UpdateSubmodules(Action<int> progressReporter, string username, string password, CancellationToken cancellationToken)
+		{
+			var submoduleCount = libGitRepo.Submodules.Count();
+			if (submoduleCount == 0)
+			{
+				logger.LogTrace("No submodules, skipping update");
+				return;
+			}
+
+			logger.LogTrace("Updating submodules with{0} credentials...", username == null ? "out" : String.Empty);
+
+			var iteration = 0;
+			var factor = 100 / submoduleCount;
+			foreach (var submodule in libGitRepo.Submodules)
+			{
+				void LocalProgressReporter(int percentage) => progressReporter((iteration * factor) + (percentage / submoduleCount));
+				var submoduleUpdateOptions = new SubmoduleUpdateOptions
+				{
+					Init = true,
+					OnTransferProgress = TransferProgressHandler(percentage => LocalProgressReporter(percentage / 2), cancellationToken),
+					OnProgress = output => !cancellationToken.IsCancellationRequested,
+					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
+					OnCheckoutProgress = CheckoutProgressHandler(percentage => LocalProgressReporter(50 + (percentage / 2))),
+				};
+
+				logger.LogDebug("Updating submodule {0}...", submodule.Name);
+				Task RawSubModuleUpdate() => Task.Factory.StartNew(
+					() => libGitRepo.Submodules.Update(submodule.Name, submoduleUpdateOptions),
+					cancellationToken,
+					DefaultIOManager.BlockingTaskCreationOptions,
+					TaskScheduler.Current);
+				try
+				{
+					await RawSubModuleUpdate().ConfigureAwait(false);
+				}
+				catch (LibGit2SharpException ex)
+				{
+					// workaround for https://github.com/libgit2/libgit2/issues/3820
+					// kill off the modules/ folder in .git and try again
+					CheckBadCredentialsException(ex);
+					logger.LogWarning(ex, "Initial update of submodule {0} failed. Deleting .git submodule directory and re-attempting...", submodule.Name);
+					await ioMananger.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken).ConfigureAwait(false);
+
+					logger.LogTrace("Second update attempt for submodule {0}...", submodule.Name);
+					try
+					{
+						await RawSubModuleUpdate().ConfigureAwait(false);
+					}
+					catch (UserCancelledException)
+					{
+						cancellationToken.ThrowIfCancellationRequested();
+					}
+					catch (LibGit2SharpException ex2)
+					{
+						CheckBadCredentialsException(ex2);
+						logger.LogTrace(ex2, "Retried update of submodule {0} failed!", submodule.Name);
+						throw new AggregateException(ex, ex2);
+					}
+				}
+
+				await eventConsumer.HandleEvent(EventType.RepoSubmoduleUpdate, new List<string> { submodule.Name }, cancellationToken).ConfigureAwait(false);
+			}
+		}
 	}
 }

@@ -43,10 +43,19 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Checks out a given <paramref name="committish"/>.
 		/// </summary>
 		/// <param name="committish">The sha or reference to checkout.</param>
+		/// <param name="username">The username used for fetching from submodule repositories.</param>
+		/// <param name="password">The password used for fetching from submodule repositories.</param>
+		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CheckoutObject(string committish, Action<int> progressReporter, CancellationToken cancellationToken);
+		Task CheckoutObject(
+			string committish,
+			string username,
+			string password,
+			bool updateSubmodules,
+			Action<int> progressReporter,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to merge the revision specified by a given set of <paramref name="testMergeParameters"/> into HEAD.
@@ -54,12 +63,21 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="testMergeParameters">The <see cref="TestMergeParameters"/> of the pull request.</param>
 		/// <param name="committerName">The name of the merge committer.</param>
 		/// <param name="committerEmail">The e-mail of the merge committer.</param>
-		/// <param name="username">The username to fetch from the origin repository.</param>
-		/// <param name="password">The password to fetch from the origin repository.</param>
+		/// <param name="username">The username used to fetch from the origin and submodule repositories.</param>
+		/// <param name="password">The password used to fetch from the origin and submodule repositories.</param>
+		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a non-fast-forward, <see langword="null"/> on a conflict.</returns>
-		Task<bool?> AddTestMerge(TestMergeParameters testMergeParameters, string committerName, string committerEmail, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken);
+		Task<bool?> AddTestMerge(
+			TestMergeParameters testMergeParameters,
+			string committerName,
+			string committerEmail,
+			string username,
+			string password,
+			bool updateSubmodules,
+			Action<int> progressReporter,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Fetch commits from the origin repository.
@@ -74,10 +92,18 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on the origin repository.
 		/// </summary>
+		/// <param name="username">The username used for fetching from submodule repositories.</param>
+		/// <param name="password">The password used for fetching from submodule repositories.</param>
+		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SHA of the new HEAD.</returns>
-		Task ResetToOrigin(Action<int> progressReporter, CancellationToken cancellationToken);
+		Task ResetToOrigin(
+			string username,
+			string password,
+			bool updateSubmodules,
+			Action<int> progressReporter,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Requires the current HEAD to be a reference. Hard resets the reference to the given sha.

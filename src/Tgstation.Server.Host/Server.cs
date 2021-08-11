@@ -80,6 +80,11 @@ namespace Tgstation.Server.Host
 		Exception propagatedException;
 
 		/// <summary>
+		/// If the server is being shut down or restarted.
+		/// </summary>
+		bool shutdownInProgress;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="Server"/> class.
 		/// </summary>
 		/// <param name="hostBuilder">The value of <see cref="hostBuilder"/>.</param>
@@ -153,9 +158,9 @@ namespace Tgstation.Server.Host
 
 			lock (restartLock)
 			{
-				if (UpdateInProgress || RestartRequested)
+				if (UpdateInProgress || shutdownInProgress)
 				{
-					logger.LogTrace("Aborted due to concurrency conflict!");
+					logger.LogDebug("Aborted update due to concurrency conflict!");
 					return false;
 				}
 
@@ -260,14 +265,14 @@ namespace Tgstation.Server.Host
 			CheckSanity(false);
 
 			lock (restartLock)
-				if (!RestartRequested)
+				if (!shutdownInProgress)
 				{
 					logger.LogTrace("Registering restart handler {0}...", handler);
 					restartHandlers.Add(handler);
 					return new RestartRegistration(() =>
 					{
 						lock (restartLock)
-							if (!RestartRequested)
+							if (!shutdownInProgress)
 								restartHandlers.Remove(handler);
 					});
 				}
@@ -277,6 +282,9 @@ namespace Tgstation.Server.Host
 
 		/// <inheritdoc />
 		public Task Restart() => Restart(null, null, true);
+
+		/// <inheritdoc />
+		public Task GracefulShutdown() => Restart(null, null, false);
 
 		/// <inheritdoc />
 		public Task Die(Exception exception) => Restart(null, exception, false);
@@ -320,28 +328,39 @@ namespace Tgstation.Server.Host
 		{
 			CheckSanity(requireWatchdog);
 
-			logger.LogTrace("Begin Restart...");
+			// if the watchdog isn't required and there's no issue, this is just a graceful shutdown
+			bool isGracefulShutdown = !requireWatchdog && exception == null;
+			logger.LogTrace(
+				"Begin {0}...",
+				isGracefulShutdown
+					? "graceful shutdown"
+					: "restart");
 
 			lock (restartLock)
 			{
-				if ((UpdateInProgress && newVersion == null) || RestartRequested)
+				if ((UpdateInProgress && newVersion == null) || shutdownInProgress)
 				{
-					logger.LogTrace("Aborted due to concurrency conflict!");
+					logger.LogTrace("Aborted restart due to concurrency conflict!");
 					return;
 				}
 
-				RestartRequested = true;
+				shutdownInProgress = true;
+				RestartRequested = !isGracefulShutdown;
 				propagatedException ??= exception;
 			}
 
 			if (exception == null)
 			{
-				logger.LogInformation("Restarting server...");
-				using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(generalConfiguration.RestartTimeout));
+				logger.LogInformation("Stopping server...");
+				using var cts = new CancellationTokenSource(
+					TimeSpan.FromMinutes(
+						isGracefulShutdown
+							? generalConfiguration.ShutdownTimeoutMinutes
+							: generalConfiguration.RestartTimeoutMinutes));
 				var cancellationToken = cts.Token;
 				var eventsTask = Task.WhenAll(
 					restartHandlers.Select(
-						x => x.HandleRestart(newVersion, cancellationToken))
+						x => x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))
 					.ToList());
 
 				logger.LogTrace("Joining restart handlers...");
@@ -351,9 +370,12 @@ namespace Tgstation.Server.Host
 				}
 				catch (OperationCanceledException ex)
 				{
-					logger.LogError(
-						ex,
-						"Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!");
+					if (isGracefulShutdown)
+						logger.LogWarning(ex, "Graceful shutdown timeout hit! Existing DreamDaemon processes will be terminated!");
+					else
+						logger.LogError(
+							ex,
+							"Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!");
 				}
 				catch (Exception e)
 				{

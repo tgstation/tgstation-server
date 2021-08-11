@@ -741,6 +741,56 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
+		/// Prompts the user to create a <see cref="ElasticsearchConfiguration"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ElasticsearchConfiguration"/>.</returns>
+		async Task<ElasticsearchConfiguration> ConfigureElasticsearch(CancellationToken cancellationToken)
+		{
+			var elasticsearchConfiguration = new ElasticsearchConfiguration();
+			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+			elasticsearchConfiguration.Enable = await PromptYesNo("Enable logging to an external ElasticSearch server? (y/n): ", cancellationToken).ConfigureAwait(false);
+
+			if (elasticsearchConfiguration.Enable)
+			{
+				do
+				{
+					await console.WriteAsync("ElasticSearch server endpoint (Include protocol and port, leave blank for http://127.0.0.1:9200): ", false, cancellationToken).ConfigureAwait(false);
+					elasticsearchConfiguration.Host = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Host))
+					{
+						break;
+					}
+				}
+				while (true);
+
+				do
+				{
+					await console.WriteAsync("Enter Elasticsearch username: ", false, cancellationToken).ConfigureAwait(false);
+					elasticsearchConfiguration.Username = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))
+					{
+						break;
+					}
+				}
+				while (true);
+
+				do
+				{
+					await console.WriteAsync("Enter password: ", false, cancellationToken).ConfigureAwait(false);
+					elasticsearchConfiguration.Password = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
+					if (!String.IsNullOrWhiteSpace(elasticsearchConfiguration.Username))
+					{
+						break;
+					}
+				}
+				while (true);
+			}
+
+			return elasticsearchConfiguration;
+		}
+
+		/// <summary>
 		/// Prompts the user to create a <see cref="ControlPanelConfiguration"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -834,6 +884,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> to save.</param>
 		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save.</param>
 		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save.</param>
+		/// <param name="elasticsearchConfiguration">The <see cref="ElasticsearchConfiguration"/> to save.</param>
 		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save.</param>
 		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/> to save.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -844,6 +895,7 @@ namespace Tgstation.Server.Host.Setup
 			DatabaseConfiguration databaseConfiguration,
 			GeneralConfiguration newGeneralConfiguration,
 			FileLoggingConfiguration fileLoggingConfiguration,
+			ElasticsearchConfiguration elasticsearchConfiguration,
 			ControlPanelConfiguration controlPanelConfiguration,
 			SwarmConfiguration swarmConfiguration,
 			CancellationToken cancellationToken)
@@ -857,6 +909,7 @@ namespace Tgstation.Server.Host.Setup
 				{ DatabaseConfiguration.Section, databaseConfiguration },
 				{ GeneralConfiguration.Section, newGeneralConfiguration },
 				{ FileLoggingConfiguration.Section, fileLoggingConfiguration },
+				{ ElasticsearchConfiguration.Section, elasticsearchConfiguration },
 				{ ControlPanelConfiguration.Section, controlPanelConfiguration },
 				{ SwarmConfiguration.Section, swarmConfiguration },
 			};
@@ -931,6 +984,8 @@ namespace Tgstation.Server.Host.Setup
 
 			var fileLoggingConfiguration = await ConfigureLogging(cancellationToken).ConfigureAwait(false);
 
+			var elasticSearchConfiguration = await ConfigureElasticsearch(cancellationToken).ConfigureAwait(false);
+
 			var controlPanelConfiguration = await ConfigureControlPanel(cancellationToken).ConfigureAwait(false);
 
 			var swarmConfiguration = await ConfigureSwarm(cancellationToken).ConfigureAwait(false);
@@ -943,6 +998,7 @@ namespace Tgstation.Server.Host.Setup
 				databaseConfiguration,
 				newGeneralConfiguration,
 				fileLoggingConfiguration,
+				elasticSearchConfiguration,
 				controlPanelConfiguration,
 				swarmConfiguration,
 				cancellationToken)

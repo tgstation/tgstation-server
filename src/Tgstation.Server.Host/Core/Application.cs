@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Core
 
 			// Set the timeout for IHostedService.StopAsync
 			services.Configure<HostOptions>(
-				opts => opts.ShutdownTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.RestartTimeout));
+				opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(postSetupServices.GeneralConfiguration.RestartTimeoutMinutes));
 
 			static LogEventLevel? ConvertSeriLogLevel(LogLevel logLevel) =>
 				logLevel switch
@@ -178,7 +178,8 @@ namespace Tgstation.Server.Host.Core
 						flushToDiskInterval: TimeSpan.FromSeconds(2),
 						rollingInterval: RollingInterval.Day,
 						rollOnFileSizeLimit: true);
-				});
+				},
+				postSetupServices.ElasticsearchConfiguration);
 
 			// configure bearer token validation
 			services
@@ -320,6 +321,8 @@ namespace Tgstation.Server.Host.Core
 				// PosixProcessFeatures also needs a IProcessExecutor for gcore
 				services.AddSingleton(x => new Lazy<IProcessExecutor>(() => x.GetRequiredService<IProcessExecutor>(), true));
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
+
+				services.AddSingleton<IHostedService, PosixSignalHandler>();
 			}
 
 			// configure component/misc services

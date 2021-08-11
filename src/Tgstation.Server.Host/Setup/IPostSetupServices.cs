@@ -29,6 +29,11 @@ namespace Tgstation.Server.Host.Setup
 		FileLoggingConfiguration FileLoggingConfiguration { get; }
 
 		/// <summary>
+		/// The <see cref="Configuration.ElasticsearchConfiguration"/>.
+		/// </summary>
+		ElasticsearchConfiguration ElasticsearchConfiguration { get; }
+
+		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/>.
 		/// </summary>
 		IPlatformIdentifier PlatformIdentifier { get; }
