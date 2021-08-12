@@ -790,4 +790,27 @@ jobs:
           asset_path: ./ServerUpdatePackage.zip
           asset_name: ServerUpdatePackage.zip
           asset_content_type: application/zip
-          
+
+  deploy-docker:
+    name: Deploy TGS (Docker)
+    needs: [deploy-tgs]
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Parse TGS version
+        shell: powershell
+        run: |
+          [XML]$versionXML = Get-Content build/Version.props
+          $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
+          echo "TGS_VERSION=$tgsVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Deploy TGS (Docker)
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: tgstation/server
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          dockerfile: build/Dockerfile
+          tags: "latest,v${{ env.TGS_VERSION }}"
