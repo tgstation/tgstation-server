@@ -1,4 +1,4 @@
-using Octokit;
+﻿using Octokit;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -329,7 +329,13 @@ namespace ReleaseNotes
 					// Create the next patch milestone
 					var nextPatchMilestoneName = $"v{version.Major}.{version.Minor}.{version.Build + 1}";
 					Console.WriteLine($"Creating milestone {nextPatchMilestoneName}...");
-					var nextPatchMilestone = await client.Issue.Milestone.Create(RepoOwner, RepoName, new NewMilestone(nextPatchMilestoneName));
+					var nextPatchMilestone = await client.Issue.Milestone.Create(
+						RepoOwner,
+						RepoName,
+						new NewMilestone(nextPatchMilestoneName)
+						{
+							Description = "Next patch version"
+						});
 
 					if (version.Build == 0)
 					{
@@ -375,7 +381,13 @@ namespace ReleaseNotes
 						// Create the next minor milestone
 						var nextMinorMilestoneName = $"v{version.Major}.{version.Minor + 1}.0";
 						Console.WriteLine($"Creating milestone {nextMinorMilestoneName}...");
-						var nextMinorMilestoneTask = client.Issue.Milestone.Create(RepoOwner, RepoName, new NewMilestone(nextMinorMilestoneName));
+						var nextMinorMilestoneTask = client.Issue.Milestone.Create(
+							RepoOwner,
+							RepoName,
+							new NewMilestone(nextMinorMilestoneName)
+							{
+								Description = "Next minor version"
+							});
 						tasks.Add(nextMinorMilestoneTask);
 
 						// Move unfinished stuff to new minor milestone
