@@ -561,6 +561,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					{
 						resolvedOutputDirectory,
 						repoOrigin.ToString(),
+						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
 					cancellationToken)
 					.ConfigureAwait(false);
@@ -588,6 +589,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 				logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
 
 				await ModifyDme(job, cancellationToken).ConfigureAwait(false);
+
+				// run precompile scripts
+				await eventConsumer.HandleEvent(
+					EventType.PreDreamMaker,
+					new List<string>
+					{
+						resolvedOutputDirectory,
+						repoOrigin.ToString(),
+						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 
 				// run compiler
 				var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
@@ -619,13 +632,22 @@ namespace Tgstation.Server.Host.Components.Deployment
 						{
 							resolvedOutputDirectory,
 							exitCode == 0 ? "1" : "0",
+							$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 						},
 						cancellationToken)
 						.ConfigureAwait(false);
 					throw;
 				}
 
-				await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { resolvedOutputDirectory }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(
+					EventType.CompileComplete,
+					new List<string>
+					{
+						resolvedOutputDirectory,
+						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 
 				logger.LogTrace("Applying static game file symlinks...");
 
