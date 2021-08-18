@@ -55,7 +55,7 @@
 		ByondActiveVersionChange,
 
 		/// <summary>
-		/// Parameters: Game directory path, origin commit sha
+		/// After the repo is copied, before CodeModifications are applied. Parameters: Game directory path, origin commit sha, byond version
 		/// </summary>
 		[EventScript("PreCompile")]
 		CompileStart,
@@ -67,13 +67,13 @@
 		CompileCancelled,
 
 		/// <summary>
-		/// Parameters: Game directory path, "1" if compile succeeded and api validation failed, "0" otherwise
+		/// Parameters: Game directory path, "1" if compile succeeded and api validation failed, "0" otherwise, BYOND version used
 		/// </summary>
 		[EventScript("CompileFailure")]
 		CompileFailure,
 
 		/// <summary>
-		/// Parameters: Game directory path
+		/// Parameters: Game directory path, BYOND version used
 		/// </summary>
 		[EventScript("PostCompile")]
 		CompileComplete,
@@ -149,5 +149,11 @@
 		/// </summary>
 		[EventScript("RepoSubmoduleUpdate")]
 		RepoSubmoduleUpdate,
+
+		/// <summary>
+		/// After CodeModifications are applied, before DreamMaker is run. Parameters: Game directory path, origin commit sha, byond version
+		/// </summary>
+		[EventScript("PreDreamMaker")]
+		PreDreamMaker,
 	}
 }
