@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,7 +17,6 @@ using Remora.Discord.Gateway.Extensions;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -51,11 +49,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="DiscordProvider"/>.
-		/// </summary>
-		readonly IAsyncDelayer asyncDelayer;
-
-		/// <summary>
 		/// The <see cref="ServiceProvider"/> containing Discord services.
 		/// </summary>
 		readonly ServiceProvider serviceProvider;
@@ -79,6 +72,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="CancellationTokenSource"/> for the <see cref="gatewayTask"/>.
 		/// </summary>
 		CancellationTokenSource gatewayCts;
+
+		/// <summary>
+		/// The <see cref="TaskCompletionSource{TResult}"/> for the initial gateway connection event.
+		/// </summary>
+		TaskCompletionSource<object> gatewayReadyTcs;
 
 		/// <summary>
 		/// The <see cref="Task"/> representing the lifetime of the client.
@@ -149,19 +147,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
 		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
 		public DiscordProvider(
 			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			IAsyncDelayer asyncDelayer,
 			ILogger<DiscordProvider> logger,
 			ChatBot chatBot)
 			: base(jobManager, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			mappedChannels = new List<ulong>();
 
@@ -580,6 +575,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
+		public Task<Result> RespondAsync(IReady readyEvent, CancellationToken cancellationToken)
+		{
+			gatewayReadyTcs?.TrySetResult(null);
+			return Task.FromResult(Result.FromSuccess());
+		}
+
+		/// <inheritdoc />
 		protected override async Task Connect(CancellationToken cancellationToken)
 		{
 			try
@@ -592,20 +594,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var gatewayCancellationToken = gatewayCts.Token;
 				var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
 
-				// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter
-				var gatewayTaskLocal = gatewayClient.RunAsync(gatewayCancellationToken);
-
-				// HACK: The gateway connection status isn't public, how 'bout we read it anyway?
-				GatewayConnectionStatus connectionStatus;
-				var connectionStatusField = gatewayClient.GetType().GetField("_connectionStatus", BindingFlags.NonPublic | BindingFlags.Instance);
-				do
+				gatewayReadyTcs = new TaskCompletionSource<object>();
+				using (cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled()))
 				{
-					await asyncDelayer.Delay(TimeSpan.FromMilliseconds(250), cancellationToken).ConfigureAwait(false);
-					connectionStatus = (GatewayConnectionStatus)connectionStatusField.GetValue(gatewayClient);
-				}
-				while (!gatewayTaskLocal.IsCompleted && connectionStatus != GatewayConnectionStatus.Connected);
+					// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter
+					gatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);
 
-				gatewayTask = gatewayTaskLocal;
+					await Task.WhenAny(gatewayReadyTcs.Task, gatewayTask).ConfigureAwait(false);
+				}
+
 				if (gatewayTask.IsCompleted)
 				{
 					await DisconnectImpl(cancellationToken).ConfigureAwait(false);
@@ -630,7 +627,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (OperationCanceledException)
 			{
-				throw;
+				if (gatewayTask != null)
+					await DisconnectImpl(default).ConfigureAwait(false); // DCT: Musn't abort
 			}
 			catch (Exception e)
 			{

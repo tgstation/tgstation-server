@@ -68,7 +68,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				ChatProvider.Discord => new DiscordProvider(
 					jobManager,
 					assemblyInformationProvider,
-					asyncDelayer,
 					loggerFactory.CreateLogger<DiscordProvider>(),
 					settings),
 				_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid ChatProvider: {0}", settings.Provider)),
