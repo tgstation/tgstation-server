@@ -1,11 +1,13 @@
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -17,6 +19,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 	{
 		ChatBot testToken1;
 		IJobManager mockJobManager;
+		IAsyncDelayer mockDel;
 
 		[TestInitialize]
 		public void Initialize()
@@ -38,6 +41,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				.Setup(x => x.WaitForJobCompletion(It.IsNotNull<Job>(), It.IsAny<User>(), It.IsAny<CancellationToken>(), It.IsAny<CancellationToken>()))
 				.Returns(Task.CompletedTask);
 			mockJobManager = mockSetup.Object;
+
+			var mockDelSetup = new Mock<IAsyncDelayer>();
+			mockDelSetup.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+			mockDel = mockDelSetup.Object;
 		}
 
 		[TestMethod]
@@ -46,13 +53,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			if (testToken1 == null)
 				Assert.Inconclusive("Required environment variable TGS4_TEST_DISCORD_TOKEN isn't set!");
 
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, null, null));
 			var mockAss = new Mock<IAssemblyInformationProvider>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockAss.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockAss.Object, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockAss.Object, mockDel, null, null));
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, mockLogger.Object, null));
-			await new DiscordProvider(mockJobManager, mockAss.Object, mockLogger.Object, testToken1).DisposeAsync();
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, mockLogger.Object, null));
+			await new DiscordProvider(mockJobManager, mockAss.Object, mockDel, mockLogger.Object, testToken1).DisposeAsync();
 		}
 
 		static Task InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (Task)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
@@ -61,7 +69,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		public async Task TestConnectWithFakeTokenFails()
 		{
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), mockLogger.Object, new ChatBot
+			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), mockDel, mockLogger.Object, new ChatBot
 			{
 				ReconnectionInterval = 1,
 				ConnectionString = "asdf"
@@ -77,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 				Assert.Inconclusive("Required environment variable TGS4_TEST_DISCORD_TOKEN isn't set!");
 
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), mockLogger.Object, testToken1);
+			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), mockDel, mockLogger.Object, testToken1);
 			Assert.IsFalse(provider.Connected);
 			await provider.Disconnect(default).ConfigureAwait(false);
 			Assert.IsFalse(provider.Connected);
