@@ -334,6 +334,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
+					.WithToken(cancellationToken)
 					.ConfigureAwait(false);
 
 				cancellationToken.ThrowIfCancellationRequested();
