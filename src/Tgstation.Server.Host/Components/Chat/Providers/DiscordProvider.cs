@@ -28,6 +28,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// <summary>
 	/// <see cref="IProvider"/> for the Discord app.
 	/// </summary>
+	#pragma warning disable CA1506
 	sealed class DiscordProvider : Provider, IDiscordResponders
 	{
 		/// <inheritdoc />
@@ -357,7 +358,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-#pragma warning disable CA1506
 		public override async Task<Func<string, string, Task>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
@@ -485,7 +485,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 			};
 		}
-		#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		public async Task<Result> RespondAsync(IMessageCreate messageCreateEvent, CancellationToken cancellationToken)
@@ -655,4 +654,5 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			gatewayCts = null;
 		}
 	}
+	#pragma warning restore CA1506
 }
