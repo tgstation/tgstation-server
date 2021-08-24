@@ -603,9 +603,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					await Task.WhenAny(gatewayReadyTcs.Task, gatewayTask).ConfigureAwait(false);
 				}
 
-				if (gatewayTask.IsCompleted)
+				if (gatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)
 				{
-					await DisconnectImpl(cancellationToken).ConfigureAwait(false);
+					// DCT: Musn't abort
+					await DisconnectImpl(default).ConfigureAwait(false);
+					cancellationToken.ThrowIfCancellationRequested();
 					throw new JobException(ErrorCode.ChatCannotConnectProvider);
 				}
 
@@ -618,8 +620,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Logger.LogWarning("Unable to retrieve current user: {0}", currentUserResult.Error.Message);
 
 					// will handle cleanup
-					await DisconnectImpl(cancellationToken).ConfigureAwait(false);
-
+					// DCT: Musn't abort
+					await DisconnectImpl(default).ConfigureAwait(false);
+					cancellationToken.ThrowIfCancellationRequested();
 					throw new JobException(ErrorCode.ChatCannotConnectProvider);
 				}
 
@@ -627,8 +630,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (OperationCanceledException)
 			{
-				if (gatewayTask != null)
-					await DisconnectImpl(default).ConfigureAwait(false); // DCT: Musn't abort
+				throw;
 			}
 			catch (Exception e)
 			{

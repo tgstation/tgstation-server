@@ -85,19 +85,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 
 			await provider.Disconnect(default).ConfigureAwait(false);
 			Assert.IsFalse(provider.Connected);
-
-			//now try it with cancellationTokens
-			using var cts = new CancellationTokenSource();
-			cts.Cancel();
-			var cancellationToken = cts.Token;
-			await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => InvokeConnect(provider, cancellationToken)).ConfigureAwait(false);
-			Assert.IsFalse(provider.Connected);
-			await InvokeConnect(provider).ConfigureAwait(false);
-			Assert.IsTrue(provider.Connected);
-			await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => provider.Disconnect(cancellationToken)).ConfigureAwait(false);
-			Assert.IsTrue(provider.Connected);
-			await provider.Disconnect(default).ConfigureAwait(false);
-			Assert.IsFalse(provider.Connected);
 		}
 	}
 }
