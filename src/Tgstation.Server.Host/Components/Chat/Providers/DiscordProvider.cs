@@ -59,6 +59,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly List<ulong> mappedChannels;
 
 		/// <summary>
+		/// Lock <see cref="object"/> used to sychronize connect/disconnect operations.
+		/// </summary>
+		readonly object connectDisconnectLock;
+
+		/// <summary>
 		/// <see cref="bool"/> to enable based mode. Will auto reply with a youtube link to a video that says "based on the hardware that's installed in it" to anyone saying 'based on what?' case-insensitive.
 		/// </summary>
 		readonly bool basedMeme;
@@ -159,6 +164,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 
 			mappedChannels = new List<ulong>();
+			connectDisconnectLock = new object();
 
 			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
 			var botToken = csb.BotToken;
@@ -586,72 +592,78 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			try
 			{
-				if (gatewayCts != null)
-					throw new InvalidOperationException("Discord gateway still active!");
+				lock (connectDisconnectLock)
+				{
+					if (gatewayCts != null)
+						throw new InvalidOperationException("Discord gateway still active!");
 
-				gatewayCts = new CancellationTokenSource();
+					gatewayCts = new CancellationTokenSource();
+				}
 
 				var gatewayCancellationToken = gatewayCts.Token;
 				var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
 
+				Task<Result> localGatewayTask;
 				gatewayReadyTcs = new TaskCompletionSource<object>();
-				using (cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled()))
+
+				using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled());
+
+				// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter
+				localGatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);
+				try
 				{
-					// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter
-					gatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);
+					await Task.WhenAny(gatewayReadyTcs.Task, localGatewayTask).ConfigureAwait(false);
 
-					await Task.WhenAny(gatewayReadyTcs.Task, gatewayTask).ConfigureAwait(false);
+					if (localGatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)
+						throw new JobException(ErrorCode.ChatCannotConnectProvider);
+
+					var userClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
+
+					using var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);
+					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token).ConfigureAwait(false);
+					if (!currentUserResult.IsSuccess)
+					{
+						Logger.LogWarning("Unable to retrieve current user: {0}", currentUserResult.Error.Message);
+						throw new JobException(ErrorCode.ChatCannotConnectProvider);
+					}
+
+					currentUserId = currentUserResult.Entity.ID;
 				}
-
-				if (gatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)
+				finally
 				{
-					// DCT: Musn't abort
-					await DisconnectImpl(default).ConfigureAwait(false);
-					cancellationToken.ThrowIfCancellationRequested();
-					throw new JobException(ErrorCode.ChatCannotConnectProvider);
+					gatewayTask = localGatewayTask;
 				}
-
-				var userClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
-
-				using var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);
-				var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token).ConfigureAwait(false);
-				if (!currentUserResult.IsSuccess)
-				{
-					Logger.LogWarning("Unable to retrieve current user: {0}", currentUserResult.Error.Message);
-
-					// will handle cleanup
-					// DCT: Musn't abort
-					await DisconnectImpl(default).ConfigureAwait(false);
-					cancellationToken.ThrowIfCancellationRequested();
-					throw new JobException(ErrorCode.ChatCannotConnectProvider);
-				}
-
-				currentUserId = currentUserResult.Entity.ID;
 			}
-			catch (OperationCanceledException)
+			catch
 			{
+				// will handle cleanup
+				// DCT: Musn't abort
+				await DisconnectImpl(default).ConfigureAwait(false);
 				throw;
-			}
-			catch (Exception e)
-			{
-				throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
 			}
 		}
 
 		/// <inheritdoc />
 		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
 		{
-			if (gatewayCts == null)
-				throw new InvalidOperationException("Discord gateway is not active!");
+			Task<Result> localGatewayTask;
+			CancellationTokenSource localGatewayCts;
+			lock (connectDisconnectLock)
+			{
+				localGatewayTask = gatewayTask;
+				localGatewayCts = gatewayCts;
+				gatewayTask = null;
+				gatewayCts = null;
+				if (localGatewayTask == null)
+					return;
+			}
 
-			gatewayCts.Cancel();
-			var gatewayResult = await gatewayTask.ConfigureAwait(false);
-			gatewayTask = null;
+			localGatewayCts.Cancel();
+			var gatewayResult = await localGatewayTask.ConfigureAwait(false);
 			if (!gatewayResult.IsSuccess)
 				Logger.LogWarning("Gateway issue: {0}", gatewayResult.Error.Message);
 
-			gatewayCts.Dispose();
-			gatewayCts = null;
+			localGatewayCts.Dispose();
 		}
 	}
 	#pragma warning restore CA1506
