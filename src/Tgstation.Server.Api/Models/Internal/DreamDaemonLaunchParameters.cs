@@ -16,6 +16,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? AllowWebClient { get; set; }
 
 		/// <summary>
+		/// The <see cref="DreamDaemonVisibility"/> level of DreamDaemon.
+		/// </summary>
+		[Required]
+		[ResponseOptions]
+		[EnumDataType(typeof(DreamDaemonVisibility))]
+		public DreamDaemonVisibility? Visibility { get; set; }
+
+		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of DreamDaemon.
 		/// </summary>
 		[Required]
@@ -70,6 +78,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool CanApplyWithoutReboot(DreamDaemonLaunchParameters otherParameters) =>
 			AllowWebClient == (otherParameters?.AllowWebClient ?? throw new ArgumentNullException(nameof(otherParameters)))
 				&& SecurityLevel == otherParameters.SecurityLevel
+				&& Visibility == otherParameters.Visibility
 				&& Port == otherParameters.Port
 				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout
 				&& AdditionalParameters == otherParameters.AdditionalParameters; // We intentionally don't check StartupTimeout or heartbeat seconds as it doesn't matter in terms of the watchdog

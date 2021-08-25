@@ -402,6 +402,7 @@ namespace Tgstation.Server.Host.Components.Session
 							ReattachInformation.RuntimeInformation.ServerVersion,
 							ReattachInformation.RuntimeInformation.InstanceName,
 							ReattachInformation.RuntimeInformation.SecurityLevel,
+							ReattachInformation.RuntimeInformation.Visibility,
 							ReattachInformation.RuntimeInformation.ServerPort,
 							ReattachInformation.RuntimeInformation.ApiValidateOnly);
 

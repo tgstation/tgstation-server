@@ -379,22 +379,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSTruncateInstanceNames);
+		internal static readonly Type MSLatestMigration = typeof(MSAddDreamDaemonVisibility);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYTruncateInstanceNames);
+		internal static readonly Type MYLatestMigration = typeof(MYAddDreamDaemonVisibility);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGTruncateInstanceNames);
+		internal static readonly Type PGLatestMigration = typeof(PGAddDreamDaemonVisibility);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddRevInfoTimestamp);
+		internal static readonly Type SLLatestMigration = typeof(SLAddDreamDaemonVisibility);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -422,6 +422,15 @@ namespace Tgstation.Server.Host.Database
 
 			// Update this with new migrations as they are made
 			string targetMigration = null;
+			if (targetVersion < new Version(4, 14, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYTruncateInstanceNames),
+					DatabaseType.PostgresSql => nameof(PGTruncateInstanceNames),
+					DatabaseType.SqlServer => nameof(MSTruncateInstanceNames),
+					DatabaseType.Sqlite => nameof(SLAddRevInfoTimestamp),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
 			if (targetVersion < new Version(4, 10, 0))
 				targetMigration = currentDatabaseType switch
 				{

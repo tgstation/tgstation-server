@@ -35,6 +35,12 @@ namespace Tgstation.Server.Host.Models
 		public DreamDaemonSecurity? LaunchSecurityLevel { get; set; }
 
 		/// <summary>
+		/// The <see cref="DreamDaemonVisibility"/> DreamDaemon was launched with.
+		/// </summary>
+		[Required]
+		public DreamDaemonVisibility? LaunchVisibility { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ReattachInformationBase"/> class.
 		/// </summary>
 		protected ReattachInformationBase()
@@ -54,6 +60,7 @@ namespace Tgstation.Server.Host.Models
 			ProcessId = copy.ProcessId;
 			RebootState = copy.RebootState;
 			LaunchSecurityLevel = copy.LaunchSecurityLevel;
+			LaunchVisibility = copy.LaunchVisibility;
 		}
 
 		/// <inheritdoc />

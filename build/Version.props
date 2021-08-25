@@ -5,7 +5,7 @@
   <PropertyGroup>
     <TgsCoreVersion>4.14.0</TgsCoreVersion>
     <TgsConfigVersion>4.0.0</TgsConfigVersion>
-    <TgsApiVersion>9.1.0</TgsApiVersion>
+    <TgsApiVersion>9.2.0</TgsApiVersion>
     <TgsApiLibraryVersion>9.1.0</TgsApiLibraryVersion>
     <TgsClientVersion>10.1.0</TgsClientVersion>
     <TgsDmapiVersion>6.0.4</TgsDmapiVersion>

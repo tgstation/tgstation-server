@@ -716,6 +716,7 @@ namespace Tgstation.Server.Host.Controllers
 					AutoStart = false,
 					Port = ddPort,
 					SecurityLevel = DreamDaemonSecurity.Safe,
+					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 60,
 					HeartbeatSeconds = 60,
 					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout,
