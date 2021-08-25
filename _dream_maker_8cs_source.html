@@ -665,162 +665,163 @@ $(function() {
 <div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;                AllowWebClient = <span class="keyword">false</span>,</div>
 <div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;                Port = portToUse,</div>
 <div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;                SecurityLevel = securityLevel,</div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;                StartupTimeout = timeout,</div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;                TopicRequestTimeout = 0, <span class="comment">// not used</span></div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;                HeartbeatSeconds = 0, <span class="comment">// not used</span></div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;            };</div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160; </div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;            job.MinimumSecurityLevel = securityLevel; <span class="comment">// needed for the TempDmbProvider</span></div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160; </div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;            <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a> validationStatus;</div>
-<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;            <span class="keyword">using</span> (var provider = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html">TemporaryDmbProvider</a>(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))</div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;            await <span class="keyword">using</span> (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, <span class="keyword">true</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
-<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;            {</div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;                var launchResult = await controller.LaunchResult.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160; </div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;                <span class="keywordflow">if</span> (launchResult.StartupTime.HasValue)</div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;                    await controller.Lifetime.WithToken(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160; </div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;                <span class="keywordflow">if</span> (!controller.Lifetime.IsCompleted)</div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;                    await controller.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160; </div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                validationStatus = controller.ApiValidationStatus;</div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160; </div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;                <span class="keywordflow">if</span> (requireValidate &amp;&amp; validationStatus == <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.NeverValidated)</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DreamMakerNeverValidated);</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160; </div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;API validation status: {0}&quot;</span>, validationStatus);</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160; </div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;                job.DMApiVersion = controller.DMApiVersion;</div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;            }</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160; </div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;            <span class="keywordflow">switch</span> (validationStatus)</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;            {</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.RequiresUltrasafe:</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;                    job.MinimumSecurityLevel = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Ultrasafe;</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.RequiresSafe:</div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;                    job.MinimumSecurityLevel = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Safe;</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.RequiresTrusted:</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;                    job.MinimumSecurityLevel = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Trusted;</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.NeverValidated:</div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;                    <span class="keywordflow">if</span> (requireValidate)</div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DreamMakerNeverValidated);</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                    job.MinimumSecurityLevel = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Ultrasafe;</div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.BadValidationRequest:</div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.Incompatible:</div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DreamMakerInvalidValidation);</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.UnaskedValidationRequest:</div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;                <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                        $<span class="stringliteral">&quot;Session controller returned unexpected ApiValidationStatus: {validationStatus}&quot;</span>);</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;            }</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        }</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160; </div>
-<div class="line"><a name="l00780"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296">  780</a></span>&#160;        async Task&lt;int&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296">RunDreamMaker</a>(<span class="keywordtype">string</span> dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)</div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;        {</div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;            <span class="keyword">using</span> var dm = processExecutor.LaunchProcess(</div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;                dreamMakerPath,</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;                ioManager.ResolvePath(</div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                    job.DirectoryName.ToString()),</div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;                $<span class="stringliteral">&quot;-clean {job.DmeName}.{DmeExtension}&quot;</span>,</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;                <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;                Visibility = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2ca30004669a0f022b39b67d21ac976c">DreamDaemonVisibility</a>.Invisible,</div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;                StartupTimeout = timeout,</div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;                TopicRequestTimeout = 0, <span class="comment">// not used</span></div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;                HeartbeatSeconds = 0, <span class="comment">// not used</span></div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;            };</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160; </div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;            job.MinimumSecurityLevel = securityLevel; <span class="comment">// needed for the TempDmbProvider</span></div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160; </div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;            <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a> validationStatus;</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;            <span class="keyword">using</span> (var provider = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html">TemporaryDmbProvider</a>(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))</div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;            await <span class="keyword">using</span> (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, <span class="keyword">true</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;            {</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;                var launchResult = await controller.LaunchResult.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160; </div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;                <span class="keywordflow">if</span> (launchResult.StartupTime.HasValue)</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;                    await controller.Lifetime.WithToken(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160; </div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;                <span class="keywordflow">if</span> (!controller.Lifetime.IsCompleted)</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;                    await controller.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160; </div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                validationStatus = controller.ApiValidationStatus;</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160; </div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                <span class="keywordflow">if</span> (requireValidate &amp;&amp; validationStatus == <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.NeverValidated)</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DreamMakerNeverValidated);</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160; </div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;API validation status: {0}&quot;</span>, validationStatus);</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160; </div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;                job.DMApiVersion = controller.DMApiVersion;</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;            }</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160; </div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;            <span class="keywordflow">switch</span> (validationStatus)</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;            {</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.RequiresUltrasafe:</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;                    job.MinimumSecurityLevel = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Ultrasafe;</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.RequiresSafe:</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;                    job.MinimumSecurityLevel = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Safe;</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.RequiresTrusted:</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                    job.MinimumSecurityLevel = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Trusted;</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.NeverValidated:</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;                    <span class="keywordflow">if</span> (requireValidate)</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DreamMakerNeverValidated);</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                    job.MinimumSecurityLevel = <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Ultrasafe;</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.BadValidationRequest:</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.Incompatible:</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DreamMakerInvalidValidation);</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a>.UnaskedValidationRequest:</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;                <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;                        $<span class="stringliteral">&quot;Session controller returned unexpected ApiValidationStatus: {validationStatus}&quot;</span>);</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;            }</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;        }</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160; </div>
+<div class="line"><a name="l00781"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296">  781</a></span>&#160;        async Task&lt;int&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296">RunDreamMaker</a>(<span class="keywordtype">string</span> dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;        {</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;            <span class="keyword">using</span> var dm = processExecutor.LaunchProcess(</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;                dreamMakerPath,</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                ioManager.ResolvePath(</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;                    job.DirectoryName.ToString()),</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;                $<span class="stringliteral">&quot;-clean {job.DmeName}.{DmeExtension}&quot;</span>,</div>
 <div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;                <span class="keyword">true</span>,</div>
-<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;                <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;            <span class="keywordtype">int</span> exitCode;</div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; dm.Terminate()))</div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;                exitCode = await dm.Lifetime.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;            cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160; </div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;DreamMaker exit code: {0}&quot;</span>, exitCode);</div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;            job.Output = await dm.GetCombinedOutput(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;            currentDreamMakerOutput = job.Output;</div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;DreamMaker output: {0}{1}&quot;</span>, Environment.NewLine, job.Output);</div>
-<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;            <span class="keywordflow">return</span> exitCode;</div>
-<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        }</div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160; </div>
-<div class="line"><a name="l00808"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa">  808</a></span>&#160;        async Task <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa">ModifyDme</a>(Models.CompileJob job, CancellationToken cancellationToken)</div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;        {</div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;            var dmeFileName = String.Join(<span class="charliteral">&#39;.&#39;</span>, job.DmeName, DmeExtension);</div>
-<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;            var dmePath = ioManager.ConcatPath(job.DirectoryName.ToString(), dmeFileName);</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;            var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);</div>
-<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160; </div>
-<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;            var dmeModificationsTask = configuration.CopyDMFilesTo(dmeFileName, ioManager.ResolvePath(job.DirectoryName.ToString()), cancellationToken);</div>
-<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160; </div>
-<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;            var dmeBytes = await dmeReadTask.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;            var dme = Encoding.UTF8.GetString(dmeBytes);</div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160; </div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;            var dmeModifications = await dmeModificationsTask.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160; </div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;            <span class="keywordflow">if</span> (dmeModifications == <span class="keyword">null</span> || dmeModifications.TotalDmeOverwrite)</div>
-<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;            {</div>
-<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;                <span class="keywordflow">if</span> (dmeModifications != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;                    logger.LogDebug(<span class="stringliteral">&quot;.dme replacement configured!&quot;</span>);</div>
-<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;                    logger.LogTrace(<span class="stringliteral">&quot;No .dme modifications required.&quot;</span>);</div>
-<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;            }</div>
-<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160; </div>
-<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;            var dmeLines = <span class="keyword">new</span> List&lt;string&gt;(dme.Split(<span class="charliteral">&#39;\n&#39;</span>, StringSplitOptions.None));</div>
-<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;            <span class="keywordflow">for</span> (var dmeLineIndex = 0; dmeLineIndex &lt; dmeLines.Count; ++dmeLineIndex)</div>
-<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;            {</div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;                var line = dmeLines[dmeLineIndex];</div>
-<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;                <span class="keywordflow">if</span> (line.Contains(<span class="stringliteral">&quot;BEGIN_INCLUDE&quot;</span>, StringComparison.Ordinal) &amp;&amp; dmeModifications.HeadIncludeLine != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;                {</div>
-<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;                    var headIncludeLineNumber = dmeLineIndex + 1;</div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;                    logger.LogDebug(</div>
-<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;                        <span class="stringliteral">&quot;Inserting HeadInclude.dm at line {0}: {1}&quot;</span>,</div>
-<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;                        headIncludeLineNumber,</div>
-<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;                        dmeModifications.HeadIncludeLine);</div>
-<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;                    dmeLines.Insert(headIncludeLineNumber, dmeModifications.HeadIncludeLine);</div>
-<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;                    ++dmeLineIndex;</div>
-<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;                }</div>
-<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (line.Contains(<span class="stringliteral">&quot;END_INCLUDE&quot;</span>, StringComparison.Ordinal) &amp;&amp; dmeModifications.TailIncludeLine != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;                {</div>
-<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;                    logger.LogDebug(</div>
-<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;                        <span class="stringliteral">&quot;Inserting TailInclude.dm at line {0}: {1}&quot;</span>,</div>
-<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;                        dmeLineIndex,</div>
-<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;                        dmeModifications.TailIncludeLine);</div>
-<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;                    dmeLines.Insert(dmeLineIndex, dmeModifications.TailIncludeLine);</div>
-<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;                }</div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;            }</div>
-<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160; </div>
-<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;            dmeBytes = Encoding.UTF8.GetBytes(String.Join(Environment.NewLine, dmeLines));</div>
-<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;            await ioManager.WriteAllBytes(dmePath, dmeBytes, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;        }</div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160; </div>
-<div class="line"><a name="l00866"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">  866</a></span>&#160;        async Task <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">CleanupFailedCompile</a>(Models.CompileJob job, <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html">IRemoteDeploymentManager</a> remoteDeploymentManager, Exception exception)</div>
-<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;        {</div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;            async Task CleanDir()</div>
-<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;            {</div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Cleaning compile directory...&quot;</span>);</div>
-<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;                var jobPath = job.DirectoryName.ToString();</div>
-<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;                <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;                {</div>
-<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;                    <span class="comment">// DCT: None available</span></div>
-<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;                    await ioManager.DeleteDirectory(jobPath, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;                }</div>
-<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;                <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;                {</div>
-<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;                    logger.LogWarning(e, <span class="stringliteral">&quot;Error cleaning up compile directory {0}!&quot;</span>, ioManager.ResolvePath(jobPath));</div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;                }</div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;            }</div>
-<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160; </div>
-<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;            <span class="comment">// DCT: None available</span></div>
-<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;            await Task.WhenAll(</div>
-<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;                CleanDir(),</div>
-<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;                remoteDeploymentManager.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a48026829d47a7fb1265e5a01791eacc6">FailDeployment</a>(</div>
-<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;                    job,</div>
-<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;                    FormatExceptionForUsers(exception),</div>
-<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;                    <span class="keywordflow">default</span>))</div>
-<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;        }</div>
-<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;    }</div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;}</div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;                <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;                <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;            <span class="keywordtype">int</span> exitCode;</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; dm.Terminate()))</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;                exitCode = await dm.Lifetime.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;            cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160; </div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;DreamMaker exit code: {0}&quot;</span>, exitCode);</div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;            job.Output = await dm.GetCombinedOutput(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;            currentDreamMakerOutput = job.Output;</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;DreamMaker output: {0}{1}&quot;</span>, Environment.NewLine, job.Output);</div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;            <span class="keywordflow">return</span> exitCode;</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;        }</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160; </div>
+<div class="line"><a name="l00809"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa">  809</a></span>&#160;        async Task <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa">ModifyDme</a>(Models.CompileJob job, CancellationToken cancellationToken)</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;        {</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;            var dmeFileName = String.Join(<span class="charliteral">&#39;.&#39;</span>, job.DmeName, DmeExtension);</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;            var dmePath = ioManager.ConcatPath(job.DirectoryName.ToString(), dmeFileName);</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;            var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160; </div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;            var dmeModificationsTask = configuration.CopyDMFilesTo(dmeFileName, ioManager.ResolvePath(job.DirectoryName.ToString()), cancellationToken);</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160; </div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;            var dmeBytes = await dmeReadTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;            var dme = Encoding.UTF8.GetString(dmeBytes);</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160; </div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;            var dmeModifications = await dmeModificationsTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160; </div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;            <span class="keywordflow">if</span> (dmeModifications == <span class="keyword">null</span> || dmeModifications.TotalDmeOverwrite)</div>
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;            {</div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;                <span class="keywordflow">if</span> (dmeModifications != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;                    logger.LogDebug(<span class="stringliteral">&quot;.dme replacement configured!&quot;</span>);</div>
+<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;                    logger.LogTrace(<span class="stringliteral">&quot;No .dme modifications required.&quot;</span>);</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;            }</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160; </div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;            var dmeLines = <span class="keyword">new</span> List&lt;string&gt;(dme.Split(<span class="charliteral">&#39;\n&#39;</span>, StringSplitOptions.None));</div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;            <span class="keywordflow">for</span> (var dmeLineIndex = 0; dmeLineIndex &lt; dmeLines.Count; ++dmeLineIndex)</div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;            {</div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;                var line = dmeLines[dmeLineIndex];</div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;                <span class="keywordflow">if</span> (line.Contains(<span class="stringliteral">&quot;BEGIN_INCLUDE&quot;</span>, StringComparison.Ordinal) &amp;&amp; dmeModifications.HeadIncludeLine != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;                {</div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;                    var headIncludeLineNumber = dmeLineIndex + 1;</div>
+<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;                    logger.LogDebug(</div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;                        <span class="stringliteral">&quot;Inserting HeadInclude.dm at line {0}: {1}&quot;</span>,</div>
+<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;                        headIncludeLineNumber,</div>
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;                        dmeModifications.HeadIncludeLine);</div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;                    dmeLines.Insert(headIncludeLineNumber, dmeModifications.HeadIncludeLine);</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;                    ++dmeLineIndex;</div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;                }</div>
+<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (line.Contains(<span class="stringliteral">&quot;END_INCLUDE&quot;</span>, StringComparison.Ordinal) &amp;&amp; dmeModifications.TailIncludeLine != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;                {</div>
+<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;                    logger.LogDebug(</div>
+<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;                        <span class="stringliteral">&quot;Inserting TailInclude.dm at line {0}: {1}&quot;</span>,</div>
+<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;                        dmeLineIndex,</div>
+<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;                        dmeModifications.TailIncludeLine);</div>
+<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;                    dmeLines.Insert(dmeLineIndex, dmeModifications.TailIncludeLine);</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;                }</div>
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;            }</div>
+<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160; </div>
+<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;            dmeBytes = Encoding.UTF8.GetBytes(String.Join(Environment.NewLine, dmeLines));</div>
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;            await ioManager.WriteAllBytes(dmePath, dmeBytes, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;        }</div>
+<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160; </div>
+<div class="line"><a name="l00867"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">  867</a></span>&#160;        async Task <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">CleanupFailedCompile</a>(Models.CompileJob job, <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html">IRemoteDeploymentManager</a> remoteDeploymentManager, Exception exception)</div>
+<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;        {</div>
+<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;            async Task CleanDir()</div>
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;            {</div>
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Cleaning compile directory...&quot;</span>);</div>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;                var jobPath = job.DirectoryName.ToString();</div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;                {</div>
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;                    <span class="comment">// DCT: None available</span></div>
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;                    await ioManager.DeleteDirectory(jobPath, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;                }</div>
+<div class="line"><a name="l00878"></a><span class="lineno">  878</span>&#160;                <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;                {</div>
+<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;                    logger.LogWarning(e, <span class="stringliteral">&quot;Error cleaning up compile directory {0}!&quot;</span>, ioManager.ResolvePath(jobPath));</div>
+<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;                }</div>
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;            }</div>
+<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160; </div>
+<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;            <span class="comment">// DCT: None available</span></div>
+<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;            await Task.WhenAll(</div>
+<div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;                CleanDir(),</div>
+<div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;                remoteDeploymentManager.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a48026829d47a7fb1265e5a01791eacc6">FailDeployment</a>(</div>
+<div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;                    job,</div>
+<div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;                    FormatExceptionForUsers(exception),</div>
+<div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;                    <span class="keywordflow">default</span>))</div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;        }</div>
+<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;    }</div>
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters</a></div><div class="ttdoc">Launch settings for DreamDaemon.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00009">DreamDaemonLaunchParameters.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html">Tgstation.Server.Api.Models.Internal.RevisionInformation</a></div><div class="ttdoc">Represents information about a current git revison.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00009">RevisionInformation.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html">Tgstation.Server.Host.Components.Deployment.DreamMaker</a></div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00029">DreamMaker.cs:30</a></div></div>
@@ -828,10 +829,10 @@ $(function() {
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a0cfc680dd4fa5908a6ae164d14530f39"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a0cfc680dd4fa5908a6ae164d14530f39">Tgstation.Server.Host.Components.Deployment.DreamMaker.repositoryManager</a></div><div class="ttdeci">readonly IRepositoryManager repositoryManager</div><div class="ttdoc">The IRepositoryManager for DreamMaker.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00079">DreamMaker.cs:79</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a0e3523b8ef4f0d5c93f108c0de792977"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a0e3523b8ef4f0d5c93f108c0de792977">Tgstation.Server.Host.Components.Deployment.DreamMaker.currentDreamMakerOutput</a></div><div class="ttdeci">string currentDreamMakerOutput</div><div class="ttdoc">Cached for currentChatCallback.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00114">DreamMaker.cs:114</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a1d5a133d669af1e14db0104b67103ccf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">Tgstation.Server.Host.Components.Deployment.DreamMaker.logger</a></div><div class="ttdeci">readonly ILogger&lt; DreamMaker &gt; logger</div><div class="ttdoc">The ILogger for DreamMaker.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00094">DreamMaker.cs:94</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a1f48709bfdc0a2d5f675a2a2862755aa"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa">Tgstation.Server.Host.Components.Deployment.DreamMaker.ModifyDme</a></div><div class="ttdeci">async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)</div><div class="ttdoc">Adds server side includes to the .dme being compiled.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00808">DreamMaker.cs:808</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a1f48709bfdc0a2d5f675a2a2862755aa"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa">Tgstation.Server.Host.Components.Deployment.DreamMaker.ModifyDme</a></div><div class="ttdeci">async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)</div><div class="ttdoc">Adds server side includes to the .dme being compiled.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00809">DreamMaker.cs:809</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a2365f1b05cb4cea83027efaea9580f83"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2365f1b05cb4cea83027efaea9580f83">Tgstation.Server.Host.Components.Deployment.DreamMaker.CalculateExpectedDeploymentTime</a></div><div class="ttdeci">async Task&lt; TimeSpan?&gt; CalculateExpectedDeploymentTime(IDatabaseContext databaseContext, CancellationToken cancellationToken)</div><div class="ttdoc">Calculate the average length of a deployment using a given databaseContext .</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00416">DreamMaker.cs:416</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a27764e420f42ca8febbfee4b62c20d71"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">Tgstation.Server.Host.Components.Deployment.DreamMaker.CleanupFailedCompile</a></div><div class="ttdeci">async Task CleanupFailedCompile(Models.CompileJob job, IRemoteDeploymentManager remoteDeploymentManager, Exception exception)</div><div class="ttdoc">Cleans up a failed compile job .</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00866">DreamMaker.cs:866</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a2c7d7d0048942b67b6c275cd4a643296"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunDreamMaker</a></div><div class="ttdeci">async Task&lt; int &gt; RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)</div><div class="ttdoc">Compiles a .dme with DreamMaker.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00780">DreamMaker.cs:780</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a27764e420f42ca8febbfee4b62c20d71"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">Tgstation.Server.Host.Components.Deployment.DreamMaker.CleanupFailedCompile</a></div><div class="ttdeci">async Task CleanupFailedCompile(Models.CompileJob job, IRemoteDeploymentManager remoteDeploymentManager, Exception exception)</div><div class="ttdoc">Cleans up a failed compile job .</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00867">DreamMaker.cs:867</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a2c7d7d0048942b67b6c275cd4a643296"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunDreamMaker</a></div><div class="ttdeci">async Task&lt; int &gt; RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)</div><div class="ttdoc">Compiles a .dme with DreamMaker.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00781">DreamMaker.cs:781</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a2fe7ecccab0b5b1be9fdda8cbf097d9b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2fe7ecccab0b5b1be9fdda8cbf097d9b">Tgstation.Server.Host.Components.Deployment.DreamMaker.configuration</a></div><div class="ttdeci">readonly StaticFiles.IConfiguration configuration</div><div class="ttdoc">The StaticFiles.IConfiguration for DreamMaker.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00054">DreamMaker.cs:54</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a320766d19959d5512097fcdc56c42fff"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a320766d19959d5512097fcdc56c42fff">Tgstation.Server.Host.Components.Deployment.DreamMaker.currentChatCallback</a></div><div class="ttdeci">Action&lt; string, string &gt; currentChatCallback</div><div class="ttdoc">The active callback from IChatManager.QueueDeploymentMessage.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00109">DreamMaker.cs:109</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a373e2cd0c56f6826367b9aebf150040f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a373e2cd0c56f6826367b9aebf150040f">Tgstation.Server.Host.Components.Deployment.DreamMaker.DmeExtension</a></div><div class="ttdeci">const string DmeExtension</div><div class="ttdoc">Extension for .dmes.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00039">DreamMaker.cs:39</a></div></div>
@@ -901,6 +902,7 @@ $(function() {
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal.html">Tgstation.Server.Api.Models.Internal</a></div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_api_base_8cs_source.html#l00005">ChatBotApiBase.cs:6</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html">Tgstation.Server.Api.Models</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00003">ChatChannel.cs:4</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a2ca30004669a0f022b39b67d21ac976c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2ca30004669a0f022b39b67d21ac976c">Tgstation.Server.Api.Models.DreamDaemonVisibility</a></div><div class="ttdeci">DreamDaemonVisibility</div><div class="ttdoc">The visibility setting for DreamDaemon.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_visibility_8cs_source.html#l00006">DreamDaemonVisibility.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ad4850e6b78816679602b13d63d2869b5"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">Tgstation.Server.Api.Models.DreamDaemonSecurity</a></div><div class="ttdeci">DreamDaemonSecurity</div><div class="ttdoc">DreamDaemon's security level.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_security_8cs_source.html#l00006">DreamDaemonSecurity.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api.html">Tgstation.Server.Api</a></div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00016">ApiHeaders.cs:17</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond.html">Tgstation.Server.Host.Components.Byond</a></div><div class="ttdef"><b>Definition:</b> <a href="_byond_executable_lock_8cs_source.html#l00009">ByondExecutableLock.cs:10</a></div></div>

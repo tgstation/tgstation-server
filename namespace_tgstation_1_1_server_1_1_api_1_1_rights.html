@@ -162,6 +162,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a598cfc66b07c2c5b69d5cc126492418a">SetTopicTimeout</a> = 16384
 , <br />
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a2608e36de9df2c73e6c9a985b922e887">SetAdditionalParameters</a> = 32768
+, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49afcc63631fc1b43b552848a80c52116d4">SetVisibility</a> = 65536
 <br />
  }</td></tr>
 <tr class="memdesc:acf2642afce6567c03b79876139a10a49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for managing DreamDaemon.  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49">More...</a><br /></td></tr>
@@ -570,6 +571,8 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="acf2642afce6567c03b79876139a10a49a2608e36de9df2c73e6c9a985b922e887"></a>SetAdditionalParameters&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16" title="Parameters string for DreamDaemon.">Models.Internal.DreamDaemonLaunchParameters.AdditionalParameters</a>. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="acf2642afce6567c03b79876139a10a49afcc63631fc1b43b552848a80c52116d4"></a>SetVisibility&#160;</td><td class="fielddoc"><p>User set <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a08f11d77340868a0c8f2e1af89c7affe" title="The DreamDaemonVisibility level of DreamDaemon.">Models.Internal.DreamDaemonLaunchParameters.Visibility</a> </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="_dream_daemon_rights_8cs_source.html#l00009">9</a> of file <a class="el" href="_dream_daemon_rights_8cs_source.html">DreamDaemonRights.cs</a>.</p>
@@ -607,7 +610,9 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a598cfc66b07c2c5b69d5cc126492418a">SetTopicTimeout</a> = 16384,</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a2608e36de9df2c73e6c9a985b922e887">SetAdditionalParameters</a> = 32768,</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49afcc63631fc1b43b552848a80c52116d4">SetVisibility</a> = 65536,</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49a14e9adc4994501d29b832109c5a7f14b"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a14e9adc4994501d29b832109c5a7f14b">Tgstation.Server.Api.Rights.DreamDaemonRights.CreateDump</a></div><div class="ttdeci">@ CreateDump</div><div class="ttdoc">User can create DreamDaemon process dumps.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49a1a4ebb180ba59b067782515ffee6e975"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a1a4ebb180ba59b067782515ffee6e975">Tgstation.Server.Api.Rights.DreamDaemonRights.Shutdown</a></div><div class="ttdeci">@ Shutdown</div><div class="ttdoc">User can immediately shutdown the Watchdog.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49a2608e36de9df2c73e6c9a985b922e887"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a2608e36de9df2c73e6c9a985b922e887">Tgstation.Server.Api.Rights.DreamDaemonRights.SetAdditionalParameters</a></div><div class="ttdeci">@ SetAdditionalParameters</div><div class="ttdoc">User can change Models.Internal.DreamDaemonLaunchParameters.AdditionalParameters.</div></div>
@@ -624,6 +629,7 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49ae34541119c09d49ca1ba51be76c98aa1"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ae34541119c09d49ca1ba51be76c98aa1">Tgstation.Server.Api.Rights.DreamDaemonRights.SetStartupTimeout</a></div><div class="ttdeci">@ SetStartupTimeout</div><div class="ttdoc">User can change Models.Internal.DreamDaemonLaunchParameters.StartupTimeout</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49ae49f7f612746455ed28b92600f4d973c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ae49f7f612746455ed28b92600f4d973c">Tgstation.Server.Api.Rights.DreamDaemonRights.ReadRevision</a></div><div class="ttdeci">@ ReadRevision</div><div class="ttdoc">User can read Models.Response.DreamDaemonResponse.ActiveCompileJob and Models.Response....</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49ae814f60fe597531f5630e0aef1adea94"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ae814f60fe597531f5630e0aef1adea94">Tgstation.Server.Api.Rights.DreamDaemonRights.SoftShutdown</a></div><div class="ttdeci">@ SoftShutdown</div><div class="ttdoc">User can change Models.Internal.DreamDaemonApiBase.SoftShutdown.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49afcc63631fc1b43b552848a80c52116d4"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49afcc63631fc1b43b552848a80c52116d4">Tgstation.Server.Api.Rights.DreamDaemonRights.SetVisibility</a></div><div class="ttdeci">@ SetVisibility</div><div class="ttdoc">User set Models.Internal.DreamDaemonLaunchParameters.Visibility</div></div>
 </div><!-- fragment -->
 </div>
 </div>
