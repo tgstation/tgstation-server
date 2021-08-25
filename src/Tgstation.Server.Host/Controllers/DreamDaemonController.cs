@@ -144,7 +144,9 @@ namespace Tgstation.Server.Host.Controllers
 			| DreamDaemonRights.Start
 			| DreamDaemonRights.SetStartupTimeout
 			| DreamDaemonRights.SetHeartbeatInterval
-			| DreamDaemonRights.SetTopicTimeout)]
+			| DreamDaemonRights.SetTopicTimeout
+			| DreamDaemonRights.SetAdditionalParameters
+			| DreamDaemonRights.SetVisibility)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
@@ -210,6 +212,7 @@ namespace Tgstation.Server.Host.Controllers
 						|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
 						|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
 						|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
+						|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
 						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
 						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
@@ -341,11 +344,13 @@ namespace Tgstation.Server.Host.Controllers
 					result.AutoStart = settings.AutoStart.Value;
 					result.CurrentPort = llp?.Port.Value;
 					result.CurrentSecurity = llp?.SecurityLevel.Value;
+					result.CurrentVisibility = llp?.Visibility.Value;
 					result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
 					result.Port = settings.Port.Value;
 					result.AllowWebClient = settings.AllowWebClient.Value;
 					result.Status = dd.Status;
 					result.SecurityLevel = settings.SecurityLevel.Value;
+					result.Visibility = settings.Visibility.Value;
 					result.SoftRestart = rstate == RebootState.Restart;
 					result.SoftShutdown = rstate == RebootState.Shutdown;
 					result.StartupTimeout = settings.StartupTimeout.Value;

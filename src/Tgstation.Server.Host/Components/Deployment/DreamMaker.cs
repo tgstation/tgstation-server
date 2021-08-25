@@ -715,6 +715,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				AllowWebClient = false,
 				Port = portToUse,
 				SecurityLevel = securityLevel,
+				Visibility = DreamDaemonVisibility.Invisible,
 				StartupTimeout = timeout,
 				TopicRequestTimeout = 0, // not used
 				HeartbeatSeconds = 0, // not used

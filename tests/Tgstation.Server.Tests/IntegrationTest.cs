@@ -739,6 +739,7 @@ namespace Tgstation.Server.Tests
 					HeartbeatSeconds = 0,
 					Port = 1447,
 					SecurityLevel = DreamDaemonSecurity.Safe,
+					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 1000,
 					TopicRequestTimeout = 1000,
 					AdditionalParameters = String.Empty,

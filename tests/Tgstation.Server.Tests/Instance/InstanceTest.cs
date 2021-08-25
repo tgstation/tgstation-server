@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +24,7 @@ namespace Tgstation.Server.Tests.Instance
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
-			var dmTest = new DeploymentTest(instanceClient.DreamMaker, instanceClient.DreamDaemon, instanceClient.Jobs);
+			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs);
 
 			var byondTests = byondTest.Run(cancellationToken);
 			var repoTests = repoTest.RunPreWatchdog(cancellationToken);

@@ -29,11 +29,18 @@ namespace Tgstation.Server.Api.Models.Response
 		public WatchdogStatus? Status { get; set; }
 
 		/// <summary>
-		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemonResponse"/>. May be downgraded due to requirements of <see cref="ActiveCompileJob"/>.
+		/// The current <see cref="DreamDaemonSecurity"/>. May be upgraded. due to requirements of <see cref="ActiveCompileJob"/>.
 		/// </summary>
 		[EnumDataType(typeof(DreamDaemonSecurity))]
 		[ResponseOptions]
 		public DreamDaemonSecurity? CurrentSecurity { get; set; }
+
+		/// <summary>
+		/// The current <see cref="DreamDaemonVisibility"/>.
+		/// </summary>
+		[EnumDataType(typeof(DreamDaemonVisibility))]
+		[ResponseOptions]
+		public DreamDaemonVisibility? CurrentVisibility { get; set; }
 
 		/// <summary>
 		/// The port the running <see cref="DreamDaemonResponse"/> instance is set to.
