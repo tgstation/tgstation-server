@@ -369,18 +369,12 @@ namespace Tgstation.Server.Host.IO
 					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false); // save on createdir calls
 
 				var tasks = new List<Task>();
-
-				await dir.EnumerateFiles()
-					.ToAsyncEnumerable()
-					.ForEachAsync(
-					fileInfo =>
-					{
-						if (ignore != null && ignore.Contains(fileInfo.Name))
-							return;
-						tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
-					},
-					cancellationToken)
-					.ConfigureAwait(false);
+				foreach (var fileInfo in dir.EnumerateFiles())
+				{
+					if (ignore != null && ignore.Contains(fileInfo.Name))
+						return;
+					tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
+				}
 
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 			}

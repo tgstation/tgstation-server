@@ -761,7 +761,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					{
 						messageTasks.Remove(undisposedMessageTaskKvp.Key);
 						if (undisposedMessageTaskKvp.Value.IsCompleted)
-							(await undisposedMessageTaskKvp.Value.ConfigureAwait(false))?.Context?.Dispose();
+							await undisposedMessageTaskKvp.Value.ConfigureAwait(false);
 					}
 
 					// add new ones
@@ -786,7 +786,6 @@ namespace Tgstation.Server.Host.Components.Chat
 					foreach (var completedMessageTaskKvp in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
 						var message = await completedMessageTaskKvp.Value.ConfigureAwait(false);
-						using var messageContext = message?.Context;
 						var messageNumber = Interlocked.Increment(ref messagesProcessed);
 						using (LogContext.PushProperty("ChatMessage", messageNumber))
 							await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);

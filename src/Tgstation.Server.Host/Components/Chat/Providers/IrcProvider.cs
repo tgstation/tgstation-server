@@ -329,7 +329,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			cancellationToken.ThrowIfCancellationRequested();
 			try
 			{
-				client.Connect(address, port);
+				await Task.Factory.StartNew(
+					() => client.Connect(address, port),
+					cancellationToken,
+					DefaultIOManager.BlockingTaskCreationOptions,
+					TaskScheduler.Current)
+					.WithToken(cancellationToken)
+					.ConfigureAwait(false);
 
 				cancellationToken.ThrowIfCancellationRequested();
 
