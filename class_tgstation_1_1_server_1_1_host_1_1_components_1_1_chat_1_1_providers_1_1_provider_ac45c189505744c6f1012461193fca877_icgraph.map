@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage">
-<area shape="rect" id="node1" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="615,39,879,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a942b5d525b0855ff6c8b59e0d5f6e7eb" title="Handle an IRC message." alt="" coords="296,5,567,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="297,71,566,112"/>
+<area shape="rect" id="node1" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="636,71,900,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a942b5d525b0855ff6c8b59e0d5f6e7eb" title="Handle an IRC message." alt="" coords="307,5,577,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="307,71,577,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a872088a29856f7afc8fca05c361e2950" title=" " alt="" coords="296,136,588,177"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect." alt="" coords="5,63,248,119"/>
 </map>

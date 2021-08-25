@@ -392,26 +392,20 @@ $(function() {
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                    await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3">CreateDirectory</a>(dest, cancellationToken).ConfigureAwait(<span class="keyword">false</span>); <span class="comment">// save on createdir calls</span></div>
 <div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
 <div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                var tasks = <span class="keyword">new</span> List&lt;Task&gt;();</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                await dir.EnumerateFiles()</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                    .ToAsyncEnumerable()</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                    .ForEachAsync(</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                    fileInfo =&gt;</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                    {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                        <span class="keywordflow">if</span> (ignore != <span class="keyword">null</span> &amp;&amp; ignore.Contains(fileInfo.Name))</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                            <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                        tasks.Add(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb">CopyFile</a>(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                    },</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                    cancellationToken)</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                    .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            }</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            yield <span class="keywordflow">return</span> CopyThisDirectory();</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        }</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    }</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;}</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                <span class="keywordflow">foreach</span> (var fileInfo <span class="keywordflow">in</span> dir.EnumerateFiles())</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                {</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                    <span class="keywordflow">if</span> (ignore != <span class="keyword">null</span> &amp;&amp; ignore.Contains(fileInfo.Name))</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                    tasks.Add(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb">CopyFile</a>(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                }</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;            }</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160; </div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            yield <span class="keywordflow">return</span> CopyThisDirectory();</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        }</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    }</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;}</div>
 <div class="ttc" id="aclass_stream_html"><div class="ttname"><a href="class_stream.html">Stream</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">Tgstation.Server.Host.IO.DefaultIOManager</a></div><div class="ttdoc">IIOManager that resolves paths to Environment.CurrentDirectory.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00015">DefaultIOManager.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a1c0202582bb5f80ba212bf7cceb2bd6d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a1c0202582bb5f80ba212bf7cceb2bd6d">Tgstation.Server.Host.IO.DefaultIOManager.DeleteDirectory</a></div><div class="ttdeci">Task DeleteDirectory(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Recursively delete a directory, removes and does not enter any symlinks encounterd.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00114">DefaultIOManager.cs:114</a></div></div>

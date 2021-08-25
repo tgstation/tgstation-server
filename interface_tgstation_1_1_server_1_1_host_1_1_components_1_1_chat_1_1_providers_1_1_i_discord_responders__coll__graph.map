@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.IDiscordResponders" name="Tgstation.Server.Host.Components.Chat.Providers.IDiscordResponders">
+<area shape="rect" id="node1" title="Combined interface for the IResponder types used by TGS." alt="" coords="96,80,323,121"/>
+<area shape="rect" id="node2" href="$class_i_responder.html" title=" " alt="" coords="5,5,211,32"/>
+<area shape="rect" id="node3" href="$class_i_responder.html" title=" " alt="" coords="235,5,386,32"/>
+</map>
