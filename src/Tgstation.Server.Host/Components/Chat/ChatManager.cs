@@ -752,6 +752,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			logger.LogTrace("Starting processing loop...");
 			var messageTasks = new Dictionary<IProvider, Task<Message>>();
+			Task activeProcessingTask = Task.CompletedTask;
 			try
 			{
 				Task updatedTask = null;
@@ -785,8 +786,17 @@ namespace Tgstation.Server.Host.Components.Chat
 					{
 						var message = await completedMessageTaskKvp.Value.ConfigureAwait(false);
 						var messageNumber = Interlocked.Increment(ref messagesProcessed);
-						using (LogContext.PushProperty("ChatMessage", messageNumber))
+
+						async Task WrapProcessMessage()
+						{
+							var localActiveProcessingTask = activeProcessingTask;
 							await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
+							await localActiveProcessingTask.ConfigureAwait(false);
+						}
+
+						using (LogContext.PushProperty("ChatMessage", messageNumber))
+							activeProcessingTask = WrapProcessMessage();
+
 						messageTasks.Remove(completedMessageTaskKvp.Key);
 					}
 				}
@@ -798,6 +808,10 @@ namespace Tgstation.Server.Host.Components.Chat
 			catch (Exception e)
 			{
 				logger.LogError(e, "Message loop crashed!");
+			}
+			finally
+			{
+				await activeProcessingTask.ConfigureAwait(false);
 			}
 
 			logger.LogTrace("Leaving message processing loop");
