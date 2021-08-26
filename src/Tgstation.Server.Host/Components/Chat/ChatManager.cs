@@ -772,7 +772,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					if (messageTasks.Count == 0)
 					{
-						await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+						await asyncDelayer.Delay(TimeSpan.FromMilliseconds(250), cancellationToken).ConfigureAwait(false);
 						continue;
 					}
 
