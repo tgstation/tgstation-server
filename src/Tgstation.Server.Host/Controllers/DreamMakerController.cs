@@ -171,7 +171,8 @@ namespace Tgstation.Server.Host.Controllers
 			DreamMakerRights.SetDme
 			| DreamMakerRights.SetApiValidationPort
 			| DreamMakerRights.SetSecurityLevel
-			| DreamMakerRights.SetApiValidationRequirement)]
+			| DreamMakerRights.SetApiValidationRequirement
+			| DreamMakerRights.SetTimeout)]
 		[ProducesResponseType(typeof(DreamMakerResponse), 200)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
@@ -234,6 +235,13 @@ namespace Tgstation.Server.Host.Controllers
 				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationRequirement))
 					return Forbid();
 				hostModel.RequireDMApiValidation = model.RequireDMApiValidation;
+			}
+
+			if (model.Timeout.HasValue)
+			{
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetTimeout))
+					return Forbid();
+				hostModel.Timeout = model.Timeout;
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);

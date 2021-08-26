@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -32,5 +33,11 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		public bool? RequireDMApiValidation { get; set; }
+
+		/// <summary>
+		/// Amount of time before an in-progress deployment is cancelled.
+		/// </summary>
+		[Required]
+		public TimeSpan? Timeout { get; set; }
 	}
 }

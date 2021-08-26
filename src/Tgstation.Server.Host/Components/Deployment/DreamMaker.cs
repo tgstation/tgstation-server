@@ -495,15 +495,29 @@ namespace Tgstation.Server.Host.Components.Deployment
 					cancellationToken)
 					.ConfigureAwait(false);
 
-				await RunCompileJob(
-					job,
-					dreamMakerSettings,
-					byondLock,
-					repository,
-					remoteDeploymentManager,
-					apiValidateTimeout,
-					cancellationToken)
-					.ConfigureAwait(false);
+				logger.LogTrace("Deployment will timeout at {0}", DateTimeOffset.Now + dreamMakerSettings.Timeout.Value);
+				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout.Value);
+				var timeoutToken = timeoutTokenSource.Token;
+				using (timeoutToken.Register(() => logger.LogWarning("Deployment timed out!")))
+				{
+					using var combinedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(timeoutToken, cancellationToken);
+					try
+					{
+						await RunCompileJob(
+							job,
+							dreamMakerSettings,
+							byondLock,
+							repository,
+							remoteDeploymentManager,
+							apiValidateTimeout,
+							combinedTokenSource.Token)
+							.ConfigureAwait(false);
+					}
+					catch (OperationCanceledException) when (timeoutToken.IsCancellationRequested)
+					{
+						throw new JobException(ErrorCode.DeploymentTimeout);
+					}
+				}
 
 				return job;
 			}

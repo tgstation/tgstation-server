@@ -536,14 +536,23 @@ namespace Tgstation.Server.Tests.Instance
 			{
 				ApiValidationSecurityLevel = deploymentSecurity,
 				ProjectName = $"tests/DMAPI/{dmeName}",
-				RequireDMApiValidation = requireApi
+				RequireDMApiValidation = requireApi,
+				Timeout = TimeSpan.FromMilliseconds(1),
 			}, cancellationToken);
 
 			Assert.AreEqual(deploymentSecurity, refreshed.ApiValidationSecurityLevel);
 			Assert.AreEqual(requireApi, refreshed.RequireDMApiValidation);
+			Assert.AreEqual(TimeSpan.FromMilliseconds(1), refreshed.Timeout);
 
 			var compileJobJob = await instanceClient.DreamMaker.Compile(cancellationToken);
 
+			await WaitForJob(compileJobJob, 90, true, ErrorCode.DeploymentTimeout, cancellationToken);
+			await instanceClient.DreamMaker.Update(new DreamMakerRequest
+			{
+				Timeout = TimeSpan.FromMinutes(5),
+			}, cancellationToken);
+
+			compileJobJob = await instanceClient.DreamMaker.Compile(cancellationToken);
 			await WaitForJob(compileJobJob, 90, false, null, cancellationToken);
 
 			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
