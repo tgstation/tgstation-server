@@ -757,17 +757,14 @@ namespace Tgstation.Server.Host.Components.Chat
 				while (!cancellationToken.IsCancellationRequested)
 				{
 					// prune disconnected providers
-					foreach (var undisposedMessageTaskKvp in messageTasks.Where(x => !x.Key.Disposed).ToList())
-					{
-						messageTasks.Remove(undisposedMessageTaskKvp.Key);
-						if (undisposedMessageTaskKvp.Value.IsCompleted)
-							await undisposedMessageTaskKvp.Value.ConfigureAwait(false);
-					}
+					foreach (var disposedProviderMessageTaskKvp in messageTasks.Where(x => x.Key.Disposed).ToList())
+						messageTasks.Remove(disposedProviderMessageTaskKvp.Key);
 
 					// add new ones
 					Task updatedTask;
 					lock (synchronizationLock)
 						updatedTask = connectionsUpdated.Task;
+
 					lock (providers)
 						foreach (var providerKvp in providers)
 							if (!messageTasks.ContainsKey(providerKvp.Value))
