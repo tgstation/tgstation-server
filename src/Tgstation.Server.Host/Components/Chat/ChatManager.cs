@@ -754,17 +754,18 @@ namespace Tgstation.Server.Host.Components.Chat
 			var messageTasks = new Dictionary<IProvider, Task<Message>>();
 			try
 			{
+				Task updatedTask = null;
 				while (!cancellationToken.IsCancellationRequested)
 				{
+					if (updatedTask?.IsCompleted != false)
+						lock (synchronizationLock)
+							updatedTask = connectionsUpdated.Task;
+
 					// prune disconnected providers
 					foreach (var disposedProviderMessageTaskKvp in messageTasks.Where(x => x.Key.Disposed).ToList())
 						messageTasks.Remove(disposedProviderMessageTaskKvp.Key);
 
 					// add new ones
-					Task updatedTask;
-					lock (synchronizationLock)
-						updatedTask = connectionsUpdated.Task;
-
 					lock (providers)
 						foreach (var providerKvp in providers)
 							if (!messageTasks.ContainsKey(providerKvp.Value))
@@ -772,7 +773,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					if (messageTasks.Count == 0)
 					{
-						await asyncDelayer.Delay(TimeSpan.FromMilliseconds(250), cancellationToken).ConfigureAwait(false);
+						await updatedTask.WithToken(cancellationToken).ConfigureAwait(false);
 						continue;
 					}
 
