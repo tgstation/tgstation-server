@@ -434,24 +434,24 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00848">848</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;        {</div>
-<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;            async Task Wrap(Task originalTask)</div>
-<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;            {</div>
-<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;                await originalTask.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;                <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;                {</div>
-<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;                    await task.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;                }</div>
-<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;                {</div>
-<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error in asynchronous chat message!&quot;</span>);</div>
-<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;                }</div>
-<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;            }</div>
-<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160; </div>
-<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;            lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981">handlerCts</a>)</div>
-<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8537715fb809f78e49b1497bcd82849e">messageSendTask</a> = Wrap(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8537715fb809f78e49b1497bcd82849e">messageSendTask</a>);</div>
-<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00860">860</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;        {</div>
+<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;            async Task Wrap(Task originalTask)</div>
+<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;            {</div>
+<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;                await originalTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;                {</div>
+<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;                    await task.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;                }</div>
+<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;                {</div>
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error in asynchronous chat message!&quot;</span>);</div>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;                }</div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;            }</div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160; </div>
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;            lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981">handlerCts</a>)</div>
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8537715fb809f78e49b1497bcd82849e">messageSendTask</a> = Wrap(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8537715fb809f78e49b1497bcd82849e">messageSendTask</a>);</div>
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00334">Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessage()</a>.</p>
 <div class="dynheader">
@@ -880,7 +880,7 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160; </div>
 <div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(message, wdChannels, cancellationToken);</div>
 <div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ae07221cd9d0d39ce4a0bb1453a221027"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage</a></div><div class="ttdeci">Task SendMessage(string message, IEnumerable&lt; ulong &gt; channelIds, CancellationToken cancellationToken)</div><div class="ttdoc">Asynchronously send a given message  to a set of channelIds .</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00815">ChatManager.cs:815</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ae07221cd9d0d39ce4a0bb1453a221027"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage</a></div><div class="ttdeci">Task SendMessage(string message, IEnumerable&lt; ulong &gt; channelIds, CancellationToken cancellationToken)</div><div class="ttdoc">Asynchronously send a given message  to a set of channelIds .</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00827">ChatManager.cs:827</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -910,11 +910,11 @@ Here is the call graph for this function:</div>
 <p>Aggregate all IProvider.InitialConnectionJobs into one &lt;sse cref="Task"&gt;. </p>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00838">838</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;        {</div>
-<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;            await Task.WhenAll(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>.Select(x =&gt; x.Value.InitialConnectionJob)).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Initial provider connection task completed&quot;</span>);</div>
-<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00850">850</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;        {</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;            await Task.WhenAll(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>.Select(x =&gt; x.Value.InitialConnectionJob)).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Initial provider connection task completed&quot;</span>);</div>
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -955,61 +955,72 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        {</div>
 <div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting processing loop...&quot;</span>);</div>
 <div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;            var messageTasks = <span class="keyword">new</span> Dictionary&lt;IProvider, Task&lt;Message&gt;&gt;();</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;            <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;            {</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                <span class="keywordflow">while</span> (!cancellationToken.IsCancellationRequested)</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;                {</div>
-<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;                    <span class="comment">// prune disconnected providers</span></div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;                    <span class="keywordflow">foreach</span> (var undisposedMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; !x.Key.Disposed).ToList())</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                    {</div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                        messageTasks.Remove(undisposedMessageTaskKvp.Key);</div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                        <span class="keywordflow">if</span> (undisposedMessageTaskKvp.Value.IsCompleted)</div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                            await undisposedMessageTaskKvp.Value.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                    }</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160; </div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;                    <span class="comment">// add new ones</span></div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;                    Task updatedTask;</div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                    lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a1ac2daf67a09f128290588a5181c88ba">synchronizationLock</a>)</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;                        updatedTask = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a179b0d01333a267410199e524601dc84">connectionsUpdated</a>.Task;</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;                    lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>)</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                        <span class="keywordflow">foreach</span> (var providerKvp <span class="keywordflow">in</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>)</div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;                            <span class="keywordflow">if</span> (!messageTasks.ContainsKey(providerKvp.Value))</div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;                                messageTasks.Add(providerKvp.Value, providerKvp.Value.NextMessage(cancellationToken));</div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160; </div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;                    <span class="keywordflow">if</span> (messageTasks.Count == 0)</div>
-<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                    {</div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;                        await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a50f199a025fe456b6bb63c9eaa18a07a">asyncDelayer</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6">Delay</a>(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;                    }</div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160; </div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;                    <span class="comment">// wait for a message</span></div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;                    await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x =&gt; x.Value))).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160; </div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                    <span class="comment">// process completed ones</span></div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;                    <span class="keywordflow">foreach</span> (var completedMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; x.Value.IsCompleted).ToList())</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;                    {</div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;                        var message = await completedMessageTaskKvp.Value.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;                        var messageNumber = Interlocked.Increment(ref <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0f90df8e6ed21489cc4b57f690f41c7e">messagesProcessed</a>);</div>
-<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;                        <span class="keyword">using</span> (LogContext.PushProperty(<span class="stringliteral">&quot;ChatMessage&quot;</span>, messageNumber))</div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;                            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c">ProcessMessage</a>(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;                        messageTasks.Remove(completedMessageTaskKvp.Key);</div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;                    }</div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;                }</div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;            }</div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;            {</div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Message processing loop cancelled!&quot;</span>);</div>
-<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;            }</div>
-<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;            {</div>
-<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogError(e, <span class="stringliteral">&quot;Message loop crashed!&quot;</span>);</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;            Task activeProcessingTask = Task.CompletedTask;</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;            <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;            {</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;                Task updatedTask = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;                <span class="keywordflow">while</span> (!cancellationToken.IsCancellationRequested)</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;                {</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                    <span class="keywordflow">if</span> (updatedTask?.IsCompleted != <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                        lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a1ac2daf67a09f128290588a5181c88ba">synchronizationLock</a>)</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                            updatedTask = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a179b0d01333a267410199e524601dc84">connectionsUpdated</a>.Task;</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160; </div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                    <span class="comment">// prune disconnected providers</span></div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;                    <span class="keywordflow">foreach</span> (var disposedProviderMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; x.Key.Disposed).ToList())</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;                        messageTasks.Remove(disposedProviderMessageTaskKvp.Key);</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160; </div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                    <span class="comment">// add new ones</span></div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;                    lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>)</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;                        <span class="keywordflow">foreach</span> (var providerKvp <span class="keywordflow">in</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>)</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                            <span class="keywordflow">if</span> (!messageTasks.ContainsKey(providerKvp.Value))</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;                                messageTasks.Add(providerKvp.Value, providerKvp.Value.NextMessage(cancellationToken));</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160; </div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;                    <span class="keywordflow">if</span> (messageTasks.Count == 0)</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;                    {</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                        await updatedTask.WithToken(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;                    }</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160; </div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;                    <span class="comment">// wait for a message</span></div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;                    await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x =&gt; x.Value))).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160; </div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;                    <span class="comment">// process completed ones</span></div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                    <span class="keywordflow">foreach</span> (var completedMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; x.Value.IsCompleted).ToList())</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;                    {</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;                        var message = await completedMessageTaskKvp.Value.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;                        var messageNumber = Interlocked.Increment(ref <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0f90df8e6ed21489cc4b57f690f41c7e">messagesProcessed</a>);</div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160; </div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;                        async Task WrapProcessMessage()</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;                        {</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;                            var localActiveProcessingTask = activeProcessingTask;</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;                            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c">ProcessMessage</a>(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;                            await localActiveProcessingTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;                        }</div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160; </div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;                        <span class="keyword">using</span> (LogContext.PushProperty(<span class="stringliteral">&quot;ChatMessage&quot;</span>, messageNumber))</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;                            activeProcessingTask = WrapProcessMessage();</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160; </div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;                        messageTasks.Remove(completedMessageTaskKvp.Key);</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;                    }</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;                }</div>
 <div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;            }</div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160; </div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Leaving message processing loop&quot;</span>);</div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;        }</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;            {</div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Message processing loop cancelled!&quot;</span>);</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;            }</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;            {</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogError(e, <span class="stringliteral">&quot;Message loop crashed!&quot;</span>);</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;            }</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;            <span class="keywordflow">finally</span></div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;            {</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;                await activeProcessingTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;            }</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160; </div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Leaving message processing loop&quot;</span>);</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a0f90df8e6ed21489cc4b57f690f41c7e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0f90df8e6ed21489cc4b57f690f41c7e">Tgstation.Server.Host.Components.Chat.ChatManager.messagesProcessed</a></div><div class="ttdeci">long messagesProcessed</div><div class="ttdoc">The number of Messages processed.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00134">ChatManager.cs:134</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a13d3a724fb03c4546b7af6162336809c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage</a></div><div class="ttdeci">async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)</div><div class="ttdoc">Processes a message .</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00576">ChatManager.cs:576</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer_html_afab931ac159bc999fee1e7eda917c7d6"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6">Tgstation.Server.Host.Core.IAsyncDelayer.Delay</a></div><div class="ttdeci">Task Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan .</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1361,7 +1372,7 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                            errorMessage,</div>
 <div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                            dreamMakerOutput))));</div>
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ab21f39aa8eb74bc4269aa37b378cf85c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c">Tgstation.Server.Host.Components.Chat.ChatManager.AddMessageTask</a></div><div class="ttdeci">void AddMessageTask(Task task)</div><div class="ttdoc">Adds a given task  to messageSendTask.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00848">ChatManager.cs:848</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ab21f39aa8eb74bc4269aa37b378cf85c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c">Tgstation.Server.Host.Components.Chat.ChatManager.AddMessageTask</a></div><div class="ttdeci">void AddMessageTask(Task task)</div><div class="ttdoc">Adds a given task  to messageSendTask.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00860">ChatManager.cs:860</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_chat_manager_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.ChatManager.logger</a>, and <a class="el" href="_chat_manager_8cs_source.html#l00079">Tgstation.Server.Host.Components.Chat.ChatManager.mappedChannels</a>.</p>
 
@@ -1408,7 +1419,7 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c">AddMessageTask</a>(task);</div>
 <div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_chat_manager_8cs_source.html#l00848">Tgstation.Server.Host.Components.Chat.ChatManager.AddMessageTask()</a>, <a class="el" href="_chat_manager_8cs_source.html#l00089">Tgstation.Server.Host.Components.Chat.ChatManager.handlerCts</a>, and <a class="el" href="_chat_manager_8cs_source.html#l00815">Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage()</a>.</p>
+<p class="reference">References <a class="el" href="_chat_manager_8cs_source.html#l00860">Tgstation.Server.Host.Components.Chat.ChatManager.AddMessageTask()</a>, <a class="el" href="_chat_manager_8cs_source.html#l00089">Tgstation.Server.Host.Components.Chat.ChatManager.handlerCts</a>, and <a class="el" href="_chat_manager_8cs_source.html#l00827">Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00346">Tgstation.Server.Host.Components.Chat.ChatManager.QueueWatchdogMessage()</a>.</p>
 <div class="dynheader">
@@ -1735,24 +1746,24 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00815">815</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;        {</div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Chat send \&quot;{0}\&quot; to channels: {1}&quot;</span>, message, String.Join(<span class="stringliteral">&quot;, &quot;</span>, channelIds));</div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160; </div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;            <span class="keywordflow">return</span> Task.WhenAll(</div>
-<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;                channelIds.Select(x =&gt;</div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;                {</div>
-<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;                    ChannelMapping channelMapping;</div>
-<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;                    lock (mappedChannels)</div>
-<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;                        if (!mappedChannels.TryGetValue(x, out channelMapping))</div>
-<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;                            return Task.CompletedTask;</div>
-<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;                    IProvider provider;</div>
-<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;                    lock (providers)</div>
-<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;                        if (!providers.TryGetValue(channelMapping.ProviderId, out provider))</div>
-<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;                            return Task.CompletedTask;</div>
-<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;                    return provider.SendMessage(channelMapping.ProviderChannelId, message, cancellationToken);</div>
-<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;                }));</div>
-<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00827">827</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;        {</div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Chat send \&quot;{0}\&quot; to channels: {1}&quot;</span>, message, String.Join(<span class="stringliteral">&quot;, &quot;</span>, channelIds));</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160; </div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;            <span class="keywordflow">return</span> Task.WhenAll(</div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;                channelIds.Select(x =&gt;</div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;                {</div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;                    ChannelMapping channelMapping;</div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;                    lock (mappedChannels)</div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;                        if (!mappedChannels.TryGetValue(x, out channelMapping))</div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;                            return Task.CompletedTask;</div>
+<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;                    IProvider provider;</div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;                    lock (providers)</div>
+<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;                        if (!providers.TryGetValue(channelMapping.ProviderId, out provider))</div>
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;                            return Task.CompletedTask;</div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;                    return provider.SendMessage(channelMapping.ProviderChannelId, message, cancellationToken);</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;                }));</div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00334">Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessage()</a>.</p>
 <div class="dynheader">
@@ -1797,7 +1808,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">chatHandler</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">MonitorMessages</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981">handlerCts</a>.Token);</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a0821ad5d467ff2ea9216eadd33273104"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0821ad5d467ff2ea9216eadd33273104">Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings</a></div><div class="ttdeci">async Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken)</div><div class="ttdoc">Change chat settings. If the Api.Models.EntityId.Id is not currently in use, a new connection will be...</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00257">ChatManager.cs:257</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a422e8e55e6988c994b23eaaf16cf0498"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498">Tgstation.Server.Host.Components.Chat.ChatManager.InitialConnection</a></div><div class="ttdeci">async Task InitialConnection()</div><div class="ttdoc">Aggregate all IProvider.InitialConnectionJobs into one &lt;sse cref=&quot;Task&quot;&gt;.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00838">ChatManager.cs:838</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a422e8e55e6988c994b23eaaf16cf0498"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498">Tgstation.Server.Host.Components.Chat.ChatManager.InitialConnection</a></div><div class="ttdeci">async Task InitialConnection()</div><div class="ttdoc">Aggregate all IProvider.InitialConnectionJobs into one &lt;sse cref=&quot;Task&quot;&gt;.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00850">ChatManager.cs:850</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a530e8ef5a58711a9c6744021df74afb2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">Tgstation.Server.Host.Components.Chat.ChatManager.MonitorMessages</a></div><div class="ttdeci">async Task MonitorMessages(CancellationToken cancellationToken)</div><div class="ttdoc">Monitors active providers for new Messages.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00751">ChatManager.cs:751</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ada23a21c30710b64e7c9ee85e82e32d4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">Tgstation.Server.Host.Components.Chat.ChatManager.chatHandler</a></div><div class="ttdeci">Task chatHandler</div><div class="ttdoc">The Task that monitors incoming chat messages.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00109">ChatManager.cs:109</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory_html_a3f5fdca17c71257d34528f45f61ed469"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html#a3f5fdca17c71257d34528f45f61ed469">Tgstation.Server.Host.Components.Chat.Commands.ICommandFactory.GenerateCommands</a></div><div class="ttdeci">IReadOnlyList&lt; ICommand &gt; GenerateCommands()</div><div class="ttdoc">Generate builtin ICommands.</div></div>
