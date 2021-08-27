@@ -30,6 +30,7 @@ namespace Tgstation.Server.Host.Models
 			ApiValidationPort = ApiValidationPort,
 			ApiValidationSecurityLevel = ApiValidationSecurityLevel,
 			RequireDMApiValidation = RequireDMApiValidation,
+			Timeout = Timeout,
 		};
 	}
 }

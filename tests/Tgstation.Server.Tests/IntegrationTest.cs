@@ -749,6 +749,7 @@ namespace Tgstation.Server.Tests
 					ApiValidationPort = 1557,
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Trusted,
 					RequireDMApiValidation = false,
+					Timeout = TimeSpan.FromSeconds(13),
 				},
 				InstancePermissionSets = new List<Host.Models.InstancePermissionSet>
 				{

@@ -727,6 +727,7 @@ namespace Tgstation.Server.Host.Controllers
 					ApiValidationPort = dmPort,
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
 					RequireDMApiValidation = true,
+					Timeout = TimeSpan.FromHours(1),
 				},
 				Name = initialSettings.Name,
 				Online = false,

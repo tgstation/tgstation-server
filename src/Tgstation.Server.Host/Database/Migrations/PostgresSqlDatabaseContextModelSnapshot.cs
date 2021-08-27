@@ -236,6 +236,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("boolean");
 
+				b.Property<TimeSpan?>("Timeout")
+					.IsRequired()
+					.HasColumnType("interval");
+
 				b.HasKey("Id");
 
 				b.HasIndex("InstanceId")

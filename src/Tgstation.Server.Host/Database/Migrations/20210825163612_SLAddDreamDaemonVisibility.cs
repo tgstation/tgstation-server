@@ -112,6 +112,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			migrationBuilder.DropTable(
 				name: "DreamDaemonSettings_down");
+
+			migrationBuilder.RenameTable(
+				name: "DreamDaemonSettings",
+				newName: "DreamDaemonSettings_down");
+
+			migrationBuilder.RenameTable(
+				name: "DreamDaemonSettings_down",
+				newName: "DreamDaemonSettings");
 		}
 	}
 }
