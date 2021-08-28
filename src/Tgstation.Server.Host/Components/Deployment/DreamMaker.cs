@@ -289,6 +289,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								};
 
 								logger.LogInformation(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+								databaseContext.RevisionInformations.Add(revInfo);
 								databaseContext.Instances.Attach(revInfo.Instance);
 								await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 							}
