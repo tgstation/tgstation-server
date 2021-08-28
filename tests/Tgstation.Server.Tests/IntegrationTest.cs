@@ -778,6 +778,7 @@ namespace Tgstation.Server.Tests
 					PostTestMergeComment = false,
 					PushTestMergeCommits = false,
 					ShowTestMergeCommitters = false,
+					UpdateSubmodules = false,
 				},
 			};
 

@@ -407,7 +407,7 @@ namespace Tgstation.Server.Host.Components
 						await repo.ResetToOrigin(
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
-							true,
+							repositorySettings.UpdateSubmodules.Value,
 							NextProgressReporter(),
 							cancellationToken)
 						.ConfigureAwait(false);

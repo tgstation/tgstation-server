@@ -16,8 +16,9 @@ namespace Tgstation.Server.Api.Models.Request
 		public Uri? Origin { get; set; }
 
 		/// <summary>
-		/// If submodules should be recursively cloned.
+		/// If submodules should be recursively cloned. Note that further updates are not recursive.
 		/// </summary>
+		[Obsolete("Use updateSubmodules instead.")]
 		public bool? RecurseSubmodules { get; set; }
 	}
 }

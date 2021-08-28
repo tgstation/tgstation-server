@@ -71,5 +71,11 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		public bool? PostTestMergeComment { get; set; }
+
+		/// <summary>
+		/// Do the equivalent of a `git submodule update --init` alongside any resets to origin, checkouts, or test merge additions. Note that this action is recursive ONLY during cloning.
+		/// </summary>
+		[Required]
+		public bool? UpdateSubmodules { get; set; }
 	}
 }
