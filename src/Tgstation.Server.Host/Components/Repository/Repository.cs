@@ -137,9 +137,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="exception">The current <see cref="LibGit2SharpException"/>.</param>
 		static void CheckBadCredentialsException(LibGit2SharpException exception)
 		{
-			if (exception.Message == "too many redirects or authentication replays"
-				|| exception.Message == ErrorCode.RepoCredentialsRequired.Describe())
+			if (exception.Message == "too many redirects or authentication replays")
 				throw new JobException("Bad git credentials exchange!", exception);
+
+			if (exception.Message == ErrorCode.RepoCredentialsRequired.Describe())
+				throw new JobException(ErrorCode.RepoCredentialsRequired);
 		}
 
 		/// <summary>
