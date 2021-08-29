@@ -527,6 +527,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
 
+				b.Property<bool?>("UpdateSubmodules")
+					.IsRequired()
+					.HasColumnType("tinyint(1)");
+
 				b.HasKey("Id");
 
 				b.HasIndex("InstanceId")

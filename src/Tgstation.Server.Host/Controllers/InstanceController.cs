@@ -744,6 +744,7 @@ namespace Tgstation.Server.Host.Controllers
 					AutoUpdatesSynchronize = false,
 					PostTestMergeComment = false,
 					CreateGitHubDeployments = false,
+					UpdateSubmodules = true,
 				},
 				InstancePermissionSets = new List<InstancePermissionSet> // give this user full privileges on the instance
 				{

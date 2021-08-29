@@ -22,11 +22,6 @@ namespace Tgstation.Server.Api.Models.Request
 		public bool? UpdateFromOrigin { get; set; }
 
 		/// <summary>
-		/// Do the equivalent of a `git submodule update --init --recursive` alongside any resets to origin, checkouts, or test merge additions.
-		/// </summary>
-		public bool? UpdateSubmodules { get; set; }
-
-		/// <summary>
 		/// <see cref="TestMergeParameters"/> for new <see cref="TestMerge"/>s. Note that merges that conflict will not be performed.
 		/// </summary>
 		public ICollection<TestMergeParameters>? NewTestMerges { get; set; }

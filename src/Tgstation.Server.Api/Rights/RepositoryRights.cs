@@ -19,7 +19,7 @@ namespace Tgstation.Server.Api.Rights
 		CancelPendingChanges = 1,
 
 		/// <summary>
-		/// User may clone the repository if it does not exist.
+		/// User may clone the repository if it does not exist. This also allows setting <see cref="Models.Internal.RepositorySettings.UpdateSubmodules"/>, <see cref="Models.Internal.RepositorySettings.AccessUser"/>, and <see cref="Models.Internal.RepositorySettings.AccessToken"/> at clone time.
 		/// </summary>
 		SetOrigin = 2,
 
@@ -77,5 +77,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User may cancel clone jobs.
 		/// </summary>
 		CancelClone = 4096,
+
+		/// <summary>
+		/// User may change submodule update settings.
+		/// </summary>
+		ChangeSubmoduleUpdate = 8192,
 	}
 }
