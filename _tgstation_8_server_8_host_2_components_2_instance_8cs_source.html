@@ -412,7 +412,7 @@ $(function() {
 <div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                        await repo.ResetToOrigin(</div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                            repositorySettings.AccessUser,</div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                            repositorySettings.AccessToken,</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                            <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                            repositorySettings.UpdateSubmodules.Value,</div>
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                            NextProgressReporter(),</div>
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                            cancellationToken)</div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                        .ConfigureAwait(<span class="keyword">false</span>);</div>

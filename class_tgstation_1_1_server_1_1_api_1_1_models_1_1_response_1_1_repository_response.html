@@ -153,6 +153,9 @@ Properties</h2></td></tr>
 <tr class="memitem:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acdaf4f19af7d330bcbf35c3cb240b50c">PostTestMergeComment</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="mdescLeft">&#160;</td><td class="mdescRight">If test merging should create a comment. Requires <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86" title="The token/password to access the git repository with.">AccessToken</a> to be set to function.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acdaf4f19af7d330bcbf35c3cb240b50c">More...</a><br /></td></tr>
 <tr class="separator:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ae48354e629f0563f9101a100a16c1be1">UpdateSubmodules</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do the equivalent of a <code>git submodule update --init</code> alongside any resets to origin, checkouts, or test merge additions. Note that this action is recursive ONLY during cloning.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ae48354e629f0563f9101a100a16c1be1">More...</a><br /></td></tr>
+<tr class="separator:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html">Tgstation.Server.Api.Models.Internal.IGitRemoteInformation</a></td></tr>
 <tr class="memitem:a32fb980a5c8ad960b2674e62a06f8724 inherit properties_interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a32fb980a5c8ad960b2674e62a06f8724">RemoteGitProvider</a><code> [get]</code></td></tr>
 <tr class="memdesc:a32fb980a5c8ad960b2674e62a06f8724 inherit properties_interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17" title="Indicates the remote git host.">Models.RemoteGitProvider</a> in use by the repository.  <a href="interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html#a32fb980a5c8ad960b2674e62a06f8724">More...</a><br /></td></tr>
@@ -221,7 +224,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_repository_response_8cs_source.html#l00016">16</a> of file <a class="el" href="_repository_response_8cs_source.html">RepositoryResponse.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00972">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00988">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
 
 </div>
 </div>
@@ -250,7 +253,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_repository_response_8cs_source.html#l00026">26</a> of file <a class="el" href="_repository_response_8cs_source.html">RepositoryResponse.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00972">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00988">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
 
 </div>
 </div>
@@ -279,7 +282,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_repository_response_8cs_source.html#l00034">34</a> of file <a class="el" href="_repository_response_8cs_source.html">RepositoryResponse.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00972">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00988">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
 
 </div>
 </div>
@@ -308,7 +311,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_repository_response_8cs_source.html#l00030">30</a> of file <a class="el" href="_repository_response_8cs_source.html">RepositoryResponse.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00972">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00988">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
 
 </div>
 </div>
@@ -337,7 +340,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_repository_response_8cs_source.html#l00022">22</a> of file <a class="el" href="_repository_response_8cs_source.html">RepositoryResponse.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00972">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00988">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>.</p>
 
 </div>
 </div>

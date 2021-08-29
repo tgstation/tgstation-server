@@ -105,7 +105,7 @@ Properties</h2></td></tr>
 <tr class="memdesc:aabc1e9fd7eda56f4652175e9d7c615a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The origin URL to clone.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html#aabc1e9fd7eda56f4652175e9d7c615a5">More...</a><br /></td></tr>
 <tr class="separator:aabc1e9fd7eda56f4652175e9d7c615a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a709d6c6863d1e96e5e5f746720f1d21c"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html#a709d6c6863d1e96e5e5f746720f1d21c">RecurseSubmodules</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a709d6c6863d1e96e5e5f746720f1d21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">If submodules should be recursively cloned.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html#a709d6c6863d1e96e5e5f746720f1d21c">More...</a><br /></td></tr>
+<tr class="memdesc:a709d6c6863d1e96e5e5f746720f1d21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">If submodules should be recursively cloned. Note that further updates are not recursive.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html#a709d6c6863d1e96e5e5f746720f1d21c">More...</a><br /></td></tr>
 <tr class="separator:a709d6c6863d1e96e5e5f746720f1d21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html">Tgstation.Server.Api.Models.Internal.RepositoryApiBase</a></td></tr>
 <tr class="memitem:a5a69a7b98b90a6eff88a4f876f93a8fc inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a><code> [get, set]</code></td></tr>
@@ -142,6 +142,9 @@ Properties</h2></td></tr>
 <tr class="memitem:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acdaf4f19af7d330bcbf35c3cb240b50c">PostTestMergeComment</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="mdescLeft">&#160;</td><td class="mdescRight">If test merging should create a comment. Requires <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86" title="The token/password to access the git repository with.">AccessToken</a> to be set to function.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acdaf4f19af7d330bcbf35c3cb240b50c">More...</a><br /></td></tr>
 <tr class="separator:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ae48354e629f0563f9101a100a16c1be1">UpdateSubmodules</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do the equivalent of a <code>git submodule update --init</code> alongside any resets to origin, checkouts, or test merge additions. Note that this action is recursive ONLY during cloning.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ae48354e629f0563f9101a100a16c1be1">More...</a><br /></td></tr>
+<tr class="separator:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a request to clone the repository. </p>
@@ -195,10 +198,10 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>If submodules should be recursively cloned. </p>
+<p>If submodules should be recursively cloned. Note that further updates are not recursive. </p>
 
-<p class="definition">Definition at line <a class="el" href="_repository_create_request_8cs_source.html#l00021">21</a> of file <a class="el" href="_repository_create_request_8cs_source.html">RepositoryCreateRequest.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_repository_create_request_8cs_source.html#l00022">22</a> of file <a class="el" href="_repository_create_request_8cs_source.html">RepositoryCreateRequest.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

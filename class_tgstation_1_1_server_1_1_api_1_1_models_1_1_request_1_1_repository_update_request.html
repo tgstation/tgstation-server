@@ -107,9 +107,6 @@ Properties</h2></td></tr>
 <tr class="memitem:a05d4416c73b044cd160f3c855786fd5b"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#a05d4416c73b044cd160f3c855786fd5b">UpdateFromOrigin</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a05d4416c73b044cd160f3c855786fd5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do the equivalent of a <code>git pull</code>. Will attempt to merge unless RepositoryApiBase.Reference is also specified in which case a hard reset will be performed after checking out.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#a05d4416c73b044cd160f3c855786fd5b">More...</a><br /></td></tr>
 <tr class="separator:a05d4416c73b044cd160f3c855786fd5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4bf722940cf0d129a0de459b8eac4ea"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#ae4bf722940cf0d129a0de459b8eac4ea">UpdateSubmodules</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:ae4bf722940cf0d129a0de459b8eac4ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do the equivalent of a <code>git submodule update --init --recursive</code> alongside any resets to origin, checkouts, or test merge additions.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#ae4bf722940cf0d129a0de459b8eac4ea">More...</a><br /></td></tr>
-<tr class="separator:ae4bf722940cf0d129a0de459b8eac4ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa21734478af103aa35e4ee7d53acbe0e"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aa21734478af103aa35e4ee7d53acbe0e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge.">TestMergeParameters</a> for new <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">TestMerge</a>s. Note that merges that conflict will not be performed.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">More...</a><br /></td></tr>
 <tr class="separator:aa21734478af103aa35e4ee7d53acbe0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,6 +145,9 @@ Properties</h2></td></tr>
 <tr class="memitem:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acdaf4f19af7d330bcbf35c3cb240b50c">PostTestMergeComment</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="mdescLeft">&#160;</td><td class="mdescRight">If test merging should create a comment. Requires <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86" title="The token/password to access the git repository with.">AccessToken</a> to be set to function.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acdaf4f19af7d330bcbf35c3cb240b50c">More...</a><br /></td></tr>
 <tr class="separator:acdaf4f19af7d330bcbf35c3cb240b50c inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ae48354e629f0563f9101a100a16c1be1">UpdateSubmodules</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do the equivalent of a <code>git submodule update --init</code> alongside any resets to origin, checkouts, or test merge additions. Note that this action is recursive ONLY during cloning.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ae48354e629f0563f9101a100a16c1be1">More...</a><br /></td></tr>
+<tr class="separator:ae48354e629f0563f9101a100a16c1be1 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a request to change the repository. </p>
@@ -203,8 +203,8 @@ Properties</h2></td></tr>
 
 <p><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge.">TestMergeParameters</a> for new <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">TestMerge</a>s. Note that merges that conflict will not be performed. </p>
 
-<p class="definition">Definition at line <a class="el" href="_repository_update_request_8cs_source.html#l00032">32</a> of file <a class="el" href="_repository_update_request_8cs_source.html">RepositoryUpdateRequest.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_repository_update_request_8cs_source.html#l00027">27</a> of file <a class="el" href="_repository_update_request_8cs_source.html">RepositoryUpdateRequest.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -232,33 +232,6 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_repository_update_request_8cs_source.html#l00022">22</a> of file <a class="el" href="_repository_update_request_8cs_source.html">RepositoryUpdateRequest.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ae4bf722940cf0d129a0de459b8eac4ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4bf722940cf0d129a0de459b8eac4ea">&#9670;&nbsp;</a></span>UpdateSubmodules</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool? Tgstation.Server.Api.Models.Request.RepositoryUpdateRequest.UpdateSubmodules</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Do the equivalent of a <code>git submodule update --init --recursive</code> alongside any resets to origin, checkouts, or test merge additions. </p>
-
-<p class="definition">Definition at line <a class="el" href="_repository_update_request_8cs_source.html#l00027">27</a> of file <a class="el" href="_repository_update_request_8cs_source.html">RepositoryUpdateRequest.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
