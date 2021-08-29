@@ -112,6 +112,9 @@ namespace ReleaseNotes
 
 					async Task BuildNotesFromComment(string comment, User user)
 					{
+						if (comment == null)
+							return;
+
 						async Task CommitNotes(string component, List<string> notes)
 						{
 							Task<bool> authTask;
