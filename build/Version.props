@@ -6,8 +6,8 @@
     <TgsCoreVersion>4.14.0</TgsCoreVersion>
     <TgsConfigVersion>4.0.0</TgsConfigVersion>
     <TgsApiVersion>9.2.0</TgsApiVersion>
-    <TgsApiLibraryVersion>9.1.0</TgsApiLibraryVersion>
-    <TgsClientVersion>10.1.0</TgsClientVersion>
+    <TgsApiLibraryVersion>9.2.0</TgsApiLibraryVersion>
+    <TgsClientVersion>10.2.0</TgsClientVersion>
     <TgsDmapiVersion>6.0.4</TgsDmapiVersion>
     <TgsInteropVersion>5.3.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.1.1</TgsHostWatchdogVersion>
