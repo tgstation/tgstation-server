@@ -91,6 +91,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(ErrorCode.RepoMismatchUserAndAccessToken);
 
+			#pragma warning disable CS0618 // Support for obsolete API field
+			model.UpdateSubmodules ??= model.RecurseSubmodules;
+			#pragma warning restore CS0618
+
 			var currentModel = await DatabaseContext
 				.RepositorySettings
 				.AsQueryable()
@@ -101,6 +105,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return Gone();
 
+			currentModel.UpdateSubmodules ??= model.UpdateSubmodules;
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
 			var cloneBranch = model.Reference;
@@ -149,7 +154,7 @@ namespace Tgstation.Server.Host.Controllers
 								currentModel.AccessUser,
 								currentModel.AccessToken,
 								progressReporter,
-								model.RecurseSubmodules ?? true,
+								currentModel.UpdateSubmodules.Value,
 								ct)
 								.ConfigureAwait(false);
 							if (repos == null)
@@ -286,7 +291,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="202">Updated the repository settings successfully and a <see cref="JobResponse"/> was created to make the requested git changes.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
-		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
+		[TgsAuthorize(
+			RepositoryRights.ChangeAutoUpdateSettings
+			| RepositoryRights.ChangeCommitter
+			| RepositoryRights.ChangeCredentials
+			| RepositoryRights.ChangeTestMergeCommits
+			| RepositoryRights.MergePullRequest
+			| RepositoryRights.SetReference
+			| RepositoryRights.SetSha
+			| RepositoryRights.UpdateBranch
+			| RepositoryRights.ChangeSubmoduleUpdate)]
 		[ProducesResponseType(typeof(RepositoryResponse), 200)]
 		[ProducesResponseType(typeof(RepositoryResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
@@ -313,8 +327,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.CommitterEmail?.Length == 0)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoWhitespaceCommitterEmail));
-
-			var updateSubmodules = model?.UpdateSubmodules ?? false;
 
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
@@ -356,6 +368,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.CreateGitHubDeployments, RepositoryRights.ChangeTestMergeCommits)
 				|| CheckModified(x => x.ShowTestMergeCommitters, RepositoryRights.ChangeTestMergeCommits)
 				|| CheckModified(x => x.PostTestMergeComment, RepositoryRights.ChangeTestMergeCommits)
+				|| CheckModified(x => x.UpdateSubmodules, RepositoryRights.ChangeSubmoduleUpdate)
 				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
 				return Forbid();
 
@@ -436,7 +449,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (description == null)
 				return Json(api); // no git changes
 
-			async Task<IActionResult> UpdateCallbackThatDesperatelyNeedsRefactoring(
+			async Task<IActionResult> RepositoryUpdateJobOhGodPleaseSomeoneRefactorThisItsTooFuckingBig(
 				IInstanceCore instance,
 				IDatabaseContextFactory databaseContextFactory,
 				Action<int> progressReporter,
@@ -568,6 +581,8 @@ namespace Tgstation.Server.Host.Controllers
 						}
 					}
 
+					var updateSubmodules = currentModel.UpdateSubmodules.Value;
+
 					// checkout/hard reset
 					if (modelHasShaOrReference)
 					{
@@ -577,6 +592,7 @@ namespace Tgstation.Server.Host.Controllers
 						var validCheckoutReference =
 							model.Reference != null
 							&& !repo.Reference.Equals(model.Reference, StringComparison.OrdinalIgnoreCase);
+
 						if (validCheckoutSha || validCheckoutReference)
 						{
 							var committish = model.CheckoutSha ?? model.Reference;
@@ -884,7 +900,7 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(
 				job,
 				(core, databaseContextFactory, paramJob, progressReporter, ct) =>
-					UpdateCallbackThatDesperatelyNeedsRefactoring(
+					RepositoryUpdateJobOhGodPleaseSomeoneRefactorThisItsTooFuckingBig(
 						core,
 						databaseContextFactory,
 						progressReporter,

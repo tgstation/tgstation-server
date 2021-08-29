@@ -73,6 +73,7 @@ namespace Tgstation.Server.Host.Components.Session
 			AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
 
 			LaunchSecurityLevel = runtimeInformation.SecurityLevel.Value;
+			LaunchVisibility = runtimeInformation.Visibility.Value;
 			Port = port;
 
 			runtimeInformationLock = new object();

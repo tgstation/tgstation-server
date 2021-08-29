@@ -82,6 +82,7 @@ namespace Tgstation.Server.Host.Components.Session
 				ProcessId = reattachInformation.ProcessId,
 				RebootState = reattachInformation.RebootState,
 				LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel,
+				LaunchVisibility = reattachInformation.LaunchVisibility,
 			};
 
 			db.ReattachInformations.Add(dbReattachInfo);

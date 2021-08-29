@@ -716,6 +716,7 @@ namespace Tgstation.Server.Host.Controllers
 					AutoStart = false,
 					Port = ddPort,
 					SecurityLevel = DreamDaemonSecurity.Safe,
+					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 60,
 					HeartbeatSeconds = 60,
 					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout,
@@ -726,6 +727,7 @@ namespace Tgstation.Server.Host.Controllers
 					ApiValidationPort = dmPort,
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
 					RequireDMApiValidation = true,
+					Timeout = TimeSpan.FromHours(1),
 				},
 				Name = initialSettings.Name,
 				Online = false,
@@ -742,6 +744,7 @@ namespace Tgstation.Server.Host.Controllers
 					AutoUpdatesSynchronize = false,
 					PostTestMergeComment = false,
 					CreateGitHubDeployments = false,
+					UpdateSubmodules = true,
 				},
 				InstancePermissionSets = new List<InstancePermissionSet> // give this user full privileges on the instance
 				{

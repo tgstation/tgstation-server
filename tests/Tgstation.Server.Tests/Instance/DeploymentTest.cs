@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.System;
@@ -15,15 +16,18 @@ namespace Tgstation.Server.Tests.Instance
 	{
 		readonly IDreamMakerClient dreamMakerClient;
 		readonly IDreamDaemonClient dreamDaemonClient;
+		readonly IInstanceClient instanceClient;
 
-		public DeploymentTest(IDreamMakerClient dreamMakerClient, IDreamDaemonClient dreamDaemonClient, IJobsClient jobsClient) : base(jobsClient)
+		public DeploymentTest(IInstanceClient instanceClient, IJobsClient jobsClient) : base(jobsClient)
 		{
-			this.dreamMakerClient = dreamMakerClient ?? throw new ArgumentNullException(nameof(dreamMakerClient));
-			this.dreamDaemonClient = dreamDaemonClient ?? throw new ArgumentNullException(nameof(dreamDaemonClient));
+			this.instanceClient = instanceClient ?? throw new ArgumentException(nameof(instanceClient));
+			this.dreamMakerClient = instanceClient.DreamMaker;
+			this.dreamDaemonClient = instanceClient.DreamDaemon;
 		}
 
 		public async Task Run(Task repositoryTask, CancellationToken cancellationToken)
 		{
+			var vpTest = TestVisibilityPermission(cancellationToken);
 			var deployJob = await dreamMakerClient.Compile(cancellationToken);
 			deployJob = await WaitForJob(deployJob, 30, true, null, cancellationToken);
 			Assert.IsTrue(deployJob.ErrorCode == ErrorCode.RepoCloning || deployJob.ErrorCode == ErrorCode.RepoMissing);
@@ -93,6 +97,47 @@ namespace Tgstation.Server.Tests.Instance
 
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
 			await WaitForJob(deployJob, 30, true, ErrorCode.DreamMakerMissingDme, cancellationToken);
+
+			// check that we can change the visibility
+
+			await vpTest;
+		}
+
+		async Task TestVisibilityPermission(CancellationToken cancellationToken)
+		{
+			var updatedDD = await dreamDaemonClient.Read(cancellationToken);
+			Assert.AreEqual(DreamDaemonVisibility.Public, updatedDD.Visibility);
+			updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
+			{
+				Visibility = DreamDaemonVisibility.Invisible
+			}, cancellationToken);
+			Assert.AreEqual(DreamDaemonVisibility.Invisible, updatedDD.Visibility);
+
+			var currentPermissionSet = await instanceClient.PermissionSets.Read(cancellationToken);
+			Assert.IsTrue((currentPermissionSet.DreamDaemonRights.Value & DreamDaemonRights.SetVisibility) != 0);
+			var updatedPS = await instanceClient.PermissionSets.Update(new InstancePermissionSetRequest
+			{
+				PermissionSetId = currentPermissionSet.PermissionSetId,
+				DreamDaemonRights = currentPermissionSet.DreamDaemonRights.Value & ~DreamDaemonRights.SetVisibility
+			}, cancellationToken);
+			Assert.IsFalse((updatedPS.DreamDaemonRights.Value & DreamDaemonRights.SetVisibility) != 0);
+
+			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => dreamDaemonClient.Update(new DreamDaemonRequest
+			{
+				Visibility = DreamDaemonVisibility.Private
+			}, cancellationToken), null);
+
+			updatedPS = await instanceClient.PermissionSets.Update(new InstancePermissionSetRequest
+			{
+				PermissionSetId = updatedPS.PermissionSetId,
+				DreamDaemonRights = updatedPS.DreamDaemonRights.Value | DreamDaemonRights.SetVisibility
+			}, cancellationToken);
+			Assert.IsTrue((updatedPS.DreamDaemonRights.Value & DreamDaemonRights.SetVisibility) != 0);
+			updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
+			{
+				Visibility = DreamDaemonVisibility.Public
+			}, cancellationToken);
+			Assert.AreEqual(DreamDaemonVisibility.Public, updatedDD.Visibility);
 		}
 	}
 }

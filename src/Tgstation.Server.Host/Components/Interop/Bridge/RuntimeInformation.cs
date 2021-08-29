@@ -45,6 +45,11 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public DreamDaemonSecurity? SecurityLevel { get; }
 
 		/// <summary>
+		/// The <see cref="DreamDaemonSecurity"/> level of the launch.
+		/// </summary>
+		public DreamDaemonVisibility? Visibility { get; }
+
+		/// <summary>
 		/// The <see cref="TestMergeInformation"/>s in the launch.
 		/// </summary>
 		public IReadOnlyCollection<TestMergeInformation> TestMerges { get; }
@@ -57,6 +62,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <param name="serverVersion">The value of <see cref="ServerVersion"/>.</param>
 		/// <param name="instanceName">The value of <see cref="InstanceName"/>.</param>
 		/// <param name="securityLevel">The value of <see cref="SecurityLevel"/>.</param>
+		/// <param name="visibility">The value of <see cref="Visibility"/>.</param>
 		/// <param name="serverPort">The value of <see cref="ServerPort"/>.</param>
 		/// <param name="apiValidateOnly">The value of <see cref="ApiValidateOnly"/>.</param>
 		public RuntimeInformation(
@@ -65,6 +71,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			Version serverVersion,
 			string instanceName,
 			DreamDaemonSecurity? securityLevel,
+			DreamDaemonVisibility? visibility,
 			ushort serverPort,
 			bool apiValidateOnly)
 			: base(chatTrackingContext?.Channels ?? throw new ArgumentNullException(nameof(chatTrackingContext)))
@@ -92,6 +99,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 
 			InstanceName = instanceName ?? throw new ArgumentNullException(nameof(instanceName));
 			SecurityLevel = securityLevel;
+			Visibility = visibility;
 			ServerPort = serverPort;
 			ApiValidateOnly = apiValidateOnly;
 		}

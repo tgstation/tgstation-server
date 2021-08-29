@@ -752,22 +752,21 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			logger.LogTrace("Starting processing loop...");
 			var messageTasks = new Dictionary<IProvider, Task<Message>>();
+			Task activeProcessingTask = Task.CompletedTask;
 			try
 			{
+				Task updatedTask = null;
 				while (!cancellationToken.IsCancellationRequested)
 				{
+					if (updatedTask?.IsCompleted != false)
+						lock (synchronizationLock)
+							updatedTask = connectionsUpdated.Task;
+
 					// prune disconnected providers
-					foreach (var undisposedMessageTaskKvp in messageTasks.Where(x => !x.Key.Disposed).ToList())
-					{
-						messageTasks.Remove(undisposedMessageTaskKvp.Key);
-						if (undisposedMessageTaskKvp.Value.IsCompleted)
-							(await undisposedMessageTaskKvp.Value.ConfigureAwait(false))?.Context?.Dispose();
-					}
+					foreach (var disposedProviderMessageTaskKvp in messageTasks.Where(x => x.Key.Disposed).ToList())
+						messageTasks.Remove(disposedProviderMessageTaskKvp.Key);
 
 					// add new ones
-					Task updatedTask;
-					lock (synchronizationLock)
-						updatedTask = connectionsUpdated.Task;
 					lock (providers)
 						foreach (var providerKvp in providers)
 							if (!messageTasks.ContainsKey(providerKvp.Value))
@@ -775,7 +774,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					if (messageTasks.Count == 0)
 					{
-						await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+						await updatedTask.WithToken(cancellationToken).ConfigureAwait(false);
 						continue;
 					}
 
@@ -786,10 +785,18 @@ namespace Tgstation.Server.Host.Components.Chat
 					foreach (var completedMessageTaskKvp in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
 						var message = await completedMessageTaskKvp.Value.ConfigureAwait(false);
-						using var messageContext = message?.Context;
 						var messageNumber = Interlocked.Increment(ref messagesProcessed);
-						using (LogContext.PushProperty("ChatMessage", messageNumber))
+
+						async Task WrapProcessMessage()
+						{
+							var localActiveProcessingTask = activeProcessingTask;
 							await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
+							await localActiveProcessingTask.ConfigureAwait(false);
+						}
+
+						using (LogContext.PushProperty("ChatMessage", messageNumber))
+							activeProcessingTask = WrapProcessMessage();
+
 						messageTasks.Remove(completedMessageTaskKvp.Key);
 					}
 				}
@@ -801,6 +808,10 @@ namespace Tgstation.Server.Host.Components.Chat
 			catch (Exception e)
 			{
 				logger.LogError(e, "Message loop crashed!");
+			}
+			finally
+			{
+				await activeProcessingTask.ConfigureAwait(false);
 			}
 
 			logger.LogTrace("Leaving message processing loop");

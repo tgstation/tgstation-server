@@ -139,6 +139,9 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			if (exception.Message == "too many redirects or authentication replays")
 				throw new JobException("Bad git credentials exchange!", exception);
+
+			if (exception.Message == ErrorCode.RepoCredentialsRequired.Describe())
+				throw new JobException(ErrorCode.RepoCredentialsRequired);
 		}
 
 		/// <summary>
@@ -963,8 +966,12 @@ namespace Tgstation.Server.Host.Components.Repository
 					// workaround for https://github.com/libgit2/libgit2/issues/3820
 					// kill off the modules/ folder in .git and try again
 					CheckBadCredentialsException(ex);
-					logger.LogWarning(ex, "Initial update of submodule {0} failed. Deleting .git submodule directory and re-attempting...", submodule.Name);
-					await ioMananger.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken).ConfigureAwait(false);
+					logger.LogWarning(ex, "Initial update of submodule {0} failed. Deleting submodule directories and re-attempting...", submodule.Name);
+
+					await Task.WhenAll(
+						ioMananger.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken),
+						ioMananger.DeleteDirectory(submodule.Path, cancellationToken))
+						.ConfigureAwait(false);
 
 					logger.LogTrace("Second update attempt for submodule {0}...", submodule.Name);
 					try

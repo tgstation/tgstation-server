@@ -49,6 +49,11 @@ namespace Tgstation.Server.Host.Jobs
 		readonly object synchronizationLock;
 
 		/// <summary>
+		/// Prevents a really REALLY rare race condition between add and cancel operations.
+		/// </summary>
+		readonly object addCancelLock;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="JobManager"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
@@ -62,6 +67,7 @@ namespace Tgstation.Server.Host.Jobs
 			jobs = new Dictionary<long, JobHandler>();
 			activationTcs = new TaskCompletionSource<object>();
 			synchronizationLock = new object();
+			addCancelLock = new object();
 		}
 
 		/// <inheritdoc />
@@ -110,10 +116,13 @@ namespace Tgstation.Server.Host.Jobs
 					var jobHandler = new JobHandler(jobCancellationToken => RunJob(job, operation, jobCancellationToken));
 					try
 					{
-						lock (synchronizationLock)
-							jobs.Add(job.Id.Value, jobHandler);
+						lock (addCancelLock)
+						{
+							lock (synchronizationLock)
+								jobs.Add(job.Id.Value, jobHandler);
 
-						jobHandler.Start();
+							jobHandler.Start();
+						}
 					}
 					catch
 					{
@@ -168,18 +177,23 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
+
 			JobHandler handler;
-			try
+			lock (addCancelLock)
 			{
-				handler = CheckGetJob(job);
-			}
-			catch (InvalidOperationException)
-			{
-				// this is fine
-				return null;
+				try
+				{
+					handler = CheckGetJob(job);
+				}
+				catch (InvalidOperationException)
+				{
+					// this is fine
+					return null;
+				}
+
+				handler.Cancel(); // this will ensure the db update is only done once
 			}
 
-			handler.Cancel(); // this will ensure the db update is only done once
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
 				if (user == null)

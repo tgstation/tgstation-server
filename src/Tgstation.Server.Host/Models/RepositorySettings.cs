@@ -36,6 +36,7 @@ namespace Tgstation.Server.Host.Models
 			ShowTestMergeCommitters = ShowTestMergeCommitters,
 			PostTestMergeComment = PostTestMergeComment,
 			CreateGitHubDeployments = CreateGitHubDeployments,
+			UpdateSubmodules = UpdateSubmodules,
 
 			// revision information and the rest retrieved by controller
 		};

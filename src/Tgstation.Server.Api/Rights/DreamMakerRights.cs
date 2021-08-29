@@ -52,5 +52,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User may modify <see cref="Models.Internal.DreamMakerSettings.RequireDMApiValidation"/>.
 		/// </summary>
 		SetApiValidationRequirement = 128,
+
+		/// <summary>
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.Timeout"/>.
+		/// </summary>
+		SetTimeout = 256,
 	}
 }

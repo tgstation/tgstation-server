@@ -739,6 +739,7 @@ namespace Tgstation.Server.Tests
 					HeartbeatSeconds = 0,
 					Port = 1447,
 					SecurityLevel = DreamDaemonSecurity.Safe,
+					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 1000,
 					TopicRequestTimeout = 1000,
 					AdditionalParameters = String.Empty,
@@ -748,6 +749,7 @@ namespace Tgstation.Server.Tests
 					ApiValidationPort = 1557,
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Trusted,
 					RequireDMApiValidation = false,
+					Timeout = TimeSpan.FromSeconds(13),
 				},
 				InstancePermissionSets = new List<Host.Models.InstancePermissionSet>
 				{
@@ -776,6 +778,7 @@ namespace Tgstation.Server.Tests
 					PostTestMergeComment = false,
 					PushTestMergeCommits = false,
 					ShowTestMergeCommitters = false,
+					UpdateSubmodules = false,
 				},
 			};
 

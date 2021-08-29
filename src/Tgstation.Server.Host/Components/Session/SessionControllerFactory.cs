@@ -121,6 +121,22 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <summary>
+		/// Change a given <paramref name="visibility"/> into the appropriate DreamDaemon command line word.
+		/// </summary>
+		/// <param name="visibility">The <see cref="DreamDaemonVisibility"/> level to change.</param>
+		/// <returns>A <see cref="string"/> representation of the command line parameter.</returns>
+		static string VisibilityWord(DreamDaemonVisibility visibility)
+		{
+			return visibility switch
+			{
+				DreamDaemonVisibility.Public => "public",
+				DreamDaemonVisibility.Private => "private",
+				DreamDaemonVisibility.Invisible => "invisible",
+				_ => throw new ArgumentOutOfRangeException(nameof(visibility), visibility, String.Format(CultureInfo.InvariantCulture, "Bad DreamDaemon visibility level: {0}", visibility)),
+			};
+		}
+
+		/// <summary>
 		/// Check if a given <paramref name="port"/> can be bound to.
 		/// </summary>
 		/// <param name="port">The port number to test.</param>
@@ -207,9 +223,16 @@ namespace Tgstation.Server.Host.Components.Session
 					break;
 				case DreamDaemonSecurity.Safe:
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
+					{
+						logger.LogTrace("Boosting security level to minimum of Safe");
 						launchParameters.SecurityLevel = DreamDaemonSecurity.Safe;
+					}
+
 					break;
 				case DreamDaemonSecurity.Trusted:
+					if (launchParameters.SecurityLevel != DreamDaemonSecurity.Trusted)
+						logger.LogTrace("Boosting security level to minimum of Trusted");
+
 					launchParameters.SecurityLevel = DreamDaemonSecurity.Trusted;
 					break;
 				default:
@@ -246,18 +269,16 @@ namespace Tgstation.Server.Host.Components.Session
 					if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
 						parameters = $"{parameters}&{launchParameters.AdditionalParameters}";
 
-					var visibility = apiValidate ? "invisible" : "public";
-
 					// important to run on all ports to allow port changing
 					Guid? logFileGuid = null;
 					var arguments = String.Format(
 						CultureInfo.InvariantCulture,
-						"{0} -port {1} -ports 1-65535 {2}-close -{3} -{4}{5} -params \"{6}\"",
+						"{0} -port {1} -ports 1-65535 {2}-close -logself -{3} -{4}{5} -params \"{6}\"",
 						dmbProvider.DmbName,
 						launchParameters.Port.Value,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 						SecurityWord(launchParameters.SecurityLevel.Value),
-						visibility,
+						VisibilityWord(launchParameters.Visibility.Value),
 						platformIdentifier.IsWindows
 							? $" -log {logFileGuid = Guid.NewGuid()}"
 							: String.Empty, // Just use stdout on linux
@@ -333,6 +354,7 @@ namespace Tgstation.Server.Host.Components.Session
 							dmbProvider,
 							chatTrackingContext,
 							launchParameters.SecurityLevel.Value,
+							launchParameters.Visibility.Value,
 							apiValidate);
 
 						var reattachInformation = new ReattachInformation(
@@ -429,6 +451,7 @@ namespace Tgstation.Server.Host.Components.Session
 							reattachInformation.Dmb,
 							chatTrackingContext,
 							null,
+							null,
 							false);
 						reattachInformation.SetRuntimeInformation(runtimeInformation);
 
@@ -476,12 +499,14 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
 		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/>.</param>
 		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level if any.</param>
+		/// <param name="visibility">The <see cref="DreamDaemonVisibility"/> if any.</param>
 		/// <param name="apiValidateOnly">The value of <see cref="RuntimeInformation.ApiValidateOnly"/>.</param>
 		/// <returns>A new <see cref="RuntimeInformation"/> class.</returns>
 		RuntimeInformation CreateRuntimeInformation(
 			IDmbProvider dmbProvider,
 			IChatTrackingContext chatTrackingContext,
 			DreamDaemonSecurity? securityLevel,
+			DreamDaemonVisibility? visibility,
 			bool apiValidateOnly)
 			=> new RuntimeInformation(
 				chatTrackingContext,
@@ -489,6 +514,7 @@ namespace Tgstation.Server.Host.Components.Session
 				assemblyInformationProvider.Version,
 				instance.Name,
 				securityLevel,
+				visibility,
 				serverPortProvider.HttpApiPort,
 				apiValidateOnly);
 

@@ -308,27 +308,14 @@ namespace Tgstation.Server.Host.Components
 						cancellationToken)
 						.ConfigureAwait(false);
 
-					RevisionInformation currentRevInfo = null;
-
 					Task<RevisionInformation> LoadRevInfo() => databaseContext.RevisionInformations
-							.AsQueryable()
-							.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
-							.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
-							.FirstOrDefaultAsync(cancellationToken);
+						.AsQueryable()
+						.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
+						.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
+						.FirstOrDefaultAsync(cancellationToken);
 
+					RevisionInformation currentRevInfo = null;
 					var hasDbChanges = false;
-
-					// take appropriate auto update actions
-					var shouldSyncTracked = false;
-					var currentRevInfoTask = LoadRevInfo();
-
-					var result = await repo.MergeOrigin(
-						repositorySettings.CommitterName,
-						repositorySettings.CommitterEmail,
-						NextProgressReporter(),
-						cancellationToken)
-						.ConfigureAwait(false);
-
 					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<RevInfoTestMerge> updatedTestMerges)
 					{
 						if (currentRevInfo == null)
@@ -363,14 +350,25 @@ namespace Tgstation.Server.Host.Components
 						hasDbChanges = true;
 					}
 
+					// build current commit data if it's missing
+					await UpdateRevInfo(repo.Head, false, null).ConfigureAwait(false);
+
+					var result = await repo.MergeOrigin(
+						repositorySettings.CommitterName,
+						repositorySettings.CommitterEmail,
+						NextProgressReporter(),
+						cancellationToken)
+						.ConfigureAwait(false);
+
 					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
 					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
 						metadata,
 						repo.RemoteGitProvider.Value);
+
+					// take appropriate auto update actions
+					var shouldSyncTracked = false;
 					if (result.HasValue)
 					{
-						currentRevInfo = await currentRevInfoTask.ConfigureAwait(false);
-
 						var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
 							repo,
 							repositorySettings,
@@ -407,7 +405,7 @@ namespace Tgstation.Server.Host.Components
 						await repo.ResetToOrigin(
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
-							true,
+							repositorySettings.UpdateSubmodules.Value,
 							NextProgressReporter(),
 							cancellationToken)
 						.ConfigureAwait(false);

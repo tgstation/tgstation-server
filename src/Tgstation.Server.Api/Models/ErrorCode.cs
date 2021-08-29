@@ -623,5 +623,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The user group cannot be created because the configured limit has been reached!")]
 		UserGroupLimitReached,
+
+		/// <summary>
+		/// A deployment took longer than the configured timeout.
+		/// </summary>
+		[Description("The deployment took longer than the configured timeout!")]
+		DeploymentTimeout,
 	}
 }
