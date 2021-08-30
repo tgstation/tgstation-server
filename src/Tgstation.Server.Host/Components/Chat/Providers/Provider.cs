@@ -257,15 +257,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							cancellationToken)
 							.ConfigureAwait(false);
 
-						try
-						{
-							// DCT: Always wait for the job to complete here
-							await jobManager.WaitForJobCompletion(job, null, cancellationToken, default).ConfigureAwait(false);
-						}
-						finally
-						{
-							initialConnectionTcs.TrySetResult(null);
-						}
+						// DCT: Always wait for the job to complete here
+						await jobManager.WaitForJobCompletion(job, null, cancellationToken, default).ConfigureAwait(false);
 					}
 				}
 				catch (OperationCanceledException)
