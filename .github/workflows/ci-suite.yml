@@ -794,19 +794,18 @@ jobs:
   deploy-docker:
     name: Deploy TGS (Docker)
     needs: [deploy-tgs]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Parse TGS version
-        shell: powershell
         run: |
-          [XML]$versionXML = Get-Content build/Version.props
-          $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
-          echo "TGS_VERSION=$tgsVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+          sudo apt-get update
+          sudo apt-get install -y install xmlstarlet
+          xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props >> $Env:GITHUB_ENV
 
-      - name: Deploy TGS (Docker)
+      - name: Docker Build and Push
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: tgstation/server
