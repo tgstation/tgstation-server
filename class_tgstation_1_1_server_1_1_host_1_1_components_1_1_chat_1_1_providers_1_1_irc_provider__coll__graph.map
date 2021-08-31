@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider">
-<area shape="rect" id="node1" title="IProvider for internet relay chat." alt="" coords="953,350,1180,391"/>
+<area shape="rect" id="node1" title="IProvider for internet relay chat." alt="" coords="953,326,1180,367"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="665,148,735,175"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="273,56,348,83"/>
 <area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,56,132,83"/>
@@ -15,8 +15,7 @@
 <area shape="rect" id="node14" title=" " alt="" coords="635,301,765,342"/>
 <area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="609,366,791,407"/>
 <area shape="rect" id="node16" title=" " alt="" coords="647,432,753,459"/>
-<area shape="rect" id="node17" title=" " alt="" coords="665,483,735,509"/>
-<area shape="rect" id="node18" title=" " alt="" coords="677,533,723,560"/>
-<area shape="rect" id="node19" title=" " alt="" coords="673,584,727,611"/>
-<area shape="rect" id="node20" title=" " alt="" coords="609,635,791,661"/>
+<area shape="rect" id="node17" title=" " alt="" coords="677,483,723,509"/>
+<area shape="rect" id="node18" title=" " alt="" coords="673,533,727,560"/>
+<area shape="rect" id="node19" title=" " alt="" coords="609,584,791,611"/>
 </map>

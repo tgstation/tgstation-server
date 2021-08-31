@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.14.0</span>
+   &#160;<span id="projectnumber">4.14.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -137,13 +137,13 @@ $(function() {
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
 <div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab77ee1149c17f06af44755f54aa19880">  104</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab77ee1149c17f06af44755f54aa19880">Disconnect</a>(CancellationToken cancellationToken)</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afab0213888c139dbb1786d7f5c0d8680">Connected</a>)</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            {</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a627edd03f216fa53e443b1901cf5599c">DisconnectImpl</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Disconnected&quot;</span>);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a19cca90f9904a5d3535cd27c3e3fe3fe">StopReconnectionTimer</a>().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a19cca90f9904a5d3535cd27c3e3fe3fe">StopReconnectionTimer</a>().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afab0213888c139dbb1786d7f5c0d8680">Connected</a>)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a627edd03f216fa53e443b1901cf5599c">DisconnectImpl</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Disconnected&quot;</span>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            }</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
 <div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac08fc8e6866dc5659c16a28840674cdc">  116</a></span>&#160;        <span class="keyword">public</span> <span class="keyword">abstract</span> Task&lt;IReadOnlyCollection&lt;ChannelRepresentation&gt;&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac08fc8e6866dc5659c16a28840674cdc">MapChannels</a>(IEnumerable&lt;Api.Models.ChatChannel&gt; channels, CancellationToken cancellationToken);</div>
@@ -261,34 +261,27 @@ $(function() {
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                            cancellationToken)</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                            .ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                        <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                        {</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                            <span class="comment">// DCT: Always wait for the job to complete here</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aa36ffb34c69e4a990830e49f97b7c142">jobManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(job, <span class="keyword">null</span>, cancellationToken, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                        }</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                        <span class="keywordflow">finally</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                        {</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9d0ff2a1c0d3cc6ad32e99f3c8debc2b">initialConnectionTcs</a>.TrySetResult(<span class="keyword">null</span>);</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                        }</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                    }</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                }</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                {</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                }</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                {</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogError(e, <span class="stringliteral">&quot;Error reconnecting!&quot;</span>);</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                }</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                <span class="keywordflow">finally</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                {</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9d0ff2a1c0d3cc6ad32e99f3c8debc2b">initialConnectionTcs</a>.TrySetResult(<span class="keyword">null</span>);</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                }</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            }</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        }</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    }</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;}</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                        <span class="comment">// DCT: Always wait for the job to complete here</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                        await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aa36ffb34c69e4a990830e49f97b7c142">jobManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(job, <span class="keyword">null</span>, cancellationToken, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                    }</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                {</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                }</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                {</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogError(e, <span class="stringliteral">&quot;Error reconnecting!&quot;</span>);</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                }</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                <span class="keywordflow">finally</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                {</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9d0ff2a1c0d3cc6ad32e99f3c8debc2b">initialConnectionTcs</a>.TrySetResult(<span class="keyword">null</span>);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                }</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            }</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        }</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    }</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Tgstation.Server.Host.Components.Chat.Providers.Message</a></div><div class="ttdoc">Represents a message recieved by a IProvider.</div><div class="ttdef"><b>Definition:</b> <a href="_message_8cs_source.html#l00006">Message.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html">Tgstation.Server.Host.Components.Chat.Providers.Provider</a></div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00016">Provider.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_a0cf9e8f2427fc076d90805ef6ee06a66"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a0cf9e8f2427fc076d90805ef6ee06a66">Tgstation.Server.Host.Components.Chat.Providers.Provider.messageQueue</a></div><div class="ttdeci">readonly Queue&lt; Message &gt; messageQueue</div><div class="ttdoc">Queue&lt;T&gt; of received Messages.</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00039">Provider.cs:39</a></div></div>
