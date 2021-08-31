@@ -23,11 +23,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// </summary>
 	sealed class IrcProvider : Provider
 	{
-		/// <summary>
-		/// Number of seconds used for several IRC related timeouts.
-		/// </summary>
-		const int TimeoutSeconds = 5;
-
 		/// <inheritdoc />
 		public override bool Connected => client.IsConnected;
 
@@ -133,9 +128,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				AutoRejoin = true,
 				AutoRejoinOnKick = true,
 				AutoRelogin = true,
-				AutoRetry = true,
-				AutoRetryLimit = TimeoutSeconds,
-				AutoRetryDelay = TimeoutSeconds,
+				AutoRetry = false,
+				AutoReconnect = false,
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
 				CtcpVersion = assemblyInformationProvider.VersionString,
@@ -578,7 +572,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			try
 			{
 				using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-				timeoutCts.CancelAfter(TimeSpan.FromSeconds(TimeoutSeconds));
+				timeoutCts.CancelAfter(TimeSpan.FromSeconds(25));
 				var timeoutToken = timeoutCts.Token;
 
 				var listenTimeSpan = TimeSpan.FromMilliseconds(10);
@@ -656,7 +650,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Task.WhenAll(
 					disconnectTask,
 					listenTask ?? Task.CompletedTask),
-				asyncDelayer.Delay(TimeSpan.FromSeconds(TimeoutSeconds), cancellationToken))
+				asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken))
 				.ConfigureAwait(false);
 		}
 	}

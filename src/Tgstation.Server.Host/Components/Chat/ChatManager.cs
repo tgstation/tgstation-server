@@ -774,7 +774,9 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					if (messageTasks.Count == 0)
 					{
+						logger.LogTrace("No providers active, pausing messsage monitoring...");
 						await updatedTask.WithToken(cancellationToken).ConfigureAwait(false);
+						logger.LogTrace("Resuming message monitoring...");
 						continue;
 					}
 

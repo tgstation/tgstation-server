@@ -103,13 +103,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task Disconnect(CancellationToken cancellationToken)
 		{
+			await StopReconnectionTimer().ConfigureAwait(false);
+
 			if (Connected)
 			{
 				await DisconnectImpl(cancellationToken).ConfigureAwait(false);
 				Logger.LogTrace("Disconnected");
 			}
-
-			await StopReconnectionTimer().ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -257,15 +257,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							cancellationToken)
 							.ConfigureAwait(false);
 
-						try
-						{
-							// DCT: Always wait for the job to complete here
-							await jobManager.WaitForJobCompletion(job, null, cancellationToken, default).ConfigureAwait(false);
-						}
-						finally
-						{
-							initialConnectionTcs.TrySetResult(null);
-						}
+						// DCT: Always wait for the job to complete here
+						await jobManager.WaitForJobCompletion(job, null, cancellationToken, default).ConfigureAwait(false);
 					}
 				}
 				catch (OperationCanceledException)

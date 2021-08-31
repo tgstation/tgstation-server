@@ -316,6 +316,7 @@ namespace Tgstation.Server.Host.Components
 
 					RevisionInformation currentRevInfo = null;
 					var hasDbChanges = false;
+					Models.Instance attachedInstance = null;
 					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<RevInfoTestMerge> updatedTestMerges)
 					{
 						if (currentRevInfo == null)
@@ -327,10 +328,15 @@ namespace Tgstation.Server.Host.Components
 							onOrigin = true;
 						}
 
-						var attachedInstance = new Models.Instance
+						if (attachedInstance == null)
 						{
-							Id = metadata.Id,
-						};
+							attachedInstance = new Models.Instance
+							{
+								Id = metadata.Id,
+							};
+							databaseContext.Instances.Attach(attachedInstance);
+						}
+
 						var oldRevInfo = currentRevInfo;
 						currentRevInfo = new RevisionInformation
 						{
@@ -345,7 +351,6 @@ namespace Tgstation.Server.Host.Components
 							currentRevInfo.ActiveTestMerges = new List<RevInfoTestMerge>(
 								updatedTestMerges ?? oldRevInfo.ActiveTestMerges);
 
-						databaseContext.Instances.Attach(attachedInstance);
 						databaseContext.RevisionInformations.Add(currentRevInfo);
 						hasDbChanges = true;
 					}
