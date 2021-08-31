@@ -103,13 +103,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task Disconnect(CancellationToken cancellationToken)
 		{
+			await StopReconnectionTimer().ConfigureAwait(false);
+
 			if (Connected)
 			{
 				await DisconnectImpl(cancellationToken).ConfigureAwait(false);
 				Logger.LogTrace("Disconnected");
 			}
-
-			await StopReconnectionTimer().ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
