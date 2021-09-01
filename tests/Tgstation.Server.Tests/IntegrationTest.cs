@@ -1061,7 +1061,7 @@ namespace Tgstation.Server.Tests
 				() => { });
 
 			const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
-			await repo.CheckoutObject(StartSha, null, null, true, progress => { }, default);
+			await repo.CheckoutObject(StartSha, null, null, true, (stage, progress) => { }, default);
 			var result = await repo.ShaIsParent("2f8588a3ca0f6b027704a2a04381215619de3412", default);
 			Assert.IsTrue(result);
 			Assert.AreEqual(StartSha, repo.Head);

@@ -45,6 +45,11 @@ namespace Tgstation.Server.Host.Jobs
 		public int? Progress { get; set; }
 
 		/// <summary>
+		/// The stage of the job.
+		/// </summary>
+		public string Stage { get; set; }
+
+		/// <summary>
 		/// Wait for <see cref="task"/> to complete.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>

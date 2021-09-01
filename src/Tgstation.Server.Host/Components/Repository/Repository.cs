@@ -114,20 +114,22 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Converts a given <paramref name="progressReporter"/> to a <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/>.
 		/// </summary>
-		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
+		/// <param name="stage">The stage argument for <paramref name="progressReporter"/>.</param>
 		/// <returns>A <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
-		static CheckoutProgressHandler CheckoutProgressHandler(Action<int> progressReporter) => (a, completedSteps, totalSteps) => progressReporter((int)(((float)completedSteps) / totalSteps * 100));
+		static CheckoutProgressHandler CheckoutProgressHandler(JobProgressReporter progressReporter, string stage) => (a, completedSteps, totalSteps) => progressReporter(stage, (int)(((float)completedSteps) / totalSteps * 100));
 
 		/// <summary>
 		/// Generate a <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> from a given <paramref name="progressReporter"/> and <paramref name="cancellationToken"/>.
 		/// </summary>
-		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
+		/// <param name="stage">The stage argument for <paramref name="progressReporter"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A new <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
-		static TransferProgressHandler TransferProgressHandler(Action<int> progressReporter, CancellationToken cancellationToken) => (transferProgress) =>
+		static TransferProgressHandler TransferProgressHandler(JobProgressReporter progressReporter, string stage, CancellationToken cancellationToken) => (transferProgress) =>
 		{
 			var percentage = 100 * (((float)transferProgress.IndexedObjects + transferProgress.ReceivedObjects) / (transferProgress.TotalObjects * 2));
-			progressReporter((int)percentage);
+			progressReporter(stage, (int)percentage);
 			return !cancellationToken.IsCancellationRequested;
 		};
 
@@ -204,7 +206,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string username,
 			string password,
 			bool updateSubmodules,
-			Action<int> progressReporter,
+			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
 			if (testMergeParameters == null)
@@ -258,7 +260,8 @@ namespace Tgstation.Server.Host.Components.Repository
 							logger.LogTrace("Fetching refspec {0}...", refSpec);
 
 							var remote = libGitRepo.Network.Remotes.First();
-							progressReporter(0);
+							var stage = $"Fetch {refSpec}";
+							progressReporter(stage, 0);
 							commands.Fetch(
 								libGitRepo,
 								refSpecList,
@@ -267,7 +270,10 @@ namespace Tgstation.Server.Host.Components.Repository
 								{
 									Prune = true,
 									OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-									OnTransferProgress = TransferProgressHandler(percentage => progressReporter(percentage / 2), cancellationToken),
+									OnTransferProgress = TransferProgressHandler(
+										(lambdaStage, progress) => progressReporter(lambdaStage, progress / 2),
+										stage,
+										cancellationToken),
 									OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 									CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 								},
@@ -299,7 +305,9 @@ namespace Tgstation.Server.Host.Components.Repository
 							FailOnConflict = true,
 							FastForwardStrategy = FastForwardStrategy.NoFastForward,
 							SkipReuc = true,
-							OnCheckoutProgress = CheckoutProgressHandler(percentage => progressReporter(50 + (percentage / 2))),
+							OnCheckoutProgress = CheckoutProgressHandler(
+								(lambdaStage, progress) => progressReporter(lambdaStage, 50 + (progress / 2)),
+								$"Merge {testMergeParameters.TargetCommitSha}"),
 						});
 					}
 					finally
@@ -354,7 +362,11 @@ namespace Tgstation.Server.Host.Components.Repository
 					.ConfigureAwait(false);
 
 				if (updateSubmodules)
-					await UpdateSubmodules(percentage => progressReporter(66 + (percentage / 3)), username, password, cancellationToken).ConfigureAwait(false);
+					await UpdateSubmodules(
+						(stage, progress) => progressReporter(stage, 66 + (progress.Value / 3)),
+						username,
+						password,
+						cancellationToken).ConfigureAwait(false);
 			}
 
 			await eventConsumer.HandleEvent(
@@ -378,7 +390,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string username,
 			string password,
 			bool updateSubmodules,
-			Action<int> progressReporter,
+			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
 			if (committish == null)
@@ -391,7 +403,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				() =>
 				{
 					libGitRepo.RemoveUntrackedFiles();
-					RawCheckout(committish, percentage => progressReporter(percentage * (updateSubmodules ? 2 : 3) / 3), cancellationToken);
+					RawCheckout(
+						committish,
+						(stage, progress) => progressReporter(stage, progress * (updateSubmodules ? 2 : 3) / 3),
+						cancellationToken);
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
@@ -399,11 +414,15 @@ namespace Tgstation.Server.Host.Components.Repository
 				.ConfigureAwait(false);
 
 			if (updateSubmodules)
-				await UpdateSubmodules(percentage => progressReporter(66 + (percentage / 3)), username, password, cancellationToken).ConfigureAwait(false);
+				await UpdateSubmodules(
+					(stage, progress) => progressReporter(stage, 66 + (progress / 3)),
+					username,
+					password,
+					cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public async Task FetchOrigin(string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task FetchOrigin(string username, string password, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
@@ -425,7 +444,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							{
 								Prune = true,
 								OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-								OnTransferProgress = TransferProgressHandler(progressReporter, cancellationToken),
+								OnTransferProgress = TransferProgressHandler(progressReporter, "Fetch Origin", cancellationToken),
 								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 								CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 							},
@@ -447,7 +466,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task ResetToOrigin(string username, string password, bool updateSubmodules, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task ResetToOrigin(
+			string username,
+			string password,
+			bool updateSubmodules,
+			JobProgressReporter progressReporter,
+			CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
@@ -458,16 +482,16 @@ namespace Tgstation.Server.Host.Components.Repository
 			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken).ConfigureAwait(false);
 			await ResetToSha(
 				trackedBranch.Tip.Sha,
-				percentage => progressReporter(percentage / (updateSubmodules ? 2 : 1)),
+				(stage, progress) => progressReporter(stage, progress / (updateSubmodules ? 2 : 1)),
 				cancellationToken)
 				.ConfigureAwait(false);
 
 			if (updateSubmodules)
-				await UpdateSubmodules(percentage => progressReporter(50 + (percentage / 2)), username, password, cancellationToken).ConfigureAwait(false);
+				await UpdateSubmodules((stage, progress) => progressReporter(stage, 50 + (progress / 2)), username, password, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public Task ResetToSha(string sha, Action<int> progressReporter, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public Task ResetToSha(string sha, JobProgressReporter progressReporter, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				if (sha == null)
@@ -488,7 +512,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 				libGitRepo.Reset(ResetMode.Hard, gitObject.Peel<Commit>(), new CheckoutOptions
 				{
-					OnCheckoutProgress = CheckoutProgressHandler(progressReporter),
+					OnCheckoutProgress = CheckoutProgressHandler(progressReporter, $"Reset to {gitObject.Sha}"),
 				});
 			},
 			cancellationToken,
@@ -520,7 +544,11 @@ namespace Tgstation.Server.Host.Components.Repository
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task<bool?> MergeOrigin(string committerName, string committerEmail, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task<bool?> MergeOrigin(
+			string committerName,
+			string committerEmail,
+			JobProgressReporter progressReporter,
+			CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
@@ -553,7 +581,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						FailOnConflict = true,
 						FastForwardStrategy = FastForwardStrategy.Default,
 						SkipReuc = true,
-						OnCheckoutProgress = CheckoutProgressHandler(progressReporter),
+						OnCheckoutProgress = CheckoutProgressHandler(progressReporter, "Merge Origin"),
 					});
 
 					cancellationToken.ThrowIfCancellationRequested();
@@ -563,7 +591,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						logger.LogDebug("Merge conflict, aborting and reverting to {0}", oldHead.FriendlyName);
 						libGitRepo.Reset(ResetMode.Hard, oldTip, new CheckoutOptions
 						{
-							OnCheckoutProgress = CheckoutProgressHandler(progressReporter),
+							OnCheckoutProgress = CheckoutProgressHandler(progressReporter, $"Hard Reset to {oldHead.FriendlyName}"),
 						});
 						cancellationToken.ThrowIfCancellationRequested();
 					}
@@ -590,7 +618,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string password,
 			string committerName,
 			string committerEmail,
-			Action<int> progressReporter,
+			JobProgressReporter progressReporter,
 			bool synchronizeTrackedBranch,
 			CancellationToken cancellationToken)
 		{
@@ -648,7 +676,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						libGitRepo.Reset(ResetMode.Hard, libGitRepo.Head.Tip, new CheckoutOptions
 						{
-							OnCheckoutProgress = CheckoutProgressHandler(progress => progressReporter(progress / 10)),
+							OnCheckoutProgress = CheckoutProgressHandler((stage, progress) => progressReporter(stage, progress / 10), "Hard reset and remove untracked files"),
 						});
 						cancellationToken.ThrowIfCancellationRequested();
 						libGitRepo.RemoveUntrackedFiles();
@@ -659,7 +687,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					.ConfigureAwait(false);
 			}
 
-			void FinalReporter(int progress) => progressReporter((int)(((float)progress) / 100 * 90));
+			void FinalReporter(string stage, int? progress) => progressReporter(stage, (int)(((float)progress) / 100 * 90));
 
 			if (!synchronizeTrackedBranch)
 			{
@@ -803,19 +831,20 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Runs a blocking force checkout to <paramref name="committish"/>.
 		/// </summary>
 		/// <param name="committish">The committish to checkout.</param>
-		/// <param name="progressReporter">Progress reporter <see cref="Action{T}"/>.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		void RawCheckout(string committish, Action<int> progressReporter, CancellationToken cancellationToken)
+		void RawCheckout(string committish, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Checkout: {0}", committish);
 
-			progressReporter(0);
+			var stage = $"Checkout {committish}";
+			progressReporter(stage, 0);
 			cancellationToken.ThrowIfCancellationRequested();
 
 			var checkoutOptions = new CheckoutOptions
 			{
 				CheckoutModifiers = CheckoutModifiers.Force,
-				OnCheckoutProgress = CheckoutProgressHandler(progressReporter),
+				OnCheckoutProgress = CheckoutProgressHandler(progressReporter, stage),
 			};
 
 			void RunCheckout() => commands.Checkout(
@@ -855,10 +884,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="username">The username to fetch from the origin repository.</param>
 		/// <param name="password">The password to fetch from the origin repository.</param>
-		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
+		/// <param name="progressReporter"><see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task PushHeadToTemporaryBranch(string username, string password, Action<int> progressReporter, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		Task PushHeadToTemporaryBranch(string username, string password, JobProgressReporter progressReporter, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				logger.LogInformation("Pushing changes to temporary remote branch...");
@@ -870,9 +899,9 @@ namespace Tgstation.Server.Host.Components.Repository
 					try
 					{
 						var forcePushString = String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName);
-						libGitRepo.Network.Push(remote, forcePushString, GeneratePushOptions(progress => progressReporter((int)(0.9f * progress)), username, password, cancellationToken));
+						libGitRepo.Network.Push(remote, forcePushString, GeneratePushOptions((stage, progress) => progressReporter(stage, (int)(0.9f * progress)), username, password, cancellationToken));
 						var removalString = String.Format(CultureInfo.InvariantCulture, ":{0}", branch.CanonicalName);
-						libGitRepo.Network.Push(remote, removalString, GeneratePushOptions(progress => progressReporter(90 + (int)(0.1f * progress)), username, password, cancellationToken));
+						libGitRepo.Network.Push(remote, removalString, GeneratePushOptions((stage, progress) => progressReporter(stage, 90 + (int)(0.1f * progress)), username, password, cancellationToken));
 					}
 					catch (UserCancelledException)
 					{
@@ -895,23 +924,23 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Generate a standard set of <see cref="PushOptions"/>.
 		/// </summary>
-		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
+		/// <param name="progressReporter"><see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="username">The username for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A new set of <see cref="PushOptions"/>.</returns>
-		PushOptions GeneratePushOptions(Action<int> progressReporter, string username, string password, CancellationToken cancellationToken) => new PushOptions
+		PushOptions GeneratePushOptions(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken) => new PushOptions
 		{
 			OnPackBuilderProgress = (stage, current, total) =>
 			{
 				var baseProgress = stage == PackBuilderStage.Counting ? 0 : 25;
-				progressReporter(baseProgress + ((int)(25 * ((float)current) / total)));
+				progressReporter("Push", baseProgress + ((int)(25 * ((float)current) / total)));
 				return !cancellationToken.IsCancellationRequested;
 			},
 			OnNegotiationCompletedBeforePush = (a) => !cancellationToken.IsCancellationRequested,
 			OnPushTransferProgress = (a, sentBytes, totalBytes) =>
 			{
-				progressReporter(50 + ((int)(50 * ((float)sentBytes) / totalBytes)));
+				progressReporter("Push", 50 + ((int)(50 * ((float)sentBytes) / totalBytes)));
 				return !cancellationToken.IsCancellationRequested;
 			},
 			CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
@@ -920,12 +949,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Recusively update all <see cref="Submodule"/>s in the <see cref="libGitRepo"/>.
 		/// </summary>
-		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
+		/// <param name="progressReporter"><see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="username">The username for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task UpdateSubmodules(Action<int> progressReporter, string username, string password, CancellationToken cancellationToken)
+		async Task UpdateSubmodules(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken)
 		{
 			var submoduleCount = libGitRepo.Submodules.Count();
 			if (submoduleCount == 0)
@@ -940,15 +969,20 @@ namespace Tgstation.Server.Host.Components.Repository
 			var factor = 100 / submoduleCount;
 			foreach (var submodule in libGitRepo.Submodules)
 			{
-				void LocalProgressReporter(int percentage) => progressReporter((iteration * factor) + (percentage / submoduleCount));
+				void LocalProgressReporter(string stage, int percentage) => progressReporter(stage, (iteration * factor) + (percentage / submoduleCount));
 				var submoduleUpdateOptions = new SubmoduleUpdateOptions
 				{
 					Init = true,
-					OnTransferProgress = TransferProgressHandler(percentage => LocalProgressReporter(percentage / 2), cancellationToken),
+					OnTransferProgress = TransferProgressHandler(
+						(stage, progress) => LocalProgressReporter(stage, progress.Value / 2),
+						$"Fetch submodule {submodule.Name}",
+						cancellationToken),
 					OnProgress = output => !cancellationToken.IsCancellationRequested,
 					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
-					OnCheckoutProgress = CheckoutProgressHandler(percentage => LocalProgressReporter(50 + (percentage / 2))),
+					OnCheckoutProgress = CheckoutProgressHandler(
+						(stage, progress) => LocalProgressReporter(stage, 50 + (progress.Value / 2)),
+						$"Checkout submodule {submodule.Name}"),
 				};
 
 				logger.LogDebug("Updating submodule {0}...", submodule.Name);

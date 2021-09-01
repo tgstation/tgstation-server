@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Jobs;
+
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
@@ -15,7 +17,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		bool InUse { get; }
 
 		/// <summary>
-		/// If a <see cref="CloneRepository(Uri, string, string, string, Action{int}, bool, CancellationToken)"/> operation is in progress.
+		/// If a <see cref="CloneRepository(Uri, string, string, string, JobProgressReporter, bool, CancellationToken)"/> operation is in progress.
 		/// </summary>
 		bool CloneInProgress { get; }
 
@@ -33,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="initialBranch">The branch to clone.</param>
 		/// <param name="username">The username to clone from <paramref name="url"/>.</param>
 		/// <param name="password">The password to clone from <paramref name="url"/>.</param>
-		/// <param name="progressReporter">A function to report 0-100 progress of the clone.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for progress of the clone.</param>
 		/// <param name="recurseSubmodules">If submodules should be recusively cloned and initialized.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The newly cloned <see cref="IRepository"/>, <see langword="null"/> if one already exists.</returns>
@@ -42,7 +44,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string initialBranch,
 			string username,
 			string password,
-			Action<int> progressReporter,
+			JobProgressReporter progressReporter,
 			bool recurseSubmodules,
 			CancellationToken cancellationToken);
 
