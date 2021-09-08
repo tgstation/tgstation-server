@@ -409,7 +409,7 @@ namespace Tgstation.Server.Host.Database
 			if (targetVersion == null)
 				throw new ArgumentNullException(nameof(targetVersion));
 			if (targetVersion < new Version(4, 0))
-				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Not a valid V4 version!");
+				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Cannot migrate below version 4.0.0!");
 
 			if (currentDatabaseType == DatabaseType.PostgresSql && targetVersion < new Version(4, 3, 0))
 				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");

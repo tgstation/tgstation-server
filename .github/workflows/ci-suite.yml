@@ -1,4 +1,4 @@
-name: 'CI'
+﻿name: 'CI'
 
 on:
   push:
@@ -11,13 +11,13 @@ on:
     - master
 
 env:
-  TGS4_DOTNET_VERSION: 3.1.x
-  TGS4_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
-  TGS4_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-  TGS4_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
-  TGS4_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
-  TGS4_TEST_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TGS4_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+  TGS_DOTNET_VERSION: 3.1.x
+  TGS_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
+  TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+  TGS_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
+  TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+  TGS_TEST_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
 jobs:
   dmapi-build:
@@ -134,7 +134,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
     - name: Checkout
       uses: actions/checkout@v1
@@ -161,7 +161,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
     - name: Checkout
       uses: actions/checkout@v1
@@ -185,8 +185,8 @@ jobs:
     name: Windows Integration Test
     needs: dmapi-build
     env:
-      TGS4_TEST_DATABASE_TYPE: SqlServer
-      TGS4_TEST_DUMP_API_SPEC: yes
+      TGS_TEST_DATABASE_TYPE: SqlServer
+      TGS_TEST_DUMP_API_SPEC: yes
     concurrency: integration-windows-${{ github.head_ref }}
     strategy:
       max-parallel: 2
@@ -198,35 +198,35 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
 
-    - name: Set TGS4_TEST_CONNECTION_STRING
+    - name: Set TGS_TEST_CONNECTION_STRING
       shell: bash
       run: |
-        TGS4_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
-        echo "TGS4_TEST_CONNECTION_STRING=$(echo $TGS4_CONNSTRING_VALUE)" >> $GITHUB_ENV
+        TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
+        echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
 
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
+    - name: Set TGS_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $Env:GITHUB_ENV
+      run: echo "TGS_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $Env:GITHUB_ENV
 
-    - name: Set TGS4_GITHUB_REF for PR
+    - name: Set TGS_GITHUB_REF for PR
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.base_ref }}" >> $Env:GITHUB_ENV
+      run: echo "TGS_GITHUB_REF=${{ github.base_ref }}" >> $Env:GITHUB_ENV
 
-    - name: Set TGS4_GITHUB_REF for push
+    - name: Set TGS_GITHUB_REF for push
       if: ${{ github.event_name == 'push' }}
       shell: bash
       run: |
         TEMP_GITHUB_REF="${{ github.event.ref }}"
-        echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
+        echo "TGS_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
 
     - name: Clean package cache as a temporary workaround for actions/setup-dotnet#155
       run: dotnet clean && dotnet nuget locals all --clear
@@ -329,31 +329,31 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
     - name: Set Sqlite Connection Info
       if: ${{ matrix.database-type == 'Sqlite' }}
       run: |
-        echo "TGS4_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
-        echo "TGS4_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
+        echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
 
     - name: Set PostgresSql Connection Info
       if: ${{ matrix.database-type == 'PostgresSql' }}
       run: |
-        echo "TGS4_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
-        echo "TGS4_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+        echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
 
     - name: Set MariaDB Connection Info
       if: ${{ matrix.database-type == 'MariaDB' }}
       run: |
-        echo "TGS4_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
-        echo "TGS4_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+        echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
 
     - name: Set MySQL Connection Info
       if: ${{ matrix.database-type == 'MySql' }}
       run: |
-        echo "TGS4_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
-        echo "TGS4_TEST_CONNECTION_STRING=Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+        echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
         echo "Database__ServerVersion=5.7.31" >> $GITHUB_ENV
 
     - name: Set General__UseBasicWatchdog
@@ -363,20 +363,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
+    - name: Set TGS_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
+      run: echo "TGS_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
 
-    - name: Set TGS4_GITHUB_REF for PR
+    - name: Set TGS_GITHUB_REF for PR
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.base_ref }}" >> $GITHUB_ENV
+      run: echo "TGS_GITHUB_REF=${{ github.base_ref }}" >> $GITHUB_ENV
 
-    - name: Set TGS4_GITHUB_REF for push
+    - name: Set TGS_GITHUB_REF for push
       if: ${{ github.event_name == 'push' }}
       shell: bash
       run: |
         TEMP_GITHUB_REF="${{ github.event.ref }}"
-        echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
+        echo "TGS_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
 
     - name: Run Integration Test
       run: |
@@ -658,7 +658,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
       - name: Checkout
         uses: actions/checkout@v1

@@ -58,7 +58,7 @@ namespace Tgstation.Server.Api.Models
 		MissingHostWatchdog,
 
 		/// <summary>
-		/// Attempted to change to a major version TGS4.
+		/// Attempted to change to a major version less than 4.
 		/// </summary>
 		[Description("Cannot downgrade to tgstation-server major version <4!")]
 		CannotChangeServerSuite,

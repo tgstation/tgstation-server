@@ -1,4 +1,4 @@
-# tgstation-server v4:
+# tgstation-server:
 
 ![CI](https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
@@ -12,7 +12,7 @@ This is a toolset to manage production BYOND servers. It includes the ability to
 
 ### Legacy Servers
 
-Older server versions can be found in the V# branches of this repository. Note that V4 is nearly fully incompatible with existing installations. Only some static files may be copied over: https://github.com/tgstation/tgstation-server#static-files
+Older server versions can be found in the V# branches of this repository. Note that the current server fully incompatible with installations before version 4. Only some static files may be copied over: https://github.com/tgstation/tgstation-server#static-files
 
 ## Setup
 
@@ -23,7 +23,7 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Installation
 
-1. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The `ServerService` package will only work on Windows. Choose `ServerConsole` if that is not your target OS or you prefer not to use the Windows service.
+1. [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The `ServerService` package will only work on Windows. Choose `ServerConsole` if that is not your target OS or you prefer not to use the Windows service.
 2. Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
 
 #### Windows
@@ -67,7 +67,7 @@ docker run \
 	-p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need
 	-p 0.0.0.0:<public game port>:<public game port> \ # Port bridge for accessing DreamDaemon
 	-v /path/to/your/configfile/directory:/config_data \ # Recommended, create a volume mapping for server configuration
-	-v /path/to/store/instances:/tgs4_instances \ # Recommended, create a volume mapping for server instances
+	-v /path/to/store/instances:/tgs_instances \ # Recommended, create a volume mapping for server instances
 	-v /path/to/your/log/folder:/tgs_logs \ # Recommended, create a volume mapping for server logs
 	tgstation/server[:<release version>]
 ```
@@ -79,7 +79,7 @@ Important note about port exposure: The internal port used by DreamDaemon _**MUS
 
 Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
 
-The configuration option `General:ValidInstancePaths` will be preconfigured to point to `/tgs4_instances`. It is recommended you don't change this.
+The configuration option `General:ValidInstancePaths` will be preconfigured to point to `/tgs_instances`. It is recommended you don't change this.
 
 Note that this container is meant to be long running. Updates are handled internally as opposed to at the container level.
 
@@ -89,7 +89,7 @@ If using manual configuration, before starting your container make sure the afor
 
 ### Configuring
 
-The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your `appsettings.Production.yml`
+The first time you run TGS you should be prompted with a configuration wizard which will guide you through setting up your `appsettings.Production.yml`
 
 This wizard will, generally, run whenever the server is launched without detecting the config yml. Follow the instructions below to perform this process manually.
 
@@ -107,7 +107,7 @@ The latter two are not recommended as they cannot be dynamically changed at runt
 
 Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will override the default settings in `appsettings.yml` with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
 
-- `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).
+- `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version.
 
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
 
@@ -137,7 +137,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
 
-- `Elasticsearch`: tgstation-server-v4 also supports automatically ingesting its logs to ElasticSearch. You can set this up in the setup wizard, or with the following configuration:
+- `Elasticsearch`: tgstation-server also supports automatically ingesting its logs to ElasticSearch. You can set this up in the setup wizard, or with the following configuration:
   ```yml
   Elasticsearch:
     Enable: true
@@ -356,11 +356,13 @@ Instances can be either part of a swarm or not. Once in the database they cannot
 
 ## Usage
 
-tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.
+tgstation-server is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.
 
 ### Updating
 
-TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release made to this repository is bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Because of this REVERTING TO LOWER VERSIONS IS NOT OFFICIALLY SUPPORTED, do so at your own risk (check changes made to `/src/Tgstation.Server.Host/Models/Migrations`).
+TGS can self update without stopping your DreamDaemon servers. Releases made to this repository are bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Because of this REVERTING TO LOWER VERSIONS IS NOT OFFICIALLY SUPPORTED, do so at your own risk (check changes made to `/src/Tgstation.Server.Host/Models/Migrations`).
+
+Major version updates may require additional action on the part of the user (apart from the configuration changes).
 
 #### Notifications
 
@@ -446,7 +448,7 @@ Any files and folders contained in this root level of this folder will be symbol
 
 ### Clients
 
-Here are tools for interacting with the TGS 4 web API
+Here are tools for interacting with the TGS web API
 
 - [tgstation-server-webpanel](https://github.com/tgstation/tgstation-server-webpanel): Official client and included with the server (WIP). A react web app for using tgstation-server.
 - [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.

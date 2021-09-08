@@ -34,7 +34,7 @@ namespace ReleaseNotes
 
 			var doNotCloseMilestone = args.Length > 1 && args[1].ToUpperInvariant() == "--NO-CLOSE";
 
-			const string ReleaseNotesEnvVar = "TGS4_RELEASE_NOTES_TOKEN";
+			const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
 			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone)
 			{

@@ -60,9 +60,9 @@ namespace Tgstation.Server.Tests
 			}
 			catch (RateLimitException)
 			{
-				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 				{
-					Assert.Inconclusive("GitHub rate limit hit while testing administration endpoint. Set environment variable TGS4_TEST_GITHUB_TOKEN to fix this!");
+					Assert.Inconclusive("GitHub rate limit hit while testing administration endpoint. Set environment variable TGS_TEST_GITHUB_TOKEN to fix this!");
 				}
 
 				// CI fails all the time b/c of this, ignore it
