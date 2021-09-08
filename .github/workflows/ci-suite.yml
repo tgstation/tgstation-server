@@ -789,7 +789,19 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./ServerUpdatePackage.zip
           asset_name: ServerUpdatePackage.zip
-          asset_content_type: application/zip
+          asset_content_type: application/zip- name: Create comment
+
+  deploy-docker:
+    name: Post Comment To Server Update Thread
+    needs: [deploy-tgs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post Comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.DEV_PUSH_TOKEN }}
+          issue-number: 1322
+          body: \[tgstation-server-v${{ env.TGS_VERSION }}](${{ steps.create_release.outputs.html_url }}) released.
 
   deploy-docker:
     name: Deploy TGS (Docker)
