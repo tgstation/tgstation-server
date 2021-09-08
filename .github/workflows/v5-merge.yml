@@ -1,0 +1,28 @@
+name: 'V5 Merge'
+
+on:
+    push:
+      branches:
+        - dev
+
+jobs:
+  master-merge:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Merge dev into V5
+      uses: robotology/gh-action-nightly-merge@v1.2.0
+      with:
+        stable_branch: 'dev'
+        development_branch: 'V5'
+        allow_ff: true
+        user_name: tgstation-server
+        user_email: tgstation-server@users.noreply.github.com
+        push_token: DEV_PUSH_TOKEN
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEV_PUSH_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
