@@ -501,7 +501,10 @@ namespace Tgstation.Server.Host.Components.Chat
 				: $"TGS: Updating to version {updateVersion}...";
 			List<ulong> wdChannels;
 			lock (mappedChannels) // so it doesn't change while we're using it
-				wdChannels = mappedChannels.Select(x => x.Key).ToList();
+				wdChannels = mappedChannels
+					.Where(x => !x.Value.Channel.IsPrivateChannel)
+					.Select(x => x.Key)
+					.ToList();
 
 			return SendMessage(message, wdChannels, cancellationToken);
 		}
