@@ -631,7 +631,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
 			}
 
-			await Task.WhenAll(ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken), ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken), ValidateStaticFolder()).ConfigureAwait(false);
+			await Task.WhenAll(
+				ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken),
+				ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken),
+				ValidateStaticFolder())
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
