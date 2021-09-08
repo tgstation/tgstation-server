@@ -39,8 +39,9 @@ namespace Tgstation.Server.Host.Components.Events
 			if (watchdog == null)
 				throw new InvalidOperationException("EventConsumer used without watchdog set!");
 
-			await configuration.HandleEvent(eventType, parameters, cancellationToken).ConfigureAwait(false);
+			var scriptTask = configuration.HandleEvent(eventType, parameters, cancellationToken);
 			await watchdog.HandleEvent(eventType, parameters, cancellationToken).ConfigureAwait(false);
+			await scriptTask.ConfigureAwait(false);
 		}
 
 		/// <summary>
