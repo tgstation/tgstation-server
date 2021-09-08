@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Threading;
@@ -70,7 +70,7 @@ namespace Tgstation.Server.Tests
 			}
 
 			//we've released a few 4.x versions now, check the release checker is at least somewhat functional
-			Assert.AreEqual(4, model.LatestVersion.Major);
+			Assert.IsTrue(4 <= model.LatestVersion.Major);
 		}
 	}
 }

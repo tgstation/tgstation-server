@@ -201,8 +201,6 @@ namespace ReleaseNotes
 
 				var releases = await releasesTask.ConfigureAwait(false);
 
-				var releasingSuite = version.Major;
-
 				Version highestReleaseVersion = null;
 				Release highestRelease = null;
 				foreach (var I in releases)
@@ -213,7 +211,7 @@ namespace ReleaseNotes
 						continue;
 					}
 
-					if (currentReleaseVersion.Major == releasingSuite && (highestReleaseVersion == null || currentReleaseVersion > highestReleaseVersion) && version != currentReleaseVersion)
+					if (currentReleaseVersion.Major == version.Major && (highestReleaseVersion == null || currentReleaseVersion > highestReleaseVersion) && version != currentReleaseVersion)
 					{
 						highestReleaseVersion = currentReleaseVersion;
 						highestRelease = I;
@@ -222,7 +220,7 @@ namespace ReleaseNotes
 
 				if (highestReleaseVersion == null)
 				{
-					Console.WriteLine("Unable to determine highest release version for suite " + releasingSuite + "!");
+					Console.WriteLine("Unable to determine highest release version for major version " + version.Major + "!");
 					return 6;
 				}
 
@@ -247,48 +245,37 @@ namespace ReleaseNotes
 				oldNotes = String.Join('\n', splits);
 
 				string prefix;
-				switch (releasingSuite)
+				const string PropsPath = "build/Version.props";
+				const string ControlPanelPropsPath = "build/ControlPanelVersion.props";
+
+				var doc = XDocument.Load(PropsPath);
+				var project = doc.Root;
+				var xmlNamespace = project.GetDefaultNamespace();
+				var versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
+
+				var doc2 = XDocument.Load(ControlPanelPropsPath);
+				var project2 = doc2.Root;
+				var controlPanelXmlNamespace = project2.GetDefaultNamespace();
+				var controlPanelVersionsPropertyGroup = project2.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
+
+				var coreVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCoreVersion").Value);
+				if (coreVersion != version)
 				{
-					case 4:
-						const string PropsPath = "build/Version.props";
-						const string ControlPanelPropsPath = "build/ControlPanelVersion.props";
-
-						var doc = XDocument.Load(PropsPath);
-						var project = doc.Root;
-						var xmlNamespace = project.GetDefaultNamespace();
-						var versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
-
-						var doc2 = XDocument.Load(ControlPanelPropsPath);
-						var project2 = doc2.Root;
-						var controlPanelXmlNamespace = project2.GetDefaultNamespace();
-						var controlPanelVersionsPropertyGroup = project2.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
-
-						var coreVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCoreVersion").Value);
-						if (coreVersion != version)
-						{
-							Console.WriteLine("Received a different version on command line than in Version.props!");
-							return 10;
-						}
-
-						var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value);
-						var configVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value);
-						var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
-						var interopVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsInteropVersion").Value);
-						var webControlVersion = Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value);
-						var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
-
-						if (webControlVersion.Major == 0)
-							postControlPanelMessage = true;
-
-						prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nConfiguration: {configVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion} (Interop: {interopVersion})\n[Web Control Panel](https://github.com/tgstation/tgstation-server-webpanel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
-						break;
-					case 3:
-						prefix = "The /tg/station server suite";
-						break;
-					default:
-						prefix = "See https://tgstation.github.io/tgstation-server for installation instructions";
-						break;
+					Console.WriteLine("Received a different version on command line than in Version.props!");
+					return 10;
 				}
+
+				var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value);
+				var configVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value);
+				var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
+				var interopVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsInteropVersion").Value);
+				var webControlVersion = Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value);
+				var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
+
+				if (webControlVersion.Major == 0)
+					postControlPanelMessage = true;
+
+				prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nConfiguration: {configVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion} (Interop: {interopVersion})\n[Web Control Panel](https://github.com/tgstation/tgstation-server-webpanel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
 
 				var newNotes = new StringBuilder(prefix);
 				if (postControlPanelMessage)
@@ -453,7 +440,7 @@ namespace ReleaseNotes
 
 				newNotes.Append(Environment.NewLine);
 
-				if (version != new Version(4, 1, 0))
+				if (version.Minor != 0 && version.Build != 0)
 					newNotes.Append(oldNotes);
 
 				const string OutputPath = "release_notes.md";
