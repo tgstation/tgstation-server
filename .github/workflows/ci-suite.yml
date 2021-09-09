@@ -11,7 +11,7 @@ on:
     - master
 
 env:
-  TGS_DOTNET_VERSION: 6.x.x
+  TGS_DOTNET_VERSION: 6.0.x
   TGS_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
   TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
   TGS_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
