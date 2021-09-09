@@ -25,7 +25,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task RunPreWatchdog(CancellationToken cancellationToken)
 		{
-			const string TestRefEnvVar = "TGS4_GITHUB_REF";
+			const string TestRefEnvVar = "TGS_GITHUB_REF";
 			var envVar = Environment.GetEnvironmentVariable(TestRefEnvVar);
 			string workingBranch = null;
 			if (!String.IsNullOrWhiteSpace(envVar))
@@ -108,12 +108,12 @@ namespace Tgstation.Server.Tests.Instance
 			updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }, true, false, cancellationToken);
 
 			// Fake ref
-			updated = await Checkout(new RepositoryUpdateRequest { Reference = "Tgs4IntegrationTestFakeBranchNeverNameABranchThis" }, true, true, cancellationToken);
+			updated = await Checkout(new RepositoryUpdateRequest { Reference = "TgsIntegrationTestFakeBranchNeverNameABranchThis" }, true, true, cancellationToken);
 
 			// Back
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = workingBranch }, false, true, cancellationToken);
 
-			var testPRString = Environment.GetEnvironmentVariable("TGS4_TEST_PULL_REQUEST_NUMBER");
+			var testPRString = Environment.GetEnvironmentVariable("TGS_TEST_PULL_REQUEST_NUMBER");
 			if (String.IsNullOrWhiteSpace(testPRString))
 				testPRString = Environment.GetEnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER");
 			if (String.IsNullOrWhiteSpace(testPRString))

@@ -37,9 +37,9 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			var firstBotReq = new ChatBotCreateRequest
 			{
-				ConnectionString = Environment.GetEnvironmentVariable("TGS4_TEST_IRC_CONNECTION_STRING"),
+				ConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING"),
 				Enabled = false,
-				Name = "tgs4_integration_test",
+				Name = "tgs_integration_test",
 				Provider = ChatProvider.Irc,
 				ReconnectionInterval = 1,
 				ChannelLimit = 1
@@ -68,7 +68,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.AreEqual(true, updatedBot.Enabled);
 
-			var channelId = Environment.GetEnvironmentVariable("TGS4_TEST_IRC_CHANNEL"); ;
+			var channelId = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL"); ;
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Tests.Instance
 				ConnectionString =
 					new DiscordConnectionStringBuilder
 					{
-						BotToken = Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_TOKEN"),
+						BotToken = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN"),
 						DMOutputDisplay = DiscordDMOutputDisplayType.OnError
 					}.ToString(),
 				Enabled = false,
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.AreEqual(true, updatedBot.Enabled);
 
-			var channelId = UInt64.Parse(Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_CHANNEL"));
+			var channelId = UInt64.Parse(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL"));
 			firstBot.Channels = new List<ChatChannel>
 			{
 				new ChatChannel

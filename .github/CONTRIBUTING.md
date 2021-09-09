@@ -39,14 +39,14 @@ You need the Dotnet 3.1 SDK and npm>=v5.7 (in your PATH) to compile the server. 
 The recommended IDE is Visual Studio 2019 which has installation options for both of these.
 
 In order to run the integration tests you must have the following environment variables set:
-- `TGS4_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
-- `TGS4_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
-- `TSG4_TEST_DISCORD_TOKEN`: To a valid discord bot token.
-- `TGS4_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
-- `TGS4_TEST_IRC_CONNECTION_STRING`: To a valid TGS4 IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
-- `TGS4_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
-- `TGS4_TEST_BRANCH`: Should be either `dev` or `master` depending on what you are working off of. Used for repository tests.
-- (Optional) `TGS4_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
+- `TGS_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
+- `TGS_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
+- `TSG_TEST_DISCORD_TOKEN`: To a valid discord bot token.
+- `TGS_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
+- `TGS_TEST_IRC_CONNECTION_STRING`: To a valid IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
+- `TGS_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
+- `TGS_TEST_BRANCH`: Should be either `dev` or `master` depending on what you are working off of. Used for repository tests.
+- (Optional) `TGS_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
 
 ### Know your Code
 
@@ -240,9 +240,9 @@ The NuGet package Tgstation.Server.Client is another part of the suite which sho
 
 _This section mainly applies to people with write access to the repository. Anyone is free to propose their work and maintainers will triage it appropriately._
 
-When issues affecting the server come in, they should be lebeled appropriately and either put into the `V4 Backlog` milestone or current patch milestone depending on if it's a feature request or bug.
+When issues affecting the server come in, they should be lebeled appropriately and either put into the `Backlog` milestone or current patch milestone depending on if it's a feature request or bug.
 
-After a minor release, the team should decide at that time what will go into it and setup the milestone accordingly. At this point the `Backlog` label should be removed and replaced with `Ready` and the milestone changed from `V4 Backlog` to `v4.X.0` with X being the minor release version.
+After a minor release, the team should decide at that time what will go into it and setup the milestone accordingly. At this point the `Backlog` label should be removed and replaced with `Ready` and the milestone changed from `Backlog` to `vX.Y.0` with X/Y being the major/minor release versions respectively.
 
 Assign work before beginning on it. When work is started, replace the `Ready` label with the `Work In Progress` label.
 
