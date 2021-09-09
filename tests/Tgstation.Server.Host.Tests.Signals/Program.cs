@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +17,15 @@ namespace Tgstation.Server.Host.Tests.Signals
 	static class Program
 	{
 		static async Task Main()
+		{
+			if (OperatingSystem.IsWindows())
+				throw new InvalidOperationException("Cannot run this test on Windows!");
+
+			await Run();
+		}
+
+		[UnsupportedOSPlatform("windows")]
+		static async Task Run()
 		{
 			var mockServerControl = new Mock<IServerControl>();
 
@@ -35,7 +45,9 @@ namespace Tgstation.Server.Host.Tests.Signals
 
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => signalHandler.StartAsync(default));
+			Task Start() => signalHandler.StartAsync(default);
+
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(Start);
 
 			Assert.IsFalse(tcs.Task.IsCompleted);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +10,8 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// <see cref="ISystemIdentityFactory"/> for posix systems.
 	/// </summary>
-	/// <remarks>TODO: Blocked by https://github.com/dotnet/corefx/issues/3187</remarks>
+	/// <remarks>TODO: Blocked by https://github.com/dotnet/corefx/issues/3187 (Abandoned)</remarks>
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixSystemIdentityFactory : ISystemIdentityFactory
 	{
 		/// <inheritdoc />

@@ -1,33 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <DebugType>Full</DebugType>
     <Version>$(TgsCoreVersion)</Version>
+    <DocumentationFile>bin\$(Configuration)\net6.0\Tgstation.Server.Host.Console.xml</DocumentationFile>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netcoreapp3.1\Tgstation.Server.Host.Console.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;SA1652</NoWarn>
-    <DocumentationFile>bin\Debug\netcoreapp3.1\Tgstation.Server.Host.Console.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>

@@ -245,6 +245,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			restartRegistration.Dispose();
 
 			// DCT: None available, Operation must always run
+			releaseServers = true; // Set this to avoid clearing persitence info. It's not the time to do that
 			await DisposeAndNullControllers(default).ConfigureAwait(false);
 			controllerDisposeSemaphore.Dispose();
 			monitorCts?.Dispose();

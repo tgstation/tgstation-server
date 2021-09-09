@@ -3,7 +3,7 @@
     "Tgstation.Server.Host.Console": {
       "commandName": "Project",
       "commandLineArgs": "--attach-host-debugger",
-      "workingDirectory": "bin\\Debug\\netcoreapp3.1",
+      "workingDirectory": "bin\\Debug\\net6.0",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

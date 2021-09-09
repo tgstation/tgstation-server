@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
+	[SupportedOSPlatform("windows")]
 	sealed class WindowsProcessFeatures : IProcessFeatures
 	{
 		/// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
+using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// <see cref="ISystemIdentity"/> for windows systems.
 	/// </summary>
+	[SupportedOSPlatform("windows")]
 	sealed class WindowsSystemIdentity : ISystemIdentity
 	{
 		/// <inheritdoc />

@@ -90,7 +90,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 			try
 			{
 				httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-				httpClient.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
 				return httpClient;
 			}
 			catch

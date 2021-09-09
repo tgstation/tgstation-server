@@ -38,18 +38,21 @@ namespace Tgstation.Server.Host.Database
 			if (databaseConfiguration.DatabaseType != DatabaseType.MariaDB && databaseConfiguration.DatabaseType != DatabaseType.MySql)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(MySqlDatabaseContext)}!");
 
+			var serverVersion = String.IsNullOrEmpty(databaseConfiguration.ServerVersion)
+				? ServerVersion.AutoDetect(databaseConfiguration.ConnectionString)
+				: ServerVersion.Parse(
+					databaseConfiguration.ServerVersion,
+					databaseConfiguration.DatabaseType == DatabaseType.MariaDB
+						? ServerType.MariaDb
+						: ServerType.MySql);
+
 			options.UseMySql(
 				databaseConfiguration.ConnectionString,
-				mySqlOptions =>
+				serverVersion,
+				builder =>
 				{
-					mySqlOptions.EnableRetryOnFailure();
-
-					if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))
-						mySqlOptions.ServerVersion(
-							Version.Parse(databaseConfiguration.ServerVersion),
-							databaseConfiguration.DatabaseType == DatabaseType.MariaDB
-								? ServerType.MariaDb
-								: ServerType.MySql);
+					builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+					builder.EnableRetryOnFailure();
 				});
 		}
 	}

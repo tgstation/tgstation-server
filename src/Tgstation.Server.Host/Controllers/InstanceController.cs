@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// File name to allow attaching instances.
 		/// </summary>
-		public const string InstanceAttachFileName = "TGS4_ALLOW_INSTANCE_ATTACH";
+		public const string InstanceAttachFileName = "TGS_ALLOW_INSTANCE_ATTACH";
 
 		/// <summary>
 		/// Prefix for move <see cref="JobResponse"/>s.

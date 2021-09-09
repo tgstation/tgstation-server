@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Security
 					asyncDelayer,
 					() =>
 					{
-						logger.LogDebug("Expiring system identity cache for user {1}", uid, user.Id);
+						logger.LogDebug("Expiring system identity cache for user {1}", user.Id);
 						lock (cachedIdentities)
 							cachedIdentities.Remove(user.Id.Value);
 					},

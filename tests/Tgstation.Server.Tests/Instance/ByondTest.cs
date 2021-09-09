@@ -1,9 +1,10 @@
-using Castle.Core.Logging;
+﻿using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -87,19 +88,23 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task TestCustomInstalls(CancellationToken cancellationToken)
 		{
+			var mockHttpClientFactory = new Mock<IHttpClientFactory>();
+			mockHttpClientFactory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(() => new HttpClient());
+			var fileDownloader = new FileDownloader(mockHttpClientFactory.Object, Mock.Of<ILogger<FileDownloader>>());
 			var byondInstaller = new PlatformIdentifier().IsWindows
 				? (IByondInstaller)new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
 					new DefaultIOManager(),
+					fileDownloader,
 					Mock.Of<ILogger<WindowsByondInstaller>>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),
 					new DefaultIOManager(),
+					fileDownloader,
 					Mock.Of<ILogger<PosixByondInstaller>>());
 
 			// get the bytes for stable
-			using var stableBytesMs = new MemoryStream(
-				await byondInstaller.DownloadVersion(TestVersion, cancellationToken));
+			using var stableBytesMs = await byondInstaller.DownloadVersion(TestVersion, cancellationToken);
 
 			var test = await byondClient.SetActiveVersion(
 				new ByondVersionRequest

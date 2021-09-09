@@ -227,7 +227,7 @@ namespace Tgstation.Server.Client
 
 			using (memoryStream)
 			{
-				var streamContent = new StreamContent(uploadStream ?? memoryStream);
+				var streamContent = new StreamContent(uploadStream ?? memoryStream!);
 				try
 				{
 					await RunRequest<object>(

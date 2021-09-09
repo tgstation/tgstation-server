@@ -12,9 +12,16 @@ namespace Tgstation.Server.Api.Properties
 		/// <summary>
 		/// Return the <see cref="Assembly"/>'s instance of the <see cref="ApiVersionAttribute"/>.
 		/// </summary>
-		public static ApiVersionAttribute Instance => Assembly
-			.GetExecutingAssembly()
-			.GetCustomAttribute<ApiVersionAttribute>();
+		public static ApiVersionAttribute Instance
+		{
+			get
+			{
+				var attribute = Assembly
+					.GetExecutingAssembly()
+					.GetCustomAttribute<ApiVersionAttribute>();
+				return attribute!;
+			}
+		}
 
 		/// <summary>
 		/// The <see cref="Version"/> <see cref="string"/> of the TGS API definition.

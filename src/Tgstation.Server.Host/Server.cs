@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public bool ApplyUpdate(Version version, Uri updateZipUrl, IIOManager ioManager)
+		public bool ApplyUpdate(Version version, Uri updateZipUrl, IIOManager ioManager, IFileDownloader fileDownloader)
 		{
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
@@ -185,11 +185,10 @@ namespace Tgstation.Server.Host
 					try
 					{
 						logger.LogTrace("Downloading zip package...");
-						updateZipData = new MemoryStream(
-							await ioManager.DownloadFile(
-								updateZipUrl,
-								cancellationToken)
-							.ConfigureAwait(false));
+						updateZipData = await fileDownloader.DownloadFile(
+							updateZipUrl,
+							cancellationToken)
+							.ConfigureAwait(false);
 					}
 					catch (Exception e1)
 					{

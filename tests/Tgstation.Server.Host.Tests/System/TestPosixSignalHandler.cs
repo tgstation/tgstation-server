@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.System.Tests
 {
 	[TestClass]
+	[UnsupportedOSPlatform("windows")]
 	public sealed class TestPosixSignalHandler
 	{
 		[TestMethod]

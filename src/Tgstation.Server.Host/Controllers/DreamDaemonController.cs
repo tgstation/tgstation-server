@@ -21,6 +21,7 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
+#pragma warning disable API1001 // https://github.com/dotnet/aspnetcore/issues/36315
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

@@ -1,6 +1,9 @@
-﻿namespace Tgstation.Server.Host.System
+﻿using System.Runtime.Versioning;
+
+namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixNetworkPromptReaper : INetworkPromptReaper
 	{
 		/// <inheritdoc />

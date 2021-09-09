@@ -1,12 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mono.Unix;
-using Moq;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mono.Unix;
+using Moq;
 
 namespace Tgstation.Server.Host.IO.Tests
 {
@@ -64,6 +66,7 @@ namespace Tgstation.Server.Host.IO.Tests
 		}
 
 		[TestMethod]
+		[UnsupportedOSPlatform("windows")]
 		public void TestThrowsOnUnix()
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

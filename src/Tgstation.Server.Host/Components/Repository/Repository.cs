@@ -827,9 +827,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				RunCheckout();
 			}
-			catch (NotFoundException)
+			catch (NotFoundException ex)
 			{
-				// Maybe (likely) a remote?
+				logger.LogTrace(ex, "Object not found locally, checking origin...");
 				var remoteName = $"origin/{committish}";
 				var potentialBranch = libGitRepo.Branches.FirstOrDefault(
 					branch => branch.FriendlyName.Equals(remoteName, StringComparison.Ordinal));

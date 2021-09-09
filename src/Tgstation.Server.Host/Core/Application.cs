@@ -17,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
@@ -242,7 +241,12 @@ namespace Tgstation.Server.Host.Core
 			services.AddCors();
 
 			// Enable managed HTTP clients
-			services.AddHttpClient();
+			services.AddHttpClient(
+				String.Empty,
+				httpClient =>
+				{
+					httpClient.DefaultRequestHeaders.UserAgent.Add(AssemblyInformationProvider.ProductInfoHeaderValue);
+				});
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
@@ -305,8 +309,15 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<IProcessFeatures, WindowsProcessFeatures>();
 
 				services.AddSingleton<WindowsNetworkPromptReaper>();
-				services.AddSingleton<INetworkPromptReaper>(x => x.GetRequiredService<WindowsNetworkPromptReaper>());
-				services.AddSingleton<IHostedService>(x => x.GetRequiredService<WindowsNetworkPromptReaper>());
+
+				services.AddSingleton<INetworkPromptReaper>(serviceProvider =>
+					postSetupServices.PlatformIdentifier.IsWindows
+						? serviceProvider.GetRequiredService<WindowsNetworkPromptReaper>()
+						: null);
+				services.AddSingleton<IHostedService>(serviceProvider =>
+					postSetupServices.PlatformIdentifier.IsWindows
+						? serviceProvider.GetRequiredService<WindowsNetworkPromptReaper>()
+						: null);
 			}
 			else
 			{
@@ -330,6 +341,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
+			services.AddSingleton<IFileDownloader, FileDownloader>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
@@ -396,18 +408,13 @@ namespace Tgstation.Server.Host.Core
 
 			if (generalConfiguration.MinimumPasswordLength > Limits.MaximumStringLength)
 			{
-				logger.LogCritical("Configured minimum password length ({0}) is greater than the maximum database string length ({1})!");
+				logger.LogCritical(
+					"Configured minimum password length ({0}) is greater than the maximum database string length ({1})!",
+					generalConfiguration.MinimumPasswordLength,
+					Limits.MaximumStringLength);
 				serverControl.Die(new InvalidOperationException("Minimum password length greater than database limit!"));
 				return;
 			}
-
-			// attempt to restart the server if the configuration changes
-			if (serverControl.WatchdogPresent)
-				ChangeToken.OnChange(Configuration.GetReloadToken, () =>
-				{
-					logger.LogInformation("Configuration change detected");
-					serverControl.Restart();
-				});
 
 			// setup the HTTP request pipeline
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response

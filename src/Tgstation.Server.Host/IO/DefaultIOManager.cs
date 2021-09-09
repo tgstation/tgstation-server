@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -268,30 +267,6 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken,
 			BlockingTaskCreationOptions,
 			TaskScheduler.Current);
-
-		/// <inheritdoc />
-		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
-		{
-			// DownloadDataTaskAsync can't be cancelled and is shittily written, don't use it
-			using var wc = new WebClient();
-			var tcs = new TaskCompletionSource<byte[]>();
-			wc.DownloadDataCompleted += (a, b) =>
-			{
-				if (b.Error != null)
-					tcs.TrySetException(b.Error);
-				else if (b.Cancelled)
-					tcs.TrySetCanceled();
-				else
-					tcs.TrySetResult(b.Result);
-			};
-			wc.DownloadDataAsync(url);
-			using (cancellationToken.Register(() =>
-			{
-				wc.CancelAsync();
-				tcs.TrySetCanceled();
-			}))
-				return await tcs.Task.ConfigureAwait(false);
-		}
 
 		/// <inheritdoc />
 		public Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken) => Task.Factory.StartNew(

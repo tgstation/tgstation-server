@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace Tgstation.Server.Host.System
 	/// <summary>
 	/// Handles POSIX signals.
 	/// </summary>
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixSignalHandler : IHostedService, IDisposable
 	{
 		/// <summary>

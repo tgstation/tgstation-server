@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace Tgstation.Server.Host.IO
 	/// <summary>
 	/// <see cref="ISymlinkFactory"/> for posix systems.
 	/// </summary>
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixSymlinkFactory : ISymlinkFactory
 	{
 		/// <inheritdoc />
