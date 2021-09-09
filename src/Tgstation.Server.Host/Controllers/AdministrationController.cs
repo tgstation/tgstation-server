@@ -166,7 +166,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					foreach (var release in releases)
 						if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
-							&& version.Major == assemblyInformationProvider.Version.Major
+							&& version.Major > 3 // Forward/backward compatible but not before TGS4
 							&& (greatestVersion == null || version > greatestVersion))
 							greatestVersion = version;
 					repoUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
@@ -225,7 +225,7 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = "newVersion is required!",
 				});
 
-			if (model.NewVersion.Major != assemblyInformationProvider.Version.Major)
+			if (model.NewVersion.Major < 3)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.CannotChangeServerSuite));
 
 			if (!serverControl.WatchdogPresent)

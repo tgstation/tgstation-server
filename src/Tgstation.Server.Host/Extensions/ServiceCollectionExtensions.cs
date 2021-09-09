@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Extensions
 							CustomFormatter = new EcsTextFormatter(),
 							AutoRegisterTemplate = true,
 							AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
-							IndexFormat = "tgs4-logs",
+							IndexFormat = "tgs-logs",
 						});
 					}
 				}

@@ -7,7 +7,7 @@
 
 @section arch_intro Introduction
 
-This is meant to be a brief overview of the TGS4 architecture to give new coders direction on where to code and the curious some insight to their questions. Given that this document is seperate from the authorative code it may fall out of date. For clairity, please contact project maintainers.
+This is meant to be a brief overview of the TGS architecture to give new coders direction on where to code and the curious some insight to their questions. Given that this document is seperate from the authorative code it may fall out of date. For clairity, please contact project maintainers.
 
 @section arch_hwatchdog Host Watchdog
 
@@ -29,7 +29,7 @@ The @ref Tgstation.Server.Host.Core.Application class has two methods called by 
 - Respond with 503 if the application is still starting or shutting down
 - Authenticate the JWT in Authentication header if present and run @ref Tgstation.Server.Host.Controllers.ApiController on success
 - Catch database exceptions and convert to 409 responses with the exception's @ref Tgstation.Server.Api.Models.ErrorMessage
-- Check @ref Tgstation.Server.Host.Controllers for correct controller and run the action and use it's response. 
+- Check @ref Tgstation.Server.Host.Controllers for correct controller and run the action and use it's response.
 	- If not properly authenticated beforehand and action has a @ref Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute return 401
 	- If not properly authorized beforehand according to the parameters of the action's @ref Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute (if present) return 403
 	- If requested action does not exist return 404
@@ -98,9 +98,9 @@ The compilation process is a distinct series of steps:
 14. Symlink all `GameStaticFiles` to both the A and B directories
 15. Commit the @ref Tgstation.Server.Host.Models.CompileJob to the database
 
-If any of the above steps fail, the target directory is deleted and the deployment is considered a bust. If all went well, after the @ref Tgstation.Server.Host.Models.Job completes the new CompileJob is loaded into the instance's @ref Tgstation.Server.Host.Components.Deployment.IDmbFactory . 
+If any of the above steps fail, the target directory is deleted and the deployment is considered a bust. If all went well, after the @ref Tgstation.Server.Host.Models.Job completes the new CompileJob is loaded into the instance's @ref Tgstation.Server.Host.Components.Deployment.IDmbFactory .
 
-The DmbFactory is where the @ref arch_watchdog gets the @ref Tgstation.Server.Host.Components.Deployment.IDmbProvider instances to run. Each CompileJob loaded into it is given a lock count. The latest CompileJob holds 1 lock and every DreamDaemon instance running that CompileJob holds another. Loading a new CompileJob releases the initial lock, and when all other locks are released the CompileJob's directory is deleted. Any directories in the `Game` folder not in use are also deleted when the Instance starts. 
+The DmbFactory is where the @ref arch_watchdog gets the @ref Tgstation.Server.Host.Components.Deployment.IDmbProvider instances to run. Each CompileJob loaded into it is given a lock count. The latest CompileJob holds 1 lock and every DreamDaemon instance running that CompileJob holds another. Loading a new CompileJob releases the initial lock, and when all other locks are released the CompileJob's directory is deleted. Any directories in the `Game` folder not in use are also deleted when the Instance starts.
 
 @section arch_chat Chat Bot System
 
@@ -118,7 +118,7 @@ The @ref Tgstation.Server.Host.Components.StaticFiles.IConfiguration object is a
 
 @section arch_watchdog Watchdog
 
-This is the core of tgstation-server, the component that starts, monitors, and updates DreamDaemon. 
+This is the core of tgstation-server, the component that starts, monitors, and updates DreamDaemon.
 
 At it's core, the watchdog operates using a hot/cold server setup. At any given moment there are two DreamDaemon instances running, only one of which players can see. If anything bad happens to that server, it is killed and the inactive server has its port changed to catch all the connections. If any changes need to be made to the configuration (port, security, compile job), the inactive server is killed and immediately relaunched with the new configuration. Whenever the active server reboots, the two servers change ports so as to minimize load times.
 
@@ -128,9 +128,9 @@ That's a high level view of things, now let's get to the nitty gritty.
 
 @subsection arch_wd_launch Launch
 
-First the most recent @ref Tgstation.Server.Host.Components.Deployment.IDmbProvider is retrieved from the @ref Tgstation.Server.Host.Components.Deployment.IDmbFactory twice, adding 2 locks. 
+First the most recent @ref Tgstation.Server.Host.Components.Deployment.IDmbProvider is retrieved from the @ref Tgstation.Server.Host.Components.Deployment.IDmbFactory twice, adding 2 locks.
 
-This is used to launch a @ref Tgstation.Server.Host.Components.Watchdog.ISessionController via the watchdog's @ref Tgstation.Server.Host.Components.Watchdog.ISessionControllerFactory in the `A` directory of dmb providers @ref Tgstation.Server.Host.Models.CompileJob . This will be designated the `Alpha` server. 
+This is used to launch a @ref Tgstation.Server.Host.Components.Watchdog.ISessionController via the watchdog's @ref Tgstation.Server.Host.Components.Watchdog.ISessionControllerFactory in the `A` directory of dmb providers @ref Tgstation.Server.Host.Models.CompileJob . This will be designated the `Alpha` server.
 
 Whenever DreamDaemon is launched by any part of the watchdog, we try to elevate its process priority to the equivalent of Windows' `Above Normal`
 
@@ -140,7 +140,7 @@ If the watchdog ever enters a failure state it can't recover from, it kills both
 
 @subsection arch_wd_monitor The Monitor
 
-The monitor is responsible for handling every @ref Tgstation.Server.Host.Components.Watchdog.MonitorActivationReason . It sleeps until one of these things happen. If multiple things happen at once, they are processed in their order of declaration. 
+The monitor is responsible for handling every @ref Tgstation.Server.Host.Components.Watchdog.MonitorActivationReason . It sleeps until one of these things happen. If multiple things happen at once, they are processed in their order of declaration.
 
 The monitor maintains a @ref Tgstation.Server.Host.Components.Watchdog.MonitorState which helps it make descisions on how to handle activation reasons. The @ref Tgstation.Server.Host.Components.Watchdog.MonitorState.NextAction determines how multiple simultaneous events are handled in succession.
 

@@ -48,7 +48,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Generic database integrity failure.
 		/// </summary>
-		[Description("The operation could not be performed as it would violate database integrity. Please retry the request, making sure to not duplicate field names with existing entities.")]
+		[Description("The operation could not be performed as it would violate database integrity. Please retry the request, making sure to not duplicate field names with existing entities!")]
 		DatabaseIntegrityConflict,
 
 		/// <summary>
@@ -58,9 +58,9 @@ namespace Tgstation.Server.Api.Models
 		MissingHostWatchdog,
 
 		/// <summary>
-		/// Attempted to change to a suite other than TGS4.
+		/// Attempted to change to a major version less than 4.
 		/// </summary>
-		[Description("Cannot update to a different tgstation-server suite version.")]
+		[Description("Cannot downgrade to tgstation-server major version <4!")]
 		CannotChangeServerSuite,
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// A server update was requested while another was in progress.
 		/// </summary>
-		[Description("A server update was requested while another was in progress")]
+		[Description("A server update was requested while another was in progress!")]
 		ServerUpdateInProgress,
 
 		/// <summary>
