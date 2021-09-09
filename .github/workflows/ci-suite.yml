@@ -791,12 +791,7 @@ jobs:
           asset_name: ServerUpdatePackage.zip
           asset_content_type: application/zip
 
-  post-deploy-comment:
-    name: Post Comment To Server Update Thread
-    needs: [deploy-tgs]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Post Comment
+      - name: Post Comment to Server Update Thread
         uses: peter-evans/create-or-update-comment@v1
         with:
           token: ${{ secrets.DEV_PUSH_TOKEN }}
