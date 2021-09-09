@@ -789,9 +789,9 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./ServerUpdatePackage.zip
           asset_name: ServerUpdatePackage.zip
-          asset_content_type: application/zip- name: Create comment
+          asset_content_type: application/zip
 
-  deploy-docker:
+  post-deploy-comment:
     name: Post Comment To Server Update Thread
     needs: [deploy-tgs]
     runs-on: ubuntu-latest
