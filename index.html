@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>tgstation-server: tgstation-server v4:</title>
+<title>tgstation-server: tgstation-server:</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.14.2</span>
+   &#160;<span id="projectnumber">4.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -65,7 +65,7 @@ $(function() {
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">tgstation-server v4: </div>  </div>
+<div class="title">tgstation-server: </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a> <img src="https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/tgstation/tgstation-server"><img src="https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg" alt="codecov" style="pointer-events: none;" class="inline"/></a></p>
@@ -75,7 +75,7 @@ $(function() {
 <p>This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server, (the update will take effect on a "reboot" of the server) the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.</p>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Legacy Servers</h2>
-<p>Older server versions can be found in the V# branches of this repository. Note that V4 is nearly fully incompatible with existing installations. Only some static files may be copied over: <a href="https://github.com/tgstation/tgstation-server#static-files">https://github.com/tgstation/tgstation-server#static-files</a></p>
+<p>Older server versions can be found in the V# branches of this repository. Note that the current server fully incompatible with installations before version 4. Only some static files may be copied over: <a href="https://github.com/tgstation/tgstation-server#static-files">https://github.com/tgstation/tgstation-server#static-files</a></p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Setup</h1>
 <h2><a class="anchor" id="autotoc_md3"></a>
@@ -87,7 +87,7 @@ Pre-Requisites</h2>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Installation</h2>
 <ol type="1">
-<li><a href="https://github.com/tgstation/tgstation-server/releases/latest">Download the latest V4 release .zip</a>. The <code>ServerService</code> package will only work on Windows. Choose <code>ServerConsole</code> if that is not your target OS or you prefer not to use the Windows service.</li>
+<li><a href="https://github.com/tgstation/tgstation-server/releases/latest">Download the latest release .zip</a>. The <code>ServerService</code> package will only work on Windows. Choose <code>ServerConsole</code> if that is not your target OS or you prefer not to use the Windows service.</li>
 <li>Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the <code>lib</code> subdirectory.</li>
 </ol>
 <h3><a class="anchor" id="autotoc_md5"></a>
@@ -121,20 +121,20 @@ Docker (Linux)</h3>
 <div class="line">    -p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need</div>
 <div class="line">    -p 0.0.0.0:&lt;public game port&gt;:&lt;public game port&gt; \ # Port bridge for accessing DreamDaemon</div>
 <div class="line">    -v /path/to/your/configfile/directory:/config_data \ # Recommended, create a volume mapping for server configuration</div>
-<div class="line">    -v /path/to/store/instances:/tgs4_instances \ # Recommended, create a volume mapping for server instances</div>
+<div class="line">    -v /path/to/store/instances:/tgs_instances \ # Recommended, create a volume mapping for server instances</div>
 <div class="line">    -v /path/to/your/log/folder:/tgs_logs \ # Recommended, create a volume mapping for server logs</div>
 <div class="line">    tgstation/server[:&lt;release version&gt;]</div>
 </div><!-- fragment --><p> with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).</p>
 <p>When launching the container for the first time, you'll be prompted with the setup wizard and then the container will exit. Start the container again to launch the server.</p>
 <p>Important note about port exposure: The internal port used by DreamDaemon <em><b>MUST</b></em> match the port you want users to connect on. If it doesn't, you'll still be able to have them connect HOWEVER links from the BYOND hub will point at what DreamDaemon thinks the port is (the internal port).</p>
 <p>Note although <code>/app/lib</code> is specified as a volume mount point in the <code>Dockerfile</code>, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.</p>
-<p>The configuration option <code>General:ValidInstancePaths</code> will be preconfigured to point to <code>/tgs4_instances</code>. It is recommended you don't change this.</p>
+<p>The configuration option <code>General:ValidInstancePaths</code> will be preconfigured to point to <code>/tgs_instances</code>. It is recommended you don't change this.</p>
 <p>Note that this container is meant to be long running. Updates are handled internally as opposed to at the container level.</p>
 <p>Note that automatic configuration reloading is currently not supported in the container. See #1143</p>
 <p>If using manual configuration, before starting your container make sure the aforementioned <code>appsettings.Production.yml</code> is setup properly. See below</p>
 <h2><a class="anchor" id="autotoc_md8"></a>
 Configuring</h2>
-<p>The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your <code>appsettings.Production.yml</code></p>
+<p>The first time you run TGS you should be prompted with a configuration wizard which will guide you through setting up your <code>appsettings.Production.yml</code></p>
 <p>This wizard will, generally, run whenever the server is launched without detecting the config yml. Follow the instructions below to perform this process manually.</p>
 <h3><a class="anchor" id="autotoc_md9"></a>
 Configuration Methods</h3>
@@ -149,7 +149,7 @@ Configuration Methods</h3>
 Manual Configuration</h3>
 <p>Create an <code>appsettings.Production.yml</code> file next to <code>appsettings.yml</code>. This will override the default settings in <code>appsettings.yml</code> with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:</p>
 <ul>
-<li><code>General:ConfigVersion</code>: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).</li>
+<li><code>General:ConfigVersion</code>: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version.</li>
 <li><code>General:MinimumPasswordLength</code>: Minimum password length requirement for database users</li>
 <li><code>General:ValidInstancePaths</code>: Array meant to limit the directories in which instances may be created.</li>
 <li><code>General:UserLimit</code>: Maximum number of users that may be created</li>
@@ -164,7 +164,7 @@ Manual Configuration</h3>
 <li><code>ControlPanel:Enable</code>: Enable the javascript based control panel to be served from the server via /index.html</li>
 <li><code>ControlPanel:AllowAnyOrigin</code>: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)</li>
 <li><code>ControlPanel:AllowedOrigins</code>: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by <code>ControlPanel:AllowAnyOrigin</code></li>
-<li><code>Elasticsearch</code>: tgstation-server-v4 also supports automatically ingesting its logs to ElasticSearch. You can set this up in the setup wizard, or with the following configuration: <div class="fragment"><div class="line">Elasticsearch:</div>
+<li><code>Elasticsearch</code>: tgstation-server also supports automatically ingesting its logs to ElasticSearch. You can set this up in the setup wizard, or with the following configuration: <div class="fragment"><div class="line">Elasticsearch:</div>
 <div class="line">  Enable: true</div>
 <div class="line">  Host: http://192.168.0.200:9200</div>
 <div class="line">  Username: youruserhere</div>
@@ -341,10 +341,11 @@ Swarm Server Instances</h3>
 </ol>
 <h1><a class="anchor" id="autotoc_md24"></a>
 Usage</h1>
-<p>tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found <a href="https://tgstation.github.io/tgstation-server/api.html">here</a>. This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.</p>
+<p>tgstation-server is controlled via a RESTful HTTP json API. Documentation on this API can be found <a href="https://tgstation.github.io/tgstation-server/api.html">here</a>. This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.</p>
 <h2><a class="anchor" id="autotoc_md25"></a>
 Updating</h2>
-<p>TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release made to this repository is bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Because of this REVERTING TO LOWER VERSIONS IS NOT OFFICIALLY SUPPORTED, do so at your own risk (check changes made to <code>/src/Tgstation.Server.Host/Models/Migrations</code>).</p>
+<p>TGS can self update without stopping your DreamDaemon servers. Releases made to this repository are bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Because of this REVERTING TO LOWER VERSIONS IS NOT OFFICIALLY SUPPORTED, do so at your own risk (check changes made to <code>/src/Tgstation.Server.Host/Models/Migrations</code>).</p>
+<p>Major version updates may require additional action on the part of the user (apart from the configuration changes).</p>
 <h3><a class="anchor" id="autotoc_md26"></a>
 Notifications</h3>
 <p>If a server update is available, it will be indicated in the response from the GET /Administration endpoint. For more active notifications, you can subscribe to <a href="https://github.com/tgstation/tgstation-server/discussions/1322">this GitHub discussion</a>.</p>
@@ -406,7 +407,7 @@ GameStaticFiles</h3>
 <p>Any files and folders contained in this root level of this folder will be symbolically linked to all deployments at the time they are created. This allows persistent game data (BYOND <code>.sav</code>s or code configuration files for example) to persist across all deployments. This folder contains a .tgsignore file which can be used to prevent symlinks from being generated by entering the names of files and folders (1 per line)</p>
 <h2><a class="anchor" id="autotoc_md39"></a>
 Clients</h2>
-<p>Here are tools for interacting with the TGS 4 web API</p>
+<p>Here are tools for interacting with the TGS web API</p>
 <ul>
 <li><a href="https://github.com/tgstation/tgstation-server-webpanel">tgstation-server-webpanel</a>: Official client and included with the server (WIP). A react web app for using tgstation-server.</li>
 <li><a href="https://github.com/tgstation/Tgstation.Server.ControlPanel">Tgstation.Server.ControlPanel</a>: Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.</li>

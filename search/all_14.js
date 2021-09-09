@@ -82,7 +82,7 @@ var searchData=
   ['tgsauthorizeattribute_2ecs_2666',['TgsAuthorizeAttribute.cs',['../_tgs_authorize_attribute_8cs.html',1,'']]],
   ['tgssystemusername_2667',['TgsSystemUserName',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d',1,'Tgstation::Server::Host::Models::User']]],
   ['tgstation_2668',['Tgstation',['../namespace_tgstation.html',1,'']]],
-  ['tgstation_2dserver_20v4_3a_2669',['tgstation-server v4:',['../index.html',1,'']]],
+  ['tgstation_2dserver_3a_2669',['tgstation-server:',['../index.html',1,'']]],
   ['threadaccess_2670',['ThreadAccess',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a14e5ef215cf77a3126bf7107d43bc52a',1,'Tgstation::Server::Host::NativeMethods']]],
   ['ticket_2671',['Ticket',['../interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a9280f7e40585c53c6dae9ac62671014a',1,'Tgstation.Server.Host.Transfer.IFileUploadTicket.Ticket()'],['../class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a0e0a5406bc12caa666097d4158634395',1,'Tgstation.Server.Host.Transfer.FileUploadProvider.Ticket()']]],
   ['ticketexpirycts_2672',['ticketExpiryCts',['../class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fd1d5f433708ef0f3aed7c444fe473e',1,'Tgstation::Server::Host::Transfer::FileUploadProvider']]],

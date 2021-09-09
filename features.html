@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.14.2</span>
+   &#160;<span id="projectnumber">4.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -69,12 +69,12 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#new_features">New in V4</a></li>
+<ul><li class="level1"><a href="#new_features">New since TGS3 (Rewrite)</a></li>
 <li class="level1"><a href="#features_list">Comprehensive Feature List</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="new_features"></a>
-New in V4</h1>
+New since TGS3 (Rewrite)</h1>
 <ul>
 <li>Agnostic HTTP API: The replaces the WCF service calls used in TGS3. This helps avoid Windows vendor lock-in and get away from the SOAP API that literally no one understood (not even me). With it, it's much easier to expose TGS to the internet, all you need is a HTTPS reverse proxy in front of it. A rundown of the new API exists here: <a href="https://tgstation.github.io/tgstation-server/api.html">https://tgstation.github.io/tgstation-server/api.html</a>.</li>
 <li>Granular Access Controls: Windows users are no longer (required to be) the basis for authentication to the server. We now have database-backed users as a login option. These use a combined Basic/JWT authentication scheme with industry standard password hashing and salting. Users are fully customizable and can be given granular access to every bit of the server via the new permissions system. From changing the BYOND version, to test merging a PR, to restarting the server, every action may now be granted or revoked on a per user basis.<ul>
@@ -86,8 +86,8 @@ New in V4</h1>
 <li>Limitation: There is a one-to-one relationship with a TGS server and a database. <b>DO NOT SHARE TGS DATABASES</b>.</li>
 </ul>
 </li>
-<li>Linux/Docker Support: TGS4 is Linux and docker compatible. (Note this does not mean that rust-g and BSQL work out of the box, they must be compiled using event scripts like PreCompile.sh).<ul>
-<li>Limitation: TGS4 has a dependency on the native library libgit2 which is known to cause issues on Linux. The binaries distributed with TGS are kept up to date with the upstream repository, but out of the box Linux support can't be assured in every environment. Docker is guaranteed to always work, however. See the repository for the distributed binary here: <a href="https://github.com/libgit2/libgit2sharp.nativebinaries">https://github.com/libgit2/libgit2sharp.nativebinaries</a>.</li>
+<li>Linux/Docker Support: TGS is Linux and docker compatible. (Note this does not mean that rust-g and BSQL work out of the box, they must be compiled using event scripts like PreCompile.sh).<ul>
+<li>Limitation: TGS has a dependency on the native library libgit2 which is known to cause issues on Linux. The binaries distributed with TGS are kept up to date with the upstream repository, but out of the box Linux support can't be assured in every environment. Docker is guaranteed to always work, however. See the repository for the distributed binary here: <a href="https://github.com/libgit2/libgit2sharp.nativebinaries">https://github.com/libgit2/libgit2sharp.nativebinaries</a>.</li>
 <li>Limitation: System based logins are not supported on Linux. <a href="https://github.com/tgstation/tgstation-server/issues/709">https://github.com/tgstation/tgstation-server/issues/709</a></li>
 </ul>
 </li>
@@ -107,8 +107,9 @@ New in V4</h1>
 <li>Watchdog Heartbeats: An interval in seconds can now be set at which TGS will send /world/Topic() packets to DreamDaemon. If four of these are missed, the server will be rebooted. No more endless @Key Holder pings in discord (and I can finally unmute the /tg/ guild)! This feature can be disabled.</li>
 <li>Better DMAPI: No longer requires injecting a .NET runtime .dll into the DreamDaemon process. DD -&gt; TGS communication is now handled securely via BYOND's native /world/Export() API ("But Cyberboss, BYOND only supports GET requests." Who said anything about respecting HTTP standards when dealing with BYOND?).</li>
 <li>Safe/Ultrasafe Security Support: Thanks to the new DMAPI, the ultrasafe and safe security levels may be used without running into BYOND's limitations. But no one really cares...</li>
-<li>Self Upgrading: To upgrade TGS3 you needed to download and run the installer. This was pretty seamless, but it's now even better in V4 as the command to upgrade can be given straight to the API. At that point the server will handle downloading the update, detaching running DreamDaemon instances, restarting with the new version, and reattaching to them. Easier than ever patch delivery.</li>
-<li><em>Gasp</em> TESTING: TGS4 currently has over 60% code coverage in automated unit and full stack integration tests. I aim to have that number ever increasing to prevent trivial mistakes. Big improvement over V3 which had... literally none...</li>
+<li>Private/Invisible visibility Support: Stored per instance.</li>
+<li>Self Upgrading: To upgrade TGS3 you needed to download and run the installer. This was pretty seamless, but it's now even better in versions &gt;=4 as the command to upgrade can be given straight to the API. At that point the server will handle downloading the update, detaching running DreamDaemon instances, restarting with the new version, and reattaching to them. Easier than ever patch delivery.</li>
+<li><em>Gasp</em> TESTING: TGS currently has over 60% code coverage in automated unit and full stack integration tests. I aim to have that number ever increasing to prevent trivial mistakes. Big improvement over V3 which had... literally none...</li>
 </ul>
 <p>Along with these features, nearly every single V3 feature has been included and possibly improved in some fashion. This includes stuff like Windows accounts for logins, and using ACLs for static file handling. The following exceptions exist but are planned for future updates:</p><ul>
 <li>Process memory/CPU diagnostic data is not generated: <a href="https://github.com/tgstation/tgstation-server/issues/611">https://github.com/tgstation/tgstation-server/issues/611</a></li>

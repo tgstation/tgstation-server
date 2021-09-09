@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.14.2</span>
+   &#160;<span id="projectnumber">4.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -270,8 +270,8 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                        processInstaller.Account = ServiceAccount.LocalSystem;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-4-install.log&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;/assemblypath={0}&quot;</span>, Assembly.GetEntryAssembly().Location) });</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                        installer.Description = <span class="stringliteral">&quot;/tg/station 13 server v4 running as a windows service&quot;</span>;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                        installer.DisplayName = <span class="stringliteral">&quot;/tg/station server 4&quot;</span>;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                        installer.Description = <span class="stringliteral">&quot;/tg/station 13 server running as a windows service&quot;</span>;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                        installer.DisplayName = <span class="stringliteral">&quot;/tg/station server&quot;</span>;</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                        installer.DelayedAutoStart = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                        installer.StartType = ServiceStartMode.Automatic;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                        installer.ServicesDependedOn = <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;Tcpip&quot;</span>, <span class="stringliteral">&quot;Dhcp&quot;</span>, <span class="stringliteral">&quot;Dnscache&quot;</span> };</div>

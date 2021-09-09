@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.14.2</span>
+   &#160;<span id="projectnumber">4.15.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -105,17 +105,17 @@ $(function() {
 </div>
 <div class="textblock"><h1><a class="anchor" id="api_swag"></a>
 OpenAPI Spec</h1>
-<p>TGS4 has a, from code, generated OpenAPI 3.0 specification. It is much more authorative than these documents.</p>
+<p>TGS has a, from code, generated OpenAPI 3.0 specification. It is much more authorative than these documents.</p>
 <p>The most up to date version should be found in the most recent appveyor build artifacts. It is also included in release artifacts.</p>
 <p>You can use the API explorer SwaggerUI to interact with it: <a href="https://petstore.swagger.io">https://petstore.swagger.io</a></p>
 <h1><a class="anchor" id="api_intro"></a>
 Introduction</h1>
-<p>The TGS4 API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server</p>
+<p>The TGS API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server</p>
 <p>Routes and their usages are defined as follows</p>
 <p>[I (If Instance is required)] &lt;<code>Http Method</code>&gt; "&lt;`Route`&gt;" [Request Model] =&gt; &lt;<code>Response Model</code>&gt;</p>
 <h1><a class="anchor" id="api_lib"></a>
 Official Libraries</h1>
-<p>The TGS4 API's canonical definitions are provided as a .NET Standard library in the form of a nuget package located here: <a href="https://www.nuget.org/packages/Tgstation.Server.Api">https://www.nuget.org/packages/Tgstation.Server.Api</a></p>
+<p>The TGS API's canonical definitions are provided as a .NET Standard library in the form of a nuget package located here: <a href="https://www.nuget.org/packages/Tgstation.Server.Api">https://www.nuget.org/packages/Tgstation.Server.Api</a></p>
 <p>An all inclusive TAP interface for using the API is also provided in this package: <a href="https://www.nuget.org/packages/Tgstation.Server.Client">https://www.nuget.org/packages/Tgstation.Server.Client</a></p>
 <p>Last off, if anything in this API doesn't seem to hold true when tested against the server, please open an issue on the repository.</p>
 <h2><a class="anchor" id="api_interp"></a>
@@ -129,7 +129,7 @@ Interpreting C# Models</h2>
 </ul>
 <h1><a class="anchor" id="api_header"></a>
 Headers</h1>
-<p>TGS4 expects this set of headers. Failure to provide them will result in 400 error responses</p>
+<p>TGS expects this set of headers. Failure to provide them will result in 400 error responses</p>
 <ul>
 <li>User-Agent: The user agent product header value of the calling program</li>
 <li>Api: Another product header value representing the version of the API to use. Currently this must be: <a class="el" href="namespace_tgstation_1_1_server_1_1_api.html">Tgstation.Server.Api</a>/4.0.0.0</li>
@@ -197,7 +197,7 @@ Authentication</h1>
 <p>Continue to use this token until you begin to recieve 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid</p>
 <h2><a class="anchor" id="api_auth_o"></a>
 OAuth 2.0</h2>
-<p>TGS4 supports OAuth 2.0 with select providers for authentication.</p>
+<p>TGS supports OAuth 2.0 with select providers for authentication.</p>
 <p>The flow for this is as follows:</p>
 <ul>
 <li>Retrieve the <a class="el" href="api.html#api_ver">Server Information</a> to find out which <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">Tgstation.Server.Api.Models.OAuthProvider</a> are enabled and their respective information.</li>
