@@ -91,11 +91,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected IAsyncDelayer AsyncDelayer { get; }
 
 		/// <summary>
-		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>.
-		/// </summary>
-		protected IEventConsumer EventConsumer { get; }
-
-		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -109,6 +104,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <see cref="SemaphoreSlim"/> used for <see cref="DisposeAndNullControllers"/>.
 		/// </summary>
 		readonly SemaphoreSlim controllerDisposeSemaphore;
+
+		/// <summary>
+		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>.
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.
@@ -205,7 +205,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
-			EventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
@@ -506,7 +506,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					cancellationToken); // simple announce
 				if (reattachInfo == null)
 					announceTask = Task.WhenAll(
-						EventConsumer.HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken),
+						HandleNonRelayedEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken),
 						announceTask);
 			}
 			else
@@ -675,6 +675,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				metadata,
 				newCompileJob);
 			return remoteDeploymentManager.ApplyDeployment(newCompileJob, ActiveCompileJob, cancellationToken);
+		}
+
+		/// <summary>
+		/// Handle a given <paramref name="eventType"/> without re-throwing errors.
+		/// </summary>
+		/// <param name="eventType">The <see cref="EventType"/>.</param>
+		/// <param name="parameters">An <see cref="IEnumerable{T}"/> of <see cref="string"/> parameters for <paramref name="eventType"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected async Task HandleNonRelayedEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		{
+			try
+			{
+				await eventConsumer.HandleEvent(eventType, parameters, cancellationToken);
+			}
+			catch (JobException ex)
+			{
+				Logger.LogError(ex, "Suppressing exception triggered by event!");
+			}
 		}
 
 		/// <summary>
@@ -955,7 +974,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = EventConsumer.HandleEvent(
+				var eventTask = HandleNonRelayedEvent(
 					releaseServers
 						? EventType.WatchdogDetach
 						: EventType.WatchdogShutdown,

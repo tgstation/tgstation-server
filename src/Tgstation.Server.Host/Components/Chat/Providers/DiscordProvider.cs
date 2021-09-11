@@ -374,9 +374,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, gitHubOwner, gitHubRepo, localCommitPushed);
 			var embed = new Embed
 			{
-				Author = new EmbedAuthor
+				Author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
 				{
-					Name = assemblyInformationProvider.VersionPrefix,
 					Url = "https://github.com/tgstation/tgstation-server",
 					IconUrl = "https://avatars0.githubusercontent.com/u/1363778?s=280&v=4",
 				},
