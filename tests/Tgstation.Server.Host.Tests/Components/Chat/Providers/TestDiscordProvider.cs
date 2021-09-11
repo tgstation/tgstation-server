@@ -61,8 +61,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		[TestMethod]
 		public async Task TestConnectWithFakeTokenFails()
 		{
-			Assert.Inconclusive("Doesn't happen, see https://github.com/Nihlus/Remora.Discord/issues/99 for resolution");
-
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
 			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), mockLogger.Object, new ChatBot
 			{
