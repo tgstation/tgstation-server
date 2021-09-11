@@ -13,6 +13,6 @@ Vulnerabilities should ideally be reported by directly messaging one of the main
 
 Here is a list of their discord IDs.
 
-- Cyberboss#8246
+- Cyberboss#0016
 
 Once reported, they will handle the processing of the security advisory.
