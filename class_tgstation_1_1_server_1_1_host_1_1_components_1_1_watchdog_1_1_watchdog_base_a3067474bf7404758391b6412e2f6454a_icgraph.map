@@ -1,5 +1,5 @@
-<map id="Tgstation.Server.Host.Components.Events.EventConsumer.HandleEvent" name="Tgstation.Server.Host.Components.Events.EventConsumer.HandleEvent">
-<area shape="rect" id="node1" title="Handle a given eventType ." alt="" coords="999,163,1233,204"/>
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleNonRelayedEvent" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleNonRelayedEvent">
+<area shape="rect" id="node1" title="Handle a given eventType &#160;without re&#45;throwing errors." alt="" coords="999,163,1317,204"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a056db8ac9f376f053c671df0e7371ed4" title="Handles the actions to take when the monitor has to &quot;wake up&quot;." alt="" coords="643,97,951,139"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="665,163,928,204"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6845304123ed975aec4de3dc79bf8551" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore." alt="" coords="657,253,936,295"/>

@@ -208,15 +208,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a> == <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;EventConsumer used without watchdog set!&quot;</span>);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a50e81e8ba4fb2abd36df79dfc922b3d0">configuration</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(eventType, parameters, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            var scriptTask = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a50e81e8ba4fb2abd36df79dfc922b3d0">configuration</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(eventType, parameters, cancellationToken);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(eventType, parameters, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            await scriptTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_html_af92b5fafe9cd48f3e8ad61f4354588c6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a></div><div class="ttdeci">IWatchdog watchdog</div><div class="ttdoc">The IWatchdog for the EventConsumer.</div><div class="ttdef"><b>Definition:</b> <a href="_event_consumer_8cs_source.html#l00022">EventConsumer.cs:22</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_html_ac217567aa6bd7e43c8cfd976eee05aac"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent</a></div><div class="ttdeci">Task HandleEvent(EventType eventType, IEnumerable&lt; string &gt; parameters, CancellationToken cancellationToken)</div><div class="ttdoc">Handle a given eventType .</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_event_consumer_8cs_source.html#l00017">Tgstation.Server.Host.Components.Events.EventConsumer.configuration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent()</a>, and <a class="el" href="_event_consumer_8cs_source.html#l00022">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_basic_watchdog_8cs_source.html#l00106">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00483">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.LaunchNoLock()</a>, and <a class="el" href="_watchdog_base_8cs_source.html#l00951">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -224,25 +223,6 @@ Here is the call graph for this function:</div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_cgraph">
 <area shape="rect" title="Handle a given eventType ." alt="" coords="5,5,240,47"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac" title="Handle a given eventType ." alt="" coords="288,5,527,47"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_icgraph">
-<area shape="rect" title="Handle a given eventType ." alt="" coords="999,163,1233,204"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a056db8ac9f376f053c671df0e7371ed4" title="Handles the actions to take when the monitor has to &quot;wake up&quot;." alt="" coords="643,97,951,139"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="665,163,928,204"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6845304123ed975aec4de3dc79bf8551" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore." alt="" coords="657,253,936,295"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af619caa031c183aa1aa5adbcf11a3434" title="Start the IWatchdog." alt="" coords="352,5,579,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a24fd29d12e91f659010d483228be1225" title="Attempt to restart the monitor from scratch." alt="" coords="336,71,595,112"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39d65944835fca058d4a4be46eaf81bd" title="Restarts the watchdog." alt="" coords="352,253,579,295"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="346,136,585,177"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="11,129,282,171"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions." alt="" coords="5,253,288,295"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog." alt="" coords="349,319,581,360"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server." alt="" coords="18,319,275,360"/>
 </map>
 </div>
 
@@ -272,16 +252,16 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_event_consumer_8cs_source.html#l00050">50</a> of file <a class="el" href="_event_consumer_8cs_source.html">EventConsumer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#pragma warning disable IDE0016 </span><span class="comment">// Use &#39;throw&#39; expression</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a> == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>));</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#pragma warning restore IDE0016 </span><span class="comment">// Use &#39;throw&#39; expression</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">if</span> (this.watchdog != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;watchdog already set!&quot;</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            this.watchdog = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_event_consumer_8cs_source.html#l00051">51</a> of file <a class="el" href="_event_consumer_8cs_source.html">EventConsumer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#pragma warning disable IDE0016 </span><span class="comment">// Use &#39;throw&#39; expression</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a> == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>));</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#pragma warning restore IDE0016 </span><span class="comment">// Use &#39;throw&#39; expression</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">if</span> (this.watchdog != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;watchdog already set!&quot;</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            this.watchdog = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_event_consumer_8cs_source.html#l00022">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a>.</p>
 
@@ -340,7 +320,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_event_consumer_8cs_source.html#l00022">22</a> of file <a class="el" href="_event_consumer_8cs_source.html">EventConsumer.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_event_consumer_8cs_source.html#l00034">Tgstation.Server.Host.Components.Events.EventConsumer.HandleEvent()</a>, and <a class="el" href="_event_consumer_8cs_source.html#l00050">Tgstation.Server.Host.Components.Events.EventConsumer.SetWatchdog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_event_consumer_8cs_source.html#l00034">Tgstation.Server.Host.Components.Events.EventConsumer.HandleEvent()</a>, and <a class="el" href="_event_consumer_8cs_source.html#l00051">Tgstation.Server.Host.Components.Events.EventConsumer.SetWatchdog()</a>.</p>
 
 </div>
 </div>
