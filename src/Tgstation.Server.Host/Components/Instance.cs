@@ -330,8 +330,7 @@ namespace Tgstation.Server.Host.Components
 							logger.LogInformation(Repository.Repository.OriginTrackingErrorTemplate, currentHead);
 							onOrigin = true;
 						}
-
-						if (currentRevInfo.CommitSha == currentHead)
+						else if (currentRevInfo.CommitSha == currentHead)
 						{
 							logger.LogTrace("Not updating rev-info, already in DB.");
 							return;
