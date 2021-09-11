@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					eventType => new KeyValuePair<EventType, string>(
 						eventType,
 						typeof(EventType)
-							.GetField(eventType.ToString())
+							.GetField(eventType.ToString()) !
 							.GetCustomAttributes(false)
 							.OfType<EventScriptAttribute>()
 							.First()
@@ -170,7 +170,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
+		public async Task<ServerSideModifications?> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
@@ -195,7 +195,10 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 				static string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
 
-				return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
+				return new ServerSideModifications(
+					headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null,
+					tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null,
+					false);
 			}
 		}
 
@@ -208,7 +211,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (configurationRelativePath == null)
 				configurationRelativePath = "/";
 
-			List<ConfigurationFileResponse> result = new List<ConfigurationFileResponse>();
+			List<ConfigurationFileResponse>? result = new List<ConfigurationFileResponse>();
 
 			void ListImpl()
 			{
@@ -246,12 +249,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFileResponse> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<ConfigurationFileResponse?> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
-			ConfigurationFileResponse result = null;
+			ConfigurationFileResponse? result = null;
 
 			void ReadImpl()
 			{
@@ -261,7 +264,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						string GetFileSha()
 						{
 							var content = synchronousIOManager.ReadFile(path);
-							using var sha1 = HashAlgorithm.Create("SHA1");
+							using var sha1 = SHA1.Create();
 							return String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
 						}
 
@@ -283,11 +286,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 								},
 								async cancellationToken =>
 								{
-									FileStream result = null;
-									void GetFileStream()
-									{
-										result = ioManager.GetFileStream(path, false);
-									}
+									FileStream fileStream = null!;
+									void GetFileStream() => fileStream = ioManager.GetFileStream(path, false);
 
 									using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 										if (systemIdentity == null)
@@ -295,7 +295,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 										else
 											await systemIdentity.RunImpersonated(GetFileStream, cancellationToken).ConfigureAwait(false);
 
-									return result;
+									return fileStream;
 								},
 								path,
 								false));
@@ -414,12 +414,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFileResponse> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
+		public async Task<ConfigurationFileResponse?> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
-			ConfigurationFileResponse result = null;
+			ConfigurationFileResponse? result = null;
 
 			void WriteImpl()
 			{
@@ -434,6 +434,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							{
 								var fileHash = previousHash;
 								using var uploadStream = await fileTicket.GetResult(uploadCancellationToken).ConfigureAwait(false);
+								if (uploadStream == null)
+									return; // ticket expired
+
 								bool success = false;
 								void WriteCallback()
 								{
@@ -508,7 +511,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
-			bool? result = null;
+			bool result = false;
 			void DoCreate() => result = synchronousIOManager.CreateDirectory(path, cancellationToken);
 
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
@@ -517,7 +520,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				else
 					await systemIdentity.RunImpersonated(DoCreate, cancellationToken).ConfigureAwait(false);
 
-			return result.Value;
+			return result;
 		}
 
 		/// <inheritdoc />
@@ -649,9 +652,13 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (configurationRelativePath[0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
 				configurationRelativePath = DefaultIOManager.CurrentDirectory + configurationRelativePath;
 			var resolved = ioManager.ResolvePath(configurationRelativePath);
-			var local = !nullOrEmptyCheck ? ioManager.ResolvePath() : null;
-			if (!nullOrEmptyCheck && resolved.Length < local.Length) // .. fuccbois
-				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
+			if (!nullOrEmptyCheck)
+			{
+				var local = ioManager.ResolvePath();
+				if (resolved.Length < local.Length) // .. fuccbois
+					throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
+			}
+
 			return resolved;
 		}
 	}

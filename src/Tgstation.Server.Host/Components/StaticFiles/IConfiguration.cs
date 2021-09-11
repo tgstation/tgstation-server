@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="destination">Path to the destination folder.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerSideModifications"/> if any.</returns>
-		Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken);
+		Task<ServerSideModifications?> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Symlinks all directories in the GameData directory to <paramref name="destination"/>.
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ConfigurationFileResponse"/> of the file.</returns>
-		Task<ConfigurationFileResponse> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+		Task<ConfigurationFileResponse?> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create an empty directory at <paramref name="configurationRelativePath"/>.
@@ -78,6 +78,6 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="previousHash">The hash any existing file must match in order for the write to succeed.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ConfigurationFileResponse"/> or <see langword="null"/> if the write failed due to <see cref="IConfigurationFile.LastReadHash"/> conflicts.</returns>
-		Task<ConfigurationFileResponse> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken);
+		Task<ConfigurationFileResponse?> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken);
 	}
 }

@@ -11,9 +11,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// Creates a <see cref="IRemoteDeploymentManager"/> for a given <paramref name="remoteGitProvider"/>.
 		/// </summary>
 		/// <param name="metadata">Current <see cref="Api.Models.Instance"/> metadata.</param>
-		/// <param name="remoteGitProvider">The <see cref="RemoteGitProvider"/> in use.</param>
+		/// <param name="remoteGitProvider">The <see cref="RemoteGitProvider"/> in use, if any.</param>
 		/// <returns>A new <see cref="IRemoteDeploymentManager"/> based on the <paramref name="remoteGitProvider"/>.</returns>
-		IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, RemoteGitProvider remoteGitProvider);
+		IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, RemoteGitProvider? remoteGitProvider);
 
 		/// <summary>
 		/// Create a <see cref="IRemoteDeploymentManager"/> for a given <paramref name="compileJob"/>.

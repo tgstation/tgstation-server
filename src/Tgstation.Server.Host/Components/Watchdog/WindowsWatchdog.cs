@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.LastLaunchParameters"/>.
 		/// </summary>
-		protected SwappableDmbProvider ActiveSwappable { get; private set; }
+		protected SwappableDmbProvider? ActiveSwappable { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="WindowsWatchdog"/> pointing to the Game directory.
@@ -39,12 +39,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The active <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.ActiveLaunchParameters"/>.
 		/// </summary>
-		SwappableDmbProvider pendingSwappable;
+		SwappableDmbProvider? pendingSwappable;
 
 		/// <summary>
 		/// The <see cref="IDmbProvider"/> the <see cref="WindowsWatchdog"/> was started with.
 		/// </summary>
-		IDmbProvider startupDmbProvider;
+		IDmbProvider? startupDmbProvider;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsWatchdog"/> class.
@@ -150,24 +150,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
 			bool canSeamlesslySwap = true;
 
-			if (compileJobProvider.CompileJob.ByondVersion != ActiveCompileJob.ByondVersion)
+			var activeCompileJob = ActiveCompileJob;
+			if (activeCompileJob == null)
+				throw new InvalidOperationException("ActiveCompileJob is null!");
+
+			if (compileJobProvider.CompileJob.ByondVersion != activeCompileJob.ByondVersion)
 			{
 				// have to do a graceful restart
 				Logger.LogDebug(
 					"Not swapping to new compile job {0} as it uses a different BYOND version ({1}) than what is currently active {2}. Queueing graceful restart instead...",
 					compileJobProvider.CompileJob.Id,
 					compileJobProvider.CompileJob.ByondVersion,
-					ActiveCompileJob.ByondVersion);
+					activeCompileJob.ByondVersion);
 				canSeamlesslySwap = false;
 			}
 
-			if (compileJobProvider.CompileJob.DmeName != ActiveCompileJob.DmeName)
+			if (compileJobProvider.CompileJob.DmeName != activeCompileJob.DmeName)
 			{
 				Logger.LogDebug(
 					"Not swapping to new compile job {0} as it uses a different .dmb name ({1}) than what is currently active {2}. Queueing graceful restart instead...",
 					compileJobProvider.CompileJob.Id,
 					compileJobProvider.CompileJob.DmeName,
-					ActiveCompileJob.DmeName);
+					activeCompileJob.DmeName);
 				canSeamlesslySwap = false;
 			}
 
@@ -178,7 +182,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			}
 
-			SwappableDmbProvider windowsProvider = null;
+			SwappableDmbProvider? windowsProvider = null;
 			bool suspended = false;
 			try
 			{
@@ -252,8 +256,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected virtual Task InitialLink(CancellationToken cancellationToken)
 		{
+			var activeSwappable = ActiveSwappable;
+			if (activeSwappable == null)
+				throw new InvalidOperationException("ActiveSwappable is null!");
+
 			Logger.LogTrace("Symlinking compile job...");
-			return ActiveSwappable.MakeActive(cancellationToken);
+			return activeSwappable.MakeActive(cancellationToken);
 		}
 	}
 }

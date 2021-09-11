@@ -18,13 +18,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string TestMergeLocalBranchNameFormatter => throw new NotSupportedException();
 
 		/// <inheritdoc />
-		public RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.Unknown;
-
-		/// <inheritdoc />
-		public string RemoteRepositoryOwner => null;
-
-		/// <inheritdoc />
-		public string RemoteRepositoryName => null;
+		public GitRemoteInformation? GitRemoteInformation => null;
 
 		/// <inheritdoc />
 		public Task<Models.TestMerge> GetTestMerge(

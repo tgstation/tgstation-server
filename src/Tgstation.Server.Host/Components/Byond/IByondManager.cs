@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// The currently active BYOND version.
 		/// </summary>
-		Version ActiveVersion { get; }
+		Version? ActiveVersion { get; }
 
 		/// <summary>
 		/// The installed BYOND versions.

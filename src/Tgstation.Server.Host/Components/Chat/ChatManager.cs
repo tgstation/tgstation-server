@@ -101,17 +101,17 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// The <see cref="ICustomCommandHandler"/> for the <see cref="ChangeChannels(long, IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>.
 		/// </summary>
-		ICustomCommandHandler customCommandHandler;
+		ICustomCommandHandler? customCommandHandler;
 
 		/// <summary>
 		/// The <see cref="Task"/> that monitors incoming chat messages.
 		/// </summary>
-		Task chatHandler;
+		Task? chatHandler;
 
 		/// <summary>
 		/// A <see cref="Task"/> that represents the <see cref="IProvider"/>s initial connection.
 		/// </summary>
-		Task initialProviderConnectionsTask;
+		Task? initialProviderConnectionsTask;
 
 		/// <summary>
 		/// A <see cref="Task"/> that represents all sent messages.
@@ -119,9 +119,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task messageSendTask;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ChatBotSettings"/>s change.
+		/// The <see cref="TaskCompletionSource"/> that completes when <see cref="ChatBotSettings"/>s change.
 		/// </summary>
-		TaskCompletionSource<object> connectionsUpdated;
+		TaskCompletionSource connectionsUpdated;
 
 		/// <summary>
 		/// Used for remapping <see cref="ChannelRepresentation.RealId"/>s.
@@ -144,7 +144,15 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="initialChatBots">The <see cref="IEnumerable{T}"/> used to populate <see cref="activeChatBots"/>.</param>
-		public ChatManager(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory, ILogger<ChatManager> logger, IEnumerable<Models.ChatBot> initialChatBots)
+		public ChatManager(
+			IProviderFactory providerFactory,
+			IIOManager ioManager,
+			ICommandFactory commandFactory,
+			IServerControl serverControl,
+			IAsyncDelayer asyncDelayer,
+			ILoggerFactory loggerFactory,
+			ILogger<ChatManager> logger,
+			IEnumerable<Models.ChatBot> initialChatBots)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -165,7 +173,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
 			trackingContexts = new List<IChatTrackingContext>();
 			handlerCts = new CancellationTokenSource();
-			connectionsUpdated = new TaskCompletionSource<object>();
+			connectionsUpdated = new TaskCompletionSource();
 
 			messageSendTask = Task.CompletedTask;
 			channelIdCounter = 1;
@@ -211,14 +219,13 @@ namespace Tgstation.Server.Host.Components.Chat
 						.ToList();
 			}
 
-			var newMappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
+			var newMappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping(y)
 			{
 				IsWatchdogChannel = x.IsWatchdogChannel == true,
 				IsUpdatesChannel = x.IsUpdatesChannel == true,
 				IsAdminChannel = x.IsAdminChannel == true,
 				ProviderChannelId = y.RealId,
 				ProviderId = connectionId,
-				Channel = y,
 			});
 
 			ulong baseId;
@@ -232,7 +239,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (mappedChannels)
 			{
 				lock (providers)
-					if (!providers.TryGetValue(connectionId, out IProvider verify) || verify != provider) // aborted again
+					if (!providers.TryGetValue(connectionId, out var verify) || verify != provider) // aborted again
 						return;
 				foreach (var newMapping in newMappings)
 				{
@@ -260,7 +267,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				throw new ArgumentNullException(nameof(newSettings));
 
 			logger.LogTrace("ChangeSettings...");
-			IProvider provider;
+			IProvider? provider;
 
 			async Task DisconnectProvider(IProvider p)
 			{
@@ -302,8 +309,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				// same thread shennanigans
 				var oldOne = connectionsUpdated;
-				connectionsUpdated = new TaskCompletionSource<object>();
-				oldOne.SetResult(null);
+				connectionsUpdated = new TaskCompletionSource();
+				oldOne.SetResult();
 			}
 
 			var reconnectionUpdateTask = provider?.SetReconnectInterval(
@@ -345,7 +352,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task QueueWatchdogMessage(string message, CancellationToken cancellationToken)
 		{
-			List<ulong> wdChannels = null;
+			if (message == null)
+				throw new ArgumentNullException(nameof(message));
+			if (initialProviderConnectionsTask == null)
+				throw new InvalidOperationException("ChatManager not started!");
+
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
 
 			if (!initialProviderConnectionsTask.IsCompleted)
@@ -354,6 +365,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			await initialProviderConnectionsTask.WithToken(cancellationToken).ConfigureAwait(false);
 
 			// so it doesn't change while we're using it
+			List<ulong> wdChannels;
 			lock (mappedChannels)
 				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 
@@ -361,12 +373,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Action<string, string> QueueDeploymentMessage(
+		public Action<string, string?> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
+			Api.Models.GitRemoteInformation? gitRemoteInformation,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
 			bool localCommitPushed)
 		{
 			List<ulong> wdChannels;
@@ -375,28 +386,29 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			logger.LogTrace("Sending deployment message for RevisionInformation: {0}", revisionInformation.Id);
 
-			var callbacks = new List<Func<string, string, Task>>();
+			var callbacks = new List<Func<string, string?, Task>>();
 
 			var task = Task.WhenAll(
 				wdChannels.Select(
 					async x =>
 					{
-						ChannelMapping channelMapping;
+						ChannelMapping? channelMapping;
 						lock (mappedChannels)
 							if (!mappedChannels.TryGetValue(x, out channelMapping))
 								return;
-						IProvider provider;
+
+						IProvider? provider;
 						lock (providers)
 							if (!providers.TryGetValue(channelMapping.ProviderId, out provider))
 								return;
+
 						try
 						{
 							var callback = await provider.SendUpdateMessage(
 								revisionInformation,
 								byondVersion,
+								gitRemoteInformation,
 								estimatedCompletionTime,
-								gitHubOwner,
-								gitHubRepo,
 								channelMapping.ProviderChannelId,
 								localCommitPushed,
 								handlerCts.Token)
@@ -451,7 +463,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (customCommandHandler == null)
 				throw new InvalidOperationException("RegisterCommandHandler() hasn't been called!");
 
-			IChatTrackingContext context = null;
+			IChatTrackingContext? context = null;
 			lock (mappedChannels)
 				context = new ChatTrackingContext(
 					customCommandHandler,
@@ -459,8 +471,9 @@ namespace Tgstation.Server.Host.Components.Chat
 					loggerFactory.CreateLogger<ChatTrackingContext>(),
 					() =>
 					{
-						lock (trackingContexts)
-							trackingContexts.Remove(context);
+						if (context != null)
+							lock (trackingContexts)
+								trackingContexts.Remove(context);
 					});
 
 			lock (trackingContexts)
@@ -493,7 +506,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
+		public Task HandleRestart(Version? updateVersion, bool graceful, CancellationToken cancellationToken)
 		{
 			var message =
 				updateVersion == null
@@ -516,10 +529,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="updateTrackings">If <see cref="trackingContexts"/> should be update.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>
-		async Task<IProvider> RemoveProvider(long connectionId, bool updateTrackings, CancellationToken cancellationToken)
+		async Task<IProvider?> RemoveProvider(long connectionId, bool updateTrackings, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("RemoveProvider {0}...", connectionId);
-			IProvider provider;
+			IProvider? provider;
 			lock (providers)
 				if (!providers.TryGetValue(connectionId, out provider))
 				{
@@ -556,11 +569,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		async Task RemapProvider(IProvider provider, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Remapping channels for provider reconnection...");
-			IEnumerable<Api.Models.ChatChannel> channelsToMap;
 			long providerId;
 			lock (providers)
 				providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
 
+			IEnumerable<Api.Models.ChatChannel>? channelsToMap;
 			lock (activeChatBots)
 				channelsToMap = activeChatBots.FirstOrDefault(x => x.Id == providerId)?.Channels;
 
@@ -576,7 +589,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 #pragma warning disable CA1502
-		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
+		async Task ProcessMessage(IProvider provider, Message? message, CancellationToken cancellationToken)
 #pragma warning restore CA1502
 		{
 			if (!provider.Connected)
@@ -609,12 +622,11 @@ namespace Tgstation.Server.Host.Components.Chat
 								message.User.Channel.ConnectionName,
 								message.User.FriendlyName,
 								newId);
-							mappedChannels.Add(newId, new ChannelMapping
+							mappedChannels.Add(newId, new ChannelMapping(message.User.Channel)
 							{
 								IsWatchdogChannel = false,
 								ProviderChannelId = message.User.Channel.RealId,
 								ProviderId = providerId,
-								Channel = message.User.Channel,
 							});
 							message.User.Channel.RealId = newId;
 						}
@@ -665,7 +677,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				splits.RemoveAt(0);
 				var arguments = String.Join(" ", splits);
 
-				ICommand GetCommand(string commandName)
+				ICommand? GetCommand(string commandName)
 				{
 					if (!builtinCommands.TryGetValue(commandName, out var handler))
 					{
@@ -754,11 +766,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		async Task MonitorMessages(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Starting processing loop...");
-			var messageTasks = new Dictionary<IProvider, Task<Message>>();
+			var messageTasks = new Dictionary<IProvider, Task<Message?>>();
 			Task activeProcessingTask = Task.CompletedTask;
 			try
 			{
-				Task updatedTask = null;
+				Task? updatedTask = null;
 				while (!cancellationToken.IsCancellationRequested)
 				{
 					if (updatedTask?.IsCompleted != false)
@@ -836,14 +848,16 @@ namespace Tgstation.Server.Host.Components.Chat
 			return Task.WhenAll(
 				channelIds.Select(x =>
 				{
-					ChannelMapping channelMapping;
+					ChannelMapping? channelMapping;
 					lock (mappedChannels)
 						if (!mappedChannels.TryGetValue(x, out channelMapping))
 							return Task.CompletedTask;
-					IProvider provider;
+
+					IProvider? provider;
 					lock (providers)
 						if (!providers.TryGetValue(channelMapping.ProviderId, out provider))
 							return Task.CompletedTask;
+
 					return provider.SendMessage(channelMapping.ProviderChannelId, message, cancellationToken);
 				}));
 		}

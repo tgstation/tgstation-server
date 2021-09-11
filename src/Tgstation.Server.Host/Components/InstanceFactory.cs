@@ -307,7 +307,6 @@ namespace Tgstation.Server.Host.Components
 						commandFactory.SetWatchdog(watchdog);
 						try
 						{
-							Instance instance = null;
 							var dreamMaker = new DreamMaker(
 								byond,
 								gameIoManager,
@@ -322,7 +321,7 @@ namespace Tgstation.Server.Host.Components
 								loggerFactory.CreateLogger<DreamMaker>(),
 								metadata);
 
-							instance = new Instance(
+							var instance = new Instance(
 								metadata,
 								repoManager,
 								byond,

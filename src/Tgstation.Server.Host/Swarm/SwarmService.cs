@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -26,7 +27,7 @@ namespace Tgstation.Server.Host.Swarm
 	/// <summary>
 	/// Helps keep servers connected to the same database in sync by coordinating updates.
 	/// </summary>
-	sealed class SwarmService : ISwarmService, ISwarmOperations, IRestartHandler, IDisposable
+	sealed class SwarmService : ISwarmService, ISwarmOperations, IRestartHandler, IAsyncDisposable
 	{
 		/// <summary>
 		/// Interval at which the swarm controller makes health checks on nodes.
@@ -69,6 +70,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// If the swarm system is enabled.
 		/// </summary>
+		[MemberNotNullWhen(true, nameof(swarmServers), nameof(registrationIds), nameof(updateSynchronizationLock), nameof(forceHealthCheckTcs))]
 		bool SwarmMode => swarmConfiguration.PrivateKey != null;
 
 		/// <summary>
@@ -117,24 +119,19 @@ namespace Tgstation.Server.Host.Swarm
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for <see cref="serverHealthCheckTask"/>.
-		/// </summary>
-		readonly CancellationTokenSource serverHealthCheckCancellationTokenSource;
-
-		/// <summary>
 		/// <see cref="List{T}"/> of connected <see cref="SwarmServerResponse"/>s.
 		/// </summary>
-		readonly List<SwarmServerResponse> swarmServers;
+		readonly List<SwarmServerResponse>? swarmServers;
 
 		/// <summary>
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to registration <see cref="Guid"/>s.
 		/// </summary>
-		readonly Dictionary<string, Guid> registrationIds;
+		readonly Dictionary<string, Guid>? registrationIds;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> used for accessing <see cref="targetUpdateVersion"/>.
 		/// </summary>
-		readonly object updateSynchronizationLock;
+		readonly object? updateSynchronizationLock;
 
 		/// <summary>
 		/// If the current server is the swarm controller.
@@ -142,29 +139,29 @@ namespace Tgstation.Server.Host.Swarm
 		readonly bool swarmController;
 
 		/// <summary>
-		/// A <see cref="TaskCompletionSource{TResult}"/> that is used to force a health check.
+		/// A <see cref="TaskCompletionSource"/> that is used to force a health check.
 		/// </summary>
-		TaskCompletionSource<object> forceHealthCheckTcs;
+		TaskCompletionSource? forceHealthCheckTcs;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> that is used to proceed with committing an update.
 		/// </summary>
-		TaskCompletionSource<bool> updateCommitTcs;
+		TaskCompletionSource<bool>? updateCommitTcs;
 
 		/// <summary>
 		/// <see cref="List{T}"/> of <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s that need to send a ready-commit before the update can proceed.
 		/// </summary>
-		List<string> nodesThatNeedToBeReadyToCommit;
+		List<string>? nodesThatNeedToBeReadyToCommit;
 
 		/// <summary>
-		/// The <see cref="Task"/> for the <see cref="HealthCheckLoop(CancellationToken)"/>.
+		/// The <see cref="CancellableTask"/> for the <see cref="HealthCheckLoop(CancellationToken)"/>.
 		/// </summary>
-		Task serverHealthCheckTask;
+		CancellableTask? serverHealthCheckTask;
 
 		/// <summary>
 		/// The <see cref="Version"/> set for a two phase commit update.
 		/// </summary>
-		Version targetUpdateVersion;
+		Version? targetUpdateVersion;
 
 		/// <summary>
 		/// The registration <see cref="Guid"/> provided by the swarm controller.
@@ -232,8 +229,7 @@ namespace Tgstation.Server.Host.Swarm
 			swarmController = !SwarmMode || swarmConfiguration.ControllerAddress == null;
 			if (SwarmMode)
 			{
-				serverHealthCheckCancellationTokenSource = new CancellationTokenSource();
-				forceHealthCheckTcs = new TaskCompletionSource<object>();
+				forceHealthCheckTcs = new TaskCompletionSource();
 				if (swarmController)
 					registrationIds = new Dictionary<string, Guid>();
 
@@ -254,7 +250,14 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => serverHealthCheckCancellationTokenSource?.Dispose();
+		public async ValueTask DisposeAsync()
+		{
+			if (serverHealthCheckTask != null)
+			{
+				await serverHealthCheckTask.DisposeAsync().ConfigureAwait(false);
+				serverHealthCheckTask = null;
+			}
+		}
 
 		/// <inheritdoc />
 		public async Task RemoteAbortUpdate(CancellationToken cancellationToken)
@@ -429,7 +432,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public ICollection<SwarmServerResponse> GetSwarmServers()
+		public ICollection<SwarmServerResponse>? GetSwarmServers()
 		{
 			if (!SwarmMode)
 				return null;
@@ -480,7 +483,7 @@ namespace Tgstation.Server.Host.Swarm
 				result = await RegisterWithController(cancellationToken).ConfigureAwait(false);
 
 			if (SwarmMode && result == SwarmRegistrationResult.Success)
-				serverHealthCheckTask = HealthCheckLoop(serverHealthCheckCancellationTokenSource.Token);
+				serverHealthCheckTask = new CancellableTask(token => HealthCheckLoop(token));
 
 			return result;
 		}
@@ -488,8 +491,13 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task Shutdown(CancellationToken cancellationToken)
 		{
-			async Task SendUnregistrationRequest(SwarmServerResponse swarmServer)
+			async Task SendUnregistrationRequest(SwarmServerResponse? swarmServer)
 			{
+				swarmServer ??= new SwarmServerResponse
+				{
+					Address = swarmConfiguration.ControllerAddress,
+				};
+
 				using var httpClient = httpClientFactory.CreateClient();
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -513,11 +521,7 @@ namespace Tgstation.Server.Host.Swarm
 				}
 			}
 
-			if (serverHealthCheckTask != null)
-			{
-				serverHealthCheckCancellationTokenSource.Cancel();
-				await serverHealthCheckTask.ConfigureAwait(false);
-			}
+			await DisposeAsync().ConfigureAwait(false);
 
 			if (!swarmController)
 			{
@@ -571,6 +575,9 @@ namespace Tgstation.Server.Host.Swarm
 			if (swarmServers == null)
 				throw new ArgumentNullException(nameof(swarmServers));
 
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot UpdateSwarmServersList outside of SwarmMode!");
+
 			if (swarmController)
 				throw new InvalidOperationException("Cannot UpdateSwarmServersList on swarm controller!");
 
@@ -585,6 +592,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public bool ValidateRegistration(Guid registrationId)
 		{
+			if (!SwarmMode)
+				return false;
+
 			if (swarmController)
 				lock (swarmServers)
 					return registrationIds.Values.Any(x => x == registrationId);
@@ -607,6 +617,9 @@ namespace Tgstation.Server.Host.Swarm
 
 			if (node.Address == null)
 				throw new ArgumentException("Node missing Address!", nameof(node));
+
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot RegisterNode outside of SwarmMode!");
 
 			if (!swarmController)
 				throw new InvalidOperationException("Cannot RegisterNode on swarm node!");
@@ -661,7 +674,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
+		public Task HandleRestart(Version? updateVersion, bool graceful, CancellationToken cancellationToken)
 		{
 			restarting = true;
 			return Task.CompletedTask;
@@ -670,6 +683,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken)
 		{
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot RemoteCommitRecieved outside of SwarmMode!");
+
 			if (!swarmController)
 			{
 				logger.LogDebug("Received remote commit go ahead");
@@ -713,6 +729,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task UnregisterNode(Guid registrationId, CancellationToken cancellationToken)
 		{
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot UnregisterNode outside of SwarmMode!");
+
 			if (!swarmController)
 			{
 				// immediately trigger a health check
@@ -762,7 +781,7 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			using var httpClient = httpClientFactory.CreateClient();
-			async Task<bool> RemotePrepareUpdate(SwarmServerResponse swarmServer)
+			async Task<bool> RemotePrepareUpdate(SwarmServerResponse? swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -897,6 +916,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task HealthCheckNodes(CancellationToken cancellationToken)
 		{
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot HealthCheckNodes outside of SwarmMode!");
+
 			using var httpClient = httpClientFactory.CreateClient();
 
 			List<SwarmServerResponse> currentSwarmServers;
@@ -959,12 +981,15 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Complete the current <see cref="forceHealthCheckTcs"/>.
 		/// </summary>
-		/// <returns><see langword="true"/> the result of the call to <see cref="TaskCompletionSource{TResult}.TrySetResult(TResult)"/>.</returns>
+		/// <returns><see langword="true"/> the result of the call to <see cref="TaskCompletionSource.TrySetResult()"/>.</returns>
 		bool TriggerHealthCheck()
 		{
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot TriggerHealthCheck outside of SwarmMode!");
+
 			var currentTcs = forceHealthCheckTcs;
-			forceHealthCheckTcs = new TaskCompletionSource<object>();
-			return currentTcs.TrySetResult(null);
+			forceHealthCheckTcs = new TaskCompletionSource();
+			return currentTcs.TrySetResult();
 		}
 
 		/// <summary>
@@ -1092,6 +1117,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task SendUpdatedServerListToNodes(CancellationToken cancellationToken)
 		{
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot SendUpdatedServerListToNodes outside of SwarmMode!");
+
 			logger.LogDebug("Sending updated server list to all nodes...");
 			List<SwarmServerResponse> currentSwarmServers;
 			lock (swarmServers)
@@ -1137,19 +1165,22 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Prepares a <see cref="HttpRequestMessage"/> for swarm communication.
 		/// </summary>
-		/// <param name="swarmServer">The <see cref="SwarmServerResponse"/> the message is for, if null will be sent to swarm controller.</param>
+		/// <param name="swarmServer">The <see cref="SwarmServerResponse"/> the message is for, if <see langword="null"/> will be sent to swarm controller.</param>
 		/// <param name="httpMethod">The <see cref="HttpMethod"/>.</param>
 		/// <param name="subroute">The route on <see cref="SwarmConstants.ControllerRoute"/> to use.</param>
 		/// <param name="body">The body <see cref="object"/> if any.</param>
 		/// <param name="registrationIdOverride">An optional override to the <see cref="SwarmConstants.RegistrationIdHeader"/>.</param>
 		/// <returns>A new <see cref="HttpRequestMessage"/>.</returns>
 		HttpRequestMessage PrepareSwarmRequest(
-			SwarmServerResponse swarmServer,
+			SwarmServerResponse? swarmServer,
 			HttpMethod httpMethod,
 			string subroute,
-			object body,
+			object? body,
 			Guid? registrationIdOverride = null)
 		{
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot PrepareSwarmRequest outside of SwarmMode!");
+
 			swarmServer ??= new SwarmServerResponse
 			{
 				Address = swarmConfiguration.ControllerAddress,
@@ -1206,6 +1237,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="Task"/> representing the rinning operation.</returns>
 		async Task HealthCheckLoop(CancellationToken cancellationToken)
 		{
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot HealthCheckLoop outside of SwarmMode!");
+
 			logger.LogTrace("Starting HealthCheckLoop...");
 			try
 			{
@@ -1287,8 +1321,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// </summary>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
 		/// <returns>The registered <see cref="Api.Models.Internal.SwarmServer.Identifier"/> or <see langword="null"/> if it does not exist.</returns>
-		string NodeIdentifierFromRegistration(Guid registrationId)
+		string? NodeIdentifierFromRegistration(Guid registrationId)
 		{
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot UpdateSwarmServersList outside of SwarmMode!");
+
 			if (!swarmController)
 				throw new InvalidOperationException("NodeIdentifierFromRegistration on node!");
 

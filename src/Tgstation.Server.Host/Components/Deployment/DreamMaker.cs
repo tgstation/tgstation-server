@@ -106,12 +106,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The active callback from <see cref="IChatManager.QueueDeploymentMessage"/>.
 		/// </summary>
-		Action<string, string> currentChatCallback;
+		Action<string, string?>? currentChatCallback;
 
 		/// <summary>
 		/// Cached for <see cref="currentChatCallback"/>.
 		/// </summary>
-		string currentDreamMakerOutput;
+		string? currentDreamMakerOutput;
 
 		/// <summary>
 		/// If a compile job is running.
@@ -197,18 +197,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			currentChatCallback = null;
 			currentDreamMakerOutput = null;
-			Models.CompileJob compileJob = null;
+			Models.CompileJob? compileJob = null;
 			try
 			{
-				string repoOwner = null;
-				string repoName = null;
 				TimeSpan? averageSpan = null;
-				Models.RepositorySettings repositorySettings = null;
-				Models.DreamDaemonSettings ddSettings = null;
-				Models.DreamMakerSettings dreamMakerSettings = null;
-				IRepository repo = null;
-				IRemoteDeploymentManager remoteDeploymentManager = null;
-				Models.RevisionInformation revInfo = null;
+				Models.RepositorySettings? repositorySettings = null;
+				Models.DreamDaemonSettings? ddSettings = null;
+				Models.DreamMakerSettings? dreamMakerSettings = null;
+				IRepository? repo = null;
+				Models.RevisionInformation? revInfo = null;
 				await databaseContextFactory.UseContext(
 					async databaseContext =>
 					{
@@ -224,8 +221,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 							})
 							.FirstOrDefaultAsync(cancellationToken)
 							.ConfigureAwait(false);
-						if (ddSettings == default)
-							throw new JobException(ErrorCode.InstanceMissingDreamDaemonSettings);
 
 						dreamMakerSettings = await databaseContext
 							.DreamMakerSettings
@@ -233,8 +228,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 							.Where(x => x.InstanceId == metadata.Id)
 							.FirstAsync(cancellationToken)
 							.ConfigureAwait(false);
-						if (dreamMakerSettings == default)
-							throw new JobException(ErrorCode.InstanceMissingDreamMakerSettings);
 
 						repositorySettings = await databaseContext
 							.RepositorySettings
@@ -249,8 +242,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 							})
 							.FirstOrDefaultAsync(cancellationToken)
 							.ConfigureAwait(false);
-						if (repositorySettings == default)
-							throw new JobException(ErrorCode.InstanceMissingRepositorySettings);
 
 						repo = await repositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false);
 						try
@@ -258,12 +249,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							if (repo == null)
 								throw new JobException(ErrorCode.RepoMissing);
 
-							remoteDeploymentManager = remoteDeploymentManagerFactory
-								.CreateRemoteDeploymentManager(metadata, repo.RemoteGitProvider.Value);
-
 							var repoSha = repo.Head;
-							repoOwner = repo.RemoteRepositoryOwner;
-							repoName = repo.RemoteRepositoryName;
 							revInfo = await databaseContext
 								.RevisionInformations
 								.AsQueryable()
@@ -302,13 +288,26 @@ namespace Tgstation.Server.Host.Components.Deployment
 					})
 					.ConfigureAwait(false);
 
+				if (ddSettings == default)
+					throw new JobException(ErrorCode.InstanceMissingDreamDaemonSettings);
+				if (dreamMakerSettings == default)
+					throw new JobException(ErrorCode.InstanceMissingDreamMakerSettings);
+				if (repositorySettings == default)
+					throw new JobException(ErrorCode.InstanceMissingRepositorySettings);
+
+				var gitRemoteInformation = repo!.GitRemoteInformation;
+				var remoteDeploymentManager = remoteDeploymentManagerFactory
+					.CreateRemoteDeploymentManager(metadata, gitRemoteInformation?.RemoteGitProvider);
+
 				var likelyPushedTestMergeCommit =
 					repositorySettings.PushTestMergeCommits.Value
 					&& repositorySettings.AccessToken != null
 					&& repositorySettings.AccessUser != null;
+
+				var exteriorRevInfo = revInfo!;
 				using (repo)
 					compileJob = await Compile(
-						revInfo,
+						exteriorRevInfo,
 						dreamMakerSettings,
 						ddSettings.StartupTimeout.Value,
 						repo,
@@ -333,7 +332,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							var fullRevInfo = compileJob.RevisionInformation;
 							compileJob.RevisionInformation = new Models.RevisionInformation
 							{
-								Id = revInfo.Id,
+								Id = exteriorRevInfo.Id,
 							};
 
 							databaseContext.Jobs.Attach(compileJob.Job);
@@ -368,19 +367,20 @@ namespace Tgstation.Server.Host.Components.Deployment
 					throw;
 				}
 
-				var commentsTask = remoteDeploymentManager.PostDeploymentComments(
-					compileJob,
-					activeCompileJob?.RevisionInformation,
-					repositorySettings,
-					repoOwner,
-					repoName,
-					cancellationToken);
+				Task commentsTask = Task.CompletedTask;
+				if (gitRemoteInformation != null)
+					commentsTask = remoteDeploymentManager.PostDeploymentComments(
+						compileJob,
+						repositorySettings,
+						gitRemoteInformation,
+						activeCompileJob?.RevisionInformation,
+						cancellationToken);
 
 				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, Enumerable.Empty<string>(), cancellationToken);
 
 				try
 				{
-					currentChatCallback(null, compileJob.Output);
+					currentChatCallback?.Invoke(null, compileJob.Output);
 
 					await Task.WhenAll(commentsTask, eventTask).ConfigureAwait(false);
 				}
@@ -476,9 +476,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
 					byondLock.Version,
+					repository.GitRemoteInformation,
 					DateTimeOffset.UtcNow + estimatedDuration,
-					repository.RemoteRepositoryOwner,
-					repository.RemoteRepositoryName,
 					localCommitExistsOnRemote);
 
 				var job = new Models.CompileJob
@@ -490,11 +489,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 					RepositoryOrigin = repository.Origin.ToString(),
 				};
 
-				await remoteDeploymentManager.StartDeployment(
-					repository,
-					job,
-					cancellationToken)
-					.ConfigureAwait(false);
+				var gitRemoteInformation = repository.GitRemoteInformation;
+				if (gitRemoteInformation != null)
+					await remoteDeploymentManager.StartDeployment(
+						gitRemoteInformation,
+						job,
+						cancellationToken)
+						.ConfigureAwait(false);
 
 				logger.LogTrace("Deployment will timeout at {0}", DateTimeOffset.Now + dreamMakerSettings.Timeout.Value);
 				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout.Value);
@@ -699,8 +700,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 					progressReporter(iteration + 1);
 				}
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
+				logger.LogTrace(ex, "Aborting progress tracking task!");
 			}
 		}
 
@@ -755,7 +757,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				if (requireValidate && validationStatus == ApiValidationStatus.NeverValidated)
 					throw new JobException(ErrorCode.DreamMakerNeverValidated);
 
-				logger.LogTrace("API validation status: {0}", validationStatus);
+				logger.LogTrace("API validation status: {validationStatus}", validationStatus);
 
 				job.DMApiVersion = controller.DMApiVersion;
 			}
@@ -808,10 +810,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				exitCode = await dm.Lifetime.ConfigureAwait(false);
 			cancellationToken.ThrowIfCancellationRequested();
 
-			logger.LogDebug("DreamMaker exit code: {0}", exitCode);
+			logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);
 			job.Output = await dm.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
 			currentDreamMakerOutput = job.Output;
-			logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
+			logger.LogDebug("DreamMaker output: {newLine}{output}", Environment.NewLine, job.Output);
 			return exitCode;
 		}
 
@@ -876,7 +878,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Cleans up a failed compile <paramref name="job"/>.
 		/// </summary>
 		/// <param name="job">The running <see cref="CompileJob"/>.</param>
-		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> associated with the <paramref name="job"/>.</param>
+		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> associated with the <paramref name="job"/>, if any.</param>
 		/// <param name="exception">The <see cref="Exception"/> that was thrown.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task CleanupFailedCompile(Models.CompileJob job, IRemoteDeploymentManager remoteDeploymentManager, Exception exception)

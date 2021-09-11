@@ -8,6 +8,7 @@
     <LangVersion>latest</LangVersion>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <DocumentationFile>bin\$(Configuration)\net6.0\Tgstation.Server.Host.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -84,7 +85,7 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0-preview7" />
     <PackageReference Include="Octokit" Version="0.50.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0-preview.5" />
-    <PackageReference Include="Remora.Discord" Version="3.0.58" />
+    <PackageReference Include="Remora.Discord" Version="3.0.59" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />

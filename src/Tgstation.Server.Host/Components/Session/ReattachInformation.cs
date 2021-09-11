@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The <see cref="Interop.Bridge.RuntimeInformation"/> for the DMAPI.
 		/// </summary>
-		public RuntimeInformation RuntimeInformation { get; private set; }
+		public RuntimeInformation? RuntimeInformation { get; private set; }
 
 		/// <summary>
 		/// The <see cref="TimeSpan"/> which indicates when topic requests should timeout.

@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Extensions
 			if (sectionField.FieldType != stringType)
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "{0} has invalid {1} field type, must be {2}!", configType, SectionFieldName, stringType));
 
-			var sectionName = (string)sectionField.GetValue(null);
+			var sectionName = (string?)sectionField.GetValue(null);
 
 			return serviceCollection.Configure<TConfig>(configuration.GetSection(sectionName));
 		}
@@ -65,8 +65,8 @@ namespace Tgstation.Server.Host.Extensions
 		public static IServiceCollection SetupLogging(
 			this IServiceCollection serviceCollection,
 			Action<LoggerConfiguration> configurationAction,
-			Action<LoggerSinkConfiguration> sinkConfigurationAction = null,
-			ElasticsearchConfiguration elasticsearchConfiguration = null)
+			Action<LoggerSinkConfiguration>? sinkConfigurationAction = null,
+			ElasticsearchConfiguration? elasticsearchConfiguration = null)
 			=> serviceCollection.AddLogging(builder =>
 			{
 				builder.ClearProviders();

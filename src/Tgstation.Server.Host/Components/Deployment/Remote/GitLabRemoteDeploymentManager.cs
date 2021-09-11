@@ -51,6 +51,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return Array.Empty<RevInfoTestMerge>();
 			}
 
+			var remoteInformation = repository.GitRemoteInformation;
+			if (remoteInformation == null)
+				throw new InvalidOperationException("Remote git info no longer available!");
+
 			var client = repositorySettings.AccessToken != null
 				? new GitLabClient(GitLabRemoteFeatures.GitLabUrl, repositorySettings.AccessToken)
 				: new GitLabClient(GitLabRemoteFeatures.GitLabUrl);
@@ -60,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				.Select(x => client
 					.MergeRequests
 					.GetAsync(
-						$"{repository.RemoteRepositoryOwner}/{repository.RemoteRepositoryName}",
+						$"{remoteInformation.RepositoryOwner}/{remoteInformation.RepositoryName}",
 						x.TestMerge.Number)
 					.WithToken(cancellationToken));
 			try
@@ -74,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var newList = revisionInformation.ActiveTestMerges.ToList();
 
-			MergeRequest lastMerged = null;
+			MergeRequest? lastMerged = null;
 			async Task CheckRemoveMR(Task<MergeRequest> task)
 			{
 				var mergeRequest = await task.ConfigureAwait(false);
@@ -101,7 +105,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public override Task ApplyDeployment(
 			CompileJob compileJob,
-			CompileJob oldCompileJob,
+			CompileJob? oldCompileJob,
 			CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
@@ -118,15 +122,14 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 		/// <inheritdoc />
 		public override Task StartDeployment(
-			Api.Models.Internal.IGitRemoteInformation remoteInformation,
+			Api.Models.GitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
 		protected override Task CommentOnTestMergeSource(
 			RepositorySettings repositorySettings,
-			string remoteRepositoryOwner,
-			string remoteRepositoryName,
+			Api.Models.GitRemoteInformation remoteInformation,
 			string comment,
 			int testMergeNumber,
 			CancellationToken cancellationToken)
@@ -138,7 +141,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			return client
 				.MergeRequests
 				.CreateNoteAsync(
-					$"{remoteRepositoryOwner}/{remoteRepositoryName}",
+					$"{remoteInformation.RepositoryOwner}/{remoteInformation.RepositoryName}",
 					testMergeNumber,
 					new CreateMergeRequestNoteRequest(comment))
 				.WithToken(cancellationToken);
@@ -149,8 +152,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			RepositorySettings repositorySettings,
 			CompileJob compileJob,
 			TestMerge testMerge,
-			string remoteRepositoryOwner,
-			string remoteRepositoryName,
+			Api.Models.GitRemoteInformation remoteInformation,
 			bool updated) => String.Format(
 			CultureInfo.InvariantCulture,
 			"#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Merge Request: {2}{0}Server: {7}{3}",

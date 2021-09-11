@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 		/// <inheritdoc />
 		public override async Task StartDeployment(
-			Api.Models.Internal.IGitRemoteInformation remoteInformation,
+			Api.Models.GitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken)
 		{
@@ -64,16 +64,18 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			Logger.LogTrace("Starting deployment...");
 
-			RepositorySettings repositorySettings = null;
+			RepositorySettings? repositorySettingsTemp = null;
 			await databaseContextFactory.UseContext(
 				async databaseContext =>
-					repositorySettings = await databaseContext
+					repositorySettingsTemp = await databaseContext
 						.RepositorySettings
 						.AsQueryable()
 						.Where(x => x.InstanceId == Metadata.Id)
 						.FirstAsync(cancellationToken)
 						.ConfigureAwait(false))
 				.ConfigureAwait(false);
+
+			var repositorySettings = repositorySettingsTemp!;
 
 			var instanceAuthenticated = repositorySettings.AccessToken == null;
 			var gitHubClient = repositorySettings.AccessToken == null
@@ -83,8 +85,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			var repositoryTask = gitHubClient
 				.Repository
 				.Get(
-					remoteInformation.RemoteRepositoryOwner,
-					remoteInformation.RemoteRepositoryName);
+					remoteInformation.RepositoryOwner,
+					remoteInformation.RepositoryName);
 
 			if (!repositorySettings.CreateGitHubDeployments.Value)
 				Logger.LogTrace("Not creating deployment");
@@ -97,8 +99,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.Repository
 					.Deployment
 					.Create(
-						remoteInformation.RemoteRepositoryOwner,
-						remoteInformation.RemoteRepositoryName,
+						remoteInformation.RepositoryOwner,
+						remoteInformation.RepositoryName,
 						new NewDeployment(compileJob.RevisionInformation.CommitSha)
 						{
 							AutoMerge = false,
@@ -118,8 +120,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.Deployment
 					.Status
 					.Create(
-						remoteInformation.RemoteRepositoryOwner,
-						remoteInformation.RemoteRepositoryName,
+						remoteInformation.RepositoryOwner,
+						remoteInformation.RepositoryName,
 						deployment.Id,
 						new NewDeploymentStatus(DeploymentState.InProgress)
 						{
@@ -158,7 +160,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				cancellationToken);
 
 		/// <inheritdoc />
-		public override Task ApplyDeployment(CompileJob compileJob, CompileJob oldCompileJob, CancellationToken cancellationToken)
+		public override Task ApplyDeployment(CompileJob compileJob, CompileJob? oldCompileJob, CancellationToken cancellationToken)
 			=> UpdateDeployment(
 				compileJob,
 				"The deployment is now live on the server.",
@@ -188,8 +190,6 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			RevisionInformation revisionInformation,
 			CancellationToken cancellationToken)
 		{
-			if (repository == null)
-				throw new ArgumentNullException(nameof(repository));
 			if (repositorySettings == null)
 				throw new ArgumentNullException(nameof(repositorySettings));
 			if (revisionInformation == null)
@@ -201,6 +201,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return Array.Empty<RevInfoTestMerge>();
 			}
 
+			var remoteInformation = repository.GitRemoteInformation;
+			if (remoteInformation == null)
+				throw new InvalidOperationException("Remote git info no longer available!");
+
 			var gitHubClient = repositorySettings.AccessToken != null
 				? gitHubClientFactory.CreateClient(repositorySettings.AccessToken)
 				: gitHubClientFactory.CreateClient();
@@ -209,7 +213,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				.ActiveTestMerges
 				.Select(x => gitHubClient
 					.PullRequest
-					.Get(repository.RemoteRepositoryOwner, repository.RemoteRepositoryName, x.TestMerge.Number)
+					.Get(
+						remoteInformation.RepositoryOwner,
+						remoteInformation.RepositoryName,
+						x.TestMerge.Number)
 					.WithToken(cancellationToken));
 			try
 			{
@@ -222,7 +229,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var newList = revisionInformation.ActiveTestMerges.ToList();
 
-			PullRequest lastMerged = null;
+			PullRequest? lastMerged = null;
 			async Task CheckRemovePR(Task<PullRequest> task)
 			{
 				var pr = await task.ConfigureAwait(false);
@@ -249,8 +256,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		protected override async Task CommentOnTestMergeSource(
 			RepositorySettings repositorySettings,
-			string remoteRepositoryOwner,
-			string remoteRepositoryName,
+			Api.Models.GitRemoteInformation remoteInformation,
 			string comment,
 			int testMergeNumber,
 			CancellationToken cancellationToken)
@@ -259,7 +265,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			try
 			{
-				await gitHubClient.Issue.Comment.Create(remoteRepositoryOwner, remoteRepositoryName, testMergeNumber, comment)
+				await gitHubClient.Issue.Comment.Create(
+					remoteInformation.RepositoryOwner,
+					remoteInformation.RepositoryName,
+					testMergeNumber,
+					comment)
 					.WithToken(cancellationToken)
 					.ConfigureAwait(false);
 			}
@@ -274,8 +284,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			RepositorySettings repositorySettings,
 			CompileJob compileJob,
 			TestMerge testMerge,
-			string remoteRepositoryOwner,
-			string remoteRepositoryName,
+			Api.Models.GitRemoteInformation remoteInformation,
 			bool updated) => String.Format(
 			CultureInfo.InvariantCulture,
 			"#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}{8}",
@@ -300,7 +309,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			compileJob.RevisionInformation.OriginCommitSha,
 			compileJob.RevisionInformation.CommitSha,
 			compileJob.GitHubDeploymentId.HasValue
-				? $"{Environment.NewLine}[GitHub Deployments](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A%20{Metadata.Name})"
+				? $"{Environment.NewLine}[GitHub Deployments](https://github.com/{remoteInformation.RepositoryOwner}/{remoteInformation.RepositoryName}/deployments/activity_log?environment=TGS%3A%20{Metadata.Name})"
 				: String.Empty);
 
 		/// <summary>
@@ -328,7 +337,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			Logger.LogTrace("Updating deployment {0} to {1}...", compileJob.GitHubDeploymentId.Value, deploymentState);
 
-			string gitHubAccessToken = null;
+			string? gitHubAccessToken = null;
 			await databaseContextFactory.UseContext(
 				async databaseContext =>
 					gitHubAccessToken = await databaseContext
@@ -343,7 +352,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			if (gitHubAccessToken == null)
 			{
 				Logger.LogWarning(
-					"GitHub access token disappeared during deployment, can't update to {0}!",
+					"GitHub access token disappeared during deployment, can't update to {state}!",
 					deploymentState);
 				return;
 			}

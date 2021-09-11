@@ -15,12 +15,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <summary>
 		/// Start a deployment for a given <paramref name="compileJob"/>.
 		/// </summary>
-		/// <param name="remoteInformation">The <see cref="Api.Models.Internal.IGitRemoteInformation"/> of the repository being deployed.</param>
+		/// <param name="remoteInformation">The <see cref="Api.Models.GitRemoteInformation"/> of the repository being deployed.</param>
 		/// <param name="compileJob">The active <see cref="CompileJob"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task StartDeployment(
-			Api.Models.Internal.IGitRemoteInformation remoteInformation,
+			Api.Models.GitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken);
 
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="oldCompileJob">The currently active <see cref="CompileJob"/>, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task ApplyDeployment(CompileJob compileJob, CompileJob oldCompileJob, CancellationToken cancellationToken);
+		Task ApplyDeployment(CompileJob compileJob, CompileJob? oldCompileJob, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Fail a deployment for a given <paramref name="compileJob"/>.
@@ -64,24 +64,22 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// Post deployment comments to the test merge ticket.
 		/// </summary>
 		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
-		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
-		/// <param name="repoOwner">The GitHub repostiory owner.</param>
-		/// <param name="repoName">The GitHub repostiory name.</param>
+		/// <param name="remoteInformation">The <see cref="Api.Models.GitRemoteInformation"/> of the repository being deployed.</param>
+		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task PostDeploymentComments(
 			CompileJob compileJob,
-			RevisionInformation previousRevisionInformation,
 			RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName,
+			Api.Models.GitRemoteInformation remoteInformation,
+			RevisionInformation? previousRevisionInformation,
 			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get the updated list of <see cref="TestMerge"/>s for an origin merge.
 		/// </summary>
-		/// <param name="repository">The <see cref="IRepository"/> to use.</param>
+		/// <param name="repository">The current <see cref="IRepository"/>.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
 		/// <param name="revisionInformation">The current <see cref="RevisionInformation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>

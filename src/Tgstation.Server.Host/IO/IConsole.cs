@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="newLine">If there should be a new line after the <paramref name="text"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken);
+		Task WriteAsync(string? text, bool newLine, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Wait for a key press on the <see cref="IConsole"/>.

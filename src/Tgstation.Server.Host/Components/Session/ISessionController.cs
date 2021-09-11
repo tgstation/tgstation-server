@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The DMAPI <see cref="Version"/>.
 		/// </summary>
-		Version DMApiVersion { get; }
+		Version? DMApiVersion { get; }
 
 		/// <summary>
 		/// Gets the <see cref="CompileJob"/> associated with the <see cref="ISessionController"/>.
@@ -81,15 +81,16 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic().</returns>
-		Task<CombinedTopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
+		Task<CombinedTopicResponse?> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Causes the world to start listening on a <paramref name="newPort"/>.
 		/// </summary>
 		/// <param name="newPort">The port to change to.</param>
 		/// <param name="cancellatonToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise.</returns>
-		Task<bool> SetPort(ushort newPort, CancellationToken cancellatonToken);
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		[Obsolete("Untested, can possibly hang.", true)]
+		Task SetPort(ushort newPort, CancellationToken cancellatonToken);
 
 		/// <summary>
 		/// Attempts to change the current <see cref="RebootState"/> to <paramref name="newRebootState"/>.

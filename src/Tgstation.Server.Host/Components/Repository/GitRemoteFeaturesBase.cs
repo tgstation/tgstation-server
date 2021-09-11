@@ -22,13 +22,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public abstract string TestMergeLocalBranchNameFormatter { get; }
 
 		/// <inheritdoc />
-		public abstract RemoteGitProvider? RemoteGitProvider { get; }
-
-		/// <inheritdoc />
-		public abstract string RemoteRepositoryOwner { get; }
-
-		/// <inheritdoc />
-		public abstract string RemoteRepositoryName { get; }
+		public GitRemoteInformation? GitRemoteInformation { get; }
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="GitRemoteFeaturesBase"/>.
@@ -44,12 +38,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Initializes a new instance of the <see cref="GitRemoteFeaturesBase"/> class.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
-		/// <param name="remoteUrl">The remote repository <see cref="Uri"/>.</param>
-		public GitRemoteFeaturesBase(ILogger<GitRemoteFeaturesBase> logger, Uri remoteUrl)
+		/// <param name="gitRemoteInformation">The valid of <see cref="GitRemoteInformation"/>.</param>
+		protected GitRemoteFeaturesBase(ILogger<GitRemoteFeaturesBase> logger, GitRemoteInformation gitRemoteInformation)
 		{
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			if (remoteUrl == null)
-				throw new ArgumentNullException(nameof(remoteUrl));
+			GitRemoteInformation = gitRemoteInformation ?? throw new ArgumentNullException(nameof(gitRemoteInformation));
 
 			cachedLookups = new Dictionary<TestMergeParameters, Models.TestMerge>();
 		}
@@ -65,7 +58,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (repositorySettings == null)
 				throw new ArgumentNullException(nameof(repositorySettings));
 
-			Models.TestMerge result;
+			Models.TestMerge? result;
 			lock (cachedLookups)
 				if (cachedLookups.TryGetValue(parameters, out result))
 					Logger.LogTrace("Using cache for test merge #{0}", parameters.Number);

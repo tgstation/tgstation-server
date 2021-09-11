@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <summary>
 	/// GitLab <see cref="IGitRemoteFeatures"/>.
 	/// </summary>
-	sealed class GitLabRemoteFeatures : GitRemoteFeaturesBase
+	sealed class GitLabRemoteFeatures : GitRemoteFeaturesImpl
 	{
 		/// <summary>
 		/// Url for main GitLab site.
@@ -28,14 +28,23 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public override string TestMergeLocalBranchNameFormatter => "merge-requests/{0}/headrefs/heads/{1}";
 
-		/// <inheritdoc />
-		public override RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.GitLab;
+		/// <summary>
+		/// Parse a given <paramref name="remoteUrl"/> into <see cref="GitRemoteInformation"/>.
+		/// </summary>
+		/// <param name="remoteUrl">The remote repository <see cref="Uri"/>.</param>
+		/// <returns>A <see cref="GitRemoteInformation"/> instance based on <paramref name="remoteUrl"/>.</returns>
+		static GitRemoteInformation ParseRemoteInformation(Uri remoteUrl)
+		{
+			if (remoteUrl == null)
+				throw new ArgumentNullException(nameof(remoteUrl));
 
-		/// <inheritdoc />
-		public override string RemoteRepositoryOwner { get; }
+			var remoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
+			var remoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');
+			if (remoteRepositoryName.EndsWith(".git", StringComparison.OrdinalIgnoreCase))
+				remoteRepositoryName = remoteRepositoryName[0..^4];
 
-		/// <inheritdoc />
-		public override string RemoteRepositoryName { get; }
+			return new GitRemoteInformation(remoteRepositoryOwner, remoteRepositoryName, RemoteGitProvider.GitLab);
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitLabRemoteFeatures"/> class.
@@ -43,12 +52,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="GitRemoteFeaturesBase"/>.</param>
 		/// <param name="remoteUrl">The remote repository <see cref="Uri"/>.</param>
 		public GitLabRemoteFeatures(ILogger<GitLabRemoteFeatures> logger, Uri remoteUrl)
-			: base(logger, remoteUrl)
+			: base(logger, ParseRemoteInformation(remoteUrl))
 		{
-			RemoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
-			RemoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');
-			if (RemoteRepositoryName.EndsWith(".git", StringComparison.OrdinalIgnoreCase))
-				RemoteRepositoryName = RemoteRepositoryName[0..^4];
 		}
 
 		/// <inheritdoc />
@@ -65,7 +70,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				var mr = await client
 					.MergeRequests
-					.GetAsync($"{RemoteRepositoryOwner}/{RemoteRepositoryName}", parameters.Number)
+					.GetAsync($"{GitRemoteInformation.RepositoryOwner}/{GitRemoteInformation.RepositoryName}", parameters.Number)
 					.WithToken(cancellationToken)
 					.ConfigureAwait(false);
 

@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Gets the latest <see cref="CompileJob"/>.
 		/// </summary>
-		/// <returns>The latest <see cref="CompileJob"/>.</returns>
-		CompileJob LatestCompileJob();
+		/// <returns>The latest <see cref="CompileJob"/> if any.</returns>
+		CompileJob? LatestCompileJob();
 	}
 }

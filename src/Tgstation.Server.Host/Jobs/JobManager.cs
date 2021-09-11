@@ -39,9 +39,9 @@ namespace Tgstation.Server.Host.Jobs
 		readonly Dictionary<long, JobHandler> jobs;
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> to delay starting jobs until the server is ready.
+		/// <see cref="TaskCompletionSource"/> to delay starting jobs until the server is ready.
 		/// </summary>
-		readonly TaskCompletionSource<object> activationTcs;
+		readonly TaskCompletionSource activationTcs;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for various operations.
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Jobs
 			this.instanceCoreProvider = instanceCoreProvider ?? throw new ArgumentNullException(nameof(instanceCoreProvider));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			jobs = new Dictionary<long, JobHandler>();
-			activationTcs = new TaskCompletionSource<object>();
+			activationTcs = new TaskCompletionSource();
 			synchronizationLock = new object();
 			addCancelLock = new object();
 		}
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public async Task<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
+		public async Task<Job?> CancelJob(Job job, User? user, bool blocking, CancellationToken cancellationToken)
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
@@ -234,18 +234,20 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public async Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
+		public async Task WaitForJobCompletion(Job job, User? canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
 			JobHandler handler;
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id.Value, out handler))
+				if (!jobs.TryGetValue(job.Id.Value, out var temp))
 					return;
+
+				handler = temp;
 			}
 
-			Task cancelTask = null;
+			Task? cancelTask = null;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
 				await handler.Wait(cancellationToken).ConfigureAwait(false);
 
@@ -257,7 +259,7 @@ namespace Tgstation.Server.Host.Jobs
 		public void Activate()
 		{
 			logger.LogTrace("Activating job manager...");
-			activationTcs.SetResult(null);
+			activationTcs.SetResult();
 		}
 
 		/// <summary>
@@ -269,7 +271,7 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id.Value, out JobHandler jobHandler))
+				if (!jobs.TryGetValue(job.Id.Value, out var jobHandler))
 					throw new InvalidOperationException("Job not running!");
 				return jobHandler;
 			}
@@ -302,9 +304,13 @@ namespace Tgstation.Server.Host.Jobs
 
 						await activationTcs.Task.WithToken(cancellationToken).ConfigureAwait(false);
 
+						var instanceCore = instanceCoreProvider.Value.GetInstance(oldJob.Instance);
+						if (instanceCore == null)
+							throw new JobException("Cannot start job as instance is no longer online!");
+
 						logger.LogTrace("Starting job...");
 						await operation(
-							instanceCoreProvider.Value.GetInstance(oldJob.Instance),
+							instanceCore,
 							databaseContextFactory,
 							job,
 							UpdateProgress,

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
 
 using Tgstation.Server.Api.Models.Response;
 
@@ -15,6 +18,16 @@ namespace Tgstation.Server.Host.Models
 		public const ushort DefaultChannelLimit = 100;
 
 		/// <summary>
+		/// Backing field for <see cref="Instance"/>.
+		/// </summary>
+		Instance? instance;
+
+		/// <summary>
+		/// Backing field for <see cref="Channels"/>.
+		/// </summary>
+		ICollection<ChatChannel>? channels;
+
+		/// <summary>
 		/// The instance <see cref="Api.Models.EntityId.Id"/>.
 		/// </summary>
 		public long InstanceId { get; set; }
@@ -23,12 +36,22 @@ namespace Tgstation.Server.Host.Models
 		/// The parent <see cref="Models.Instance"/>.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		[BackingField(nameof(instance))]
+		public Instance Instance
+		{
+			get => instance ?? throw new InvalidOperationException("Property not initialized!");
+			set => instance = value;
+		}
 
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.ChatBotApiBase.Channels"/>.
 		/// </summary>
-		public ICollection<ChatChannel> Channels { get; set; }
+		[BackingField(nameof(channels))]
+		public ICollection<ChatChannel> Channels
+		{
+			get => channels ?? throw new InvalidOperationException("Property not initialized!");
+			set => channels = value;
+		}
 
 		/// <inheritdoc />
 		public ChatBotResponse ToApi() => new ChatBotResponse

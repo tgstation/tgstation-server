@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Extensions
 			if (task == null)
 				throw new ArgumentNullException(nameof(task));
 
-			async Task<object> Wrap()
+			async Task<object?> Wrap()
 			{
 				await task.ConfigureAwait(false);
 				return null;
@@ -53,6 +53,6 @@ namespace Tgstation.Server.Host.Extensions
 		/// Creates a <see cref="Task"/> that never completes.
 		/// </summary>
 		/// <returns>A never ending <see cref="Task"/>.</returns>
-		public static Task InfiniteTask() => new TaskCompletionSource<object>().Task;
+		public static Task InfiniteTask() => new TaskCompletionSource().Task;
 	}
 }

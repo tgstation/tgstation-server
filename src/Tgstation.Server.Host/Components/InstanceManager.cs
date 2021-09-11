@@ -117,9 +117,9 @@ namespace Tgstation.Server.Host.Components
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> for <see cref="Ready"/>.
+		/// The <see cref="TaskCompletionSource"/> for <see cref="Ready"/>.
 		/// </summary>
-		readonly TaskCompletionSource<object> readyTcs;
+		readonly TaskCompletionSource readyTcs;
 
 		/// <summary>
 		/// If the <see cref="InstanceManager"/> has been <see cref="DisposeAsync"/>'d.
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Host.Components
 
 			instances = new Dictionary<long, InstanceContainer>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
-			readyTcs = new TaskCompletionSource<object>();
+			readyTcs = new TaskCompletionSource();
 			instanceStateChangeSemaphore = new SemaphoreSlim(1);
 		}
 
@@ -196,7 +196,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstanceReference GetInstanceReference(Api.Models.Instance metadata)
+		public IInstanceReference? GetInstanceReference(Api.Models.Instance metadata)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
@@ -221,10 +221,10 @@ namespace Tgstation.Server.Host.Components
 			using var instanceReferenceCheck = GetInstanceReference(instance);
 			if (instanceReferenceCheck != null)
 				throw new InvalidOperationException("Cannot move an online instance!");
-			var newPath = instance.Path;
+
 			try
 			{
-				await ioManager.MoveDirectory(oldPath, newPath, cancellationToken).ConfigureAwait(false);
+				await ioManager.MoveDirectory(oldPath, instance.Path, cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -292,12 +292,13 @@ namespace Tgstation.Server.Host.Components
 			InstanceContainer container;
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Id.Value, out container))
+				if (!instances.TryGetValue(metadata.Id.Value, out var temp))
 				{
 					logger.LogDebug("Not offlining removed instance {0}", metadata.Id);
 					return;
 				}
 
+				container = temp;
 				instances.Remove(metadata.Id.Value);
 			}
 
@@ -395,7 +396,7 @@ namespace Tgstation.Server.Host.Components
 
 				await InitializeSwarm(cancellationToken).ConfigureAwait(false);
 
-				List<Models.Instance> dbInstances = null;
+				IReadOnlyCollection<Models.Instance> dbInstances = Array.Empty<Models.Instance>();
 				var instanceEnumeration = databaseContextFactory.UseContext(
 					async databaseContext => dbInstances = await databaseContext
 						.Instances
@@ -431,7 +432,7 @@ namespace Tgstation.Server.Host.Components
 				jobManager.Activate();
 
 				logger.LogInformation("Server ready!");
-				readyTcs.SetResult(null);
+				readyTcs.SetResult();
 			}
 			catch (OperationCanceledException ex)
 			{
@@ -473,12 +474,12 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async Task<BridgeResponse?> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			IBridgeHandler bridgeHandler = null;
+			IBridgeHandler? bridgeHandler = null;
 			for (var i = 0; bridgeHandler == null && i < 30; ++i)
 			{
 				// There's a miniscule time period where we could potentially receive a bridge request and not have the registration ready when we launch DD
@@ -495,7 +496,7 @@ namespace Tgstation.Server.Host.Components
 				lock (bridgeHandlers)
 					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
 					{
-						logger.LogWarning("Recieved invalid bridge request with accees identifier: {0}", parameters.AccessIdentifier);
+						logger.LogWarning("Recieved invalid bridge request with accees identifier: {accessIdentifier}", parameters.AccessIdentifier);
 						return null;
 					}
 
@@ -512,7 +513,7 @@ namespace Tgstation.Server.Host.Components
 			lock (bridgeHandlers)
 			{
 				bridgeHandlers.Add(accessIdentifier, bridgeHandler);
-				logger.LogTrace("Registered bridge handler: {0}", accessIdentifier);
+				logger.LogTrace("Registered bridge handler: {accessIdentifier}", accessIdentifier);
 			}
 
 			return new BridgeRegistration(() =>
@@ -520,13 +521,13 @@ namespace Tgstation.Server.Host.Components
 				lock (bridgeHandlers)
 				{
 					bridgeHandlers.Remove(accessIdentifier);
-					logger.LogTrace("Unregistered bridge handler: {0}", accessIdentifier);
+					logger.LogTrace("Unregistered bridge handler: {accessIdentifier}", accessIdentifier);
 				}
 			});
 		}
 
 		/// <inheritdoc />
-		public IInstanceCore GetInstance(Models.Instance metadata)
+		public IInstanceCore? GetInstance(Models.Instance metadata)
 		{
 			lock (instances)
 			{

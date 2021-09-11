@@ -22,8 +22,8 @@ namespace Tgstation.Server.Host.Transfer
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the uploaded <see cref="Stream"/> of the file on success, <see langword="null"/> if the ticket timed out.</returns>
-		/// <remarks>The resulting <see cref="Stream"/> is short lived and should be buffered if it needs use outside the lifetime of the <see cref="IFileUploadTicket"/>.</remarks>
-		Task<Stream> GetResult(CancellationToken cancellationToken);
+		/// <remarks>The resulting <see cref="Stream"/> is short lived and should be buffered if it needs use outside the lifetime of the <see cref="IFileUploadTicket"/>. Will be <see langword="null"/> if the ticket is expired.</remarks>
+		Task<Stream?> GetResult(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Sets an <paramref name="errorMessage"/> for the upload. Will be returned in upload request as a 409 error.

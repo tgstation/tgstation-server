@@ -7,7 +7,7 @@ namespace Tgstation.Server.Api.Models.Response
 	/// <summary>
 	/// Represents a git repository.
 	/// </summary>
-	public sealed class RepositoryResponse : RepositoryApiBase, IGitRemoteInformation
+	public sealed class RepositoryResponse : RepositoryApiBase
 	{
 		/// <summary>
 		/// The origin URL. If <see langword="null"/>, the git repository does not currently exist on the server.
@@ -21,17 +21,11 @@ namespace Tgstation.Server.Api.Models.Response
 		[ResponseOptions]
 		public RevisionInformation? RevisionInformation { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The current <see cref="Models.GitRemoteInformation"/>.
+		/// </summary>
 		[ResponseOptions]
-		public RemoteGitProvider? RemoteGitProvider { get; set; }
-
-		/// <inheritdoc />
-		[ResponseOptions]
-		public string? RemoteRepositoryOwner { get; set; }
-
-		/// <inheritdoc />
-		[ResponseOptions]
-		public string? RemoteRepositoryName { get; set; }
+		public GitRemoteInformation? GitRemoteInformation { get; set; }
 
 		/// <summary>
 		/// The <see cref="JobResponse"/> started by the request, if any.

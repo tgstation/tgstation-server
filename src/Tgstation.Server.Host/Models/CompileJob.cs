@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Models
 		public int? GitHubDeploymentId { get; set; }
 
 		/// <inheritdoc />
-		public override Version DMApiVersion
+		public override Version? DMApiVersion
 		{
 			get
 			{

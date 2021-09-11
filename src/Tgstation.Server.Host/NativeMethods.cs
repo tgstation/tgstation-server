@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host
 		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-findwindoww.
 		/// </summary>
 		[DllImport("user32.dll", CharSet = CharSet.Unicode)]
-		public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+		public static extern IntPtr FindWindow(string? lpClassName, string lpWindowName);
 
 		/// <summary>
 		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-sendmessage.

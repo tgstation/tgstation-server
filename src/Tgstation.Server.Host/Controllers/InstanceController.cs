@@ -759,7 +759,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="permissionSetToModify">An optional existing <see cref="InstancePermissionSet"/> to update.</param>
 		/// <returns><paramref name="permissionSetToModify"/> or a new <see cref="InstancePermissionSet"/> with full rights.</returns>
-		InstancePermissionSet InstanceAdminPermissionSet(InstancePermissionSet permissionSetToModify)
+		InstancePermissionSet InstanceAdminPermissionSet(InstancePermissionSet? permissionSetToModify)
 		{
 			if (permissionSetToModify == null)
 				permissionSetToModify = new InstancePermissionSet()

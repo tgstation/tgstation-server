@@ -29,17 +29,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Retrieves the <see cref="Models.CompileJob"/> currently running on the server.
 		/// </summary>
-		Models.CompileJob ActiveCompileJob { get; }
+		Models.CompileJob? ActiveCompileJob { get; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is using.
+		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is set to use next.
 		/// </summary>
 		DreamDaemonLaunchParameters ActiveLaunchParameters { get; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonLaunchParameters"/> to be applied.
+		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is currently using.
 		/// </summary>
-		DreamDaemonLaunchParameters LastLaunchParameters { get; }
+		DreamDaemonLaunchParameters? LastLaunchParameters { get; }
 
 		/// <summary>
 		/// The <see cref="Session.RebootState"/> of the active server.

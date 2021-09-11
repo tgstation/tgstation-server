@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <inheritdoc />
 		public async Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
-			string result;
+			string? result;
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
 				using (var repo = await repositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 				{

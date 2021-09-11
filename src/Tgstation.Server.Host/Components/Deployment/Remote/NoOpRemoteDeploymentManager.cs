@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public Task ApplyDeployment(
 			CompileJob compileJob,
-			CompileJob oldCompileJob,
+			CompileJob? oldCompileJob,
 			CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
@@ -33,10 +33,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public Task PostDeploymentComments(
 			CompileJob compileJob,
-			RevisionInformation previousRevisionInformation,
 			RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName,
+			Api.Models.GitRemoteInformation remoteInformation,
+			RevisionInformation? previousRevisionInformation,
 			CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
@@ -51,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 		/// <inheritdoc />
 		public Task StartDeployment(
-			Api.Models.Internal.IGitRemoteInformation remoteInformation,
+			Api.Models.GitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken) => Task.CompletedTask;
 	}

@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// </summary>
 		/// <param name="eventType">The value of <see cref="Type"/>.</param>
 		/// <param name="parameters">The <see cref="IEnumerable{T}"/> that forms the value of <see cref="Parameters"/>.</param>
-		public EventNotification(EventType eventType, IEnumerable<string> parameters = null)
+		public EventNotification(EventType eventType, IEnumerable<string> parameters)
 		{
 			Type = eventType;
 			Parameters = parameters?.ToList() ?? throw new ArgumentNullException(nameof(parameters));

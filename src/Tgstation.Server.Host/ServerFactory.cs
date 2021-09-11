@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		// TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
+		public async Task<IServer?> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
 		{
 			if (args == null)
 				throw new ArgumentNullException(nameof(args));
@@ -60,8 +60,8 @@ namespace Tgstation.Server.Host
 					builder
 						.AddJsonFile("appsettings.json", true, false)
 						.AddYamlFile("appsettings.yml", true, false)
-						.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, false)
-						.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", true, false)
+						.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
+						.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", true, true)
 						.AddEnvironmentVariables()
 						.AddCommandLine(args);
 				});

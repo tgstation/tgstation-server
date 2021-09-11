@@ -17,6 +17,8 @@ using Remora.Discord.Gateway.Extensions;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -30,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	sealed class DiscordProvider : Provider, IDiscordResponders
 	{
 		/// <inheritdoc />
-		public override bool Connected => gatewayTask?.IsCompleted == false;
+		public override bool Connected => gatewayTask?.Task.IsCompleted == false;
 
 		/// <inheritdoc />
 		public override string BotMention
@@ -74,19 +76,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly DiscordDMOutputDisplayType outputDisplayType;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for the <see cref="gatewayTask"/>.
+		/// The <see cref="TaskCompletionSource"/> for the initial gateway connection event.
 		/// </summary>
-		CancellationTokenSource gatewayCts;
-
-		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> for the initial gateway connection event.
-		/// </summary>
-		TaskCompletionSource<object> gatewayReadyTcs;
+		TaskCompletionSource? gatewayReadyTcs;
 
 		/// <summary>
 		/// The <see cref="Task"/> representing the lifetime of the client.
 		/// </summary>
-		Task<Result> gatewayTask;
+		CancellableTask<Result>? gatewayTask;
 
 		/// <summary>
 		/// The bot's <see cref="Snowflake"/>.
@@ -105,18 +102,29 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
 		/// <param name="byondVersion">The BYOND <see cref="Version"/> of the deployment.</param>
-		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
-		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
+		/// <param name="remoteInformation">The repository <see cref="GitRemoteInformation"/>, if any.</param>
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <returns>A new <see cref="List{T}"/> of <see cref="IEmbedField"/>s to use.</returns>
 		static List<IEmbedField> BuildUpdateEmbedFields(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
-			string gitHubOwner,
-			string gitHubRepo,
+			GitRemoteInformation? remoteInformation,
 			bool localCommitPushed)
 		{
-			bool gitHub = gitHubOwner != null && gitHubRepo != null;
+			string CommitHyperlink(string commit, bool localCommit)
+			{
+				var shorthand = commit.Substring(0, 7);
+				if (remoteInformation == null || (localCommit && !localCommitPushed))
+					return shorthand;
+
+				return remoteInformation.RemoteGitProvider switch
+				{
+					RemoteGitProvider.GitHub => $"[{shorthand}](https://github.com/{remoteInformation.RepositoryOwner}/{remoteInformation.RepositoryName}/commit/{revisionInformation.CommitSha})",
+					RemoteGitProvider.GitLab => $"https://github.com/{remoteInformation.RepositoryOwner}/{remoteInformation.RepositoryName}/-/commit/{revisionInformation.CommitSha}",
+					_ => shorthand,
+				};
+			}
+
 			var fields = new List<IEmbedField>
 			{
 				new EmbedField(
@@ -125,15 +133,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					true),
 				new EmbedField(
 					"Local Commit",
-					localCommitPushed && gitHub
-						? $"[{revisionInformation.CommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.CommitSha})"
-						: revisionInformation.CommitSha.Substring(0, 7),
+					CommitHyperlink(revisionInformation.CommitSha, revisionInformation.CommitSha == revisionInformation.OriginCommitSha),
 					true),
 				new EmbedField(
 					"Branch Commit",
-					gitHub
-						? $"[{revisionInformation.OriginCommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.OriginCommitSha})"
-						: revisionInformation.OriginCommitSha.Substring(0, 7),
+					CommitHyperlink(revisionInformation.OriginCommitSha, false),
 					true),
 			};
 
@@ -141,7 +145,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				.Select(x => x.TestMerge)
 				.Select(x => new EmbedField(
 					$"#{x.Number}",
-					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
+					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: {CommitHyperlink(x.TargetCommitSha, false)}{(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
 					false)));
 
 			return fields;
@@ -185,7 +189,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			await serviceProvider.DisposeAsync().ConfigureAwait(false);
 
 			// this line is purely here to shutup CA2213
-			gatewayCts?.Dispose();
+			if (gatewayTask != null)
+			{
+				await gatewayTask.DisposeAsync().ConfigureAwait(false);
+				gatewayTask = null;
+			}
 		}
 
 		/// <inheritdoc />
@@ -209,7 +217,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				return Array.Empty<ChannelRepresentation>();
 			}
 
-			async Task<ChannelRepresentation> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
+			async Task<ChannelRepresentation?> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
 			{
 				if (!channelFromDB.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
@@ -251,21 +259,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!guildsResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Error retrieving discord guild {0}: {1}",
+							"Error retrieving discord guild {guildID}: {errorMessage}",
 							discordChannelResponse.Entity.GuildID.Value,
-							discordChannelResponse.Error.Message);
+							discordChannelResponse.Error?.Message);
 						return null;
 					}
 
 					connectionName = guildsResponse.Entity.Name;
 				}
 
-				var channelModel = new ChannelRepresentation
+				var channelModel = new ChannelRepresentation(connectionName, friendlyName, discordChannelId)
 				{
-					RealId = discordChannelId,
 					IsAdminChannel = channelFromDB.IsAdminChannel == true,
-					ConnectionName = connectionName,
-					FriendlyName = friendlyName,
 					IsPrivateChannel = false,
 					Tag = channelFromDB.Tag,
 				};
@@ -283,6 +288,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var enumerator = tasks
 				.Select(x => x.Result)
+				.WhereNotNull()
 				.ToList();
 
 			lock (mappedChannels)
@@ -359,19 +365,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+		public override async Task<Func<string, string?, Task>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
+			GitRemoteInformation? remoteInformation,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
 			ulong channelId,
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
-			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, gitHubOwner, gitHubRepo, localCommitPushed);
+			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, remoteInformation, localCommitPushed);
 			var embed = new Embed
 			{
 				Author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
@@ -561,12 +566,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				User = new ChatUser
 				{
 					RealId = messageCreateEvent.Author.ID.Value,
-					Channel = new ChannelRepresentation
+					Channel = new ChannelRepresentation(
+						pm ? messageCreateEvent.Author.Username : guildName,
+						channelResponse.Entity.Name.Value,
+						messageCreateEvent.ChannelID.Value)
 					{
-						RealId = messageCreateEvent.ChannelID.Value,
 						IsPrivateChannel = pm,
-						ConnectionName = pm ? messageCreateEvent.Author.Username : guildName,
-						FriendlyName = channelResponse.Entity.Name.Value,
 
 						// isAdmin and Tag populated by manager
 					},
@@ -582,7 +587,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public Task<Result> RespondAsync(IReady readyEvent, CancellationToken cancellationToken)
 		{
-			gatewayReadyTcs?.TrySetResult(null);
+			gatewayReadyTcs?.TrySetResult();
 			return Task.FromResult(Result.FromSuccess());
 		}
 
@@ -593,33 +598,32 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				lock (connectDisconnectLock)
 				{
-					if (gatewayCts != null)
+					if (gatewayReadyTcs != null)
 						throw new InvalidOperationException("Discord gateway still active!");
 
-					gatewayCts = new CancellationTokenSource();
+					gatewayReadyTcs = new TaskCompletionSource();
 				}
-
-				var gatewayCancellationToken = gatewayCts.Token;
-				var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
-
-				Task<Result> localGatewayTask;
-				gatewayReadyTcs = new TaskCompletionSource<object>();
 
 				using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled());
 
 				// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter
-				localGatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);
+				var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
+
+				cancellationToken.ThrowIfCancellationRequested();
+				var localGatewayTask = new CancellableTask<Result>(gatewayCancellationToken => gatewayClient.RunAsync(gatewayCancellationToken));
+
 				try
 				{
-					await Task.WhenAny(gatewayReadyTcs.Task, localGatewayTask).ConfigureAwait(false);
+					await gatewayReadyTcs.Task.ConfigureAwait(false);
 
-					if (localGatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)
+					if (localGatewayTask.Task.IsCompleted)
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
+
+					cancellationToken.ThrowIfCancellationRequested();
 
 					var userClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
 
-					using var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);
-					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token).ConfigureAwait(false);
+					var currentUserResult = await userClient.GetCurrentUserAsync(cancellationToken).ConfigureAwait(false);
 					if (!currentUserResult.IsSuccess)
 					{
 						Logger.LogWarning("Unable to retrieve current user: {0}", currentUserResult.Error.Message);
@@ -645,25 +649,25 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
 		{
-			Task<Result> localGatewayTask;
-			CancellationTokenSource localGatewayCts;
+			CancellableTask<Result>? localGatewayTask;
 			lock (connectDisconnectLock)
 			{
 				localGatewayTask = gatewayTask;
-				localGatewayCts = gatewayCts;
 				gatewayTask = null;
-				gatewayCts = null;
+				gatewayReadyTcs = null;
 				if (localGatewayTask == null)
 					return;
+
+				localGatewayTask.Cancel();
 			}
 
-			localGatewayCts.Cancel();
-			var gatewayResult = await localGatewayTask.ConfigureAwait(false);
-			if (!gatewayResult.IsSuccess)
-				Logger.LogWarning("Gateway issue: {0}", gatewayResult.Error.Message);
-
-			localGatewayCts.Dispose();
+			await using (localGatewayTask.ConfigureAwait(false))
+			{
+				var gatewayResult = await localGatewayTask.Task.ConfigureAwait(false);
+				if (!gatewayResult.IsSuccess)
+					Logger.LogWarning("Gateway issue: {0}", gatewayResult.Error.Message);
+			}
 		}
 	}
-	#pragma warning restore CA1506
+#pragma warning restore CA1506
 }

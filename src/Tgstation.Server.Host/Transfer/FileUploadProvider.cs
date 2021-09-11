@@ -26,12 +26,12 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> for the <see cref="Stream"/>.
 		/// </summary>
-		readonly TaskCompletionSource<Stream> taskCompletionSource;
+		readonly TaskCompletionSource<Stream?> taskCompletionSource;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetErrorMessage(ErrorMessageResponse)"/> is called.
+		/// The <see cref="TaskCompletionSource"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetErrorMessage(ErrorMessageResponse)"/> is called.
 		/// </summary>
-		readonly TaskCompletionSource<object> completionTcs;
+		readonly TaskCompletionSource completionTcs;
 
 		/// <summary>
 		/// If synchronous IO is required. Uses a <see cref="FileBufferingReadStream"/> as a backend if set.
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// The <see cref="ErrorMessageResponse"/> that occurred while processing the upload if any.
 		/// </summary>
-		ErrorMessageResponse errorMessage;
+		ErrorMessageResponse? errorMessage;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileUploadProvider"/> class.
@@ -53,8 +53,8 @@ namespace Tgstation.Server.Host.Transfer
 			Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));
 
 			ticketExpiryCts = new CancellationTokenSource();
-			taskCompletionSource = new TaskCompletionSource<Stream>();
-			completionTcs = new TaskCompletionSource<object>();
+			taskCompletionSource = new TaskCompletionSource<Stream?>();
+			completionTcs = new TaskCompletionSource();
 			this.requireSynchronousIO = requireSynchronousIO;
 		}
 
@@ -62,11 +62,11 @@ namespace Tgstation.Server.Host.Transfer
 		public void Dispose()
 		{
 			ticketExpiryCts.Dispose();
-			completionTcs.TrySetResult(null);
+			completionTcs.TrySetResult();
 		}
 
 		/// <inheritdoc />
-		public async Task<Stream> GetResult(CancellationToken cancellationToken)
+		public async Task<Stream?> GetResult(CancellationToken cancellationToken)
 		{
 			using (cancellationToken.Register(() => taskCompletionSource.TrySetCanceled()))
 			using (ticketExpiryCts.Token.Register(() => taskCompletionSource.TrySetResult(null)))
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <param name="stream">The <see cref="Stream"/> containing uploaded data.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="null"/>, <see cref="ErrorMessageResponse"/> otherwise.</returns>
-		public async Task<ErrorMessageResponse> Completion(Stream stream, CancellationToken cancellationToken)
+		public async Task<ErrorMessageResponse?> Completion(Stream stream, CancellationToken cancellationToken)
 		{
 			if (stream == null)
 				throw new ArgumentNullException(nameof(stream));
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Transfer
 			if (ticketExpiryCts.IsCancellationRequested)
 				return new ErrorMessageResponse(ErrorCode.ResourceNotPresent);
 
-			Stream bufferedStream = null;
+			Stream? bufferedStream = null;
 			if (requireSynchronousIO)
 			{
 				// big reads, we should buffer to disk
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Transfer
 				throw new InvalidOperationException("ErrorMessage already set!");
 
 			this.errorMessage = errorMessage;
-			completionTcs.TrySetResult(null);
+			completionTcs.TrySetResult();
 		}
 	}
 }

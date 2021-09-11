@@ -74,14 +74,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		Task cleanupTask;
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> resulting in the latest <see cref="DmbProvider"/> yet to exist.
+		/// <see cref="TaskCompletionSource"/> resulting in the latest <see cref="DmbProvider"/> yet to exist.
 		/// </summary>
-		TaskCompletionSource<object> newerDmbTcs;
+		TaskCompletionSource newerDmbTcs;
 
 		/// <summary>
 		/// The latest <see cref="DmbProvider"/>.
 		/// </summary>
-		IDmbProvider nextDmbProvider;
+		IDmbProvider? nextDmbProvider;
 
 		/// <summary>
 		/// If the <see cref="DmbFactory"/> is "started" via <see cref="Microsoft.Extensions.Hosting.IHostedService"/>.
@@ -110,7 +110,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			cleanupTask = Task.CompletedTask;
-			newerDmbTcs = new TaskCompletionSource<object>();
+			newerDmbTcs = new TaskCompletionSource();
 			cleanupCts = new CancellationTokenSource();
 			jobLockCounts = new Dictionary<long, int>();
 		}
@@ -147,22 +147,23 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				// Oh god dammit
 				var temp = newerDmbTcs;
-				newerDmbTcs = new TaskCompletionSource<object>();
-				temp.SetResult(nextDmbProvider);
+				newerDmbTcs = new TaskCompletionSource();
+				temp.SetResult();
 			}
 		}
 
 		/// <inheritdoc />
 		public IDmbProvider LockNextDmb(int lockCount)
 		{
-			if (!DmbAvailable)
-				throw new InvalidOperationException("No .dmb available!");
 			if (lockCount < 0)
 				throw new ArgumentOutOfRangeException(nameof(lockCount), lockCount, "lockCount must be greater than or equal to 0!");
 			lock (jobLockCounts)
 			{
-				var jobId = nextDmbProvider.CompileJob.Id;
-				var incremented = jobLockCounts[jobId.Value] += lockCount;
+				if (nextDmbProvider == null)
+					throw new InvalidOperationException("No .dmb available!");
+
+				var jobId = nextDmbProvider.CompileJob.Id.Value;
+				var incremented = jobLockCounts[jobId] += lockCount;
 				logger.LogTrace("Compile job {0} lock count now: {1}", jobId, incremented);
 				return nextDmbProvider;
 			}
@@ -171,7 +172,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			CompileJob cj = null;
+			CompileJob? cj = null;
 			await databaseContextFactory.UseContext(async (db) =>
 			{
 				cj = await db
@@ -184,7 +185,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			})
 			.ConfigureAwait(false);
 
-			if (cj == default(CompileJob))
+			if (cj == default)
 				return;
 			await LoadCompileJob(cj, cancellationToken).ConfigureAwait(false);
 			started = true;
@@ -208,7 +209,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
+		public async Task<IDmbProvider?> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
 			if (compileJob == null)
 				throw new ArgumentNullException(nameof(compileJob));
@@ -325,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			lock (jobLockCounts)
 				jobIdsToSkip = jobLockCounts.Select(x => x.Key).ToList();
 
-			List<string> jobUidsToNotErase = null;
+			ICollection<string> jobUidsToNotErase = Array.Empty<string>();
 
 			// find the uids of locked directories
 			await databaseContextFactory.UseContext(async db =>
@@ -378,11 +379,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 #pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob()
+		public CompileJob? LatestCompileJob()
 		{
 			if (!DmbAvailable)
 				return null;
-			return LockNextDmb(0)?.CompileJob;
+			return LockNextDmb(0).CompileJob;
 		}
 
 		/// <summary>

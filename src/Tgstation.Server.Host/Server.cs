@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -27,6 +28,7 @@ namespace Tgstation.Server.Host
 		public bool UpdateInProgress { get; private set; }
 
 		/// <inheritdoc />
+		[MemberNotNullWhen(true, nameof(updatePath))]
 		public bool WatchdogPresent =>
 #if WATCHDOG_FREE_RESTART
 			true;
@@ -47,7 +49,7 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The absolute path to install updates to.
 		/// </summary>
-		readonly string updatePath;
+		readonly string? updatePath;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for certain restart related operations.
@@ -57,27 +59,27 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The <see cref="ISwarmService"/> for the <see cref="Server"/>.
 		/// </summary>
-		ISwarmService swarmService;
+		ISwarmService? swarmService;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Server"/>.
 		/// </summary>
-		ILogger<Server> logger;
+		ILogger<Server>? logger;
 
 		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="Server"/>.
 		/// </summary>
-		GeneralConfiguration generalConfiguration;
+		GeneralConfiguration? generalConfiguration;
 
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="Server"/>.
 		/// </summary>
-		CancellationTokenSource cancellationTokenSource;
+		CancellationTokenSource? cancellationTokenSource;
 
 		/// <summary>
 		/// The <see cref="Exception"/> to propagate when the server terminates.
 		/// </summary>
-		Exception propagatedException;
+		Exception? propagatedException;
 
 		/// <summary>
 		/// If the server is being shut down or restarted.
@@ -89,7 +91,7 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		/// <param name="hostBuilder">The value of <see cref="hostBuilder"/>.</param>
 		/// <param name="updatePath">The value of <see cref="updatePath"/>.</param>
-		public Server(IHostBuilder hostBuilder, string updatePath)
+		public Server(IHostBuilder hostBuilder, string? updatePath)
 		{
 			this.hostBuilder = hostBuilder ?? throw new ArgumentNullException(nameof(hostBuilder));
 			this.updatePath = updatePath;
@@ -104,38 +106,50 @@ namespace Tgstation.Server.Host
 		public async Task Run(CancellationToken cancellationToken)
 		{
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-			using (var fsWatcher = updatePath != null ? new FileSystemWatcher(Path.GetDirectoryName(updatePath)) : null)
 			{
-				if (fsWatcher != null)
+				FileSystemWatcher? fsWatcher = null;
+				if (updatePath != null)
 				{
-					fsWatcher.Created += (a, b) =>
-					{
-						if (b.FullPath == updatePath && File.Exists(b.FullPath))
-						{
-							if (logger != null)
-								logger.LogInformation("Host watchdog appears to be requesting server termination!");
-							cancellationTokenSource.Cancel();
-						}
-					};
-					fsWatcher.EnableRaisingEvents = true;
+					var updateDirectory = Path.GetDirectoryName(updatePath);
+					if (updateDirectory == null)
+						throw new InvalidOperationException("Unable to determin update directory path!");
+
+					fsWatcher = new FileSystemWatcher(updateDirectory);
 				}
 
-				using var host = hostBuilder.Build();
-				try
+				using (fsWatcher)
 				{
-					swarmService = host.Services.GetRequiredService<ISwarmService>();
-					logger = host.Services.GetRequiredService<ILogger<Server>>();
-					using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
+					if (fsWatcher != null)
 					{
-						var generalConfigurationOptions = host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
-						generalConfiguration = generalConfigurationOptions.Value;
-						await host.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+						fsWatcher.Created += (a, b) =>
+						{
+							if (b.FullPath == updatePath && File.Exists(b.FullPath))
+							{
+								if (logger != null)
+									logger.LogInformation("Host watchdog appears to be requesting server termination!");
+								cancellationTokenSource.Cancel();
+							}
+						};
+						fsWatcher.EnableRaisingEvents = true;
 					}
-				}
-				catch (Exception ex)
-				{
-					CheckExceptionPropagation(ex);
-					throw;
+
+					using var host = hostBuilder.Build();
+					try
+					{
+						swarmService = host.Services.GetRequiredService<ISwarmService>();
+						logger = host.Services.GetRequiredService<ILogger<Server>>();
+						using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
+						{
+							var generalConfigurationOptions = host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
+							generalConfiguration = generalConfigurationOptions.Value;
+							await host.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+						}
+					}
+					catch (Exception ex)
+					{
+						CheckExceptionPropagation(ex);
+						throw;
+					}
 				}
 			}
 
@@ -152,7 +166,10 @@ namespace Tgstation.Server.Host
 			if (ioManager == null)
 				throw new ArgumentNullException(nameof(ioManager));
 
-			CheckSanity(true);
+			if (!WatchdogPresent)
+				throw new InvalidOperationException("Updating is not supported");
+
+			CheckSanity();
 
 			logger.LogTrace("Begin ApplyUpdate...");
 
@@ -261,7 +278,7 @@ namespace Tgstation.Server.Host
 			if (handler == null)
 				throw new ArgumentNullException(nameof(handler));
 
-			CheckSanity(false);
+			CheckSanity();
 
 			lock (restartLock)
 				if (!shutdownInProgress)
@@ -289,15 +306,12 @@ namespace Tgstation.Server.Host
 		public Task Die(Exception exception) => Restart(null, exception, false);
 
 		/// <summary>
-		/// Throws an <see cref="InvalidOperationException"/> if the <see cref="IServerControl"/> cannot be used.
+		/// Throws an <see cref="InvalidOperationException"/> if the <see cref="IServerControl"/> is not ready.
 		/// </summary>
-		/// <param name="checkWatchdog">If <see cref="WatchdogPresent"/> should be checked.</param>
-		void CheckSanity(bool checkWatchdog)
+		[MemberNotNull(nameof(cancellationTokenSource), nameof(logger), nameof(swarmService), nameof(generalConfiguration))]
+		void CheckSanity()
 		{
-			if (checkWatchdog && !WatchdogPresent && propagatedException == null)
-				throw new InvalidOperationException("Server restarts are not supported");
-
-			if (cancellationTokenSource == null || logger == null)
+			if (cancellationTokenSource == null || logger == null || swarmService == null || generalConfiguration == null)
 				throw new InvalidOperationException("Tried to control a non-running Server!");
 		}
 
@@ -305,15 +319,18 @@ namespace Tgstation.Server.Host
 		/// Re-throw <see cref="propagatedException"/> if it exists.
 		/// </summary>
 		/// <param name="otherException">An existing <see cref="Exception"/> that should be thrown as well, but not by itself.</param>
-		void CheckExceptionPropagation(Exception otherException)
+		void CheckExceptionPropagation(Exception? otherException)
 		{
-			if (propagatedException == null)
-				return;
+			lock (restartLock)
+			{
+				if (propagatedException == null)
+					return;
 
-			if (otherException != null)
-				throw new AggregateException(propagatedException, otherException);
+				if (otherException != null)
+					throw new AggregateException(propagatedException, otherException);
 
-			throw propagatedException;
+				throw propagatedException;
+			}
 		}
 
 		/// <summary>
@@ -323,9 +340,12 @@ namespace Tgstation.Server.Host
 		/// <param name="exception">The potential value of <see cref="propagatedException"/>.</param>
 		/// <param name="requireWatchdog">If the host watchdog is required for this "restart".</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task Restart(Version newVersion, Exception exception, bool requireWatchdog)
+		async Task Restart(Version? newVersion, Exception? exception, bool requireWatchdog)
 		{
-			CheckSanity(requireWatchdog);
+			if (requireWatchdog && !WatchdogPresent && exception == null)
+				throw new InvalidOperationException("Server restarts are not supported");
+
+			CheckSanity();
 
 			// if the watchdog isn't required and there's no issue, this is just a graceful shutdown
 			bool isGracefulShutdown = !requireWatchdog && exception == null;
@@ -337,6 +357,14 @@ namespace Tgstation.Server.Host
 
 			lock (restartLock)
 			{
+				if (exception != null)
+				{
+					if (propagatedException != null)
+						exception = new AggregateException(propagatedException, exception);
+
+					propagatedException = exception;
+				}
+
 				if ((UpdateInProgress && newVersion == null) || shutdownInProgress)
 				{
 					logger.LogTrace("Aborted restart due to concurrency conflict!");
@@ -345,7 +373,6 @@ namespace Tgstation.Server.Host
 
 				shutdownInProgress = true;
 				RestartRequested = !isGracefulShutdown;
-				propagatedException ??= exception;
 			}
 
 			if (exception == null)

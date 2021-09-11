@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, RemoteGitProvider remoteGitProvider)
+		public IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, RemoteGitProvider? remoteGitProvider)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				RemoteGitProvider.GitLab => new GitLabRemoteDeploymentManager(
 					loggerFactory.CreateLogger<GitLabRemoteDeploymentManager>(),
 					metadata),
-				RemoteGitProvider.Unknown => new NoOpRemoteDeploymentManager(),
+				null => new NoOpRemoteDeploymentManager(),
 				_ => throw new InvalidOperationException($"Invalid RemoteGitProvider: {remoteGitProvider}!"),
 			};
 		}
@@ -87,11 +87,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			if (compileJob == null)
 				throw new ArgumentNullException(nameof(compileJob));
 
-			RemoteGitProvider remoteGitProvider;
+			RemoteGitProvider? remoteGitProvider;
 
 			// Pre 4.7.X
 			if (compileJob.RepositoryOrigin == null)
-				remoteGitProvider = RemoteGitProvider.Unknown;
+				remoteGitProvider = null;
 			else
 				remoteGitProvider = gitRemoteFeaturesFactory.ParseRemoteGitProviderFromOrigin(
 					new Uri(

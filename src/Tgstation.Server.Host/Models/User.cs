@@ -24,12 +24,12 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="UserResponse"/>.
 		/// </summary>
-		public User CreatedBy { get; set; }
+		public User? CreatedBy { get; set; }
 
 		/// <summary>
 		/// The <see cref="UserGroup"/> the <see cref="User"/> belongs to, if any.
 		/// </summary>
-		public UserGroup Group { get; set; }
+		public UserGroup? Group { get; set; }
 
 		/// <summary>
 		/// The ID of the <see cref="User"/>'s <see cref="UserGroup"/>.

@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// Represents a <see cref="Providers.IProvider"/> channel.
 	/// </summary>
 	/// <remarks>This is referred to as a "ChatChannel" in the DMAPI.</remarks>
-	public sealed class ChannelRepresentation
+	public class ChannelRepresentation
 	{
 		/// <summary>
 		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss.
@@ -24,18 +24,18 @@ namespace Tgstation.Server.Host.Components.Chat
 		public ulong RealId
 		{
 			get => UInt64.Parse(Id, CultureInfo.InvariantCulture);
-			set => Id = value.ToString(CultureInfo.InvariantCulture);
+			set => value.ToString(CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>
 		/// The user friendly name of the <see cref="ChannelRepresentation"/>.
 		/// </summary>
-		public string FriendlyName { get; set; }
+		public string FriendlyName { get; }
 
 		/// <summary>
 		/// The name of the connection the <see cref="ChannelRepresentation"/> belongs to.
 		/// </summary>
-		public string ConnectionName { get; set; }
+		public string ConnectionName { get; }
 
 		/// <summary>
 		/// If this is considered a channel for admin commands.
@@ -45,11 +45,24 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// If this is a 1-to-1 chat channel.
 		/// </summary>
-		public bool IsPrivateChannel { get; set; }
+		public bool IsPrivateChannel { get; init; }
 
 		/// <summary>
 		/// For user use.
 		/// </summary>
-		public string Tag { get; set; }
+		public string? Tag { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ChannelRepresentation"/> class.
+		/// </summary>
+		/// <param name="connectionName">The value of <see cref="ConnectionName"/>.</param>
+		/// <param name="friendlyName">The value of <see cref="FriendlyName"/>.</param>
+		/// <param name="realId">The value of <see cref="RealId"/>.</param>
+		public ChannelRepresentation(string connectionName, string friendlyName, ulong realId)
+		{
+			ConnectionName = connectionName ?? throw new ArgumentNullException(nameof(connectionName));
+			FriendlyName = friendlyName ?? throw new ArgumentNullException(nameof(friendlyName));
+			Id = realId.ToString(CultureInfo.InvariantCulture);
+		}
 	}
 }

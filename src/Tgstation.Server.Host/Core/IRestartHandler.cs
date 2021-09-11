@@ -16,6 +16,6 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="graceful">If <see langword="true"/> the restart handler perform no destructive actions.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken);
+		Task HandleRestart(Version? updateVersion, bool graceful, CancellationToken cancellationToken);
 	}
 }

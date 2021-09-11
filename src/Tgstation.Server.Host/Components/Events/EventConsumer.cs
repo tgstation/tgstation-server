@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="EventConsumer"/>.
 		/// </summary>
-		IWatchdog watchdog;
+		IWatchdog? watchdog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EventConsumer"/> class.

@@ -6,11 +6,6 @@
 	public enum RemoteGitProvider
 	{
 		/// <summary>
-		/// Unknown remote git provider.
-		/// </summary>
-		Unknown,
-
-		/// <summary>
 		/// Remote provider is GitHub.com
 		/// </summary>
 		GitHub,

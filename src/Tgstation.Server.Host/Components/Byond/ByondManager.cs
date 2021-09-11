@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string ActiveVersionFileName = "ActiveVersion.txt";
 
 		/// <inheritdoc />
-		public Version ActiveVersion { get; private set; }
+		public Version? ActiveVersion { get; private set; }
 
 		/// <inheritdoc />
 		public IReadOnlyList<Version> InstalledVersions
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					{
 						ActiveVersion != null
 							? VersionKey(ActiveVersion, true)
-							: null,
+							: "NONE",
 						versionKey,
 					},
 					cancellationToken)
@@ -158,7 +158,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			var versionKey = VersionKey(versionToUse, true);
 			var binPathForVersion = ioManager.ConcatPath(versionKey, BinPath);
 
-			logger.LogTrace("Creating ByondExecutableLock lock for version {0}", versionToUse);
+			logger.LogTrace("Creating ByondExecutableLock lock for version {version}", versionToUse);
 			return new ByondExecutableLock(
 				ioManager,
 				semaphore,
@@ -181,13 +181,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			async Task<byte[]> GetActiveVersion()
+			async Task<Task<byte[]>?> GetActiveVersion()
 			{
 				var activeVersionFileExists = await ioManager.FileExists(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
-				return !activeVersionFileExists ? null : await ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+				return !activeVersionFileExists ? null : ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken);
 			}
 
-			var activeVersionBytesTask = GetActiveVersion();
+			var activeVersionBytesTaskTask = GetActiveVersion();
 
 			// Create local cfg directory in case it doesn't exist
 			var localCfgDirectory = ioManager.ConcatPath(
@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				ioManager.ConcatPath(
 					localCfgDirectory,
 					TrustedDmbFileName);
-			logger.LogTrace("Deleting trusted .dmbs file {0}", trustedFilePath);
+			logger.LogTrace("Deleting trusted .dmbs file {trustedFilePath}", trustedFilePath);
 			await ioManager.DeleteFile(
 				trustedFilePath,
 				cancellationToken).ConfigureAwait(false);
@@ -240,7 +240,8 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			await Task.WhenAll(directories.Select(x => ReadVersion(x))).ConfigureAwait(false);
 
-			var activeVersionBytes = await activeVersionBytesTask.ConfigureAwait(false);
+			var activeVersionBytesTask = await activeVersionBytesTaskTask.ConfigureAwait(false);
+			var activeVersionBytes = activeVersionBytesTask != null ? await activeVersionBytesTask.ConfigureAwait(false) : null;
 			if (activeVersionBytes != null)
 			{
 				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
@@ -267,10 +268,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task<string> InstallVersion(Version version, Stream customVersionStream, CancellationToken cancellationToken)
+		async Task<string> InstallVersion(Version version, Stream? customVersionStream, CancellationToken cancellationToken)
 		{
-			var ourTcs = new TaskCompletionSource<object>();
-			Task inProgressTask;
+			var ourTcs = new TaskCompletionSource();
+			Task? inProgressTask;
 			string versionKey;
 			bool installed;
 			lock (installedVersions)
@@ -295,7 +296,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (installed)
 				using (cancellationToken.Register(() => ourTcs.SetCanceled()))
 				{
-					await Task.WhenAny(ourTcs.Task, inProgressTask).ConfigureAwait(false);
+					await Task.WhenAny(ourTcs.Task, inProgressTask!).ConfigureAwait(false);
 					cancellationToken.ThrowIfCancellationRequested();
 					return versionKey;
 				}
@@ -323,7 +324,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				try
 				{
 					Stream versionZipStream;
-					Stream downloadedStream = null;
+					Stream? downloadedStream = null;
 					if (customVersionStream == null)
 					{
 						downloadedStream = await byondInstaller.DownloadVersion(version, cancellationToken).ConfigureAwait(false);
@@ -363,7 +364,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					throw;
 				}
 
-				ourTcs.SetResult(null);
+				ourTcs.SetResult();
 			}
 			catch (Exception e)
 			{

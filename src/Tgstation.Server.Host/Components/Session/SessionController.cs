@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public RebootState RebootState => ReattachInformation.RebootState;
 
 		/// <inheritdoc />
-		public Version DMApiVersion { get; private set; }
+		public Version? DMApiVersion { get; private set; }
 
 		/// <inheritdoc />
 		public bool ClosePortOnReboot { get; set; }
@@ -76,9 +76,9 @@ namespace Tgstation.Server.Host.Components.Session
 		public ReattachInformation ReattachInformation { get; }
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD makes it's first bridge request.
+		/// The <see cref="TaskCompletionSource"/> that completes when DD makes it's first bridge request.
 		/// </summary>
-		readonly TaskCompletionSource<object> initialBridgeRequestTcs;
+		readonly TaskCompletionSource initialBridgeRequestTcs;
 
 		/// <summary>
 		/// The <see cref="Instance"/> metadata.
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// The <see cref="IBridgeRegistration"/> for the <see cref="SessionController"/>.
 		/// </summary>
-		readonly IBridgeRegistration bridgeRegistration;
+		readonly IBridgeRegistration? bridgeRegistration;
 
 		/// <summary>
 		/// The <see cref="IProcess"/> for the <see cref="SessionController"/>.
@@ -131,9 +131,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly object synchronizationLock;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed.
+		/// The <see cref="TaskCompletionSource"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed.
 		/// </summary>
-		TaskCompletionSource<bool> portAssignmentTcs;
+		TaskCompletionSource? portAssignmentTcs;
 
 		/// <summary>
 		/// The port to assign DreamDaemon when it queries for it.
@@ -141,14 +141,14 @@ namespace Tgstation.Server.Host.Components.Session
 		ushort? nextPort;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us about a reboot.
+		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us about a reboot.
 		/// </summary>
-		TaskCompletionSource<object> rebootTcs;
+		TaskCompletionSource rebootTcs;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us it's primed.
+		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us it's primed.
 		/// </summary>
-		TaskCompletionSource<object> primeTcs;
+		TaskCompletionSource primeTcs;
 
 		/// <summary>
 		/// If we know DreamDaemon currently has it's port closed.
@@ -219,9 +219,9 @@ namespace Tgstation.Server.Host.Components.Session
 			apiValidationStatus = ApiValidationStatus.NeverValidated;
 			released = false;
 
-			rebootTcs = new TaskCompletionSource<object>();
-			primeTcs = new TaskCompletionSource<object>();
-			initialBridgeRequestTcs = new TaskCompletionSource<object>();
+			rebootTcs = new TaskCompletionSource();
+			primeTcs = new TaskCompletionSource();
+			initialBridgeRequestTcs = new TaskCompletionSource();
 			reattachTopicCts = new CancellationTokenSource();
 			synchronizationLock = new object();
 
@@ -289,12 +289,12 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public Task<BridgeResponse?> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			static Task<BridgeResponse> Error(string message) => Task.FromResult(new BridgeResponse
+			static Task<BridgeResponse?> Error(string message) => Task.FromResult<BridgeResponse?>(new BridgeResponse
 			{
 				ErrorMessage = message,
 			});
@@ -302,7 +302,7 @@ namespace Tgstation.Server.Host.Components.Session
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
 				logger.LogTrace("Handling bridge request...");
-				initialBridgeRequestTcs.TrySetResult(null);
+				initialBridgeRequestTcs.TrySetResult();
 
 				var response = new BridgeResponse();
 				switch (parameters.CommandType)
@@ -326,8 +326,8 @@ namespace Tgstation.Server.Host.Components.Session
 						break;
 					case BridgeCommandType.Prime:
 						var oldPrimeTcs = primeTcs;
-						primeTcs = new TaskCompletionSource<object>();
-						oldPrimeTcs.SetResult(null);
+						primeTcs = new TaskCompletionSource();
+						oldPrimeTcs.SetResult();
 						break;
 					case BridgeCommandType.Kill:
 						logger.LogInformation("Bridge requested process termination!");
@@ -358,7 +358,11 @@ namespace Tgstation.Server.Host.Components.Session
 								// we'll also get here from SetPort so complete that task
 								var tmpTcs = portAssignmentTcs;
 								portAssignmentTcs = null;
-								tmpTcs.SetResult(true);
+
+								if (tmpTcs == null)
+									logger.LogError("DreamDaemon made an unrequested port change!");
+								else
+									tmpTcs.SetResult();
 							}
 
 							portClosedForReboot = false;
@@ -418,8 +422,8 @@ namespace Tgstation.Server.Host.Components.Session
 						}
 
 						var oldRebootTcs = rebootTcs;
-						rebootTcs = new TaskCompletionSource<object>();
-						oldRebootTcs.SetResult(null);
+						rebootTcs = new TaskCompletionSource();
+						oldRebootTcs.SetResult();
 						break;
 					case null:
 						response.ErrorMessage = "Missing commandType!";
@@ -429,7 +433,7 @@ namespace Tgstation.Server.Host.Components.Session
 						break;
 				}
 
-				return Task.FromResult(response);
+				return Task.FromResult<BridgeResponse?>(response);
 			}
 		}
 
@@ -452,7 +456,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<CombinedTopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+		public async Task<CombinedTopicResponse?> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
@@ -492,12 +496,12 @@ namespace Tgstation.Server.Host.Components.Session
 
 				var topicReturn = topicResponse.StringData;
 
-				Interop.Topic.TopicResponse interopResponse = null;
+				Interop.Topic.TopicResponse? interopResponse = null;
 				if (topicReturn != null)
 					try
 					{
 						interopResponse = JsonConvert.DeserializeObject<Interop.Topic.TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
-						if (interopResponse.ErrorMessage != null)
+						if (interopResponse!.ErrorMessage != null)
 						{
 							logger.LogWarning("Errored topic response for command {0}: {1}", parameters.CommandType, interopResponse.ErrorMessage);
 						}
@@ -530,7 +534,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Task<bool> SetPort(ushort port, CancellationToken cancellationToken)
+		public Task SetPort(ushort port, CancellationToken cancellationToken)
 		{
 			CheckDisposed();
 
@@ -544,7 +548,7 @@ namespace Tgstation.Server.Host.Components.Session
 					cancellationToken)
 					.ConfigureAwait(false);
 
-				if (commandResult.InteropResponse?.ErrorMessage != null)
+				if (commandResult == null || commandResult.InteropResponse?.ErrorMessage != null)
 					return false;
 
 				ReattachInformation.Port = port;
@@ -557,7 +561,7 @@ namespace Tgstation.Server.Host.Components.Session
 					if (portAssignmentTcs != null)
 						throw new InvalidOperationException("A port change operation is already in progress!");
 					nextPort = port;
-					portAssignmentTcs = new TaskCompletionSource<bool>();
+					portAssignmentTcs = new TaskCompletionSource();
 					return portAssignmentTcs.Task;
 				}
 				else

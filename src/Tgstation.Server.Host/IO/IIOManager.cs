@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="ignore">Files and folders to ignore at the root level.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CopyDirectory(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken);
+		Task CopyDirectory(string src, string dest, IEnumerable<string>? ignore, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Check that the file at <paramref name="path"/> exists.

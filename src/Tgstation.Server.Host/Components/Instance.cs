@@ -16,6 +16,7 @@ using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -80,19 +81,14 @@ namespace Tgstation.Server.Host.Components
 		readonly Api.Models.Instance metadata;
 
 		/// <summary>
-		/// <see langword="lock"/> <see cref="object"/> for <see cref="timerCts"/> and <see cref="timerTask"/>.
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="timerTask"/>.
 		/// </summary>
 		readonly object timerLock;
 
 		/// <summary>
 		/// The auto update <see cref="Task"/>.
 		/// </summary>
-		Task timerTask;
-
-		/// <summary>
-		/// <see cref="CancellationTokenSource"/> for <see cref="timerTask"/>.
-		/// </summary>
-		CancellationTokenSource timerCts;
+		CancellableTask? timerTask;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Instance"/> class.
@@ -145,7 +141,12 @@ namespace Tgstation.Server.Host.Components
 		{
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
-				timerCts?.Dispose();
+				if (timerTask != null)
+				{
+					await timerTask.DisposeAsync().ConfigureAwait(false);
+					timerTask = null;
+				}
+
 				Configuration.Dispose();
 				await Chat.DisposeAsync().ConfigureAwait(false);
 				await Watchdog.DisposeAsync().ConfigureAwait(false);
@@ -208,11 +209,9 @@ namespace Tgstation.Server.Host.Components
 				if (timerTask != null)
 				{
 					logger.LogTrace("Cancelling auto-update task");
-					timerCts.Cancel();
-					timerCts.Dispose();
-					toWait = timerTask;
+					timerTask.Cancel();
+					toWait = timerTask.DisposeAsync().AsTask();
 					timerTask = null;
-					timerCts = null;
 				}
 				else
 					toWait = Task.CompletedTask;
@@ -234,13 +233,12 @@ namespace Tgstation.Server.Host.Components
 					return;
 				}
 
-				timerCts = new CancellationTokenSource();
-				timerTask = TimerLoop(newInterval, timerCts.Token);
+				timerTask = new CancellableTask(token => TimerLoop(newInterval, token));
 			}
 		}
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob() => dmbFactory.LatestCompileJob();
+		public CompileJob? LatestCompileJob() => dmbFactory.LatestCompileJob();
 
 		/// <summary>
 		/// The <see cref="JobEntrypoint"/> for updating the repository.
@@ -302,27 +300,28 @@ namespace Tgstation.Server.Host.Components
 
 					// the main point of auto update is to pull the remote
 					await repo.FetchOrigin(
+						NextProgressReporter(),
 						repositorySettings.AccessUser,
 						repositorySettings.AccessToken,
-						NextProgressReporter(),
 						cancellationToken)
 						.ConfigureAwait(false);
 
 					var hasDbChanges = false;
-					RevisionInformation currentRevInfo = null;
-					Models.Instance attachedInstance = null;
-					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<RevInfoTestMerge> updatedTestMerges)
+					RevisionInformation? currentRevInfo = null;
+					Models.Instance? attachedInstance = null;
+					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<RevInfoTestMerge>? updatedTestMerges)
 					{
 						if (currentRevInfo == null)
 						{
-							logger.LogTrace("Loading revision info for commit {0}...", startSha.Substring(0, 7));
+							logger.LogTrace("Loading revision info for commit {sha}...", startSha.Substring(0, 7));
 							currentRevInfo = await databaseContext
-							.RevisionInformations
-								.AsQueryable()
-								.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
-								.Include(x => x.ActiveTestMerges)
-									.ThenInclude(x => x.TestMerge)
-								.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+								.RevisionInformations
+									.AsQueryable()
+									.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
+									.Include(x => x.ActiveTestMerges)
+										.ThenInclude(x => x.TestMerge)
+									.FirstOrDefaultAsync(cancellationToken)
+									.ConfigureAwait(false);
 						}
 
 						if (currentRevInfo == default)
@@ -358,7 +357,9 @@ namespace Tgstation.Server.Host.Components
 
 						if (!onOrigin)
 							currentRevInfo.ActiveTestMerges = new List<RevInfoTestMerge>(
-								updatedTestMerges ?? oldRevInfo.ActiveTestMerges);
+								updatedTestMerges
+								?? oldRevInfo?.ActiveTestMerges
+								?? Enumerable.Empty<RevInfoTestMerge>());
 
 						databaseContext.RevisionInformations.Add(currentRevInfo);
 						hasDbChanges = true;
@@ -368,25 +369,26 @@ namespace Tgstation.Server.Host.Components
 					await UpdateRevInfo(repo.Head, false, null).ConfigureAwait(false);
 
 					var result = await repo.MergeOrigin(
+						NextProgressReporter(),
 						repositorySettings.CommitterName,
 						repositorySettings.CommitterEmail,
-						NextProgressReporter(),
 						cancellationToken)
 						.ConfigureAwait(false);
 
 					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
 					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
 						metadata,
-						repo.RemoteGitProvider.Value);
+						repo.GitRemoteInformation?.RemoteGitProvider);
 
 					// take appropriate auto update actions
 					var shouldSyncTracked = false;
 					if (result.HasValue)
 					{
+						var revInfoConcrete = currentRevInfo!;
 						var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
 							repo,
 							repositorySettings,
-							currentRevInfo,
+							revInfoConcrete,
 							cancellationToken)
 						.ConfigureAwait(false);
 
@@ -397,9 +399,7 @@ namespace Tgstation.Server.Host.Components
 						}
 						else
 						{
-							var lastRevInfoWasOriginCommit =
-								currentRevInfo == default
-								|| currentRevInfo.CommitSha == currentRevInfo.OriginCommitSha;
+							var lastRevInfoWasOriginCommit = revInfoConcrete.CommitSha == revInfoConcrete.OriginCommitSha;
 							var stillOnOrigin = result.Value && lastRevInfoWasOriginCommit;
 
 							var currentHead = repo.Head;
@@ -417,10 +417,10 @@ namespace Tgstation.Server.Host.Components
 					{
 						logger.LogTrace("Resetting to origin...");
 						await repo.ResetToOrigin(
+							NextProgressReporter(),
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
 							repositorySettings.UpdateSubmodules.Value,
-							NextProgressReporter(),
 							cancellationToken)
 						.ConfigureAwait(false);
 
@@ -442,15 +442,15 @@ namespace Tgstation.Server.Host.Components
 					if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits.Value))
 					{
 						var pushedOrigin = await repo.Sychronize(
-							repositorySettings.AccessUser,
-							repositorySettings.AccessToken,
+							NextProgressReporter(),
 							repositorySettings.CommitterName,
 							repositorySettings.CommitterEmail,
-							NextProgressReporter(),
+							repositorySettings.AccessUser,
+							repositorySettings.AccessToken,
 							shouldSyncTracked,
 							cancellationToken).ConfigureAwait(false);
 						var currentHead = repo.Head;
-						if (currentHead != currentRevInfo.CommitSha)
+						if (currentHead != currentRevInfo!.CommitSha)
 							await UpdateRevInfo(currentHead, pushedOrigin, null).ConfigureAwait(false);
 					}
 
@@ -462,7 +462,7 @@ namespace Tgstation.Server.Host.Components
 						catch
 						{
 							// DCT: Cancellation token is for job, operation must run regardless
-							await repo.ResetToSha(startSha, progressReporter, default).ConfigureAwait(false);
+							await repo.ResetToSha(progressReporter, startSha, default).ConfigureAwait(false);
 							throw;
 						}
 
