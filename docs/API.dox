@@ -5,7 +5,7 @@
 
 @section api_swag OpenAPI Spec
 
-TGS4 has a, from code, generated OpenAPI 3.0 specification. It is much more authorative than these documents.
+TGS has a, from code, generated OpenAPI 3.0 specification. It is much more authorative than these documents.
 
 The most up to date version should be found in the most recent appveyor build artifacts. It is also included in release artifacts.
 
@@ -13,7 +13,7 @@ You can use the API explorer SwaggerUI to interact with it: https://petstore.swa
 
 @section api_intro Introduction
 
-The TGS4 API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server
+The TGS API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server
 
 Routes and their usages are defined as follows
 
@@ -21,7 +21,7 @@ Routes and their usages are defined as follows
 
 @section api_lib Official Libraries
 
-The TGS4 API's canonical definitions are provided as a .NET Standard library in the form of a nuget package located here: https://www.nuget.org/packages/Tgstation.Server.Api
+The TGS API's canonical definitions are provided as a .NET Standard library in the form of a nuget package located here: https://www.nuget.org/packages/Tgstation.Server.Api
 
 An all inclusive TAP interface for using the API is also provided in this package: https://www.nuget.org/packages/Tgstation.Server.Client
 
@@ -38,7 +38,7 @@ This document will reference the canonical C# models in the @ref Tgstation.Serve
 
 @section api_header Headers
 
-TGS4 expects this set of headers. Failure to provide them will result in 400 error responses
+TGS expects this set of headers. Failure to provide them will result in 400 error responses
 
 - User-Agent: The user agent product header value of the calling program
 - Api: Another product header value representing the version of the API to use. Currently this must be: Tgstation.Server.Api/4.0.0.0
@@ -124,7 +124,7 @@ Continue to use this token until you begin to recieve 401 responses from the API
 
 @subsection api_auth_o OAuth 2.0
 
-TGS4 supports OAuth 2.0 with select providers for authentication.
+TGS supports OAuth 2.0 with select providers for authentication.
 
 The flow for this is as follows:
 

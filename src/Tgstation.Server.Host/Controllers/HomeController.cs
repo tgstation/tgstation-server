@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (ApiHeaders == null)
 			{
-				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues("basic realm=\"Create TGS4 bearer token\""));
+				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues("basic realm=\"Create TGS bearer token\""));
 				return HeadersIssue(false);
 			}
 

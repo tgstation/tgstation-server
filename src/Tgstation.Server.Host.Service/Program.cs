@@ -124,8 +124,8 @@ namespace Tgstation.Server.Host.Service
 						processInstaller.Account = ServiceAccount.LocalSystem;
 
 						installer.Context = new InstallContext("tgs-4-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
-						installer.Description = "/tg/station 13 server v4 running as a windows service";
-						installer.DisplayName = "/tg/station server 4";
+						installer.Description = "/tg/station 13 server running as a windows service";
+						installer.DisplayName = "/tg/station server";
 						installer.DelayedAutoStart = true;
 						installer.StartType = ServiceStartMode.Automatic;
 						installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };

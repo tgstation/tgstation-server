@@ -308,24 +308,32 @@ namespace Tgstation.Server.Host.Components
 						cancellationToken)
 						.ConfigureAwait(false);
 
-					Task<RevisionInformation> LoadRevInfo() => databaseContext.RevisionInformations
-						.AsQueryable()
-						.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
-						.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
-						.FirstOrDefaultAsync(cancellationToken);
-
-					RevisionInformation currentRevInfo = null;
 					var hasDbChanges = false;
+					RevisionInformation currentRevInfo = null;
 					Models.Instance attachedInstance = null;
 					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<RevInfoTestMerge> updatedTestMerges)
 					{
 						if (currentRevInfo == null)
-							currentRevInfo = await LoadRevInfo().ConfigureAwait(false);
+						{
+							logger.LogTrace("Loading revision info for commit {0}...", startSha.Substring(0, 7));
+							currentRevInfo = await databaseContext
+							.RevisionInformations
+								.AsQueryable()
+								.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
+								.Include(x => x.ActiveTestMerges)
+									.ThenInclude(x => x.TestMerge)
+								.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+						}
 
 						if (currentRevInfo == default)
 						{
 							logger.LogInformation(Repository.Repository.OriginTrackingErrorTemplate, currentHead);
 							onOrigin = true;
+						}
+						else if (currentRevInfo.CommitSha == currentHead)
+						{
+							logger.LogTrace("Not updating rev-info, already in DB.");
+							return;
 						}
 
 						if (attachedInstance == null)
@@ -347,6 +355,7 @@ namespace Tgstation.Server.Host.Components
 								: await repo.GetOriginSha(cancellationToken).ConfigureAwait(false),
 							Instance = attachedInstance,
 						};
+
 						if (!onOrigin)
 							currentRevInfo.ActiveTestMerges = new List<RevInfoTestMerge>(
 								updatedTestMerges ?? oldRevInfo.ActiveTestMerges);

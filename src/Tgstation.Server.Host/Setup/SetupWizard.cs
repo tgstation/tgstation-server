@@ -346,7 +346,7 @@ namespace Tgstation.Server.Host.Setup
 					cancellationToken)
 					.ConfigureAwait(false);
 				await console.WriteAsync(
-					"This means that you may not be able to update to the next minor version of TGS4 without a clean re-installation!",
+					"This means that you may not be able to update to the next minor version of TGS without a clean re-installation!",
 					true,
 					cancellationToken)
 					.ConfigureAwait(false);

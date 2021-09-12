@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		[TestInitialize]
 		public void Initialize()
 		{
-			var actualToken = Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_TOKEN");
+			var actualToken = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			if (!String.IsNullOrWhiteSpace(actualToken))
 				testToken1 = new ChatBot
 				{
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		public async Task TestConstructionAndDisposal()
 		{
 			if (testToken1 == null)
-				Assert.Inconclusive("Required environment variable TGS4_TEST_DISCORD_TOKEN isn't set!");
+				Assert.Inconclusive("Required environment variable TGS_TEST_DISCORD_TOKEN isn't set!");
 
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, null, null));
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, null));
@@ -61,8 +61,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		[TestMethod]
 		public async Task TestConnectWithFakeTokenFails()
 		{
-			Assert.Inconclusive("Doesn't happen, see https://github.com/Nihlus/Remora.Discord/issues/99 for resolution");
-
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
 			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), mockLogger.Object, new ChatBot
 			{
@@ -77,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		public async Task TestConnectAndDisconnect()
 		{
 			if (testToken1 == null)
-				Assert.Inconclusive("Required environment variable TGS4_TEST_DISCORD_TOKEN isn't set!");
+				Assert.Inconclusive("Required environment variable TGS_TEST_DISCORD_TOKEN isn't set!");
 
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
 			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), mockLogger.Object, testToken1);
