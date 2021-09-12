@@ -707,7 +707,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task ProgressTask(JobProgressReporter progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
 		{
-			progressReporter(currentStage, estimatedDuration.HasValue ? 0 : null);
+			progressReporter(currentStage, estimatedDuration.HasValue ? (int?)0 : null);
 			var sleepInterval = estimatedDuration.HasValue ? estimatedDuration.Value / 100 : TimeSpan.FromMilliseconds(250);
 
 			logger.LogDebug("Compile is expected to take: {0}", estimatedDuration);
@@ -716,7 +716,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				for (var iteration = 0; iteration < (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)
 				{
 					await Task.Delay(sleepInterval, cancellationToken).ConfigureAwait(false);
-					progressReporter(currentStage, estimatedDuration.HasValue ? iteration + 1 : null);
+					progressReporter(currentStage, estimatedDuration.HasValue ? (int?)(iteration + 1) : null);
 				}
 			}
 			catch (OperationCanceledException)
