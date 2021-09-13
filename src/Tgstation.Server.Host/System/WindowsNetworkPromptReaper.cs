@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			if(runTask != null)
+			if (runTask != null)
 				throw new InvalidOperationException("WindowsNetworkPromptReaper already started!");
 
 			runTask = new CancellableTask(token => Run(token));

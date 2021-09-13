@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitRemoteFeaturesImpl"/> class.
 		/// </summary>
-		/// <param name="logger">The value of <see cref="Logger"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="GitRemoteFeaturesBase"/>.</param>
 		/// <param name="gitRemoteInformation">The <see cref="Api.Models.GitRemoteInformation"/> for the <see cref="GitRemoteFeaturesBase"/>.</param>
 		protected GitRemoteFeaturesImpl(
 			ILogger<GitRemoteFeaturesBase> logger,
