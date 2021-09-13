@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the .NET 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.2 build chain
+You need the .NET 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server.
 
 The recommended IDE is Visual Studio 2019 which has installation options for both of these.
 

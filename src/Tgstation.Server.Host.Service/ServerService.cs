@@ -1,117 +1,90 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.EventLog;
 
+using Tgstation.Server.Helpers;
 using Tgstation.Server.Host.Watchdog;
 
 namespace Tgstation.Server.Host.Service
 {
 	/// <summary>
-	/// Represents a <see cref="IWatchdog"/> as a <see cref="ServiceBase"/>.
+	/// .NET <see cref="IHostedService"/> which runs inside the service controller.
 	/// </summary>
-	sealed class ServerService : ServiceBase
+	sealed class ServerService : IHostedService, IAsyncDisposable
 	{
-		/// <summary>
-		/// The canonical windows service name.
-		/// </summary>
-		public const string Name = "tgstation-server-4";
-
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>.
 		/// </summary>
 		readonly IWatchdog watchdog;
 
 		/// <summary>
-		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/> of <see cref="watchdog"/>.
+		/// The <see cref="ILogger"/> for the <see cref="ServerService"/>.
 		/// </summary>
-		Task watchdogTask;
+		readonly ILogger<ServerService> logger;
 
 		/// <summary>
-		/// The <see cref="cancellationTokenSource"/> for the <see cref="ServerService"/>.
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="activeTask"/>.
 		/// </summary>
-		CancellationTokenSource cancellationTokenSource;
+		readonly object activeTaskLock;
+
+		/// <summary>
+		/// The <see cref="CancellableTask"/> for the <see cref="watchdog"/>.
+		/// </summary>
+		CancellableTask? activeTask;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerService"/> class.
 		/// </summary>
-		/// <param name="watchdogFactory">The <see cref="IWatchdogFactory"/> to create <see cref="watchdog"/> with.</param>
-		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for <paramref name="watchdogFactory"/>.</param>
-		/// <param name="minumumLogLevel">The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to record in the event log.</param>
-		public ServerService(IWatchdogFactory watchdogFactory, ILoggerFactory loggerFactory, LogLevel minumumLogLevel)
+		/// <param name="watchdog">The value of <see cref="watchdog"/>.</param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		public ServerService(IWatchdog watchdog, ILogger<ServerService> logger)
 		{
-			if (watchdogFactory == null)
-				throw new ArgumentNullException(nameof(watchdogFactory));
-			if (loggerFactory == null)
-				throw new ArgumentNullException(nameof(loggerFactory));
+			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-#pragma warning disable CS0618 // Type or member is obsolete
-			loggerFactory.AddEventLog(new EventLogSettings
+			activeTaskLock = new object();
+		}
+
+		/// <inheritdoc />
+		public async ValueTask DisposeAsync()
+		{
+			if (activeTask != null)
 			{
-				LogName = EventLog.Log,
-				MachineName = EventLog.MachineName,
-				SourceName = EventLog.Source,
-				Filter = (message, logLevel) => logLevel >= minumumLogLevel,
-			});
-#pragma warning restore CS0618 // Type or member is obsolete
-
-			ServiceName = Name;
-			watchdog = watchdogFactory.CreateWatchdog(loggerFactory);
+				await activeTask.DisposeAsync().ConfigureAwait(false);
+				activeTask = null;
+			}
 		}
 
 		/// <inheritdoc />
-		protected override void Dispose(bool disposing)
+		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			cancellationTokenSource?.Dispose();
-			base.Dispose(disposing);
-		}
-
-		/// <inheritdoc />
-		protected override void OnStart(string[] args)
-		{
-			cancellationTokenSource?.Dispose();
-			cancellationTokenSource = new CancellationTokenSource();
-			watchdogTask = RunWatchdog(args, cancellationTokenSource.Token);
-		}
-
-		/// <inheritdoc />
-		protected override void OnStop()
-		{
-			cancellationTokenSource.Cancel();
-			watchdogTask.GetAwaiter().GetResult();
-		}
-
-		/// <summary>
-		/// Executes the <see cref="watchdog"/>, stopping the service if it exits.
-		/// </summary>
-		/// <param name="args">The arguments for the <see cref="watchdog"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RunWatchdog(string[] args, CancellationToken cancellationToken)
-		{
-			await watchdog.RunAsync(false, args, cancellationTokenSource.Token).ConfigureAwait(false);
-
-			void StopServiceAsync()
+			lock (activeTaskLock)
 			{
-				try
-				{
-					Task.Run(Stop, cancellationToken);
-				}
-				catch (OperationCanceledException)
-				{
-				}
-				catch (Exception e)
-				{
-					EventLog.WriteEntry(String.Format(CultureInfo.InvariantCulture, "Error stopping service! Exception: {0}", e));
-				}
+				if (activeTask != null)
+					throw new InvalidOperationException("Service already running!");
+
+				activeTask = new CancellableTask(token => watchdog.RunAsync(false, Environment.GetCommandLineArgs(), token));
+				return Task.CompletedTask;
+			}
+		}
+
+		/// <inheritdoc />
+		public Task StopAsync(CancellationToken cancellationToken)
+		{
+			CancellableTask? localActiveTask;
+			lock (activeTaskLock)
+			{
+				localActiveTask = activeTask;
+				if (localActiveTask == null)
+					throw new InvalidOperationException("Service not running!");
+
+				activeTask = null;
 			}
 
-			StopServiceAsync();
+			return localActiveTask.DisposeAsync().AsTask();
 		}
 	}
 }

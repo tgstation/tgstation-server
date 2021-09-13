@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Watchdog
 		{
 			logger.LogInformation("Host watchdog starting...");
 			logger.LogDebug("PID: {0}", Process.GetCurrentProcess().Id);
-			string updateDirectory = null;
+			string? updateDirectory = null;
 			try
 			{
 				var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -52,6 +52,11 @@ namespace Tgstation.Server.Host.Watchdog
 
 				var executingAssembly = Assembly.GetExecutingAssembly();
 				var rootLocation = Path.GetDirectoryName(executingAssembly.Location);
+				if (rootLocation == null)
+				{
+					logger.LogCritical("Could not get assembly root location!");
+					return;
+				}
 
 				var assemblyStoragePath = Path.Combine(rootLocation, "lib"); // always always next to watchdog
 
@@ -66,10 +71,10 @@ namespace Tgstation.Server.Host.Watchdog
 
 					var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/net6.0";
 					foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
-						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
+						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal));
 
 					foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
-						File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+						File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath, StringComparison.Ordinal), true);
 
 					const string AppSettingsYaml = "appsettings.yml";
 					var rootYaml = Path.Combine(rootLocation, AppSettingsYaml);
@@ -82,7 +87,7 @@ namespace Tgstation.Server.Host.Watchdog
 				var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
 				var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
 
-				if (assemblyPath.Contains("\""))
+				if (assemblyPath.Contains('"', StringComparison.Ordinal))
 				{
 					logger.LogCritical("Running from paths with \"'s in the name is not supported!");
 					return;
@@ -94,7 +99,12 @@ namespace Tgstation.Server.Host.Watchdog
 					return;
 				}
 
-				string watchdogVersion = executingAssembly.GetName().Version.ToString();
+				var watchdogVersion = executingAssembly.GetName().Version?.ToString();
+				if (watchdogVersion == null)
+				{
+					logger.LogCritical("Unable to retrieve host watchdog version!");
+					return;
+				}
 
 				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))
@@ -128,10 +138,10 @@ namespace Tgstation.Server.Host.Watchdog
 
 							process.StartInfo.UseShellExecute = false; // runs in the same console
 
-							var tcs = new TaskCompletionSource<object>();
+							var tcs = new TaskCompletionSource();
 							process.Exited += (a, b) =>
 							{
-								tcs.TrySetResult(null);
+								tcs.TrySetResult();
 							};
 							process.EnableRaisingEvents = true;
 
@@ -143,7 +153,7 @@ namespace Tgstation.Server.Host.Watchdog
 								process.Start();
 
 								using (var processCts = new CancellationTokenSource())
-								using (processCts.Token.Register(() => tcs.TrySetResult(null)))
+								using (processCts.Token.Register(() => tcs.TrySetResult()))
 								using (cancellationToken.Register(() =>
 								{
 									if (!Directory.Exists(updateDirectory))
@@ -281,10 +291,11 @@ namespace Tgstation.Server.Host.Watchdog
 			catch (OperationCanceledException ex)
 			{
 				logger.LogDebug(ex, "Exiting due to cancellation...");
-				if (!Directory.Exists(updateDirectory))
-					File.Delete(updateDirectory);
-				else
-					Directory.Delete(updateDirectory, true);
+				if (updateDirectory != null)
+					if (!Directory.Exists(updateDirectory))
+						File.Delete(updateDirectory);
+					else
+						Directory.Delete(updateDirectory, true);
 			}
 			catch (Exception ex)
 			{
@@ -303,9 +314,12 @@ namespace Tgstation.Server.Host.Watchdog
 		/// </summary>
 		/// <param name="isWindows">If the current system is a Windows OS.</param>
 		/// <returns>The path to the dotnet executable.</returns>
-		string GetDotnetPath(bool isWindows)
+		string? GetDotnetPath(bool isWindows)
 		{
 			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
+			if (enviromentPath == null)
+				return null;
+
 			var paths = enviromentPath.Split(';');
 
 			var exeName = "dotnet";

@@ -18,7 +18,7 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Pre-Requisites
 
-- [ASP .NET Core Runtime v6.0](https://dotnet.microsoft.com/download/dotnet/6.0) Choose the option to `Run Server Apps` for your system. If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server).
+- [ASP .NET Core Runtime v6.0](https://dotnet.microsoft.com/download/dotnet/6.0) Choose the option to `Run Server Apps` for your system.. Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server).
 - A [MariaDB](https://downloads.mariadb.org/), MySQL, [PostgresSQL](https://www.postgresql.org/download/), or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
 
 ### Installation
@@ -28,11 +28,11 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 #### Windows
 
-If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
+If you wish to run TGS as a service, run `Tgstation.Server.Host.Service.exe`. It will give you an elevated command line to install the service. It should also run the setup wizard, after which you can start the service. Note that starting the service without first configuring will not do anything.
 
-Should you want a clean start, be sure to first uninstall the service by running `Tgstation.Server.Host.Service.exe -u` from the command line.
+Should you want a clean start, be sure to first uninstall the service by running `sc delete <service name>` from an elevated command line.
 
-If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
+If using the console version, run `Tgstation.Server.Host.Console.exe` in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
 
 
 #### Linux (Native)
@@ -188,7 +188,7 @@ Note that the ratio of application installations to databases is 1:1. Do not att
 
 For the Windows service version start the `tgstation-server-4` service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server-4 for errors.
 
-For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this. If on Windows, you must do this as admin to give the server permission to install the required DirectX dependency for certain 512 BYOND versions as well as create symlinks.
+For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `Tgstation.Server.Host.Console.exe` and `tgs.sh` files are shortcuts for this. If on Windows, you must run the program as admin to give the server permission to install the required DirectX dependency for certain 512 BYOND versions as well as create symlinks.
 
 For the docker version run `docker start <your container name>`
 

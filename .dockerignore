@@ -27,7 +27,6 @@ src/Tgstation.Server.Host/ClientApp
 src/Tgstation.Server.Host/wwwroot
 src/Tgstation.Server.Host/appsettings.Development.json
 src/Tgstation.Server.Host/appsettings.Development.yml
-src/Tgstation.Server.Host/tgs.bat
 src/Tgstation.Server.Host/tgs.sh
 src/Tgstation.Server.Client
 src/Tgstation.Server.Host.Service

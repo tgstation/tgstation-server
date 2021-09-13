@@ -140,10 +140,10 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}NoService
+      run: dotnet build -c ${{ matrix.configuration }}
 
     - name: Run Unit Tests
-      run: sudo dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults
+      run: sudo dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }} --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v2
@@ -382,7 +382,7 @@ jobs:
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoService -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
+        dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v2
@@ -396,14 +396,14 @@ jobs:
         cd src/Tgstation.Server.Host.Console
         dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/Console/lib/Default
+        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Console/lib/Default
         mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/ServerUpdate
+        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/ServerUpdate
         rm ../../Artifacts/ServerUpdate/appsettings.yml
 
     - name: Store Server Console

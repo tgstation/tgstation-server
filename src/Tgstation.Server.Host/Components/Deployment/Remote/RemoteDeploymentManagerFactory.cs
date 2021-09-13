@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			RemoteGitProvider? remoteGitProvider;
 
-			// Pre 4.7.X
+			// Pre TGS4.7.X
 			if (compileJob.RepositoryOrigin == null)
 				remoteGitProvider = null;
 			else

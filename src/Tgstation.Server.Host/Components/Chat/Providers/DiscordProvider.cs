@@ -17,7 +17,7 @@ using Remora.Discord.Gateway.Extensions;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Helpers;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;

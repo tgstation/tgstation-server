@@ -11,8 +11,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog.Context;
 
-using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Helpers.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -660,8 +660,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 			var result = new LaunchResult
 			{
-				ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
-				StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.UtcNow - startTime) : null,
+				ExitCode = process.Lifetime.IsCompleted ? await process.Lifetime.ConfigureAwait(false) : null,
+				StartupTime = startupTask.IsCompleted ? (DateTimeOffset.UtcNow - startTime) : null,
 			};
 
 			logger.LogTrace("Launch result: {0}", result);

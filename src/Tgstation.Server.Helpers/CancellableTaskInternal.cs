@@ -2,13 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Helpers
 {
 	/// <summary>
-	/// A <see cref="Task{TResult}"/> with an associated <see cref="CancellationTokenSource"/>.
+	/// A <typeparamref name="TTask"/> with an associated <see cref="CancellationTokenSource"/>.
 	/// </summary>
-	/// <typeparam name="TResult">The <see cref="Type"/> of the result produced by <see cref="Task"/>.</typeparam>
-	class CancellableTask<TResult> : IAsyncDisposable
+	/// <typeparam name="TTask">The <see cref="Type"/> of the result produced by <see cref="Task"/>.</typeparam>
+	public abstract class CancellableTaskInternal<TTask> : IAsyncDisposable where TTask : Task
 	{
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="Task"/>.
@@ -18,13 +18,13 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="Task{TResult}"/>.
 		/// </summary>
-		public Task<TResult> Task { get; }
+		public TTask Task { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CancellableTask{TResult}"/> class.
+		/// Initializes a new instance of the <see cref="CancellableTaskInternal{TTask}"/> class.
 		/// </summary>
 		/// <param name="taskStarter">A <see cref="Func{T, TResult}"/> to launch the <see cref="Task"/> with a <see cref="CancellationToken"/>.</param>
-		public CancellableTask(Func<CancellationToken, Task<TResult>> taskStarter)
+		internal CancellableTaskInternal(Func<CancellationToken, TTask> taskStarter)
 		{
 			if (taskStarter == null)
 				throw new ArgumentNullException(nameof(taskStarter));
@@ -48,6 +48,7 @@ namespace Tgstation.Server.Host.Core
 			cancellationTokenSource.Dispose();
 
 			await Task.ConfigureAwait(false);
+			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>

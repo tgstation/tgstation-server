@@ -1,37 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
-
+  <Import Project="../../build/NugetCommon.props" />
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <DebugType>Full</DebugType>
     <Version>$(TgsApiLibraryVersion)</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Cyberboss</Authors>
-    <Company>/tg/station 13</Company>
     <Description>API definitions for tgstation-server</Description>
-    <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageIcon>tgs.png</PackageIcon>
-    <RepositoryType>Git</RepositoryType>
-    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
-    <Copyright>2018</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <PackageReleaseNotes>See https://github.com/tgstation/tgstation-server/releases/tag/api-v$(TgsApiVersion)</PackageReleaseNotes>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.1\Tgstation.Server.Api.xml</DocumentationFile>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <!-- CA1028: No unsigned enums, CS8019: https://github.com/dotnet/roslyn/issues/28773 -->
     <NoWarn>CA1028,CS8019</NoWarn>
-    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
   </PropertyGroup>
 
   <Target Name="ApplyApiVersionAttribute" BeforeTargets="CoreCompile">
@@ -50,16 +28,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
-    <None Include="../../LICENSE" Pack="true" PackagePath="" />
-    <None Include="../../build/tgs.png" Pack="true" PackagePath="" />
+    <ProjectReference Include="..\Tgstation.Server.Helpers\Tgstation.Server.Helpers.csproj" />
   </ItemGroup>
 </Project>

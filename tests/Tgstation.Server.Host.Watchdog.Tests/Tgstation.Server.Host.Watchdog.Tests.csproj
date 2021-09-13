@@ -3,15 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
-    <LangVersion>latest</LangVersion>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

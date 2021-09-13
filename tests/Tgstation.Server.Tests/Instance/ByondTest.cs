@@ -1,18 +1,18 @@
-﻿using Castle.Core.Logging;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Api;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Helpers.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;

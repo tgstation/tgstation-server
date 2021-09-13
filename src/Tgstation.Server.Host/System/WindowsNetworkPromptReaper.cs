@@ -11,6 +11,7 @@ using BetterWin32Errors;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Helpers;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.System

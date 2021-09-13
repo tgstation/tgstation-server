@@ -15,6 +15,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Helpers.Extensions;
 using Tgstation.Server.Host.Controllers;
 
 namespace Tgstation.Server.Host.Core

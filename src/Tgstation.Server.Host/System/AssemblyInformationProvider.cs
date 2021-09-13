@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using System.Reflection;
 
-using Tgstation.Server.Api;
+using Tgstation.Server.Helpers.Extensions;
 
 namespace Tgstation.Server.Host.System
 {

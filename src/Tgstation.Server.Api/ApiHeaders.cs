@@ -12,6 +12,8 @@ using Microsoft.Net.Http.Headers;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Properties;
+using Tgstation.Server.Helpers;
+using Tgstation.Server.Helpers.Extensions;
 
 namespace Tgstation.Server.Api
 {
