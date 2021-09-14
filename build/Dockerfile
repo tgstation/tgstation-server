@@ -44,10 +44,11 @@ WORKDIR /repo
 # Restore nuget packages
 COPY tgstation-server.sln ./
 
+COPY src/Tgstation.Server.Api/Tgstation.Server.Api.csproj src/Tgstation.Server.Api/
+COPY src/Tgstation.Server.Helpers/Tgstation.Server.Helpers.csproj src/Tgstation.Server.Helpers/
+COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj src/Tgstation.Server.Host/
 COPY src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj src/Tgstation.Server.Host.Console/
 COPY src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj src/Tgstation.Server.Host.Watchdog/
-COPY src/Tgstation.Server.Api/Tgstation.Server.Api.csproj src/Tgstation.Server.Api/
-COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj src/Tgstation.Server.Host/
 
 RUN dotnet restore -nowarn:MSB3202,MSB4181,NU1503 -p:RestoreUseSkipNonexistentTargets=false
 
