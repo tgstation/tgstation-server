@@ -324,7 +324,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 					await databaseContextFactory.UseContext(
 						async databaseContext =>
 						{
-							var fullJob = compileJob.Job;
 							compileJob.Job = new Models.Job
 							{
 								Id = job.Id,
@@ -356,7 +355,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 								throw;
 							}
 
-							compileJob.Job = fullJob;
 							compileJob.RevisionInformation = fullRevInfo;
 						})
 						.ConfigureAwait(false);

@@ -243,9 +243,10 @@ namespace Tgstation.Server.Host.Components.Session
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					logger.LogDebug(
-						"Launching session with CompileJob {0}...",
-						dmbProvider.CompileJob.Id);
+					if (!apiValidate)
+						logger.LogDebug(
+							"Launching session with CompileJob {0}...",
+							dmbProvider.CompileJob.Id);
 
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
