@@ -860,12 +860,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 									bool CheckActivationReason(Task task, MonitorActivationReason testActivationReason)
 									{
+										var taskCompleted = task.IsCompleted;
 										if (checkedTasks.Contains(task))
-											return false;
+											taskCompleted = false;
+										else
+											checkedTasks.Add(task);
 
-										checkedTasks.Add(task);
-
-										var taskCompleted = task?.IsCompleted == true;
 										if (nextAction == MonitorAction.Skip)
 											nextAction = MonitorAction.Continue;
 										else if (taskCompleted)
