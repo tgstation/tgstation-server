@@ -190,7 +190,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EE171B73-F800-4B3E-BD19-3C2C75485B8C}"
 	ProjectSection(SolutionItems) = preProject
-		src\Directory.build.props = src\Directory.build.props
+		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Helpers", "src\Tgstation.Server.Helpers\Tgstation.Server.Helpers.csproj", "{1EFAB451-E318-4C3F-8D2A-8F59D690E6DA}"
