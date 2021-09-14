@@ -66,45 +66,27 @@ namespace Tgstation.Server.Host.Components.Repository
 				? new GitLabClient(GitLabUrl, repositorySettings.AccessToken)
 				: new GitLabClient(GitLabUrl);
 
-			try
+			var mr = await client
+				.MergeRequests
+				.GetAsync($"{GitRemoteInformation.RepositoryOwner}/{GitRemoteInformation.RepositoryName}", parameters.Number)
+				.WithToken(cancellationToken)
+				.ConfigureAwait(false);
+
+			var revisionToUse = parameters.TargetCommitSha == null
+				|| mr.Sha.StartsWith(parameters.TargetCommitSha, StringComparison.OrdinalIgnoreCase)
+				? mr.Sha
+				: parameters.TargetCommitSha;
+
+			return new Models.TestMerge
 			{
-				var mr = await client
-					.MergeRequests
-					.GetAsync($"{GitRemoteInformation.RepositoryOwner}/{GitRemoteInformation.RepositoryName}", parameters.Number)
-					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
-
-				var revisionToUse = parameters.TargetCommitSha == null
-					|| mr.Sha.StartsWith(parameters.TargetCommitSha, StringComparison.OrdinalIgnoreCase)
-					? mr.Sha
-					: parameters.TargetCommitSha;
-
-				return new Models.TestMerge
-				{
-					Author = mr.Author.Username,
-					BodyAtMerge = mr.Description,
-					TitleAtMerge = mr.Title,
-					Comment = parameters.Comment,
-					Number = parameters.Number,
-					TargetCommitSha = mr.Sha,
-					Url = mr.WebUrl,
-				};
-			}
-			catch (Exception ex)
-			{
-				Logger.LogWarning(ex, "Error retrieving merge request metadata!");
-
-				return new Models.TestMerge
-				{
-					Author = ex.Message,
-					BodyAtMerge = ex.Message,
-					TitleAtMerge = ex.Message,
-					Comment = parameters.Comment,
-					Number = parameters.Number,
-					TargetCommitSha = parameters.TargetCommitSha,
-					Url = ex.Message,
-				};
-			}
+				Author = mr.Author.Username,
+				BodyAtMerge = mr.Description,
+				TitleAtMerge = mr.Title,
+				Comment = parameters.Comment,
+				Number = parameters.Number,
+				TargetCommitSha = mr.Sha,
+				Url = mr.WebUrl,
+			};
 		}
 	}
 }

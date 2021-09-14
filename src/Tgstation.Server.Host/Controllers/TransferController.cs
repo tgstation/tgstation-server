@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch
 			{
-				stream.Dispose();
+				stream?.Dispose();
 				throw;
 			}
 		}

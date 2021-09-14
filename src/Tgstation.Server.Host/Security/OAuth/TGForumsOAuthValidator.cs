@@ -56,18 +56,33 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public override async Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken)
+		public override async Task<OAuthProviderInfo?> GetProviderInfo(CancellationToken cancellationToken)
 		{
 			var expiredSessions = sessions.RemoveAll(x => x.Item2.AddMinutes(SessionRetentionMinutes) < DateTimeOffset.UtcNow);
 			if (expiredSessions > 0)
-				Logger.LogTrace("Expired {0} sessions", expiredSessions);
+				Logger.LogTrace("Expired {sessionsExpiredCount} sessions", expiredSessions);
+
+			var clientSecret = OAuthConfiguration.ClientSecret;
+			if (clientSecret == null)
+			{
+				Logger.LogError("TGForums OAuth misconfigured, missing {nameofClientSecret}!", nameof(OAuthConfiguration.ClientSecret));
+				return null;
+			}
 
 			Logger.LogTrace("Creating new session...");
 			try
 			{
+				var privateTokenQueryString = HttpUtility.UrlEncode(
+					Convert.ToBase64String(
+						Encoding.UTF8.GetBytes(
+							clientSecret)));
+				var returnUrlQueryString = HttpUtility.UrlEncode(
+					OAuthConfiguration
+						.RedirectUrl
+						.ToString());
 				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_create_session.php")
 				{
-					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&return_uri={HttpUtility.UrlEncode(OAuthConfiguration.RedirectUrl.ToString())}",
+					Query = $"site_private_token={privateTokenQueryString}&return_uri={returnUrlQueryString}",
 				};
 
 				using var request = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
@@ -78,10 +93,15 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 				var newSession = JsonConvert.DeserializeObject<TGCreateSessionResponse>(json, SerializerSettings());
+				if (newSession == null)
+				{
+					Logger.LogWarning("Unable to deserialize new session JSON: {json}", json);
+					return null;
+				}
 
 				if (newSession.Status != TGBaseResponse.OkStatus)
 				{
-					Logger.LogWarning("Invalid status from /tg/ API! Status: {0}, Error: {1}", newSession.Status, newSession.Error);
+					Logger.LogWarning("Invalid status from /tg/ API! Status: {status}, Error: {error}", newSession.Status, newSession.Error);
 					return null;
 				}
 
@@ -103,7 +123,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public override async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public override async Task<string?> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -114,11 +134,18 @@ namespace Tgstation.Server.Host.Security.OAuth
 					return null;
 				}
 
+				var clientSecret = OAuthConfiguration.ClientSecret;
+				if (clientSecret == null)
+				{
+					Logger.LogError("TGForums OAuth misconfigured, missing {nameofClientSecret}!", nameof(OAuthConfiguration.ClientSecret));
+					return null;
+				}
+
 				Logger.LogTrace("Validating session...");
 
 				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_get_session_info.php")
 				{
-					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&session_private_token={HttpUtility.UrlEncode(sessionTuple.Item1.SessionPrivateToken)}",
+					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(clientSecret)))}&session_private_token={HttpUtility.UrlEncode(sessionTuple.Item1.SessionPrivateToken)}",
 				};
 
 				using var request = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
@@ -129,10 +156,15 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 				var sessionInfo = JsonConvert.DeserializeObject<TGGetSessionInfoResponse>(json, SerializerSettings());
+				if (sessionInfo == null)
+				{
+					Logger.LogWarning("Unable to deserialize session info JSON: {json}", json);
+					return null;
+				}
 
 				if (sessionInfo.Status != TGBaseResponse.OkStatus)
 				{
-					Logger.LogWarning("Invalid status from /tg/ API! Status: {0}, Error: {1}", sessionInfo.Status, sessionInfo.Error);
+					Logger.LogWarning("Invalid status from /tg/ API! Status: {status}, Error: {error}", sessionInfo.Status, sessionInfo.Error);
 					return null;
 				}
 

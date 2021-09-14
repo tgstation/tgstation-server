@@ -145,8 +145,8 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			try
 			{
-				Version greatestVersion = null;
-				Uri repoUrl = null;
+				Version? greatestVersion = null;
+				Uri? repoUrl = null;
 				try
 				{
 					var gitHubClient = gitHubClientFactory.CreateClient();

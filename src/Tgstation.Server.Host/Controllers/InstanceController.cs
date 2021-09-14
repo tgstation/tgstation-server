@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (String.IsNullOrWhiteSpace(model.Name))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceWhitespaceName));
 
-			var unNormalizedPath = model.Path;
+			var unNormalizedPath = model.Path!; // validated by model validator
 			var targetInstancePath = NormalizePath(unNormalizedPath);
 			model.Path = targetInstancePath;
 
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
 
 			// Validate it's not a child of any other instance
-			IActionResult earlyOut = null;
+			IActionResult? earlyOut = null;
 			ulong countOfOtherInstances = 0;
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
@@ -261,11 +261,17 @@ namespace Tgstation.Server.Host.Controllers
 				});
 			}
 
-			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
+			Logger.LogInformation(
+				"{username} {attachedOrCreated} instance {instanceName}: {instanceId} ({instancePath})",
+				AuthenticationContext.User.Name,
+				attached ? "attached" : "created",
+				newInstance.Name,
+				newInstance.Id,
+				newInstance.Path);
 
 			var api = newInstance.ToApi();
 			api.Accessible = true; // instances are always accessible by their creator
-			return attached ? (IActionResult)Json(api) : Created(api);
+			return attached ? Json(api) : Created(api);
 		}
 
 		/// <summary>
@@ -289,7 +295,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default)
 				return Gone();
-			if (originalModel.Online.Value)
+			if (originalModel.Online)
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceDetachOnline));
 
 			DatabaseContext.Instances.Remove(originalModel);
@@ -337,9 +343,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
-#pragma warning disable CA1310 // Specify StringComparison
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1310 // Specify StringComparison
 				.Select(x => new Job
 				{
 					Id = x.Id,
@@ -348,7 +352,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (moveJob != default)
 			{
 				// don't allow them to cancel it if they can't start it.
-				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.Relocate))
+				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.HasFlag(InstanceManagerRights.Relocate))
 					return Forbid();
 				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false); // cancel it now
 			}
@@ -381,8 +385,8 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			}
 
-			string originalModelPath = null;
-			string rawPath = null;
+			string? originalModelPath = null;
+			string? rawPath = null;
 			if (model.Path != null)
 			{
 				rawPath = NormalizePath(model.Path);
@@ -391,7 +395,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (!userRights.HasFlag(InstanceManagerRights.Relocate))
 						return Forbid();
-					if (originalModel.Online.Value && model.Online != true)
+					if (originalModel.Online && model.Online != true)
 						return Conflict(new ErrorMessageResponse(ErrorCode.InstanceRelocateOnline));
 
 					var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
@@ -403,8 +407,8 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			var oldAutoUpdateInterval = originalModel.AutoUpdateInterval.Value;
-			var originalOnline = originalModel.Online.Value;
+			var oldAutoUpdateInterval = originalModel.AutoUpdateInterval;
+			var originalOnline = originalModel.Online;
 			var renamed = model.Name != null && originalModel.Name != model.Name;
 
 			if (CheckModified(x => x.AutoUpdateInterval, InstanceManagerRights.SetAutoUpdate)
@@ -468,8 +472,7 @@ namespace Tgstation.Server.Host.Controllers
 				Id = originalModel.Id,
 			};
 
-			var moving = originalModelPath != null;
-			if (moving)
+			if (originalModelPath != null)
 			{
 				var job = new Job
 				{
@@ -497,7 +500,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			await CheckAccessible(api, cancellationToken).ConfigureAwait(false);
-			return moving ? (IActionResult)Accepted(api) : Json(api);
+			return originalModelPath != null ? Accepted(api) : Json(api);
 		}
 #pragma warning restore CA1502
 
@@ -523,9 +526,9 @@ namespace Tgstation.Server.Host.Controllers
 					.Instances
 					.AsQueryable()
 					.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier);
-				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
+				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.HasFlag(InstanceManagerRights.List))
 					query = query
-						.Where(x => x.InstancePermissionSets.Any(y => y.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value))
+						.Where(x => x.InstancePermissionSets.Any(y => y.PermissionSetId == AuthenticationContext.PermissionSet.Id))
 						.Where(x => x.InstancePermissionSets.Any(instanceUser =>
 							instanceUser.ByondRights != ByondRights.None ||
 							instanceUser.ChatBotRights != ChatBotRights.None ||
@@ -540,9 +543,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJobs = await GetBaseQuery()
 				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1310 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
 				.ToListAsync(cancellationToken)
@@ -554,11 +555,11 @@ namespace Tgstation.Server.Host.Controllers
 					new PaginatableResult<Models.Instance>(
 						GetBaseQuery()
 							.OrderBy(x => x.Id))),
-				async instance =>
+				async (instanceModel, instanceApi) =>
 				{
-					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
-					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id)?.ToApi();
-					await CheckAccessible(instance, cancellationToken).ConfigureAwait(false);
+					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instanceModel);
+					instanceApi.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instanceApi.Id)?.ToApi();
+					await CheckAccessible(instanceApi, cancellationToken).ConfigureAwait(false);
 				},
 				page,
 				pageSize,
@@ -585,7 +586,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var cantList = !AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
+			var cantList = !AuthenticationContext.PermissionSet.InstanceManagerRights.HasFlag(InstanceManagerRights.List);
 			IQueryable<Models.Instance> QueryForUser()
 			{
 				var query = DatabaseContext
@@ -606,7 +607,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance))
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value &&
+			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id &&
 				(instanceUser.ByondRights != ByondRights.None ||
 				instanceUser.ChatBotRights != ChatBotRights.None ||
 				instanceUser.ConfigurationRights != ConfigurationRights.None ||
@@ -619,9 +620,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJob = await QueryForUser()
 				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1310 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -651,7 +650,7 @@ namespace Tgstation.Server.Host.Controllers
 			// ensure the current user has write privilege on the instance
 			var usersInstancePermissionSet = await BaseQuery()
 				.SelectMany(x => x.InstancePermissionSets)
-				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
+				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (usersInstancePermissionSet == default)
@@ -682,7 +681,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="initialSettings">The <see cref="InstanceCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="Models.Instance"/> or <see langword="null"/> if ports could not be allocated.</returns>
-		async Task<Models.Instance> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
+		async Task<Models.Instance?> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
 		{
 			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken).ConfigureAwait(false);
 			if (!ddPort.HasValue)
@@ -714,7 +713,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					AllowWebClient = false,
 					AutoStart = false,
-					Port = ddPort,
+					Port = ddPort.Value,
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 60,
@@ -724,14 +723,14 @@ namespace Tgstation.Server.Host.Controllers
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{
-					ApiValidationPort = dmPort,
+					ApiValidationPort = dmPort.Value,
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
 					RequireDMApiValidation = true,
 					Timeout = TimeSpan.FromHours(1),
 				},
-				Name = initialSettings.Name,
+				Name = initialSettings.Name!, // model validated
 				Online = false,
-				Path = initialSettings.Path,
+				Path = initialSettings.Path!, // model validated
 				AutoUpdateInterval = initialSettings.AutoUpdateInterval ?? 0,
 				ChatBotLimit = initialSettings.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
 				RepositorySettings = new RepositorySettings
@@ -764,7 +763,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (permissionSetToModify == null)
 				permissionSetToModify = new InstancePermissionSet()
 				{
-					PermissionSetId = AuthenticationContext.PermissionSet.Id.Value,
+					PermissionSetId = AuthenticationContext.PermissionSet.Id,
 				};
 			permissionSetToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
 			permissionSetToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
@@ -783,9 +782,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>The normalized <paramref name="path"/>.</returns>
 		string NormalizePath(string path)
 		{
-			if (path == null)
-				return null;
-
 			path = ioManager.ResolvePath(path);
 			if (platformIdentifier.IsWindows)
 				path = path.ToUpperInvariant().Replace('\\', '/');

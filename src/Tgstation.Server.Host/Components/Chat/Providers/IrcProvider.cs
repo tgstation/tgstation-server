@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Password which will used for authentication.
 		/// </summary>
-		readonly string password;
+		readonly string? password;
 
 		/// <summary>
 		/// The <see cref="IrcPasswordType"/> of <see cref="password"/>.
@@ -114,9 +114,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (builder == null || !builder.Valid || !(builder is IrcConnectionStringBuilder ircBuilder))
 				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 
-			address = ircBuilder.Address;
-			port = ircBuilder.Port.Value;
-			nickname = ircBuilder.Nickname;
+			address = ircBuilder.Address ?? throw new InvalidOperationException("Connection string missing Address!");
+			port = ircBuilder.Port ?? throw new InvalidOperationException("Connection string missing Nickname!");
+			nickname = ircBuilder.Nickname ?? throw new InvalidOperationException("Connection string missing Port!");
 
 			password = ircBuilder.Password;
 			passwordType = ircBuilder.PasswordType;
@@ -133,9 +133,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
 				CtcpVersion = assemblyInformationProvider.VersionString,
-				UseSsl = ircBuilder.UseSsl.Value,
+				UseSsl = ircBuilder.UseSsl ?? false,
 			};
-			if (ircBuilder.UseSsl.Value)
+			if (client.UseSsl)
 				client.ValidateServerCertificate = true; // dunno if it defaults to that or what
 
 			client.OnChannelMessage += Client_OnChannelMessage;
@@ -253,7 +253,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public override async Task<Func<string, string?, Task>> SendUpdateMessage(
+		public override async Task<Func<string?, string?, Task>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			GitRemoteInformation? remoteInformation,

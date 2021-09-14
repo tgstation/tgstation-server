@@ -19,7 +19,7 @@
 		public ChatBot ChatSettings { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.ChatChannel ToApi() => new Api.Models.ChatChannel
+		public Api.Models.ChatChannel ToApi() => new ()
 		{
 			DiscordChannelId = DiscordChannelId,
 			IsAdminChannel = IsAdminChannel,

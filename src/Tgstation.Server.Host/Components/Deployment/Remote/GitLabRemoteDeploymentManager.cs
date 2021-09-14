@@ -157,7 +157,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CultureInfo.InvariantCulture,
 			"#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Merge Request: {2}{0}Server: {7}{3}",
 			Environment.NewLine,
-			repositorySettings.ShowTestMergeCommitters.Value
+			repositorySettings.ShowTestMergeCommitters
 				? String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Merged By{0}{1}",

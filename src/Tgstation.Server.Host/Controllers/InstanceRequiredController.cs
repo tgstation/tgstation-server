@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,6 +25,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		readonly IInstanceManager instanceManager;
 
+		/// <inheritdoc />
+		[NotNull]
+		protected override Models.Instance? Instance => base.Instance!;
+
 		/// <summary>
 		/// Corrects discrepencies between the <see cref="Api.Models.Instance.Online"/> status of <see cref="IInstance"/>s in the database vs the service.
 		/// </summary>
@@ -31,7 +36,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
 		/// <param name="metadata">The <see cref="Api.Models.Instance"/> to check.</param>
 		/// <returns><see langword="true"/> if an unsaved DB update was made, <see langword="false"/> otherwise.</returns>
-		public static bool ValidateInstanceOnlineStatus(IInstanceManager instanceManager, ILogger logger, Api.Models.Instance metadata)
+		public static bool ValidateInstanceOnlineStatus(IInstanceManager instanceManager, ILogger logger, Models.Instance metadata)
 		{
 			if (instanceManager == null)
 				throw new ArgumentNullException(nameof(instanceManager));
@@ -42,7 +47,7 @@ namespace Tgstation.Server.Host.Controllers
 			using (var instanceReferenceCheck = instanceManager.GetInstanceReference(metadata))
 				online = instanceReferenceCheck != null;
 
-			if (metadata.Online.Value == online)
+			if (metadata.Online == online)
 				return false;
 
 			const string OfflineWord = "offline";
@@ -80,8 +85,13 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IActionResult> ValidateRequest(CancellationToken cancellationToken)
+		protected override async Task<IActionResult?> ValidateRequest(CancellationToken cancellationToken)
 		{
+			if (ApiHeaders == null)
+				throw new InvalidOperationException("ApiHeaders were null!");
+			if (Instance == null)
+				throw new InvalidOperationException("Instance was null!");
+
 			if (!ApiHeaders.InstanceId.HasValue)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceHeaderRequired));
 			if (AuthenticationContext.InstancePermissionSet == null)
@@ -108,12 +118,11 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(action));
 
 			using var instanceReference = instanceManager.GetInstanceReference(Instance);
+			if (instanceReference == null)
+				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));
+
 			using (LogContext.PushProperty("InstanceReference", instanceReference.Uid))
-			{
-				if (instanceReference == null)
-					return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));
 				return await action(instanceReference).ConfigureAwait(false);
-			}
 		}
 	}
 }

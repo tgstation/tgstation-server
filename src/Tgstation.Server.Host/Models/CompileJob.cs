@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -9,6 +10,26 @@ namespace Tgstation.Server.Host.Models
 	/// <inheritdoc />
 	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiTransformable<CompileJobResponse>
 	{
+		/// <summary>
+		/// <see cref="EntityId.Id"/>.
+		/// </summary>
+		[NotMapped]
+		public new long Id
+		{
+			get => base.Id ?? throw new InvalidOperationException("Id was null!");
+			set => base.Id = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Internal.CompileJob.DirectoryName"/>.
+		/// </summary>
+		[NotMapped]
+		public new Guid DirectoryName
+		{
+			get => base.DirectoryName ?? throw new InvalidOperationException("DirectoryName was null!");
+			set => base.DirectoryName = value;
+		}
+
 		/// <summary>
 		/// See <see cref="CompileJobResponse.Job"/>.
 		/// </summary>
@@ -70,6 +91,12 @@ namespace Tgstation.Server.Host.Models
 				if (!DMApiMajorVersion.HasValue)
 					return null;
 
+				if (!DMApiMinorVersion.HasValue)
+					throw new InvalidOperationException("DMApiMinorVersion was null!");
+
+				if (!DMApiPatchVersion.HasValue)
+					throw new InvalidOperationException("DMApiPatchVersion was null!");
+
 				return new Version(DMApiMajorVersion.Value, DMApiMinorVersion.Value, DMApiPatchVersion.Value);
 			}
 
@@ -82,7 +109,7 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public CompileJobResponse ToApi() => new CompileJobResponse
+		public CompileJobResponse ToApi() => new ()
 		{
 			DirectoryName = DirectoryName,
 			DmeName = DmeName,

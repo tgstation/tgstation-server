@@ -91,10 +91,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(ErrorCode.RepoMismatchUserAndAccessToken);
 
-			#pragma warning disable CS0618 // Support for obsolete API field
-			model.UpdateSubmodules ??= model.RecurseSubmodules;
-			#pragma warning restore CS0618
-
 			var currentModel = await DatabaseContext
 				.RepositorySettings
 				.AsQueryable()
@@ -105,7 +101,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return Gone();
 
-			currentModel.UpdateSubmodules ??= model.UpdateSubmodules;
+			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? currentModel.UpdateSubmodules;
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
 			var cloneBranch = model.Reference;
@@ -154,7 +150,7 @@ namespace Tgstation.Server.Host.Controllers
 								cloneBranch,
 								currentModel.AccessUser,
 								currentModel.AccessToken,
-								currentModel.UpdateSubmodules.Value,
+								currentModel.UpdateSubmodules,
 								ct)
 								.ConfigureAwait(false);
 							if (repos == null)
@@ -212,7 +208,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			Logger.LogInformation("Instance {instanceID} repository delete initiated by user {userID}", Instance.Id, AuthenticationContext.User.Id.Value);
+			Logger.LogInformation("Instance {instanceID} repository delete initiated by user {userID}", Instance.Id, AuthenticationContext.User.Id);
 
 			var job = new Job
 			{
@@ -470,7 +466,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (newTestMerges && repo.GitRemoteInformation == null)
 					throw new JobException(ErrorCode.RepoUnsupportedTestMergeRemote);
 
-				var committerName = currentModel.ShowTestMergeCommitters.Value
+				var committerName = currentModel.ShowTestMergeCommitters
 					? AuthenticationContext.User.Name
 					: currentModel.CommitterName;
 
@@ -526,6 +522,11 @@ namespace Tgstation.Server.Host.Controllers
 								}
 
 								testMergeToAdd.MergedBy = mergedBy;
+
+								if (lastRevisionInfo == null)
+									throw new InvalidOperationException("lastRevisionInfo not set!");
+								if (previousRevInfo == null)
+									throw new InvalidOperationException("previousRevInfo not set!");
 
 								foreach (var activeTestMerge in previousRevInfo.ActiveTestMerges)
 									lastRevisionInfo.ActiveTestMerges.Add(activeTestMerge);
@@ -583,7 +584,7 @@ namespace Tgstation.Server.Host.Controllers
 						}
 					}
 
-					var updateSubmodules = currentModel.UpdateSubmodules.Value;
+					var updateSubmodules = currentModel.UpdateSubmodules;
 
 					// checkout/hard reset
 					if (modelHasShaOrReference)
@@ -597,7 +598,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						if (validCheckoutSha || validCheckoutReference)
 						{
-							var committish = model.CheckoutSha ?? model.Reference;
+							var committish = (model.CheckoutSha ?? model.Reference) !;
 							var isSha = await repo.IsSha(committish, cancellationToken).ConfigureAwait(false);
 
 							if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
@@ -648,7 +649,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (newTestMerges)
 					{
 						// bit of sanitization
-						foreach (var newTestMergeWithoutTargetCommitSha in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.TargetCommitSha)))
+						foreach (var newTestMergeWithoutTargetCommitSha in model.NewTestMerges!.Where(x => String.IsNullOrWhiteSpace(x.TargetCommitSha)))
 							newTestMergeWithoutTargetCommitSha.TargetCommitSha = null;
 
 						var gitHubClient = currentModel.AccessToken != null
@@ -676,8 +677,9 @@ namespace Tgstation.Server.Host.Controllers
 										// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
 										newTestMerge.TargetCommitSha = pr.TargetCommitSha;
 									}
-									catch
+									catch (Exception ex)
 									{
+										Logger.LogDebug(ex, "Error retrieving test merge #{testMergeNumber}", newTestMerge.Number);
 										cantSearch = true;
 										break;
 									}
@@ -685,7 +687,7 @@ namespace Tgstation.Server.Host.Controllers
 
 							if (!cantSearch)
 							{
-								List<Models.RevisionInformation> dbPull = null;
+								List<Models.RevisionInformation>? dbPull = null;
 
 								await databaseContextFactory.UseContext(
 									async databaseContext =>
@@ -703,10 +705,11 @@ namespace Tgstation.Server.Host.Controllers
 
 								// split here cause this bit has to be done locally
 								revInfoWereLookingFor = dbPull
-									.Where(x => x.ActiveTestMerges.Count == model.NewTestMerges.Count
+									?.Where(x => x.ActiveTestMerges.Count == model.NewTestMerges.Count
 									&& x.ActiveTestMerges.Select(y => y.TestMerge)
 									.All(y => model.NewTestMerges.Any(z =>
 									y.Number == z.Number
+									&& z.TargetCommitSha != null
 									&& y.TargetCommitSha.StartsWith(z.TargetCommitSha, StringComparison.Ordinal)
 									&& (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))))
 									.FirstOrDefault();
@@ -718,13 +721,13 @@ namespace Tgstation.Server.Host.Controllers
 
 									var appliedTestMergeIds = new List<long>();
 
-									Models.RevisionInformation lastGoodRevInfo = null;
+									Models.RevisionInformation? lastGoodRevInfo = null;
 									do
 									{
 										foreach (var newTestMergeParameters in listedNewTestMerges)
 										{
 											revInfoWereLookingFor = dbPull
-												.Where(testRevInfo =>
+												?.Where(testRevInfo =>
 												{
 													if (testRevInfo.PrimaryTestMerge == null)
 														return false;
@@ -735,9 +738,10 @@ namespace Tgstation.Server.Host.Controllers
 														if (!numberMatch)
 															return false;
 
-														var shaMatch = testRevInfo.PrimaryTestMerge.TargetCommitSha.StartsWith(
-															testTestMerge.TargetCommitSha,
-															StringComparison.Ordinal);
+														var shaMatch = testTestMerge.TargetCommitSha != null
+															&& testRevInfo.PrimaryTestMerge.TargetCommitSha.StartsWith(
+																testTestMerge.TargetCommitSha,
+																StringComparison.Ordinal);
 														if (!shaMatch)
 															return false;
 
@@ -805,11 +809,12 @@ namespace Tgstation.Server.Host.Controllers
 									updateSubmodules,
 									ct).ConfigureAwait(false);
 
+								var targetCommitShaFromRepo = newTestMerge.TargetCommitSha!;
 								if (mergeResult == null)
 									throw new JobException(
 										ErrorCode.RepoTestMergeConflict,
 										new JobException(
-											$"Test Merge #{newTestMerge.Number} at {newTestMerge.TargetCommitSha.Substring(0, 7)} conflicted!"));
+											$"Test Merge #{newTestMerge.Number} at {targetCommitShaFromRepo.Substring(0, 7)} conflicted!"));
 
 								Models.TestMerge fullTestMerge;
 								try
@@ -833,7 +838,7 @@ namespace Tgstation.Server.Host.Controllers
 								}
 
 								// Ensure we're getting the full sha from git itself
-								fullTestMerge.TargetCommitSha = newTestMerge.TargetCommitSha;
+								fullTestMerge.TargetCommitSha = targetCommitShaFromRepo;
 
 								// MergedBy will be set later
 								++doneSteps;
@@ -844,7 +849,7 @@ namespace Tgstation.Server.Host.Controllers
 					}
 
 					var currentHead = repo.Head;
-					if (currentModel.PushTestMergeCommits.Value && (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead)))
+					if (currentModel.PushTestMergeCommits && (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead)))
 					{
 						await repo.Sychronize(
 							NextProgressReporter(),
@@ -961,12 +966,14 @@ namespace Tgstation.Server.Host.Controllers
 			else
 				needsDbUpdate = false;
 
-			revisionInfo.OriginCommitSha ??= lastOriginCommitSha;
 			if (revisionInfo.OriginCommitSha == null)
-			{
-				revisionInfo.OriginCommitSha = repoSha;
-				Logger.LogInformation(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
-			}
+				if (lastOriginCommitSha != null)
+					revisionInfo.OriginCommitSha = lastOriginCommitSha;
+				else
+				{
+					revisionInfo.OriginCommitSha = repoSha;
+					Logger.LogInformation(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+				}
 
 			revInfoSink?.Invoke(revisionInfo);
 			return needsDbUpdate;

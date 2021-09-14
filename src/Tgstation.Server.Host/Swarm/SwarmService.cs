@@ -238,9 +238,9 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					new SwarmServerResponse
 					{
-						Address = swarmConfiguration.Address,
+						Address = swarmConfiguration.Address!,
 						Controller = swarmController,
-						Identifier = swarmConfiguration.Identifier,
+						Identifier = swarmConfiguration.Identifier!,
 					},
 				};
 

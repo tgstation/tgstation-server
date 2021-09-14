@@ -171,7 +171,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			connectDisconnectLock = new object();
 
 			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
-			var botToken = csb.BotToken;
+			var botToken = csb.BotToken ?? throw new InvalidOperationException("Connection string missing bot token!");
 			basedMeme = csb.BasedMeme;
 			outputDisplayType = csb.DMOutputDisplay;
 
@@ -365,7 +365,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task<Func<string, string?, Task>> SendUpdateMessage(
+		public override async Task<Func<string?, string?, Task>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			GitRemoteInformation? remoteInformation,

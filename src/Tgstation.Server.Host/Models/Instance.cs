@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Tgstation.Server.Api.Models.Response;
 
@@ -13,6 +15,66 @@ namespace Tgstation.Server.Host.Models
 		/// Default for <see cref="Api.Models.Instance.ChatBotLimit"/>.
 		/// </summary>
 		public const ushort DefaultChatBotLimit = 10;
+
+		/// <summary>
+		/// <see cref="Api.Models.EntityId.Id"/>.
+		/// </summary>
+		[NotMapped]
+		public new long Id
+		{
+			get => base.Id ?? throw new InvalidOperationException("Id was null!");
+			set => base.Id = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Instance.ChatBotLimit"/>.
+		/// </summary>
+		[NotMapped]
+		public new ushort ChatBotLimit
+		{
+			get => base.ChatBotLimit ?? throw new InvalidOperationException("ChatBotLimit was null!");
+			set => base.ChatBotLimit = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.NamedEntity.Name"/>.
+		/// </summary>
+		[NotMapped]
+		public new string Name
+		{
+			get => base.Name ?? throw new InvalidOperationException("Name was null!");
+			set => base.Name = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Instance.Path"/>.
+		/// </summary>
+		[NotMapped]
+		public new string Path
+		{
+			get => base.Path ?? throw new InvalidOperationException("Path was null!");
+			set => base.Path = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Instance.Online"/>.
+		/// </summary>
+		[NotMapped]
+		public new bool Online
+		{
+			get => base.Online ?? throw new InvalidOperationException("Online was null!");
+			set => base.Online = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Instance.AutoUpdateInterval"/>.
+		/// </summary>
+		[NotMapped]
+		public new uint AutoUpdateInterval
+		{
+			get => base.AutoUpdateInterval ?? throw new InvalidOperationException("AutoUpdateInterval was null!");
+			set => base.AutoUpdateInterval = value;
+		}
 
 		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>.
@@ -32,7 +94,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="Api.Models.Internal.SwarmServer.Identifier"/> of the the server in the swarm this instance belongs to.
 		/// </summary>
-		public string SwarmIdentifer { get; set; }
+		public string? SwarmIdentifer { get; set; }
 
 		/// <summary>
 		/// The <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>.
@@ -55,7 +117,7 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<Job> Jobs { get; set; }
 
 		/// <inheritdoc />
-		public InstanceResponse ToApi() => new InstanceResponse
+		public InstanceResponse ToApi() => new ()
 		{
 			AutoUpdateInterval = AutoUpdateInterval,
 			ConfigurationType = ConfigurationType,

@@ -310,14 +310,10 @@ namespace Tgstation.Server.Host.Core
 
 				services.AddSingleton<WindowsNetworkPromptReaper>();
 
-				services.AddSingleton<INetworkPromptReaper>(serviceProvider =>
-					postSetupServices.PlatformIdentifier.IsWindows
-						? serviceProvider.GetRequiredService<WindowsNetworkPromptReaper>()
-						: null);
-				services.AddSingleton<IHostedService>(serviceProvider =>
-					postSetupServices.PlatformIdentifier.IsWindows
-						? serviceProvider.GetRequiredService<WindowsNetworkPromptReaper>()
-						: null);
+#pragma warning disable CA1416 // Validate platform compatibility
+				services.AddSingleton<INetworkPromptReaper>(serviceProvider => serviceProvider.GetRequiredService<WindowsNetworkPromptReaper>());
+				services.AddSingleton<IHostedService>(serviceProvider => serviceProvider.GetRequiredService<WindowsNetworkPromptReaper>());
+#pragma warning restore CA1416 // Validate platform compatibility
 			}
 			else
 			{
@@ -442,7 +438,7 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			// Set up CORS based on configuration if necessary
-			Action<CorsPolicyBuilder> corsBuilder = null;
+			Action<CorsPolicyBuilder>? corsBuilder = null;
 			if (controlPanelConfiguration.AllowAnyOrigin)
 			{
 				logger.LogTrace("Access-Control-Allow-Origin: *");

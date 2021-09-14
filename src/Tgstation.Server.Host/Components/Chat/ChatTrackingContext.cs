@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="Dispose"/>d.
 		/// </summary>
-		Action onDispose;
+		Action? onDispose;
 
 		/// <summary>
 		/// Backing field for <see cref="Active"/>.

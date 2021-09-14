@@ -48,17 +48,17 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the process' standard output text.
 		/// </summary>
-		readonly Task<string> standardOutputTask;
+		readonly Task<string>? standardOutputTask;
 
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the process' standard error text.
 		/// </summary>
-		readonly Task<string> standardErrorTask;
+		readonly Task<string>? standardErrorTask;
 
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the process' unified standard output and standard error text.
 		/// </summary>
-		readonly StringBuilder combinedStringBuilder;
+		readonly StringBuilder? combinedStringBuilder;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Process"/> class.
@@ -75,9 +75,9 @@ namespace Tgstation.Server.Host.System
 			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
 			Task<int> lifetime,
-			Task<string> standardOutputTask,
-			Task<string> standardErrorTask,
-			StringBuilder combinedStringBuilder,
+			Task<string>? standardOutputTask,
+			Task<string>? standardErrorTask,
+			StringBuilder? combinedStringBuilder,
 			ILogger<Process> logger,
 			bool preExisting)
 		{

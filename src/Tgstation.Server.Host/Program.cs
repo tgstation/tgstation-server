@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
 			var listArgs = new List<string>(args);
-			string updatePath = null;
+			string? updatePath = null;
 			if (listArgs.Count > 0)
 			{
 				updatePath = listArgs.First();
@@ -59,10 +59,14 @@ namespace Tgstation.Server.Host
 			{
 				using var shutdownNotifier = new ProgramShutdownTokenSource();
 				var cancellationToken = shutdownNotifier.Token;
-				IServer server;
+				IServer? server;
 				try
 				{
-					server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(false);
+					server = await ServerFactory.CreateServer(
+						updatedArgsArray,
+						updatePath,
+						cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (OperationCanceledException)
 				{

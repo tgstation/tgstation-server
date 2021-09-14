@@ -112,14 +112,14 @@ namespace Tgstation.Server.Host.Jobs
 
 					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-					logger.LogDebug("Registering job {0}: {1}...", job.Id, job.Description);
+					logger.LogDebug("Registering job {jobId}: {jobDesc}...", job.Id, job.Description);
 					var jobHandler = new JobHandler(jobCancellationToken => RunJob(job, operation, jobCancellationToken));
 					try
 					{
 						lock (addCancelLock)
 						{
 							lock (synchronizationLock)
-								jobs.Add(job.Id.Value, jobHandler);
+								jobs.Add(job.Id, jobHandler);
 
 							jobHandler.Start();
 						}
@@ -145,7 +145,7 @@ namespace Tgstation.Server.Host.Jobs
 					.ConfigureAwait(false);
 				if (badJobIds.Count > 0)
 				{
-					logger.LogTrace("Cleaning {0} unfinished jobs...", badJobIds.Count);
+					logger.LogTrace("Cleaning {unfinishedCount} unfinished jobs...", badJobIds.Count);
 					foreach (var badJobId in badJobIds)
 					{
 						var job = new Job { Id = badJobId };
@@ -212,22 +212,23 @@ namespace Tgstation.Server.Host.Jobs
 
 			if (blocking)
 			{
-				logger.LogTrace("Waiting on cancelled job #{0}...", job.Id);
+				logger.LogTrace("Waiting on cancelled job #{jobId}...", job.Id);
 				await handler.Wait(cancellationToken).ConfigureAwait(false);
-				logger.LogTrace("Done waiting on job #{0}...", job.Id);
+				logger.LogTrace("Done waiting on job #{jobId}...", job.Id);
 			}
 
 			return job;
 		}
 
 		/// <inheritdoc />
-		public int? JobProgress(Api.Models.Internal.Job job)
+		public int? JobProgress(Job job)
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
+
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id.Value, out var handler))
+				if (!jobs.TryGetValue(job.Id, out var handler))
 					return null;
 				return handler.Progress;
 			}
@@ -241,7 +242,7 @@ namespace Tgstation.Server.Host.Jobs
 			JobHandler handler;
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id.Value, out var temp))
+				if (!jobs.TryGetValue(job.Id, out var temp))
 					return;
 
 				handler = temp;
@@ -271,7 +272,7 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id.Value, out var jobHandler))
+				if (!jobs.TryGetValue(job.Id, out var jobHandler))
 					throw new InvalidOperationException("Job not running!");
 				return jobHandler;
 			}
@@ -289,7 +290,7 @@ namespace Tgstation.Server.Host.Jobs
 			using (LogContext.PushProperty("Job", job.Id))
 				try
 				{
-					void LogException(Exception ex) => logger.LogDebug(ex, "Job {0} exited with error!", job.Id);
+					void LogException(Exception ex) => logger.LogDebug(ex, "Job {jobId} exited with error!", job.Id);
 					try
 					{
 						var oldJob = job;
@@ -298,7 +299,7 @@ namespace Tgstation.Server.Host.Jobs
 						void UpdateProgress(int progress)
 						{
 							lock (synchronizationLock)
-								if (jobs.TryGetValue(oldJob.Id.Value, out var handler))
+								if (jobs.TryGetValue(oldJob.Id, out var handler))
 									handler.Progress = progress;
 						}
 
@@ -357,8 +358,8 @@ namespace Tgstation.Server.Host.Jobs
 				{
 					lock (synchronizationLock)
 					{
-						var handler = jobs[job.Id.Value];
-						jobs.Remove(job.Id.Value);
+						var handler = jobs[job.Id];
+						jobs.Remove(job.Id);
 						handler.Dispose();
 					}
 				}

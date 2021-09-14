@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				return Task.FromResult(byondManager.ActiveVersion == null ? "None!" : String.Format(CultureInfo.InvariantCulture, "{0}.{1}", byondManager.ActiveVersion.Major, byondManager.ActiveVersion.Minor));
 			if (watchdog.Status == WatchdogStatus.Offline)
 				return Task.FromResult("Server offline!");
-			return Task.FromResult(watchdog.ActiveCompileJob.ByondVersion);
+			return Task.FromResult(watchdog.ActiveCompileJob?.ByondVersion ?? "None!");
 		}
 	}
 }

@@ -174,11 +174,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Supplements <see cref="JobResponse"/> <see cref="PaginatedResponse{TModel}"/>s with their <see cref="JobResponse.Progress"/>.
 		/// </summary>
+		/// <param name="jobModel">The <see cref="Job"/> retrieved.</param>
 		/// <param name="jobResponse">The <see cref="JobResponse"/> to augment.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		private Task AddJobProgressResponseTransformer(JobResponse jobResponse)
+		private Task AddJobProgressResponseTransformer(Job jobModel, JobResponse jobResponse)
 		{
-			jobResponse.Progress = jobManager.JobProgress(jobResponse);
+			jobResponse.Progress = jobManager.JobProgress(jobModel);
 			return Task.CompletedTask;
 		}
 	}

@@ -134,12 +134,12 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			else if (!(model.Password?.Length == 0 && model.OAuthConnections?.Any() == true))
 			{
-				var result = TrySetPassword(dbUser, model.Password, true);
+				var result = TrySetPassword(dbUser, model.Password!, true);
 				if (result != null)
 					return result;
 			}
 
-			dbUser.CanonicalName = Models.User.CanonicalizeName(dbUser.Name);
+			dbUser.CanonicalName = Models.User.CanonicalizeName(dbUser.Name!);
 
 			DatabaseContext.Users.Add(dbUser);
 
@@ -194,7 +194,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Include(x => x.CreatedBy)
 					.Include(x => x.OAuthConnections)
 					.Include(x => x.Group)
-						.ThenInclude(x => x.PermissionSet)
+						.ThenInclude(x => x!.PermissionSet)
 					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.Enabled.HasValue)
 			{
-				if (originalUser.Enabled.Value && !model.Enabled.Value)
+				if (originalUser.Enabled && !model.Enabled.Value)
 					originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;
 
 				originalUser.Enabled = model.Enabled.Value;
@@ -306,7 +306,7 @@ namespace Tgstation.Server.Host.Controllers
 			var canReadBack = AuthenticationContext.User.Id == originalUser.Id
 				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers);
 			return canReadBack
-				? (IActionResult)Json(originalUser.ToApi())
+				? Json(originalUser.ToApi())
 				: NoContent();
 		}
 #pragma warning restore CA1506
@@ -345,7 +345,7 @@ namespace Tgstation.Server.Host.Controllers
 							.Include(x => x.PermissionSet)
 							.Include(x => x.OAuthConnections)
 							.Include(x => x.Group)
-								.ThenInclude(x => x.PermissionSet)
+								.ThenInclude(x => x!.PermissionSet)
 							.OrderBy(x => x.Id))),
 				null,
 				page,
@@ -378,7 +378,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.CreatedBy)
 				.Include(x => x.OAuthConnections)
 				.Include(x => x.Group)
-					.ThenInclude(x => x.PermissionSet)
+					.ThenInclude(x => x!.PermissionSet)
 				.Include(x => x.PermissionSet)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
@@ -391,40 +391,40 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Creates a new <see cref="User"/> from a given <paramref name="model"/>.
+		/// Creates a new <see cref="User"/> from a given <paramref name="validated"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="Api.Models.Internal.UserApiBase"/> to use as a template.</param>
+		/// <param name="validated">The validated <see cref="Api.Models.Internal.UserApiBase"/> to use as a template.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="User"/> on success, <see langword="null"/> if the requested <see cref="UserGroup"/> did not exist.</returns>
-		async Task<User> CreateNewUserFromModel(Api.Models.Internal.UserApiBase model, CancellationToken cancellationToken)
+		async Task<User> CreateNewUserFromModel(Api.Models.Internal.UserApiBase validated, CancellationToken cancellationToken)
 		{
-			Models.PermissionSet permissionSet = null;
-			UserGroup group = null;
-			if (model.Group != null)
+			Models.PermissionSet? permissionSet = null;
+			UserGroup? group = null;
+			if (validated.Group != null)
 				group = await DatabaseContext
 					.Groups
 					.AsQueryable()
-					.Where(x => x.Id == model.Group.Id)
+					.Where(x => x.Id == validated.Group.Id)
 					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
 			else
 				permissionSet = new Models.PermissionSet
 				{
-					AdministrationRights = model.PermissionSet?.AdministrationRights ?? AdministrationRights.None,
-					InstanceManagerRights = model.PermissionSet?.InstanceManagerRights ?? InstanceManagerRights.None,
+					AdministrationRights = validated.PermissionSet?.AdministrationRights ?? AdministrationRights.None,
+					InstanceManagerRights = validated.PermissionSet?.InstanceManagerRights ?? InstanceManagerRights.None,
 				};
 
 			return new User
 			{
 				CreatedAt = DateTimeOffset.UtcNow,
 				CreatedBy = AuthenticationContext.User,
-				Enabled = model.Enabled ?? false,
+				Enabled = validated.Enabled ?? false,
 				PermissionSet = permissionSet,
 				Group = group,
-				Name = model.Name,
-				SystemIdentifier = model.SystemIdentifier,
-				OAuthConnections = model
+				Name = validated.Name!,
+				SystemIdentifier = validated.SystemIdentifier,
+				OAuthConnections = validated
 					.OAuthConnections
 					?.Select(x => new Models.OAuthConnection
 					{
@@ -442,7 +442,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The <see cref="UserUpdateRequest"/> to check.</param>
 		/// <param name="newUser">If this is a new <see cref="UserResponse"/>.</param>
 		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
-		BadRequestObjectResult CheckValidName(UserUpdateRequest model, bool newUser)
+		BadRequestObjectResult? CheckValidName(UserUpdateRequest model, bool newUser)
 		{
 			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
 			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
@@ -461,7 +461,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="newPassword">The new password.</param>
 		/// <param name="newUser">If this is for a new <see cref="UserResponse"/>.</param>
 		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
-		BadRequestObjectResult TrySetPassword(User dbUser, string newPassword, bool newUser)
+		BadRequestObjectResult? TrySetPassword(User dbUser, string newPassword, bool newUser)
 		{
 			newPassword ??= String.Empty;
 			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)

@@ -172,7 +172,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (current == default)
 				return Gone();
 
-			if (model.Port.HasValue && model.Port.Value != current.Port.Value)
+			if (model.Port.HasValue && model.Port.Value != current.Port)
 			{
 				var verifiedPort = await portAllocator
 					.GetAvailablePort(
@@ -214,8 +214,8 @@ namespace Tgstation.Server.Host.Controllers
 						|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
 						|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
 						|| CheckModified(x => x.Visibility, DreamDaemonRights.SetVisibility)
-						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
-						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
+						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.HasFlag(DreamDaemonRights.SoftRestart))
+						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.HasFlag(DreamDaemonRights.SoftShutdown))
 						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
 						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
 						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
@@ -315,7 +315,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
+		Task<IActionResult> ReadImpl(DreamDaemonSettings? settings, CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				var dd = instance.Watchdog;
@@ -342,21 +342,21 @@ namespace Tgstation.Server.Host.Controllers
 					var alphaActive = dd.AlphaIsActive;
 					var llp = dd.LastLaunchParameters;
 					var rstate = dd.RebootState;
-					result.AutoStart = settings.AutoStart.Value;
-					result.CurrentPort = llp?.Port.Value;
-					result.CurrentSecurity = llp?.SecurityLevel.Value;
-					result.CurrentVisibility = llp?.Visibility.Value;
-					result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
-					result.Port = settings.Port.Value;
-					result.AllowWebClient = settings.AllowWebClient.Value;
+					result.AutoStart = settings.AutoStart;
+					result.CurrentPort = llp?.Port;
+					result.CurrentSecurity = llp?.SecurityLevel;
+					result.CurrentVisibility = llp?.Visibility;
+					result.CurrentAllowWebclient = llp?.AllowWebClient;
+					result.Port = settings.Port;
+					result.AllowWebClient = settings.AllowWebClient;
 					result.Status = dd.Status;
-					result.SecurityLevel = settings.SecurityLevel.Value;
-					result.Visibility = settings.Visibility.Value;
+					result.SecurityLevel = settings.SecurityLevel;
+					result.Visibility = settings.Visibility;
 					result.SoftRestart = rstate == RebootState.Restart;
 					result.SoftShutdown = rstate == RebootState.Shutdown;
-					result.StartupTimeout = settings.StartupTimeout.Value;
-					result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
-					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
+					result.StartupTimeout = settings.StartupTimeout;
+					result.HeartbeatSeconds = settings.HeartbeatSeconds;
+					result.TopicRequestTimeout = settings.TopicRequestTimeout;
 					result.AdditionalParameters = settings.AdditionalParameters;
 				}
 

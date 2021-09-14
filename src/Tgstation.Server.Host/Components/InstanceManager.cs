@@ -196,16 +196,16 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstanceReference? GetInstanceReference(Api.Models.Instance metadata)
+		public IInstanceReference? GetInstanceReference(Models.Instance metadata)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Id.Value, out var instance))
+				if (!instances.TryGetValue(metadata.Id, out var instance))
 				{
-					logger.LogTrace("Cannot reference instance {0} as it is not online or on this node!", metadata.Id);
+					logger.LogTrace("Cannot reference instance {instanceId} as it is not online or on this node!", metadata.Id);
 					return null;
 				}
 
@@ -292,14 +292,14 @@ namespace Tgstation.Server.Host.Components
 			InstanceContainer container;
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Id.Value, out var temp))
+				if (!instances.TryGetValue(metadata.Id, out var temp))
 				{
 					logger.LogDebug("Not offlining removed instance {0}", metadata.Id);
 					return;
 				}
 
 				container = temp;
-				instances.Remove(metadata.Id.Value);
+				instances.Remove(metadata.Id);
 			}
 
 			try
@@ -344,7 +344,7 @@ namespace Tgstation.Server.Host.Components
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken).ConfigureAwait(false);
 			lock (instances)
-				if (instances.ContainsKey(metadata.Id.Value))
+				if (instances.ContainsKey(metadata.Id))
 				{
 					logger.LogDebug("Aborting instance creation due to it seemingly already being online");
 					return;
@@ -359,7 +359,7 @@ namespace Tgstation.Server.Host.Components
 				try
 				{
 					lock (instances)
-						instances.Add(metadata.Id.Value, new InstanceContainer(instance));
+						instances.Add(metadata.Id, new InstanceContainer(instance));
 				}
 				catch (Exception ex)
 				{
@@ -401,7 +401,7 @@ namespace Tgstation.Server.Host.Components
 					async databaseContext => dbInstances = await databaseContext
 						.Instances
 						.AsQueryable()
-						.Where(x => x.Online.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
+						.Where(x => x.Online && x.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.RepositorySettings)
 						.Include(x => x.ChatSettings)
 						.ThenInclude(x => x.Channels)
@@ -531,7 +531,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			lock (instances)
 			{
-				instances.TryGetValue(metadata.Id.Value, out var container);
+				instances.TryGetValue(metadata.Id, out var container);
 				return container?.Instance;
 			}
 		}

@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
@@ -13,7 +16,7 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The instance <see cref="Api.Models.EntityId.Id"/>.
+		/// The instance <see cref="EntityId.Id"/>.
 		/// </summary>
 		public long InstanceId { get; set; }
 
@@ -23,8 +26,48 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 
+		/// <summary>
+		/// <see cref="Api.Models.Internal.DreamMakerSettings.ApiValidationPort"/>.
+		/// </summary>
+		[NotMapped]
+		public new ushort ApiValidationPort
+		{
+			get => base.ApiValidationPort ?? throw new InvalidOperationException("ApiValidationPort was null!");
+			set => base.ApiValidationPort = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Internal.DreamMakerSettings.Timeout"/>.
+		/// </summary>
+		[NotMapped]
+		public new TimeSpan Timeout
+		{
+			get => base.Timeout ?? throw new InvalidOperationException("Timeout was null!");
+			set => base.Timeout = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Internal.DreamMakerSettings.RequireDMApiValidation"/>.
+		/// </summary>
+		[NotMapped]
+		public new bool RequireDMApiValidation
+		{
+			get => base.RequireDMApiValidation ?? throw new InvalidOperationException("RequireDMApiValidation was null!");
+			set => base.RequireDMApiValidation = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Internal.DreamMakerSettings.ApiValidationSecurityLevel"/>.
+		/// </summary>
+		[NotMapped]
+		public new DreamDaemonSecurity ApiValidationSecurityLevel
+		{
+			get => base.ApiValidationSecurityLevel ?? throw new InvalidOperationException("ApiValidationSecurityLevel was null!");
+			set => base.ApiValidationSecurityLevel = value;
+		}
+
 		/// <inheritdoc />
-		public DreamMakerResponse ToApi() => new DreamMakerResponse
+		public DreamMakerResponse ToApi() => new ()
 		{
 			ProjectName = ProjectName,
 			ApiValidationPort = ApiValidationPort,

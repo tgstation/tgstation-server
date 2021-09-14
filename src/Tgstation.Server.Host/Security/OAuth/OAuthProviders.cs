@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public IOAuthValidator GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
+		public IOAuthValidator? GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
 
 		/// <inheritdoc />
 		public async Task<Dictionary<OAuthProvider, OAuthProviderInfo>> ProviderInfos(CancellationToken cancellationToken)
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				.Where(x => x.Value.Result != null)
 				.ToDictionary(
 					x => x.Key,
-					x => x.Value.Result);
+					x => x.Value.Result!);
 		}
 	}
 }

@@ -66,6 +66,6 @@ namespace Tgstation.Server.Host.Components.Chat
 				asyncDelayer,
 				loggerFactory,
 				loggerFactory.CreateLogger<ChatManager>(),
-				initialChatBots.Where(x => x.Enabled.Value));
+				initialChatBots.Where(x => x.Enabled));
 	}
 }

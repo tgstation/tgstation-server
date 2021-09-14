@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
@@ -17,9 +20,34 @@ namespace Tgstation.Server.Host.Models
 		public const string TgsSystemUserName = "TGS";
 
 		/// <summary>
+		/// <see cref="EntityId.Id"/>.
+		/// </summary>
+		[NotMapped]
+		public new long Id
+		{
+			get => base.Id ?? throw new InvalidOperationException("Id was null!");
+			set => base.Id = value;
+		}
+
+		/// <summary>
+		/// <see cref="UserName.Name"/>.
+		/// </summary>
+		[NotMapped]
+		public new string Name
+		{
+			get => base.Name ?? throw new InvalidOperationException("Name was null!");
+			set => base.Name = value;
+		}
+
+		/// <summary>
 		/// The hash of the user's password.
 		/// </summary>
-		public string PasswordHash { get; set; }
+		[BackingField(nameof(passwordHash))]
+		public string PasswordHash
+		{
+			get => passwordHash ?? throw new InvalidOperationException("passwordHash not set!");
+			set => passwordHash = value;
+		}
 
 		/// <summary>
 		/// See <see cref="UserResponse"/>.
@@ -39,14 +67,29 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="PermissionSet"/> the <see cref="User"/> has, if any.
 		/// </summary>
-		public PermissionSet PermissionSet { get; set; }
+		public PermissionSet? PermissionSet { get; set; }
 
 		/// <summary>
 		/// The uppercase invariant of <see cref="UserName.Name"/>.
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
-		public string CanonicalName { get; set; }
+		[BackingField(nameof(canonicalName))]
+		public string CanonicalName
+		{
+			get => canonicalName ?? throw new InvalidOperationException("canonicalName not set!");
+			set => canonicalName = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.Internal.UserModelBase.Enabled"/>.
+		/// </summary>
+		[NotMapped]
+		public new bool Enabled
+		{
+			get => base.Enabled ?? throw new InvalidOperationException("Enabled was null!");
+			set => base.Enabled = value;
+		}
 
 		/// <summary>
 		/// When <see cref="PasswordHash"/> was last changed.
@@ -74,6 +117,16 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="name">The <see cref="UserName.Name"/>.</param>
 		/// <returns>The <see cref="CanonicalName"/>.</returns>
 		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
+
+		/// <summary>
+		/// Backing field for <see cref="PasswordHash"/>.
+		/// </summary>
+		string? passwordHash;
+
+		/// <summary>
+		/// Backing field for <see cref="CanonicalName"/>.
+		/// </summary>
+		string? canonicalName;
 
 		/// <inheritdoc />
 		public UserResponse ToApi() => CreateUserResponse(true);

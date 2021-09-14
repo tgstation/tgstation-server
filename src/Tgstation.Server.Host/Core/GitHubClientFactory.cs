@@ -43,11 +43,11 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="accessToken">Optional access token to use as credentials.</param>
 		/// <returns>A new <see cref="GitHubClient"/>.</returns>
-		GitHubClient CreateClientImpl(string accessToken)
+		GitHubClient CreateClientImpl(string? accessToken)
 		{
 			var client = new GitHubClient(
 				new ProductHeaderValue(
-					assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,
+					assemblyInformationProvider.ProductInfoHeaderValue.Product!.Name,
 					assemblyInformationProvider.ProductInfoHeaderValue.Product.Version));
 			if (!String.IsNullOrWhiteSpace(accessToken))
 				client.Credentials = new Credentials(accessToken);

@@ -24,9 +24,9 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The URL of the test merge source.
 		/// </summary>
 		[Required]
-#pragma warning disable CA1056 // Uri properties should not be strings
+#pragma warning disable CA1056 // URI-like properties should not be strings
 		public string? Url { get; set; }
-#pragma warning restore CA1056 // Uri properties should not be strings
+#pragma warning restore CA1056 // URI-like properties should not be strings
 
 		/// <summary>
 		/// The author of the test merge source.

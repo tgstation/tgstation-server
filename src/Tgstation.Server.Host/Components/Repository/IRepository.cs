@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Attempt to merge the revision specified by a given set of <paramref name="testMergeParameters"/> into HEAD.
 		/// </summary>
-		/// <param name="testMergeParameters">The <see cref="TestMergeParameters"/> of the pull request.</param>
+		/// <param name="testMergeParameters">The <see cref="TestMergeParameters"/> of the pull request. <see cref="TestMergeParameters.TargetCommitSha"/> will be set upon return.</param>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation.</param>
 		/// <param name="committerName">The name of the merge committer.</param>
 		/// <param name="committerEmail">The e-mail of the merge committer.</param>
@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="committerEmail">The e-mail of the merge committer.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward, <see langword="false"/> on a merge or up to date, <see langword="null"/> on a conflict.</returns>
-		Task<bool?> MergeOrigin(Action<int> progressReporter, string? committerName, string? committerEmail, CancellationToken cancellationToken);
+		Task<bool?> MergeOrigin(Action<int> progressReporter, string committerName, string committerEmail, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Runs the synchronize event script and attempts to push any changes made to the <see cref="IRepository"/> if on a tracked branch.

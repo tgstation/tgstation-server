@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="Instance"/>.
 		/// </summary>
-		readonly Api.Models.Instance metadata;
+		readonly Models.Instance metadata;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for <see cref="timerTask"/>.
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public Instance(
-			Api.Models.Instance metadata,
+			Models.Instance metadata,
 			IRepositoryManager repositoryManager,
 			IByondManager byondManager,
 			IDreamMaker dreamMaker,
@@ -170,7 +170,7 @@ namespace Tgstation.Server.Host.Components
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
 				await Task.WhenAll(
-				SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value),
+				SetAutoUpdateInterval(metadata.AutoUpdateInterval),
 				Configuration.StartAsync(cancellationToken),
 				ByondManager.StartAsync(cancellationToken),
 				Chat.StartAsync(cancellationToken),
@@ -375,7 +375,7 @@ namespace Tgstation.Server.Host.Components
 						cancellationToken)
 						.ConfigureAwait(false);
 
-					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
+					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges;
 					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
 						metadata,
 						repo.GitRemoteInformation?.RemoteGitProvider);
@@ -420,7 +420,7 @@ namespace Tgstation.Server.Host.Components
 							NextProgressReporter(),
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
-							repositorySettings.UpdateSubmodules.Value,
+							repositorySettings.UpdateSubmodules,
 							cancellationToken)
 						.ConfigureAwait(false);
 
@@ -439,7 +439,7 @@ namespace Tgstation.Server.Host.Components
 					}
 
 					// synch if necessary
-					if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits.Value))
+					if (repositorySettings.AutoUpdatesSynchronize && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits))
 					{
 						var pushedOrigin = await repo.Sychronize(
 							NextProgressReporter(),
@@ -511,6 +511,12 @@ namespace Tgstation.Server.Host.Components
 						Job compileProcessJob;
 						using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 						{
+							if (repo == null)
+							{
+								logger.LogTrace("Aborting auto update, repository gone!");
+								continue;
+							}
+
 							var deploySha = repo.Head;
 							if (deploySha == null)
 							{

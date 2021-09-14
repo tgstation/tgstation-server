@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		}
 
 		/// <inheritdoc />
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
 		{
 			if (value == null)
 			{
@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		}
 
 		/// <inheritdoc />
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
 		{
 			if (reader == null)
 				throw new ArgumentNullException(nameof(reader));
@@ -65,8 +65,9 @@ namespace Tgstation.Server.Host.Extensions.Converters
 			{
 				try
 				{
-					var v = global::System.Version.Parse((string)reader.Value);
-					return v.Semver();
+					var stringVersion = (string?)reader.Value;
+					var version = global::System.Version.Parse(stringVersion!);
+					return version.Semver();
 				}
 				catch (Exception ex)
 				{
@@ -88,7 +89,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		public object ReadYaml(IParser parser, Type type) => throw new NotSupportedException("Deserialization not supported!"); // The default implementation is fine at handling this
 
 		/// <inheritdoc />
-		public void WriteYaml(IEmitter emitter, object value, Type type)
+		public void WriteYaml(IEmitter emitter, object? value, Type type)
 		{
 			if (emitter == null)
 				throw new ArgumentNullException(nameof(emitter));

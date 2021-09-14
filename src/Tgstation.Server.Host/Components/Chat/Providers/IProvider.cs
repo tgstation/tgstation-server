@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</returns>
-		Task<Func<string, string?, Task>> SendUpdateMessage(
+		Task<Func<string?, string?, Task>> SendUpdateMessage(
 			RevisionInformation revisionInformation,
 			Version byondVersion,
 			Api.Models.GitRemoteInformation? gitRemoteInformation,

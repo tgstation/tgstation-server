@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host
 		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/aa378184(v=vs.85).aspx.
 		/// </summary>
 		[DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool LogonUser(string lpszUsername, string lpszDomain, string lpszPassword, int dwLogonType, int dwLogonProvider, out IntPtr phToken);
+		public static extern bool LogonUser(string lpszUsername, string? lpszDomain, string lpszPassword, int dwLogonType, int dwLogonProvider, out IntPtr phToken);
 
 		/// <summary>
 		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createsymboliclinkw.

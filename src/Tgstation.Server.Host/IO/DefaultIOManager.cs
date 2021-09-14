@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task CopyDirectory(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
+		public async Task CopyDirectory(string src, string dest, IEnumerable<string>? ignore, CancellationToken cancellationToken)
 		{
 			if (src == null)
 				throw new ArgumentNullException(nameof(src));
@@ -134,7 +134,8 @@ namespace Tgstation.Server.Host.IO
 		public Task<bool> DirectoryExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public string GetDirectoryName(string path) => Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)));
+		public string GetDirectoryName(string path) => Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)))
+			?? throw new InvalidOperationException($"Unable to get parent directory of {path}");
 
 		/// <inheritdoc />
 		public string GetFileName(string path) => Path.GetFileName(path ?? throw new ArgumentNullException(nameof(path)));
@@ -323,7 +324,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="ignore">Files and folders to ignore at the root level.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operation.</returns>
-		IEnumerable<Task> CopyDirectoryImpl(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
+		IEnumerable<Task> CopyDirectoryImpl(string src, string dest, IEnumerable<string>? ignore, CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
 			var atLeastOneSubDir = false;

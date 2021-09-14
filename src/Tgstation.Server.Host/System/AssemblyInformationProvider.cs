@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.System
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Path = assembly.Location;
 			AssemblyName = assembly.GetName();
-			Version = AssemblyName.Version.Semver();
+			Version = AssemblyName.Version!.Semver();
 			VersionString = String.Concat(VersionPrefix, "-v", Version);
 		}
 	}

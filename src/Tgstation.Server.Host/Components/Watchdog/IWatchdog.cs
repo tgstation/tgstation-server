@@ -34,12 +34,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is set to use next.
 		/// </summary>
-		DreamDaemonLaunchParameters ActiveLaunchParameters { get; }
+		Models.DreamDaemonSettings ActiveLaunchParameters { get; }
 
 		/// <summary>
 		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is currently using.
 		/// </summary>
-		DreamDaemonLaunchParameters? LastLaunchParameters { get; }
+		Models.DreamDaemonSettings? LastLaunchParameters { get; }
 
 		/// <summary>
 		/// The <see cref="Session.RebootState"/> of the active server.
@@ -56,10 +56,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Changes the <see cref="ActiveLaunchParameters"/>. If currently running, may trigger a graceful restart.
 		/// </summary>
-		/// <param name="launchParameters">The new <see cref="DreamDaemonLaunchParameters"/>. May be modified.</param>
+		/// <param name="launchParameters">The new <see cref="Models.DreamDaemonSettings"/>. May be modified.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken);
+		Task ChangeSettings(Models.DreamDaemonSettings launchParameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Restarts the watchdog.

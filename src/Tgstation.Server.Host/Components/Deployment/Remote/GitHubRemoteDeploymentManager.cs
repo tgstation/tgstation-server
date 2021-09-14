@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					remoteInformation.RepositoryOwner,
 					remoteInformation.RepositoryName);
 
-			if (!repositorySettings.CreateGitHubDeployments.Value)
+			if (!repositorySettings.CreateGitHubDeployments)
 				Logger.LogTrace("Not creating deployment");
 			else if (!instanceAuthenticated)
 				Logger.LogWarning("Can't create GitHub deployment as no access token is set for repository!");
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				compileJob.GitHubRepoId = gitHubRepo.Id;
 				Logger.LogTrace("Set GitHub ID as {0}", compileJob.GitHubRepoId);
 			}
-			catch (RateLimitExceededException ex) when (!repositorySettings.CreateGitHubDeployments.Value)
+			catch (RateLimitExceededException ex) when (!repositorySettings.CreateGitHubDeployments)
 			{
 				Logger.LogWarning(ex, "Unable to set compile job repository ID!");
 			}
@@ -261,7 +261,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			int testMergeNumber,
 			CancellationToken cancellationToken)
 		{
-			var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
+			var gitHubClient = repositorySettings.AccessToken != null
+				? gitHubClientFactory.CreateClient(repositorySettings.AccessToken)
+				: gitHubClientFactory.CreateClient();
 
 			try
 			{
@@ -289,7 +291,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CultureInfo.InvariantCulture,
 			"#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}{8}",
 			Environment.NewLine,
-			repositorySettings.ShowTestMergeCommitters.Value
+			repositorySettings.ShowTestMergeCommitters
 				? String.Format(
 					CultureInfo.InvariantCulture,
 					"{0}{0}##### Merged By{0}{1}",

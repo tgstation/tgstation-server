@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public async Task ChangeVersion(Version version, Stream customVersionStream, CancellationToken cancellationToken)
+		public async Task ChangeVersion(Version version, Stream? customVersionStream, CancellationToken cancellationToken)
 		{
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public async Task<IByondExecutableLock> UseExecutables(Version requiredVersion, CancellationToken cancellationToken)
+		public async Task<IByondExecutableLock> UseExecutables(Version? requiredVersion, CancellationToken cancellationToken)
 		{
 			var versionToUse = requiredVersion ?? ActiveVersion;
 			if (versionToUse == null)

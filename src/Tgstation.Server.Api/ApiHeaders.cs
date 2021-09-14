@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Mime;
@@ -103,8 +104,9 @@ namespace Tgstation.Server.Api
 		public OAuthProvider? OAuthProvider { get; }
 
 		/// <summary>
-		/// If the header uses password or TGS JWT authentication.
+		/// If the header uses TGS JWT authentication.
 		/// </summary>
+		[MemberNotNullWhen(true, nameof(Token))]
 		public bool IsTokenAuthentication => Token != null && !OAuthProvider.HasValue;
 
 		/// <summary>

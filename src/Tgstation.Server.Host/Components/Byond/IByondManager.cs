@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="customVersionStream">Optional <see cref="Stream"/> of a custom BYOND version zip file.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task ChangeVersion(Version version, Stream customVersionStream, CancellationToken cancellationToken);
+		Task ChangeVersion(Version version, Stream? customVersionStream, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Lock the current installation's location and return a <see cref="IByondExecutableLock"/>.
@@ -38,6 +38,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="requiredVersion">The BYOND <see cref="Version"/> required.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the requested <see cref="IByondExecutableLock"/>.</returns>
-		Task<IByondExecutableLock> UseExecutables(Version requiredVersion, CancellationToken cancellationToken);
+		Task<IByondExecutableLock> UseExecutables(Version? requiredVersion, CancellationToken cancellationToken);
 	}
 }

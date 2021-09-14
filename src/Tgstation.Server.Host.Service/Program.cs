@@ -42,7 +42,8 @@ namespace Tgstation.Server.Host.Service
 							assemblyPath = "<Full Path to Tgstation.Server.Host.Service.exe>";
 
 						logger.LogWarning(
-							$"The server service is meant to be run via the Windows service manager. To install the server as a service in this location run `sc create tgstation-server binPath=\"{assemblyPath}\"` in an elevated command prompt. If it already exists, run `sc delete tgstation-server` first (after stopping it). This console will only let you configure tgstation-server.");
+							"The server service is meant to be run via the Windows service manager. To install the server as a service in this location run `sc create tgstation-server binPath=\"{assemblyPath}\"` in an elevated command prompt. If it already exists, run `sc delete tgstation-server` first (after stopping it). This console will only let you configure tgstation-server.",
+							assemblyPath);
 					},
 					args,
 					true)

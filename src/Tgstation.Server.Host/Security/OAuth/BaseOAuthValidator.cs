@@ -75,10 +75,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public abstract Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken);
+		public abstract Task<OAuthProviderInfo?> GetProviderInfo(CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken);
+		public abstract Task<string?> ValidateResponseCode(string code, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a new configured <see cref="HttpClient"/>.

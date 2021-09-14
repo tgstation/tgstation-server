@@ -325,7 +325,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					new List<string>
 					{
 						originalCommit.Tip.Sha,
-						testMergeParameters.TargetCommitSha,
+						testMergeParameters.TargetCommitSha!,
 						originalCommit.FriendlyName ?? UnknownReference,
 						testMergeBranchName,
 					},
@@ -356,7 +356,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				new List<string>
 				{
 					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),
-					testMergeParameters.TargetCommitSha,
+					testMergeParameters.TargetCommitSha!,
 					testMergeParameters.Comment ?? String.Empty,
 				},
 				cancellationToken)
@@ -398,7 +398,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task FetchOrigin(Action<int> progressReporter, string username, string password, CancellationToken cancellationToken)
+		public async Task FetchOrigin(Action<int> progressReporter, string? username, string? password, CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));

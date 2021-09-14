@@ -225,14 +225,16 @@ namespace Tgstation.Server.Host.Controllers
 			if (ApiHeaders.IsTokenAuthentication)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.TokenWithToken));
 
-			var oAuthLogin = ApiHeaders.OAuthProvider.HasValue;
-
-			ISystemIdentity systemIdentity = null;
-			if (!oAuthLogin)
+			ISystemIdentity? systemIdentity = null;
+			if (!ApiHeaders.OAuthProvider.HasValue)
 				try
 				{
 					// trust the system over the database because a user's name can change while still having the same SID
-					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
+					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(
+						ApiHeaders.Username!,
+						ApiHeaders.Password!,
+						cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (NotImplementedException ex)
 				{
@@ -243,10 +245,10 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				// Get the user from the database
 				IQueryable<Models.User> query = DatabaseContext.Users.AsQueryable();
-				if (oAuthLogin)
+				if (ApiHeaders.OAuthProvider.HasValue)
 				{
 					var oAuthProvider = ApiHeaders.OAuthProvider.Value;
-					string externalUserId;
+					string? externalUserId;
 					try
 					{
 						var validator = oAuthProviders
@@ -256,7 +258,7 @@ namespace Tgstation.Server.Host.Controllers
 							return BadRequest(new ErrorMessageResponse(ErrorCode.OAuthProviderDisabled));
 
 						externalUserId = await validator
-							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)
+							.ValidateResponseCode(ApiHeaders.Token!, cancellationToken)
 							.ConfigureAwait(false);
 
 						Logger.LogTrace("External {0} UID: {1}", oAuthProvider, externalUserId);
@@ -276,7 +278,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				else
 				{
-					var canonicalUserName = Models.User.CanonicalizeName(ApiHeaders.Username);
+					var canonicalUserName = Models.User.CanonicalizeName(ApiHeaders.Username!);
 					if (canonicalUserName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 						return Unauthorized();
 
@@ -314,11 +316,11 @@ namespace Tgstation.Server.Host.Controllers
 				var originalHash = user.PasswordHash;
 				var isDbUser = originalHash != null;
 				bool usingSystemIdentity = systemIdentity != null && !isDbUser;
-				if (!oAuthLogin)
+				if (!ApiHeaders.OAuthProvider.HasValue)
 					if (!usingSystemIdentity)
 					{
 						// DB User password check and update
-						if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
+						if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password!))
 							return Unauthorized();
 						if (user.PasswordHash != originalHash)
 						{
@@ -332,7 +334,7 @@ namespace Tgstation.Server.Host.Controllers
 							await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 						}
 					}
-					else if (systemIdentity.Username != user.Name)
+					else if (systemIdentity!.Username != user.Name)
 					{
 						// System identity username change update
 						Logger.LogDebug("User ID {0}'s system identity needs a refresh, updating database.", user.Id);
@@ -343,20 +345,20 @@ namespace Tgstation.Server.Host.Controllers
 					}
 
 				// Now that the bookeeping is done, tell them to fuck off if necessary
-				if (!user.Enabled.Value)
+				if (!user.Enabled)
 				{
 					Logger.LogTrace("Not logging in disabled user {0}.", user.Id);
 					return Forbid();
 				}
 
-				var token = await tokenFactory.CreateToken(user, oAuthLogin, cancellationToken).ConfigureAwait(false);
+				var token = await tokenFactory.CreateToken(user, ApiHeaders.OAuthProvider.HasValue, cancellationToken).ConfigureAwait(false);
 				if (usingSystemIdentity)
 				{
 					// expire the identity slightly after the auth token in case of lag
 					var identExpiry = token.ExpiresAt;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
-					identityCache.CacheSystemIdentity(user, systemIdentity, identExpiry);
+					identityCache.CacheSystemIdentity(user, systemIdentity!, identExpiry);
 				}
 
 				Logger.LogDebug("Successfully logged in user {0}!", user.Id);

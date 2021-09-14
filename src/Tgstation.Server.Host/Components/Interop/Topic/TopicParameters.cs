@@ -12,18 +12,18 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The <see cref="TopicCommandType"/>.
 		/// </summary>
-		/// <remarks>This is <see cref="Nullable"/> but always set to work around a serialization issue.</remarks>
+		/// <remarks>This is not actually <see cref="Nullable"/> but always set to work around serializing it causing a default entry.</remarks>
 		public TopicCommandType? CommandType { get; }
 
 		/// <summary>
 		/// The <see cref="Topic.ChatCommand"/> for <see cref="TopicCommandType.ChatCommand"/> requests.
 		/// </summary>
-		public ChatCommand ChatCommand { get; }
+		public ChatCommand? ChatCommand { get; }
 
 		/// <summary>
 		/// The <see cref="Topic.EventNotification"/> for <see cref="TopicCommandType.EventNotification"/> requests.
 		/// </summary>
-		public EventNotification EventNotification { get; }
+		public EventNotification? EventNotification { get; }
 
 		/// <summary>
 		/// The new port for <see cref="TopicCommandType.ChangePort"/> or <see cref="TopicCommandType.ServerPortUpdate"/> requests.
@@ -38,17 +38,17 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The new <see cref="Api.Models.NamedEntity.Name"/> for <see cref="TopicCommandType.InstanceRenamed"/> requests.
 		/// </summary>
-		public string NewInstanceName { get; }
+		public string? NewInstanceName { get; }
 
 		/// <summary>
 		/// The <see cref="Interop.ChatUpdate"/> for <see cref="TopicCommandType.ChatChannelsUpdate"/> requests.
 		/// </summary>
-		public ChatUpdate ChatUpdate { get; }
+		public ChatUpdate? ChatUpdate { get; }
 
 		/// <summary>
 		/// The new server <see cref="Version"/> after a reattach.
 		/// </summary>
-		public Version NewServerVersion { get; }
+		public Version? NewServerVersion { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> class.

@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// If the swappable game directory is currently a rename of the compile job.
 		/// </summary>
-		IDmbProvider hardLinkedDmb;
+		IDmbProvider? hardLinkedDmb;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixWatchdog"/> class.
@@ -42,8 +42,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="gameIOManager">The <see cref="IIOManager"/> pointing to the game directory for the <see cref="WindowsWatchdog"/>..</param>
 		/// <param name="symlinkFactory">The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdog"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="initialSettings">The <see cref="DreamDaemonSettings"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="instance">The <see cref="Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="autoStart">The autostart value for the <see cref="WatchdogBase"/>.</param>
 		public PosixWatchdog(
 			IChatManager chat,
@@ -59,8 +59,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager gameIOManager,
 			ISymlinkFactory symlinkFactory,
 			ILogger<PosixWatchdog> logger,
-			DreamDaemonLaunchParameters initialLaunchParameters,
-			Api.Models.Instance instance,
+			Models.DreamDaemonSettings initialSettings,
+			Models.Instance instance,
 			bool autoStart)
 			: base(
 				  chat,
@@ -76,28 +76,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				  gameIOManager,
 				  symlinkFactory,
 				  logger,
-				  initialLaunchParameters,
+				  initialSettings,
 				  instance,
 				  autoStart)
 		{
 		}
 
 		/// <inheritdoc />
-		protected override async Task InitialLink(CancellationToken cancellationToken)
+		protected override async Task InitialLink(SwappableDmbProvider activeSwappable, CancellationToken cancellationToken)
 		{
 			// The logic to check for an active live directory is in SwappableDmbProvider, so we just do it again here for safety
 			Logger.LogTrace("Hard linking compile job...");
 
 			// Symlinks are counted as a file on linux??
-			if (await GameIOManager.DirectoryExists(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false))
-				await GameIOManager.DeleteDirectory(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false);
+			if (await GameIOManager.DirectoryExists(activeSwappable.Directory, cancellationToken).ConfigureAwait(false))
+				await GameIOManager.DeleteDirectory(activeSwappable.Directory, cancellationToken).ConfigureAwait(false);
 			else
-				await GameIOManager.DeleteFile(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false);
+				await GameIOManager.DeleteFile(activeSwappable.Directory, cancellationToken).ConfigureAwait(false);
 
 			// Instead of symlinking to begin with we actually rename the directory
 			await GameIOManager.MoveDirectory(
-				ActiveSwappable.CompileJob.DirectoryName.ToString(),
-				ActiveSwappable.Directory,
+				activeSwappable.CompileJob.DirectoryName.ToString(),
+				activeSwappable.Directory,
 				cancellationToken)
 				.ConfigureAwait(false);
 
@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task InitController(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected override async Task InitController(Task chatTask, ReattachInformation? reattachInfo, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						Logger.LogError(
 							ex,
-							"Failed to un-hard link compile job #{0} ({1})",
+							"Failed to un-hard link compile job #{compileJobId} ({directoryName})",
 							hardLinkedDmb.CompileJob.Id,
 							hardLinkedDmb.CompileJob.DirectoryName);
 					}
@@ -148,8 +148,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			Logger.LogTrace("Symlinking compile job...");
-			await ActiveSwappable.MakeActive(cancellationToken).ConfigureAwait(false);
-			Server.Resume();
+			await ActiveSwappable!.MakeActive(cancellationToken).ConfigureAwait(false);
+			Server!.Resume();
 		}
 	}
 }

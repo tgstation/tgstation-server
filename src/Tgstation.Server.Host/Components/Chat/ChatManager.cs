@@ -285,17 +285,18 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (providers)
 			{
 				// raw settings changes forces a rebuild of the provider
-				if (providers.TryGetValue(newSettings.Id.Value, out provider))
+				if (providers.TryGetValue(newSettings.Id, out provider))
 				{
-					providers.Remove(newSettings.Id.Value);
+					providers.Remove(newSettings.Id);
 					disconnectTask = DisconnectProvider(provider);
 				}
 				else
 					disconnectTask = Task.CompletedTask;
-				if (newSettings.Enabled.Value)
+
+				if (newSettings.Enabled)
 				{
 					provider = providerFactory.CreateProvider(newSettings);
-					providers.Add(newSettings.Id.Value, provider);
+					providers.Add(newSettings.Id, provider);
 				}
 			}
 
@@ -314,8 +315,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 
 			var reconnectionUpdateTask = provider?.SetReconnectInterval(
-				newSettings.ReconnectionInterval.Value,
-				newSettings.Enabled.Value)
+				newSettings.ReconnectionInterval,
+				newSettings.Enabled)
 				?? Task.CompletedTask;
 			lock (activeChatBots)
 			{
@@ -373,7 +374,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Action<string, string?> QueueDeploymentMessage(
+		public Action<string?, string?> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			Api.Models.GitRemoteInformation? gitRemoteInformation,
@@ -386,7 +387,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			logger.LogTrace("Sending deployment message for RevisionInformation: {0}", revisionInformation.Id);
 
-			var callbacks = new List<Func<string, string?, Task>>();
+			var callbacks = new List<Func<string?, string?, Task>>();
 
 			var task = Task.WhenAll(
 				wdChannels.Select(
@@ -442,7 +443,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				builtinCommands.Add(tgsCommand.Name.ToUpperInvariant(), tgsCommand);
 			var initialChatBots = activeChatBots.ToList();
 			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
-			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id.Value, x.Channels, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
 			initialProviderConnectionsTask = InitialConnection();
 			chatHandler = MonitorMessages(handlerCts.Token);
 		}

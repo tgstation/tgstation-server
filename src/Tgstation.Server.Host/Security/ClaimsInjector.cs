@@ -38,7 +38,11 @@ namespace Tgstation.Server.Host.Security
 				throw new ArgumentNullException(nameof(tokenValidatedContext));
 
 			// Find the user id in the token
-			var userIdClaim = tokenValidatedContext.Principal.FindFirst(JwtRegisteredClaimNames.Sub);
+			var principal = tokenValidatedContext.Principal;
+			if (principal == null)
+				throw new InvalidOperationException("TokenValidatedContext.Principal is null!");
+
+			var userIdClaim = principal.FindFirst(JwtRegisteredClaimNames.Sub);
 			if (userIdClaim == default)
 				throw new InvalidOperationException("Missing required claim!");
 
@@ -91,7 +95,7 @@ namespace Tgstation.Server.Host.Security
 						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(rightType, enumeratedRight)));
 			}
 
-			tokenValidatedContext.Principal.AddIdentity(new ClaimsIdentity(claims));
+			principal.AddIdentity(new ClaimsIdentity(claims));
 		}
 	}
 }

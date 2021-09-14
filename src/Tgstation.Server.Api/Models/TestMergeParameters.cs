@@ -17,7 +17,7 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		[StringLength(40)]
-		public virtual string? TargetCommitSha { get; set; }
+		public string? TargetCommitSha { get; set; }
 
 		/// <summary>
 		/// Optional comment about the test.

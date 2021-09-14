@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// </summary>
 		/// <param name="chatChannel">The <see cref="ChatChannel"/> to retrieve information from.</param>
 		/// <returns>The IRC channel key stored in the <paramref name="chatChannel"/> if it exists, <see langword="null"/> otherwise.</returns>
-		public static string GetIrcChannelKey(this ChatChannel chatChannel)
+		public static string? GetIrcChannelKey(this ChatChannel chatChannel)
 		{
 			var splits = GetIrcChannelSplits(chatChannel);
 			if (splits.Count < 2)

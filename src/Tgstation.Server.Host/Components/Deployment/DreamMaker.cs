@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The <see cref="Instance"/> <see cref="DreamMaker"/> belongs to.
 		/// </summary>
-		readonly Api.Models.Instance metadata;
+		readonly Models.Instance metadata;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for <see cref="deploying"/>.
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The active callback from <see cref="IChatManager.QueueDeploymentMessage"/>.
 		/// </summary>
-		Action<string, string?>? currentChatCallback;
+		Action<string?, string?>? currentChatCallback;
 
 		/// <summary>
 		/// Cached for <see cref="currentChatCallback"/>.
@@ -155,7 +155,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IRepositoryManager repositoryManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<DreamMaker> logger,
-			Api.Models.Instance metadata)
+			Models.Instance metadata)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -300,7 +300,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.CreateRemoteDeploymentManager(metadata, gitRemoteInformation?.RemoteGitProvider);
 
 				var likelyPushedTestMergeCommit =
-					repositorySettings.PushTestMergeCommits.Value
+					repositorySettings.PushTestMergeCommits
 					&& repositorySettings.AccessToken != null
 					&& repositorySettings.AccessUser != null;
 
@@ -309,7 +309,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					compileJob = await Compile(
 						exteriorRevInfo,
 						dreamMakerSettings,
-						ddSettings.StartupTimeout.Value,
+						ddSettings.StartupTimeout,
 						repo,
 						remoteDeploymentManager,
 						progressReporter,
@@ -422,10 +422,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				.Where(x => x.Job.Instance.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.Take(10)
-				.Select(x => new Models.Job
+				.Select(x => new
 				{
-					StoppedAt = x.Job.StoppedAt,
-					StartedAt = x.Job.StartedAt,
+					StoppedAt = x.Job.StoppedAt!.Value,
+					x.Job.StartedAt,
 				})
 				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -435,7 +435,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				var totalSpan = TimeSpan.Zero;
 				foreach (var previousCompileJob in previousCompileJobs)
-					totalSpan += previousCompileJob.StoppedAt.Value - previousCompileJob.StartedAt.Value;
+					totalSpan += previousCompileJob.StoppedAt - previousCompileJob.StartedAt;
 				averageSpan = totalSpan / previousCompileJobs.Count;
 			}
 
@@ -446,7 +446,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Run the compile implementation.
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/>.</param>
-		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/>.</param>
+		/// <param name="dreamMakerSettings">The <see cref="DreamMakerSettings"/>.</param>
 		/// <param name="apiValidateTimeout">The API validation timeout.</param>
 		/// <param name="repository">The <see cref="IRepository"/>.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/>.</param>
@@ -457,7 +457,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the completed <see cref="CompileJob"/>.</returns>
 		async Task<Models.CompileJob> Compile(
 			Models.RevisionInformation revisionInformation,
-			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
+			Models.DreamMakerSettings dreamMakerSettings,
 			uint apiValidateTimeout,
 			IRepository repository,
 			IRemoteDeploymentManager remoteDeploymentManager,
@@ -497,8 +497,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 						cancellationToken)
 						.ConfigureAwait(false);
 
-				logger.LogTrace("Deployment will timeout at {0}", DateTimeOffset.Now + dreamMakerSettings.Timeout.Value);
-				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout.Value);
+				logger.LogTrace("Deployment will timeout at {0}", DateTimeOffset.Now + dreamMakerSettings.Timeout);
+				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout);
 				var timeoutToken = timeoutTokenSource.Token;
 				using (timeoutToken.Register(() => logger.LogWarning("Deployment timed out!")))
 				{
@@ -540,7 +540,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Executes and populate a given <paramref name="job"/>.
 		/// </summary>
 		/// <param name="job">The <see cref="CompileJob"/> to run and populate.</param>
-		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/> to use.</param>
+		/// <param name="dreamMakerSettings">The <see cref="DreamMakerSettings"/> to use.</param>
 		/// <param name="byondLock">The <see cref="IByondExecutableLock"/> to use.</param>
 		/// <param name="repository">The <see cref="IRepository"/> to use.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> to use.</param>
@@ -549,7 +549,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task RunCompileJob(
 			Models.CompileJob job,
-			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
+			Models.DreamMakerSettings dreamMakerSettings,
 			IByondExecutableLock byondLock,
 			IRepository repository,
 			IRemoteDeploymentManager remoteDeploymentManager,
@@ -631,11 +631,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 					await VerifyApi(
 						apiValidateTimeout,
-						dreamMakerSettings.ApiValidationSecurityLevel.Value,
+						dreamMakerSettings.ApiValidationSecurityLevel,
 						job,
 						byondLock,
-						dreamMakerSettings.ApiValidationPort.Value,
-						dreamMakerSettings.RequireDMApiValidation.Value,
+						dreamMakerSettings.ApiValidationPort,
+						dreamMakerSettings.RequireDMApiValidation,
 						cancellationToken)
 						.ConfigureAwait(false);
 				}
@@ -727,7 +727,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Verifying {0}DMAPI...", requireValidate ? "required " : String.Empty);
-			var launchParameters = new DreamDaemonLaunchParameters
+			var launchParameters = new Models.DreamDaemonSettings
 			{
 				AllowWebClient = false,
 				Port = portToUse,

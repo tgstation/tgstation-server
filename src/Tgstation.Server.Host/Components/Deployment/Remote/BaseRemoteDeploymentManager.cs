@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var deployedRevisionInformation = compileJob.RevisionInformation;
 			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == deployedRevisionInformation.CommitSha)
-				|| !repositorySettings.PostTestMergeComment.Value)
+				|| !repositorySettings.PostTestMergeComment)
 				return;
 
 			previousRevisionInformation ??= new RevisionInformation();

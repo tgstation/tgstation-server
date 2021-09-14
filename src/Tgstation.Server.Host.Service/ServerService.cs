@@ -51,6 +51,7 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
+			logger.LogTrace("Disposing...");
 			if (activeTask != null)
 			{
 				await activeTask.DisposeAsync().ConfigureAwait(false);
@@ -61,6 +62,8 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Starting...");
+
 			lock (activeTaskLock)
 			{
 				if (activeTask != null)
@@ -74,6 +77,8 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		public Task StopAsync(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Stopping...");
+
 			CancellableTask? localActiveTask;
 			lock (activeTaskLock)
 			{

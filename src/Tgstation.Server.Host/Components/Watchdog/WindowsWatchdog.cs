@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="initialSettings">The <see cref="DreamDaemonSettings"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="autoStart">The autostart value for the <see cref="WatchdogBase"/>.</param>
 		public WindowsWatchdog(
@@ -79,8 +79,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager gameIOManager,
 			ISymlinkFactory symlinkFactory,
 			ILogger<WindowsWatchdog> logger,
-			DreamDaemonLaunchParameters initialLaunchParameters,
-			Api.Models.Instance instance,
+			Models.DreamDaemonSettings initialSettings,
+			Models.Instance instance,
 			bool autoStart)
 			: base(
 				chat,
@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				eventConsumer,
 				remoteDeploymentManagerFactory,
 				logger,
-				initialLaunchParameters,
+				initialSettings,
 				instance,
 				autoStart)
 		{
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				var updateTask = BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 				Logger.LogTrace("Replacing activeSwappable with pendingSwappable...");
-				Server.ReplaceDmbProvider(pendingSwappable);
+				Server?.ReplaceDmbProvider(pendingSwappable);
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 
@@ -158,7 +158,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				// have to do a graceful restart
 				Logger.LogDebug(
-					"Not swapping to new compile job {0} as it uses a different BYOND version ({1}) than what is currently active {2}. Queueing graceful restart instead...",
+					"Not swapping to new compile job {compileJobId} as it uses a different BYOND version ({compileJobByondVer}) than what is currently active {activeByondVer}. Queueing graceful restart instead...",
 					compileJobProvider.CompileJob.Id,
 					compileJobProvider.CompileJob.ByondVersion,
 					activeCompileJob.ByondVersion);
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (compileJobProvider.CompileJob.DmeName != activeCompileJob.DmeName)
 			{
 				Logger.LogDebug(
-					"Not swapping to new compile job {0} as it uses a different .dmb name ({1}) than what is currently active {2}. Queueing graceful restart instead...",
+					"Not swapping to new compile job {compileJobId} as it uses a different .dmb name ({oldDmeName}) than what is currently active {newDmeName}. Queueing graceful restart instead...",
 					compileJobProvider.CompileJob.Id,
 					compileJobProvider.CompileJob.DmeName,
 					activeCompileJob.DmeName);
@@ -188,11 +188,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				windowsProvider = new SwappableDmbProvider(compileJobProvider, GameIOManager, symlinkFactory);
 
-				Logger.LogDebug("Swapping to compile job {0}...", windowsProvider.CompileJob.Id);
+				Logger.LogDebug("Swapping to compile job {compileJobId}...", windowsProvider.CompileJob.Id);
 				try
 				{
-					Server.Suspend();
-					suspended = true;
+					var controller = Server;
+					if (controller != null)
+					{
+						controller.Suspend();
+						suspended = true;
+					}
 				}
 				catch (Exception ex)
 				{
@@ -211,7 +215,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			// Let this throw hard if it fails
 			if (suspended)
-				Server.Resume();
+				Server?.Resume();
 
 			pendingSwappable?.Dispose();
 			pendingSwappable = windowsProvider;
@@ -225,18 +229,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (startupDmbProvider != null)
 				throw new InvalidOperationException("Expected startupDmbProvider to be null!");
 
-			Logger.LogTrace("Prep for server launch. pendingSwappable is {0}available", pendingSwappable == null ? "not " : String.Empty);
+			Logger.LogTrace("Prep for server launch. pendingSwappable is {maybeNot}available", pendingSwappable == null ? "not " : String.Empty);
 
 			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
 			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 
-			pendingSwappable ??= new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
-			ActiveSwappable = pendingSwappable;
+			var activeSwappable = pendingSwappable ?? new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
+			ActiveSwappable = activeSwappable;
 			pendingSwappable = null;
 
 			try
 			{
-				await InitialLink(cancellationToken).ConfigureAwait(false);
+				await InitialLink(activeSwappable, cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -252,14 +256,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Create the initial link to the live game directory using <see cref="ActiveSwappable"/>.
 		/// </summary>
+		/// <param name="activeSwappable">The current value of <see cref="ActiveSwappable"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual Task InitialLink(CancellationToken cancellationToken)
+		protected virtual Task InitialLink(SwappableDmbProvider activeSwappable, CancellationToken cancellationToken)
 		{
-			var activeSwappable = ActiveSwappable;
-			if (activeSwappable == null)
-				throw new InvalidOperationException("ActiveSwappable is null!");
-
 			Logger.LogTrace("Symlinking compile job...");
 			return activeSwappable.MakeActive(cancellationToken);
 		}

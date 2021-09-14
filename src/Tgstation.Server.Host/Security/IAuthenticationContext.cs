@@ -11,6 +11,11 @@ namespace Tgstation.Server.Host.Security
 	public interface IAuthenticationContext : IDisposable
 	{
 		/// <summary>
+		/// If the <see cref="IAuthenticationContext"/> initialized properly.
+		/// </summary>
+		bool Valid { get; }
+
+		/// <summary>
 		/// The authenticated user.
 		/// </summary>
 		User User { get; }
@@ -35,6 +40,6 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// The <see cref="ISystemIdentity"/> of <see cref="User"/> if applicable.
 		/// </summary>
-		ISystemIdentity SystemIdentity { get; }
+		ISystemIdentity? SystemIdentity { get; }
 	}
 }

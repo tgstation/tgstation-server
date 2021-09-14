@@ -2,12 +2,11 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
-    <Nullable>annotations</Nullable>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <!-- API1000: Commonly documented error responses trigger it -->
-    <NoWarn>API1000</NoWarn>
+    <NoWarn>API1000,CS8618</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -13,11 +13,11 @@
 		/// <summary>
 		/// The response status.
 		/// </summary>
-		public string Status { get; set; }
+		public string? Status { get; set; }
 
 		/// <summary>
 		/// The response error, if any.
 		/// </summary>
-		public string Error { get; set; }
+		public string? Error { get; set; }
 	}
 }

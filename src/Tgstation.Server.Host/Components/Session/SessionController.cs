@@ -682,7 +682,7 @@ namespace Tgstation.Server.Host.Components.Session
 					else if (reattachResponse.InteropResponse != null)
 						logger.LogWarning(
 							"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
-							CompileJob.DMApiVersion.Semver());
+							CompileJob.DMApiVersion?.Semver().ToString() ?? "UNKNOWN");
 				}
 			}
 

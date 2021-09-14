@@ -39,7 +39,7 @@ namespace Tgstation.Server.Host.Database
 			if (databaseConfiguration.DatabaseType != DatabaseType.PostgresSql)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(PostgresSqlDatabaseContext)}!");
 
-			options.UseNpgsql(databaseConfiguration.ConnectionString, builder =>
+			options.UseNpgsql(databaseConfiguration.ConnectionString!, builder =>
 			{
 				builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 				builder.EnableRetryOnFailure();

@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.Groups.Add(dbGroup);
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			Logger.LogInformation("Created new user group {0} ({1})", dbGroup.Name, dbGroup.Id);
+			Logger.LogInformation("Created new user group {groupName} ({groupId})", dbGroup.Name, dbGroup.Id);
 
 			return Created(dbGroup.ToApi(true));
 		}
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.ReadUsers))
+			if (!AuthenticationContext.PermissionSet.AdministrationRights.HasFlag(AdministrationRights.ReadUsers))
 				return Json(new UserGroupResponse
 				{
 					Id = currentGroup.Id,

@@ -18,9 +18,9 @@ namespace Tgstation.Server.Host.Security
 		public ISystemIdentity GetCurrent() => new PosixSystemIdentity();
 
 		/// <inheritdoc />
-		public Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken) => throw new NotImplementedException();
+		public Task<ISystemIdentity?> CreateSystemIdentity(User user, CancellationToken cancellationToken) => throw new NotImplementedException();
 
 		/// <inheritdoc />
-		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => throw new NotImplementedException();
+		public Task<ISystemIdentity?> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => throw new NotImplementedException();
 	}
 }

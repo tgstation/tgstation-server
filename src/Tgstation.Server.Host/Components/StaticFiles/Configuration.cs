@@ -203,7 +203,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyList<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<IReadOnlyList<ConfigurationFileResponse>> ListDirectory(string? configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -249,7 +249,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFileResponse?> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<ConfigurationFileResponse?> Read(string configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -414,7 +414,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFileResponse?> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
+		public async Task<ConfigurationFileResponse?> Write(string configurationRelativePath, ISystemIdentity? systemIdentity, string previousHash, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -432,7 +432,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						{
 							using (fileTicket)
 							{
-								var fileHash = previousHash;
+								string? fileHash = previousHash;
 								using var uploadStream = await fileTicket.GetResult(uploadCancellationToken).ConfigureAwait(false);
 								if (uploadStream == null)
 									return; // ticket expired
@@ -506,7 +506,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<bool> CreateDirectory(string configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -592,7 +592,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<bool> DeleteDirectory(string configurationRelativePath, ISystemIdentity? systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -644,12 +644,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// </summary>
 		/// <param name="configurationRelativePath">A relative path in the instance's configuration directory.</param>
 		/// <returns>The full on-disk path of <paramref name="configurationRelativePath"/>.</returns>
-		string ValidateConfigRelativePath(string configurationRelativePath)
+		string ValidateConfigRelativePath(string? configurationRelativePath)
 		{
 			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
 			if (nullOrEmptyCheck)
 				configurationRelativePath = DefaultIOManager.CurrentDirectory;
-			if (configurationRelativePath[0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
+			if (configurationRelativePath![0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
 				configurationRelativePath = DefaultIOManager.CurrentDirectory + configurationRelativePath;
 			var resolved = ioManager.ResolvePath(configurationRelativePath);
 			if (!nullOrEmptyCheck)

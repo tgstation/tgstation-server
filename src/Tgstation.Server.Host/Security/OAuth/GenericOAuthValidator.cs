@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public override async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public override async Task<string?> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
 			using var httpClient = CreateHttpClient();
 			try
@@ -68,6 +68,12 @@ namespace Tgstation.Server.Host.Security.OAuth
 					SerializerSettings());
 
 				var tokenRequestDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenRequestJson);
+				if (tokenRequestDictionary == null)
+				{
+					Logger.LogError("Failed to decode JSON: {response}", tokenRequestJson);
+					return null;
+				}
+
 				tokenRequest.Content = new FormUrlEncodedContent(tokenRequestDictionary);
 
 				var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken).ConfigureAwait(false);
@@ -104,7 +110,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public override Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken) => Task.FromResult(
+		public override Task<OAuthProviderInfo?> GetProviderInfo(CancellationToken cancellationToken) => Task.FromResult<OAuthProviderInfo?>(
 			new OAuthProviderInfo
 			{
 				ClientId = OAuthConfiguration.ClientId,

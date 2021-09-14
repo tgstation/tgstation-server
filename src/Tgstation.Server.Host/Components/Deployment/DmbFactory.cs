@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				if (nextDmbProvider == null)
 					throw new InvalidOperationException("No .dmb available!");
 
-				var jobId = nextDmbProvider.CompileJob.Id.Value;
+				var jobId = nextDmbProvider.CompileJob.Id;
 				var incremented = jobLockCounts[jobId] += lockCount;
 				logger.LogTrace("Compile job {0} lock count now: {1}", jobId, incremented);
 				return nextDmbProvider;
@@ -294,13 +294,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				lock (jobLockCounts)
 				{
-					if (!jobLockCounts.TryGetValue(compileJob.Id.Value, out int value))
+					if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
 					{
 						value = 1;
-						jobLockCounts.Add(compileJob.Id.Value, 1);
+						jobLockCounts.Add(compileJob.Id, 1);
 					}
 					else
-						jobLockCounts[compileJob.Id.Value] = ++value;
+						jobLockCounts[compileJob.Id] = ++value;
 
 					providerSubmitted = true;
 
@@ -336,8 +336,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.AsQueryable()
 					.Where(
 						x => x.Job.Instance.Id == metadata.Id
-						&& jobIdsToSkip.Contains(x.Id.Value))
-					.Select(x => x.DirectoryName.Value)
+						&& jobIdsToSkip.Contains(x.Id))
+					.Select(x => x.DirectoryName)
 					.ToListAsync(cancellationToken)
 					.ConfigureAwait(false))
 					.Select(x => x.ToString())
@@ -406,15 +406,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			lock (jobLockCounts)
-				if (!jobLockCounts.TryGetValue(job.Id.Value, out var currentVal) || currentVal == 1)
+				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
 				{
-					jobLockCounts.Remove(job.Id.Value);
+					jobLockCounts.Remove(job.Id);
 					logger.LogDebug("Cleaning lock-free compile job {0} => {1}", job.Id, job.DirectoryName);
 					cleanupTask = HandleCleanup();
 				}
 				else
 				{
-					var decremented = --jobLockCounts[job.Id.Value];
+					var decremented = --jobLockCounts[job.Id];
 					logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
 				}
 		}

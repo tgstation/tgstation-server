@@ -22,6 +22,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Helpers.Extensions;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -47,7 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="Api.ApiHeaders"/> for the operation.
 		/// </summary>
-		protected ApiHeaders ApiHeaders { get; private set; }
+		protected ApiHeaders? ApiHeaders { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the operation.
@@ -67,7 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="Instance"/> for the operation.
 		/// </summary>
-		protected Models.Instance Instance { get; }
+		protected virtual Models.Instance? Instance { get; }
 
 		/// <summary>
 		/// If <see cref="ApiHeaders"/> are required.
@@ -90,8 +91,10 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
 				throw new ArgumentNullException(nameof(authenticationContextFactory));
+			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext
+				?? throw new InvalidOperationException("AuthenticationContextFactory has no AuthenticationContext associated!");
+
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
 			this.requireHeaders = requireHeaders;
 		}
@@ -105,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			// ALL valid token and login requests that match a route go through this function
 			// 404 is returned before
-			if (AuthenticationContext != null && AuthenticationContext.User == null)
+			if (AuthenticationContext != null && !AuthenticationContext.Valid)
 			{
 				// valid token, expired password
 				await Unauthorized().ExecuteResultAsync(context).ConfigureAwait(false);
@@ -148,7 +151,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (ModelState?.IsValid == false)
 			{
 				var errorMessages = ModelState
-					.SelectMany(x => x.Value.Errors)
+					.Select(x => x.Value)
+					.WhereNotNull()
+					.SelectMany(x => x.Errors)
 					.Select(x => x.ErrorMessage)
 
 					// We use RequiredAttributes purely for preventing properties from becoming nullable in the databases
@@ -260,8 +265,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in an appropriate <see cref="IActionResult"/> on validation failure, <see langword="null"/> otherwise.</returns>
-		protected virtual Task<IActionResult> ValidateRequest(CancellationToken cancellationToken)
-			=> Task.FromResult<IActionResult>(null);
+		protected virtual Task<IActionResult?> ValidateRequest(CancellationToken cancellationToken)
+			=> Task.FromResult<IActionResult?>(null);
 
 		/// <summary>
 		/// Response for missing/Invalid headers.
@@ -304,12 +309,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		protected Task<IActionResult> Paginated<TModel>(
 			Func<Task<PaginatableResult<TModel>>> queryGenerator,
-			Func<TModel, Task> resultTransformer,
+			Func<TModel, Task>? resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
-			CancellationToken cancellationToken) => PaginatedImpl(
+			CancellationToken cancellationToken) => PaginatedImpl<TModel, TModel>(
 				queryGenerator,
-				resultTransformer,
+				resultTransformer != null
+					? (model, apiModel) => resultTransformer(apiModel)
+					: null,
 				pageQuery,
 				pageSizeQuery,
 				cancellationToken);
@@ -327,7 +334,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		protected Task<IActionResult> Paginated<TModel, TApiModel>(
 			Func<Task<PaginatableResult<TModel>>> queryGenerator,
-			Func<TApiModel, Task> resultTransformer,
+			Func<TModel, TApiModel, Task>? resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
@@ -352,7 +359,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		async Task<IActionResult> PaginatedImpl<TModel, TResultModel>(
 			Func<Task<PaginatableResult<TModel>>> queryGenerator,
-			Func<TResultModel, Task> resultTransformer,
+			Func<TModel, TResultModel, Task>? resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
@@ -406,8 +413,8 @@ namespace Tgstation.Server.Host.Controllers
 					.ToList();
 
 			if (resultTransformer != null)
-				foreach (var finalResult in finalResults)
-					await resultTransformer(finalResult).ConfigureAwait(false);
+				foreach (var (pagedResult, finalResult) in pagedResults.Zip(finalResults))
+					await resultTransformer(pagedResult, finalResult).ConfigureAwait(false);
 
 			var carryTheOne = totalResults % pageSize != 0
 				? 1

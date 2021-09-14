@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="estimatedCompletionTime">The optional <see cref="DateTimeOffset"/> the deployment is expected to be completed at.</param>
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <returns>An <see cref="Action{T1, T2}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</returns>
-		Action<string, string?> QueueDeploymentMessage(
+		Action<string?, string?> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			Api.Models.GitRemoteInformation? gitRemoteInformation,

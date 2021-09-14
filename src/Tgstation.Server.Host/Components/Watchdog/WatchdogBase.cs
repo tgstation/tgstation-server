@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Helpers;
 using Tgstation.Server.Host.Components.Chat;
@@ -37,7 +36,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			set
 			{
 				status = value;
-				Logger.LogTrace("Status set to {0}", status);
+				Logger.LogTrace("Status set to {status}", status);
 			}
 		}
 
@@ -45,10 +44,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public abstract bool AlphaIsActive { get; }
 
 		/// <inheritdoc />
-		public DreamDaemonLaunchParameters ActiveLaunchParameters { get; protected set; }
+		public Models.DreamDaemonSettings ActiveLaunchParameters { get; private set; }
 
 		/// <inheritdoc />
-		public DreamDaemonLaunchParameters? LastLaunchParameters { get; protected set; }
+		public Models.DreamDaemonSettings? LastLaunchParameters { get; protected set; }
 
 		/// <inheritdoc />
 		public Models.CompileJob? ActiveCompileJob => GetActiveController()?.CompileJob;
@@ -94,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
-		readonly Api.Models.Instance metadata;
+		readonly Models.Instance metadata;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="WatchdogBase"/>.
@@ -175,7 +174,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
-		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified.</param>
+		/// <param name="initialLaunchSettings">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/>.</param>
 		protected WatchdogBase(
@@ -190,8 +189,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<WatchdogBase> logger,
-			DreamDaemonLaunchParameters initialLaunchParameters,
-			Api.Models.Instance metadata,
+			Models.DreamDaemonSettings initialLaunchSettings,
+			Models.Instance metadata,
 			bool autoStart)
 		{
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
@@ -204,7 +203,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
+			ActiveLaunchParameters = initialLaunchSettings ?? throw new ArgumentNullException(nameof(initialLaunchSettings));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			this.autoStart = autoStart;
 
@@ -213,7 +212,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			chat.RegisterCommandHandler(this);
 
-			ActiveLaunchParameters = initialLaunchParameters;
 			releaseServers = false;
 			ActiveParametersUpdated = new TaskCompletionSource();
 
@@ -255,7 +253,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
+		public async Task ChangeSettings(Models.DreamDaemonSettings launchParameters, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 			{
@@ -601,7 +599,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!launchResult.StartupTime.HasValue)
 				throw new JobException(
 					ErrorCode.WatchdogStartupTimeout,
-					new JobException($"{serverName} timed out on startup: {ActiveLaunchParameters.StartupTimeout.Value}s"));
+					new JobException($"{serverName} timed out on startup: {ActiveLaunchParameters.StartupTimeout}s"));
 		}
 
 		/// <summary>
@@ -667,7 +665,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected Task BeforeApplyDmb(Models.CompileJob newCompileJob, CancellationToken cancellationToken)
 		{
-			if (newCompileJob.Id.Value == ActiveCompileJob?.Id)
+			if (newCompileJob.Id == ActiveCompileJob?.Id)
 			{
 				Logger.LogTrace("Same compile job, not sending deployment event");
 				return Task.CompletedTask;
@@ -821,7 +819,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							UpdateMonitoredTasks();
 
-							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
+							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds;
 							var heartbeat = heartbeatSeconds == 0
 								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask()

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Tgstation.Server.Host.Models
@@ -24,6 +26,26 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <summary>
+		/// <see cref="Api.Models.Internal.RevisionInformation.CommitSha"/>.
+		/// </summary>
+		[NotMapped]
+		public new string CommitSha
+		{
+			get => base.CommitSha ?? throw new InvalidOperationException("CommitSha was null!");
+			set => base.CommitSha = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Internal.RevisionInformation.OriginCommitSha"/>.
+		/// </summary>
+		[NotMapped]
+		public new string OriginCommitSha
+		{
+			get => base.OriginCommitSha ?? throw new InvalidOperationException("OriginCommitSha was null!");
+			set => base.OriginCommitSha = value;
+		}
+
+		/// <summary>
 		/// See <see cref="Api.Models.RevisionInformation.PrimaryTestMerge"/>.
 		/// </summary>
 		public TestMerge PrimaryTestMerge { get; set; }
@@ -39,7 +61,7 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<CompileJob> CompileJobs { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.RevisionInformation ToApi() => new Api.Models.RevisionInformation
+		public Api.Models.RevisionInformation ToApi() => new ()
 		{
 			CommitSha = CommitSha,
 			Timestamp = Timestamp,
