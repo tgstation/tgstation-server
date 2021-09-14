@@ -948,8 +948,8 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id)
 					.FirstOrDefault();
 
-			bool needsDbUpdate;
-			if (revisionInfo == default)
+			bool needsDbUpdate = revisionInfo == default;
+			if (needsDbUpdate)
 			{
 				needsDbUpdate = true;
 				revisionInfo = new Models.RevisionInformation
@@ -961,13 +961,6 @@ namespace Tgstation.Server.Host.Controllers
 					ActiveTestMerges = new List<RevInfoTestMerge>(), // non null vals for api returns
 				};
 
-				lock (databaseContext) // cleaner this way
-					databaseContext.RevisionInformations.Add(revisionInfo);
-			}
-			else
-				needsDbUpdate = false;
-
-			if (revisionInfo.OriginCommitSha == null)
 				if (lastOriginCommitSha != null)
 					revisionInfo.OriginCommitSha = lastOriginCommitSha;
 				else
@@ -975,6 +968,9 @@ namespace Tgstation.Server.Host.Controllers
 					revisionInfo.OriginCommitSha = repoSha;
 					Logger.LogInformation(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 				}
+
+				databaseContext.RevisionInformations.Add(revisionInfo);
+			}
 
 			revInfoSink?.Invoke(revisionInfo);
 			return needsDbUpdate;
