@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +16,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="EntityId.Id"/>.
 		/// </summary>
-		[NotMapped]
 		public new long Id
 		{
 			get => base.Id ?? throw new InvalidOperationException("Id was null!");
@@ -27,7 +25,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="NamedEntity.Name"/>.
 		/// </summary>
-		[NotMapped]
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public new string Name
 		{
 			get => base.Name ?? throw new InvalidOperationException("Name was null!");

@@ -367,6 +367,8 @@ namespace Tgstation.Server.Host.Database
 			// Also break the link between ritm and testmerge so it doesn't cycle in a triangle with rev info
 			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisionInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);
 
+			modelBuilder.Entity<Job>().HasOne(x => x.StartedBy).WithMany();
+
 			var compileJob = modelBuilder.Entity<CompileJob>();
 			compileJob.HasIndex(x => x.DirectoryName);
 			compileJob.HasOne(x => x.Job).WithOne().OnDelete(DeleteBehavior.Cascade);

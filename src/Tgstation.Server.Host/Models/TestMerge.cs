@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
+
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -16,9 +17,9 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// <see cref="Api.Models.TestMergeParameters.TargetCommitSha"/>.
+		/// <see cref="TestMergeParameters.TargetCommitSha"/>.
 		/// </summary>
-		[NotMapped]
+		[StringLength(Limits.MaximumCommitShaLength)]
 		public new string TargetCommitSha
 		{
 			get => base.TargetCommitSha ?? throw new InvalidOperationException("TargetCommitSha was null!");

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
@@ -29,9 +29,8 @@ namespace Tgstation.Server.Host.Models
 		ICollection<ChatChannel>? channels;
 
 		/// <summary>
-		/// <see cref="Api.Models.EntityId.Id"/>.
+		/// <see cref="EntityId.Id"/>.
 		/// </summary>
-		[NotMapped]
 		public new long Id
 		{
 			get => base.Id ?? throw new InvalidOperationException("Id was null!");
@@ -39,9 +38,9 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <summary>
-		/// <see cref="Api.Models.NamedEntity.Name"/>.
+		/// <see cref="NamedEntity.Name"/>.
 		/// </summary>
-		[NotMapped]
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public new string Name
 		{
 			get => base.Name ?? throw new InvalidOperationException("Name was null!");
@@ -51,7 +50,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.ChatBotSettings.ConnectionString"/>.
 		/// </summary>
-		[NotMapped]
 		public new string ConnectionString
 		{
 			get => base.ConnectionString ?? throw new InvalidOperationException("ConnectionString was null!");
@@ -61,7 +59,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.ChatBotSettings.Enabled"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool Enabled
 		{
 			get => base.Enabled ?? throw new InvalidOperationException("Enabled was null!");
@@ -71,7 +68,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.ChatBotSettings.ReconnectionInterval"/>.
 		/// </summary>
-		[NotMapped]
 		public new uint ReconnectionInterval
 		{
 			get => base.ReconnectionInterval ?? throw new InvalidOperationException("ReconnectionInterval was null!");
@@ -81,7 +77,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.ChatBotSettings.ChannelLimit"/>.
 		/// </summary>
-		[NotMapped]
 		public new ushort ChannelLimit
 		{
 			get => base.ChannelLimit ?? throw new InvalidOperationException("ChannelLimit was null!");
@@ -89,7 +84,7 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <summary>
-		/// The instance <see cref="Api.Models.EntityId.Id"/>.
+		/// The instance <see cref="EntityId.Id"/>.
 		/// </summary>
 		public long InstanceId { get; set; }
 

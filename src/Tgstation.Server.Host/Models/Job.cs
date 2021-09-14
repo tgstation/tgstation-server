@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +15,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.EntityId.Id"/>.
 		/// </summary>
-		[NotMapped]
 		public new long Id
 		{
 			get => base.Id ?? throw new InvalidOperationException("Id was null!");
@@ -26,7 +24,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.Job.Description"/>.
 		/// </summary>
-		[NotMapped]
 		public new string Description
 		{
 			get => base.Description ?? throw new InvalidOperationException("Description was null!");
@@ -36,7 +33,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.Job.Cancelled"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool Cancelled
 		{
 			get => base.Cancelled ?? throw new InvalidOperationException("Cancelled was null!");
@@ -46,7 +42,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.Job.StartedAt"/>.
 		/// </summary>
-		[NotMapped]
 		public new DateTimeOffset StartedAt
 		{
 			get => base.StartedAt ?? throw new InvalidOperationException("StartedAt was null!");
@@ -88,6 +83,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// Backing field for <see cref="StartedBy"/>.
 		/// </summary>
+		[Required]
 		User? startedBy;
 
 		/// <inheritdoc />

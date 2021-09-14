@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +14,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="EntityId.Id"/>.
 		/// </summary>
-		[NotMapped]
 		public new long Id
 		{
 			get => base.Id ?? throw new InvalidOperationException("Id was null!");
@@ -25,7 +23,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.CompileJob.DirectoryName"/>.
 		/// </summary>
-		[NotMapped]
 		public new Guid DirectoryName
 		{
 			get => base.DirectoryName ?? throw new InvalidOperationException("DirectoryName was null!");

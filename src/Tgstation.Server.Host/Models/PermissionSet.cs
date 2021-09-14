@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +13,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.EntityId.Id"/>.
 		/// </summary>
-		[NotMapped]
 		public new long Id
 		{
 			get => base.Id ?? throw new InvalidOperationException("Id was null!");
@@ -54,7 +52,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.PermissionSet.AdministrationRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new AdministrationRights AdministrationRights
 		{
 			get => base.AdministrationRights ?? throw new InvalidOperationException("AdministrationRights was null!");
@@ -64,7 +61,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.PermissionSet.InstanceManagerRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new InstanceManagerRights InstanceManagerRights
 		{
 			get => base.InstanceManagerRights ?? throw new InvalidOperationException("InstanceManagerRights was null!");

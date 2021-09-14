@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
+
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -17,7 +18,7 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The instance <see cref="Api.Models.EntityId.Id"/>.
+		/// The instance <see cref="EntityId.Id"/>.
 		/// </summary>
 		public long InstanceId { get; set; }
 
@@ -35,7 +36,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.RevisionInformation.CommitSha"/>.
 		/// </summary>
-		[NotMapped]
+		[StringLength(Limits.MaximumCommitShaLength)]
 		public new string CommitSha
 		{
 			get => base.CommitSha ?? throw new InvalidOperationException("CommitSha was null!");
@@ -45,7 +46,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.RevisionInformation.OriginCommitSha"/>.
 		/// </summary>
-		[NotMapped]
+		[StringLength(Limits.MaximumCommitShaLength)]
 		public new string OriginCommitSha
 		{
 			get => base.OriginCommitSha ?? throw new InvalidOperationException("OriginCommitSha was null!");
@@ -100,7 +101,7 @@ namespace Tgstation.Server.Host.Models
 			OriginCommitSha = OriginCommitSha,
 			PrimaryTestMerge = PrimaryTestMerge?.ToApi(),
 			ActiveTestMerges = ActiveTestMerges.Select(x => x.TestMerge.ToApi()).ToList(),
-			CompileJobs = CompileJobs.Select(x => new Api.Models.EntityId
+			CompileJobs = CompileJobs.Select(x => new EntityId
 			{
 				Id = x.Id,
 			}).ToList(),

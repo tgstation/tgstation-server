@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
+
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -28,7 +29,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.OAuthConnection.ExternalUserId"/>.
 		/// </summary>
-		[NotMapped]
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public new string ExternalUserId
 		{
 			get => base.ExternalUserId ?? throw new InvalidOperationException("ExternalUserId was null!");

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +24,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.DreamMakerSettings.ApiValidationPort"/>.
 		/// </summary>
-		[NotMapped]
 		public new ushort ApiValidationPort
 		{
 			get => base.ApiValidationPort ?? throw new InvalidOperationException("ApiValidationPort was null!");
@@ -35,7 +33,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.DreamMakerSettings.Timeout"/>.
 		/// </summary>
-		[NotMapped]
 		public new TimeSpan Timeout
 		{
 			get => base.Timeout ?? throw new InvalidOperationException("Timeout was null!");
@@ -45,7 +42,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.DreamMakerSettings.RequireDMApiValidation"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool RequireDMApiValidation
 		{
 			get => base.RequireDMApiValidation ?? throw new InvalidOperationException("RequireDMApiValidation was null!");
@@ -55,7 +51,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Internal.DreamMakerSettings.ApiValidationSecurityLevel"/>.
 		/// </summary>
-		[NotMapped]
 		public new DreamDaemonSecurity ApiValidationSecurityLevel
 		{
 			get => base.ApiValidationSecurityLevel ?? throw new InvalidOperationException("ApiValidationSecurityLevel was null!");

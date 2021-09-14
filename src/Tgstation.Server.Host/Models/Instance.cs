@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
@@ -20,9 +20,8 @@ namespace Tgstation.Server.Host.Models
 		public const ushort DefaultChatBotLimit = 10;
 
 		/// <summary>
-		/// <see cref="Api.Models.EntityId.Id"/>.
+		/// <see cref="EntityId.Id"/>.
 		/// </summary>
-		[NotMapped]
 		public new long Id
 		{
 			get => base.Id ?? throw new InvalidOperationException("Id was null!");
@@ -32,7 +31,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Instance.ChatBotLimit"/>.
 		/// </summary>
-		[NotMapped]
 		public new ushort ChatBotLimit
 		{
 			get => base.ChatBotLimit ?? throw new InvalidOperationException("ChatBotLimit was null!");
@@ -40,9 +38,9 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <summary>
-		/// <see cref="Api.Models.NamedEntity.Name"/>.
+		/// <see cref="NamedEntity.Name"/>.
 		/// </summary>
-		[NotMapped]
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public new string Name
 		{
 			get => base.Name ?? throw new InvalidOperationException("Name was null!");
@@ -52,7 +50,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Instance.Path"/>.
 		/// </summary>
-		[NotMapped]
 		public new string Path
 		{
 			get => base.Path ?? throw new InvalidOperationException("Path was null!");
@@ -62,7 +59,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Instance.Online"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool Online
 		{
 			get => base.Online ?? throw new InvalidOperationException("Online was null!");
@@ -72,7 +68,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="Api.Models.Instance.AutoUpdateInterval"/>.
 		/// </summary>
-		[NotMapped]
 		public new uint AutoUpdateInterval
 		{
 			get => base.AutoUpdateInterval ?? throw new InvalidOperationException("AutoUpdateInterval was null!");

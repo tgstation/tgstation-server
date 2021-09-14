@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +23,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.UpdateSubmodules"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool UpdateSubmodules
 		{
 			get => base.UpdateSubmodules ?? throw new InvalidOperationException("UpdateSubmodules was null!");
@@ -34,7 +32,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.ShowTestMergeCommitters"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool ShowTestMergeCommitters
 		{
 			get => base.ShowTestMergeCommitters ?? throw new InvalidOperationException("ShowTestMergeCommitters was null!");
@@ -44,7 +41,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.CreateGitHubDeployments"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool CreateGitHubDeployments
 		{
 			get => base.CreateGitHubDeployments ?? throw new InvalidOperationException("CreateGitHubDeployments was null!");
@@ -54,7 +50,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.AutoUpdatesKeepTestMerges"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool AutoUpdatesKeepTestMerges
 		{
 			get => base.AutoUpdatesKeepTestMerges ?? throw new InvalidOperationException("AutoUpdatesKeepTestMerges was null!");
@@ -64,7 +59,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.AutoUpdatesSynchronize"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool AutoUpdatesSynchronize
 		{
 			get => base.AutoUpdatesSynchronize ?? throw new InvalidOperationException("AutoUpdatesSynchronize was null!");
@@ -74,7 +68,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.PushTestMergeCommits"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool PushTestMergeCommits
 		{
 			get => base.PushTestMergeCommits ?? throw new InvalidOperationException("PushTestMergeCommits was null!");
@@ -84,7 +77,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.PostTestMergeComment"/>.
 		/// </summary>
-		[NotMapped]
 		public new bool PostTestMergeComment
 		{
 			get => base.PostTestMergeComment ?? throw new InvalidOperationException("PostTestMergeComment was null!");
@@ -94,7 +86,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.ShowTestMergeCommitters"/>.
 		/// </summary>
-		[NotMapped]
 		public new string CommitterName
 		{
 			get => base.CommitterName ?? throw new InvalidOperationException("CommitterName was null!");
@@ -104,7 +95,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.ShowTestMergeCommitters"/>.
 		/// </summary>
-		[NotMapped]
 		public new string CommitterEmail
 		{
 			get => base.CommitterEmail ?? throw new InvalidOperationException("CommitterEmail was null!");

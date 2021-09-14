@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +24,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.InstancePermissionSet.RepositoryRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new RepositoryRights RepositoryRights
 		{
 			get => base.RepositoryRights ?? throw new InvalidOperationException("RepositoryRights was null!");
@@ -35,7 +33,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.InstancePermissionSet.ByondRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new ByondRights ByondRights
 		{
 			get => base.ByondRights ?? throw new InvalidOperationException("ByondRights was null!");
@@ -45,7 +42,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.InstancePermissionSet.DreamMakerRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new DreamMakerRights DreamMakerRights
 		{
 			get => base.DreamMakerRights ?? throw new InvalidOperationException("DreamMakerRights was null!");
@@ -55,7 +51,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.InstancePermissionSet.DreamDaemonRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new DreamDaemonRights DreamDaemonRights
 		{
 			get => base.DreamDaemonRights ?? throw new InvalidOperationException("DreamDaemonRights was null!");
@@ -65,7 +60,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.InstancePermissionSet.ChatBotRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new ChatBotRights ChatBotRights
 		{
 			get => base.ChatBotRights ?? throw new InvalidOperationException("ChatBotRights was null!");
@@ -75,7 +69,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.InstancePermissionSet.ConfigurationRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new ConfigurationRights ConfigurationRights
 		{
 			get => base.ConfigurationRights ?? throw new InvalidOperationException("ConfigurationRights was null!");
@@ -85,7 +78,6 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.InstancePermissionSet.InstancePermissionSetRights"/>.
 		/// </summary>
-		[NotMapped]
 		public new InstancePermissionSetRights InstancePermissionSetRights
 		{
 			get => base.InstancePermissionSetRights ?? throw new InvalidOperationException("InstancePermissionSetRights was null!");
