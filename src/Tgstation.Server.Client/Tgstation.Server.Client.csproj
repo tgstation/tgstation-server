@@ -6,6 +6,7 @@
     <Description>Client library for tgstation-server</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
     <PackageReleaseNotes>Fixed automatic refresh erroring internally. Fixed request loggers given to ServerClientFactory not being passed to the IServerClient.</PackageReleaseNotes>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

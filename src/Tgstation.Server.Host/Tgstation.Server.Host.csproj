@@ -3,6 +3,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <!-- API1000/API1001: Commonly documented error responses trigger it -->
     <NoWarn>API1000,API1001</NoWarn>
   </PropertyGroup>

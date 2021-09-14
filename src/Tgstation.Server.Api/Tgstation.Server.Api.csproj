@@ -6,6 +6,7 @@
     <Description>API definitions for tgstation-server</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
     <PackageReleaseNotes>See https://github.com/tgstation/tgstation-server/releases/tag/api-v$(TgsApiVersion)</PackageReleaseNotes>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <!-- CA1028: No unsigned enums, CS8019: https://github.com/dotnet/roslyn/issues/28773 -->
     <NoWarn>CA1028,CS8019</NoWarn>
   </PropertyGroup>
