@@ -60,6 +60,11 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <summary>
+		/// Allows checking if <see cref="startedBy"/> is set.
+		/// </summary>
+		public bool StartedBySet => startedBy != null;
+
+		/// <summary>
 		/// See <see cref="JobResponse.CancelledBy"/>.
 		/// </summary>
 		public User? CancelledBy { get; set; }

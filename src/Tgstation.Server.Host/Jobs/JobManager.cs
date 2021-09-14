@@ -96,16 +96,17 @@ namespace Tgstation.Server.Host.Jobs
 					};
 					databaseContext.Instances.Attach(job.Instance);
 
-					if (job.StartedBy == null)
+					if (!job.StartedBySet)
 						job.StartedBy = await databaseContext
 							.Users
-							.GetTgsUser(cancellationToken)
+							.GetTgsUserId(cancellationToken)
 							.ConfigureAwait(false);
 					else
 						job.StartedBy = new User
 						{
 							Id = job.StartedBy.Id,
 						};
+
 					databaseContext.Users.Attach(job.StartedBy);
 
 					databaseContext.Jobs.Add(job);
@@ -197,7 +198,7 @@ namespace Tgstation.Server.Host.Jobs
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
 				if (user == null)
-					user = await databaseContext.Users.GetTgsUser(cancellationToken).ConfigureAwait(false);
+					user = await databaseContext.Users.GetTgsUserId(cancellationToken).ConfigureAwait(false);
 
 				var updatedJob = new Job { Id = job.Id };
 				databaseContext.Jobs.Attach(updatedJob);
@@ -294,7 +295,11 @@ namespace Tgstation.Server.Host.Jobs
 					try
 					{
 						var oldJob = job;
-						job = new Job { Id = oldJob.Id };
+						job = new Job
+						{
+							Id = oldJob.Id,
+							Cancelled = false,
+						};
 
 						void UpdateProgress(int progress)
 						{
