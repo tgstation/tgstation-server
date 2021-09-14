@@ -1,9 +1,11 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <DebugType>Full</DebugType>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

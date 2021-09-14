@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-
-    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    <TargetFramework>$(BaseTargetFramework)-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

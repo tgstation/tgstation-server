@@ -19,10 +19,16 @@ ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 # Build web control panel
+WORKDIR /repo
+COPY Directory.Build.props Directory.Build.props
+
 WORKDIR /repo/build
 
 COPY build/Version.props Version.props
 COPY build/ControlPanelVersion.props ControlPanelVersion.props
+
+WORKDIR /repo/src
+COPY src/Directory.Build.props Directory.Build.props
 
 WORKDIR /repo/src/Tgstation.Server.Host
 

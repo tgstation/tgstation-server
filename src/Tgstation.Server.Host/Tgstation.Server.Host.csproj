@@ -1,10 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
-    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <!-- API1000/API1001: Commonly documented error responses trigger it -->
     <NoWarn>API1000,API1001</NoWarn>
   </PropertyGroup>
@@ -45,6 +42,7 @@
       </AssemblyAttributes>
     </ItemGroup>
 
+    <Message Text="Webpanel Ver: $(TgsControlPanelVersion)" Importance="high" />
     <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
