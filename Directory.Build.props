@@ -1,8 +1,6 @@
 <Project>
   <Import Project="build/Version.props" />
   <PropertyGroup>
-    <BaseTargetFramework>net6.0</BaseTargetFramework>
-    <TargetFramework>$(BaseTargetFramework)</TargetFramework>
     <IsPackable>false</IsPackable>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
   </PropertyGroup>

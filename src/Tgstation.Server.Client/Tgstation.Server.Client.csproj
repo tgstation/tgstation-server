@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../build/NugetCommon.props" />
   <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
     <Version>$(TgsClientVersion)</Version>
     <Description>Client library for tgstation-server</Description>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
