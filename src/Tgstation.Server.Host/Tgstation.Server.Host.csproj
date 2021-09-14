@@ -43,7 +43,6 @@
       </AssemblyAttributes>
     </ItemGroup>
 
-    <Message Text="Webpanel Ver: $(TgsControlPanelVersion)" Importance="high" />
     <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
