@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		public ulong RealId
 		{
 			get => UInt64.Parse(Id, CultureInfo.InvariantCulture);
-			set => value.ToString(CultureInfo.InvariantCulture);
+			set => Id = value.ToString(CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>
