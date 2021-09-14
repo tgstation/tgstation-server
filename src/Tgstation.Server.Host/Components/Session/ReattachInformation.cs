@@ -113,7 +113,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			lock (runtimeInformationLock)
 			{
-				if (runtimeInformation != null)
+				if (this.runtimeInformation != null)
 					throw new InvalidOperationException("RuntimeInformation already set!");
 
 				this.runtimeInformation = runtimeInformation;
