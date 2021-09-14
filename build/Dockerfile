@@ -26,6 +26,7 @@ WORKDIR /repo/build
 
 COPY build/Version.props Version.props
 COPY build/ControlPanelVersion.props ControlPanelVersion.props
+COPY build/NugetCommon.props NugetCommon.props
 
 WORKDIR /repo/src
 COPY src/Directory.Build.props Directory.Build.props

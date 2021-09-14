@@ -13,14 +13,10 @@ appveyor.yml
 omnisharp.json
 README.md
 
-build/**
-!build/analyzers.ruleset
-!build/tgs.docker.sh
-!build/tgs.ico
-!build/tgs.png
-!build/stylecop.json
-!build/Version.props
-!build/ControlPanelVersion.props
+build/coverlet.runsettings
+build/Dockerfile
+build/GenerateMigrations.sh
+build/OpenApiValidationSettings.json
 docs
 src/DMAPI
 src/Tgstation.Server.Host/ClientApp
