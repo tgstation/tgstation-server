@@ -1,4 +1,8 @@
-﻿namespace Tgstation.Server.Host.Models
+﻿using System;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	public sealed class ChatChannel : Api.Models.ChatChannel, IApiTransformable<Api.Models.ChatChannel>
@@ -16,7 +20,17 @@
 		/// <summary>
 		/// The <see cref="ChatBot"/>.
 		/// </summary>
-		public ChatBot ChatSettings { get; set; }
+		[BackingField(nameof(chatSettings))]
+		public ChatBot ChatSettings
+		{
+			get => chatSettings ?? throw new InvalidOperationException("ChatSettings not set!");
+			set => chatSettings = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="ChatSettings"/>.
+		/// </summary>
+		ChatBot? chatSettings;
 
 		/// <inheritdoc />
 		public Api.Models.ChatChannel ToApi() => new ()

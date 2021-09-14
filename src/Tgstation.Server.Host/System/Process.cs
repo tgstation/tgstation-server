@@ -213,7 +213,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Resume()
+		public void Unsuspend()
 		{
 			try
 			{

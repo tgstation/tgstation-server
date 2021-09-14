@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (configurationRelativePath == null)
 				configurationRelativePath = "/";
 
-			List<ConfigurationFileResponse>? result = new List<ConfigurationFileResponse>();
+			List<ConfigurationFileResponse>? result = new ();
 
 			void ListImpl()
 			{
@@ -414,7 +414,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFileResponse?> Write(string configurationRelativePath, ISystemIdentity? systemIdentity, string previousHash, CancellationToken cancellationToken)
+		public async Task<ConfigurationFileResponse?> Write(string configurationRelativePath, ISystemIdentity? systemIdentity, string? previousHash, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);

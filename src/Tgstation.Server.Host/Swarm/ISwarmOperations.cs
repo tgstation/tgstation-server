@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// Pass in an updated list of <paramref name="swarmServers"/> to the node.
 		/// </summary>
 		/// <param name="swarmServers">An <see cref="IEnumerable{T}"/> of the updated <see cref="SwarmServerResponse"/>s.</param>
-		void UpdateSwarmServersList(IEnumerable<SwarmServerResponse> swarmServers);
+		void UpdateSwarmServersList(IEnumerable<SwarmServerResponse?> swarmServers);
 
 		/// <summary>
 		/// Notify the node of an update request from the controller.

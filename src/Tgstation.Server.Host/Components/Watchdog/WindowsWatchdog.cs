@@ -215,7 +215,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			// Let this throw hard if it fails
 			if (suspended)
-				Server?.Resume();
+				Server?.Unsuspend();
 
 			pendingSwappable?.Dispose();
 			pendingSwappable = windowsProvider;

@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
@@ -55,18 +57,38 @@ namespace Tgstation.Server.Host.Models
 		/// See <see cref="JobResponse.StartedBy"/>.
 		/// </summary>
 		[Required]
-		public User StartedBy { get; set; }
+		[BackingField(nameof(startedBy))]
+		public User StartedBy
+		{
+			get => startedBy ?? throw new InvalidOperationException("StartedBy not set!");
+			set => startedBy = value;
+		}
 
 		/// <summary>
 		/// See <see cref="JobResponse.CancelledBy"/>.
 		/// </summary>
-		public User CancelledBy { get; set; }
+		public User? CancelledBy { get; set; }
 
 		/// <summary>
 		/// The <see cref="Models.Instance"/> the job belongs to if any.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		[BackingField(nameof(instance))]
+		public Instance Instance
+		{
+			get => instance ?? throw new InvalidOperationException("Instance not set!");
+			set => instance = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="Instance"/>.
+		/// </summary>
+		Instance? instance;
+
+		/// <summary>
+		/// Backing field for <see cref="StartedBy"/>.
+		/// </summary>
+		User? startedBy;
 
 		/// <inheritdoc />
 		public JobResponse ToApi() => new ()

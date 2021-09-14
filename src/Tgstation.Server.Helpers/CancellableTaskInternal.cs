@@ -44,8 +44,13 @@ namespace Tgstation.Server.Helpers
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
-			Cancel();
-			cancellationTokenSource.Dispose();
+			lock (cancellationTokenSource)
+			{
+				if (!Task.IsCompleted)
+					Cancel();
+
+				cancellationTokenSource.Dispose();
+			}
 
 			await Task.ConfigureAwait(false);
 			GC.SuppressFinalize(this);

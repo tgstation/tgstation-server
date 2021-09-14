@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
@@ -38,17 +37,14 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Initializes a new instance of the <see cref="TGForumsOAuthValidator"/> class.
 		/// </summary>
 		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="BaseOAuthValidator"/>.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		public TGForumsOAuthValidator(
 			IHttpClientFactory httpClientFactory,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<TGForumsOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
 			: base(
 				 httpClientFactory,
-				 assemblyInformationProvider,
 				 logger,
 				 oAuthConfiguration)
 		{
@@ -76,11 +72,18 @@ namespace Tgstation.Server.Host.Security.OAuth
 					Convert.ToBase64String(
 						Encoding.UTF8.GetBytes(
 							clientSecret)));
-				var returnUrlQueryString = HttpUtility.UrlEncode(
-					OAuthConfiguration
-						.RedirectUrl
-						.ToString());
-				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_create_session.php")
+
+				var returnUrl = OAuthConfiguration
+					.RedirectUrl
+					?.ToString();
+				if (returnUrl == null)
+				{
+					Logger.LogError("TGForums OAuth misconfigured, missing {nameofRedirectUrl}!", nameof(OAuthConfiguration.RedirectUrl));
+					return null;
+				}
+
+				var returnUrlQueryString = HttpUtility.UrlEncode(returnUrl);
+				var builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_create_session.php")
 				{
 					Query = $"site_private_token={privateTokenQueryString}&return_uri={returnUrlQueryString}",
 				};
@@ -91,7 +94,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 				response.EnsureSuccessStatusCode();
 
-				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var json = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 				var newSession = JsonConvert.DeserializeObject<TGCreateSessionResponse>(json, SerializerSettings());
 				if (newSession == null)
 				{
@@ -143,7 +146,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 				Logger.LogTrace("Validating session...");
 
-				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_get_session_info.php")
+				var builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_get_session_info.php")
 				{
 					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(clientSecret)))}&session_private_token={HttpUtility.UrlEncode(sessionTuple.Item1.SessionPrivateToken)}",
 				};
@@ -154,7 +157,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 				response.EnsureSuccessStatusCode();
 
-				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var json = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 				var sessionInfo = JsonConvert.DeserializeObject<TGGetSessionInfoResponse>(json, SerializerSettings());
 				if (sessionInfo == null)
 				{

@@ -136,6 +136,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// </summary>
 		/// <param name="commandType">The value of <see cref="CommandType"/>.</param>
 		TopicParameters(TopicCommandType commandType)
+			: base(String.Empty) // access identifier set later
 		{
 			CommandType = commandType;
 		}

@@ -149,7 +149,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			Logger.LogTrace("Symlinking compile job...");
 			await ActiveSwappable!.MakeActive(cancellationToken).ConfigureAwait(false);
-			Server!.Resume();
+			Server!.Unsuspend();
 		}
 	}
 }

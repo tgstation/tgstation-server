@@ -25,11 +25,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The channel to retrieve the webpanel from. "local" uses the bundled version.
 		/// </summary>
-		public string Channel { get; set; }
+		public string? Channel { get; set; }
 
 		/// <summary>
 		/// Origins allowed for CORS requests.
 		/// </summary>
-		public ICollection<string> AllowedOrigins { get; set; }
+		public ICollection<string>? AllowedOrigins { get; set; }
 	}
 }

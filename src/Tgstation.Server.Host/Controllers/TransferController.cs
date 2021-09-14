@@ -77,12 +77,7 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = $"File downloads must accept both {MediaTypeNames.Application.Octet} and {MediaTypeNames.Application.Json}!",
 				});
 
-			var fileTicketResult = new FileTicketResponse
-			{
-				FileTicket = ticket,
-			};
-
-			var tuple = await fileTransferService.RetrieveDownloadStream(fileTicketResult, cancellationToken).ConfigureAwait(false);
+			var tuple = await fileTransferService.RetrieveDownloadStream(ticket, cancellationToken).ConfigureAwait(false);
 			var stream = tuple.Item1;
 			try
 			{
@@ -119,12 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ticket == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
-			var fileTicketResult = new FileTicketResponse
-			{
-				FileTicket = ticket,
-			};
-
-			var result = await fileTransferService.SetUploadStream(fileTicketResult, Request.Body, cancellationToken).ConfigureAwait(false);
+			var result = await fileTransferService.SetUploadStream(ticket, Request.Body, cancellationToken).ConfigureAwait(false);
 			if (result != null)
 				return result.ErrorCode == ErrorCode.ResourceNotPresent
 					? Gone()

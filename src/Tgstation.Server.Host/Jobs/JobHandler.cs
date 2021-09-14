@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// The <see cref="Task"/> being run.
 		/// </summary>
-		Task task;
+		Task? task;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JobHandler"/> class.

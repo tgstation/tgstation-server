@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string Reference => libGitRepo.Head.FriendlyName;
 
 		/// <inheritdoc />
-		public Uri Origin => new Uri(libGitRepo.Network.Remotes.First().Url);
+		public Uri Origin => new (libGitRepo.Network.Remotes.First().Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>.
@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(committerEmail));
 
 			logger.LogDebug(
-				"Begin AddTestMerge: #{0} at {1} ({2}) by <{3} ({4})>",
+				"Begin AddTestMerge: #{number} at {sha} ({comment}) by <{username} ({email})>",
 				testMergeParameters.Number,
 				testMergeParameters.TargetCommitSha?.Substring(0, 7),
 				testMergeParameters.Comment,
@@ -905,7 +905,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A new set of <see cref="PushOptions"/>.</returns>
-		PushOptions GeneratePushOptions(Action<int> progressReporter, string username, string password, CancellationToken cancellationToken) => new PushOptions
+		PushOptions GeneratePushOptions(Action<int> progressReporter, string username, string password, CancellationToken cancellationToken) => new ()
 		{
 			OnPackBuilderProgress = (stage, current, total) =>
 			{

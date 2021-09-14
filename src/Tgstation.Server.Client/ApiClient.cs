@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -70,7 +71,7 @@ namespace Tgstation.Server.Client
 		/// Get the <see cref="JsonSerializerSettings"/> to use.
 		/// </summary>
 		/// <returns>A new <see cref="JsonSerializerSettings"/> instance.</returns>
-		static JsonSerializerSettings GetSerializerSettings() => new JsonSerializerSettings
+		static JsonSerializerSettings GetSerializerSettings() => new ()
 		{
 			ContractResolver = new CamelCasePropertyNamesContractResolver(),
 			Converters = new[] { new VersionConverter() },
@@ -81,6 +82,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="response">The <see cref="HttpResponseMessage"/>.</param>
 		/// <param name="json">The JSON <see cref="string"/> if any.</param>
+		[DoesNotReturn]
 		static void HandleBadResponse(HttpResponseMessage response, string json)
 		{
 			ErrorMessageResponse? errorMessage = null;
@@ -93,35 +95,21 @@ namespace Tgstation.Server.Client
 			{
 			}
 
-#pragma warning disable IDE0010 // Add missing cases
-			switch (response.StatusCode)
-#pragma warning restore IDE0010 // Add missing cases
+			ClientException exception = response.StatusCode switch
 			{
-				case HttpStatusCode.UpgradeRequired:
-					throw new VersionMismatchException(errorMessage, response);
-				case HttpStatusCode.Unauthorized:
-					throw new UnauthorizedException(errorMessage, response);
-				case HttpStatusCode.InternalServerError:
-					throw new ServerErrorException(errorMessage, response);
-				case HttpStatusCode.NotImplemented:
-				// unprocessable entity
-				case (HttpStatusCode)422:
-					throw new MethodNotSupportedException(errorMessage, response);
-				case HttpStatusCode.NotFound:
-				case HttpStatusCode.Gone:
-				case HttpStatusCode.Conflict:
-					throw new ConflictException(errorMessage, response);
-				case HttpStatusCode.Forbidden:
-					throw new InsufficientPermissionsException(response);
-				case HttpStatusCode.ServiceUnavailable:
-					throw new ServiceUnavailableException(response);
-				case HttpStatusCode.RequestTimeout:
-					throw new RequestTimeoutException(response);
-				case (HttpStatusCode)429:
-					throw new RateLimitException(errorMessage, response);
-				default:
-					throw new ApiConflictException(errorMessage, response);
-			}
+				HttpStatusCode.UpgradeRequired => new VersionMismatchException(errorMessage, response),
+				HttpStatusCode.Unauthorized => new UnauthorizedException(errorMessage, response),
+				HttpStatusCode.InternalServerError => new ServerErrorException(errorMessage, response),
+				HttpStatusCode.NotImplemented or (HttpStatusCode)422 => new MethodNotSupportedException(errorMessage, response),
+				HttpStatusCode.NotFound or HttpStatusCode.Gone or HttpStatusCode.Conflict => new ConflictException(errorMessage, response),
+				HttpStatusCode.Forbidden => new InsufficientPermissionsException(response),
+				HttpStatusCode.ServiceUnavailable => new ServiceUnavailableException(response),
+				HttpStatusCode.RequestTimeout => new RequestTimeoutException(response),
+				(HttpStatusCode)429 => new RateLimitException(errorMessage, response),
+				_ => new ApiConflictException(errorMessage, response),
+			};
+
+			throw exception;
 		}
 
 		/// <summary>
@@ -378,7 +366,7 @@ namespace Tgstation.Server.Client
 
 			using (response)
 			{
-				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var json = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
 				if (!response.IsSuccessStatusCode)
 				{

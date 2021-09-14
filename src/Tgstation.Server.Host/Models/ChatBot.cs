@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Models
 		[BackingField(nameof(instance))]
 		public Instance Instance
 		{
-			get => instance ?? throw new InvalidOperationException("Property not initialized!");
+			get => instance ?? throw new InvalidOperationException("Instance not set!");
 			set => instance = value;
 		}
 
@@ -110,7 +110,7 @@ namespace Tgstation.Server.Host.Models
 		[BackingField(nameof(channels))]
 		public ICollection<ChatChannel> Channels
 		{
-			get => channels ?? throw new InvalidOperationException("Property not initialized!");
+			get => channels ?? throw new InvalidOperationException("Channels not set!");
 			set => channels = value;
 		}
 

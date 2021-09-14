@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Security
 	sealed class AuthenticationContextFactory : IAuthenticationContextFactory, IDisposable
 	{
 		/// <inheritdoc />
-		public IAuthenticationContext CurrentAuthenticationContext { get; private set; }
+		public IAuthenticationContext? CurrentAuthenticationContext { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the <see cref="AuthenticationContextFactory"/>.

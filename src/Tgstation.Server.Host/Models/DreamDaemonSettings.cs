@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Models
 		[BackingField(nameof(instance))]
 		public Instance Instance
 		{
-			get => instance ?? throw new InvalidOperationException("Property not initialized!");
+			get => instance ?? throw new InvalidOperationException("Instance not set!");
 			set => instance = value;
 		}
 

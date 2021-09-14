@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
@@ -18,12 +20,6 @@ namespace Tgstation.Server.Host.Models
 		/// The instance <see cref="Api.Models.EntityId.Id"/>.
 		/// </summary>
 		public long InstanceId { get; set; }
-
-		/// <summary>
-		/// The parent <see cref="Models.Instance"/>.
-		/// </summary>
-		[Required]
-		public Instance Instance { get; set; }
 
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.RepositorySettings.UpdateSubmodules"/>.
@@ -114,6 +110,22 @@ namespace Tgstation.Server.Host.Models
 			get => base.CommitterEmail ?? throw new InvalidOperationException("CommitterEmail was null!");
 			set => base.CommitterEmail = value;
 		}
+
+		/// <summary>
+		/// The parent <see cref="Models.Instance"/>.
+		/// </summary>
+		[Required]
+		[BackingField(nameof(instance))]
+		public Instance Instance
+		{
+			get => instance ?? throw new InvalidOperationException("Instance not set!");
+			set => instance = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="Instance"/>.
+		/// </summary>
+		Instance? instance;
 
 		/// <inheritdoc />
 		public RepositoryResponse ToApi() => new ()

@@ -12,7 +12,6 @@ using Newtonsoft.Json.Linq;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
@@ -35,17 +34,14 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Initializes a new instance of the <see cref="GenericOAuthValidator"/> class.
 		/// </summary>
 		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="BaseOAuthValidator"/>.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		public GenericOAuthValidator(
 			IHttpClientFactory httpClientFactory,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<GenericOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
 			: base(
 				 httpClientFactory,
-				 assemblyInformationProvider,
 				 logger,
 				 oAuthConfiguration)
 		{
@@ -61,6 +57,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 				using var tokenRequest = new HttpRequestMessage(HttpMethod.Post, TokenUrl);
 
 				var tokenRequestPayload = CreateTokenRequest(code);
+				if (tokenRequestPayload == null)
+					return null;
 
 				// roundabout but it works
 				var tokenRequestJson = JsonConvert.SerializeObject(
@@ -78,7 +76,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 				var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken).ConfigureAwait(false);
 				tokenResponse.EnsureSuccessStatusCode();
-				var tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 				var tokenResponseJson = JObject.Parse(tokenResponsePayload);
 
 				var accessToken = DecodeTokenPayload(tokenResponseJson);
@@ -97,7 +95,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken).ConfigureAwait(false);
 				userInformationResponse.EnsureSuccessStatusCode();
 
-				var userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 				var userInformationJson = JObject.Parse(userInformationPayload);
 
 				return DecodeUserInformationPayload(userInformationJson);
@@ -136,7 +134,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Create the <see cref="OAuthTokenRequest"/> for a given <paramref name="code"/>.
 		/// </summary>
 		/// <param name="code">The OAuth code from the browser.</param>
-		/// <returns>The <see cref="OAuthTokenRequest"/> to send to <see cref="TokenUrl"/>.</returns>
-		protected abstract OAuthTokenRequest CreateTokenRequest(string code);
+		/// <returns>The <see cref="OAuthTokenRequest"/> to send to <see cref="TokenUrl"/> on success, <see langword="null"/> on error.</returns>
+		protected abstract OAuthTokenRequest? CreateTokenRequest(string code);
 	}
 }

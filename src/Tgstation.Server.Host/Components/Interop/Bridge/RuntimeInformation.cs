@@ -42,12 +42,12 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of the launch.
 		/// </summary>
-		public DreamDaemonSecurity? SecurityLevel { get; }
+		public DreamDaemonSecurity SecurityLevel { get; }
 
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of the launch.
 		/// </summary>
-		public DreamDaemonVisibility? Visibility { get; }
+		public DreamDaemonVisibility Visibility { get; }
 
 		/// <summary>
 		/// The <see cref="TestMergeInformation"/>s in the launch.
@@ -70,8 +70,8 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			IDmbProvider dmbProvider,
 			Version serverVersion,
 			string instanceName,
-			DreamDaemonSecurity? securityLevel,
-			DreamDaemonVisibility? visibility,
+			DreamDaemonSecurity securityLevel,
+			DreamDaemonVisibility visibility,
 			ushort serverPort,
 			bool apiValidateOnly)
 			: base(chatTrackingContext?.Channels ?? throw new ArgumentNullException(nameof(chatTrackingContext)))

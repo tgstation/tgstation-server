@@ -5,8 +5,8 @@
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <!-- API1000: Commonly documented error responses trigger it -->
-    <NoWarn>API1000,CS8618</NoWarn>
+    <!-- API1000/API1001: Commonly documented error responses trigger it -->
+    <NoWarn>API1000,API1001</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>

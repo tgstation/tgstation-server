@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 using Tgstation.Server.Api.Models;
@@ -31,19 +30,27 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level DreamDaemon was launched with.
 		/// </summary>
-		[Required]
-		public DreamDaemonSecurity? LaunchSecurityLevel { get; set; }
+		public DreamDaemonSecurity LaunchSecurityLevel { get; set; }
 
 		/// <summary>
 		/// The <see cref="DreamDaemonVisibility"/> DreamDaemon was launched with.
 		/// </summary>
-		[Required]
-		public DreamDaemonVisibility? LaunchVisibility { get; set; }
+		public DreamDaemonVisibility LaunchVisibility { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReattachInformationBase"/> class.
 		/// </summary>
+		[Obsolete("For EFCore initialization.", true)]
 		protected ReattachInformationBase()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReattachInformationBase"/> class.
+		/// </summary>
+		/// <param name="accessIdentifier">The access identifier for the <see cref="DMApiParameters"/>.</param>
+		protected ReattachInformationBase(string accessIdentifier)
+			: base(accessIdentifier)
 		{
 		}
 
@@ -52,10 +59,11 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		/// <param name="copy">The <see cref="ReattachInformationBase"/> to copy values from.</param>
 		protected ReattachInformationBase(ReattachInformationBase copy)
+			: base(
+				copy != null
+					? copy.AccessIdentifier
+					: throw new ArgumentNullException(nameof(copy)))
 		{
-			if (copy == null)
-				throw new ArgumentNullException(nameof(copy));
-			AccessIdentifier = copy.AccessIdentifier;
 			Port = copy.Port;
 			ProcessId = copy.ProcessId;
 			RebootState = copy.RebootState;

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Mono.Unix;
 using Mono.Unix.Native;
 
+using Tgstation.Server.Helpers;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.System
@@ -16,7 +17,7 @@ namespace Tgstation.Server.Host.System
 	/// Handles POSIX signals.
 	/// </summary>
 	[UnsupportedOSPlatform("windows")]
-	sealed class PosixSignalHandler : IHostedService, IDisposable
+	sealed class PosixSignalHandler : IHostedService, IAsyncDisposable
 	{
 		/// <summary>
 		/// Check for signals each time this amount of milliseconds pass.
@@ -39,14 +40,9 @@ namespace Tgstation.Server.Host.System
 		readonly ILogger<PosixSignalHandler> logger;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> used to stop the <see cref="signalCheckerTask"/>.
-		/// </summary>
-		readonly CancellationTokenSource cancellationTokenSource;
-
-		/// <summary>
 		/// The thread used to check the signal. See http://docs.go-mono.com/?link=T%3aMono.Unix.UnixSignal.
 		/// </summary>
-		Task signalCheckerTask;
+		CancellableTask? signalCheckerTask;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixSignalHandler"/> class.
@@ -59,12 +55,14 @@ namespace Tgstation.Server.Host.System
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-			cancellationTokenSource = new CancellationTokenSource();
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => cancellationTokenSource.Dispose();
+		public async ValueTask DisposeAsync()
+		{
+			if (signalCheckerTask != null)
+				await signalCheckerTask.DisposeAsync().ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
@@ -72,7 +70,7 @@ namespace Tgstation.Server.Host.System
 			if (signalCheckerTask != null)
 				throw new InvalidOperationException("Attempted to start PosixSignalHandler twice!");
 
-			signalCheckerTask = SignalChecker();
+			signalCheckerTask = new CancellableTask(token => SignalChecker(token));
 
 			return Task.CompletedTask;
 		}
@@ -80,21 +78,19 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			if (signalCheckerTask?.IsCompleted != false)
+			if (signalCheckerTask?.Task.IsCompleted != false)
 				return;
 
-			logger.LogDebug("Stopping SignalCheckerThread...");
-			cancellationTokenSource.Cancel();
-
 			logger.LogTrace("Joining SignalCheckerThread...");
-			await signalCheckerTask.ConfigureAwait(false);
+			await signalCheckerTask.DisposeAsync().ConfigureAwait(false);
 		}
 
 		/// <summary>
 		/// Thread for listening to signal.
 		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task SignalChecker()
+		async Task SignalChecker(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -104,7 +100,6 @@ namespace Tgstation.Server.Host.System
 				if (!unixSignal.IsSet)
 				{
 					logger.LogTrace("Waiting for SIGUSR1...");
-					var cancellationToken = cancellationTokenSource.Token;
 					while (!unixSignal.IsSet)
 						await asyncDelayer.Delay(TimeSpan.FromMilliseconds(CheckDelayMs), cancellationToken);
 

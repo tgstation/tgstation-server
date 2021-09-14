@@ -74,16 +74,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			await ClearImpl(db, false, cancellationToken).ConfigureAwait(false);
 
-			var dbReattachInfo = new Models.ReattachInformation
-			{
-				AccessIdentifier = reattachInformation.AccessIdentifier,
-				CompileJobId = reattachInformation.Dmb.CompileJob.Id,
-				Port = reattachInformation.Port,
-				ProcessId = reattachInformation.ProcessId,
-				RebootState = reattachInformation.RebootState,
-				LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel,
-				LaunchVisibility = reattachInformation.LaunchVisibility,
-			};
+			var dbReattachInfo = new Models.ReattachInformation(reattachInformation, reattachInformation.Dmb.CompileJob.Id);
 
 			db.ReattachInformations.Add(dbReattachInfo);
 			await db.Save(cancellationToken).ConfigureAwait(false);
@@ -135,8 +126,11 @@ namespace Tgstation.Server.Host.Components.Session
 					try
 					{
 						using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
-						process.Terminate();
-						await process.Lifetime.ConfigureAwait(false);
+						if (process != null)
+						{
+							process.Terminate();
+							await process.Lifetime.ConfigureAwait(false);
+						}
 					}
 					catch (Exception ex)
 					{

@@ -22,12 +22,12 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <summary>
 		/// The OAuth redirect URI.
 		/// </summary>
-		public Uri RedirectUri { get; }
+		public Uri? RedirectUri { get; }
 
 		/// <summary>
 		/// The OAuth grant type.
 		/// </summary>
-		public string GrantType { get; }
+		public string? GrantType { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OAuthTokenRequest"/> class.

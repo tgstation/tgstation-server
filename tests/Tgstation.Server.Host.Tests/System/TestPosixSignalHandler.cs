@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.System.Tests
 	public sealed class TestPosixSignalHandler
 	{
 		[TestMethod]
-		public void TestConstruction()
+		public async Task TestConstruction()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(null, null, null));
 
@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.System.Tests
 			var mockAsyncDelayer = Mock.Of<IAsyncDelayer>();
 			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, mockAsyncDelayer, null));
 
-			new PosixSignalHandler(mockServerControl, mockAsyncDelayer, Mock.Of<ILogger<PosixSignalHandler>>()).Dispose();
+			await new PosixSignalHandler(mockServerControl, mockAsyncDelayer, Mock.Of<ILogger<PosixSignalHandler>>()).DisposeAsync();
 		}
 
 		[TestMethod]

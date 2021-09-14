@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Controllers
 				?? throw new InvalidOperationException("AuthenticationContextFactory has no AuthenticationContext associated!");
 
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
+			Instance = AuthenticationContext.InstancePermissionSet?.Instance;
 			this.requireHeaders = requireHeaders;
 		}
 
@@ -380,7 +380,7 @@ namespace Tgstation.Server.Host.Controllers
 			var page = pageQuery ?? 1;
 
 			var paginationResult = await queryGenerator().ConfigureAwait(false);
-			if (paginationResult.EarlyOut != null)
+			if (paginationResult.Failure)
 				return paginationResult.EarlyOut;
 
 			var queriedResults = paginationResult

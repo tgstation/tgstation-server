@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Models
 		[BackingField(nameof(passwordHash))]
 		public string PasswordHash
 		{
-			get => passwordHash ?? throw new InvalidOperationException("passwordHash not set!");
+			get => passwordHash ?? throw new InvalidOperationException("PasswordHash not set!");
 			set => passwordHash = value;
 		}
 
@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.Models
 		[BackingField(nameof(canonicalName))]
 		public string CanonicalName
 		{
-			get => canonicalName ?? throw new InvalidOperationException("canonicalName not set!");
+			get => canonicalName ?? throw new InvalidOperationException("CanonicalName not set!");
 			set => canonicalName = value;
 		}
 
@@ -99,17 +99,32 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="User"/>s created by this <see cref="User"/>.
 		/// </summary>
-		public ICollection<User> CreatedUsers { get; set; }
+		[BackingField(nameof(createdUsers))]
+		public ICollection<User> CreatedUsers
+		{
+			get => createdUsers ?? throw new InvalidOperationException("CreatedUsers not set!");
+			set => createdUsers = value;
+		}
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
-		public ICollection<TestMerge> TestMerges { get; set; }
+		[BackingField(nameof(testMerges))]
+		public ICollection<TestMerge> TestMerges
+		{
+			get => testMerges ?? throw new InvalidOperationException("TestMerges not set!");
+			set => testMerges = value;
+		}
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
-		public ICollection<OAuthConnection> OAuthConnections { get; set; }
+		[BackingField(nameof(oAuthConnections))]
+		public ICollection<OAuthConnection> OAuthConnections
+		{
+			get => oAuthConnections ?? throw new InvalidOperationException("OAuthConnections not set!");
+			set => oAuthConnections = value;
+		}
 
 		/// <summary>
 		/// Change a <see cref="UserName.Name"/> into a <see cref="CanonicalName"/>.
@@ -127,6 +142,21 @@ namespace Tgstation.Server.Host.Models
 		/// Backing field for <see cref="CanonicalName"/>.
 		/// </summary>
 		string? canonicalName;
+
+		/// <summary>
+		/// Backing field for <see cref="CreatedUsers"/>.
+		/// </summary>
+		ICollection<User>? createdUsers;
+
+		/// <summary>
+		/// Backing field for <see cref="TestMerges"/>.
+		/// </summary>
+		ICollection<TestMerge>? testMerges;
+
+		/// <summary>
+		/// Backing field for <see cref="OAuthConnections"/>.
+		/// </summary>
+		ICollection<OAuthConnection>? oAuthConnections;
 
 		/// <inheritdoc />
 		public UserResponse ToApi() => CreateUserResponse(true);

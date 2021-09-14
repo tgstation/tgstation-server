@@ -20,6 +20,7 @@ using Tgstation.Server.Helpers;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.System;
 
@@ -53,7 +54,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// See <see cref="JsonSerializerSettings"/> for the swarm system.
 		/// </summary>
-		static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+		static readonly JsonSerializerSettings SerializerSettings = new ()
 		{
 			ContractResolver = new DefaultContractResolver
 			{
@@ -71,8 +72,16 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// If the swarm system is enabled.
 		/// </summary>
-		[MemberNotNullWhen(true, nameof(swarmServers), nameof(registrationIds), nameof(updateSynchronizationLock), nameof(forceHealthCheckTcs))]
-		bool SwarmMode => swarmConfiguration.PrivateKey != null;
+		[MemberNotNullWhen(
+			true,
+			nameof(swarmServers),
+			nameof(registrationIds),
+			nameof(updateSynchronizationLock),
+			nameof(forceHealthCheckTcs),
+			nameof(localSwarmServer),
+			nameof(controllerAddress),
+			nameof(privateKey))]
+		bool SwarmMode { get; }
 
 		/// <summary>
 		/// Lazily constructed <see cref="IRestartRegistration"/>.
@@ -115,9 +124,14 @@ namespace Tgstation.Server.Host.Swarm
 		readonly ILogger<SwarmService> logger;
 
 		/// <summary>
-		/// The <see cref="SwarmConfiguration"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="SwarmServerResponse"/> for the local server.
 		/// </summary>
-		readonly SwarmConfiguration swarmConfiguration;
+		readonly SwarmServerResponse? localSwarmServer;
+
+		/// <summary>
+		/// The <see cref="Uri"/> of the swarm controller.
+		/// </summary>
+		readonly Uri? controllerAddress;
 
 		/// <summary>
 		/// <see cref="List{T}"/> of connected <see cref="SwarmServerResponse"/>s.
@@ -133,6 +147,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// <see langword="lock"/> <see cref="object"/> used for accessing <see cref="targetUpdateVersion"/>.
 		/// </summary>
 		readonly object? updateSynchronizationLock;
+
+		/// <summary>
+		/// The <see cref="SwarmConfiguration.PrivateKey"/>.
+		/// </summary>
+		readonly string? privateKey;
 
 		/// <summary>
 		/// If the current server is the swarm controller.
@@ -194,7 +213,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="serverControl">The <see cref="IServerControl"/> to register ourselves as a <see cref="IRestartHandler"/> with.</param>
 		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdater"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
-		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> for the <see cref="SwarmService"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> for the <see cref="SwarmService"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmService(
 			IDatabaseContextFactory databaseContextFactory,
@@ -205,6 +225,7 @@ namespace Tgstation.Server.Host.Swarm
 			IServerUpdateInitiator serverUpdateInitiator,
 			IAsyncDelayer asyncDelayer,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<SwarmService> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -216,11 +237,14 @@ namespace Tgstation.Server.Host.Swarm
 
 			serverUpdater = serverUpdateInitiator ?? throw new ArgumentNullException(nameof(serverUpdateInitiator));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
-			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+			SwarmMode = !String.IsNullOrWhiteSpace(swarmConfiguration.PrivateKey);
 			if (SwarmMode)
 			{
+				privateKey = swarmConfiguration.PrivateKey;
 				if (swarmConfiguration.Address == null)
 					throw new InvalidOperationException("Swarm configuration missing Address!");
 				if (String.IsNullOrWhiteSpace(swarmConfiguration.Identifier))
@@ -231,17 +255,24 @@ namespace Tgstation.Server.Host.Swarm
 			if (SwarmMode)
 			{
 				forceHealthCheckTcs = new TaskCompletionSource();
-				if (swarmController)
-					registrationIds = new Dictionary<string, Guid>();
 
+				if (swarmController)
+				{
+					controllerAddress = new Uri($"http://127.0.0.1:{generalConfiguration.ApiPort}");
+					registrationIds = new Dictionary<string, Guid>();
+				}
+				else
+					controllerAddress = swarmConfiguration.ControllerAddress;
+
+				localSwarmServer = new SwarmServerResponse
+				{
+					Address = swarmConfiguration.Address!,
+					Controller = swarmController,
+					Identifier = swarmConfiguration.Identifier!,
+				};
 				swarmServers = new List<SwarmServerResponse>
 				{
-					new SwarmServerResponse
-					{
-						Address = swarmConfiguration.Address!,
-						Controller = swarmController,
-						Identifier = swarmConfiguration.Identifier!,
-					},
+					localSwarmServer,
 				};
 
 				updateSynchronizationLock = new object();
@@ -313,7 +344,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (!swarmController)
 				task = SendRemoteAbort(new SwarmServerResponse
 				{
-					Address = swarmConfiguration.ControllerAddress,
+					Address = controllerAddress,
 				});
 			else
 			{
@@ -465,7 +496,7 @@ namespace Tgstation.Server.Host.Swarm
 					swarmController
 						? "Controller"
 						: "Node",
-					swarmConfiguration.Identifier);
+					localSwarmServer.Identifier);
 			else
 				logger.LogTrace("Swarm mode disabled");
 
@@ -492,13 +523,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task Shutdown(CancellationToken cancellationToken)
 		{
-			async Task SendUnregistrationRequest(SwarmServerResponse? swarmServer)
+			async Task SendUnregistrationRequest(SwarmServerResponse swarmServer)
 			{
-				swarmServer ??= new SwarmServerResponse
-				{
-					Address = swarmConfiguration.ControllerAddress,
-				};
-
 				using var httpClient = httpClientFactory.CreateClient();
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -524,14 +550,17 @@ namespace Tgstation.Server.Host.Swarm
 
 			await DisposeAsync().ConfigureAwait(false);
 
-			if (!swarmController)
+			if (SwarmMode && !swarmController)
 			{
 				// if we restart a node, we don't want to unregister it so the controller doesn't try to update without it
 				// if we're shutting it down, though we should unregister it
 				if (!restarting)
 				{
 					logger.LogInformation("Unregistering from swarm controller...");
-					await SendUnregistrationRequest(null);
+					await SendUnregistrationRequest(new SwarmServerResponse
+					{
+						Address = controllerAddress,
+					});
 				}
 				else
 					logger.LogTrace("Not unregistering from swarm controller as we are restarting");
@@ -571,7 +600,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public void UpdateSwarmServersList(IEnumerable<SwarmServerResponse> swarmServers)
+		public void UpdateSwarmServersList(IEnumerable<SwarmServerResponse?> swarmServers)
 		{
 			if (swarmServers == null)
 				throw new ArgumentNullException(nameof(swarmServers));
@@ -585,8 +614,10 @@ namespace Tgstation.Server.Host.Swarm
 			lock (this.swarmServers)
 			{
 				this.swarmServers.Clear();
-				this.swarmServers.AddRange(swarmServers);
-				logger.LogDebug("Updated swarm server list with {0} total nodes", this.swarmServers.Count);
+				this.swarmServers.AddRange(
+					swarmServers
+						.WhereNotNull());
+				logger.LogDebug("Updated swarm server list with {nodeCount} total nodes", this.swarmServers.Count);
 			}
 		}
 
@@ -788,10 +819,7 @@ namespace Tgstation.Server.Host.Swarm
 					swarmServer,
 					HttpMethod.Put,
 					SwarmConstants.UpdateRoute,
-					new SwarmUpdateRequest
-					{
-						UpdateVersion = version,
-					});
+					new SwarmUpdateRequest(version));
 
 				using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 				return response.IsSuccessStatusCode;
@@ -1056,7 +1084,10 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SwarmRegistrationResult"/>.</returns>
 		async Task<SwarmRegistrationResult> RegisterWithController(CancellationToken cancellationToken)
 		{
-			logger.LogInformation("Attempting to register with swarm controller at {0}...", swarmConfiguration.ControllerAddress);
+			if (!SwarmMode)
+				throw new InvalidOperationException("Cannot RegisterWithController while not in swarm mode!");
+
+			logger.LogInformation("Attempting to register with swarm controller at {0}...", controllerAddress);
 			var requestedRegistrationId = Guid.NewGuid();
 
 			using var httpClient = httpClientFactory.CreateClient();
@@ -1067,8 +1098,8 @@ namespace Tgstation.Server.Host.Swarm
 				new SwarmRegistrationRequest
 				{
 					ServerVersion = assemblyInformationProvider.Version,
-					Identifier = swarmConfiguration.Identifier,
-					Address = swarmConfiguration.Address,
+					Identifier = localSwarmServer.Identifier,
+					Address = localSwarmServer.Address,
 				},
 				requestedRegistrationId);
 
@@ -1094,7 +1125,7 @@ namespace Tgstation.Server.Host.Swarm
 				logger.LogWarning("Error registering with swarm controller: HTTP {0}", response.StatusCode);
 				try
 				{
-					var responseData = await response.Content.ReadAsStringAsync();
+					var responseData = await response.Content.ReadAsStringAsync(cancellationToken);
 					if (!String.IsNullOrWhiteSpace(responseData))
 						logger.LogDebug("Response:{0}{1}", Environment.NewLine, responseData);
 				}
@@ -1124,7 +1155,7 @@ namespace Tgstation.Server.Host.Swarm
 			logger.LogDebug("Sending updated server list to all nodes...");
 			List<SwarmServerResponse> currentSwarmServers;
 			lock (swarmServers)
-				currentSwarmServers = swarmServers.ToList();
+				currentSwarmServers = new (swarmServers);
 
 			using var httpClient = httpClientFactory.CreateClient();
 			async Task UpdateRequestForServer(SwarmServerResponse swarmServer)
@@ -1135,7 +1166,7 @@ namespace Tgstation.Server.Host.Swarm
 					String.Empty,
 					new SwarmServersUpdateRequest
 					{
-						SwarmServers = currentSwarmServers,
+						SwarmServers = new List<SwarmServerResponse?>(currentSwarmServers),
 					});
 
 				try
@@ -1184,7 +1215,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			swarmServer ??= new SwarmServerResponse
 			{
-				Address = swarmConfiguration.ControllerAddress,
+				Address = controllerAddress,
 			};
 
 			subroute = $"{SwarmConstants.ControllerRoute}/{subroute}";
@@ -1198,7 +1229,7 @@ namespace Tgstation.Server.Host.Swarm
 				httpMethod,
 				swarmServer.Address + subroute[1..]);
 
-			request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
+			request.Headers.Add(SwarmConstants.ApiKeyHeader, privateKey);
 			request.Headers.UserAgent.Clear();
 			request.Headers.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
 			request.Headers.Accept.Clear();
@@ -1208,7 +1239,7 @@ namespace Tgstation.Server.Host.Swarm
 			else if (swarmController)
 			{
 				lock (swarmServers)
-					if (registrationIds.TryGetValue(swarmServer.Identifier, out var registrationId))
+					if (registrationIds.TryGetValue(swarmServer.Identifier!, out var registrationId))
 						request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationId.ToString());
 			}
 			else if (controllerRegistration.HasValue)

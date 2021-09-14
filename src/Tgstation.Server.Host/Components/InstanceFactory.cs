@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
@@ -15,7 +14,6 @@ using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
@@ -140,11 +138,6 @@ namespace Tgstation.Server.Host.Components
 		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="InstanceFactory"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
@@ -169,7 +162,6 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
@@ -192,8 +184,7 @@ namespace Tgstation.Server.Host.Components
 			IServerPortProvider serverPortProvider,
 			IFileTransferTicketProvider fileTransferService,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
-			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -217,7 +208,6 @@ namespace Tgstation.Server.Host.Components
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />

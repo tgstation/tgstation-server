@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			var builder = chatBot.CreateConnectionStringBuilder();
-			if (builder == null || !builder.Valid || !(builder is IrcConnectionStringBuilder ircBuilder))
+			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
 				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 
 			address = ircBuilder.Address ?? throw new InvalidOperationException("Connection string missing Address!");
@@ -272,7 +272,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			else
 				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
 
-			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0
+			var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0
 				? String.Empty
 				: String.Format(
 					CultureInfo.InvariantCulture,
@@ -491,22 +491,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			var channelFriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName;
-			var message = new Message
-			{
-				Content = e.Data.Message,
-				User = new ChatUser
-				{
-					Channel = new ChannelRepresentation(address, channelFriendlyName, channelId)
+			var message = new Message(
+				new ChatUser(
+					new ChannelRepresentation(address, channelFriendlyName, channelId)
 					{
 						IsPrivateChannel = isPrivate,
 
 						// isAdmin and Tag populated by manager
 					},
-					FriendlyName = username,
-					RealId = userId,
-					Mention = username,
-				},
-			};
+					username,
+					username,
+					userId),
+				e.Data.Message);
 
 			EnqueueMessage(message);
 		}

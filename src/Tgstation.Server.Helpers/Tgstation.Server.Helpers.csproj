@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
   </PropertyGroup>
 
 </Project>

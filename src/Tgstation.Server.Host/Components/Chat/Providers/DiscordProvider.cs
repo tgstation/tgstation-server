@@ -560,13 +560,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						messageCreateEvent.ID);
 			}
 
-			var result = new Message
-			{
-				Content = content,
-				User = new ChatUser
-				{
-					RealId = messageCreateEvent.Author.ID.Value,
-					Channel = new ChannelRepresentation(
+			var result = new Message(
+				new ChatUser(
+					new ChannelRepresentation(
 						pm ? messageCreateEvent.Author.Username : guildName,
 						channelResponse.Entity.Name.Value,
 						messageCreateEvent.ChannelID.Value)
@@ -575,10 +571,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 						// isAdmin and Tag populated by manager
 					},
-					FriendlyName = messageCreateEvent.Author.Username,
-					Mention = NormalizeMentions($"<@{messageCreateEvent.Author.ID}>"),
-				},
-			};
+					messageCreateEvent.Author.Username,
+					NormalizeMentions($"<@{messageCreateEvent.Author.ID}>"),
+					messageCreateEvent.Author.ID.Value),
+				content);
 
 			EnqueueMessage(result);
 			return Result.FromSuccess();

@@ -322,7 +322,7 @@ namespace Tgstation.Server.Host.Controllers
 				DatabaseContext.ChatChannels.RemoveRange(current.Channels);
 				if (hasChannels)
 				{
-					var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x)).ToList();
+					var dbChannels = model.Channels!.Select(x => ConvertApiChatChannel(x)).ToList();
 					DatabaseContext.ChatChannels.AddRange(dbChannels);
 					current.Channels = dbChannels;
 				}

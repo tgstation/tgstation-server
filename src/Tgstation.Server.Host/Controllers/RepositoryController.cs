@@ -485,7 +485,7 @@ namespace Tgstation.Server.Host.Controllers
 				progressReporter(0);
 
 				// get a base line for where we are
-				Models.RevisionInformation? lastRevisionInfo = null;
+				Models.RevisionInformation lastRevisionInfo = null!; // god help this function
 
 				var attachedInstance = new Models.Instance
 				{
@@ -649,7 +649,8 @@ namespace Tgstation.Server.Host.Controllers
 					if (newTestMerges)
 					{
 						// bit of sanitization
-						foreach (var newTestMergeWithoutTargetCommitSha in model.NewTestMerges!.Where(x => String.IsNullOrWhiteSpace(x.TargetCommitSha)))
+						var newTestMerges = model.NewTestMerges!;
+						foreach (var newTestMergeWithoutTargetCommitSha in newTestMerges.Where(x => String.IsNullOrWhiteSpace(x.TargetCommitSha)))
 							newTestMergeWithoutTargetCommitSha.TargetCommitSha = null;
 
 						var gitHubClient = currentModel.AccessToken != null
@@ -662,7 +663,7 @@ namespace Tgstation.Server.Host.Controllers
 						if (lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
 						{
 							bool cantSearch = false;
-							foreach (var newTestMerge in model.NewTestMerges)
+							foreach (var newTestMerge in newTestMerges)
 							{
 								if (newTestMerge.TargetCommitSha != null)
 #pragma warning disable CA1308 // Normalize strings to uppercase
@@ -695,7 +696,7 @@ namespace Tgstation.Server.Host.Controllers
 											.AsQueryable()
 											.Where(x => x.Instance.Id == Instance.Id
 											&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
-											&& x.ActiveTestMerges.Count <= model.NewTestMerges.Count
+											&& x.ActiveTestMerges.Count <= newTestMerges.Count
 											&& x.ActiveTestMerges.Count > 0)
 											.Include(x => x.ActiveTestMerges)
 											.ThenInclude(x => x.TestMerge)
@@ -705,19 +706,19 @@ namespace Tgstation.Server.Host.Controllers
 
 								// split here cause this bit has to be done locally
 								revInfoWereLookingFor = dbPull
-									?.Where(x => x.ActiveTestMerges.Count == model.NewTestMerges.Count
+									?.Where(x => x.ActiveTestMerges.Count == newTestMerges.Count
 									&& x.ActiveTestMerges.Select(y => y.TestMerge)
-									.All(y => model.NewTestMerges.Any(z =>
+									.All(y => newTestMerges.Any(z =>
 									y.Number == z.Number
 									&& z.TargetCommitSha != null
 									&& y.TargetCommitSha.StartsWith(z.TargetCommitSha, StringComparison.Ordinal)
 									&& (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))))
 									.FirstOrDefault();
 
-								if (revInfoWereLookingFor == default && model.NewTestMerges.Count > 1)
+								if (revInfoWereLookingFor == default && newTestMerges.Count > 1)
 								{
 									// okay try to add at least SOME prs we've seen before
-									var listedNewTestMerges = model.NewTestMerges.ToList();
+									var listedNewTestMerges = newTestMerges.ToList();
 
 									var appliedTestMergeIds = new List<long>();
 
@@ -732,7 +733,7 @@ namespace Tgstation.Server.Host.Controllers
 													if (testRevInfo.PrimaryTestMerge == null)
 														return false;
 
-													var testMergeMatch = model.NewTestMerges.Any(testTestMerge =>
+													var testMergeMatch = newTestMerges.Any(testTestMerge =>
 													{
 														var numberMatch = testRevInfo.PrimaryTestMerge.Number == testTestMerge.Number;
 														if (!numberMatch)
@@ -764,7 +765,7 @@ namespace Tgstation.Server.Host.Controllers
 											if (revInfoWereLookingFor != null)
 											{
 												lastGoodRevInfo = revInfoWereLookingFor;
-												appliedTestMergeIds.Add(revInfoWereLookingFor.PrimaryTestMerge.Id);
+												appliedTestMergeIds.Add(revInfoWereLookingFor.PrimaryTestMerge!.Id);
 												listedNewTestMerges.Remove(newTestMergeParameters);
 												break;
 											}
@@ -792,7 +793,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						if (needToApplyRemainingPrs)
 						{
-							foreach (var newTestMerge in model.NewTestMerges)
+							foreach (var newTestMerge in newTestMerges)
 							{
 								if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == newTestMerge.Number))
 									throw new JobException(ErrorCode.RepoDuplicateTestMerge);

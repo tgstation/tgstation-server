@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Models
 		[BackingField(nameof(users))]
 		public ICollection<User> Users
 		{
-			get => users ?? throw new InvalidOperationException("users not set!");
+			get => users ?? throw new InvalidOperationException("Users not set!");
 			set => users = value;
 		}
 

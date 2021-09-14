@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace Tgstation.Server.Host.Components.Interop
 {
@@ -10,7 +10,24 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// Used to identify and authenticate the DreamDaemon instance.
 		/// </summary>
-		[Required]
-		public string AccessIdentifier { get; set; }
+		public virtual string AccessIdentifier { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DMApiParameters"/> class.
+		/// </summary>
+		[Obsolete("For helper initialization.", true)]
+		protected DMApiParameters()
+		{
+			AccessIdentifier = default!;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DMApiParameters"/> class.
+		/// </summary>
+		/// <param name="accessIdentifier">The value of <see cref="AccessIdentifier"/>.</param>
+		protected DMApiParameters(string accessIdentifier)
+		{
+			AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
+		}
 	}
 }

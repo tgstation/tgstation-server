@@ -308,7 +308,7 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public FileStream GetFileStream(string path, bool shareWrite) => new FileStream(
+		public FileStream GetFileStream(string path, bool shareWrite) => new (
 			ResolvePath(path),
 			FileMode.Open,
 			FileAccess.Read,

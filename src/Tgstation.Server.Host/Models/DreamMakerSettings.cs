@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
@@ -19,12 +21,6 @@ namespace Tgstation.Server.Host.Models
 		/// The instance <see cref="EntityId.Id"/>.
 		/// </summary>
 		public long InstanceId { get; set; }
-
-		/// <summary>
-		/// The parent <see cref="Models.Instance"/>.
-		/// </summary>
-		[Required]
-		public Instance Instance { get; set; }
 
 		/// <summary>
 		/// <see cref="Api.Models.Internal.DreamMakerSettings.ApiValidationPort"/>.
@@ -65,6 +61,22 @@ namespace Tgstation.Server.Host.Models
 			get => base.ApiValidationSecurityLevel ?? throw new InvalidOperationException("ApiValidationSecurityLevel was null!");
 			set => base.ApiValidationSecurityLevel = value;
 		}
+
+		/// <summary>
+		/// The parent <see cref="Models.Instance"/>.
+		/// </summary>
+		[Required]
+		[BackingField(nameof(instance))]
+		public Instance Instance
+		{
+			get => instance ?? throw new InvalidOperationException("Instance not set!");
+			set => instance = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="Instance"/>.
+		/// </summary>
+		Instance? instance;
 
 		/// <inheritdoc />
 		public DreamMakerResponse ToApi() => new ()

@@ -9,6 +9,11 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 	/// </summary>
 	public sealed class CustomCommand : ICommand
 	{
+		/// <summary>
+		/// Check if a <see cref="CustomCommand"/> received by the DMAPI is valid.
+		/// </summary>
+		public bool Valid => Name != null && HelpText != null;
+
 		/// <inheritdoc />
 		public string Name { get; set; }
 
@@ -21,7 +26,17 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <summary>
 		/// The <see cref="ICustomCommandHandler"/> for the <see cref="CustomCommand"/>.
 		/// </summary>
-		ICustomCommandHandler handler;
+		ICustomCommandHandler? handler;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CustomCommand"/> class.
+		/// </summary>
+		[Obsolete("For JSON deserialization", true)]
+		public CustomCommand()
+		{
+			Name = default!;
+			HelpText = default!;
+		}
 
 		/// <summary>
 		/// Set a new <paramref name="handler"/>.

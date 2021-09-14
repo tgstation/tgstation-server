@@ -255,9 +255,9 @@ namespace Tgstation.Server.Host.Components.Session
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
 
-					var byondTopicSender = topicClientFactory.CreateTopicClient(
-						TimeSpan.FromMilliseconds(
-							launchParameters.TopicRequestTimeout));
+					var topicTimeout = TimeSpan.FromMilliseconds(
+						launchParameters.TopicRequestTimeout);
+					var byondTopicSender = topicClientFactory.CreateTopicClient(topicTimeout);
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
@@ -359,6 +359,7 @@ namespace Tgstation.Server.Host.Components.Session
 							dmbProvider,
 							process,
 							runtimeInformation,
+							topicTimeout,
 							accessIdentifier,
 							launchParameters.Port);
 
@@ -448,8 +449,8 @@ namespace Tgstation.Server.Host.Components.Session
 						var runtimeInformation = CreateRuntimeInformation(
 							reattachInformation.Dmb,
 							chatTrackingContext,
-							null,
-							null,
+							reattachInformation.LaunchSecurityLevel,
+							reattachInformation.LaunchVisibility,
 							false);
 						reattachInformation.SetRuntimeInformation(runtimeInformation);
 
@@ -503,10 +504,10 @@ namespace Tgstation.Server.Host.Components.Session
 		RuntimeInformation CreateRuntimeInformation(
 			IDmbProvider dmbProvider,
 			IChatTrackingContext chatTrackingContext,
-			DreamDaemonSecurity? securityLevel,
-			DreamDaemonVisibility? visibility,
+			DreamDaemonSecurity securityLevel,
+			DreamDaemonVisibility visibility,
 			bool apiValidateOnly)
-			=> new RuntimeInformation(
+			=> new (
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,

@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.System
 	/// <summary>
 	/// Represents process lifetime.
 	/// </summary>
-	interface IProcessBase
+	public interface IProcessBase
 	{
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the exit code of the process.
@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Resumes the process.
 		/// </summary>
-		void Resume();
+		void Unsuspend();
 
 		/// <summary>
 		/// Create a dump file of the process.

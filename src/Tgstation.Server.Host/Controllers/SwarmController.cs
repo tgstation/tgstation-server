@@ -130,6 +130,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (serversUpdateRequest == null)
 				throw new ArgumentNullException(nameof(serversUpdateRequest));
 
+			if (serversUpdateRequest.SwarmServers == null)
+				throw new ArgumentException("Expected SwarmServers to not be null!", nameof(serversUpdateRequest));
+
 			if (!ValidateRegistration())
 				return Forbid();
 

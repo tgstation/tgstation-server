@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 
@@ -19,18 +21,6 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="Instance"/>.
 		/// </summary>
 		public long InstanceId { get; set; }
-
-		/// <summary>
-		/// The <see cref="Models.Instance"/> the <see cref="InstancePermissionSet"/> belongs to.
-		/// </summary>
-		[Required]
-		public Instance Instance { get; set; }
-
-		/// <summary>
-		/// The <see cref="Models.PermissionSet"/> the <see cref="InstancePermissionSet"/> belongs to.
-		/// </summary>
-		[Required]
-		public PermissionSet PermissionSet { get; set; }
 
 		/// <summary>
 		/// See <see cref="Api.Models.Internal.InstancePermissionSet.RepositoryRights"/>.
@@ -101,6 +91,38 @@ namespace Tgstation.Server.Host.Models
 			get => base.InstancePermissionSetRights ?? throw new InvalidOperationException("InstancePermissionSetRights was null!");
 			set => base.InstancePermissionSetRights = value;
 		}
+
+		/// <summary>
+		/// The <see cref="Models.Instance"/> <see cref="InstancePermissionSet"/>.
+		/// </summary>
+		[Required]
+		[BackingField(nameof(instance))]
+		public Instance Instance
+		{
+			get => instance ?? throw new InvalidOperationException("Instance not set!");
+			set => instance = value;
+		}
+
+		/// <summary>
+		/// The <see cref="Models.PermissionSet"/> the <see cref="InstancePermissionSet"/> belongs to.
+		/// </summary>
+		[Required]
+		[BackingField(nameof(permissionSet))]
+		public PermissionSet PermissionSet
+		{
+			get => permissionSet ?? throw new InvalidOperationException("PermissionSet not set!");
+			set => permissionSet = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="PermissionSet"/>.
+		/// </summary>
+		PermissionSet? permissionSet;
+
+		/// <summary>
+		/// Backing field for <see cref="Instance"/>.
+		/// </summary>
+		Instance? instance;
 
 		/// <inheritdoc />
 		public InstancePermissionSetResponse ToApi() => new ()

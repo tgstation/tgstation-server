@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
@@ -23,7 +25,12 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Models.Instance"/> the <see cref="RevisionInformation"/> belongs to.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		[BackingField(nameof(instance))]
+		public Instance Instance
+		{
+			get => instance ?? throw new InvalidOperationException("Instance not set!");
+			set => instance = value;
+		}
 
 		/// <summary>
 		/// <see cref="Api.Models.Internal.RevisionInformation.CommitSha"/>.
@@ -48,17 +55,42 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.RevisionInformation.PrimaryTestMerge"/>.
 		/// </summary>
-		public TestMerge PrimaryTestMerge { get; set; }
+		public TestMerge? PrimaryTestMerge { get; set; }
 
 		/// <summary>
 		/// See <see cref="Api.Models.RevisionInformation.ActiveTestMerges"/>.
 		/// </summary>
-		public ICollection<RevInfoTestMerge> ActiveTestMerges { get; set; }
+		[BackingField(nameof(activeTestMerges))]
+		public ICollection<RevInfoTestMerge> ActiveTestMerges
+		{
+			get => activeTestMerges ?? throw new InvalidOperationException("ActiveTestMerges not set!");
+			set => activeTestMerges = value;
+		}
 
 		/// <summary>
 		/// See <see cref="CompileJob"/>s made from this <see cref="RevisionInformation"/>.
 		/// </summary>
-		public ICollection<CompileJob> CompileJobs { get; set; }
+		[BackingField(nameof(compileJobs))]
+		public ICollection<CompileJob> CompileJobs
+		{
+			get => compileJobs ?? throw new InvalidOperationException("CompileJobs not set!");
+			set => compileJobs = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="Instance"/>.
+		/// </summary>
+		Instance? instance;
+
+		/// <summary>
+		/// Backing field for <see cref="ActiveTestMerges"/>.
+		/// </summary>
+		ICollection<RevInfoTestMerge>? activeTestMerges;
+
+		/// <summary>
+		/// Backing field for <see cref="CompileJobs"/>.
+		/// </summary>
+		ICollection<CompileJob>? compileJobs;
 
 		/// <inheritdoc />
 		public Api.Models.RevisionInformation ToApi() => new ()

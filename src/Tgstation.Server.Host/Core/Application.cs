@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="ITokenFactory"/> for the <see cref="Application"/>.
 		/// </summary>
-		ITokenFactory tokenFactory;
+		ITokenFactory? tokenFactory;
 
 		/// <summary>
 		/// Create the default <see cref="IServerFactory"/>.
@@ -185,8 +185,11 @@ namespace Tgstation.Server.Host.Core
 				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(jwtBearerOptions =>
 				{
-					// this line isn't actually run until the first request is made
+					// this isn't actually run until the first request is made
 					// at that point tokenFactory will be populated
+					if (tokenFactory == null)
+						throw new InvalidOperationException("tokenFactory was not set!");
+
 					jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
 					jwtBearerOptions.Events = new JwtBearerEvents
 					{

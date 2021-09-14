@@ -277,7 +277,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			process.Dispose();
 			bridgeRegistration?.Dispose();
-			ReattachInformation.Dmb?.Dispose(); // will be null when released
+			ReattachInformation.Dispose(); // will be null when released
 			chatTrackingContext.Dispose();
 			reattachTopicCts.Dispose();
 
@@ -446,13 +446,10 @@ namespace Tgstation.Server.Host.Components.Session
 			CheckDisposed();
 
 			// we still don't want to dispose the dmb yet, even though we're keeping it alive
-			var tmpProvider = ReattachInformation.Dmb;
-			ReattachInformation.Dmb = null;
+			ReattachInformation.DisposeDmb = false;
 			released = true;
 			await DisposeAsync().ConfigureAwait(false);
 			byondLock.DoNotDeleteThisSession();
-			tmpProvider.KeepAlive();
-			ReattachInformation.Dmb = tmpProvider;
 		}
 
 		/// <inheritdoc />
@@ -600,7 +597,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public void Suspend() => process.Suspend();
 
 		/// <inheritdoc />
-		public void Resume() => process.Resume();
+		public void Unsuspend() => process.Unsuspend();
 
 		/// <inheritdoc />
 		public void ReplaceDmbProvider(IDmbProvider dmbProvider)

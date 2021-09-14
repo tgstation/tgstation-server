@@ -289,6 +289,11 @@ namespace Tgstation.Server.Host.Database
 				?? throw new InvalidOperationException("DbSet for Groups wasn't initialized!"));
 			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets
 				?? throw new InvalidOperationException("DbSet for PermissionSets wasn't initialized!"));
+
+			if (TestMerges == null)
+				throw new InvalidOperationException("DbSet for TestMerges wasn't initialized!");
+			if (RevInfoTestMerges == null)
+				throw new InvalidOperationException("DbSet for RevInfoTestMerges wasn't initialized!");
 		}
 
 		/// <inheritdoc />
@@ -360,7 +365,7 @@ namespace Tgstation.Server.Host.Database
 			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(RevInfoCompileJobDeleteBehavior);
 
 			// Also break the link between ritm and testmerge so it doesn't cycle in a triangle with rev info
-			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisonInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);
+			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisionInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);
 
 			var compileJob = modelBuilder.Entity<CompileJob>();
 			compileJob.HasIndex(x => x.DirectoryName);

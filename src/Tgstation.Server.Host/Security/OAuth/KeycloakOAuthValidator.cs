@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
@@ -18,10 +17,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public override OAuthProvider Provider => OAuthProvider.Keycloak;
 
 		/// <inheritdoc />
-		protected override Uri TokenUrl => new Uri($"{BaseProtocolPath}/token");
+		protected override Uri TokenUrl => new ($"{BaseProtocolPath}/token");
 
 		/// <inheritdoc />
-		protected override Uri UserInformationUrl => new Uri($"{BaseProtocolPath}/userinfo");
+		protected override Uri UserInformationUrl => new ($"{BaseProtocolPath}/userinfo");
 
 		/// <summary>
 		/// Base path to the server's OAuth endpoint.
@@ -32,20 +31,27 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Initializes a new instance of the <see cref="KeycloakOAuthValidator"/> class.
 		/// </summary>
 		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="GenericOAuthValidator"/>.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="GenericOAuthValidator"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="GenericOAuthValidator"/>.</param>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="GenericOAuthValidator"/>.</param>
 		public KeycloakOAuthValidator(
 			IHttpClientFactory httpClientFactory,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<KeycloakOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
-			: base(httpClientFactory, assemblyInformationProvider, logger, oAuthConfiguration)
+			: base(httpClientFactory, logger, oAuthConfiguration)
 		{
 		}
 
 		/// <inheritdoc />
-		protected override OAuthTokenRequest CreateTokenRequest(string code) => new OAuthTokenRequest(OAuthConfiguration, code, "openid");
+		protected override OAuthTokenRequest? CreateTokenRequest(string code)
+		{
+			if (OAuthConfiguration.RedirectUrl == null)
+			{
+				Logger.LogError("Oauth misconfigured, missing RedirectUrl for provider {provider}!", Provider);
+				return null;
+			}
+
+			return new (OAuthConfiguration, code, "openid");
+		}
 
 		/// <inheritdoc />
 		protected override string DecodeTokenPayload(dynamic responseJson) => responseJson.access_token;

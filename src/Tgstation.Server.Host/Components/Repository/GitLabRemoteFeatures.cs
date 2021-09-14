@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				TitleAtMerge = mr.Title,
 				Comment = parameters.Comment,
 				Number = parameters.Number,
-				TargetCommitSha = mr.Sha,
+				TargetCommitSha = revisionToUse,
 				Url = mr.WebUrl,
 			};
 		}

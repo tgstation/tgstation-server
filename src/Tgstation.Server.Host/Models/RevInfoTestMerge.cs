@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -16,12 +19,32 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Models.TestMerge"/>.
 		/// </summary>
 		[Required]
-		public TestMerge TestMerge { get; set; }
+		[BackingField(nameof(testMerge))]
+		public TestMerge TestMerge
+		{
+			get => testMerge ?? throw new InvalidOperationException("TestMerge was null!");
+			set => testMerge = value;
+		}
 
 		/// <summary>
 		/// The <see cref="Models.RevisionInformation"/>.
 		/// </summary>
 		[Required]
-		public RevisionInformation RevisionInformation { get; set; }
+		[BackingField(nameof(revisionInformation))]
+		public RevisionInformation RevisionInformation
+		{
+			get => revisionInformation ?? throw new InvalidOperationException("RevisionInformation was null!");
+			set => revisionInformation = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="TestMerge"/>.
+		/// </summary>
+		TestMerge? testMerge;
+
+		/// <summary>
+		/// Backing field for <see cref="TestMerge"/>.
+		/// </summary>
+		RevisionInformation? revisionInformation;
 	}
 }

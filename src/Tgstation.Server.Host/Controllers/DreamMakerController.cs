@@ -269,7 +269,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ThenInclude(x => x.StartedBy)
 			.Include(x => x.RevisionInformation)
 				.ThenInclude(x => x.PrimaryTestMerge)
-					.ThenInclude(x => x.MergedBy)
+					.ThenInclude(x => x!.MergedBy)
 			.Include(x => x.RevisionInformation)
 				.ThenInclude(x => x.ActiveTestMerges)
 					.ThenInclude(x => x.TestMerge)

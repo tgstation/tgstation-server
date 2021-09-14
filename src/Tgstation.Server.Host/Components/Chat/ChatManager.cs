@@ -684,7 +684,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					{
 						handler = trackingContexts
 							.Where(x => x.CustomCommands != null)
-							.SelectMany(x => x.CustomCommands)
+							.SelectMany(x => x.CustomCommands!)
 							.Where(x => x.Name.ToUpperInvariant() == commandName)
 							.FirstOrDefault();
 					}
@@ -703,8 +703,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						allCommands.AddRange(
 							trackingContexts
 								.Where(x => x.CustomCommands != null)
-								.SelectMany(
-									x => x.CustomCommands));
+								.SelectMany(x => x.CustomCommands!));
 						helpText = String.Format(CultureInfo.InvariantCulture, "Available commands (Type '?' or 'help' and then a command name for more details): {0}", String.Join(", ", allCommands.Select(x => x.Name)));
 					}
 					else
