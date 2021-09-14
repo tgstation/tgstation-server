@@ -22,6 +22,9 @@ namespace Tgstation.Server.Host.Security
 		public InstancePermissionSet InstancePermissionSet => instancePermissionSet ?? throw new InvalidOperationException("AuthenticationContext has no InstancePermissionSet!");
 
 		/// <inheritdoc />
+		public Instance? Instance => instancePermissionSet?.Instance;
+
+		/// <inheritdoc />
 		public ISystemIdentity? SystemIdentity { get; }
 
 		/// <summary>
@@ -72,11 +75,8 @@ namespace Tgstation.Server.Host.Security
 		{
 			var isInstance = RightsHelper.IsInstanceRight(rightsType);
 
-			if (User == null)
-				throw new InvalidOperationException("Authentication context has no user!");
-
-			if (isInstance && InstancePermissionSet == null)
-				return 0;
+			if (User == null || (isInstance && instancePermissionSet == null))
+				return ~0UL;
 			var rightsEnum = RightsHelper.RightToType(rightsType);
 
 			// use the api versions because they're the ones that contain the actual properties

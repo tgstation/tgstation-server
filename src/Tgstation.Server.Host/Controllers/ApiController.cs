@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="IAuthenticationContext"/> for the operation.
 		/// </summary>
-		protected IAuthenticationContext AuthenticationContext { get; }
+		protected IAuthenticationContext AuthenticationContext => authenticationContext ?? throw new InvalidOperationException("AuthenticationContext not loaded!");
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ApiController"/>.
@@ -69,6 +69,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="Instance"/> for the operation.
 		/// </summary>
 		protected virtual Models.Instance? Instance { get; }
+
+		/// <summary>
+		/// Backing field for <see cref="AuthenticationContext"/>.
+		/// </summary>
+		readonly IAuthenticationContext? authenticationContext;
 
 		/// <summary>
 		/// If <see cref="ApiHeaders"/> are required.
@@ -91,11 +96,10 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
 				throw new ArgumentNullException(nameof(authenticationContextFactory));
-			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext
-				?? throw new InvalidOperationException("AuthenticationContextFactory has no AuthenticationContext associated!");
+			authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			Instance = AuthenticationContext.InstancePermissionSet?.Instance;
+			Instance = authenticationContext?.Instance;
 			this.requireHeaders = requireHeaders;
 		}
 
@@ -108,7 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			// ALL valid token and login requests that match a route go through this function
 			// 404 is returned before
-			if (AuthenticationContext != null && !AuthenticationContext.Valid)
+			if (authenticationContext != null && !AuthenticationContext.Valid)
 			{
 				// valid token, expired password
 				await Unauthorized().ExecuteResultAsync(context).ConfigureAwait(false);
@@ -179,7 +183,7 @@ namespace Tgstation.Server.Host.Controllers
 			using (ApiHeaders?.InstanceId != null
 				? LogContext.PushProperty("Instance", ApiHeaders.InstanceId)
 				: null)
-			using (AuthenticationContext != null
+			using (authenticationContext != null
 				? LogContext.PushProperty("User", AuthenticationContext.User.Id)
 				: null)
 			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
