@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,16 @@ namespace Tgstation.Server.Host.Models
 		{
 			get => user ?? throw new InvalidOperationException("User not set!");
 			set => user = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.OAuthConnection.ExternalUserId"/>.
+		/// </summary>
+		[NotMapped]
+		public new string ExternalUserId
+		{
+			get => base.ExternalUserId ?? throw new InvalidOperationException("ExternalUserId was null!");
+			set => base.ExternalUserId = value;
 		}
 
 		/// <summary>

@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.OAuthConnections?.Any(x => x == null) == true)
+			if (model.OAuthConnections?.Any(x => x?.ExternalUserId == null) == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if ((model.Password != null && model.SystemIdentifier != null)
@@ -174,7 +174,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (!model.Id.HasValue || model.OAuthConnections?.Any(x => x == null) == true)
+			if (!model.Id.HasValue || model.OAuthConnections?.Any(x => x?.ExternalUserId == null) == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if (model.Group != null && model.PermissionSet != null)
@@ -252,7 +252,7 @@ namespace Tgstation.Server.Host.Controllers
 					originalUser.OAuthConnections.Add(new Models.OAuthConnection
 					{
 						Provider = updatedConnection.Provider,
-						ExternalUserId = updatedConnection.ExternalUserId,
+						ExternalUserId = updatedConnection.ExternalUserId!,
 					});
 			}
 
@@ -429,7 +429,7 @@ namespace Tgstation.Server.Host.Controllers
 					?.Select(x => new Models.OAuthConnection
 					{
 						Provider = x.Provider,
-						ExternalUserId = x.ExternalUserId,
+						ExternalUserId = x.ExternalUserId!,
 					})
 					.ToList()
 					?? new List<Models.OAuthConnection>(),
