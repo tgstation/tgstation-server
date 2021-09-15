@@ -110,6 +110,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a86e3be06465db3073e18bab0d716c9f4"><td class="memItemLeft" align="right" valign="top">int?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4">Progress</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a86e3be06465db3073e18bab0d716c9f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional progress between 0 and 100 inclusive.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4">More...</a><br /></td></tr>
 <tr class="separator:a86e3be06465db3073e18bab0d716c9f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab382fa77a6373f833ab25889d6a8704c"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#ab382fa77a6373f833ab25889d6a8704c">Stage</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ab382fa77a6373f833ab25889d6a8704c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional description of the job's current .  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#ab382fa77a6373f833ab25889d6a8704c">More...</a><br /></td></tr>
+<tr class="separator:ab382fa77a6373f833ab25889d6a8704c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html">Tgstation.Server.Api.Models.Internal.Job</a></td></tr>
 <tr class="memitem:a3898828f81135947949d8f1083a71a10 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job"><td class="memItemLeft" align="right" valign="top">string?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a3898828f81135947949d8f1083a71a10">Description</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a3898828f81135947949d8f1083a71a10 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job"><td class="mdescLeft">&#160;</td><td class="mdescRight">English description of the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html" title="Represents a long running job.">Job</a>.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a3898828f81135947949d8f1083a71a10">More...</a><br /></td></tr>
@@ -197,7 +200,36 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_job_response_8cs_source.html#l00023">23</a> of file <a class="el" href="_job_response_8cs_source.html">JobResponse.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_job_controller_8cs_source.html#l00179">Tgstation.Server.Host.Controllers.JobController.AddJobProgressResponseTransformer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_manager_8cs_source.html#l00224">Tgstation.Server.Host.Jobs.JobManager.SetJobProgress()</a>.</p>
+
+</div>
+</div>
+<a id="ab382fa77a6373f833ab25889d6a8704c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab382fa77a6373f833ab25889d6a8704c">&#9670;&nbsp;</a></span>Stage</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string? Tgstation.Server.Api.Models.Response.JobResponse.Stage</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Optional description of the job's current . </p>
+
+<p class="definition">Definition at line <a class="el" href="_job_response_8cs_source.html#l00029">29</a> of file <a class="el" href="_job_response_8cs_source.html">JobResponse.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_job_manager_8cs_source.html#l00224">Tgstation.Server.Host.Jobs.JobManager.SetJobProgress()</a>.</p>
 
 </div>
 </div>

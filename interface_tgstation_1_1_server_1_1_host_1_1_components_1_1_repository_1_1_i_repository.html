@@ -108,27 +108,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac03c80ad5ffb1ee381dd882fa7a01c3c"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ac03c80ad5ffb1ee381dd882fa7a01c3c">IsSha</a> (string committish, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac03c80ad5ffb1ee381dd882fa7a01c3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given <em>committish</em>  is a sha.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ac03c80ad5ffb1ee381dd882fa7a01c3c">More...</a><br /></td></tr>
 <tr class="separator:ac03c80ad5ffb1ee381dd882fa7a01c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c4fd9e0491b6d36763f6076989b56a3"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a2c4fd9e0491b6d36763f6076989b56a3">CheckoutObject</a> (string committish, string username, string password, bool updateSubmodules, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a2c4fd9e0491b6d36763f6076989b56a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks out a given <em>committish</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a2c4fd9e0491b6d36763f6076989b56a3">More...</a><br /></td></tr>
-<tr class="separator:a2c4fd9e0491b6d36763f6076989b56a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9642b87148b7f819a5c21d745d76a6b"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab9642b87148b7f819a5c21d745d76a6b">AddTestMerge</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> testMergeParameters, string committerName, string committerEmail, string username, string password, bool updateSubmodules, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab9642b87148b7f819a5c21d745d76a6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to merge the revision specified by a given set of <em>testMergeParameters</em>  into HEAD.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab9642b87148b7f819a5c21d745d76a6b">More...</a><br /></td></tr>
-<tr class="separator:ab9642b87148b7f819a5c21d745d76a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a749160f7ea74fc975303e46d5ad196e0"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a749160f7ea74fc975303e46d5ad196e0">FetchOrigin</a> (string username, string password, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a749160f7ea74fc975303e46d5ad196e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch commits from the origin repository.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a749160f7ea74fc975303e46d5ad196e0">More...</a><br /></td></tr>
-<tr class="separator:a749160f7ea74fc975303e46d5ad196e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cab70d59b960abf6d69d7a86f21f675"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a7cab70d59b960abf6d69d7a86f21f675">ResetToOrigin</a> (string username, string password, bool updateSubmodules, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a7cab70d59b960abf6d69d7a86f21f675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on the origin repository.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a7cab70d59b960abf6d69d7a86f21f675">More...</a><br /></td></tr>
-<tr class="separator:a7cab70d59b960abf6d69d7a86f21f675"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa955f0aaefce1850e40eda99419fdd79"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#aa955f0aaefce1850e40eda99419fdd79">ResetToSha</a> (string sha, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa955f0aaefce1850e40eda99419fdd79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a reference. Hard resets the reference to the given sha.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#aa955f0aaefce1850e40eda99419fdd79">More...</a><br /></td></tr>
-<tr class="separator:aa955f0aaefce1850e40eda99419fdd79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2911d39fd36e857c0d77503fc5c41a94"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a2911d39fd36e857c0d77503fc5c41a94">MergeOrigin</a> (string committerName, string committerEmail, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a2911d39fd36e857c0d77503fc5c41a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a2911d39fd36e857c0d77503fc5c41a94">More...</a><br /></td></tr>
-<tr class="separator:a2911d39fd36e857c0d77503fc5c41a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f8ea07e50eb3d5d272b956a6e2543b5"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a5f8ea07e50eb3d5d272b956a6e2543b5">Sychronize</a> (string username, string password, string committerName, string committerEmail, Action&lt; int &gt; progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5f8ea07e50eb3d5d272b956a6e2543b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the synchronize event script and attempts to push any changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository.">IRepository</a> if on a tracked branch.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a5f8ea07e50eb3d5d272b956a6e2543b5">More...</a><br /></td></tr>
-<tr class="separator:a5f8ea07e50eb3d5d272b956a6e2543b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a147ed9c31b79e8bc07aff42bcaa423d4"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a147ed9c31b79e8bc07aff42bcaa423d4">CheckoutObject</a> (string committish, string username, string password, bool updateSubmodules, JobProgressReporter progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a147ed9c31b79e8bc07aff42bcaa423d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks out a given <em>committish</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a147ed9c31b79e8bc07aff42bcaa423d4">More...</a><br /></td></tr>
+<tr class="separator:a147ed9c31b79e8bc07aff42bcaa423d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae09666ec427927ee63762f9005f081e2"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ae09666ec427927ee63762f9005f081e2">AddTestMerge</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> testMergeParameters, string committerName, string committerEmail, string username, string password, bool updateSubmodules, JobProgressReporter progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae09666ec427927ee63762f9005f081e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to merge the revision specified by a given set of <em>testMergeParameters</em>  into HEAD.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ae09666ec427927ee63762f9005f081e2">More...</a><br /></td></tr>
+<tr class="separator:ae09666ec427927ee63762f9005f081e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf6da056f8004747a606007462862b40"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#adf6da056f8004747a606007462862b40">FetchOrigin</a> (string username, string password, JobProgressReporter progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:adf6da056f8004747a606007462862b40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch commits from the origin repository.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#adf6da056f8004747a606007462862b40">More...</a><br /></td></tr>
+<tr class="separator:adf6da056f8004747a606007462862b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aea6c38b3ef44be6e6bc4cb9f593850"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a1aea6c38b3ef44be6e6bc4cb9f593850">ResetToOrigin</a> (string username, string password, bool updateSubmodules, JobProgressReporter progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a1aea6c38b3ef44be6e6bc4cb9f593850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a tracked reference. Hard resets the reference to what it tracks on the origin repository.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a1aea6c38b3ef44be6e6bc4cb9f593850">More...</a><br /></td></tr>
+<tr class="separator:a1aea6c38b3ef44be6e6bc4cb9f593850"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2d0dec535ad983a5cdd342ae948de69"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab2d0dec535ad983a5cdd342ae948de69">ResetToSha</a> (string sha, JobProgressReporter progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab2d0dec535ad983a5cdd342ae948de69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a reference. Hard resets the reference to the given sha.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab2d0dec535ad983a5cdd342ae948de69">More...</a><br /></td></tr>
+<tr class="separator:ab2d0dec535ad983a5cdd342ae948de69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62a86d5221919f7268fe01fce074b21b"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a62a86d5221919f7268fe01fce074b21b">MergeOrigin</a> (string committerName, string committerEmail, JobProgressReporter progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a62a86d5221919f7268fe01fce074b21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requires the current HEAD to be a tracked reference. Merges the reference to what it tracks on the origin repository.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a62a86d5221919f7268fe01fce074b21b">More...</a><br /></td></tr>
+<tr class="separator:a62a86d5221919f7268fe01fce074b21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf1f4578adcd194f59e62ab857da34b4"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#aaf1f4578adcd194f59e62ab857da34b4">Sychronize</a> (string username, string password, string committerName, string committerEmail, JobProgressReporter progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aaf1f4578adcd194f59e62ab857da34b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the synchronize event script and attempts to push any changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository.">IRepository</a> if on a tracked branch.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#aaf1f4578adcd194f59e62ab857da34b4">More...</a><br /></td></tr>
+<tr class="separator:aaf1f4578adcd194f59e62ab857da34b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada48f9615977d839874139999fdd69ef"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ada48f9615977d839874139999fdd69ef">CopyTo</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ada48f9615977d839874139999fdd69ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the current working directory to a given <em>path</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ada48f9615977d839874139999fdd69ef">More...</a><br /></td></tr>
 <tr class="separator:ada48f9615977d839874139999fdd69ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,10 +174,10 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an on-disk git repository. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab9642b87148b7f819a5c21d745d76a6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9642b87148b7f819a5c21d745d76a6b">&#9670;&nbsp;</a></span>AddTestMerge()</h2>
+<a id="ae09666ec427927ee63762f9005f081e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae09666ec427927ee63762f9005f081e2">&#9670;&nbsp;</a></span>AddTestMerge()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,7 +221,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
+          <td class="paramtype">JobProgressReporter&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -247,19 +247,19 @@ Properties</h2></td></tr>
     <tr><td class="paramname">username</td><td>The username used to fetch from the origin and submodule repositories.</td></tr>
     <tr><td class="paramname">password</td><td>The password used to fetch from the origin and submodule repositories.</td></tr>
     <tr><td class="paramname">updateSubmodules</td><td>If a submodule update should be attempted after the merge.</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>Action&lt;T1&gt; to report 0-100 int progress of the operation.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The JobProgressReporter to report progress of the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a Nullable&lt;T&gt; bool representing the merge result that is <code>true</code> after a fast forward or up to date, <code>false</code> on a non-fast-forward, <code>null</code> on a conflict.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#aba6b8e2aacb0c4a49fcdcfe0ec8e5f91">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a4a14c54fc681d5c9fd186cb04872154b">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
-<a id="a2c4fd9e0491b6d36763f6076989b56a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c4fd9e0491b6d36763f6076989b56a3">&#9670;&nbsp;</a></span>CheckoutObject()</h2>
+<a id="a147ed9c31b79e8bc07aff42bcaa423d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a147ed9c31b79e8bc07aff42bcaa423d4">&#9670;&nbsp;</a></span>CheckoutObject()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -291,7 +291,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
+          <td class="paramtype">JobProgressReporter&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -315,14 +315,14 @@ Properties</h2></td></tr>
     <tr><td class="paramname">username</td><td>The username used for fetching from submodule repositories.</td></tr>
     <tr><td class="paramname">password</td><td>The password used for fetching from submodule repositories.</td></tr>
     <tr><td class="paramname">updateSubmodules</td><td>If a submodule update should be attempted after the merge.</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>Action&lt;T1&gt; to report 0-100 int progress of the operation.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The JobProgressReporter to report progress of the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#aed14b1220f52c1aa9173843e525b9b1a">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af5b3077fd6c9f29f7699c0fce5cece63">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
@@ -364,7 +364,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a09369ceb3b7c2c2562d546b9daebd42b">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00549">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00558">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -372,8 +372,8 @@ Here is the caller graph for this function:</div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_ada48f9615977d839874139999fdd69ef_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_ada48f9615977d839874139999fdd69ef_icgraph">
 <area shape="rect" title="Copies the current working directory to a given path ." alt="" coords="1748,39,1975,80"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a6f5b1099165bc7a389e85b5ce9c97d01" title="Executes and populate a given job ." alt="" coords="1439,39,1700,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a0a742537361a857f939fd3efe6fc758f" title="Run the compile implementation." alt="" coords="1164,39,1391,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab03690c5e8fd15c8d3f7c746a36a9f37" title=" " alt="" coords="829,39,1116,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a3027b4bf8a597f68967f9d89f67e3e4a" title="Run the compile implementation." alt="" coords="1164,39,1391,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7" title=" " alt="" coords="829,39,1116,80"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,39,781,80"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore." alt="" coords="280,39,507,80"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,47"/>
@@ -383,8 +383,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a749160f7ea74fc975303e46d5ad196e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a749160f7ea74fc975303e46d5ad196e0">&#9670;&nbsp;</a></span>FetchOrigin()</h2>
+<a id="adf6da056f8004747a606007462862b40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf6da056f8004747a606007462862b40">&#9670;&nbsp;</a></span>FetchOrigin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -404,7 +404,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
+          <td class="paramtype">JobProgressReporter&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -426,14 +426,14 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">username</td><td>The username to fetch from the origin repository.</td></tr>
     <tr><td class="paramname">password</td><td>The password to fetch from the origin repository.</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>Action&lt;T1&gt; to report 0-100 int progress of the operation.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The JobProgressReporter to report progress of the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a9e88ae9848a65008f544cfd34071f115">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ab1da6ae528138f03feb5012b3bea9df6">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
@@ -506,8 +506,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a2911d39fd36e857c0d77503fc5c41a94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2911d39fd36e857c0d77503fc5c41a94">&#9670;&nbsp;</a></span>MergeOrigin()</h2>
+<a id="a62a86d5221919f7268fe01fce074b21b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62a86d5221919f7268fe01fce074b21b">&#9670;&nbsp;</a></span>MergeOrigin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -527,7 +527,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
+          <td class="paramtype">JobProgressReporter&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -549,19 +549,19 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">committerName</td><td>The name of the merge committer.</td></tr>
     <tr><td class="paramname">committerEmail</td><td>The e-mail of the merge committer.</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>Action&lt;T1&gt; to report 0-100 int progress of the operation.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The JobProgressReporter to report progress of the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a Nullable&lt;T&gt; bool representing the merge result that is <code>true</code> after a fast forward, <code>false</code> on a merge or up to date, <code>null</code> on a conflict.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#aa2437784b303f5c523a6638d717919eb">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a30dcacbf588cd11466ded677fc1dac81">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
-<a id="a7cab70d59b960abf6d69d7a86f21f675"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7cab70d59b960abf6d69d7a86f21f675">&#9670;&nbsp;</a></span>ResetToOrigin()</h2>
+<a id="a1aea6c38b3ef44be6e6bc4cb9f593850"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aea6c38b3ef44be6e6bc4cb9f593850">&#9670;&nbsp;</a></span>ResetToOrigin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -587,7 +587,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
+          <td class="paramtype">JobProgressReporter&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -610,19 +610,19 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">username</td><td>The username used for fetching from submodule repositories.</td></tr>
     <tr><td class="paramname">password</td><td>The password used for fetching from submodule repositories.</td></tr>
     <tr><td class="paramname">updateSubmodules</td><td>If a submodule update should be attempted after the merge.</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>Action&lt;T1&gt; to report 0-100 int progress of the operation.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The JobProgressReporter to report progress of the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the SHA of the new HEAD.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a034ad9334183e845aec566a7916865a6">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#adfaaa19b4a9dacddd3c5a16bf4b2de0a">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
-<a id="aa955f0aaefce1850e40eda99419fdd79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa955f0aaefce1850e40eda99419fdd79">&#9670;&nbsp;</a></span>ResetToSha()</h2>
+<a id="ab2d0dec535ad983a5cdd342ae948de69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2d0dec535ad983a5cdd342ae948de69">&#9670;&nbsp;</a></span>ResetToSha()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -636,7 +636,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
+          <td class="paramtype">JobProgressReporter&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -657,14 +657,14 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sha</td><td>The sha hash to reset to.</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>Action&lt;T1&gt; to report 0-100 int progress of the operation.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The JobProgressReporter to report progress of the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the SHA of the new HEAD.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a760cc043dfc2bc394b52d9d6717d7843">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a1a42716fa62d3def1050fa8df853e453">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
@@ -721,8 +721,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a5f8ea07e50eb3d5d272b956a6e2543b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f8ea07e50eb3d5d272b956a6e2543b5">&#9670;&nbsp;</a></span>Sychronize()</h2>
+<a id="aaf1f4578adcd194f59e62ab857da34b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf1f4578adcd194f59e62ab857da34b4">&#9670;&nbsp;</a></span>Sychronize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -754,7 +754,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
+          <td class="paramtype">JobProgressReporter&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -784,7 +784,7 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">password</td><td>The password to fetch from the origin repository.</td></tr>
     <tr><td class="paramname">committerName</td><td>The name of the potential committer.</td></tr>
     <tr><td class="paramname">committerEmail</td><td>The e-mail of the potential committer.</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>Action&lt;T1&gt; to report 0-100 int progress of the operation.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The JobProgressReporter to report progress of the operation.</td></tr>
     <tr><td class="paramname">synchronizeTrackedBranch</td><td>If the synchronizations should be made to the tracked reference as opposed to a temporary branch.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -792,7 +792,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if commits were pushed to the tracked origin reference, <code>false</code> otherwise.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afd7c7599794e9541d6134a30d5d7e683">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad940f59894541ed1456d4f49af0c8ecc">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
@@ -834,14 +834,14 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8af5145c3189f5db20782b797e2f0c98">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00178">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00183">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_ace94d213f0b8ce9b7979198aa2aa9b80_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_ace94d213f0b8ce9b7979198aa2aa9b80_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_ace94d213f0b8ce9b7979198aa2aa9b80_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_ace94d213f0b8ce9b7979198aa2aa9b80_icgraph">
 <area shape="rect" title="Gets the DateTimeOffset a given sha &#160;was created on." alt="" coords="1164,39,1428,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab03690c5e8fd15c8d3f7c746a36a9f37" title=" " alt="" coords="829,39,1116,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7" title=" " alt="" coords="829,39,1116,80"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,39,781,80"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore." alt="" coords="280,39,507,80"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,47"/>
@@ -874,10 +874,10 @@ Here is the caller graph for this function:</div>
 
 <p>The SHA of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository.">IRepository</a> HEAD. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00022">22</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00023">23</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00200">Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge()</a>, and <a class="el" href="_dream_maker_8cs_source.html#l00178">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00202">Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge()</a>, and <a class="el" href="_dream_maker_8cs_source.html#l00183">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>.</p>
 
 </div>
 </div>
@@ -903,10 +903,10 @@ Here is the caller graph for this function:</div>
 
 <p>The current origin remote the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository.">IRepository</a> is using. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00032">32</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00033">33</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00458">Tgstation.Server.Host.Components.Deployment.DreamMaker.Compile()</a>, <a class="el" href="_git_remote_features_factory_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.CreateGitRemoteFeatures()</a>, and <a class="el" href="_dream_maker_8cs_source.html#l00549">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00463">Tgstation.Server.Host.Components.Deployment.DreamMaker.Compile()</a>, <a class="el" href="_git_remote_features_factory_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.CreateGitRemoteFeatures()</a>, and <a class="el" href="_dream_maker_8cs_source.html#l00558">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob()</a>.</p>
 
 </div>
 </div>
@@ -932,8 +932,8 @@ Here is the caller graph for this function:</div>
 
 <p>The current reference the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository.">IRepository</a> HEAD is using. This can be a branch or tag. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00027">27</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00028">28</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -959,8 +959,8 @@ Here is the caller graph for this function:</div>
 
 <p>If <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a36f1520633eca12a57b6ed52c60c5257" title="The current reference the IRepository HEAD is using. This can be a branch or tag.">Reference</a> tracks an upstream branch. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

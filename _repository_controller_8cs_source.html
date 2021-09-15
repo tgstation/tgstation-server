@@ -476,7 +476,7 @@ $(function() {
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            async Task&lt;IActionResult&gt; RepositoryUpdateJobOhGodPleaseSomeoneRefactorThisItsTooFuckingBig(</div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">IInstanceCore</a> instance,</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;                <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html">IDatabaseContextFactory</a> databaseContextFactory,</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                Action&lt;int&gt; progressReporter,</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">JobProgressReporter</a> progressReporter,</div>
 <div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                CancellationToken ct)</div>
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            {</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                var repoManager = instance.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#a51d56fca894257dc7c6747a152f9f1fc">RepositoryManager</a>;</div>
@@ -502,14 +502,14 @@ $(function() {
 <div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                var numSteps = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == <span class="keyword">true</span> ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));</div>
 <div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;                var doneSteps = 0;</div>
 <div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160; </div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                Action&lt;int&gt; NextProgressReporter()</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">JobProgressReporter</a> NextProgressReporter()</div>
 <div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                {</div>
 <div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;                    var tmpDoneSteps = doneSteps;</div>
 <div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                    ++doneSteps;</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                    <span class="keywordflow">return</span> progress =&gt; progressReporter((progress + (100 * tmpDoneSteps)) / numSteps);</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                    <span class="keywordflow">return</span> (status, progress) =&gt; progressReporter(status, (progress + (100 * tmpDoneSteps)) / numSteps);</div>
 <div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;                }</div>
 <div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                progressReporter(0);</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                progressReporter(<span class="keyword">null</span>, 0);</div>
 <div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160; </div>
 <div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;                <span class="comment">// get a base line for where we are</span></div>
 <div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;                Models.RevisionInformation lastRevisionInfo = <span class="keyword">null</span>;</div>
@@ -601,7 +601,7 @@ $(function() {
 <div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;                                postUpdateSha = repo.Head;</div>
 <div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                            }</div>
 <div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;                            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;                                NextProgressReporter()(100);</div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;                                NextProgressReporter()(<span class="keyword">null</span>, 100);</div>
 <div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;                        }</div>
 <div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;                    }</div>
 <div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160; </div>
@@ -636,7 +636,7 @@ $(function() {
 <div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                            await CallLoadRevInfo().ConfigureAwait(<span class="keyword">false</span>); <span class="comment">// we&#39;ve either seen origin before or what we&#39;re checking out is on origin</span></div>
 <div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                        }</div>
 <div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;                        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                            NextProgressReporter()(100);</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                            NextProgressReporter()(<span class="keyword">null</span>, 100);</div>
 <div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160; </div>
 <div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                        <span class="keywordflow">if</span> (hardResettingToOriginReference)</div>
 <div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                        {</div>
@@ -906,7 +906,7 @@ $(function() {
 <div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;                    <span class="keywordflow">if</span> (startReference != <span class="keyword">null</span> &amp;&amp; repo.Head != startSha)</div>
 <div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;                        await repo.ResetToSha(startSha, NextProgressReporter(), <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;                    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;                        progressReporter(100);</div>
+<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;                        progressReporter(<span class="keyword">null</span>, 100);</div>
 <div class="line"><a name="l00886"></a><span class="lineno">  886</span>&#160;                    <span class="keywordflow">throw</span>;</div>
 <div class="line"><a name="l00887"></a><span class="lineno">  887</span>&#160;                }</div>
 <div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;            }</div>
@@ -1087,6 +1087,7 @@ $(function() {
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html">Tgstation.Server.Host.Core</a></div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00052">Application.cs:53</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_database_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_database.html">Tgstation.Server.Host.Database</a></div><div class="ttdef"><b>Definition:</b> <a href="_database_collection_8cs_source.html#l00010">DatabaseCollection.cs:11</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html">Tgstation.Server.Host.Jobs</a></div><div class="ttdef"><b>Definition:</b> <a href="_i_job_manager_8cs_source.html#l00008">IJobManager.cs:9</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_html_af98afa52fc133a0ecc9c41482c069529"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">Tgstation.Server.Host.Jobs.JobProgressReporter</a></div><div class="ttdeci">delegate void JobProgressReporter(string stage, int? progress)</div><div class="ttdoc">Progress reporter for a Job.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_models_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_models.html">Tgstation.Server.Host.Models</a></div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_8cs_source.html#l00007">ChatBot.cs:8</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_security_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_security.html">Tgstation.Server.Host.Security</a></div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00007">AuthenticationContext.cs:8</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host.html">Tgstation.Server.Host</a></div><div class="ttdef"><b>Definition:</b> <a href="_byond_executable_lock_8cs_source.html#l00009">ByondExecutableLock.cs:10</a></div></div>

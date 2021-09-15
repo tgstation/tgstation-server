@@ -100,10 +100,10 @@ Collaboration diagram for Tgstation.Server.Host.Jobs.IJobManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab11ade56e234fc8972862376034a2311"><td class="memItemLeft" align="right" valign="top">int?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ab11ade56e234fc8972862376034a2311">JobProgress</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html">Api.Models.Internal.Job</a> job)</td></tr>
-<tr class="memdesc:ab11ade56e234fc8972862376034a2311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive.">Api.Models.Response.JobResponse.Progress</a> for a <em>job</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ab11ade56e234fc8972862376034a2311">More...</a><br /></td></tr>
-<tr class="separator:ab11ade56e234fc8972862376034a2311"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21be789f798adf9985f2432d3499b4cd"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#abe2e95d4f3351023b424d607ba514854">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
+<tr class="memitem:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2fc945f03da3ef6cd356b8e8597e2b55">SetJobProgress</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a> apiResponse)</td></tr>
+<tr class="memdesc:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the JobResponse.Progress and JobResponse.Stage for a given <em>apiResponse</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a2fc945f03da3ef6cd356b8e8597e2b55">More...</a><br /></td></tr>
+<tr class="separator:a2fc945f03da3ef6cd356b8e8597e2b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21be789f798adf9985f2432d3499b4cd"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a> operation, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a21be789f798adf9985f2432d3499b4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">More...</a><br /></td></tr>
 <tr class="separator:a21be789f798adf9985f2432d3499b4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04ad7543ef9c8863c1d8d0b46d17f522"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)</td></tr>
@@ -218,47 +218,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ab11ade56e234fc8972862376034a2311"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab11ade56e234fc8972862376034a2311">&#9670;&nbsp;</a></span>JobProgress()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int? Tgstation.Server.Host.Jobs.IJobManager.JobProgress </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html">Api.Models.Internal.Job</a>&#160;</td>
-          <td class="paramname"><em>job</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive.">Api.Models.Response.JobResponse.Progress</a> for a <em>job</em> . </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">job</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html" title="Represents a long running job.">Api.Models.Internal.Job</a> to get <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive.">Api.Models.Response.JobResponse.Progress</a> for.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html#a86e3be06465db3073e18bab0d716c9f4" title="Optional progress between 0 and 100 inclusive.">Api.Models.Response.JobResponse.Progress</a> of <em>job</em> .</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ae02a20c4ad38df8dffadc8dbb9526d64">Tgstation.Server.Host.Jobs.JobManager</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_job_controller_8cs_source.html#l00179">Tgstation.Server.Host.Controllers.JobController.AddJobProgressResponseTransformer()</a>, and <a class="el" href="_job_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.JobController.GetId()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ab11ade56e234fc8972862376034a2311_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ab11ade56e234fc8972862376034a2311_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ab11ade56e234fc8972862376034a2311_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_ab11ade56e234fc8972862376034a2311_icgraph">
-<area shape="rect" title="Get the Api.Models.Response.JobResponse.Progress for a job ." alt="" coords="308,49,491,90"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#afe76ebf1c6be9349aae73dd2b2c6d6f7" title="Supplements JobResponse PaginatedResponse&lt;TModel&gt;s with their JobResponse.Progress." alt="" coords="5,5,260,61"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#aad5f209a424e97eeb42d75c6ff37f07d" title="Get a specific JobResponse." alt="" coords="25,85,241,126"/>
-</map>
-</div>
-
-</div>
-</div>
 <a id="a21be789f798adf9985f2432d3499b4cd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a21be789f798adf9985f2432d3499b4cd">&#9670;&nbsp;</a></span>RegisterOperation()</h2>
 
@@ -274,7 +233,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#abe2e95d4f3351023b424d607ba514854">JobEntrypoint</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a>&#160;</td>
           <td class="paramname"><em>operation</em>, </td>
         </tr>
         <tr>
@@ -295,7 +254,7 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The Job. Should at least have Job.Instance and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a3898828f81135947949d8f1083a71a10" title="English description of the Job.">Api.Models.Internal.Job.Description</a>. If Job.StartedBy is <code>null</code>, the TGS user will be used.</td></tr>
-    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#abe2e95d4f3351023b424d607ba514854" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
+    <tr><td class="paramname">operation</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93" title="Entrypoint for running a given job.">JobEntrypoint</a> for the <em>job</em> .</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -325,6 +284,46 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore." alt="" coords="288,528,515,569"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,495,232,536"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,560,232,601"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2fc945f03da3ef6cd356b8e8597e2b55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fc945f03da3ef6cd356b8e8597e2b55">&#9670;&nbsp;</a></span>SetJobProgress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.Jobs.IJobManager.SetJobProgress </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_job_response.html">JobResponse</a>&#160;</td>
+          <td class="paramname"><em>apiResponse</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the JobResponse.Progress and JobResponse.Stage for a given <em>apiResponse</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">apiResponse</td><td>The JobResponse to update.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aae50cfefff56abe00f49dc7c943d0590">Tgstation.Server.Host.Jobs.JobManager</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_job_controller_8cs_source.html#l00179">Tgstation.Server.Host.Controllers.JobController.AddJobProgressResponseTransformer()</a>, and <a class="el" href="_job_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.JobController.GetId()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2fc945f03da3ef6cd356b8e8597e2b55_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2fc945f03da3ef6cd356b8e8597e2b55_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2fc945f03da3ef6cd356b8e8597e2b55_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager_a2fc945f03da3ef6cd356b8e8597e2b55_icgraph">
+<area shape="rect" title="Set the JobResponse.Progress and JobResponse.Stage for a given apiResponse ." alt="" coords="308,49,501,90"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#afe76ebf1c6be9349aae73dd2b2c6d6f7" title="Supplements JobResponse PaginatedResponse&lt;TModel&gt;s with their JobResponse.Progress." alt="" coords="5,5,260,61"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#aad5f209a424e97eeb42d75c6ff37f07d" title="Get a specific JobResponse." alt="" coords="25,85,241,126"/>
 </map>
 </div>
 

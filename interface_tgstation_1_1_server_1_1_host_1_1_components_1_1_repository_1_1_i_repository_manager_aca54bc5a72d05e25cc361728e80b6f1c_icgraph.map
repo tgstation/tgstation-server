@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Repository.IRepositoryManager.LoadRepository" name="Tgstation.Server.Host.Components.Repository.IRepositoryManager.LoadRepository">
 <area shape="rect" id="node1" title="Attempt to load the IRepository from the default location." alt="" coords="1176,104,1471,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab03690c5e8fd15c8d3f7c746a36a9f37" title=" " alt="" coords="835,39,1122,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7" title=" " alt="" coords="835,39,1122,80"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#aa2acf1a5c23b69b03518dff1249a8d7f" title="Invoke the ICommand." alt="" coords="829,104,1128,145"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html#ab92179ae88df722d697ebc27d9b70d7d" title="Invoke the ICommand." alt="" coords="843,169,1115,211"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,39,781,80"/>

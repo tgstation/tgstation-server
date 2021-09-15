@@ -104,9 +104,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aca54bc5a72d05e25cc361728e80b6f1c"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#aca54bc5a72d05e25cc361728e80b6f1c">LoadRepository</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aca54bc5a72d05e25cc361728e80b6f1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to load the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository.">IRepository</a> from the default location.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#aca54bc5a72d05e25cc361728e80b6f1c">More...</a><br /></td></tr>
 <tr class="separator:aca54bc5a72d05e25cc361728e80b6f1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af808580132ffdf6fdd6d35a02894489a"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#af808580132ffdf6fdd6d35a02894489a">CloneRepository</a> (Uri url, string initialBranch, string username, string password, Action&lt; int &gt; progressReporter, bool recurseSubmodules, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af808580132ffdf6fdd6d35a02894489a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone the repository at <em>url</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#af808580132ffdf6fdd6d35a02894489a">More...</a><br /></td></tr>
-<tr class="separator:af808580132ffdf6fdd6d35a02894489a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d2a225cd41a31f23e2bd974544adfd"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html">IRepository</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#af8d2a225cd41a31f23e2bd974544adfd">CloneRepository</a> (Uri url, string initialBranch, string username, string password, JobProgressReporter progressReporter, bool recurseSubmodules, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:af8d2a225cd41a31f23e2bd974544adfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone the repository at <em>url</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#af8d2a225cd41a31f23e2bd974544adfd">More...</a><br /></td></tr>
+<tr class="separator:af8d2a225cd41a31f23e2bd974544adfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0476484a5f4909326dfd7edcf697716d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a0476484a5f4909326dfd7edcf697716d">DeleteRepository</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0476484a5f4909326dfd7edcf697716d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete the current repository.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a0476484a5f4909326dfd7edcf697716d">More...</a><br /></td></tr>
 <tr class="separator:a0476484a5f4909326dfd7edcf697716d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,16 +117,16 @@ Properties</h2></td></tr>
 <tr class="memdesc:acfd46405a7a81980c34cc001476b51ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">If something is holding a lock on the repository.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#acfd46405a7a81980c34cc001476b51ca">More...</a><br /></td></tr>
 <tr class="separator:acfd46405a7a81980c34cc001476b51ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e57f020cf906b3c04f3fc81084a98d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a3e57f020cf906b3c04f3fc81084a98d3">CloneInProgress</a><code> [get]</code></td></tr>
-<tr class="memdesc:a3e57f020cf906b3c04f3fc81084a98d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#af808580132ffdf6fdd6d35a02894489a" title="Clone the repository at url .">CloneRepository(Uri, string, string, string, Action&lt;int&gt;, bool, CancellationToken)</a> operation is in progress.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a3e57f020cf906b3c04f3fc81084a98d3">More...</a><br /></td></tr>
+<tr class="memdesc:a3e57f020cf906b3c04f3fc81084a98d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#af8d2a225cd41a31f23e2bd974544adfd" title="Clone the repository at url .">CloneRepository(Uri, string, string, string, JobProgressReporter, bool, CancellationToken)</a> operation is in progress.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a3e57f020cf906b3c04f3fc81084a98d3">More...</a><br /></td></tr>
 <tr class="separator:a3e57f020cf906b3c04f3fc81084a98d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Factory for creating and loading <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository.">IRepository</a>s. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_repository_manager_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_repository_manager_8cs_source.html">IRepositoryManager.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_repository_manager_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_repository_manager_8cs_source.html">IRepositoryManager.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="af808580132ffdf6fdd6d35a02894489a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af808580132ffdf6fdd6d35a02894489a">&#9670;&nbsp;</a></span>CloneRepository()</h2>
+<a id="af8d2a225cd41a31f23e2bd974544adfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8d2a225cd41a31f23e2bd974544adfd">&#9670;&nbsp;</a></span>CloneRepository()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -158,7 +158,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Action&lt; int &gt;&#160;</td>
+          <td class="paramtype">JobProgressReporter&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -188,7 +188,7 @@ Properties</h2></td></tr>
     <tr><td class="paramname">initialBranch</td><td>The branch to clone.</td></tr>
     <tr><td class="paramname">username</td><td>The username to clone from <em>url</em> .</td></tr>
     <tr><td class="paramname">password</td><td>The password to clone from <em>url</em> .</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>A function to report 0-100 progress of the clone.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The JobProgressReporter for progress of the clone.</td></tr>
     <tr><td class="paramname">recurseSubmodules</td><td>If submodules should be recusively cloned and initialized.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -196,7 +196,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The newly cloned <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on-disk git repository.">IRepository</a>, <code>null</code> if one already exists.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ad629e70450172a215353ac97029fd5ba">Tgstation.Server.Host.Components.Repository.RepositoryManager</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#abcf6702709412f5e122c879c768afd16">Tgstation.Server.Host.Components.Repository.RepositoryManager</a>.</p>
 
 </div>
 </div>
@@ -256,14 +256,14 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#afcab0cdc52ae45ecd0dfba5c7630e303">Tgstation.Server.Host.Components.Repository.RepositoryManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00178">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, <a class="el" href="_pull_requests_command_8cs_source.html#l00069">Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand.Invoke()</a>, and <a class="el" href="_revision_command_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand.Invoke()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00183">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, <a class="el" href="_pull_requests_command_8cs_source.html#l00069">Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand.Invoke()</a>, and <a class="el" href="_revision_command_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand.Invoke()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_aca54bc5a72d05e25cc361728e80b6f1c_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_aca54bc5a72d05e25cc361728e80b6f1c_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_aca54bc5a72d05e25cc361728e80b6f1c_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager_aca54bc5a72d05e25cc361728e80b6f1c_icgraph">
 <area shape="rect" title="Attempt to load the IRepository from the default location." alt="" coords="1176,104,1471,145"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab03690c5e8fd15c8d3f7c746a36a9f37" title=" " alt="" coords="835,39,1122,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7" title=" " alt="" coords="835,39,1122,80"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#aa2acf1a5c23b69b03518dff1249a8d7f" title="Invoke the ICommand." alt="" coords="829,104,1128,145"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html#ab92179ae88df722d697ebc27d9b70d7d" title="Invoke the ICommand." alt="" coords="843,169,1115,211"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,39,781,80"/>
@@ -296,10 +296,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>If a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#af808580132ffdf6fdd6d35a02894489a" title="Clone the repository at url .">CloneRepository(Uri, string, string, string, Action&lt;int&gt;, bool, CancellationToken)</a> operation is in progress. </p>
+<p>If a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#af8d2a225cd41a31f23e2bd974544adfd" title="Clone the repository at url .">CloneRepository(Uri, string, string, string, JobProgressReporter, bool, CancellationToken)</a> operation is in progress. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_repository_manager_8cs_source.html#l00020">20</a> of file <a class="el" href="_i_repository_manager_8cs_source.html">IRepositoryManager.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_repository_manager_8cs_source.html#l00022">22</a> of file <a class="el" href="_i_repository_manager_8cs_source.html">IRepositoryManager.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -325,8 +325,8 @@ Here is the caller graph for this function:</div>
 
 <p>If something is holding a lock on the repository. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_repository_manager_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_repository_manager_8cs_source.html">IRepositoryManager.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_repository_manager_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_repository_manager_8cs_source.html">IRepositoryManager.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
