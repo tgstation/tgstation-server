@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
@@ -26,7 +26,7 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
-  <Target Name="ClientInstall" Inputs="../../build/ControlPanelVersion.props" Outputs="$(NpmInstallStampFile)">
+  <Target Name="ClientInstall" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/ControlPanelVersion.props" Outputs="$(NpmInstallStampFile)">
     <Message Text="Pulling web control panel..." Importance="high" />
     <RemoveDir Directories="ClientApp" />
     <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsControlPanelVersion) --depth 1 ClientApp" />

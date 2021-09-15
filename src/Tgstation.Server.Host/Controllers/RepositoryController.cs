@@ -452,7 +452,7 @@ namespace Tgstation.Server.Host.Controllers
 			async Task<IActionResult> RepositoryUpdateJobOhGodPleaseSomeoneRefactorThisItsTooFuckingBig(
 				IInstanceCore instance,
 				IDatabaseContextFactory databaseContextFactory,
-				Action<int> progressReporter,
+				JobProgressReporter progressReporter,
 				CancellationToken ct)
 			{
 				var repoManager = instance.RepositoryManager;
@@ -478,14 +478,14 @@ namespace Tgstation.Server.Host.Controllers
 				var numSteps = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));
 				var doneSteps = 0;
 
-				Action<int> NextProgressReporter()
+				JobProgressReporter NextProgressReporter()
 				{
 					var tmpDoneSteps = doneSteps;
 					++doneSteps;
-					return progress => progressReporter((progress + (100 * tmpDoneSteps)) / numSteps);
+					return (status, progress) => progressReporter(status, (progress + (100 * tmpDoneSteps)) / numSteps);
 				}
 
-				progressReporter(0);
+				progressReporter(null, 0);
 
 				// get a base line for where we are
 				Models.RevisionInformation lastRevisionInfo = null;
@@ -577,7 +577,7 @@ namespace Tgstation.Server.Host.Controllers
 								postUpdateSha = repo.Head;
 							}
 							else
-								NextProgressReporter()(100);
+								NextProgressReporter()(null, 100);
 						}
 					}
 
@@ -612,7 +612,7 @@ namespace Tgstation.Server.Host.Controllers
 							await CallLoadRevInfo().ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
 						}
 						else
-							NextProgressReporter()(100);
+							NextProgressReporter()(null, 100);
 
 						if (hardResettingToOriginReference)
 						{
@@ -882,7 +882,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (startReference != null && repo.Head != startSha)
 						await repo.ResetToSha(startSha, NextProgressReporter(), default).ConfigureAwait(false);
 					else
-						progressReporter(100);
+						progressReporter(null, 100);
 					throw;
 				}
 			}

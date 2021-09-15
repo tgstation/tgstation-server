@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			string initialBranch,
 			string username,
 			string password,
-			Action<int> progressReporter,
+			JobProgressReporter progressReporter,
 			bool recurseSubmodules,
 			CancellationToken cancellationToken)
 		{
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								OnTransferProgress = (a) =>
 								{
 									var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-									progressReporter((int)percentage);
+									progressReporter("Cloning", (int)percentage);
 									return !cancellationToken.IsCancellationRequested;
 								},
 								RecurseSubmodules = recurseSubmodules,
