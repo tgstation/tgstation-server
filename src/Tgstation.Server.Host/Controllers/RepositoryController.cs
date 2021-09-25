@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return Gone();
 
-			currentModel.UpdateSubmodules = model.UpdateSubmodules;
+			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? true;
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
 			var cloneBranch = model.Reference;
