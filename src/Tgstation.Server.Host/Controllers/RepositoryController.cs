@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return Gone();
 
-			currentModel.UpdateSubmodules ??= model.UpdateSubmodules;
+			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? true;
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
 			var cloneBranch = model.Reference;
@@ -143,6 +143,8 @@ namespace Tgstation.Server.Host.Controllers
 						Instance = Instance,
 					};
 					var api = currentModel.ToApi();
+
+					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					await jobManager.RegisterOperation(
 						job,
 						async (core, databaseContextFactory, paramJob, progressReporter, ct) =>
