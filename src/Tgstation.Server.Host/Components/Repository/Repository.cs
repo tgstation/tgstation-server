@@ -293,7 +293,12 @@ namespace Tgstation.Server.Host.Components.Repository
 
 						cancellationToken.ThrowIfCancellationRequested();
 
-						testMergeParameters.TargetCommitSha = libGitRepo.Lookup(testMergeParameters.TargetCommitSha ?? localBranchName).Sha;
+						var objectName = testMergeParameters.TargetCommitSha ?? localBranchName;
+						var gitObject = libGitRepo.Lookup(objectName);
+						if (gitObject == null)
+							throw new JobException($"Could not find object to merge: {objectName}");
+
+						testMergeParameters.TargetCommitSha = gitObject.Sha;
 
 						cancellationToken.ThrowIfCancellationRequested();
 
