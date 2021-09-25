@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 						Instance = Instance,
 					};
 					var api = currentModel.ToApi();
-					
+
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					await jobManager.RegisterOperation(
 						job,
