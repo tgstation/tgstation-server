@@ -35,10 +35,10 @@ namespace Tgstation.Server.Tests
 
 		public TestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
 		{
-			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
+			Directory = Environment.GetEnvironmentVariable("TGS_TEST_TEMP_DIRECTORY");
 			if (String.IsNullOrWhiteSpace(Directory))
 			{
-				Directory = Path.Combine(Path.GetTempPath(), "TGS4_INTEGRATION_TEST");
+				Directory = Path.Combine(Path.GetTempPath(), "TGS_INTEGRATION_TEST");
 				if (System.IO.Directory.Exists(Directory) && swarmConfiguration == null)
 					try
 					{
@@ -55,16 +55,16 @@ namespace Tgstation.Server.Tests
 
 			//so we need a db
 			//we have to rely on env vars
-			DatabaseType = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
-			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_CONNECTION_STRING");
-			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN");
-			var dumpOpenAPISpecPathEnvVar = Environment.GetEnvironmentVariable("TGS4_TEST_DUMP_API_SPEC");
+			DatabaseType = Environment.GetEnvironmentVariable("TGS_TEST_DATABASE_TYPE");
+			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
+			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
+			var dumpOpenAPISpecPathEnvVar = Environment.GetEnvironmentVariable("TGS_TEST_DUMP_API_SPEC");
 
 			if (String.IsNullOrEmpty(DatabaseType))
-				Assert.Inconclusive("No database type configured in env var TGS4_TEST_DATABASE_TYPE!");
+				Assert.Inconclusive("No database type configured in env var TGS_TEST_DATABASE_TYPE!");
 
 			if (String.IsNullOrEmpty(connectionString))
-				Assert.Inconclusive("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
+				Assert.Inconclusive("No connection string configured in env var TGS_TEST_CONNECTION_STRING!");
 
 			if (String.IsNullOrEmpty(gitHubAccessToken))
 				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");

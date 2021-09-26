@@ -96,7 +96,7 @@ namespace Tgstation.Server.Tests
 			}
 			catch (RateLimitException ex)
 			{
-				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 					throw;
 
 				Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
@@ -184,7 +184,7 @@ namespace Tgstation.Server.Tests
 				}
 				catch (RateLimitException ex)
 				{
-					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 						throw;
 
 					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
@@ -393,7 +393,7 @@ namespace Tgstation.Server.Tests
 				}
 				catch (RateLimitException ex)
 				{
-					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 						throw;
 
 					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
@@ -590,7 +590,7 @@ namespace Tgstation.Server.Tests
 				}
 				catch (RateLimitException ex)
 				{
-					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 						throw;
 
 					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
@@ -648,14 +648,14 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestDownMigrations()
 		{
-			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_CONNECTION_STRING");
+			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
 
 			if (String.IsNullOrEmpty(connectionString))
-				Assert.Inconclusive("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
+				Assert.Inconclusive("No connection string configured in env var TGS_TEST_CONNECTION_STRING!");
 
-			var databaseTypeString = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
+			var databaseTypeString = Environment.GetEnvironmentVariable("TGS_TEST_DATABASE_TYPE");
 			if (!Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
-				Assert.Inconclusive("No/invalid database type configured in env var TGS4_TEST_DATABASE_TYPE!");
+				Assert.Inconclusive("No/invalid database type configured in env var TGS_TEST_DATABASE_TYPE!");
 
 			string migrationName = null;
 			DatabaseContext CreateContext()
@@ -1061,7 +1061,7 @@ namespace Tgstation.Server.Tests
 				() => { });
 
 			const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
-			await repo.CheckoutObject(StartSha, null, null, true, progress => { }, default);
+			await repo.CheckoutObject(StartSha, null, null, true, (stage, progress) => { }, default);
 			var result = await repo.ShaIsParent("2f8588a3ca0f6b027704a2a04381215619de3412", default);
 			Assert.IsTrue(result);
 			Assert.AreEqual(StartSha, repo.Head);
