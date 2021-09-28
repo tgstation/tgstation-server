@@ -298,7 +298,7 @@ namespace Tgstation.Server.Host.Jobs
 						{
 							if (progress.HasValue
 								&& (progress.Value < 0 || progress.Value > 100))
-								throw new ArgumentOutOfRangeException(nameof(progress), "Progress must be a value from 0-100!");
+								throw new ArgumentOutOfRangeException(nameof(progress), progress, "Progress must be a value from 0-100!");
 
 							lock (synchronizationLock)
 								if (jobs.TryGetValue(oldJob.Id.Value, out var handler))

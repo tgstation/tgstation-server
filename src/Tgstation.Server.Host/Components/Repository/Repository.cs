@@ -112,28 +112,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		bool disposed;
 
 		/// <summary>
-		/// Converts a given <paramref name="progressReporter"/> to a <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/>.
-		/// </summary>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
-		/// <param name="stage">The stage argument for <paramref name="progressReporter"/>.</param>
-		/// <returns>A <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
-		static CheckoutProgressHandler CheckoutProgressHandler(JobProgressReporter progressReporter, string stage) => (a, completedSteps, totalSteps) => progressReporter(stage, (int)(((float)completedSteps) / totalSteps * 100));
-
-		/// <summary>
-		/// Generate a <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> from a given <paramref name="progressReporter"/> and <paramref name="cancellationToken"/>.
-		/// </summary>
-		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
-		/// <param name="stage">The stage argument for <paramref name="progressReporter"/>.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A new <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
-		static TransferProgressHandler TransferProgressHandler(JobProgressReporter progressReporter, string stage, CancellationToken cancellationToken) => (transferProgress) =>
-		{
-			var percentage = 100 * (((float)transferProgress.IndexedObjects + transferProgress.ReceivedObjects) / (transferProgress.TotalObjects * 2));
-			progressReporter(stage, (int)percentage);
-			return !cancellationToken.IsCancellationRequested;
-		};
-
-		/// <summary>
 		/// Rethrow the authentication failure message as a <see cref="JobException"/> if it is one.
 		/// </summary>
 		/// <param name="exception">The current <see cref="LibGit2SharpException"/>.</param>
@@ -1032,5 +1010,67 @@ namespace Tgstation.Server.Host.Components.Repository
 				await eventConsumer.HandleEvent(EventType.RepoSubmoduleUpdate, new List<string> { submodule.Name }, cancellationToken).ConfigureAwait(false);
 			}
 		}
+
+		/// <summary>
+		/// Converts a given <paramref name="progressReporter"/> to a <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/>.
+		/// </summary>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
+		/// <param name="stage">The stage argument for <paramref name="progressReporter"/>.</param>
+		/// <returns>A <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
+		CheckoutProgressHandler CheckoutProgressHandler(JobProgressReporter progressReporter, string stage) => (a, completedSteps, totalSteps) =>
+		{
+			int? percentage;
+			if (totalSteps > completedSteps || totalSteps == 0)
+				percentage = null;
+			else
+			{
+				var ratio = ((float)completedSteps) / totalSteps;
+				percentage = (int)(ratio * 100);
+				if (percentage < 0)
+					percentage = null;
+			}
+
+			if (percentage == null)
+				logger.LogDebug(
+					"Bad checkout progress values (Please tell Cyberboss)! Completeds: {completed}, Total: {total}",
+					completedSteps,
+					totalSteps);
+
+			progressReporter(
+				stage,
+				percentage);
+		};
+
+		/// <summary>
+		/// Generate a <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> from a given <paramref name="progressReporter"/> and <paramref name="cancellationToken"/>.
+		/// </summary>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
+		/// <param name="stage">The stage argument for <paramref name="progressReporter"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A new <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
+		TransferProgressHandler TransferProgressHandler(JobProgressReporter progressReporter, string stage, CancellationToken cancellationToken) => (transferProgress) =>
+		{
+			float? percentage;
+			var totalObjectsToProcess = transferProgress.TotalObjects * 2;
+			var processedObjects = transferProgress.IndexedObjects + transferProgress.ReceivedObjects;
+			if (totalObjectsToProcess > processedObjects || totalObjectsToProcess == 0)
+				percentage = null;
+			else
+			{
+				percentage = 100 * (((float)processedObjects) / totalObjectsToProcess);
+				if (percentage < 0)
+					percentage = null;
+			}
+
+			if (percentage == null)
+				logger.LogDebug(
+					"Bad transfer progress values (Please tell Cyberboss)! Indexed: {indexed}, Received: {received}, Total: {total}",
+					transferProgress.IndexedObjects,
+					transferProgress.ReceivedObjects,
+					transferProgress.TotalObjects);
+
+			progressReporter(stage, (int?)percentage);
+			return !cancellationToken.IsCancellationRequested;
+		};
 	}
 }
