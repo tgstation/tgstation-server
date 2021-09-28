@@ -117,7 +117,23 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="stage">The stage argument for <paramref name="progressReporter"/>.</param>
 		/// <returns>A <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
-		static CheckoutProgressHandler CheckoutProgressHandler(JobProgressReporter progressReporter, string stage) => (a, completedSteps, totalSteps) => progressReporter(stage, (int)(((float)completedSteps) / totalSteps * 100));
+		static CheckoutProgressHandler CheckoutProgressHandler(JobProgressReporter progressReporter, string stage) => (a, completedSteps, totalSteps) =>
+		{
+			int? percentage;
+			if (totalSteps > completedSteps || totalSteps == 0)
+				percentage = null;
+			else
+			{
+				var ratio = ((float)completedSteps) / totalSteps;
+				percentage = (int)(ratio * 100);
+				if (percentage < 0)
+					percentage = null;
+			}
+
+			progressReporter(
+				stage,
+				percentage);
+		};
 
 		/// <summary>
 		/// Generate a <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> from a given <paramref name="progressReporter"/> and <paramref name="cancellationToken"/>.
@@ -128,8 +144,19 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <returns>A new <see cref="LibGit2Sharp.Handlers.TransferProgressHandler"/> based on <paramref name="progressReporter"/>.</returns>
 		static TransferProgressHandler TransferProgressHandler(JobProgressReporter progressReporter, string stage, CancellationToken cancellationToken) => (transferProgress) =>
 		{
-			var percentage = 100 * (((float)transferProgress.IndexedObjects + transferProgress.ReceivedObjects) / (transferProgress.TotalObjects * 2));
-			progressReporter(stage, (int)percentage);
+			float? percentage;
+			var totalObjectsToProcess = transferProgress.TotalObjects * 2;
+			var processedObjects = transferProgress.IndexedObjects + transferProgress.ReceivedObjects;
+			if (totalObjectsToProcess > processedObjects || totalObjectsToProcess == 0)
+				percentage = null;
+			else
+			{
+				percentage = 100 * (((float)processedObjects) / totalObjectsToProcess);
+				if (percentage < 0)
+					percentage = null;
+			}
+
+			progressReporter(stage, (int?)percentage);
 			return !cancellationToken.IsCancellationRequested;
 		};
 
