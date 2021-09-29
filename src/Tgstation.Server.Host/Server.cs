@@ -188,7 +188,7 @@ namespace Tgstation.Server.Host
 			{
 				try
 				{
-					logger.LogInformation("Updating server to version {0} ({1})...", version, updateZipUrl);
+					logger.LogInformation("Updating server to version {version} ({zipUrl})...", version, updateZipUrl);
 
 					if (cancellationTokenSource == null)
 						throw new InvalidOperationException("Tried to update a non-running Server!");
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host
 
 						try
 						{
-							logger.LogTrace("Extracting zip package to {0}...", updatePath);
+							logger.LogTrace("Extracting zip package to {updatePath}...", updatePath);
 							await ioManager.ZipToDirectory(updatePath, updateZipData, cancellationToken).ConfigureAwait(false);
 						}
 						catch (Exception e)
@@ -283,7 +283,7 @@ namespace Tgstation.Server.Host
 			lock (restartLock)
 				if (!shutdownInProgress)
 				{
-					logger.LogTrace("Registering restart handler {0}...", handler);
+					logger.LogTrace("Registering restart handler {restartHanler}...", handler);
 					restartHandlers.Add(handler);
 					return new RestartRegistration(() =>
 					{
@@ -350,7 +350,7 @@ namespace Tgstation.Server.Host
 			// if the watchdog isn't required and there's no issue, this is just a graceful shutdown
 			bool isGracefulShutdown = !requireWatchdog && exception == null;
 			logger.LogTrace(
-				"Begin {0}...",
+				"Begin {restartType}...",
 				isGracefulShutdown
 					? "graceful shutdown"
 					: "restart");
