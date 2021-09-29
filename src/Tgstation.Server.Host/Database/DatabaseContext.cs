@@ -533,7 +533,7 @@ namespace Tgstation.Server.Host.Database
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
 			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
 
-			logger.LogInformation("Migrating down to version {0}. Target: {1}", targetVersion, targetMigration);
+			logger.LogInformation("Migrating down to version {version}. Target: {migrationName}", targetVersion, targetMigration);
 			try
 			{
 				await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(false);
