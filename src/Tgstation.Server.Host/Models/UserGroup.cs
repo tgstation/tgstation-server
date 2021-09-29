@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Models
 			Name = Name,
 			PermissionSet = PermissionSet.ToApi(),
 			Users = showUsers
-				? Users
+				? users
 					?.Select(x => x.CreateUserName())
 					.ToList()
 					?? new List<UserName>()
