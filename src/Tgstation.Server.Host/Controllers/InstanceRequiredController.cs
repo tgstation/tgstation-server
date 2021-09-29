@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.Controllers
 			const string OnlineWord = "online";
 
 			logger.LogWarning(
-				"Instance {0} is says it's {1} in the database, but it is actually {2} in the service. Updating the database to reflect this...",
+				"Instance {instanceId} is says it's {dbOnline} in the database, but it is actually {serviceOnline} in the service. Updating the database to reflect this...",
 				metadata.Id,
 				online ? OfflineWord : OnlineWord,
 				online ? OnlineWord : OfflineWord);
@@ -89,11 +89,13 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (ApiHeaders == null)
 				throw new InvalidOperationException("ApiHeaders were null!");
-			if (Instance == null)
-				throw new InvalidOperationException("Instance was null!");
 
 			if (!ApiHeaders.InstanceId.HasValue)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceHeaderRequired));
+
+			if (Instance == null)
+				throw new InvalidOperationException("Instance was null!");
+
 			if (AuthenticationContext.InstancePermissionSet == null)
 				return Forbid();
 

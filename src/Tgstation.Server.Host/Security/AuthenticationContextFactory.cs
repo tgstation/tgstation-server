@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Security
 				.ConfigureAwait(false);
 			if (user == default)
 			{
-				logger.LogWarning("Unable to find user with ID {0}!", userId);
+				logger.LogWarning("Unable to find user with ID {userId}!", userId);
 				CurrentAuthenticationContext = new AuthenticationContext();
 				return;
 			}
