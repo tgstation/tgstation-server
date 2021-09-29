@@ -19,21 +19,24 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The expected host watchdog <see cref="Version"/>.
 		/// </summary>
-		internal static Version HostWatchdogVersion => Version.Parse(MasterVersionsAttribute.Instance.RawHostWatchdogVersion);
-
-		/// <summary>
-		/// The <see cref="IServerFactory"/> to use.
-		/// </summary>
-#pragma warning disable SA1401 // Fields should be private
-		internal static IServerFactory ServerFactory = Application.CreateDefaultServerFactory();
-#pragma warning restore SA1401 // Fields should be private
+		public static readonly Version HostWatchdogVersion = Version.Parse(MasterVersionsAttribute.Instance.RawHostWatchdogVersion);
 
 		/// <summary>
 		/// Entrypoint for the <see cref="Program"/>.
 		/// </summary>
 		/// <param name="args">The command line arguments.</param>
 		/// <returns>The <see cref="global::System.Diagnostics.Process.ExitCode"/>.</returns>
-		public static async Task<int> Main(string[] args)
+		public static Task<int> Main(string[] args) => Run(
+			Application.CreateDefaultServerFactory(),
+			args);
+
+		/// <summary>
+		/// Runs the <see cref="Program"/> with a given <paramref name="serverFactory"/>.
+		/// </summary>
+		/// <param name="serverFactory">The <see cref="IServerFactory"/> to run with.</param>
+		/// <param name="args">The command line arguments.</param>
+		/// <returns>The <see cref="global::System.Diagnostics.Process.ExitCode"/>.</returns>
+		public static async Task<int> Run(IServerFactory serverFactory, string[] args)
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
 			var listArgs = new List<string>(args);
@@ -62,7 +65,7 @@ namespace Tgstation.Server.Host
 				IServer? server;
 				try
 				{
-					server = await ServerFactory.CreateServer(
+					server = await serverFactory.CreateServer(
 						updatedArgsArray,
 						updatePath,
 						cancellationToken)
@@ -92,7 +95,7 @@ namespace Tgstation.Server.Host
 				if (updatePath != null)
 				{
 					// DCT: None available, operation should always run
-					await ServerFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), default).ConfigureAwait(false);
+					await serverFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), default).ConfigureAwait(false);
 					return 2;
 				}
 

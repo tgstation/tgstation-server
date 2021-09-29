@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.IO;
@@ -29,9 +29,8 @@ namespace Tgstation.Server.Host.Tests
 			mockServer.SetupGet(x => x.RestartRequested).Returns(false);
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
-			Program.ServerFactory = mockServerFactory.Object;
 
-			var result = await Program.Main(Array.Empty<string>()).ConfigureAwait(false);
+			var result = await Program.Run(mockServerFactory.Object, Array.Empty<string>()).ConfigureAwait(false);
 			Assert.AreEqual(0, result);
 		}
 
@@ -43,9 +42,8 @@ namespace Tgstation.Server.Host.Tests
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
-			Program.ServerFactory = mockServerFactory.Object;
 
-			var result = await Program.Main(Array.Empty<string>()).ConfigureAwait(false);
+			var result = await Program.Run(mockServerFactory.Object, Array.Empty<string>()).ConfigureAwait(false);
 			Assert.AreEqual(1, result);
 		}
 
@@ -57,9 +55,8 @@ namespace Tgstation.Server.Host.Tests
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
-			Program.ServerFactory = mockServerFactory.Object;
 
-			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => Program.Main(Array.Empty<string>())).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => Program.Run(mockServerFactory.Object, Array.Empty<string>())).ConfigureAwait(false);
 		}
 
 		[TestMethod]
@@ -72,13 +69,12 @@ namespace Tgstation.Server.Host.Tests
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.SetupGet(x => x.IOManager).Returns(new DefaultIOManager());
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
-			Program.ServerFactory = mockServerFactory.Object;
 
 			var tempFileName = Path.GetTempFileName();
 			File.Delete(tempFileName);
 			try
 			{
-				var result = await Program.Main(new string[] { tempFileName }).ConfigureAwait(false);
+				var result = await Program.Run(mockServerFactory.Object, new string[] { tempFileName }).ConfigureAwait(false);
 				Assert.AreEqual(2, result);
 				Assert.AreEqual(exception.ToString(), File.ReadAllText(tempFileName));
 			}
