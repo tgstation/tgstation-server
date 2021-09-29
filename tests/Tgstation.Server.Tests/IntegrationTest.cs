@@ -42,6 +42,9 @@ namespace Tgstation.Server.Tests
 	[TestCategory("SkipWhenLiveUnitTesting")]
 	public sealed class IntegrationTest
 	{
+		public static readonly ushort DDPort = FreeTcpPort();
+		public static readonly ushort DMPort = GetDMPort();
+
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		[TestMethod]
@@ -695,6 +698,8 @@ namespace Tgstation.Server.Tests
 								databaseType,
 								connectionString,
 								serverVersion));
+					default:
+						break;
 				}
 
 				return null;
@@ -826,7 +831,7 @@ namespace Tgstation.Server.Tests
 						// Dump swagger to disk
 						// This is purely for CI
 						using var webRequest = new HttpClient();
-						using var response = await webRequest.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json", cancellationToken);
+						using var response = await webRequest.GetAsync(new Uri(server.Url.ToString() + "swagger/v1/swagger.json"), cancellationToken);
 						using var content = await response.Content.ReadAsStreamAsync(cancellationToken);
 						using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
 						await content.CopyToAsync(output, cancellationToken);
@@ -884,13 +889,13 @@ namespace Tgstation.Server.Tests
 					catch (Exception ex)
 					{
 						SocketException socketException = null;
-						if (ex is SocketException)
-							socketException = (SocketException)ex;
+						if (ex is SocketException asSocketException)
+							socketException = asSocketException;
 						else if (ex is AggregateException aggregateException)
 							foreach (var innerException in aggregateException.InnerExceptions)
-								if (innerException is SocketException)
+								if (innerException is SocketException innerSocketException)
 								{
-									socketException = (SocketException)innerException;
+									socketException = innerSocketException;
 									break;
 								}
 
@@ -1013,9 +1018,6 @@ namespace Tgstation.Server.Tests
 			await serverTask;
 		}
 
-		public static ushort DDPort = FreeTcpPort();
-		public static ushort DMPort = GetDMPort();
-
 		static ushort GetDMPort()
 		{
 			ushort result;
@@ -1044,10 +1046,12 @@ namespace Tgstation.Server.Tests
 		public async Task TestScriptExecution()
 		{
 			var platformIdentifier = new PlatformIdentifier();
+			using var loggerFactory =
+				LoggerFactory.Create(x => { });
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
-				LoggerFactory.Create(x => { }));
+				loggerFactory);
 
 			using var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", String.Empty, true, true, true);
 			using var cts = new CancellationTokenSource();
@@ -1064,8 +1068,8 @@ namespace Tgstation.Server.Tests
 		{
 			using var testingServer = new TestingServer(null, false);
 			LibGit2Sharp.Repository.Clone("https://github.com/Cyberboss/test", testingServer.Directory);
-			var libGit2Repo = new LibGit2Sharp.Repository(testingServer.Directory);
-			using var repo = new Host.Components.Repository.Repository(
+			using var libGit2Repo = new LibGit2Sharp.Repository(testingServer.Directory);
+			using var repo = new Repository(
 				libGit2Repo,
 				new LibGit2Commands(),
 				Mock.Of<Host.IO.IIOManager>(),

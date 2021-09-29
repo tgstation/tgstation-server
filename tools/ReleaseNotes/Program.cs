@@ -171,7 +171,7 @@ namespace ReleaseNotes
 							{
 								if (trimmedLine.StartsWith(":cl:", StringComparison.Ordinal))
 								{
-									targetComponent = trimmedLine.Substring(4).Trim();
+									targetComponent = trimmedLine[4..].Trim();
 									if (targetComponent.Length == 0)
 										targetComponent = "Core";
 								}

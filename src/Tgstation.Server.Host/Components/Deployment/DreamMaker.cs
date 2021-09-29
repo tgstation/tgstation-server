@@ -345,7 +345,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 							// The difficulty with compile jobs is they have a two part commit
 							await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-							logger.LogTrace("Created CompileJob {0}", compileJob.Id);
+							logger.LogTrace("Created CompileJob {compileJobId}", compileJob.Id);
 							try
 							{
 								await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);

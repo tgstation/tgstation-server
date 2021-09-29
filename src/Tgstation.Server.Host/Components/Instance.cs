@@ -557,7 +557,7 @@ namespace Tgstation.Server.Host.Components
 
 						await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken).ConfigureAwait(false);
 					}
-					catch (Exception e) when (!(e is OperationCanceledException))
+					catch (Exception e) when (e is not OperationCanceledException)
 					{
 						logger.LogWarning(e, "Error in auto update loop!");
 						continue;
