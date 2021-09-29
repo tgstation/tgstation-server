@@ -213,7 +213,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			if (!currentUserResponse.IsSuccess)
 			{
-				Logger.LogWarning("Error retrieving current Discord user: {0}", currentUserResponse.Error.Message);
+				Logger.LogWarning("Error retrieving current Discord user: {errorMessage}", currentUserResponse.Error.Message);
 				return Array.Empty<ChannelRepresentation>();
 			}
 
@@ -238,13 +238,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var discordChannelResponse = await channelsClient.GetChannelAsync(new Snowflake(channelId), cancellationToken);
 					if (!discordChannelResponse.IsSuccess)
 					{
-						Logger.LogWarning("Error retrieving discord channel {0}: {1}", channelId, discordChannelResponse.Error.Message);
+						Logger.LogWarning("Error retrieving discord channel {channelId}: {errorMessage}", channelId, discordChannelResponse.Error.Message);
 						return null;
 					}
 
 					if (discordChannelResponse.Entity.Type != ChannelType.GuildText)
 					{
-						Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannelResponse.Entity.Type);
+						Logger.LogWarning("Cound not map channel {channelId}! Incorrect type: {entityType}", channelId, discordChannelResponse.Entity.Type);
 						return null;
 					}
 
@@ -275,7 +275,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Tag = channelFromDB.Tag,
 				};
 
-				Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
+				Logger.LogTrace("Mapped channel {channelRealId}: {channelFriendlyName}", channelModel.RealId, channelModel.FriendlyName);
 				return channelModel;
 			}
 
@@ -313,7 +313,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				if (!result.IsSuccess)
 					Logger.LogWarning(
-						"Failed to send to channel {0}: {1}",
+						"Failed to send to channel {channelId}: {errorMessage}",
 						channelId,
 						result.Error.Message);
 			}
@@ -327,7 +327,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!currentGuildsResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Error retrieving current discord guilds: {0}",
+							"Error retrieving current discord guilds: {errorMessage}",
 							currentGuildsResponse.Error.Message);
 						return;
 					}
@@ -344,7 +344,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					// discord API confirmed weak boned: https://stackoverflow.com/a/52462336
 					if (unmappedTextChannels.Any())
 					{
-						Logger.LogTrace("Dispatching to {0} unmapped channels...", unmappedTextChannels.Count());
+						Logger.LogTrace("Dispatching to {channelCount} unmapped channels...", unmappedTextChannels.Count());
 						await Task.WhenAll(
 							unmappedTextChannels.Select(
 								x => SendToChannel(x.ID)))
@@ -393,7 +393,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Timestamp = estimatedCompletionTime ?? default,
 			};
 
-			Logger.LogTrace("Attempting to post deploy embed to channel {0}...", channelId);
+			Logger.LogTrace("Attempting to post deploy embed to channel {channelId}...", channelId);
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 
 			var messageResponse = await channelsClient.CreateMessageAsync(
@@ -404,7 +404,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				.ConfigureAwait(false);
 
 			if (!messageResponse.IsSuccess)
-				Logger.LogWarning("Failed to post deploy embed to channel {0}: {1}", channelId, messageResponse.Error.Message);
+				Logger.LogWarning("Failed to post deploy embed to channel {channelId}: {errorMessage}", channelId, messageResponse.Error.Message);
 
 			return async (errorMessage, dreamMakerOutput) =>
 			{
@@ -463,7 +463,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 					if (!createUpdatedMessageResponse.IsSuccess)
 						Logger.LogWarning(
-							"Creating updated deploy embed failed! Error: {0}",
+							"Creating updated deploy embed failed! Error: {errorMessage}",
 							createUpdatedMessageResponse.Error.Message);
 				}
 
@@ -482,7 +482,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!editResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Updating deploy embed {0} failed, attempting new post! Error: {1}",
+							"Updating deploy embed {messageId} failed, attempting new post! Error: {errorMessage}",
 							messageResponse.Entity.ID,
 							editResponse.Error.Message);
 						await CreateUpdatedMessage();
@@ -515,7 +515,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (!channelResponse.IsSuccess)
 			{
 				Logger.LogWarning(
-					"Failed to get channel {0} in response to message {1}!",
+					"Failed to get channel {channelId} in response to message {messageId}!",
 					messageCreateEvent.ChannelID,
 					messageCreateEvent.ID);
 
@@ -537,7 +537,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				if (mentionedUs)
 					Logger.LogTrace(
-						"Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!",
+						"Ignoring mention from {channelId} ({channelName}) by {authorId} ({authorUserame}). Channel not mapped!",
 						messageCreateEvent.ChannelID,
 						channelResponse.Entity.Name,
 						messageCreateEvent.Author.ID,
@@ -555,8 +555,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					guildName = messageGuildResponse.Entity.Name;
 				else
 					Logger.LogWarning(
-						"Failed to get channel {0} in response to message {1}!",
-						messageCreateEvent.ChannelID,
+						"Failed to get guild {guildId} in response to message {messageId}!",
+						messageCreateEvent.GuildID,
 						messageCreateEvent.ID);
 			}
 
@@ -622,7 +622,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var currentUserResult = await userClient.GetCurrentUserAsync(cancellationToken).ConfigureAwait(false);
 					if (!currentUserResult.IsSuccess)
 					{
-						Logger.LogWarning("Unable to retrieve current user: {0}", currentUserResult.Error.Message);
+						Logger.LogWarning("Unable to retrieve current user: {errorMessage}", currentUserResult.Error.Message);
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
 					}
 
@@ -661,7 +661,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				var gatewayResult = await localGatewayTask.Task.ConfigureAwait(false);
 				if (!gatewayResult.IsSuccess)
-					Logger.LogWarning("Gateway issue: {0}", gatewayResult.Error.Message);
+					Logger.LogWarning("Gateway issue: {gatewayError}", gatewayResult.Error.Message);
 			}
 		}
 	}
