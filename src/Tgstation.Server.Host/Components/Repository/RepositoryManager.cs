@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async Task<IRepository?> CloneRepository(
 			Uri url,
-			Action<int> progressReporter,
+			JobProgressReporter progressReporter,
 			string? initialBranch,
 			string? username,
 			string? password,
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								OnTransferProgress = (a) =>
 								{
 									var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-									progressReporter((int)percentage);
+									progressReporter("Cloning", (int)percentage);
 									return !cancellationToken.IsCancellationRequested;
 								},
 								RecurseSubmodules = recurseSubmodules,

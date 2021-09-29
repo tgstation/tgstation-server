@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Hosting;
-
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Jobs
@@ -13,11 +13,11 @@ namespace Tgstation.Server.Host.Jobs
 	public interface IJobManager : IHostedService
 	{
 		/// <summary>
-		/// Get the <see cref="Api.Models.Response.JobResponse.Progress"/> for a <paramref name="job"/>.
+		/// Set the <see cref="JobResponse.Progress"/> and <see cref="JobResponse.Stage"/> for a given <paramref name="apiResponse"/>.
 		/// </summary>
-		/// <param name="job">The <see cref="Job"/> to get <see cref="Api.Models.Response.JobResponse.Progress"/> for.</param>
-		/// <returns>The <see cref="Api.Models.Response.JobResponse.Progress"/> of <paramref name="job"/>.</returns>
-		int? JobProgress(Job job);
+		/// <param name="jobModel">The <see cref="Job"/>.</param>
+		/// <param name="apiResponse">The <see cref="JobResponse"/> to update.</param>
+		void SetJobProgress(Job jobModel, JobResponse apiResponse);
 
 		/// <summary>
 		/// Registers a given <see cref="Job"/> and begins running it.

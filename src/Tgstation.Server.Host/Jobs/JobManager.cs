@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
-
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
@@ -222,16 +222,19 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public int? JobProgress(Job job)
+		public void SetJobProgress(Job jobModel, JobResponse apiResponse)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
+			if (jobModel == null)
+				throw new ArgumentNullException(nameof(jobModel));
+			if (apiResponse == null)
+				throw new ArgumentNullException(nameof(apiResponse));
 
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id, out var handler))
-					return null;
-				return handler.Progress;
+				if (!jobs.TryGetValue(jobModel.Id, out var handler))
+					return;
+				apiResponse.Progress = handler.Progress;
+				apiResponse.Stage = handler.Stage;
 			}
 		}
 
@@ -301,11 +304,18 @@ namespace Tgstation.Server.Host.Jobs
 							Cancelled = false,
 						};
 
-						void UpdateProgress(int progress)
+						void UpdateProgress(string? stage, int? progress)
 						{
+							if (progress.HasValue
+								&& (progress.Value < 0 || progress.Value > 100))
+								throw new ArgumentOutOfRangeException(nameof(progress), progress, "Progress must be a value from 0-100!");
+
 							lock (synchronizationLock)
 								if (jobs.TryGetValue(oldJob.Id, out var handler))
+								{
+									handler.Stage = stage;
 									handler.Progress = progress;
+								}
 						}
 
 						await activationTcs.Task.WithToken(cancellationToken).ConfigureAwait(false);

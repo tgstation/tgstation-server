@@ -155,7 +155,7 @@ jobs:
     name: Windows Unit Tests
     strategy:
       matrix:
-        configuration: [ 'Debug', 'Release' ]
+        configuration: [ 'Release' ]
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
@@ -308,7 +308,7 @@ jobs:
       max-parallel: 2
       matrix:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
-        watchdog-type: [ 'Basic', 'System' ]
+        watchdog-type: [ 'System' ]
         configuration: [ 'Release' ]
     runs-on: ubuntu-latest
     steps:
@@ -465,23 +465,11 @@ jobs:
         name: linux-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/linux_unit_tests_release
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Basic, Sqlite)
-      uses: actions/download-artifact@v2
-      with:
-        name: linux-integration-test-coverage-Release-Basic-Sqlite
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_sqlite
-
     - name: Retrieve Linux Integration Test Coverage (Release, System, Sqlite)
       uses: actions/download-artifact@v2
       with:
         name: linux-integration-test-coverage-Release-System-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
-
-    - name: Retrieve Linux Integration Test Coverage (Release, Basic, PostgresSql)
-      uses: actions/download-artifact@v2
-      with:
-        name: linux-integration-test-coverage-Release-Basic-PostgresSql
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_postgressql
 
     - name: Retrieve Linux Integration Test Coverage (Release, System, PostgresSql)
       uses: actions/download-artifact@v2
@@ -489,35 +477,17 @@ jobs:
         name: linux-integration-test-coverage-Release-System-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Basic, MariaDB)
-      uses: actions/download-artifact@v2
-      with:
-        name: linux-integration-test-coverage-Release-Basic-MariaDB
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mariadb
-
     - name: Retrieve Linux Integration Test Coverage (Release, System, MariaDB)
       uses: actions/download-artifact@v2
       with:
         name: linux-integration-test-coverage-Release-System-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
-    - name: Retrieve Linux Integration Test Coverage (Release, Basic, MySql)
-      uses: actions/download-artifact@v2
-      with:
-        name: linux-integration-test-coverage-Release-Basic-MySql
-        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
-
     - name: Retrieve Linux Integration Test Coverage (Release, System, MySql)
       uses: actions/download-artifact@v2
       with:
         name: linux-integration-test-coverage-Release-System-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
-
-    - name: Retrieve Windows Unit Test Coverage (Debug)
-      uses: actions/download-artifact@v2
-      with:
-        name: windows-unit-test-coverage-Debug
-        path: ./code_coverage/unit_tests/windows_unit_tests_debug
 
     - name: Retrieve Windows Unit Test Coverage (Release)
       uses: actions/download-artifact@v2

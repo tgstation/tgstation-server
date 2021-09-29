@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Jobs;
+
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
@@ -15,7 +17,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		bool InUse { get; }
 
 		/// <summary>
-		/// If a <see cref="CloneRepository(Uri, Action{int}, string?, string?, string?, bool, CancellationToken)"/> operation is in progress.
+		/// If a <see cref="CloneRepository(Uri, JobProgressReporter, string?, string?, string?, bool, CancellationToken)"/> operation is in progress.
 		/// </summary>
 		bool CloneInProgress { get; }
 
@@ -30,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Clone the repository at <paramref name="url"/>.
 		/// </summary>
 		/// <param name="url">The <see cref="Uri"/> of the remote repository to clone.</param>
-		/// <param name="progressReporter">A function to report 0-100 progress of the clone.</param>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for progress of the clone.</param>
 		/// <param name="initialBranch">The branch to clone.</param>
 		/// <param name="username">The username to clone from <paramref name="url"/>.</param>
 		/// <param name="password">The password to clone from <paramref name="url"/>.</param>
@@ -39,7 +41,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <returns>The newly cloned <see cref="IRepository"/>, <see langword="null"/> if one already exists.</returns>
 		Task<IRepository?> CloneRepository(
 			Uri url,
-			Action<int> progressReporter,
+			JobProgressReporter progressReporter,
 			string? initialBranch,
 			string? username,
 			string? password,

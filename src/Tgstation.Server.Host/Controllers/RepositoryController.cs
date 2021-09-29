@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return Gone();
 
-			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? currentModel.UpdateSubmodules;
+			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? true;
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
 			var cloneBranch = model.Reference;
@@ -139,6 +139,8 @@ namespace Tgstation.Server.Host.Controllers
 						Instance = Instance,
 					};
 					var api = currentModel.ToApi();
+
+					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					await jobManager.RegisterOperation(
 						job,
 						async (core, databaseContextFactory, paramJob, progressReporter, ct) =>
@@ -450,7 +452,7 @@ namespace Tgstation.Server.Host.Controllers
 			async Task RepositoryUpdateJobOhGodPleaseSomeoneRefactorThisItsTooFuckingBig(
 				IInstanceCore instance,
 				IDatabaseContextFactory databaseContextFactory,
-				Action<int> progressReporter,
+				JobProgressReporter progressReporter,
 				CancellationToken ct)
 			{
 				var repoManager = instance.RepositoryManager;
@@ -475,14 +477,14 @@ namespace Tgstation.Server.Host.Controllers
 				var numSteps = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));
 				var doneSteps = 0;
 
-				Action<int> NextProgressReporter()
+				JobProgressReporter NextProgressReporter()
 				{
 					var tmpDoneSteps = doneSteps;
 					++doneSteps;
-					return progress => progressReporter((progress + (100 * tmpDoneSteps)) / numSteps);
+					return (status, progress) => progressReporter(status, (progress + (100 * tmpDoneSteps)) / numSteps);
 				}
 
-				progressReporter(0);
+				progressReporter(null, 0);
 
 				// get a base line for where we are
 				Models.RevisionInformation lastRevisionInfo = null!; // god help this function
@@ -580,7 +582,7 @@ namespace Tgstation.Server.Host.Controllers
 								postUpdateSha = repo.Head;
 							}
 							else
-								NextProgressReporter()(100);
+								NextProgressReporter()(null, 100);
 						}
 					}
 
@@ -615,7 +617,7 @@ namespace Tgstation.Server.Host.Controllers
 							await CallLoadRevInfo().ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
 						}
 						else
-							NextProgressReporter()(100);
+							NextProgressReporter()(null, 100);
 
 						if (hardResettingToOriginReference)
 						{
@@ -882,7 +884,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (startReference != null && repo.Head != startSha)
 						await repo.ResetToSha(NextProgressReporter(), startSha, default).ConfigureAwait(false);
 					else
-						progressReporter(100);
+						progressReporter(null, 100);
 					throw;
 				}
 			}
@@ -948,10 +950,8 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id)
 					.FirstOrDefault();
 
-			bool needsDbUpdate = revisionInfo == default;
-			if (needsDbUpdate)
+			if (revisionInfo == default)
 			{
-				needsDbUpdate = true;
 				revisionInfo = new Models.RevisionInformation
 				{
 					Instance = instance,
@@ -970,10 +970,12 @@ namespace Tgstation.Server.Host.Controllers
 				}
 
 				databaseContext.RevisionInformations.Add(revisionInfo);
+
+				return true;
 			}
 
 			revInfoSink?.Invoke(revisionInfo);
-			return needsDbUpdate;
+			return false;
 		}
 
 		/// <summary>

@@ -21,5 +21,11 @@
 		/// </summary>
 		[ResponseOptions]
 		public int? Progress { get; set; }
+
+		/// <summary>
+		/// Optional description of the job's current .
+		/// </summary>
+		[ResponseOptions]
+		public string? Stage { get; set; }
 	}
 }

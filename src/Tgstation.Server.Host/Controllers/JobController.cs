@@ -167,7 +167,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (job == default)
 				return NotFound();
 			var api = job.ToApi();
-			api.Progress = jobManager.JobProgress(job);
+			jobManager.SetJobProgress(job, api);
 			return Json(api);
 		}
 
@@ -179,7 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		private Task AddJobProgressResponseTransformer(Job jobModel, JobResponse jobResponse)
 		{
-			jobResponse.Progress = jobManager.JobProgress(jobModel);
+			jobManager.SetJobProgress(jobModel, jobResponse);
 			return Task.CompletedTask;
 		}
 	}

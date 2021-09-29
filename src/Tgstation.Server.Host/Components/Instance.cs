@@ -254,7 +254,7 @@ namespace Tgstation.Server.Host.Components
 			IInstanceCore core,
 			IDatabaseContextFactory databaseContextFactory,
 			Job job,
-			Action<int> progressReporter,
+			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 			=> databaseContextFactory.UseContext(
 				async databaseContext =>
@@ -275,11 +275,11 @@ namespace Tgstation.Server.Host.Components
 					const int NumSteps = 3;
 					var doneSteps = 0;
 
-					Action<int> NextProgressReporter()
+					JobProgressReporter NextProgressReporter()
 					{
 						var tmpDoneSteps = doneSteps;
 						++doneSteps;
-						return progress => progressReporter((progress + (100 * tmpDoneSteps)) / NumSteps);
+						return (status, progress) => progressReporter(status, progress.HasValue ? (progress + (100 * tmpDoneSteps)) / NumSteps : null);
 					}
 
 					using var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false);
@@ -466,7 +466,7 @@ namespace Tgstation.Server.Host.Components
 							throw;
 						}
 
-					progressReporter(5 * ProgressStep);
+					progressReporter(null, 5 * ProgressStep);
 				});
 #pragma warning restore CA1502   // Cyclomatic complexity
 
