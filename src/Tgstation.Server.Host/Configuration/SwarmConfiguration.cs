@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Configuration
 
 		/// <inheritdoc />
 		[YamlMember(SerializeAs = typeof(string))]
-		public override Uri Address
+		public override Uri? Address
 		{
 			get => base.Address;
 			set => base.Address = value;
@@ -27,11 +27,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// The <see cref="SwarmServer.Address"/> of the swarm controller. If <see langword="null"/>, the current server is considered the controller.
 		/// </summary>
 		[YamlMember(SerializeAs = typeof(string))]
-		public Uri ControllerAddress { get; set; }
+		public Uri? ControllerAddress { get; set; }
 
 		/// <summary>
 		/// The private key used for swarm communication.
 		/// </summary>
-		public string PrivateKey { get; set; }
+		public string? PrivateKey { get; set; }
 	}
 }

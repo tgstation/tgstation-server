@@ -9,8 +9,13 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <summary>
 	/// Additional information from git remotes.
 	/// </summary>
-	public interface IGitRemoteAdditionalInformation : IGitRemoteInformation
+	public interface IGitRemoteAdditionalInformation
 	{
+		/// <summary>
+		/// The <see cref="Api.Models.GitRemoteInformation"/> if any.
+		/// </summary>
+		GitRemoteInformation? GitRemoteInformation { get; }
+
 		/// <summary>
 		/// Retrieve the <see cref="Models.TestMerge"/> representation of given test merge <paramref name="parameters"/>.
 		/// </summary>

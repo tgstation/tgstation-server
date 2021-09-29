@@ -3,7 +3,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
@@ -76,8 +75,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerfactory,
-			Api.Models.Instance instance,
-			DreamDaemonSettings settings)
+			Models.Instance instance,
+			Models.DreamDaemonSettings settings)
 			=> new BasicWatchdog(
 				chat,
 				sessionControllerFactory,
@@ -92,6 +91,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				LoggerFactory.CreateLogger<BasicWatchdog>(),
 				settings,
 				instance,
-				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));
+				settings.AutoStart);
 	}
 }

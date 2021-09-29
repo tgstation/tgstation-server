@@ -11,7 +11,6 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
@@ -28,13 +27,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// </summary>
 		/// <param name="gitHubClientFactory">The <see cref="IGitHubClientFactory"/> to use.</param>
 		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> to use.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use.</param>
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SecurityConfiguration"/> to use.</param>
 		public OAuthProviders(
 			IGitHubClientFactory gitHubClientFactory,
 			IHttpClientFactory httpClientFactory,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			ILoggerFactory loggerFactory,
 			IOptions<SecurityConfiguration> securityConfigurationOptions)
 		{
@@ -60,7 +57,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 				validatorsBuilder.Add(
 					new DiscordOAuthValidator(
 						httpClientFactory,
-						assemblyInformationProvider,
 						loggerFactory.CreateLogger<DiscordOAuthValidator>(),
 						discordConfig));
 
@@ -68,7 +64,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 				validatorsBuilder.Add(
 					new TGForumsOAuthValidator(
 						httpClientFactory,
-						assemblyInformationProvider,
 						loggerFactory.CreateLogger<TGForumsOAuthValidator>(),
 						tgConfig));
 
@@ -76,13 +71,12 @@ namespace Tgstation.Server.Host.Security.OAuth
 				validatorsBuilder.Add(
 					new KeycloakOAuthValidator(
 						httpClientFactory,
-						assemblyInformationProvider,
 						loggerFactory.CreateLogger<KeycloakOAuthValidator>(),
 						keyCloakConfig));
 		}
 
 		/// <inheritdoc />
-		public IOAuthValidator GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
+		public IOAuthValidator? GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
 
 		/// <inheritdoc />
 		public async Task<Dictionary<OAuthProvider, OAuthProviderInfo>> ProviderInfos(CancellationToken cancellationToken)
@@ -97,7 +91,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				.Where(x => x.Value.Result != null)
 				.ToDictionary(
 					x => x.Key,
-					x => x.Value.Result);
+					x => x.Value.Result!);
 		}
 	}
 }

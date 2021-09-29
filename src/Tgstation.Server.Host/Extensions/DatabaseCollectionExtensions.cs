@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="databaseCollection">The <see cref="IDatabaseCollection{TModel}"/> of <see cref="User"/>s to operate on.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the unattached TGS <see cref="User"/> on success, <see langword="null"/> on failure.</returns>
-		public static Task<User> GetTgsUser(this IDatabaseCollection<User> databaseCollection, CancellationToken cancellationToken)
+		public static Task<User> GetTgsUserId(this IDatabaseCollection<User> databaseCollection, CancellationToken cancellationToken)
 			=> databaseCollection
 				.AsQueryable()
 				.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))

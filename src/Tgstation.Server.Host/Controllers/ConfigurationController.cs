@@ -70,7 +70,9 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
-			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
+
+			var path = model.Path!;
+			if (ForbidDueToModeConflicts(path, out var systemIdentity))
 				return Forbid();
 
 			try
@@ -81,13 +83,13 @@ namespace Tgstation.Server.Host.Controllers
 						var newFile = await instance
 							.Configuration
 							.Write(
-								model.Path,
+								path,
 								systemIdentity,
 								model.LastReadHash,
 								cancellationToken)
 							.ConfigureAwait(false);
 
-						return model.LastReadHash == null ? (IActionResult)Accepted(newFile) : Json(newFile);
+						return model.LastReadHash == null ? Accepted(newFile) : Json(newFile);
 					})
 					.ConfigureAwait(false);
 			}
@@ -167,7 +169,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(PaginatedResponse<ConfigurationFileResponse>), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public Task<IActionResult> Directory(
-			string directoryPath,
+			string? directoryPath,
 			[FromQuery] int? page,
 			[FromQuery] int? pageSize,
 			CancellationToken cancellationToken)
@@ -241,7 +243,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
+			var path = model.Path!;
+			if (ForbidDueToModeConflicts(path, out var systemIdentity))
 				return Forbid();
 
 			try
@@ -249,15 +252,15 @@ namespace Tgstation.Server.Host.Controllers
 				var resultModel = new ConfigurationFileResponse
 				{
 					IsDirectory = true,
-					Path = model.Path,
+					Path = path,
 				};
 
 				return await WithComponentInstance(
 					async instance => await instance
 						.Configuration
-						.CreateDirectory(model.Path, systemIdentity, cancellationToken)
+						.CreateDirectory(path, systemIdentity, cancellationToken)
 						.ConfigureAwait(false)
-						? (IActionResult)Json(resultModel)
+						? Json(resultModel)
 						: Created(resultModel))
 					.ConfigureAwait(false);
 			}
@@ -307,7 +310,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Configuration
 					.DeleteDirectory(directory.Path, systemIdentity, cancellationToken)
 					.ConfigureAwait(false)
-					? (IActionResult)NoContent()
+					? NoContent()
 					: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)))
 					.ConfigureAwait(false);
 			}
@@ -327,11 +330,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="path">The path to validate if any.</param>
 		/// <param name="systemIdentityToUse">The <see cref="ISystemIdentity"/> to use when calling into <see cref="Components.StaticFiles.IConfiguration"/>.</param>
 		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise.</returns>
-		bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)
+		bool ForbidDueToModeConflicts(string? path, out ISystemIdentity? systemIdentityToUse)
 		{
 			if (Instance.ConfigurationType == ConfigurationType.Disallowed
 				|| (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null)
-				|| (path != null && ioManager.PathContainsParentAccess(path)))
+				|| ((path != null) && ioManager.PathContainsParentAccess(path)))
 			{
 				systemIdentityToUse = null;
 				return true;

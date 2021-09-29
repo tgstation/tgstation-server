@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
@@ -10,10 +12,33 @@ namespace Tgstation.Server.Host.Models
 	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiTransformable<CompileJobResponse>
 	{
 		/// <summary>
+		/// <see cref="EntityId.Id"/>.
+		/// </summary>
+		public new long Id
+		{
+			get => base.Id ?? throw new InvalidOperationException("Id was null!");
+			set => base.Id = value;
+		}
+
+		/// <summary>
+		/// <see cref="Api.Models.Internal.CompileJob.DirectoryName"/>.
+		/// </summary>
+		public new Guid DirectoryName
+		{
+			get => base.DirectoryName ?? throw new InvalidOperationException("DirectoryName was null!");
+			set => base.DirectoryName = value;
+		}
+
+		/// <summary>
 		/// See <see cref="CompileJobResponse.Job"/>.
 		/// </summary>
 		[Required]
-		public Job Job { get; set; }
+		[BackingField(nameof(job))]
+		public Job Job
+		{
+			get => job ?? throw new InvalidOperationException("Job not set!");
+			set => job = value;
+		}
 
 		/// <summary>
 		/// The <see cref="EntityId.Id"/> of <see cref="Job"/>.
@@ -24,13 +49,23 @@ namespace Tgstation.Server.Host.Models
 		/// See <see cref="CompileJobResponse.RevisionInformation"/>.
 		/// </summary>
 		[Required]
-		public RevisionInformation RevisionInformation { get; set; }
+		[BackingField(nameof(revisionInformation))]
+		public RevisionInformation RevisionInformation
+		{
+			get => revisionInformation ?? throw new InvalidOperationException("RevisionInformation not set!");
+			set => revisionInformation = value;
+		}
 
 		/// <summary>
 		/// The <see cref="Version"/> the <see cref="CompileJob"/> was made with in string form.
 		/// </summary>
 		[Required]
-		public string ByondVersion { get; set; }
+		[BackingField(nameof(byondVersion))]
+		public string ByondVersion
+		{
+			get => byondVersion ?? throw new InvalidOperationException("ByondVersion not set!");
+			set => byondVersion = value;
+		}
 
 		/// <summary>
 		/// Backing field for <see cref="Version.Major"/> of <see cref="DMApiVersion"/>.
@@ -50,7 +85,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The origin <see cref="Uri"/> of the repository the compile job was built from.
 		/// </summary>
-		public string RepositoryOrigin { get; set; }
+		public string? RepositoryOrigin { get; set; }
 
 		/// <summary>
 		/// The source GitHub repository the deployment came from if any.
@@ -62,13 +97,34 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public int? GitHubDeploymentId { get; set; }
 
+		/// <summary>
+		/// Backing field for <see cref="Job"/>.
+		/// </summary>
+		Job? job;
+
+		/// <summary>
+		/// Backing field for <see cref="RevisionInformation"/>.
+		/// </summary>
+		RevisionInformation? revisionInformation;
+
+		/// <summary>
+		/// Backing field for <see cref="ByondVersion"/>.
+		/// </summary>
+		string? byondVersion;
+
 		/// <inheritdoc />
-		public override Version DMApiVersion
+		public override Version? DMApiVersion
 		{
 			get
 			{
 				if (!DMApiMajorVersion.HasValue)
 					return null;
+
+				if (!DMApiMinorVersion.HasValue)
+					throw new InvalidOperationException("DMApiMinorVersion was null!");
+
+				if (!DMApiPatchVersion.HasValue)
+					throw new InvalidOperationException("DMApiPatchVersion was null!");
 
 				return new Version(DMApiMajorVersion.Value, DMApiMinorVersion.Value, DMApiPatchVersion.Value);
 			}
@@ -82,7 +138,7 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public CompileJobResponse ToApi() => new CompileJobResponse
+		public CompileJobResponse ToApi() => new ()
 		{
 			DirectoryName = DirectoryName,
 			DmeName = DmeName,

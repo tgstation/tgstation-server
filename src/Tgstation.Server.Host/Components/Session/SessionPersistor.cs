@@ -74,25 +74,16 @@ namespace Tgstation.Server.Host.Components.Session
 
 			await ClearImpl(db, false, cancellationToken).ConfigureAwait(false);
 
-			var dbReattachInfo = new Models.ReattachInformation
-			{
-				AccessIdentifier = reattachInformation.AccessIdentifier,
-				CompileJobId = reattachInformation.Dmb.CompileJob.Id.Value,
-				Port = reattachInformation.Port,
-				ProcessId = reattachInformation.ProcessId,
-				RebootState = reattachInformation.RebootState,
-				LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel,
-				LaunchVisibility = reattachInformation.LaunchVisibility,
-			};
+			var dbReattachInfo = new Models.ReattachInformation(reattachInformation, reattachInformation.Dmb.CompileJob.Id);
 
 			db.ReattachInformations.Add(dbReattachInfo);
 			await db.Save(cancellationToken).ConfigureAwait(false);
 		});
 
 		/// <inheritdoc />
-		public async Task<ReattachInformation> Load(CancellationToken cancellationToken)
+		public async Task<ReattachInformation?> Load(CancellationToken cancellationToken)
 		{
-			Models.ReattachInformation result = null;
+			Models.ReattachInformation? result = null;
 			TimeSpan? topicTimeout = null;
 			await databaseContextFactory.UseContext(async (db) =>
 			{
@@ -116,11 +107,11 @@ namespace Tgstation.Server.Host.Components.Session
 
 				if (timeoutMilliseconds == default)
 				{
-					logger.LogCritical("Missing TopicRequestTimeout!");
+					logger.LogError("Missing TopicRequestTimeout!");
 					return;
 				}
 
-				topicTimeout = TimeSpan.FromMilliseconds(timeoutMilliseconds.Value);
+				topicTimeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
 
 				bool first = true;
 				foreach (var reattachInfo in dbReattachInfos)
@@ -135,8 +126,11 @@ namespace Tgstation.Server.Host.Components.Session
 					try
 					{
 						using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
-						process.Terminate();
-						await process.Lifetime.ConfigureAwait(false);
+						if (process != null)
+						{
+							process.Terminate();
+							await process.Lifetime.ConfigureAwait(false);
+						}
 					}
 					catch (Exception ex)
 					{
@@ -149,11 +143,14 @@ namespace Tgstation.Server.Host.Components.Session
 				await db.Save(cancellationToken).ConfigureAwait(false);
 			}).ConfigureAwait(false);
 
-			if (!topicTimeout.HasValue)
+			if (result == null)
 			{
 				logger.LogDebug("Reattach information not found!");
 				return null;
 			}
+
+			if (!topicTimeout.HasValue)
+				return null;
 
 			var dmb = await dmbFactory.FromCompileJob(result.CompileJob, cancellationToken).ConfigureAwait(false);
 			if (dmb == null)
@@ -167,7 +164,7 @@ namespace Tgstation.Server.Host.Components.Session
 				dmb,
 				topicTimeout.Value);
 
-			logger.LogDebug("Reattach information loaded: {0}", info);
+			logger.LogDebug("Reattach information loaded: {info}", info);
 
 			return info;
 		}

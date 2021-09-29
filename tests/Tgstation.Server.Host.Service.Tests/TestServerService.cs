@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -17,17 +17,17 @@ namespace Tgstation.Server.Host.Service.Tests
 	public sealed class TestServerService
 	{
 		[TestMethod]
-		public void TestConstructionAndDisposal()
+		public async Task TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null, default));
-			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null, default));
-			var mockLoggerFactory = new LoggerFactory();
-			new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default).Dispose();
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null));
+			var mockWatchdog = new Mock<IWatchdog>();
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdog.Object, null));
+			var mockLoggerFactory = Mock.Of<ILogger<ServerService>>();
+			await new ServerService(mockWatchdog.Object, mockLoggerFactory).DisposeAsync();
 		}
 
 		[TestMethod]
-		public void TestRun()
+		public async Task TestRun()
 		{
 			var type = typeof(ServerService);
 			var onStart = type.GetMethod("OnStart", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -37,18 +37,21 @@ namespace Tgstation.Server.Host.Service.Tests
 			var args = Array.Empty<string>();
 			CancellationToken cancellationToken;
 			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
-			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			var mockLoggerFactory = new LoggerFactory();
-			mockWatchdogFactory.Setup(x => x.CreateWatchdog(mockLoggerFactory)).Returns(mockWatchdog.Object).Verifiable();
+			var mockLogger = Mock.Of<ILogger<ServerService>>();
 
-			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default))
+			var service = new ServerService(mockWatchdog.Object, mockLogger);
+			await using (service)
 			{
-				onStart.Invoke(service, new object[] { args });
-				onStop.Invoke(service, Array.Empty<object>());
-				mockWatchdog.VerifyAll();
+				await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => service.StopAsync(default));
+				await service.StartAsync(default);
+				await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => service.StartAsync(default));
+				await service.StopAsync(default);
+				await service.DisposeAsync();
 			}
 
-			mockWatchdogFactory.VerifyAll();
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => service.StopAsync(default));
+
+			mockWatchdog.VerifyAll();
 		}
 	}
 }

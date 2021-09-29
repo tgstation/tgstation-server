@@ -21,6 +21,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="origin">The <see cref="Uri"/> of the origin.</param>
 		/// <returns>The <see cref="RemoteGitProvider"/> of the <paramref name="origin"/>.</returns>
-		RemoteGitProvider ParseRemoteGitProviderFromOrigin(Uri origin);
+		RemoteGitProvider? ParseRemoteGitProviderFromOrigin(Uri origin);
 	}
 }

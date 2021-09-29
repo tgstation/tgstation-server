@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 
 using Microsoft.Extensions.Logging;
 using Mono.Unix;
@@ -9,6 +10,7 @@ namespace Tgstation.Server.Host.IO
 	/// <summary>
 	/// <see cref="IPostWriteHandler"/> for POSIX systems.
 	/// </summary>
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixPostWriteHandler : IPostWriteHandler
 	{
 		/// <summary>

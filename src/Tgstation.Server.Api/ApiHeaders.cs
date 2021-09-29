@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Mime;
@@ -12,6 +13,8 @@ using Microsoft.Net.Http.Headers;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Properties;
+using Tgstation.Server.Helpers;
+using Tgstation.Server.Helpers.Extensions;
 
 namespace Tgstation.Server.Api
 {
@@ -68,7 +71,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The client's user agent as a <see cref="ProductHeaderValue"/> if valid.
 		/// </summary>
-		public ProductHeaderValue? UserAgent => ProductInfoHeaderValue.TryParse(RawUserAgent, out var userAgent) ? userAgent.Product : null;
+		public ProductHeaderValue? UserAgent => RawUserAgent != null && ProductInfoHeaderValue.TryParse(RawUserAgent, out var userAgent) ? userAgent.Product : null;
 
 		/// <summary>
 		/// The client's raw user agent.
@@ -101,8 +104,9 @@ namespace Tgstation.Server.Api
 		public OAuthProvider? OAuthProvider { get; }
 
 		/// <summary>
-		/// If the header uses password or TGS JWT authentication.
+		/// If the header uses TGS JWT authentication.
 		/// </summary>
+		[MemberNotNullWhen(true, nameof(Token))]
 		public bool IsTokenAuthentication => Token != null && !OAuthProvider.HasValue;
 
 		/// <summary>
@@ -182,7 +186,9 @@ namespace Tgstation.Server.Api
 
 			// make sure the api header matches ours
 			Version? apiVersion = null;
-			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != AssemblyName.Name)
+			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues)
+				|| !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault() ?? String.Empty, out var apiUserAgent)
+				|| apiUserAgent!.Product!.Name != AssemblyName.Name)
 				AddError(HeaderTypes.Api, $"Missing {ApiVersionHeader} header!");
 			else if (!Version.TryParse(apiUserAgent.Product.Version, out apiVersion))
 				AddError(HeaderTypes.Api, $"Malformed {ApiVersionHeader} header!");
@@ -304,6 +310,8 @@ namespace Tgstation.Server.Api
 				throw new ArgumentNullException(nameof(headers));
 			if (instanceId.HasValue && InstanceId.HasValue && instanceId != InstanceId)
 				throw new InvalidOperationException("Specified different instance IDs in constructor and SetRequestHeaders!");
+			if (UserAgent == null)
+				throw new InvalidOperationException("User-Agent is not set!");
 
 			headers.Clear();
 			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
@@ -319,7 +327,7 @@ namespace Tgstation.Server.Api
 			}
 
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
-			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString());
+			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name!, ApiVersion.ToString()).ToString());
 			instanceId ??= InstanceId;
 			if (instanceId.HasValue)
 				headers.Add(InstanceIdHeader, instanceId.ToString());

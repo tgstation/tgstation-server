@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// <summary>
 	/// <see cref="IByondInstaller"/> for Posix systems.
 	/// </summary>
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixByondInstaller : ByondInstallerBase
 	{
 		/// <summary>
@@ -52,9 +54,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
+		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
-		public PosixByondInstaller(IPostWriteHandler postWriteHandler, IIOManager ioManager, ILogger<PosixByondInstaller> logger)
-			: base(ioManager, logger)
+		public PosixByondInstaller(
+			IPostWriteHandler postWriteHandler,
+			IIOManager ioManager,
+			IFileDownloader fileDownloader,
+			ILogger<PosixByondInstaller> logger)
+			: base(ioManager, fileDownloader, logger)
 		{
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 

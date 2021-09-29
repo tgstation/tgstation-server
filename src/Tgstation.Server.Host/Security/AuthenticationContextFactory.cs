@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Security
 	sealed class AuthenticationContextFactory : IAuthenticationContextFactory, IDisposable
 	{
 		/// <inheritdoc />
-		public IAuthenticationContext CurrentAuthenticationContext { get; private set; }
+		public IAuthenticationContext? CurrentAuthenticationContext { get; private set; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the <see cref="AuthenticationContextFactory"/>.
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Security
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Group)
-					.ThenInclude(x => x.PermissionSet)
+					.ThenInclude(x => x!.PermissionSet)
 				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -85,14 +85,14 @@ namespace Tgstation.Server.Host.Security
 				return;
 			}
 
-			ISystemIdentity systemIdentity;
+			ISystemIdentity? systemIdentity;
 			if (user.SystemIdentifier != null)
 				systemIdentity = identityCache.LoadCachedIdentity(user);
 			else
 			{
 				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validAfter)
 				{
-					logger.LogDebug("Rejecting token for user {0} created before last password update: {1}", userId, user.LastPasswordUpdate.Value);
+					logger.LogDebug("Rejecting token for user {userId} created before last password update: {lastPasswordUpdate}", userId, user.LastPasswordUpdate.Value);
 					CurrentAuthenticationContext = new AuthenticationContext();
 					return;
 				}
@@ -100,10 +100,17 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = null;
 			}
 
-			var userPermissionSet = user.PermissionSet ?? user.Group.PermissionSet;
+			var userPermissionSet = user.PermissionSet ?? user.Group?.PermissionSet;
+			if (userPermissionSet == null)
+			{
+				logger.LogError("User {userId} has no associated PermissionSet!", userId);
+				CurrentAuthenticationContext = new AuthenticationContext();
+				return;
+			}
+
 			try
 			{
-				InstancePermissionSet instancePermissionSet = null;
+				InstancePermissionSet? instancePermissionSet = null;
 				if (instanceId.HasValue)
 				{
 					instancePermissionSet = await databaseContext.InstancePermissionSets
@@ -114,7 +121,7 @@ namespace Tgstation.Server.Host.Security
 						.ConfigureAwait(false);
 
 					if (instancePermissionSet == null)
-						logger.LogDebug("User {0} does not have permissions on instance {1}!", userId, instanceId.Value);
+						logger.LogDebug("User {userId} does not have permissions on instance {instanceId}!", userId, instanceId.Value);
 				}
 
 				CurrentAuthenticationContext = new AuthenticationContext(

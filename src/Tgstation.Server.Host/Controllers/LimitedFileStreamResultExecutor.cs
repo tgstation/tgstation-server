@@ -55,6 +55,9 @@ namespace Tgstation.Server.Host.Controllers
 					}
 					else
 					{
+						if (range.From == null)
+							throw new InvalidOperationException("Range from not specified!");
+
 						result.FileStream.Seek(range.From.Value, SeekOrigin.Begin);
 						await StreamCopyOperation.CopyToAsync(
 							result.FileStream,

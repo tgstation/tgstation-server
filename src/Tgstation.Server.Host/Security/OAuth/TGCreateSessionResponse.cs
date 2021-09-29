@@ -8,11 +8,11 @@
 		/// <summary>
 		/// The session's private token. Similar to OAuth authorization response code.
 		/// </summary>
-		public string SessionPrivateToken { get; set; }
+		public string? SessionPrivateToken { get; set; }
 
 		/// <summary>
 		/// The session's public token. Barely similar to OAuth client ID.
 		/// </summary>
-		public string SessionPublicToken { get; set; }
+		public string? SessionPublicToken { get; set; }
 	}
 }

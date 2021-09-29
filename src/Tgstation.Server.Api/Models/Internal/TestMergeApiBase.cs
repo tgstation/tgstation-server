@@ -9,11 +9,6 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class TestMergeApiBase : TestMergeModelBase
 	{
 		/// <summary>
-		/// The ID of the <see cref="TestMergeApiBase"/>.
-		/// </summary>
-		public long Id { get; set; }
-
-		/// <summary>
 		/// When the <see cref="TestMergeApiBase"/> was created.
 		/// </summary>
 		[Required]

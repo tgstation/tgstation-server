@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// The <see cref="IAuthenticationContext"/> the <see cref="IAuthenticationContextFactory"/> created.
 		/// </summary>
-		IAuthenticationContext CurrentAuthenticationContext { get; }
+		IAuthenticationContext? CurrentAuthenticationContext { get; }
 
 		/// <summary>
 		/// Create an <see cref="IAuthenticationContext"/> to populate <see cref="CurrentAuthenticationContext"/>.
@@ -22,6 +23,7 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="validAfter">The <see cref="DateTimeOffset"/> the resulting <see cref="IAuthenticationContext.User"/>'s password must be valid after.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		[MemberNotNull(nameof(CurrentAuthenticationContext))]
 		Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken);
 	}
 }

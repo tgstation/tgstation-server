@@ -12,7 +12,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// If the <see cref="UserModelBase"/> is enabled since users cannot be deleted. System users cannot be disabled.
 		/// </summary>
 		[Required]
-		public bool? Enabled { get; set; }
+		public virtual bool? Enabled { get; set; }
 
 		/// <summary>
 		/// When the <see cref="UserModelBase"/> was created.

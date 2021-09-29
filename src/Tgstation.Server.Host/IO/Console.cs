@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.IO
 				// TODO: Make this better: https://stackoverflow.com/questions/9479573/how-to-interrupt-console-readline
 				CheckAvailable();
 				if (!usePasswordChar)
-					return global::System.Console.ReadLine();
+					return global::System.Console.ReadLine() ?? String.Empty;
 
 				var passwordBuilder = new StringBuilder();
 				do
@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public Task WriteAsync(string? text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				CheckAvailable();

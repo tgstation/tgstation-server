@@ -38,7 +38,11 @@ namespace Tgstation.Server.Host.Security
 				throw new ArgumentNullException(nameof(tokenValidatedContext));
 
 			// Find the user id in the token
-			var userIdClaim = tokenValidatedContext.Principal.FindFirst(JwtRegisteredClaimNames.Sub);
+			var principal = tokenValidatedContext.Principal;
+			if (principal == null)
+				throw new InvalidOperationException("TokenValidatedContext.Principal is null!");
+
+			var userIdClaim = principal.FindFirst(JwtRegisteredClaimNames.Sub);
 			if (userIdClaim == default)
 				throw new InvalidOperationException("Missing required claim!");
 
@@ -80,10 +84,7 @@ namespace Tgstation.Server.Host.Security
 				// if there's no instance user, do a weird thing and add all the instance roles
 				// we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
 				// if user is null that means they got the token with an expired password
-				var rightAsULong = authenticationContext.User == null
-					|| (RightsHelper.IsInstanceRight(rightType) && authenticationContext.InstancePermissionSet == null)
-					? ~0UL
-					: authenticationContext.GetRight(rightType);
+				var rightAsULong = authenticationContext.GetRight(rightType);
 				var rightEnum = RightsHelper.RightToType(rightType);
 				var right = (Enum)Enum.ToObject(rightEnum, rightAsULong);
 				foreach (Enum enumeratedRight in Enum.GetValues(rightEnum))
@@ -91,7 +92,7 @@ namespace Tgstation.Server.Host.Security
 						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(rightType, enumeratedRight)));
 			}
 
-			tokenValidatedContext.Principal.AddIdentity(new ClaimsIdentity(claims));
+			principal.AddIdentity(new ClaimsIdentity(claims));
 		}
 	}
 }

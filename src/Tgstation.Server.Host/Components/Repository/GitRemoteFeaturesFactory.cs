@@ -58,13 +58,12 @@ namespace Tgstation.Server.Host.Components.Repository
 				RemoteGitProvider.GitLab => new GitLabRemoteFeatures(
 					loggerFactory.CreateLogger<GitLabRemoteFeatures>(),
 					primaryRemote),
-				RemoteGitProvider.Unknown => new DefaultGitRemoteFeatures(),
-				_ => throw new InvalidOperationException($"Unknown RemoteGitProvider: {remoteGitProvider}!"),
+				_ => new DefaultGitRemoteFeatures(),
 			};
 		}
 
 		/// <inheritdoc />
-		public RemoteGitProvider ParseRemoteGitProviderFromOrigin(Uri origin)
+		public RemoteGitProvider? ParseRemoteGitProviderFromOrigin(Uri origin)
 		{
 			if (origin == null)
 				throw new ArgumentNullException(nameof(origin));
@@ -81,7 +80,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					return RemoteGitProvider.GitLab;
 				default:
 					logger.LogTrace("Unknown git remote: {0}", origin);
-					return RemoteGitProvider.Unknown;
+					return null;
 			}
 		}
 	}

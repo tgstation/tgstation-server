@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
@@ -9,6 +9,7 @@ using System.Xml.Linq;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
+using Tgstation.Server.Helpers.Extensions;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;

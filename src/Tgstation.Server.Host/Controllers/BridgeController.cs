@@ -67,33 +67,45 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			// Nothing to see here
 			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
+			if (remoteIP == null)
+			{
+				logger.LogError("Rejecting bridge request from undeterminable source: {data}", data);
+				return Forbid();
+			}
+
 			if (!IPAddress.IsLoopback(remoteIP))
 			{
-				logger.LogTrace("Rejecting remote bridge request from {0}", remoteIP);
+				logger.LogTrace("Rejecting remote bridge request from {remoteIP}", remoteIP);
 				return Forbid();
 			}
 
 			using (LogContext.PushProperty("Bridge", Interlocked.Increment(ref requestsProcessed)))
 			{
-				BridgeParameters request;
+				BridgeParameters? request = null;
 				try
 				{
 					request = JsonConvert.DeserializeObject<BridgeParameters>(data, DMApiConstants.SerializerSettings);
 				}
 				catch (Exception ex)
 				{
-					logger.LogWarning(ex, "Error deserializing bridge request: {0}", data);
+					logger.LogWarning(ex, "Error deserializing bridge request: {data}", data);
 					return BadRequest();
 				}
 
-				logger.LogTrace("Bridge Request: {0}", data);
+				if (request == null)
+				{
+					logger.LogWarning("Error deserializing bridge request: {data}", data);
+					return BadRequest();
+				}
+
+				logger.LogTrace("Bridge Request: {data}", data);
 
 				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken).ConfigureAwait(false);
 				if (response == null)
 					Forbid();
 
 				var responseJson = JsonConvert.SerializeObject(response, DMApiConstants.SerializerSettings);
-				logger.LogTrace("Bridge Response: {0}", responseJson);
+				logger.LogTrace("Bridge Response: {response}", responseJson);
 				return Content(responseJson, MediaTypeNames.Application.Json);
 			}
 		}

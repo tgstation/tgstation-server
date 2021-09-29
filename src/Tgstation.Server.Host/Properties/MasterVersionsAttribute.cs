@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Properties
 		/// </summary>
 		public static MasterVersionsAttribute Instance => Assembly
 			.GetExecutingAssembly()
-			.GetCustomAttribute<MasterVersionsAttribute>();
+			.GetCustomAttribute<MasterVersionsAttribute>() !;
 
 		/// <summary>
 		/// The <see cref="Version"/> <see cref="string"/> of the <see cref="Configuration"/> version built.
@@ -35,11 +35,6 @@ namespace Tgstation.Server.Host.Properties
 		/// The <see cref="Version"/> <see cref="string"/> of the control panel version built.
 		/// </summary>
 		public string RawHostWatchdogVersion { get; }
-
-		/// <summary>
-		/// The compile time default.
-		/// </summary>
-		public string DefaultControlPanelChannel { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MasterVersionsAttribute"/> class.

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +11,14 @@ using BetterWin32Errors;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Helpers;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
-	sealed class WindowsNetworkPromptReaper : IHostedService, INetworkPromptReaper, IDisposable
+	[SupportedOSPlatform("windows")]
+	sealed class WindowsNetworkPromptReaper : IHostedService, INetworkPromptReaper, IAsyncDisposable
 	{
 		/// <summary>
 		/// Number of times to send the button click message. Should be at least 2 or it may fail to focus the window.
@@ -38,11 +41,6 @@ namespace Tgstation.Server.Host.System
 		readonly ILogger<WindowsNetworkPromptReaper> logger;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for the <see cref="WindowsNetworkPromptReaper"/>.
-		/// </summary>
-		readonly CancellationTokenSource cancellationTokenSource;
-
-		/// <summary>
 		/// The list of <see cref="IProcess"/>s registered.
 		/// </summary>
 		readonly List<IProcess> registeredProcesses;
@@ -50,7 +48,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// The <see cref="Task"/> representing the lifetime of the <see cref="WindowsNetworkPromptReaper"/>.
 		/// </summary>
-		Task runTask;
+		CancellableTask? runTask;
 
 		/// <summary>
 		/// Callback for <see cref="NativeMethods.EnumChildWindows(IntPtr, NativeMethods.EnumWindowProc, IntPtr)"/>.
@@ -105,25 +103,37 @@ namespace Tgstation.Server.Host.System
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			registeredProcesses = new List<IProcess>();
-			cancellationTokenSource = new CancellationTokenSource();
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => cancellationTokenSource.Dispose();
+		public async ValueTask DisposeAsync()
+		{
+			if (runTask != null)
+			{
+				await runTask.DisposeAsync().ConfigureAwait(false);
+				runTask = null;
+			}
+		}
 
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			runTask = Run(cancellationTokenSource.Token);
+			if (runTask != null)
+				throw new InvalidOperationException("WindowsNetworkPromptReaper already started!");
+
+			runTask = new CancellableTask(token => Run(token));
 			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
+			if (runTask == null)
+				throw new InvalidOperationException("WindowsNetworkPromptReaper not started!");
+
 			logger.LogTrace("Stopping network prompt reaper...");
-			cancellationTokenSource.Cancel();
-			await runTask.ConfigureAwait(false);
+			runTask.Cancel();
+			await DisposeAsync().ConfigureAwait(false);
 			registeredProcesses.Clear();
 		}
 

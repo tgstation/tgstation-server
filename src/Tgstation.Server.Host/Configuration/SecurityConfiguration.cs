@@ -57,11 +57,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// A custom token signing key. Overrides <see cref="TokenSigningKeyByteCount"/>.
 		/// </summary>
-		public string CustomTokenSigningKeyBase64 { get; set; }
+		public string? CustomTokenSigningKeyBase64 { get; set; }
 
 		/// <summary>
 		/// OAuth provider settings.
 		/// </summary>
-		public IDictionary<OAuthProvider, OAuthConfiguration> OAuth { get; set; }
+		public IDictionary<OAuthProvider, OAuthConfiguration>? OAuth { get; set; }
 	}
 }

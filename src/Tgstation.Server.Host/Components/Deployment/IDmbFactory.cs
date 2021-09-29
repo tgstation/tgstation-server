@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="compileJob">The <see cref="CompileJob"/> to make the <see cref="IDmbProvider"/> for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IDmbProvider"/> representing the <see cref="CompileJob"/> on success, <see langword="null"/> on failure.</returns>
-		Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken);
+		Task<IDmbProvider?> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Deletes all compile jobs that are inactive in the Game folder.

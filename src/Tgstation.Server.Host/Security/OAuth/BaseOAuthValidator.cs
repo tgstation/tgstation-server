@@ -11,7 +11,6 @@ using Newtonsoft.Json.Serialization;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
@@ -39,15 +38,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 		readonly IHttpClientFactory httpClientFactory;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/>.
-		/// </summary>
-		readonly IAssemblyInformationProvider assemblyInformationProvider;
-
-		/// <summary>
 		/// Gets <see cref="JsonSerializerSettings"/> that should be used.
 		/// </summary>
 		/// <returns>A new <see cref="JsonSerializerSettings"/> <see cref="object"/>.</returns>
-		protected static JsonSerializerSettings SerializerSettings() => new JsonSerializerSettings
+		protected static JsonSerializerSettings SerializerSettings() => new ()
 		{
 			ContractResolver = new DefaultContractResolver
 			{
@@ -59,26 +53,23 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Initializes a new instance of the <see cref="BaseOAuthValidator"/> class.
 		/// </summary>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		/// <param name="oAuthConfiguration">The value of <see cref="OAuthConfiguration"/>.</param>
 		public BaseOAuthValidator(
 			IHttpClientFactory httpClientFactory,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<BaseOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
 		{
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			OAuthConfiguration = oAuthConfiguration ?? throw new ArgumentNullException(nameof(oAuthConfiguration));
 		}
 
 		/// <inheritdoc />
-		public abstract Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken);
+		public abstract Task<OAuthProviderInfo?> GetProviderInfo(CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken);
+		public abstract Task<string?> ValidateResponseCode(string code, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a new configured <see cref="HttpClient"/>.
@@ -90,7 +81,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 			try
 			{
 				httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-				httpClient.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
 				return httpClient;
 			}
 			catch

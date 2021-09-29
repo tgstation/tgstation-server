@@ -1,0 +1,7 @@
+<Project>
+  <Import Project="build/Version.props" />
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+  </PropertyGroup>
+</Project>

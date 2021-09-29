@@ -1,5 +1,6 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
+using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,13 +12,14 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// <see cref="ISystemIdentity"/> for windows systems.
 	/// </summary>
+	[SupportedOSPlatform("windows")]
 	sealed class WindowsSystemIdentity : ISystemIdentity
 	{
 		/// <inheritdoc />
-		public string Uid => (userPrincipal?.Sid ?? identity.User).ToString();
+		public string Uid => (userPrincipal?.Sid ?? identity?.User)?.ToString() ?? throw new InvalidOperationException("Missing user security identifier!");
 
 		/// <inheritdoc />
-		public string Username => userPrincipal?.Name ?? identity.Name;
+		public string Username => userPrincipal?.Name ?? identity?.Name ?? throw new InvalidOperationException("Missing username!");
 
 		/// <inheritdoc />
 		public bool CanCreateSymlinks => canCreateSymlinks ?? throw new NotSupportedException();
@@ -25,12 +27,12 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>.
 		/// </summary>
-		readonly WindowsIdentity identity;
+		readonly WindowsIdentity? identity;
 
 		/// <summary>
 		/// The <see cref="UserPrincipal"/> for the <see cref="WindowsSystemIdentity"/>.
 		/// </summary>
-		readonly UserPrincipal userPrincipal;
+		readonly UserPrincipal? userPrincipal;
 
 		/// <summary>
 		/// Backing field for <see cref="CanCreateSymlinks"/>.
@@ -61,7 +63,8 @@ namespace Tgstation.Server.Host.Security
 		{
 			if (identity != null)
 				identity.Dispose();
-			else
+
+			if (userPrincipal != null)
 			{
 				var context = userPrincipal.Context;
 				userPrincipal.Dispose();

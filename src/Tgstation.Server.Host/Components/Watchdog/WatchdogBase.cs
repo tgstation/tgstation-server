@@ -8,8 +8,8 @@ using Microsoft.Extensions.Logging;
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Helpers;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			set
 			{
 				status = value;
-				Logger.LogTrace("Status set to {0}", status);
+				Logger.LogTrace("Status set to {status}", status);
 			}
 		}
 
@@ -44,21 +44,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public abstract bool AlphaIsActive { get; }
 
 		/// <inheritdoc />
-		public DreamDaemonLaunchParameters ActiveLaunchParameters { get; protected set; }
+		public Models.DreamDaemonSettings ActiveLaunchParameters { get; private set; }
 
 		/// <inheritdoc />
-		public DreamDaemonLaunchParameters LastLaunchParameters { get; protected set; }
+		public Models.DreamDaemonSettings? LastLaunchParameters { get; protected set; }
 
 		/// <inheritdoc />
-		public Models.CompileJob ActiveCompileJob => GetActiveController()?.CompileJob;
+		public Models.CompileJob? ActiveCompileJob => GetActiveController()?.CompileJob;
 
 		/// <inheritdoc />
 		public abstract RebootState? RebootState { get; }
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are running.
+		/// <see cref="TaskCompletionSource"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are running.
 		/// </summary>
-		protected TaskCompletionSource<object> ActiveParametersUpdated { get; set; }
+		protected TaskCompletionSource ActiveParametersUpdated { get; set; }
 
 		/// <summary>
 		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
-		readonly Api.Models.Instance metadata;
+		readonly Models.Instance metadata;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="WatchdogBase"/>.
@@ -136,14 +136,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly bool autoStart;
 
 		/// <summary>
-		/// The <see cref="CancellationTokenSource"/> for the monitor loop.
-		/// </summary>
-		CancellationTokenSource monitorCts;
-
-		/// <summary>
 		/// The <see cref="Task"/> running the monitor loop.
 		/// </summary>
-		Task monitorTask;
+		CancellableTask? monitorTask;
 
 		/// <summary>
 		/// Backing field for <see cref="Status"/>.
@@ -179,7 +174,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
-		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified.</param>
+		/// <param name="initialLaunchSettings">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/>.</param>
 		protected WatchdogBase(
@@ -194,8 +189,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<WatchdogBase> logger,
-			DreamDaemonLaunchParameters initialLaunchParameters,
-			Api.Models.Instance metadata,
+			Models.DreamDaemonSettings initialLaunchSettings,
+			Models.Instance metadata,
 			bool autoStart)
 		{
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
@@ -208,7 +203,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
+			ActiveLaunchParameters = initialLaunchSettings ?? throw new ArgumentNullException(nameof(initialLaunchSettings));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			this.autoStart = autoStart;
 
@@ -217,9 +212,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			chat.RegisterCommandHandler(this);
 
-			ActiveLaunchParameters = initialLaunchParameters;
 			releaseServers = false;
-			ActiveParametersUpdated = new TaskCompletionSource<object>();
+			ActiveParametersUpdated = new TaskCompletionSource();
 
 			restartRegistration = serverControl.RegisterForRestart(this);
 			try
@@ -245,14 +239,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			restartRegistration.Dispose();
 
 			// DCT: None available, Operation must always run
+			releaseServers = true; // Set this to avoid clearing persitence info. It's not the time to do that
 			await DisposeAndNullControllers(default).ConfigureAwait(false);
 			controllerDisposeSemaphore.Dispose();
-			monitorCts?.Dispose();
+
+			if (monitorTask != null)
+			{
+				await monitorTask.DisposeAsync().ConfigureAwait(false);
+				monitorTask = null;
+			}
+
 			disposed = true;
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
+		public async Task ChangeSettings(Models.DreamDaemonSettings launchParameters, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 			{
@@ -261,8 +262,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (match || Status == WatchdogStatus.Offline)
 					return;
 
-				ActiveParametersUpdated.TrySetResult(null); // queue an update
-				ActiveParametersUpdated = new TaskCompletionSource<object>();
+				ActiveParametersUpdated.TrySetResult(); // queue an update
+				ActiveParametersUpdated = new TaskCompletionSource();
 			}
 		}
 
@@ -279,7 +280,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var command = new TopicParameters(commandObject);
 
 				var activeServer = GetActiveController();
-				var commandResult = await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false);
+				var commandResult = activeServer != null
+					? await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false)
+					: null;
 
 				if (commandResult == null)
 					return "TGS: Bad topic exchange!";
@@ -381,7 +384,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
+		public async Task HandleRestart(Version? updateVersion, bool graceful, CancellationToken cancellationToken)
 		{
 			if (graceful)
 			{
@@ -390,7 +393,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (Status != WatchdogStatus.Offline)
 				{
 					Logger.LogTrace("Waiting for server to gracefully shut down.");
-					await monitorTask.WithToken(cancellationToken).ConfigureAwait(false);
+					if (monitorTask == null)
+						throw new InvalidOperationException("monitorTask was null when Status wasn't Offline!");
+
+					await monitorTask.Task.WithToken(cancellationToken).ConfigureAwait(false);
 				}
 				else
 					Logger.LogTrace("Graceful shutdown requested but server is already offline.");
@@ -458,8 +464,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 								return null;
 							})
-							.Where(nullableChannelId => nullableChannelId.HasValue)
-							.Select(nullableChannelId => nullableChannelId.Value));
+							.WhereNotNull());
 		}
 
 		/// <summary>
@@ -469,7 +474,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected abstract Task InitController(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken);
+		protected abstract Task InitController(Task chatTask, ReattachInformation? reattachInfo, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Launches the watchdog.
@@ -484,7 +489,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			bool startMonitor,
 			bool announce,
 			bool announceFailure,
-			ReattachInformation reattachInfo,
+			ReattachInformation? reattachInfo,
 			CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Begin LaunchImplNoLock");
@@ -554,10 +559,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogInformation("Controller(s) initialized successfully");
 
 			if (startMonitor)
-			{
-				monitorCts = new CancellationTokenSource();
-				monitorTask = MonitorLifetimes(monitorCts.Token);
-			}
+				monitorTask = new CancellableTask(token => MonitorLifetimes(token));
 		}
 
 		/// <summary>
@@ -569,13 +571,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogTrace("StopMonitor");
 			if (monitorTask == null)
 				return false;
-			var wasRunning = !monitorTask.IsCompleted;
-			monitorCts.Cancel();
-			await monitorTask.ConfigureAwait(false);
+
+			var wasRunning = !monitorTask.Task.IsCompleted;
+
+			await monitorTask.DisposeAsync().ConfigureAwait(false);
 			Logger.LogTrace("Stopped Monitor");
-			monitorCts.Dispose();
 			monitorTask = null;
-			monitorCts = null;
 			return wasRunning;
 		}
 
@@ -598,7 +599,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!launchResult.StartupTime.HasValue)
 				throw new JobException(
 					ErrorCode.WatchdogStartupTimeout,
-					new JobException($"{serverName} timed out on startup: {ActiveLaunchParameters.StartupTimeout.Value}s"));
+					new JobException($"{serverName} timed out on startup: {ActiveLaunchParameters.StartupTimeout}s"));
 		}
 
 		/// <summary>
@@ -644,7 +645,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Get the active <see cref="ISessionController"/>.
 		/// </summary>
 		/// <returns>The active <see cref="ISessionController"/>.</returns>
-		protected abstract ISessionController GetActiveController();
+		protected abstract ISessionController? GetActiveController();
 
 		/// <summary>
 		/// Handles the actions to take when the monitor has to "wake up".
@@ -770,12 +771,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				MonitorAction nextAction = MonitorAction.Continue;
-				Task activeServerLifetime = null,
-					activeServerReboot = null,
-					serverPrimed = null,
-					activeLaunchParametersChanged = null,
-					newDmbAvailable = null;
-				ISessionController lastController = null;
+				var tempInfiniteTask = Extensions.TaskExtensions.InfiniteTask();
+				Task activeServerLifetime = tempInfiniteTask,
+					activeServerReboot = tempInfiniteTask,
+					serverPrimed = tempInfiniteTask,
+					activeLaunchParametersChanged = tempInfiniteTask,
+					newDmbAvailable = tempInfiniteTask;
+				ISessionController? lastController = null;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty("Monitor", iteration))
 						try
@@ -784,12 +786,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							nextAction = MonitorAction.Continue;
 
 							var controller = GetActiveController();
+							if (controller == null)
+								throw new InvalidOperationException("GetActiveController returned null in MonitorLifetimes!");
 
 							void UpdateMonitoredTasks()
 							{
 								static void TryUpdateTask(ref Task oldTask, Task newTask)
 								{
-									if (oldTask?.IsCompleted == true)
+									if (oldTask.IsCompleted == true)
 										return;
 
 									oldTask = newTask;
@@ -815,7 +819,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							UpdateMonitoredTasks();
 
-							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
+							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds;
 							var heartbeat = heartbeatSeconds == 0
 								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask()
@@ -849,14 +853,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									Status = WatchdogStatus.Restoring;
 
 								// multiple things may have happened, handle them one at a time
+								var checkedTasks = new HashSet<Task>();
 								for (var moreActivationsToProcess = true; moreActivationsToProcess && (nextAction == MonitorAction.Continue || nextAction == MonitorAction.Skip);)
 								{
 									MonitorActivationReason activationReason = default; // this will always be assigned before being used
 
-									bool CheckActivationReason(ref Task task, MonitorActivationReason testActivationReason)
+									bool CheckActivationReason(Task task, MonitorActivationReason testActivationReason)
 									{
-										var taskCompleted = task?.IsCompleted == true;
-										task = null;
+										var taskCompleted = task.IsCompleted;
+										if (checkedTasks.Contains(task))
+											taskCompleted = false;
+										else
+											checkedTasks.Add(task);
+
 										if (nextAction == MonitorAction.Skip)
 											nextAction = MonitorAction.Continue;
 										else if (taskCompleted)
@@ -869,12 +878,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									}
 
 									// process the tasks in this order and call HandlerMonitorWakup for each depending on the new monitorState
-									var anyActivation = CheckActivationReason(ref activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)
-										|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
-										|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
-										|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
-										|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat)
-										|| CheckActivationReason(ref serverPrimed, MonitorActivationReason.ActiveServerPrimed);
+									var anyActivation = CheckActivationReason(activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)
+										|| CheckActivationReason(activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
+										|| CheckActivationReason(newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
+										|| CheckActivationReason(activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
+										|| CheckActivationReason(heartbeat, MonitorActivationReason.Heartbeat)
+										|| CheckActivationReason(serverPrimed, MonitorActivationReason.ActiveServerPrimed);
 
 									UpdateMonitoredTasks();
 
@@ -948,15 +957,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					Logger.LogTrace("Detaching server...");
 					var controller = GetActiveController();
+					if (controller == null)
+						throw new InvalidOperationException("GetActiveController returned null in MonitorLifetimes!");
+
 					await controller.Release().ConfigureAwait(false);
 				}
 			}
+			finally
+			{
+				// DCT: Operation must always run
+				await DisposeAndNullControllers(default).ConfigureAwait(false);
+				Status = WatchdogStatus.Offline;
 
-			// DCT: Operation must always run
-			await DisposeAndNullControllers(default).ConfigureAwait(false);
-			Status = WatchdogStatus.Offline;
-
-			Logger.LogTrace("Monitor exiting...");
+				Logger.LogTrace("Monitor exiting...");
+			}
 		}
 #pragma warning restore CA1502
 
@@ -1012,6 +1026,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			Logger.LogTrace("Sending heartbeat to active server...");
 			var activeServer = GetActiveController();
+			if (activeServer == null)
+				throw new InvalidOperationException("GetActiveController returned null in HandleHeartbeat!");
+
 			var response = await activeServer.SendCommand(new TopicParameters(), cancellationToken).ConfigureAwait(false);
 
 			var shouldShutdown = activeServer.RebootState == Session.RebootState.Shutdown;

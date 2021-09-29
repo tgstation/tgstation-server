@@ -81,6 +81,9 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
+			if (dreamMakerSettings == default)
+				return Gone();
+
 			return Json(dreamMakerSettings.ToApi());
 		}
 
@@ -195,7 +198,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.ProjectName != null)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetDme))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.HasFlag(DreamMakerRights.SetDme))
 					return Forbid();
 				if (model.ProjectName.Length == 0)
 					hostModel.ProjectName = null;
@@ -205,10 +208,10 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.ApiValidationPort.HasValue)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationPort))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.HasFlag(DreamMakerRights.SetApiValidationPort))
 					return Forbid();
 
-				if (model.ApiValidationPort.Value != hostModel.ApiValidationPort.Value)
+				if (model.ApiValidationPort.Value != hostModel.ApiValidationPort)
 				{
 					var verifiedPort = await portAllocator
 						.GetAvailablePort(
@@ -219,29 +222,32 @@ namespace Tgstation.Server.Host.Controllers
 					if (verifiedPort != model.ApiValidationPort)
 						return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 
-					hostModel.ApiValidationPort = model.ApiValidationPort;
+					hostModel.ApiValidationPort = model.ApiValidationPort.Value;
 				}
 			}
 
 			if (model.ApiValidationSecurityLevel.HasValue)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetSecurityLevel))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.HasFlag(DreamMakerRights.SetSecurityLevel))
 					return Forbid();
-				hostModel.ApiValidationSecurityLevel = model.ApiValidationSecurityLevel;
+
+				hostModel.ApiValidationSecurityLevel = model.ApiValidationSecurityLevel.Value;
 			}
 
 			if (model.RequireDMApiValidation.HasValue)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationRequirement))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.HasFlag(DreamMakerRights.SetApiValidationRequirement))
 					return Forbid();
-				hostModel.RequireDMApiValidation = model.RequireDMApiValidation;
+
+				hostModel.RequireDMApiValidation = model.RequireDMApiValidation.Value;
 			}
 
 			if (model.Timeout.HasValue)
 			{
-				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetTimeout))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.HasFlag(DreamMakerRights.SetTimeout))
 					return Forbid();
-				hostModel.Timeout = model.Timeout;
+
+				hostModel.Timeout = model.Timeout.Value;
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
@@ -263,7 +269,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ThenInclude(x => x.StartedBy)
 			.Include(x => x.RevisionInformation)
 				.ThenInclude(x => x.PrimaryTestMerge)
-					.ThenInclude(x => x.MergedBy)
+					.ThenInclude(x => x!.MergedBy)
 			.Include(x => x.RevisionInformation)
 				.ThenInclude(x => x.ActiveTestMerges)
 					.ThenInclude(x => x.TestMerge)

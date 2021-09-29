@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// A <see cref="Func{T, TResult}"/> to specially provide a <see cref="Task{TResult}"/> returning the <see cref="FileStream"/>.
 		/// </summary>
-		public Func<CancellationToken, Task<FileStream>> FileStreamProvider { get; }
+		public Func<CancellationToken, Task<FileStream>>? FileStreamProvider { get; }
 
 		/// <summary>
 		/// The full path to the file on disk to download.
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <param name="shareWrite">The value of <see cref="ShareWrite"/>.</param>
 		public FileDownloadProvider(
 			Func<ErrorCode?> activationCallback,
-			Func<CancellationToken, Task<FileStream>> fileStreamProvider,
+			Func<CancellationToken, Task<FileStream>>? fileStreamProvider,
 			string filePath,
 			bool shareWrite)
 		{

@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="CommandFactory"/>.
 		/// </summary>
-		IWatchdog watchdog;
+		IWatchdog? watchdog;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommandFactory"/> class.

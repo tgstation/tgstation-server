@@ -13,6 +13,6 @@
 		/// <summary>
 		/// The <see cref="Bridge.RuntimeInformation"/> for <see cref="BridgeCommandType.Startup"/> requests.
 		/// </summary>
-		public RuntimeInformation RuntimeInformation { get; set; }
+		public RuntimeInformation? RuntimeInformation { get; set; }
 	}
 }

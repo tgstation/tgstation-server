@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Helpers.Extensions;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -100,9 +99,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ILogger<SessionControllerFactory> logger;
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionControllerFactory"/>.
+		/// The <see cref="Models.Instance"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
-		readonly Api.Models.Instance instance;
+		readonly Models.Instance instance;
 
 		/// <summary>
 		/// Change a given <paramref name="securityLevel"/> into the appropriate DreamDaemon command line word.
@@ -186,7 +185,7 @@ namespace Tgstation.Server.Host.Components.Session
 			EventConsumer eventConsumer,
 			ILoggerFactory loggerFactory,
 			ILogger<SessionControllerFactory> logger,
-			Api.Models.Instance instance)
+			Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -209,14 +208,12 @@ namespace Tgstation.Server.Host.Components.Session
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
-			IByondExecutableLock currentByondLock,
-			DreamDaemonLaunchParameters launchParameters,
+			IByondExecutableLock? currentByondLock,
+			Models.DreamDaemonSettings launchParameters,
 			bool apiValidate,
 			CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin session launch...");
-			if (!launchParameters.Port.HasValue)
-				throw new InvalidOperationException("Given port is null!");
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
 			{
 				case DreamDaemonSecurity.Ultrasafe:
@@ -246,21 +243,22 @@ namespace Tgstation.Server.Host.Components.Session
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					logger.LogDebug(
-						"Launching session with CompileJob {0}...",
-						dmbProvider.CompileJob.Id);
+					if (!apiValidate)
+						logger.LogDebug(
+							"Launching session with CompileJob {0}...",
+							dmbProvider.CompileJob.Id);
 
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
-					PortBindTest(launchParameters.Port.Value);
+					PortBindTest(launchParameters.Port);
 					await CheckPagerIsNotRunning(cancellationToken).ConfigureAwait(false);
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
 
-					var byondTopicSender = topicClientFactory.CreateTopicClient(
-						TimeSpan.FromMilliseconds(
-							launchParameters.TopicRequestTimeout.Value));
+					var topicTimeout = TimeSpan.FromMilliseconds(
+						launchParameters.TopicRequestTimeout);
+					var byondTopicSender = topicClientFactory.CreateTopicClient(topicTimeout);
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
@@ -275,10 +273,10 @@ namespace Tgstation.Server.Host.Components.Session
 						CultureInfo.InvariantCulture,
 						"{0} -port {1} -ports 1-65535 {2}-close -logself -{3} -{4}{5} -params \"{6}\"",
 						dmbProvider.DmbName,
-						launchParameters.Port.Value,
-						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
-						SecurityWord(launchParameters.SecurityLevel.Value),
-						VisibilityWord(launchParameters.Visibility.Value),
+						launchParameters.Port,
+						launchParameters.AllowWebClient ? "-webclient " : String.Empty,
+						SecurityWord(launchParameters.SecurityLevel),
+						VisibilityWord(launchParameters.Visibility),
 						platformIdentifier.IsWindows
 							? $" -log {logFileGuid = Guid.NewGuid()}"
 							: String.Empty, // Just use stdout on linux
@@ -302,10 +300,11 @@ namespace Tgstation.Server.Host.Components.Session
 					async Task<string> GetDDOutput()
 					{
 						// DCT x2: None available
-						if (!platformIdentifier.IsWindows)
+						if (!logFileGuid.HasValue)
 							return await process.GetCombinedOutput(default).ConfigureAwait(false);
 
-						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileGuid.ToString());
+						var logFileAsString = logFileGuid.ToString();
+						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileAsString!);
 						try
 						{
 							var dreamDaemonLogBytes = await ioManager.ReadAllBytes(
@@ -353,16 +352,17 @@ namespace Tgstation.Server.Host.Components.Session
 						var runtimeInformation = CreateRuntimeInformation(
 							dmbProvider,
 							chatTrackingContext,
-							launchParameters.SecurityLevel.Value,
-							launchParameters.Visibility.Value,
+							launchParameters.SecurityLevel,
+							launchParameters.Visibility,
 							apiValidate);
 
 						var reattachInformation = new ReattachInformation(
 							dmbProvider,
 							process,
 							runtimeInformation,
+							topicTimeout,
 							accessIdentifier,
-							launchParameters.Port.Value);
+							launchParameters.Port);
 
 						var sessionController = new SessionController(
 							reattachInformation,
@@ -419,7 +419,7 @@ namespace Tgstation.Server.Host.Components.Session
 #pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public async Task<ISessionController> Reattach(
+		public async Task<ISessionController?> Reattach(
 			ReattachInformation reattachInformation,
 			CancellationToken cancellationToken)
 		{
@@ -450,8 +450,8 @@ namespace Tgstation.Server.Host.Components.Session
 						var runtimeInformation = CreateRuntimeInformation(
 							reattachInformation.Dmb,
 							chatTrackingContext,
-							null,
-							null,
+							reattachInformation.LaunchSecurityLevel,
+							reattachInformation.LaunchVisibility,
 							false);
 						reattachInformation.SetRuntimeInformation(runtimeInformation);
 
@@ -505,10 +505,10 @@ namespace Tgstation.Server.Host.Components.Session
 		RuntimeInformation CreateRuntimeInformation(
 			IDmbProvider dmbProvider,
 			IChatTrackingContext chatTrackingContext,
-			DreamDaemonSecurity? securityLevel,
-			DreamDaemonVisibility? visibility,
+			DreamDaemonSecurity securityLevel,
+			DreamDaemonVisibility visibility,
 			bool apiValidateOnly)
-			=> new RuntimeInformation(
+			=> new (
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,

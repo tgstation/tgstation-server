@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="api">The <see cref="Api.Models.ChatChannel"/>. </param>
 		/// <returns>A <see cref="ChatChannel"/> based on <paramref name="api"/>.</returns>
-		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new Models.ChatChannel
+		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new ()
 		{
 			DiscordChannelId = api.DiscordChannelId,
 			IrcChannel = api.IrcChannel,
@@ -87,6 +87,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (earlyOut != null)
 				return earlyOut;
 
+			if (model.Name == null)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
+
 			var countOfExistingBotsInInstance = await DatabaseContext
 				.ChatBots
 				.AsQueryable()
@@ -94,23 +97,24 @@ namespace Tgstation.Server.Host.Controllers
 				.CountAsync(cancellationToken)
 				.ConfigureAwait(false);
 
-			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
+			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit)
 				return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
 
 			model.Enabled ??= false;
 			model.ReconnectionInterval ??= 1;
+			model.ChannelLimit ??= 10;
 
 			// try to update das db first
 			var dbModel = new ChatBot
 			{
 				Name = model.Name,
-				ConnectionString = model.ConnectionString,
-				Enabled = model.Enabled,
+				ConnectionString = model.ConnectionString!, // Handled by model validator
+				Enabled = model.Enabled.Value,
 				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
-				InstanceId = Instance.Id.Value,
+				InstanceId = Instance.Id,
 				Provider = model.Provider,
-				ReconnectionInterval = model.ReconnectionInterval,
-				ChannelLimit = model.ChannelLimit,
+				ReconnectionInterval = model.ReconnectionInterval.Value,
+				ChannelLimit = model.ChannelLimit.Value,
 			};
 
 			DatabaseContext.ChatBots.Add(dbModel);
@@ -125,7 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 						await instance.Chat.ChangeSettings(dbModel, cancellationToken).ConfigureAwait(false);
 
 						if (dbModel.Channels.Count > 0)
-							await instance.Chat.ChangeChannels(dbModel.Id.Value, dbModel.Channels, cancellationToken).ConfigureAwait(false);
+							await instance.Chat.ChangeChannels(dbModel.Id, dbModel.Channels, cancellationToken).ConfigureAwait(false);
 					}
 					catch
 					{
@@ -134,14 +138,13 @@ namespace Tgstation.Server.Host.Controllers
 
 						// DCTx2: Operations must always run
 						await DatabaseContext.Save(default).ConfigureAwait(false);
-						await instance.Chat.DeleteConnection(dbModel.Id.Value, default).ConfigureAwait(false);
+						await instance.Chat.DeleteConnection(dbModel.Id, default).ConfigureAwait(false);
 						throw;
 					}
 
-					return null;
+					return StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 				})
-				.ConfigureAwait(false)
-				?? StatusCode(HttpStatusCode.Created, dbModel.ToApi());
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -166,10 +169,9 @@ namespace Tgstation.Server.Host.Controllers
 							.Where(x => x.Id == id)
 							.DeleteAsync(cancellationToken))
 						.ConfigureAwait(false);
-					return null;
+					return NoContent();
 				})
-				.ConfigureAwait(false)
-				?? NoContent();
+				.ConfigureAwait(false);
 
 		/// <summary>
 		/// List <see cref="ChatBot"/>s.
@@ -194,10 +196,10 @@ namespace Tgstation.Server.Host.Controllers
 							.Where(x => x.InstanceId == Instance.Id)
 							.Include(x => x.Channels)
 							.OrderBy(x => x.Id))),
-				chatBot =>
+				(chatBotModel, chatBotApi) =>
 				{
 					if (connectionStrings)
-						chatBot.ConnectionString = null;
+						chatBotApi.ConnectionString = null;
 
 					return Task.CompletedTask;
 				},
@@ -231,10 +233,11 @@ namespace Tgstation.Server.Host.Controllers
 
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 
+			var api = results.ToApi();
 			if (!connectionStrings)
-				results.ConnectionString = null;
+				api.ConnectionString = null;
 
-			return Json(results.ToApi());
+			return Json(api);
 		}
 
 		/// <summary>
@@ -258,9 +261,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var earlyOut = StandardModelChecks(model, false);
-			if (earlyOut != null)
-				return earlyOut;
+			var earlyOutResponse = StandardModelChecks(model, false);
+			if (earlyOutResponse != null)
+				return earlyOutResponse;
 
 			var query = DatabaseContext
 				.ChatBots
@@ -273,7 +276,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (current == default)
 				return Gone();
 
-			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
+			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit))
 			{
 				// 400 or 409 depends on if the client sent both
 				var errorMessage = new ErrorMessageResponse(ErrorCode.ChatBotMaxChannels);
@@ -319,7 +322,7 @@ namespace Tgstation.Server.Host.Controllers
 				DatabaseContext.ChatChannels.RemoveRange(current.Channels);
 				if (hasChannels)
 				{
-					var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x)).ToList();
+					var dbChannels = model.Channels!.Select(x => ConvertApiChatChannel(x)).ToList();
 					DatabaseContext.ChatChannels.AddRange(dbChannels);
 					current.Channels = dbChannels;
 				}
@@ -329,7 +332,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			earlyOut = await WithComponentInstance(
+			var earlyOut = true;
+			earlyOutResponse = await WithComponentInstance(
 				async instance =>
 				{
 					var chat = instance.Chat;
@@ -337,19 +341,21 @@ namespace Tgstation.Server.Host.Controllers
 						await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false); // have to rebuild the thing first
 
 					if (model.Channels != null || anySettingsModified)
-						await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken).ConfigureAwait(false);
+						await chat.ChangeChannels(current.Id, current.Channels, cancellationToken).ConfigureAwait(false);
 
-					return null;
+					earlyOut = false;
+					return Ok();
 				})
 				.ConfigureAwait(false);
-			if (earlyOut != null)
-				return earlyOut;
+			if (earlyOut)
+				return earlyOutResponse;
 
 			if (userRights.HasFlag(ChatBotRights.Read))
 			{
+				var api = current.ToApi();
 				if (!userRights.HasFlag(ChatBotRights.ReadConnectionString))
-					current.ConnectionString = null;
-				return Json(current.ToApi());
+					api.ConnectionString = null;
+				return Json(api);
 			}
 
 			return NoContent();
@@ -361,7 +367,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The <see cref="ChatBotApiBase"/> to validate.</param>
 		/// <param name="forCreation">If the <paramref name="model"/> is being created.</param>
 		/// <returns>An <see cref="IActionResult"/> to respond with or <see langword="null"/>.</returns>
-		private IActionResult StandardModelChecks(ChatBotApiBase model, bool forCreation)
+		private IActionResult? StandardModelChecks(ChatBotApiBase model, bool forCreation)
 		{
 			if (model.ReconnectionInterval == 0)
 				throw new InvalidOperationException("RecconnectionInterval cannot be zero!");

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
+using Microsoft.EntityFrameworkCore;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 
@@ -17,19 +19,43 @@ namespace Tgstation.Server.Host.Models
 		public const string TgsSystemUserName = "TGS";
 
 		/// <summary>
+		/// <see cref="EntityId.Id"/>.
+		/// </summary>
+		public new long Id
+		{
+			get => base.Id ?? throw new InvalidOperationException("Id was null!");
+			set => base.Id = value;
+		}
+
+		/// <summary>
+		/// <see cref="UserName.Name"/>.
+		/// </summary>
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
+		public new string Name
+		{
+			get => base.Name ?? throw new InvalidOperationException("Name was null!");
+			set => base.Name = value;
+		}
+
+		/// <summary>
 		/// The hash of the user's password.
 		/// </summary>
-		public string PasswordHash { get; set; }
+		[BackingField(nameof(passwordHash))]
+		public string PasswordHash
+		{
+			get => passwordHash ?? throw new InvalidOperationException("PasswordHash not set!");
+			set => passwordHash = value;
+		}
 
 		/// <summary>
 		/// See <see cref="UserResponse"/>.
 		/// </summary>
-		public User CreatedBy { get; set; }
+		public User? CreatedBy { get; set; }
 
 		/// <summary>
 		/// The <see cref="UserGroup"/> the <see cref="User"/> belongs to, if any.
 		/// </summary>
-		public UserGroup Group { get; set; }
+		public UserGroup? Group { get; set; }
 
 		/// <summary>
 		/// The ID of the <see cref="User"/>'s <see cref="UserGroup"/>.
@@ -39,14 +65,28 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="PermissionSet"/> the <see cref="User"/> has, if any.
 		/// </summary>
-		public PermissionSet PermissionSet { get; set; }
+		public PermissionSet? PermissionSet { get; set; }
 
 		/// <summary>
 		/// The uppercase invariant of <see cref="UserName.Name"/>.
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
-		public string CanonicalName { get; set; }
+		[BackingField(nameof(canonicalName))]
+		public string CanonicalName
+		{
+			get => canonicalName ?? throw new InvalidOperationException("CanonicalName not set!");
+			set => canonicalName = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.Internal.UserModelBase.Enabled"/>.
+		/// </summary>
+		public new bool Enabled
+		{
+			get => base.Enabled ?? throw new InvalidOperationException("Enabled was null!");
+			set => base.Enabled = value;
+		}
 
 		/// <summary>
 		/// When <see cref="PasswordHash"/> was last changed.
@@ -56,17 +96,32 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="User"/>s created by this <see cref="User"/>.
 		/// </summary>
-		public ICollection<User> CreatedUsers { get; set; }
+		[BackingField(nameof(createdUsers))]
+		public ICollection<User> CreatedUsers
+		{
+			get => createdUsers ?? throw new InvalidOperationException("CreatedUsers not set!");
+			set => createdUsers = value;
+		}
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
-		public ICollection<TestMerge> TestMerges { get; set; }
+		[BackingField(nameof(testMerges))]
+		public ICollection<TestMerge> TestMerges
+		{
+			get => testMerges ?? throw new InvalidOperationException("TestMerges not set!");
+			set => testMerges = value;
+		}
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>.
 		/// </summary>
-		public ICollection<OAuthConnection> OAuthConnections { get; set; }
+		[BackingField(nameof(oAuthConnections))]
+		public ICollection<OAuthConnection> OAuthConnections
+		{
+			get => oAuthConnections ?? throw new InvalidOperationException("OAuthConnections not set!");
+			set => oAuthConnections = value;
+		}
 
 		/// <summary>
 		/// Change a <see cref="UserName.Name"/> into a <see cref="CanonicalName"/>.
@@ -74,6 +129,31 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="name">The <see cref="UserName.Name"/>.</param>
 		/// <returns>The <see cref="CanonicalName"/>.</returns>
 		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
+
+		/// <summary>
+		/// Backing field for <see cref="PasswordHash"/>.
+		/// </summary>
+		string? passwordHash;
+
+		/// <summary>
+		/// Backing field for <see cref="CanonicalName"/>.
+		/// </summary>
+		string? canonicalName;
+
+		/// <summary>
+		/// Backing field for <see cref="CreatedUsers"/>.
+		/// </summary>
+		ICollection<User>? createdUsers;
+
+		/// <summary>
+		/// Backing field for <see cref="TestMerges"/>.
+		/// </summary>
+		ICollection<TestMerge>? testMerges;
+
+		/// <summary>
+		/// Backing field for <see cref="OAuthConnections"/>.
+		/// </summary>
+		ICollection<OAuthConnection>? oAuthConnections;
 
 		/// <inheritdoc />
 		public UserResponse ToApi() => CreateUserResponse(true);

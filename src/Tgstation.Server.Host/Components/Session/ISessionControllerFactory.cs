@@ -17,14 +17,14 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> to use.</param>
 		/// <param name="currentByondLock">The current <see cref="IByondExecutableLock"/> if any.</param>
-		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> to use. <see cref="DreamDaemonLaunchParameters.SecurityLevel"/> will be updated with the minumum required security level for the launch.</param>
+		/// <param name="launchParameters">The <see cref="Models.DreamDaemonSettings"/> to use. <see cref="DreamDaemonLaunchParameters.SecurityLevel"/> will be updated with the minumum required security level for the launch.</param>
 		/// <param name="apiValidate">If the <see cref="ISessionController"/> should only validate the DMAPI then exit.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISessionController"/>.</returns>
 		Task<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
-			IByondExecutableLock currentByondLock,
-			DreamDaemonLaunchParameters launchParameters,
+			IByondExecutableLock? currentByondLock,
+			Models.DreamDaemonSettings launchParameters,
 			bool apiValidate,
 			CancellationToken cancellationToken);
 
@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="reattachInformation">The <see cref="ReattachInformation"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISessionController"/> on success or <see langword="null"/> on failure to reattach.</returns>
-		Task<ISessionController> Reattach(
+		Task<ISessionController?> Reattach(
 			ReattachInformation reattachInformation,
 			CancellationToken cancellationToken);
 	}

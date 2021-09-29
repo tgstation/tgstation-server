@@ -26,6 +26,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
+using Tgstation.Server.Helpers.Extensions;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
@@ -824,11 +825,11 @@ namespace Tgstation.Server.Tests
 					{
 						// Dump swagger to disk
 						// This is purely for CI
-						var webRequest = WebRequest.Create(server.Url.ToString() + "swagger/v1/swagger.json");
-						using var response = webRequest.GetResponse();
-						using var content = response.GetResponseStream();
+						using var webRequest = new HttpClient();
+						using var response = await webRequest.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json", cancellationToken);
+						using var content = await response.Content.ReadAsStreamAsync(cancellationToken);
 						using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
-						await content.CopyToAsync(output);
+						await content.CopyToAsync(output, cancellationToken);
 					}
 
 					async Task FailFast(Task task)
@@ -880,9 +881,23 @@ namespace Tgstation.Server.Tests
 						await server.Run(cancellationToken);
 						Assert.Fail("Expected server task to end with a SocketException");
 					}
-					catch (SocketException ex)
+					catch (Exception ex)
 					{
-						Assert.AreEqual(ex.SocketErrorCode, SocketError.AddressAlreadyInUse);
+						SocketException socketException = null;
+						if (ex is SocketException)
+							socketException = (SocketException)ex;
+						else if (ex is AggregateException aggregateException)
+							foreach (var innerException in aggregateException.InnerExceptions)
+								if (innerException is SocketException)
+								{
+									socketException = (SocketException)innerException;
+									break;
+								}
+
+						if (socketException == null)
+							throw;
+
+						Assert.AreEqual(socketException.SocketErrorCode, SocketError.AddressAlreadyInUse);
 					}
 				}
 
@@ -1057,11 +1072,11 @@ namespace Tgstation.Server.Tests
 				Mock.Of<IEventConsumer>(),
 				Mock.Of<ICredentialsProvider>(),
 				Mock.Of<IGitRemoteFeaturesFactory>(),
-				Mock.Of<ILogger<Host.Components.Repository.Repository>>(),
+				Mock.Of<ILogger<Repository>>(),
 				() => { });
 
 			const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
-			await repo.CheckoutObject(StartSha, null, null, true, (stage, progress) => { }, default);
+			await repo.CheckoutObject((stage, progress) => { }, StartSha, null, null, true, default);
 			var result = await repo.ShaIsParent("2f8588a3ca0f6b027704a2a04381215619de3412", default);
 			Assert.IsTrue(result);
 			Assert.AreEqual(StartSha, repo.Head);

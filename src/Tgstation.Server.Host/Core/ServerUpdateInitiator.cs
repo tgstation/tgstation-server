@@ -28,6 +28,11 @@ namespace Tgstation.Server.Host.Core
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// The <see cref="IFileDownloader"/> for the <see cref="ServerUpdateInitiator"/>.
+		/// </summary>
+		readonly IFileDownloader fileDownloader;
+
+		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="ServerUpdateInitiator"/>.
 		/// </summary>
 		readonly IServerControl serverControl;
@@ -47,18 +52,21 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="fileDownloader">The value of <see cref="fileDownloader"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="updatesConfiguration"/>.</param>
 		public ServerUpdateInitiator(
 			IGitHubClientFactory gitHubClientFactory,
 			IIOManager ioManager,
+			IFileDownloader fileDownloader,
 			IServerControl serverControl,
 			ILogger<ServerUpdateInitiator> logger,
 			IOptions<UpdatesConfiguration> updatesConfigurationOptions)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
@@ -92,7 +100,7 @@ namespace Tgstation.Server.Host.Core
 					if (asset == default)
 						continue;
 
-					if (!serverControl.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager))
+					if (!serverControl.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager, fileDownloader))
 						return ServerUpdateResult.UpdateInProgress;
 					return ServerUpdateResult.Started;
 				}

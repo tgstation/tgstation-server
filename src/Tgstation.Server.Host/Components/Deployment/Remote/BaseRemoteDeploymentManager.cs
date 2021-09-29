@@ -40,10 +40,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public async Task PostDeploymentComments(
 			CompileJob compileJob,
-			RevisionInformation previousRevisionInformation,
 			RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName,
+			Api.Models.GitRemoteInformation remoteInformation,
+			RevisionInformation? previousRevisionInformation,
 			CancellationToken cancellationToken)
 		{
 			if (repositorySettings?.AccessToken == null)
@@ -51,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 			var deployedRevisionInformation = compileJob.RevisionInformation;
 			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == deployedRevisionInformation.CommitSha)
-				|| !repositorySettings.PostTestMergeComment.Value)
+				|| !repositorySettings.PostTestMergeComment)
 				return;
 
 			previousRevisionInformation ??= new RevisionInformation();
@@ -95,14 +94,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				tasks.Add(
 					CommentOnTestMergeSource(
 						repositorySettings,
-						repoOwner,
-						repoName,
+						remoteInformation,
 						FormatTestMerge(
 							repositorySettings,
 							compileJob,
 							addedTestMerge,
-							repoOwner,
-							repoName,
+							remoteInformation,
 							false),
 						addedTestMerge.Number,
 						cancellationToken));
@@ -111,8 +108,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				tasks.Add(
 					CommentOnTestMergeSource(
 						repositorySettings,
-						repoOwner,
-						repoName,
+						remoteInformation,
 						"#### Test Merge Removed",
 						removedTestMerge.Number,
 						cancellationToken));
@@ -121,14 +117,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				tasks.Add(
 					CommentOnTestMergeSource(
 						repositorySettings,
-						repoOwner,
-						repoName,
+						remoteInformation,
 						FormatTestMerge(
 							repositorySettings,
 							compileJob,
 							updatedTestMerge,
-							repoOwner,
-							repoName,
+							remoteInformation,
 							true),
 						updatedTestMerge.Number,
 						cancellationToken));
@@ -138,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public abstract Task ApplyDeployment(CompileJob compileJob, CompileJob oldCompileJob, CancellationToken cancellationToken);
+		public abstract Task ApplyDeployment(CompileJob compileJob, CompileJob? oldCompileJob, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public abstract Task FailDeployment(CompileJob compileJob, string errorMessage, CancellationToken cancellationToken);
@@ -158,7 +152,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 		/// <inheritdoc />
 		public abstract Task StartDeployment(
-			Api.Models.Internal.IGitRemoteInformation remoteInformation,
+			Api.Models.GitRemoteInformation remoteInformation,
 			CompileJob compileJob,
 			CancellationToken cancellationToken);
 
@@ -168,32 +162,28 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/> to use.</param>
 		/// <param name="compileJob">The test merge's <see cref="CompileJob"/>.</param>
 		/// <param name="testMerge">The <see cref="TestMerge"/>.</param>
-		/// <param name="remoteRepositoryOwner">The <see cref="Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryOwner"/>.</param>
-		/// <param name="remoteRepositoryName">The <see cref="Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryName"/>.</param>
+		/// <param name="remoteInformation">The <see cref="Api.Models.GitRemoteInformation"/> of the repository being deployed.</param>
 		/// <param name="updated">If <see langword="false"/> <paramref name="testMerge"/> is new, otherwise it has been updated to a different <see cref="Api.Models.TestMergeParameters.TargetCommitSha"/>.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected abstract string FormatTestMerge(
 			RepositorySettings repositorySettings,
 			CompileJob compileJob,
 			TestMerge testMerge,
-			string remoteRepositoryOwner,
-			string remoteRepositoryName,
+			Api.Models.GitRemoteInformation remoteInformation,
 			bool updated);
 
 		/// <summary>
 		/// Create a comment of a given <paramref name="testMergeNumber"/>'s source.
 		/// </summary>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/> to use.</param>
-		/// <param name="remoteRepositoryOwner">The <see cref="Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryOwner"/>.</param>
-		/// <param name="remoteRepositoryName">The <see cref="Api.Models.Internal.IGitRemoteInformation.RemoteRepositoryName"/>.</param>
+		/// <param name="remoteInformation">The <see cref="Api.Models.GitRemoteInformation"/> of the repository being deployed.</param>
 		/// <param name="comment">The comment to post.</param>
 		/// <param name="testMergeNumber">The <see cref="Api.Models.TestMergeParameters.Number"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected abstract Task CommentOnTestMergeSource(
 			RepositorySettings repositorySettings,
-			string remoteRepositoryOwner,
-			string remoteRepositoryName,
+			Api.Models.GitRemoteInformation remoteInformation,
 			string comment,
 			int testMergeNumber,
 			CancellationToken cancellationToken);

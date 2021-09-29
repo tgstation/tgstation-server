@@ -8,6 +8,6 @@ namespace Tgstation.Server.Host.Jobs
 	/// <param name="stage">A description of what the job is currently doing.</param>
 	/// <param name="progress">The progress of the job on a scale from 0-100.</param>
 	public delegate void JobProgressReporter(
-		string stage,
+		string? stage,
 		int? progress);
 }

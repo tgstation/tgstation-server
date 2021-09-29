@@ -14,6 +14,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// The TGS <see cref="Version"/> of the sending server.
 		/// </summary>
 		[Required]
-		public Version ServerVersion { get; set; }
+		public Version? ServerVersion { get; set; }
 	}
 }

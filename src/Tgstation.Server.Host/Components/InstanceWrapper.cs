@@ -28,12 +28,12 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// The <see cref="Action"/> to take when <see cref="Dispose"/> is called.
 		/// </summary>
-		Action onDisposed;
+		Action? onDisposed;
 
 		/// <summary>
 		/// The <see cref="IInstance"/> calls are forwarded to.
 		/// </summary>
-		IInstanceCore actualInstance;
+		IInstanceCore? actualInstance;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InstanceWrapper"/> class.
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Components
 			=> actualInstance?.InstanceRenamed(newInstanceName, cancellationToken) ?? throw new ObjectDisposedException(nameof(InstanceWrapper));
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob()
+		public CompileJob? LatestCompileJob()
 		{
 			if (actualInstance == null)
 				throw new ObjectDisposedException(nameof(InstanceWrapper));

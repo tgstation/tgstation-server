@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,7 +64,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task CopyDirectory(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
+		public async Task CopyDirectory(string src, string dest, IEnumerable<string>? ignore, CancellationToken cancellationToken)
 		{
 			if (src == null)
 				throw new ArgumentNullException(nameof(src));
@@ -135,7 +134,8 @@ namespace Tgstation.Server.Host.IO
 		public Task<bool> DirectoryExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public string GetDirectoryName(string path) => Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)));
+		public string GetDirectoryName(string path) => Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)))
+			?? throw new InvalidOperationException($"Unable to get parent directory of {path}");
 
 		/// <inheritdoc />
 		public string GetFileName(string path) => Path.GetFileName(path ?? throw new ArgumentNullException(nameof(path)));
@@ -270,30 +270,6 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
-		{
-			// DownloadDataTaskAsync can't be cancelled and is shittily written, don't use it
-			using var wc = new WebClient();
-			var tcs = new TaskCompletionSource<byte[]>();
-			wc.DownloadDataCompleted += (a, b) =>
-			{
-				if (b.Error != null)
-					tcs.TrySetException(b.Error);
-				else if (b.Cancelled)
-					tcs.TrySetCanceled();
-				else
-					tcs.TrySetResult(b.Result);
-			};
-			wc.DownloadDataAsync(url);
-			using (cancellationToken.Register(() =>
-			{
-				wc.CancelAsync();
-				tcs.TrySetCanceled();
-			}))
-				return await tcs.Task.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
 		public Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
@@ -332,7 +308,7 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public FileStream GetFileStream(string path, bool shareWrite) => new FileStream(
+		public FileStream GetFileStream(string path, bool shareWrite) => new (
 			ResolvePath(path),
 			FileMode.Open,
 			FileAccess.Read,
@@ -348,7 +324,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="ignore">Files and folders to ignore at the root level.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operation.</returns>
-		IEnumerable<Task> CopyDirectoryImpl(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
+		IEnumerable<Task> CopyDirectoryImpl(string src, string dest, IEnumerable<string>? ignore, CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
 			var atLeastOneSubDir = false;

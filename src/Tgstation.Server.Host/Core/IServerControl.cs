@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Core
 	public interface IServerControl
 	{
 		/// <summary>
-		/// <see langword="true"/> if live updates are supported, <see langword="false"/>. <see cref="ApplyUpdate(Version, Uri, IIOManager)"/> and <see cref="Restart"/> will fail if this is <see langword="false"/>.
+		/// <see langword="true"/> if live updates are supported, <see langword="false"/>. <see cref="ApplyUpdate(Version, Uri, IIOManager, IFileDownloader)"/> and <see cref="Restart"/> will fail if this is <see langword="false"/>.
 		/// </summary>
 		bool WatchdogPresent { get; }
 
@@ -27,8 +27,9 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="version">The <see cref="Version"/> the <see cref="IServerControl"/> is updating to.</param>
 		/// <param name="updateZipUrl">The <see cref="Uri"/> that points to the .zip file that contains the new <see cref="Host"/> assembly.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the operation.</param>
+		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the operation.</param>
 		/// <returns><see langword="true"/> if the update started successfully, <see langword="false"/> if there was another update in progress.</returns>
-		bool ApplyUpdate(Version version, Uri updateZipUrl, IIOManager ioManager);
+		bool ApplyUpdate(Version version, Uri updateZipUrl, IIOManager ioManager, IFileDownloader fileDownloader);
 
 		/// <summary>
 		/// Register a given <paramref name="handler"/> to run before stopping the server for a restart.

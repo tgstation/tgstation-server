@@ -61,7 +61,7 @@ namespace Tgstation.Server.Host.Security
 				var uid = systemIdentity.Uid;
 				logger.LogDebug("Caching system identity {0} of user {1}", uid, user.Id);
 
-				if (cachedIdentities.TryGetValue(user.Id.Value, out var identCache))
+				if (cachedIdentities.TryGetValue(user.Id, out var identCache))
 				{
 					logger.LogTrace("Expiring previously cached identity...");
 					identCache.Dispose(); // also clears it out
@@ -72,12 +72,12 @@ namespace Tgstation.Server.Host.Security
 					asyncDelayer,
 					() =>
 					{
-						logger.LogDebug("Expiring system identity cache for user {1}", uid, user.Id);
+						logger.LogDebug("Expiring system identity cache for user {1}", user.Id);
 						lock (cachedIdentities)
-							cachedIdentities.Remove(user.Id.Value);
+							cachedIdentities.Remove(user.Id);
 					},
 					expiry);
-				cachedIdentities.Add(user.Id.Value, identCache);
+				cachedIdentities.Add(user.Id, identCache);
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Security
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 			lock (cachedIdentities)
-				if (cachedIdentities.TryGetValue(user.Id.Value, out var identity))
+				if (cachedIdentities.TryGetValue(user.Id, out var identity))
 					return identity.SystemIdentity.Clone();
 			throw new InvalidOperationException("Cached system identity has expired!");
 		}

@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| (uploadingZip && model.Version.Build > 0))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
-			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights.Value;
+			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights;
 			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveVersion) && !uploadingZip)
 				|| (!userByondRights.HasFlag(ByondRights.InstallCustomVersion) && uploadingZip))
 				return Forbid();
@@ -179,7 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 							Instance = Instance,
 						};
 
-						IFileUploadTicket fileUploadTicket = null;
+						IFileUploadTicket? fileUploadTicket = null;
 						if (uploadingZip)
 							fileUploadTicket = fileTransferService.CreateUpload(false);
 
@@ -189,7 +189,7 @@ namespace Tgstation.Server.Host.Controllers
 								job,
 								async (core, databaseContextFactory, paramJob, progressHandler, jobCancellationToken) =>
 								{
-									Stream zipFileStream = null;
+									Stream? zipFileStream = null;
 									if (fileUploadTicket != null)
 										using (fileUploadTicket)
 										{
@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.Controllers
 						}
 					}
 
-					return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);
+					return result.InstallJob != null ? Accepted(result) : Json(result);
 				})
 				.ConfigureAwait(false);
 		}

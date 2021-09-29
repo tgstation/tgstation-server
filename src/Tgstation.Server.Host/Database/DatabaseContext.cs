@@ -259,21 +259,41 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
 		protected DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
 		{
-			usersCollection = new DatabaseCollection<User>(Users);
-			instancesCollection = new DatabaseCollection<Instance>(Instances);
-			instancePermissionSetsCollection = new DatabaseCollection<InstancePermissionSet>(InstancePermissionSets);
-			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs);
-			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings);
-			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings);
-			dreamDaemonSettingsCollection = new DatabaseCollection<DreamDaemonSettings>(DreamDaemonSettings);
-			chatBotsCollection = new DatabaseCollection<ChatBot>(ChatBots);
-			chatChannelsCollection = new DatabaseCollection<ChatChannel>(ChatChannels);
-			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
-			jobsCollection = new DatabaseCollection<Job>(Jobs);
-			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
-			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections);
-			groups = new DatabaseCollection<UserGroup>(Groups);
-			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets);
+			usersCollection = new DatabaseCollection<User>(Users
+				?? throw new InvalidOperationException("DbSet for Users wasn't initialized!"));
+			instancesCollection = new DatabaseCollection<Instance>(Instances
+				?? throw new InvalidOperationException("DbSet for Instances wasn't initialized!"));
+			instancePermissionSetsCollection = new DatabaseCollection<InstancePermissionSet>(InstancePermissionSets
+				?? throw new InvalidOperationException("DbSet for InstancePermissionSets wasn't initialized!"));
+			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs
+				?? throw new InvalidOperationException("DbSet for CompileJobs wasn't initialized!"));
+			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings
+				?? throw new InvalidOperationException("DbSet for RepositorySettings wasn't initialized!"));
+			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings
+				?? throw new InvalidOperationException("DbSet for DreamMakerSettings wasn't initialized!"));
+			dreamDaemonSettingsCollection = new DatabaseCollection<DreamDaemonSettings>(DreamDaemonSettings
+				?? throw new InvalidOperationException("DbSet for DreamDaemonSettings wasn't initialized!"));
+			chatBotsCollection = new DatabaseCollection<ChatBot>(ChatBots
+				?? throw new InvalidOperationException("DbSet for ChatBots wasn't initialized!"));
+			chatChannelsCollection = new DatabaseCollection<ChatChannel>(ChatChannels
+				?? throw new InvalidOperationException("DbSet for ChatChannels wasn't initialized!"));
+			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations
+				?? throw new InvalidOperationException("DbSet for RevisionInformations wasn't initialized!"));
+			jobsCollection = new DatabaseCollection<Job>(Jobs
+				?? throw new InvalidOperationException("DbSet for Jobs wasn't initialized!"));
+			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations
+				?? throw new InvalidOperationException("DbSet for ReattachInformations wasn't initialized!"));
+			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections
+				?? throw new InvalidOperationException("DbSet for OAuthConnections wasn't initialized!"));
+			groups = new DatabaseCollection<UserGroup>(Groups
+				?? throw new InvalidOperationException("DbSet for Groups wasn't initialized!"));
+			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets
+				?? throw new InvalidOperationException("DbSet for PermissionSets wasn't initialized!"));
+
+			if (TestMerges == null)
+				throw new InvalidOperationException("DbSet for TestMerges wasn't initialized!");
+			if (RevInfoTestMerges == null)
+				throw new InvalidOperationException("DbSet for RevInfoTestMerges wasn't initialized!");
 		}
 
 		/// <inheritdoc />
@@ -345,7 +365,9 @@ namespace Tgstation.Server.Host.Database
 			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(RevInfoCompileJobDeleteBehavior);
 
 			// Also break the link between ritm and testmerge so it doesn't cycle in a triangle with rev info
-			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisonInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);
+			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisionInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);
+
+			modelBuilder.Entity<Job>().HasOne(x => x.StartedBy).WithMany();
 
 			var compileJob = modelBuilder.Entity<CompileJob>();
 			compileJob.HasIndex(x => x.DirectoryName);
@@ -421,7 +443,7 @@ namespace Tgstation.Server.Host.Database
 				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
 
 			// Update this with new migrations as they are made
-			string targetMigration = null;
+			string? targetMigration = null;
 			if (targetVersion < new Version(4, 14, 0))
 				targetMigration = currentDatabaseType switch
 				{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,10 +15,11 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.System.Tests
 {
 	[TestClass]
+	[UnsupportedOSPlatform("windows")]
 	public sealed class TestPosixSignalHandler
 	{
 		[TestMethod]
-		public void TestConstruction()
+		public async Task TestConstruction()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(null, null, null));
 
@@ -27,7 +29,7 @@ namespace Tgstation.Server.Host.System.Tests
 			var mockAsyncDelayer = Mock.Of<IAsyncDelayer>();
 			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, mockAsyncDelayer, null));
 
-			new PosixSignalHandler(mockServerControl, mockAsyncDelayer, Mock.Of<ILogger<PosixSignalHandler>>()).Dispose();
+			await new PosixSignalHandler(mockServerControl, mockAsyncDelayer, Mock.Of<ILogger<PosixSignalHandler>>()).DisposeAsync();
 		}
 
 		[TestMethod]

@@ -103,7 +103,7 @@ namespace Tgstation.Server.Host.Controllers
 				RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? RepositoryRights.None),
 				InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? InstancePermissionSetRights.None),
 				PermissionSetId = model.PermissionSetId,
-				InstanceId = Instance.Id.Value,
+				InstanceId = Instance.Id,
 			};
 
 			DatabaseContext.InstancePermissionSets.Add(dbUser);
@@ -142,16 +142,16 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalPermissionSet == null)
 				return Gone();
 
-			originalPermissionSet.ByondRights = RightsHelper.Clamp(model.ByondRights ?? originalPermissionSet.ByondRights.Value);
-			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights.Value);
-			originalPermissionSet.InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? originalPermissionSet.InstancePermissionSetRights.Value);
-			originalPermissionSet.ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? originalPermissionSet.ChatBotRights.Value);
-			originalPermissionSet.ConfigurationRights = RightsHelper.Clamp(model.ConfigurationRights ?? originalPermissionSet.ConfigurationRights.Value);
-			originalPermissionSet.DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? originalPermissionSet.DreamDaemonRights.Value);
-			originalPermissionSet.DreamMakerRights = RightsHelper.Clamp(model.DreamMakerRights ?? originalPermissionSet.DreamMakerRights.Value);
+			originalPermissionSet.ByondRights = RightsHelper.Clamp(model.ByondRights ?? originalPermissionSet.ByondRights);
+			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights);
+			originalPermissionSet.InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? originalPermissionSet.InstancePermissionSetRights);
+			originalPermissionSet.ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? originalPermissionSet.ChatBotRights);
+			originalPermissionSet.ConfigurationRights = RightsHelper.Clamp(model.ConfigurationRights ?? originalPermissionSet.ConfigurationRights);
+			originalPermissionSet.DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? originalPermissionSet.DreamDaemonRights);
+			originalPermissionSet.DreamMakerRights = RightsHelper.Clamp(model.DreamMakerRights ?? originalPermissionSet.DreamMakerRights);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			var showFullPermissionSet = originalPermissionSet.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value
+			var showFullPermissionSet = originalPermissionSet.PermissionSetId == AuthenticationContext.PermissionSet.Id
 				|| (AuthenticationContext.GetRight(RightsType.InstancePermissionSet) & (ulong)InstancePermissionSetRights.Read) != 0;
 			return Json(
 				showFullPermissionSet
@@ -248,7 +248,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.PermissionSetId == id)
 				.DeleteAsync(cancellationToken)
 				.ConfigureAwait(false);
-			return numDeleted > 0 ? (IActionResult)NoContent() : Gone();
+			return numDeleted > 0 ? NoContent() : Gone();
 		}
 	}
 }

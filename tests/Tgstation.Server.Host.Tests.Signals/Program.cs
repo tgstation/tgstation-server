@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +18,15 @@ namespace Tgstation.Server.Host.Tests.Signals
 	{
 		static async Task Main()
 		{
+			if (OperatingSystem.IsWindows())
+				throw new InvalidOperationException("Cannot run this test on Windows!");
+
+			await Run();
+		}
+
+		[UnsupportedOSPlatform("windows")]
+		static async Task Run()
+		{
 			var mockServerControl = new Mock<IServerControl>();
 
 			var tcs = new TaskCompletionSource<object>();
@@ -27,7 +37,7 @@ namespace Tgstation.Server.Host.Tests.Signals
 
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
 			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-			using var signalHandler = new PosixSignalHandler(mockServerControl.Object, mockAsyncDelayer.Object, Mock.Of<ILogger<PosixSignalHandler>>());
+			await using var signalHandler = new PosixSignalHandler(mockServerControl.Object, mockAsyncDelayer.Object, Mock.Of<ILogger<PosixSignalHandler>>());
 
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
@@ -35,7 +45,9 @@ namespace Tgstation.Server.Host.Tests.Signals
 
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => signalHandler.StartAsync(default));
+			Task Start() => signalHandler.StartAsync(default);
+
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(Start);
 
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
@@ -43,7 +55,7 @@ namespace Tgstation.Server.Host.Tests.Signals
 			await signalHandler.StopAsync(default).WithToken(cts.Token).ConfigureAwait(false);
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
-			using var signalHandler2 = new PosixSignalHandler(mockServerControl.Object, mockAsyncDelayer.Object, Mock.Of<ILogger<PosixSignalHandler>>());
+			await using var signalHandler2 = new PosixSignalHandler(mockServerControl.Object, mockAsyncDelayer.Object, Mock.Of<ILogger<PosixSignalHandler>>());
 			await signalHandler2.StartAsync(default);
 
 			using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(20));

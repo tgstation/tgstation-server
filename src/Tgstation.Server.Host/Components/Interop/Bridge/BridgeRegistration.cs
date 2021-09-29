@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// <see cref="Action"/> to run when <see cref="Dispose"/>d.
 		/// </summary>
-		Action onDispose;
+		Action? onDispose;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BridgeRegistration"/> class.

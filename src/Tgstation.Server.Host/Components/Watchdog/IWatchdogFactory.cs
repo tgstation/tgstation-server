@@ -1,5 +1,4 @@
-﻿using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Components.Chat;
+﻿using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
@@ -24,8 +23,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> pointing to the Diagnostics directory for the <see cref="IWatchdog"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="IWatchdog"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="IWatchdog"/>.</param>
-		/// <param name="instance">The <see cref="Instance"/> for the <see cref="IWatchdog"/>.</param>
-		/// <param name="settings">The initial <see cref="DreamDaemonSettings"/> for the <see cref="IWatchdog"/>.</param>
+		/// <param name="instance">The <see cref="Models.Instance"/> for the <see cref="IWatchdog"/>.</param>
+		/// <param name="settings">The initial <see cref="Models.DreamDaemonSettings"/> for the <see cref="IWatchdog"/>.</param>
 		/// <returns>A new <see cref="IWatchdog"/>.</returns>
 		IWatchdog CreateWatchdog(
 			IChatManager chat,
@@ -36,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
-			Api.Models.Instance instance,
-			DreamDaemonSettings settings);
+			Models.Instance instance,
+			Models.DreamDaemonSettings settings);
 	}
 }

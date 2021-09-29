@@ -1,8 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,12 +6,17 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Api;
+using Byond.TopicSender;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Helpers.Extensions;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -227,7 +228,7 @@ namespace Tgstation.Server.Tests.Instance
 			IProcessExecutor executor = null;
 			executor = new ProcessExecutor(
 				new PlatformIdentifier().IsWindows
-					? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
+					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));

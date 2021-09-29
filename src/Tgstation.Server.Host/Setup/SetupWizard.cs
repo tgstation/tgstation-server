@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Npgsql;
 
 using Tgstation.Server.Host.Configuration;
@@ -78,9 +78,9 @@ namespace Tgstation.Server.Host.Setup
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// A <see cref="TaskCompletionSource{TResult}"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
+		/// A <see cref="TaskCompletionSource"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
 		/// </summary>
-		TaskCompletionSource<object> reloadTcs;
+		TaskCompletionSource? reloadTcs;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SetupWizard"/> class.
@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Setup
 			configuration
 				.GetReloadToken()
 				.RegisterChangeCallback(
-					state => reloadTcs?.TrySetResult(null),
+					state => reloadTcs?.TrySetResult(),
 					null);
 		}
 
@@ -217,7 +217,11 @@ namespace Tgstation.Server.Host.Setup
 					await console.WriteAsync($"Checking {databaseConfiguration.DatabaseType} version...", true, cancellationToken).ConfigureAwait(false);
 					using var command = testConnection.CreateCommand();
 					command.CommandText = "SELECT VERSION()";
-					var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+
+					var fullVersion = (string?)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+					if (fullVersion == null)
+						throw new InvalidOperationException("\"SELECT VERSION()\" returned null!");
+
 					await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken).ConfigureAwait(false);
 
 					if (databaseConfiguration.DatabaseType == DatabaseType.PostgresSql)
@@ -283,7 +287,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="databaseName">The path to the potential SQLite database file.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the SQLite database path to store in the configuration.</returns>
-		async Task<string> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
+		async Task<string?> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
 		{
 			var resolvedPath = ioManager.ResolvePath(databaseName);
 			try
@@ -403,7 +407,7 @@ namespace Tgstation.Server.Host.Setup
 				};
 				firstTime = false;
 
-				string serverAddress = null;
+				string? serverAddress = null;
 				ushort? serverPort = null;
 
 				bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
@@ -439,7 +443,7 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync($"Enter the database {(isSqliteDB ? "file path" : "name")} (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken).ConfigureAwait(false);
 
-				string databaseName;
+				string? databaseName;
 				bool dbExists = false;
 				do
 				{
@@ -471,8 +475,8 @@ namespace Tgstation.Server.Host.Setup
 
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
-				string username = null;
-				string password = null;
+				string? username = null;
+				string? password = null;
 				if (!isSqliteDB)
 					if (!useWinAuth)
 					{
@@ -822,7 +826,7 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="SwarmConfiguration"/>.</returns>
-		async Task<SwarmConfiguration> ConfigureSwarm(CancellationToken cancellationToken)
+		async Task<SwarmConfiguration?> ConfigureSwarm(CancellationToken cancellationToken)
 		{
 			var enable = await PromptYesNo("Enable swarm mode? (y/n): ", cancellationToken).ConfigureAwait(false);
 			if (!enable)
@@ -838,7 +842,7 @@ namespace Tgstation.Server.Host.Setup
 
 			async Task<Uri> ParseAddress(string question)
 			{
-				Uri address;
+				Uri? address;
 				do
 				{
 					await console.WriteAsync(question, false, cancellationToken).ConfigureAwait(false);
@@ -863,7 +867,7 @@ namespace Tgstation.Server.Host.Setup
 			while (String.IsNullOrWhiteSpace(privateKey));
 
 			var controller = await PromptYesNo("Is this server the swarm's controller? (y/n): ", cancellationToken).ConfigureAwait(false);
-			Uri controllerAddress = null;
+			Uri? controllerAddress = null;
 			if (!controller)
 				controllerAddress = await ParseAddress("Enter the swarm controller's HTTP(S) address: ").ConfigureAwait(false);
 
@@ -897,14 +901,14 @@ namespace Tgstation.Server.Host.Setup
 			FileLoggingConfiguration fileLoggingConfiguration,
 			ElasticsearchConfiguration elasticsearchConfiguration,
 			ControlPanelConfiguration controlPanelConfiguration,
-			SwarmConfiguration swarmConfiguration,
+			SwarmConfiguration? swarmConfiguration,
 			CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
 			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
 			newGeneralConfiguration.ConfigVersion = GeneralConfiguration.CurrentConfigVersion;
-			var map = new Dictionary<string, object>()
+			var map = new Dictionary<string, object?>()
 			{
 				{ DatabaseConfiguration.Section, databaseConfiguration },
 				{ GeneralConfiguration.Section, newGeneralConfiguration },
@@ -935,7 +939,7 @@ namespace Tgstation.Server.Host.Setup
 
 			var configBytes = Encoding.UTF8.GetBytes(serializedYaml);
 
-			reloadTcs = new TaskCompletionSource<object>();
+			reloadTcs = new TaskCompletionSource();
 
 			try
 			{

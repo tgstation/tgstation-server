@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Password which will used for authentication.
 		/// </summary>
-		readonly string password;
+		readonly string? password;
 
 		/// <summary>
 		/// The <see cref="IrcPasswordType"/> of <see cref="password"/>.
@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Map of <see cref="ChannelRepresentation.RealId"/>s to channel names.
 		/// </summary>
-		readonly Dictionary<ulong, string> channelIdMap;
+		readonly Dictionary<ulong, string?> channelIdMap;
 
 		/// <summary>
 		/// Map of <see cref="ChannelRepresentation.RealId"/>s to query users.
@@ -75,14 +75,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly Dictionary<ulong, string> queryChannelIdMap;
 
 		/// <summary>
+		/// The <see cref="Task"/> used for <see cref="IrcConnection.Listen(bool)"/>.
+		/// </summary>
+		Task? listenTask;
+
+		/// <summary>
 		/// Id counter for <see cref="channelIdMap"/>.
 		/// </summary>
 		ulong channelIdCounter;
-
-		/// <summary>
-		/// The <see cref="Task"/> used for <see cref="IrcConnection.Listen(bool)"/>.
-		/// </summary>
-		Task listenTask;
 
 		/// <summary>
 		/// If we are disconnecting.
@@ -111,12 +111,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			var builder = chatBot.CreateConnectionStringBuilder();
-			if (builder == null || !builder.Valid || !(builder is IrcConnectionStringBuilder ircBuilder))
+			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
 				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 
-			address = ircBuilder.Address;
-			port = ircBuilder.Port.Value;
-			nickname = ircBuilder.Nickname;
+			address = ircBuilder.Address ?? throw new InvalidOperationException("Connection string missing Address!");
+			port = ircBuilder.Port ?? throw new InvalidOperationException("Connection string missing Nickname!");
+			nickname = ircBuilder.Nickname ?? throw new InvalidOperationException("Connection string missing Port!");
 
 			password = ircBuilder.Password;
 			passwordType = ircBuilder.PasswordType;
@@ -133,15 +133,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
 				CtcpVersion = assemblyInformationProvider.VersionString,
-				UseSsl = ircBuilder.UseSsl.Value,
+				UseSsl = ircBuilder.UseSsl ?? false,
 			};
-			if (ircBuilder.UseSsl.Value)
+			if (client.UseSsl)
 				client.ValidateServerCertificate = true; // dunno if it defaults to that or what
 
 			client.OnChannelMessage += Client_OnChannelMessage;
 			client.OnQueryMessage += Client_OnQueryMessage;
 
-			channelIdMap = new Dictionary<ulong, string>();
+			channelIdMap = new Dictionary<ulong, string?>();
 			queryChannelIdMap = new Dictionary<ulong, string>();
 			channelIdCounter = 1;
 		}
@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							.Select(x =>
 							{
 								var channelName = x.GetIrcChannelName();
-								ulong? id = null;
+								ulong id = UInt64.MaxValue;
 								if (!channelIdMap.Any(y =>
 								{
 									if (y.Value != channelName)
@@ -203,15 +203,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								}))
 								{
 									id = channelIdCounter++;
-									channelIdMap.Add(id.Value, channelName);
+									channelIdMap.Add(id, channelName);
 								}
 
-								return new ChannelRepresentation
+								return new ChannelRepresentation(address, channelName, id)
 								{
-									RealId = id.Value,
 									IsAdminChannel = x.IsAdminChannel == true,
-									ConnectionName = address,
-									FriendlyName = channelIdMap[id.Value],
 									IsPrivateChannel = false,
 									Tag = x.Tag,
 								};
@@ -256,12 +253,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+		public override async Task<Func<string?, string?, Task>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
+			GitRemoteInformation? remoteInformation,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
 			ulong channelId,
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
@@ -276,7 +272,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			else
 				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
 
-			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0
+			var testmergeInsert = revisionInformation.ActiveTestMerges.Count == 0
 				? String.Empty
 				: String.Format(
 					CultureInfo.InvariantCulture,
@@ -357,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogTrace("Processing initial messages...");
 				await NonBlockingListen(cancellationToken).ConfigureAwait(false);
 
-				var nickCheckCompleteTcs = new TaskCompletionSource<object>();
+				var nickCheckCompleteTcs = new TaskCompletionSource();
 				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled()))
 				{
 					listenTask = Task.Factory.StartNew(
@@ -376,7 +372,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								client.RfcNick(nickname);
 						}
 
-						nickCheckCompleteTcs.TrySetResult(null);
+						nickCheckCompleteTcs.TrySetResult();
 
 						Logger.LogTrace("Starting blocking listen...");
 						try
@@ -455,52 +451,58 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var username = e.Data.Nick;
 			var channelName = isPrivate ? username : e.Data.Channel;
 
-			ulong MapAndGetChannelId(Dictionary<ulong, string> dicToCheck)
+			ulong MapAndGetChannelId(bool checkingQueryChannelIdMap)
 			{
-				ulong? resultId = null;
-				if (!dicToCheck.Any(x =>
+				ulong resultId = UInt64.MaxValue;
+				var dupeCheck = checkingQueryChannelIdMap ? queryChannelIdMap.Any(x =>
 				{
 					if (x.Value != channelName)
 						return false;
 					resultId = x.Key;
 					return true;
-				}))
+				}) : channelIdMap.Any(x =>
+				{
+					if (x.Value != channelName)
+						return false;
+					resultId = x.Key;
+					return true;
+				});
+
+				if (!dupeCheck)
 				{
 					resultId = channelIdCounter++;
-					dicToCheck.Add(resultId.Value, channelName);
-					if (dicToCheck == queryChannelIdMap)
-						channelIdMap.Add(resultId.Value, null);
+					if (checkingQueryChannelIdMap)
+					{
+						queryChannelIdMap.Add(resultId, channelName);
+						channelIdMap.Add(resultId, null);
+					}
+					else
+						channelIdMap.Add(resultId, channelName);
 				}
 
-				return resultId.Value;
+				return resultId;
 			}
 
 			ulong userId, channelId;
 			lock (client)
 			{
-				userId = MapAndGetChannelId(queryChannelIdMap);
-				channelId = isPrivate ? userId : MapAndGetChannelId(channelIdMap);
+				userId = MapAndGetChannelId(true);
+				channelId = isPrivate ? userId : MapAndGetChannelId(false);
 			}
 
-			var message = new Message
-			{
-				Content = e.Data.Message,
-				User = new ChatUser
-				{
-					Channel = new ChannelRepresentation
+			var channelFriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName;
+			var message = new Message(
+				new ChatUser(
+					new ChannelRepresentation(address, channelFriendlyName, channelId)
 					{
-						ConnectionName = address,
-						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
-						RealId = channelId,
 						IsPrivateChannel = isPrivate,
 
 						// isAdmin and Tag populated by manager
 					},
-					FriendlyName = username,
-					RealId = userId,
-					Mention = username,
-				},
-			};
+					username,
+					username,
+					userId),
+				e.Data.Message);
 
 			EnqueueMessage(message);
 		}

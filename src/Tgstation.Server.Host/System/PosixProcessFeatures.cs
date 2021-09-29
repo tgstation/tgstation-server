@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
+	[UnsupportedOSPlatform("windows")]
 	sealed class PosixProcessFeatures : IProcessFeatures
 	{
 		/// <summary>

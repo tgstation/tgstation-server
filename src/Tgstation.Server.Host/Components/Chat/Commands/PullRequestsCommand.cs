@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 #pragma warning disable CA1506
 		public async Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
-			IEnumerable<Models.TestMerge> results = null;
+			var results = Enumerable.Empty<Models.TestMerge>();
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
 			{
 				string head;

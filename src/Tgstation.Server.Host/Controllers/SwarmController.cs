@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using Serilog.Context;
 
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
 
@@ -129,6 +130,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (serversUpdateRequest == null)
 				throw new ArgumentNullException(nameof(serversUpdateRequest));
 
+			if (serversUpdateRequest.SwarmServers == null)
+				throw new ArgumentException("Expected SwarmServers to not be null!", nameof(serversUpdateRequest));
+
 			if (!ValidateRegistration())
 				return Forbid();
 
@@ -225,8 +229,11 @@ namespace Tgstation.Server.Host.Controllers
 				if (ModelState?.IsValid == false)
 				{
 					var errors = ModelState
-						.SelectMany(x => x.Value.Errors)
-						.Select(x => x.Exception);
+						.Select(x => x.Value)
+						.WhereNotNull()
+						.SelectMany(x => x.Errors)
+						.Select(x => x.Exception)
+						.WhereNotNull();
 
 					logger.LogDebug(new AggregateException(errors), "Swarm request model validation failed!");
 					await BadRequest().ExecuteResultAsync(context).ConfigureAwait(false);

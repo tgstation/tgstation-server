@@ -1,6 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+using Microsoft.EntityFrameworkCore;
 
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -18,19 +22,102 @@ namespace Tgstation.Server.Host.Models
 		public long InstanceId { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.Instance"/> the <see cref="InstancePermissionSet"/> belongs to.
+		/// See <see cref="Api.Models.Internal.InstancePermissionSet.RepositoryRights"/>.
+		/// </summary>
+		public new RepositoryRights RepositoryRights
+		{
+			get => base.RepositoryRights ?? throw new InvalidOperationException("RepositoryRights was null!");
+			set => base.RepositoryRights = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.Internal.InstancePermissionSet.ByondRights"/>.
+		/// </summary>
+		public new ByondRights ByondRights
+		{
+			get => base.ByondRights ?? throw new InvalidOperationException("ByondRights was null!");
+			set => base.ByondRights = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.Internal.InstancePermissionSet.DreamMakerRights"/>.
+		/// </summary>
+		public new DreamMakerRights DreamMakerRights
+		{
+			get => base.DreamMakerRights ?? throw new InvalidOperationException("DreamMakerRights was null!");
+			set => base.DreamMakerRights = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.Internal.InstancePermissionSet.DreamDaemonRights"/>.
+		/// </summary>
+		public new DreamDaemonRights DreamDaemonRights
+		{
+			get => base.DreamDaemonRights ?? throw new InvalidOperationException("DreamDaemonRights was null!");
+			set => base.DreamDaemonRights = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.Internal.InstancePermissionSet.ChatBotRights"/>.
+		/// </summary>
+		public new ChatBotRights ChatBotRights
+		{
+			get => base.ChatBotRights ?? throw new InvalidOperationException("ChatBotRights was null!");
+			set => base.ChatBotRights = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.Internal.InstancePermissionSet.ConfigurationRights"/>.
+		/// </summary>
+		public new ConfigurationRights ConfigurationRights
+		{
+			get => base.ConfigurationRights ?? throw new InvalidOperationException("ConfigurationRights was null!");
+			set => base.ConfigurationRights = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.Internal.InstancePermissionSet.InstancePermissionSetRights"/>.
+		/// </summary>
+		public new InstancePermissionSetRights InstancePermissionSetRights
+		{
+			get => base.InstancePermissionSetRights ?? throw new InvalidOperationException("InstancePermissionSetRights was null!");
+			set => base.InstancePermissionSetRights = value;
+		}
+
+		/// <summary>
+		/// The <see cref="Models.Instance"/> <see cref="InstancePermissionSet"/>.
 		/// </summary>
 		[Required]
-		public Instance Instance { get; set; }
+		[BackingField(nameof(instance))]
+		public Instance Instance
+		{
+			get => instance ?? throw new InvalidOperationException("Instance not set!");
+			set => instance = value;
+		}
 
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> the <see cref="InstancePermissionSet"/> belongs to.
 		/// </summary>
 		[Required]
-		public PermissionSet PermissionSet { get; set; }
+		[BackingField(nameof(permissionSet))]
+		public PermissionSet PermissionSet
+		{
+			get => permissionSet ?? throw new InvalidOperationException("PermissionSet not set!");
+			set => permissionSet = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="PermissionSet"/>.
+		/// </summary>
+		PermissionSet? permissionSet;
+
+		/// <summary>
+		/// Backing field for <see cref="Instance"/>.
+		/// </summary>
+		Instance? instance;
 
 		/// <inheritdoc />
-		public InstancePermissionSetResponse ToApi() => new InstancePermissionSetResponse
+		public InstancePermissionSetResponse ToApi() => new ()
 		{
 			ByondRights = ByondRights,
 			ChatBotRights = ChatBotRights,

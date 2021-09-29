@@ -65,17 +65,15 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
 		/// <param name="byondVersion">The BYOND <see cref="Version"/> of the deployment.</param>
+		/// <param name="gitRemoteInformation">The repository <see cref="Api.Models.GitRemoteInformation"/>, if any.</param>
 		/// <param name="estimatedCompletionTime">The optional <see cref="DateTimeOffset"/> the deployment is expected to be completed at.</param>
-		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
-		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <returns>An <see cref="Action{T1, T2}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</returns>
-		Action<string, string> QueueDeploymentMessage(
+		Action<string?, string?> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
+			Api.Models.GitRemoteInformation? gitRemoteInformation,
 			DateTimeOffset? estimatedCompletionTime,
-			string gitHubOwner,
-			string gitHubRepo,
 			bool localCommitPushed);
 
 		/// <summary>

@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.System
+﻿using System.Runtime.Versioning;
+
+namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// For identifying the current platform.
@@ -8,6 +10,7 @@
 		/// <summary>
 		/// If the current platform is a Windows platform.
 		/// </summary>
+		[SupportedOSPlatformGuard("windows")]
 		bool IsWindows { get; }
 
 		/// <summary>

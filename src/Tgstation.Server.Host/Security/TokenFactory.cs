@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Security
 				: securityConfiguration.TokenExpiryMinutes);
 			var claims = new Claim[]
 			{
-				new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString(CultureInfo.InvariantCulture)),
+				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Exp, expiry.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Nbf, nowUnix.ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Iss, ValidationParameters.ValidIssuer),

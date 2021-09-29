@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.System
 			handle.EnableRaisingEvents = true;
 
 			var tcs = new TaskCompletionSource<int>();
-			void ExitHandler(object sender, EventArgs args)
+			void ExitHandler(object? sender, EventArgs args)
 			{
 				var id = idProvider();
 				try
@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess GetProcess(int id)
+		public IProcess? GetProcess(int id)
 		{
 			logger.LogDebug("Attaching to process {0}...", id);
 			global::System.Diagnostics.Process handle;
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.System
 		public IProcess LaunchProcess(
 			string fileName,
 			string workingDirectory,
-			string arguments,
+			string? arguments,
 			bool readOutput,
 			bool readError,
 			bool noShellExecute)
@@ -167,11 +167,11 @@ namespace Tgstation.Server.Host.System
 
 				handle.StartInfo.UseShellExecute = !noShellExecute;
 
-				StringBuilder combinedStringBuilder = null;
+				StringBuilder? combinedStringBuilder = null;
 
-				Task<string> outputTask = null;
-				Task<string> errorTask = null;
-				var processStartTcs = new TaskCompletionSource<object>();
+				Task<string>? outputTask = null;
+				Task<string>? errorTask = null;
+				var processStartTcs = new TaskCompletionSource();
 				if (readOutput || readError)
 				{
 					combinedStringBuilder = new StringBuilder();
@@ -179,7 +179,6 @@ namespace Tgstation.Server.Host.System
 					async Task<string> ConsumeReader(Func<TextReader> readerFunc, bool isOutputStream)
 					{
 						var stringBuilder = new StringBuilder();
-						string text;
 
 						await processStartTcs.Task.ConfigureAwait(false);
 
@@ -188,6 +187,7 @@ namespace Tgstation.Server.Host.System
 						logger.LogTrace("Starting std{0} read for PID {1}...", streamType, pid);
 
 						var reader = readerFunc();
+						string? text;
 						while ((text = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
 						{
 							combinedStringBuilder.AppendLine();
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.System
 				{
 					handle.Start();
 
-					processStartTcs.SetResult(null);
+					processStartTcs.SetResult();
 				}
 				catch (Exception ex)
 				{
@@ -248,11 +248,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess GetProcessByName(string name)
+		public IProcess? GetProcessByName(string name)
 		{
 			logger.LogTrace("GetProcessByName: {0}...", name ?? throw new ArgumentNullException(nameof(name)));
 			var procs = global::System.Diagnostics.Process.GetProcessesByName(name);
-			global::System.Diagnostics.Process handle = null;
+			global::System.Diagnostics.Process? handle = null;
 			foreach (var proc in procs)
 				if (handle == null)
 					handle = proc;

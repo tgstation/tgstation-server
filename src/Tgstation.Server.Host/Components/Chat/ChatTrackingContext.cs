@@ -21,7 +21,12 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				if (active == value)
 					return;
-				logger.LogTrace(value ? "Activated" : "Deactivated");
+
+				if (value)
+					logger.LogTrace("Activated");
+				else
+					logger.LogTrace("Deactivated");
+
 				active = value;
 			}
 		}
@@ -30,18 +35,37 @@ namespace Tgstation.Server.Host.Components.Chat
 		public IReadOnlyCollection<ChannelRepresentation> Channels { get; private set; }
 
 		/// <inheritdoc />
-		public IEnumerable<CustomCommand> CustomCommands
+		public IEnumerable<CustomCommand>? CustomCommands
 		{
 			get => customCommands;
 			set
 			{
-				customCommands = (value ?? throw new InvalidOperationException("value cannot be null!"))
-				.Select(customCommand =>
+				if (value == null)
 				{
-					customCommand.SetHandler(customCommandHandler);
-					return customCommand;
-				})
-				.ToList();
+					logger.LogWarning("Received null CustomCommands!");
+					return;
+				}
+
+				var anyInvalid = false;
+				customCommands = value
+					.Where(customCommand =>
+					{
+						if (customCommand.Valid)
+							return true;
+
+						anyInvalid = true;
+						return false;
+					})
+					.Select(customCommand =>
+					{
+						customCommand.SetHandler(customCommandHandler);
+						return customCommand;
+					})
+					.ToList();
+
+				if (anyInvalid)
+					logger.LogWarning("One or more custom commands were invalid!");
+
 				logger.LogTrace("Custom commands set.");
 			}
 		}
@@ -64,17 +88,17 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Backing field for <see cref="CustomCommands"/>.
 		/// </summary>
-		IReadOnlyCollection<CustomCommand> customCommands;
+		IReadOnlyCollection<CustomCommand>? customCommands;
 
 		/// <summary>
 		/// The <see cref="IChannelSink"/> if any.
 		/// </summary>
-		IChannelSink channelSink;
+		IChannelSink? channelSink;
 
 		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="Dispose"/>d.
 		/// </summary>
-		Action onDispose;
+		Action? onDispose;
 
 		/// <summary>
 		/// Backing field for <see cref="Active"/>.

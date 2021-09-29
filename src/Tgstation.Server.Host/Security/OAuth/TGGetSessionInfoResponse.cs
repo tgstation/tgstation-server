@@ -8,6 +8,6 @@
 		/// <summary>
 		/// The user's forum account name.
 		/// </summary>
-		public string PhpbbUsername { get; set; }
+		public string? PhpbbUsername { get; set; }
 	}
 }

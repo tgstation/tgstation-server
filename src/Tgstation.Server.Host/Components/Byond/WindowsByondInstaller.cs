@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// <summary>
 	/// <see cref="IByondInstaller"/> for windows systems.
 	/// </summary>
+	[SupportedOSPlatform("windows")]
 	sealed class WindowsByondInstaller : ByondInstallerBase, IDisposable
 	{
 		/// <summary>
@@ -70,9 +72,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
+		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
-		public WindowsByondInstaller(IProcessExecutor processExecutor, IIOManager ioManager, ILogger<WindowsByondInstaller> logger)
-			: base(ioManager, logger)
+		public WindowsByondInstaller(
+			IProcessExecutor processExecutor,
+			IIOManager ioManager,
+			IFileDownloader fileDownloader,
+			ILogger<WindowsByondInstaller> logger)
+			: base(ioManager, fileDownloader, logger)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 

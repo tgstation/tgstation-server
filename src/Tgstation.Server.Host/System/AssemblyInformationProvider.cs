@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using System.Reflection;
 
-using Tgstation.Server.Api;
+using Tgstation.Server.Helpers.Extensions;
 
 namespace Tgstation.Server.Host.System
 {
@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.System
 		public string VersionString { get; }
 
 		/// <inheritdoc />
-		public ProductInfoHeaderValue ProductInfoHeaderValue => new ProductInfoHeaderValue(
+		public ProductInfoHeaderValue ProductInfoHeaderValue => new (
 			VersionPrefix,
 			Version.ToString());
 
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.System
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Path = assembly.Location;
 			AssemblyName = assembly.GetName();
-			Version = AssemblyName.Version.Semver();
+			Version = AssemblyName.Version!.Semver();
 			VersionString = String.Concat(VersionPrefix, "-v", Version);
 		}
 	}

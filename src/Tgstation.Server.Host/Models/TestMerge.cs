@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+using Microsoft.EntityFrameworkCore;
+
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -7,16 +12,19 @@ namespace Tgstation.Server.Host.Models
 	public sealed class TestMerge : Api.Models.Internal.TestMergeApiBase, IApiTransformable<Api.Models.TestMerge>
 	{
 		/// <summary>
-		/// See <see cref="Api.Models.TestMerge.MergedBy"/>.
+		/// The ID of the <see cref="TestMerge"/>.
 		/// </summary>
-		[Required]
-		public User MergedBy { get; set; }
+		public long Id { get; set; }
 
 		/// <summary>
-		/// The initial <see cref="RevisionInformation"/> the <see cref="TestMerge"/> was merged with.
+		/// <see cref="TestMergeParameters.TargetCommitSha"/>.
 		/// </summary>
-		[Required]
-		public RevisionInformation PrimaryRevisionInformation { get; set; }
+		[StringLength(Limits.MaximumCommitShaLength)]
+		public new string TargetCommitSha
+		{
+			get => base.TargetCommitSha ?? throw new InvalidOperationException("TargetCommitSha was null!");
+			set => base.TargetCommitSha = value;
+		}
 
 		/// <summary>
 		/// Foreign key for <see cref="PrimaryRevisionInformation"/>.
@@ -26,17 +34,58 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// All the <see cref="RevInfoTestMerge"/> for the <see cref="TestMerge"/>.
 		/// </summary>
-		public ICollection<RevInfoTestMerge> RevisonInformations { get; set; }
+		[BackingField(nameof(revisionInformations))]
+		public ICollection<RevInfoTestMerge> RevisionInformations
+		{
+			get => revisionInformations ?? throw new InvalidOperationException("RevisionInformations not set!");
+			set => revisionInformations = value;
+		}
+
+		/// <summary>
+		/// See <see cref="Api.Models.TestMerge.MergedBy"/>.
+		/// </summary>
+		[Required]
+		[BackingField(nameof(mergedBy))]
+		public User MergedBy
+		{
+			get => mergedBy ?? throw new InvalidOperationException("MergedBy not set!");
+			set => mergedBy = value;
+		}
+
+		/// <summary>
+		/// The initial <see cref="RevisionInformation"/> the <see cref="TestMerge"/> was merged with.
+		/// </summary>
+		[Required]
+		[BackingField(nameof(primaryRevisionInformation))]
+		public RevisionInformation PrimaryRevisionInformation
+		{
+			get => primaryRevisionInformation ?? throw new InvalidOperationException("PrimaryRevisionInformation not set!");
+			set => primaryRevisionInformation = value;
+		}
+
+		/// <summary>
+		/// Backing field for <see cref="RevisionInformations"/>.
+		/// </summary>
+		ICollection<RevInfoTestMerge>? revisionInformations;
+
+		/// <summary>
+		/// Backing field for <see cref="PrimaryRevisionInformation"/>.
+		/// </summary>
+		RevisionInformation? primaryRevisionInformation;
+
+		/// <summary>
+		/// Backing field for <see cref="MergedBy"/>.
+		/// </summary>
+		User? mergedBy;
 
 		/// <inheritdoc />
-		public Api.Models.TestMerge ToApi() => new Api.Models.TestMerge
+		public Api.Models.TestMerge ToApi() => new ()
 		{
 			Author = Author,
 			BodyAtMerge = BodyAtMerge,
 			MergedAt = MergedAt,
 			TitleAtMerge = TitleAtMerge,
 			Comment = Comment,
-			Id = Id,
 			MergedBy = MergedBy.CreateUserName(),
 			Number = Number,
 			TargetCommitSha = TargetCommitSha,

@@ -46,13 +46,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		const string UnknownReference = "<UNKNOWN>";
 
 		/// <inheritdoc />
-		public RemoteGitProvider? RemoteGitProvider => gitRemoteFeatures.RemoteGitProvider;
-
-		/// <inheritdoc />
-		public string RemoteRepositoryOwner => gitRemoteFeatures.RemoteRepositoryOwner;
-
-		/// <inheritdoc />
-		public string RemoteRepositoryName => gitRemoteFeatures.RemoteRepositoryName;
+		public GitRemoteInformation? GitRemoteInformation => gitRemoteFeatures.GitRemoteInformation;
 
 		/// <inheritdoc />
 		public bool Tracking => Reference != null && libGitRepo.Head.IsTracking;
@@ -64,7 +58,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string Reference => libGitRepo.Head.FriendlyName;
 
 		/// <inheritdoc />
-		public Uri Origin => new Uri(libGitRepo.Network.Remotes.First().Url);
+		public Uri Origin => new (libGitRepo.Network.Remotes.First().Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>.
@@ -179,32 +173,32 @@ namespace Tgstation.Server.Host.Components.Repository
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<bool?> AddTestMerge(
 			TestMergeParameters testMergeParameters,
+			JobProgressReporter progressReporter,
 			string committerName,
 			string committerEmail,
-			string username,
-			string password,
+			string? username,
+			string? password,
 			bool updateSubmodules,
-			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
 			if (testMergeParameters == null)
 				throw new ArgumentNullException(nameof(testMergeParameters));
+			if (progressReporter == null)
+				throw new ArgumentNullException(nameof(progressReporter));
 			if (committerName == null)
 				throw new ArgumentNullException(nameof(committerName));
 			if (committerEmail == null)
 				throw new ArgumentNullException(nameof(committerEmail));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
 
 			logger.LogDebug(
-				"Begin AddTestMerge: #{0} at {1} ({2}) by <{3} ({4})>",
+				"Begin AddTestMerge: #{number} at {sha} ({comment}) by <{username} ({email})>",
 				testMergeParameters.Number,
 				testMergeParameters.TargetCommitSha?.Substring(0, 7),
 				testMergeParameters.Comment,
 				committerName,
 				committerEmail);
 
-			if (RemoteGitProvider == Api.Models.RemoteGitProvider.Unknown)
+			if (gitRemoteFeatures.GitRemoteInformation == null)
 				throw new InvalidOperationException("Cannot test merge with an Unknown RemoteGitProvider!");
 
 			var commitMessage = String.Format(
@@ -225,7 +219,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			var originalCommit = libGitRepo.Head;
 
-			MergeResult result = null;
+			MergeResult? result = null;
 
 			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.UtcNow);
 			await Task.Factory.StartNew(
@@ -315,14 +309,14 @@ namespace Tgstation.Server.Host.Components.Repository
 				TaskScheduler.Current)
 				.ConfigureAwait(false);
 
-			if (result.Status == MergeStatus.Conflicts)
+			if (result!.Status == MergeStatus.Conflicts)
 			{
 				await eventConsumer.HandleEvent(
 					EventType.RepoMergeConflict,
 					new List<string>
 					{
 						originalCommit.Tip.Sha,
-						testMergeParameters.TargetCommitSha,
+						testMergeParameters.TargetCommitSha!,
 						originalCommit.FriendlyName ?? UnknownReference,
 						testMergeBranchName,
 					},
@@ -333,7 +327,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			if (result.Status != MergeStatus.UpToDate)
 			{
-				logger.LogTrace("Committing merge: \"{0}\"...", commitMessage);
+				logger.LogTrace("Committing merge: \"{commitMessage}\"...", commitMessage);
 				await Task.Factory.StartNew(
 					() => libGitRepo.Commit(commitMessage, sig, sig, new CommitOptions
 					{
@@ -346,7 +340,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 				if (updateSubmodules)
 					await UpdateSubmodules(
-						(stage, progress) => progressReporter(stage, 66 + (progress.Value / 3)),
+						(stage, progress) => progressReporter(stage, progress.HasValue ? 66 + (progress.Value / 3) : null),
 						username,
 						password,
 						cancellationToken).ConfigureAwait(false);
@@ -357,8 +351,8 @@ namespace Tgstation.Server.Host.Components.Repository
 				new List<string>
 				{
 					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),
-					testMergeParameters.TargetCommitSha,
-					testMergeParameters.Comment,
+					testMergeParameters.TargetCommitSha!,
+					testMergeParameters.Comment ?? String.Empty,
 				},
 				cancellationToken)
 				.ConfigureAwait(false);
@@ -369,17 +363,18 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public async Task CheckoutObject(
-			string committish,
-			string username,
-			string password,
-			bool updateSubmodules,
 			JobProgressReporter progressReporter,
+			string committish,
+			string? username,
+			string? password,
+			bool updateSubmodules,
 			CancellationToken cancellationToken)
 		{
-			if (committish == null)
-				throw new ArgumentNullException(nameof(committish));
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
+			if (committish == null)
+				throw new ArgumentNullException(nameof(committish));
+
 			logger.LogDebug("Checkout object: {0}...", committish);
 			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, cancellationToken).ConfigureAwait(false);
 			await Task.Factory.StartNew(
@@ -405,7 +400,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task FetchOrigin(string username, string password, JobProgressReporter progressReporter, CancellationToken cancellationToken)
+		public async Task FetchOrigin(JobProgressReporter progressReporter, string? username, string? password, CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
@@ -450,10 +445,10 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public async Task ResetToOrigin(
-			string username,
-			string password,
-			bool updateSubmodules,
 			JobProgressReporter progressReporter,
+			string? username,
+			string? password,
+			bool updateSubmodules,
 			CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
@@ -464,8 +459,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			var trackedBranch = libGitRepo.Head.TrackedBranch;
 			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken).ConfigureAwait(false);
 			await ResetToSha(
-				trackedBranch.Tip.Sha,
 				(stage, progress) => progressReporter(stage, progress / (updateSubmodules ? 2 : 1)),
+				trackedBranch.Tip.Sha,
 				cancellationToken)
 				.ConfigureAwait(false);
 
@@ -474,13 +469,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public Task ResetToSha(string sha, JobProgressReporter progressReporter, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public Task ResetToSha(JobProgressReporter progressReporter, string sha, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (sha == null)
-					throw new ArgumentNullException(nameof(sha));
 				if (progressReporter == null)
 					throw new ArgumentNullException(nameof(progressReporter));
+				if (sha == null)
+					throw new ArgumentNullException(nameof(sha));
 
 				logger.LogDebug("Reset to sha: {0}", sha.Substring(0, 7));
 
@@ -528,16 +523,16 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public async Task<bool?> MergeOrigin(
+			JobProgressReporter progressReporter,
 			string committerName,
 			string committerEmail,
-			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			MergeResult result = null;
-			Branch trackedBranch = null;
+			MergeResult? result = null;
+			Branch? trackedBranch = null;
 
 			var oldHead = libGitRepo.Head;
 			var oldTip = oldHead.Tip;
@@ -586,9 +581,19 @@ namespace Tgstation.Server.Host.Components.Repository
 				TaskScheduler.Current)
 				.ConfigureAwait(false);
 
-			if (result.Status == MergeStatus.Conflicts)
+			if (result!.Status == MergeStatus.Conflicts)
 			{
-				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { oldTip.Sha, trackedBranch.Tip.Sha, oldHead.FriendlyName ?? UnknownReference, trackedBranch.FriendlyName }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(
+					EventType.RepoMergeConflict,
+					new List<string>
+					{
+						oldTip.Sha,
+						trackedBranch!.Tip.Sha,
+						oldHead.FriendlyName ?? UnknownReference,
+						trackedBranch.FriendlyName,
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 				return null;
 			}
 
@@ -597,20 +602,20 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public async Task<bool> Sychronize(
-			string username,
-			string password,
+			JobProgressReporter progressReporter,
 			string committerName,
 			string committerEmail,
-			JobProgressReporter progressReporter,
+			string? username,
+			string? password,
 			bool synchronizeTrackedBranch,
 			CancellationToken cancellationToken)
 		{
+			if (progressReporter == null)
+				throw new ArgumentNullException(nameof(progressReporter));
 			if (committerName == null)
 				throw new ArgumentNullException(nameof(committerName));
 			if (committerEmail == null)
 				throw new ArgumentNullException(nameof(committerEmail));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
 
 			if (username == null && password == null)
 			{
@@ -670,7 +675,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					.ConfigureAwait(false);
 			}
 
-			void FinalReporter(string stage, int? progress) => progressReporter(stage, (int)(((float)progress) / 100 * 90));
+			void FinalReporter(string? stage, int? progress) => progressReporter(stage, progress.HasValue ? (int)(((float)progress) / 100 * 90) : null);
 
 			if (!synchronizeTrackedBranch)
 			{
@@ -839,9 +844,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				RunCheckout();
 			}
-			catch (NotFoundException)
+			catch (NotFoundException ex)
 			{
-				// Maybe (likely) a remote?
+				logger.LogTrace(ex, "Object not found locally, checking origin...");
 				var remoteName = $"origin/{committish}";
 				var potentialBranch = libGitRepo.Branches.FirstOrDefault(
 					branch => branch.FriendlyName.Equals(remoteName, StringComparison.Ordinal));
@@ -882,9 +887,23 @@ namespace Tgstation.Server.Host.Components.Repository
 					try
 					{
 						var forcePushString = String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName);
-						libGitRepo.Network.Push(remote, forcePushString, GeneratePushOptions((stage, progress) => progressReporter(stage, (int)(0.9f * progress)), username, password, cancellationToken));
+						libGitRepo.Network.Push(
+							remote,
+							forcePushString,
+							GeneratePushOptions(
+								(stage, progress) => progressReporter(stage, progress.HasValue ? (int)(0.9f * progress) : null),
+								username,
+								password,
+								cancellationToken));
 						var removalString = String.Format(CultureInfo.InvariantCulture, ":{0}", branch.CanonicalName);
-						libGitRepo.Network.Push(remote, removalString, GeneratePushOptions((stage, progress) => progressReporter(stage, 90 + (int)(0.1f * progress)), username, password, cancellationToken));
+						libGitRepo.Network.Push(
+							remote,
+							removalString,
+							GeneratePushOptions(
+								(stage, progress) => progressReporter(stage, progress.HasValue ? 90 + (int)(0.1f * progress) : null),
+								username,
+								password,
+								cancellationToken));
 					}
 					catch (UserCancelledException)
 					{
@@ -912,7 +931,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A new set of <see cref="PushOptions"/>.</returns>
-		PushOptions GeneratePushOptions(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken) => new PushOptions
+		PushOptions GeneratePushOptions(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken) => new ()
 		{
 			OnPackBuilderProgress = (stage, current, total) =>
 			{
@@ -937,7 +956,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task UpdateSubmodules(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken)
+		async Task UpdateSubmodules(JobProgressReporter progressReporter, string? username, string? password, CancellationToken cancellationToken)
 		{
 			var submoduleCount = libGitRepo.Submodules.Count();
 			if (submoduleCount == 0)
@@ -952,19 +971,19 @@ namespace Tgstation.Server.Host.Components.Repository
 			var factor = 100 / submoduleCount;
 			foreach (var submodule in libGitRepo.Submodules)
 			{
-				void LocalProgressReporter(string stage, int percentage) => progressReporter(stage, (iteration * factor) + (percentage / submoduleCount));
+				void LocalProgressReporter(string? stage, int? percentage) => progressReporter(stage, percentage.HasValue ? (iteration * factor) + (percentage.Value / submoduleCount) : null);
 				var submoduleUpdateOptions = new SubmoduleUpdateOptions
 				{
 					Init = true,
 					OnTransferProgress = TransferProgressHandler(
-						(stage, progress) => LocalProgressReporter(stage, progress.Value / 2),
+						(stage, progress) => LocalProgressReporter(stage, progress.HasValue ? progress.Value / 2 : null),
 						$"Fetch submodule {submodule.Name}",
 						cancellationToken),
 					OnProgress = output => !cancellationToken.IsCancellationRequested,
 					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 					OnCheckoutProgress = CheckoutProgressHandler(
-						(stage, progress) => LocalProgressReporter(stage, 50 + (progress.Value / 2)),
+						(stage, progress) => LocalProgressReporter(stage, progress.HasValue ? 50 + (progress.Value / 2) : null),
 						$"Checkout submodule {submodule.Name}"),
 				};
 

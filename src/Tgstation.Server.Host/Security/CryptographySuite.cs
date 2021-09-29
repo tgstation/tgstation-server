@@ -31,13 +31,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public byte[] GetSecureBytes(uint amount)
-		{
-			using var rng = new RNGCryptoServiceProvider();
-			var byt = new byte[amount];
-			rng.GetBytes(byt);
-			return byt;
-		}
+		public byte[] GetSecureBytes(uint amount) => RandomNumberGenerator.GetBytes(Convert.ToInt32(amount));
 
 		/// <inheritdoc />
 		public void SetUserPassword(User user, string newPassword, bool newUser)

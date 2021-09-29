@@ -42,12 +42,12 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of the launch.
 		/// </summary>
-		public DreamDaemonSecurity? SecurityLevel { get; }
+		public DreamDaemonSecurity SecurityLevel { get; }
 
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of the launch.
 		/// </summary>
-		public DreamDaemonVisibility? Visibility { get; }
+		public DreamDaemonVisibility Visibility { get; }
 
 		/// <summary>
 		/// The <see cref="TestMergeInformation"/>s in the launch.
@@ -70,8 +70,8 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			IDmbProvider dmbProvider,
 			Version serverVersion,
 			string instanceName,
-			DreamDaemonSecurity? securityLevel,
-			DreamDaemonVisibility? visibility,
+			DreamDaemonSecurity securityLevel,
+			DreamDaemonVisibility visibility,
 			ushort serverPort,
 			bool apiValidateOnly)
 			: base(chatTrackingContext?.Channels ?? throw new ArgumentNullException(nameof(chatTrackingContext)))
@@ -88,13 +88,14 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha,
 			};
 
-			TestMerges = (IReadOnlyCollection<TestMergeInformation>)dmbProvider
+			var fromDmbProvider = (IReadOnlyCollection<TestMergeInformation>?)dmbProvider
 				.CompileJob
 				.RevisionInformation
 				.ActiveTestMerges?
 				.Select(x => x.TestMerge)
 				.Select(x => new TestMergeInformation(x, Revision))
-				.ToList()
+				.ToList();
+			TestMerges = fromDmbProvider
 				?? Array.Empty<TestMergeInformation>();
 
 			InstanceName = instanceName ?? throw new ArgumentNullException(nameof(instanceName));

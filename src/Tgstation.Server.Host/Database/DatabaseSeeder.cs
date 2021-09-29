@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to add a system <see cref="User"/> to.</param>
 		/// <param name="tgsUser">An existing <see cref="User"/>, if any.</param>
 		/// <returns>The created system <see cref="User"/>.</returns>
-		static User SeedSystemUser(IDatabaseContext databaseContext, User tgsUser = null)
+		static User SeedSystemUser(IDatabaseContext databaseContext, User? tgsUser)
 		{
 			bool alreadyExists = tgsUser != null;
 			tgsUser ??= new User()
@@ -183,7 +183,7 @@ namespace Tgstation.Server.Host.Database
 			// Save here because we want admin to have the first DB Id
 			// The system user isn't shown in the API except by references in the admin user and jobs
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-			var tgsUser = SeedSystemUser(databaseContext);
+			var tgsUser = SeedSystemUser(databaseContext, null);
 			adminUser.CreatedBy = tgsUser;
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
@@ -309,7 +309,7 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the admin <see cref="User"/> or <see langword="null"/>. If <see langword="null"/>, <see cref="IDatabaseContext.Save(CancellationToken)"/> must be called on <paramref name="databaseContext"/>.</returns>
-		async Task<User> GetAdminUser(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		async Task<User?> GetAdminUser(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var admin = await databaseContext
 				.Users

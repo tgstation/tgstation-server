@@ -1,16 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-    <DocumentationFile></DocumentationFile>
+    <TargetFramework>net6.0-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,9 +18,4 @@
     <ProjectReference Include="..\..\src\Tgstation.Server.Host.Service\Tgstation.Server.Host.Service.csproj" />
     <ProjectReference Include="..\..\src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.ServiceProcess" />
-  </ItemGroup>
-
 </Project>

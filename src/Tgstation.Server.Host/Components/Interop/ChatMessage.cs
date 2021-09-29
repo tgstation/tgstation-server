@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Components.Interop
 {
@@ -10,11 +12,21 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The message <see cref="string"/>.
 		/// </summary>
-		public string Text { get; set; }
+		[Required]
+		public string Text { get; init; } = null!;
 
 		/// <summary>
 		/// The <see cref="ICollection{T}"/> of <see cref="Chat.ChannelRepresentation.Id"/>s to sent the <see cref="Text"/> to. Must be safe to parse as <see cref="ulong"/>s.
 		/// </summary>
-		public ICollection<string> ChannelIds { get; set; }
+		[Required]
+		public ICollection<string> ChannelIds { get; init; } = null!;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ChatMessage"/> class.
+		/// </summary>
+		[Obsolete("For JSON deserialization only", true)]
+		public ChatMessage()
+		{
+		}
 	}
 }

@@ -15,8 +15,9 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// Set the <see cref="JobResponse.Progress"/> and <see cref="JobResponse.Stage"/> for a given <paramref name="apiResponse"/>.
 		/// </summary>
+		/// <param name="jobModel">The <see cref="Job"/>.</param>
 		/// <param name="apiResponse">The <see cref="JobResponse"/> to update.</param>
-		void SetJobProgress(JobResponse apiResponse);
+		void SetJobProgress(Job jobModel, JobResponse apiResponse);
 
 		/// <summary>
 		/// Registers a given <see cref="Job"/> and begins running it.
@@ -35,7 +36,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="jobCancellationToken">A <see cref="CancellationToken"/> that will cancel the <paramref name="job"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the <see cref="Job"/>.</returns>
-		Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken);
+		Task WaitForJobCompletion(Job job, User? canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Cancels a give <paramref name="job"/>.
@@ -45,7 +46,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="blocking">If the operation should wait until the job exits before completing.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <paramref name="job"/> if it was cancelled, <see langword="null"/> if it couldn't be found.</returns>
-		Task<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken);
+		Task<Job?> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Activate the <see cref="IJobManager"/>.
