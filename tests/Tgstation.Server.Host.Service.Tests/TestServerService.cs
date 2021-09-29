@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Service.Tests
 			var mockWatchdog = new Mock<IWatchdog>();
 			var args = Array.Empty<string>();
 			CancellationToken cancellationToken;
-			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
+			mockWatchdog.Setup(x => x.RunAsync(false, It.IsNotNull<string[]>(), It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
 			var mockLogger = Mock.Of<ILogger<ServerService>>();
 
 			var service = new ServerService(mockWatchdog.Object, mockLogger);
