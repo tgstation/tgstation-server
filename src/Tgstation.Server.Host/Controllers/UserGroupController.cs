@@ -219,7 +219,7 @@ namespace Tgstation.Server.Host.Controllers
 			var numDeleted = await DatabaseContext
 				.Groups
 				.AsQueryable()
-				.Where(x => x.Id == id && x.Users.Count == 0)
+				.Where(x => ((NamedEntity)x).Id == id && x.Users.Count == 0)
 				.DeleteAsync(cancellationToken)
 				.ConfigureAwait(false);
 
