@@ -46,7 +46,7 @@ namespace Tgstation.Server.Tests
 			ChatBotLimit = 2
 		}, cancellationToken);
 
-		static TRequestType FromResponse<TRequestType>(InstanceResponse response) where TRequestType : Api.Models.Instance, new() => new TRequestType
+		static TRequestType FromResponse<TRequestType>(InstanceResponse response) where TRequestType : Api.Models.Instance, new() => new ()
 		{
 			Id = response.Id,
 			Path = response.Path,
@@ -181,7 +181,7 @@ namespace Tgstation.Server.Tests
 			var token = serverClient.Token.Bearer;
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
-			using var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ListRoute(Routes.InstanceManager).Substring(1) + "?pageSize=2");
+			using var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.ListRoute(Routes.InstanceManager)[1..] + "?pageSize=2");
 			request.Headers.Accept.Clear();
 			request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RegressionTest1256", "1.0.0"));
 			request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
@@ -190,7 +190,7 @@ namespace Tgstation.Server.Tests
 			using var response = await httpClient.SendAsync(request, cancellationToken);
 			response.EnsureSuccessStatusCode();
 
-			var json = await response.Content.ReadAsStringAsync();
+			var json = await response.Content.ReadAsStringAsync(cancellationToken);
 			var paginated = JsonConvert.DeserializeObject<PaginatedResponse<InstanceResponse>>(json);
 
 			Assert.AreEqual(2, paginated.PageSize);
