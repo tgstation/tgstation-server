@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Serilog.Context;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.System;
@@ -64,6 +66,7 @@ namespace Tgstation.Server.Host.Extensions
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
+
 			applicationBuilder.Use(async (context, next) =>
 			{
 				var logger = GetLogger(context);
@@ -86,6 +89,7 @@ namespace Tgstation.Server.Host.Extensions
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
+
 			applicationBuilder.Use(async (context, next) =>
 			{
 				var logger = GetLogger(context);
@@ -110,6 +114,22 @@ namespace Tgstation.Server.Host.Extensions
 					})
 					.ConfigureAwait(false);
 				}
+			});
+		}
+
+		/// <summary>
+		/// Suppress all in flight <see cref="Exception"/>s for the request with error 500.
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
+		public static void UseRequestLoggingContext(this IApplicationBuilder applicationBuilder)
+		{
+			if (applicationBuilder == null)
+				throw new ArgumentNullException(nameof(applicationBuilder));
+
+			applicationBuilder.Use(async (context, next) =>
+			{
+				using (LogContext.PushProperty("Request", $"{context.Request.Method} {context.Request.Path}"))
+					await next().ConfigureAwait(false);
 			});
 		}
 

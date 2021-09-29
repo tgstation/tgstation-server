@@ -416,7 +416,10 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			// setup the HTTP request pipeline
-			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
+			// Add the request context to log messages
+			applicationBuilder.UseRequestLoggingContext();
+
+			// Wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
 
 			// Add the X-Powered-By response header

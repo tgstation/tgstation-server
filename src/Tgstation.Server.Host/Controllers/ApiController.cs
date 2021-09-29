@@ -186,7 +186,6 @@ namespace Tgstation.Server.Host.Controllers
 			using (authenticationContext != null
 				? LogContext.PushProperty("User", AuthenticationContext.User.Id)
 				: null)
-			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
 			{
 				if (ApiHeaders != null)
 					Logger.LogDebug(
