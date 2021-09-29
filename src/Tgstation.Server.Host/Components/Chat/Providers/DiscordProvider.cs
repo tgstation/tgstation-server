@@ -610,7 +610,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				try
 				{
-					await gatewayReadyTcs.Task.ConfigureAwait(false);
+					await Task.WhenAny(gatewayReadyTcs.Task, localGatewayTask.Task).ConfigureAwait(false);
 
 					if (localGatewayTask.Task.IsCompleted)
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
