@@ -402,13 +402,13 @@ namespace Tgstation.Server.Host.Core
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
 
-			logger.LogDebug("Content Root: {0}", hostingEnvironment.ContentRootPath);
-			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
+			logger.LogDebug("Content Root: {contentRootPath}", hostingEnvironment.ContentRootPath);
+			logger.LogTrace("Web Root: {webRootPath}", hostingEnvironment.WebRootPath);
 
 			if (generalConfiguration.MinimumPasswordLength > Limits.MaximumStringLength)
 			{
 				logger.LogCritical(
-					"Configured minimum password length ({0}) is greater than the maximum database string length ({1})!",
+					"Configured minimum password length ({minimumPasswordLength}) is greater than the maximum database string length ({maximumDBStringLength})!",
 					generalConfiguration.MinimumPasswordLength,
 					Limits.MaximumStringLength);
 				serverControl.Die(new InvalidOperationException("Minimum password length greater than database limit!"));
@@ -449,7 +449,7 @@ namespace Tgstation.Server.Host.Core
 			}
 			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
 			{
-				logger.LogTrace("Access-Control-Allow-Origin: {0}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
+				logger.LogTrace("Access-Control-Allow-Origin: {allowedOrigins}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
 				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
 			}
 
@@ -490,11 +490,11 @@ namespace Tgstation.Server.Host.Core
 			// 404 anything that gets this far
 			// End of request pipeline setup
 			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
-			logger.LogTrace("Configuration version: {0}", masterVersionsAttribute.RawConfigurationVersion);
-			logger.LogTrace("DMAPI Interop version: {0}", masterVersionsAttribute.RawInteropVersion);
-			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
+			logger.LogTrace("Configuration version: {configVersion}", masterVersionsAttribute.RawConfigurationVersion);
+			logger.LogTrace("DMAPI Interop version: {interopVersion}", masterVersionsAttribute.RawInteropVersion);
+			logger.LogTrace("Web control panel version: {webPanelVersion}", masterVersionsAttribute.RawControlPanelVersion);
 
-			logger.LogDebug("Starting hosting on port {0}...", serverPortProvider.HttpApiPort);
+			logger.LogDebug("Starting hosting on port {apiPort}...", serverPortProvider.HttpApiPort);
 		}
 
 		/// <inheritdoc />
