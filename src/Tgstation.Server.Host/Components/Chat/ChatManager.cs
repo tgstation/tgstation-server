@@ -593,41 +593,66 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 
 			// map the channel if it's private and we haven't seen it
+			KeyValuePair<ulong, ChannelMapping>? mappedChannel;
+			long providerId;
 			lock (providers)
 			{
-				var providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
-				var enumerable = mappedChannels.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == message.User.Channel.RealId);
-				if (message.User.Channel.IsPrivateChannel)
-					lock (mappedChannels)
-						if (!enumerable.Any())
+				providerId = providers
+					.Where(x => x.Value == provider)
+					.Select(x => x.Key)
+					.First();
+				mappedChannel = mappedChannels
+					.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == message.User.Channel.RealId)
+					.FirstOrDefault();
+			}
+
+			if (message.User.Channel.IsPrivateChannel)
+				lock (mappedChannels)
+					if (!mappedChannel.HasValue)
+					{
+						ulong newId;
+						lock (synchronizationLock)
+							newId = channelIdCounter++;
+						logger.LogTrace(
+							"Mapping private channel {0}:{1} as {2}",
+							message.User.Channel.ConnectionName,
+							message.User.FriendlyName,
+							newId);
+						mappedChannels.Add(newId, new ChannelMapping
 						{
-							ulong newId;
-							lock (synchronizationLock)
-								newId = channelIdCounter++;
-							logger.LogTrace(
-								"Mapping private channel {0}:{1} as {2}",
-								message.User.Channel.ConnectionName,
-								message.User.FriendlyName,
-								newId);
-							mappedChannels.Add(newId, new ChannelMapping
-							{
-								IsWatchdogChannel = false,
-								ProviderChannelId = message.User.Channel.RealId,
-								ProviderId = providerId,
-								Channel = message.User.Channel,
-							});
-							message.User.Channel.RealId = newId;
-						}
-						else
-							message.User.Channel.RealId = enumerable.First().Key;
-				else
+							IsWatchdogChannel = false,
+							ProviderChannelId = message.User.Channel.RealId,
+							ProviderId = providerId,
+							Channel = message.User.Channel,
+						});
+						message.User.Channel.RealId = newId;
+					}
+					else
+						message.User.Channel.RealId = mappedChannel.Value.Key;
+			else
+			{
+				if (!mappedChannel.HasValue)
 				{
-					// need to add tag and isAdminChannel
-					var mapping = enumerable.First().Value;
-					message.User.Channel.Id = mapping.Channel.Id;
-					message.User.Channel.Tag = mapping.Channel.Tag;
-					message.User.Channel.IsAdminChannel = mapping.Channel.IsAdminChannel;
+					logger.LogError(
+						"Error mapping message: Provider ID: {providerId}, Channel Real ID: {realId}",
+						providerId,
+						message.User.Channel.RealId);
+					await SendMessage(
+						"Processing error, check logs!",
+						new List<ulong>
+						{
+							message.User.Channel.RealId,
+						},
+						cancellationToken)
+						.ConfigureAwait(false);
+					return;
 				}
+
+				var mapping = mappedChannel.Value.Value;
+
+				message.User.Channel.Id = mapping.Channel.Id;
+				message.User.Channel.Tag = mapping.Channel.Tag;
+				message.User.Channel.IsAdminChannel = mapping.Channel.IsAdminChannel;
 			}
 
 			var splits = new List<string>(message.Content.Trim().Split(' '));
@@ -795,12 +820,12 @@ namespace Tgstation.Server.Host.Components.Chat
 						async Task WrapProcessMessage()
 						{
 							var localActiveProcessingTask = activeProcessingTask;
-							await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
+							using (LogContext.PushProperty("ChatMessage", messageNumber))
+								await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
 							await localActiveProcessingTask.ConfigureAwait(false);
 						}
 
-						using (LogContext.PushProperty("ChatMessage", messageNumber))
-							activeProcessingTask = WrapProcessMessage();
+						activeProcessingTask = WrapProcessMessage();
 
 						messageTasks.Remove(completedMessageTaskKvp.Key);
 					}
