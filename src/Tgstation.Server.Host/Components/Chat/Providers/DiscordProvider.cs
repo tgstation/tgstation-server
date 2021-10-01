@@ -489,6 +489,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task<Result> RespondAsync(IMessageCreate messageCreateEvent, CancellationToken cancellationToken)
 		{
+			if (messageCreateEvent == null)
+				throw new ArgumentNullException(nameof(messageCreateEvent));
+
 			if ((messageCreateEvent.Type != MessageType.Default
 				&& messageCreateEvent.Type != MessageType.InlineReply)
 				|| messageCreateEvent.Author.ID == currentUserId)
@@ -582,6 +585,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public Task<Result> RespondAsync(IReady readyEvent, CancellationToken cancellationToken)
 		{
+			if (readyEvent == null)
+				throw new ArgumentNullException(nameof(readyEvent));
+
+			Logger.LogTrace("Gatway ready. Version: {version}", readyEvent.Version);
 			gatewayReadyTcs?.TrySetResult(null);
 			return Task.FromResult(Result.FromSuccess());
 		}
