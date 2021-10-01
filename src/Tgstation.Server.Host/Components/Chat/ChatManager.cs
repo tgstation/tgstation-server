@@ -795,12 +795,12 @@ namespace Tgstation.Server.Host.Components.Chat
 						async Task WrapProcessMessage()
 						{
 							var localActiveProcessingTask = activeProcessingTask;
-							await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
+							using (LogContext.PushProperty("ChatMessage", messageNumber))
+								await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
 							await localActiveProcessingTask.ConfigureAwait(false);
 						}
 
-						using (LogContext.PushProperty("ChatMessage", messageNumber))
-							activeProcessingTask = WrapProcessMessage();
+						activeProcessingTask = WrapProcessMessage();
 
 						messageTasks.Remove(completedMessageTaskKvp.Key);
 					}
