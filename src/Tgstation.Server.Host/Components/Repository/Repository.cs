@@ -1020,7 +1020,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		CheckoutProgressHandler CheckoutProgressHandler(JobProgressReporter progressReporter, string stage) => (a, completedSteps, totalSteps) =>
 		{
 			int? percentage;
-			if (totalSteps > completedSteps || totalSteps == 0)
+			if (totalSteps < completedSteps || totalSteps == 0)
 				percentage = null;
 			else
 			{
@@ -1053,7 +1053,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			float? percentage;
 			var totalObjectsToProcess = transferProgress.TotalObjects * 2;
 			var processedObjects = transferProgress.IndexedObjects + transferProgress.ReceivedObjects;
-			if (totalObjectsToProcess > processedObjects || totalObjectsToProcess == 0)
+			if (totalObjectsToProcess < processedObjects || totalObjectsToProcess == 0)
 				percentage = null;
 			else
 			{
