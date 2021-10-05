@@ -593,16 +593,20 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 
 			// map the channel if it's private and we haven't seen it
+			var providerChannelId = message.User.Channel.RealId;
 			KeyValuePair<ulong, ChannelMapping>? mappedChannel;
 			long providerId;
 			lock (providers)
 			{
+				// important, otherwise we could end up processing during shutdown
+				cancellationToken.ThrowIfCancellationRequested();
+
 				providerId = providers
 					.Where(x => x.Value == provider)
 					.Select(x => x.Key)
 					.First();
 				mappedChannel = mappedChannels
-					.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == message.User.Channel.RealId)
+					.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == providerChannelId)
 					.FirstOrDefault();
 			}
 
@@ -648,7 +652,8 @@ namespace Tgstation.Server.Host.Components.Chat
 					return;
 				}
 
-				var mapping = mappedChannel.Value.Value;
+				var mappingNonNullableKvp = mappedChannel.Value;
+				var mapping = mappingNonNullableKvp.Value;
 
 				message.User.Channel.Id = mapping.Channel.Id;
 				message.User.Channel.Tag = mapping.Channel.Tag;
