@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.15.1</span>
+   &#160;<span id="projectnumber">4.15.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -481,70 +481,70 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a96305dc74c77224130e4067f19b59407">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00590">590</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;        {</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;            {</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;                lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a01881ab9506db0431f75db21224bf7e6">connectDisconnectLock</a>)</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                {</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;                    <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a> != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Discord gateway still active!&quot;</span>);</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160; </div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;                }</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160; </div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                var gatewayCancellationToken = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a>.Token;</div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;                var gatewayClient = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;DiscordGatewayClient&gt;();</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160; </div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;                Task&lt;Result&gt; localGatewayTask;</div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">gatewayReadyTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160; </div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;                <span class="keyword">using</span> var gatewayConnectionAbortRegistration = cancellationToken.Register(() =&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">gatewayReadyTcs</a>.TrySetCanceled());</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160; </div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;                <span class="comment">// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter</span></div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;                localGatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);</div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                {</div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;                    await Task.WhenAny(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">gatewayReadyTcs</a>.Task, localGatewayTask).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160; </div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;                    <span class="keywordflow">if</span> (localGatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ChatCannotConnectProvider);</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160; </div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                    var userClient = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;IDiscordRestUserAPI&gt;();</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160; </div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                    <span class="keyword">using</span> var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;                    var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;                    <span class="keywordflow">if</span> (!currentUserResult.IsSuccess)</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;                    {</div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(<span class="stringliteral">&quot;Unable to retrieve current user: {0}&quot;</span>, currentUserResult.Error.Message);</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ChatCannotConnectProvider);</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;                    }</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160; </div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a38455db633742e90572b9a83aa681831">currentUserId</a> = currentUserResult.Entity.ID;</div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;                }</div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;                <span class="keywordflow">finally</span></div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;                {</div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a331c4c449274e3681d766a5901e35a0b">gatewayTask</a> = localGatewayTask;</div>
-<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;                }</div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;            }</div>
-<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;            <span class="keywordflow">catch</span></div>
-<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;            {</div>
-<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;                <span class="comment">// will handle cleanup</span></div>
-<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;                <span class="comment">// DCT: Musn&#39;t abort</span></div>
-<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae4da9b25c89c74b4e2d70fdfb7f8c894">DisconnectImpl</a>(<span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;                <span class="keywordflow">throw</span>;</div>
+<p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00597">597</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;        {</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;            <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;            {</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;                lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a01881ab9506db0431f75db21224bf7e6">connectDisconnectLock</a>)</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                {</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;                    <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a> != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Discord gateway still active!&quot;</span>);</div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160; </div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;                }</div>
+<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160; </div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;                var gatewayCancellationToken = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a>.Token;</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;                var gatewayClient = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;DiscordGatewayClient&gt;();</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160; </div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                Task&lt;Result&gt; localGatewayTask;</div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">gatewayReadyTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160; </div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                <span class="keyword">using</span> var gatewayConnectionAbortRegistration = cancellationToken.Register(() =&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">gatewayReadyTcs</a>.TrySetCanceled());</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160; </div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                <span class="comment">// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter</span></div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                localGatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);</div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                {</div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                    await Task.WhenAny(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">gatewayReadyTcs</a>.Task, localGatewayTask).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160; </div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;                    <span class="keywordflow">if</span> (localGatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)</div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ChatCannotConnectProvider);</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160; </div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                    var userClient = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;IDiscordRestUserAPI&gt;();</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160; </div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;                    <span class="keyword">using</span> var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);</div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                    var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;                    <span class="keywordflow">if</span> (!currentUserResult.IsSuccess)</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;                    {</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(<span class="stringliteral">&quot;Unable to retrieve current user: {0}&quot;</span>, currentUserResult.Error.Message);</div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ChatCannotConnectProvider);</div>
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;                    }</div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160; </div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a38455db633742e90572b9a83aa681831">currentUserId</a> = currentUserResult.Entity.ID;</div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;                }</div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;                <span class="keywordflow">finally</span></div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;                {</div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a331c4c449274e3681d766a5901e35a0b">gatewayTask</a> = localGatewayTask;</div>
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;                }</div>
 <div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;            }</div>
-<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;        }</div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;            <span class="keywordflow">catch</span></div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;            {</div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;                <span class="comment">// will handle cleanup</span></div>
+<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;                <span class="comment">// DCT: Musn&#39;t abort</span></div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae4da9b25c89c74b4e2d70fdfb7f8c894">DisconnectImpl</a>(<span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;                <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;            }</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a331c4c449274e3681d766a5901e35a0b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a331c4c449274e3681d766a5901e35a0b">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayTask</a></div><div class="ttdeci">Task&lt; Result &gt; gatewayTask</div><div class="ttdoc">The Task representing the lifetime of the client.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00089">DiscordProvider.cs:89</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a38455db633742e90572b9a83aa681831"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a38455db633742e90572b9a83aa681831">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.currentUserId</a></div><div class="ttdeci">Snowflake currentUserId</div><div class="ttdoc">The bot's Snowflake.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00094">DiscordProvider.cs:94</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a6b6a170efd3f74b5c5f12cc41d7d0b5f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayCts</a></div><div class="ttdeci">CancellationTokenSource gatewayCts</div><div class="ttdoc">The CancellationTokenSource for the gatewayTask.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00079">DiscordProvider.cs:79</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_ad789ecc727bed6320d87df9734cf34b6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayReadyTcs</a></div><div class="ttdeci">TaskCompletionSource&lt; object &gt; gatewayReadyTcs</div><div class="ttdoc">The TaskCompletionSource&lt;TResult&gt; for the initial gateway connection event.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00084">DiscordProvider.cs:84</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_ae4da9b25c89c74b4e2d70fdfb7f8c894"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae4da9b25c89c74b4e2d70fdfb7f8c894">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl</a></div><div class="ttdeci">override async Task DisconnectImpl(CancellationToken cancellationToken)</div><div class="ttdoc">Gracefully disconnects the provider.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00646">DiscordProvider.cs:646</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_ae4da9b25c89c74b4e2d70fdfb7f8c894"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae4da9b25c89c74b4e2d70fdfb7f8c894">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl</a></div><div class="ttdeci">override async Task DisconnectImpl(CancellationToken cancellationToken)</div><div class="ttdoc">Gracefully disconnects the provider.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00653">DiscordProvider.cs:653</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_ab24337ff80dfef1a9657f7106758a8c3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a></div><div class="ttdeci">ILogger&lt; Provider &gt; Logger</div><div class="ttdoc">The ILogger for the Provider.</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00029">Provider.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition:</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.connectDisconnectLock</a>, <a class="el" href="_discord_provider_8cs_source.html#l00094">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.currentUserId</a>, <a class="el" href="_discord_provider_8cs_source.html#l00646">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00079">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayCts</a>, <a class="el" href="_discord_provider_8cs_source.html#l00084">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayReadyTcs</a>, <a class="el" href="_discord_provider_8cs_source.html#l00089">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayTask</a>, <a class="el" href="_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00054">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.serviceProvider</a>.</p>
+<p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.connectDisconnectLock</a>, <a class="el" href="_discord_provider_8cs_source.html#l00094">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.currentUserId</a>, <a class="el" href="_discord_provider_8cs_source.html#l00653">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00079">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayCts</a>, <a class="el" href="_discord_provider_8cs_source.html#l00084">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayReadyTcs</a>, <a class="el" href="_discord_provider_8cs_source.html#l00089">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayTask</a>, <a class="el" href="_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00054">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.serviceProvider</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -585,31 +585,31 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a627edd03f216fa53e443b1901cf5599c">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00646">646</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;        {</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;            Task&lt;Result&gt; localGatewayTask;</div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;            CancellationTokenSource localGatewayCts;</div>
-<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;            lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a01881ab9506db0431f75db21224bf7e6">connectDisconnectLock</a>)</div>
-<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;            {</div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;                localGatewayTask = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a331c4c449274e3681d766a5901e35a0b">gatewayTask</a>;</div>
-<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;                localGatewayCts = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a>;</div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a331c4c449274e3681d766a5901e35a0b">gatewayTask</a> = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a> = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;                <span class="keywordflow">if</span> (localGatewayTask == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;            }</div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160; </div>
-<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;            localGatewayCts.Cancel();</div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;            var gatewayResult = await localGatewayTask.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;            <span class="keywordflow">if</span> (!gatewayResult.IsSuccess)</div>
-<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(<span class="stringliteral">&quot;Gateway issue: {0}&quot;</span>, gatewayResult.Error.Message);</div>
-<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160; </div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;            localGatewayCts.Dispose();</div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00653">653</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;        {</div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;            Task&lt;Result&gt; localGatewayTask;</div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;            CancellationTokenSource localGatewayCts;</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;            lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a01881ab9506db0431f75db21224bf7e6">connectDisconnectLock</a>)</div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;            {</div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;                localGatewayTask = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a331c4c449274e3681d766a5901e35a0b">gatewayTask</a>;</div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;                localGatewayCts = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a>;</div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a331c4c449274e3681d766a5901e35a0b">gatewayTask</a> = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f">gatewayCts</a> = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;                <span class="keywordflow">if</span> (localGatewayTask == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;            }</div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160; </div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;            localGatewayCts.Cancel();</div>
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;            var gatewayResult = await localGatewayTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;            <span class="keywordflow">if</span> (!gatewayResult.IsSuccess)</div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(<span class="stringliteral">&quot;Gateway issue: {0}&quot;</span>, gatewayResult.Error.Message);</div>
+<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160; </div>
+<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;            localGatewayCts.Dispose();</div>
+<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.connectDisconnectLock</a>, <a class="el" href="_discord_provider_8cs_source.html#l00079">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayCts</a>, <a class="el" href="_discord_provider_8cs_source.html#l00089">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayTask</a>, and <a class="el" href="_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00590">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00597">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -877,95 +877,98 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00490">490</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;        {</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;            <span class="keywordflow">if</span> ((messageCreateEvent.Type != MessageType.Default</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;                &amp;&amp; messageCreateEvent.Type != MessageType.InlineReply)</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;                || messageCreateEvent.Author.ID == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a38455db633742e90572b9a83aa681831">currentUserId</a>)</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;                <span class="keywordflow">return</span> Result.FromSuccess();</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160; </div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a0ded452b4301f7d7dc776c15cbb76956">basedMeme</a> &amp;&amp; messageCreateEvent.Content.Equals(<span class="stringliteral">&quot;Based on what?&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;            {</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                <span class="comment">// DCT: None available</span></div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd">SendMessage</a>(</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                    messageCreateEvent.ChannelID.Value,</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;                    <span class="stringliteral">&quot;https://youtu.be/LrNu-SuFF_o&quot;</span>,</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                    <span class="keywordflow">default</span>)</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                    .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                <span class="keywordflow">return</span> Result.FromSuccess();</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;            }</div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160; </div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;            var channelsClient = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;IDiscordRestChannelAPI&gt;();</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;            var channelResponse = await channelsClient.GetChannelAsync(messageCreateEvent.ChannelID, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;            <span class="keywordflow">if</span> (!channelResponse.IsSuccess)</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;            {</div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(</div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                    <span class="stringliteral">&quot;Failed to get channel {0} in response to message {1}!&quot;</span>,</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;                    messageCreateEvent.ChannelID,</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                    messageCreateEvent.ID);</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160; </div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                <span class="comment">// we&#39;ll handle the errors ourselves</span></div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;                <span class="keywordflow">return</span> Result.FromSuccess();</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;            }</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160; </div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;            var pm = channelResponse.Entity.Type == ChannelType.DM || channelResponse.Entity.Type == ChannelType.GroupDM;</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;            var shouldNotAnswer = !pm;</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;            <span class="keywordflow">if</span> (shouldNotAnswer)</div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;                lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>)</div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;                    shouldNotAnswer = !<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>.Contains(messageCreateEvent.ChannelID.Value);</div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160; </div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;            var content = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>(messageCreateEvent.Content);</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;            var mentionedUs = messageCreateEvent.Mentions.Any(x =&gt; x.ID == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a38455db633742e90572b9a83aa681831">currentUserId</a>)</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;                || (!shouldNotAnswer &amp;&amp; content.Split(<span class="charliteral">&#39; &#39;</span>).First().Equals(ChatManager.CommonMention, StringComparison.OrdinalIgnoreCase));</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160; </div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;            <span class="keywordflow">if</span> (shouldNotAnswer)</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;            {</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;                <span class="keywordflow">if</span> (mentionedUs)</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(</div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;                        <span class="stringliteral">&quot;Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!&quot;</span>,</div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;                        messageCreateEvent.ChannelID,</div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;                        channelResponse.Entity.Name,</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;                        messageCreateEvent.Author.ID,</div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;                        messageCreateEvent.Author.Username);</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160; </div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;                <span class="keywordflow">return</span> Result.FromSuccess();</div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;            }</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;            <span class="keywordflow">if</span> (messageCreateEvent == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(messageCreateEvent));</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160; </div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;            <span class="keywordflow">if</span> ((messageCreateEvent.Type != MessageType.Default</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;                &amp;&amp; messageCreateEvent.Type != MessageType.InlineReply)</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                || messageCreateEvent.Author.ID == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a38455db633742e90572b9a83aa681831">currentUserId</a>)</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                <span class="keywordflow">return</span> Result.FromSuccess();</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160; </div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a0ded452b4301f7d7dc776c15cbb76956">basedMeme</a> &amp;&amp; messageCreateEvent.Content.Equals(<span class="stringliteral">&quot;Based on what?&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;            {</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;                <span class="comment">// DCT: None available</span></div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd">SendMessage</a>(</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                    messageCreateEvent.ChannelID.Value,</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                    <span class="stringliteral">&quot;https://youtu.be/LrNu-SuFF_o&quot;</span>,</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;                    <span class="keywordflow">default</span>)</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;                <span class="keywordflow">return</span> Result.FromSuccess();</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;            }</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160; </div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;            var channelsClient = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;IDiscordRestChannelAPI&gt;();</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;            var channelResponse = await channelsClient.GetChannelAsync(messageCreateEvent.ChannelID, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;            <span class="keywordflow">if</span> (!channelResponse.IsSuccess)</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;            {</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;                    <span class="stringliteral">&quot;Failed to get channel {0} in response to message {1}!&quot;</span>,</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                    messageCreateEvent.ChannelID,</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;                    messageCreateEvent.ID);</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160; </div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;                <span class="comment">// we&#39;ll handle the errors ourselves</span></div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                <span class="keywordflow">return</span> Result.FromSuccess();</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;            }</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160; </div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;            var pm = channelResponse.Entity.Type == ChannelType.DM || channelResponse.Entity.Type == ChannelType.GroupDM;</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;            var shouldNotAnswer = !pm;</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;            <span class="keywordflow">if</span> (shouldNotAnswer)</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;                lock (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>)</div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;                    shouldNotAnswer = !<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>.Contains(messageCreateEvent.ChannelID.Value);</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160; </div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;            var content = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>(messageCreateEvent.Content);</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;            var mentionedUs = messageCreateEvent.Mentions.Any(x =&gt; x.ID == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a38455db633742e90572b9a83aa681831">currentUserId</a>)</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;                || (!shouldNotAnswer &amp;&amp; content.Split(<span class="charliteral">&#39; &#39;</span>).First().Equals(ChatManager.CommonMention, StringComparison.OrdinalIgnoreCase));</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160; </div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;            <span class="keywordflow">if</span> (shouldNotAnswer)</div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;            {</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;                <span class="keywordflow">if</span> (mentionedUs)</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;                        <span class="stringliteral">&quot;Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!&quot;</span>,</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;                        messageCreateEvent.ChannelID,</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;                        channelResponse.Entity.Name,</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;                        messageCreateEvent.Author.ID,</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;                        messageCreateEvent.Author.Username);</div>
 <div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160; </div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;            <span class="keywordtype">string</span> guildName = <span class="stringliteral">&quot;UNKNOWN&quot;</span>;</div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;            <span class="keywordflow">if</span> (!pm)</div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;            {</div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;                var guildsClient = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;IDiscordRestGuildAPI&gt;();</div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;                var messageGuildResponse = await guildsClient.GetGuildAsync(messageCreateEvent.GuildID.Value, <span class="keyword">false</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;                <span class="keywordflow">if</span> (messageGuildResponse.IsSuccess)</div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;                    guildName = messageGuildResponse.Entity.Name;</div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(</div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                        <span class="stringliteral">&quot;Failed to get channel {0} in response to message {1}!&quot;</span>,</div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;                        messageCreateEvent.ChannelID,</div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;                        messageCreateEvent.ID);</div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;            }</div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160; </div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;            var result = <span class="keyword">new</span> Message</div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;            {</div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;                Content = content,</div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> = <span class="keyword">new</span> ChatUser</div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;                {</div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;                    RealId = messageCreateEvent.Author.ID.Value,</div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;                    Channel = <span class="keyword">new</span> ChannelRepresentation</div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;                    {</div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                        RealId = messageCreateEvent.ChannelID.Value,</div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                        IsPrivateChannel = pm,</div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                        ConnectionName = pm ? messageCreateEvent.Author.Username : guildName,</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                        FriendlyName = channelResponse.Entity.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a74805e22cab51569d1d1aa098d62c9d3">Name</a>.Value,</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160; </div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                        <span class="comment">// isAdmin and Tag populated by manager</span></div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                    },</div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;                    FriendlyName = messageCreateEvent.Author.Username,</div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;                    Mention = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>($<span class="stringliteral">&quot;&lt;@{messageCreateEvent.Author.ID}&gt;&quot;</span>),</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;                },</div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;            };</div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160; </div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(result);</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;            <span class="keywordflow">return</span> Result.FromSuccess();</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;        }</div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;                <span class="keywordflow">return</span> Result.FromSuccess();</div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;            }</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160; </div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;            <span class="keywordtype">string</span> guildName = <span class="stringliteral">&quot;UNKNOWN&quot;</span>;</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;            <span class="keywordflow">if</span> (!pm)</div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;            {</div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;                var guildsClient = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;IDiscordRestGuildAPI&gt;();</div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;                var messageGuildResponse = await guildsClient.GetGuildAsync(messageCreateEvent.GuildID.Value, <span class="keyword">false</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;                <span class="keywordflow">if</span> (messageGuildResponse.IsSuccess)</div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                    guildName = messageGuildResponse.Entity.Name;</div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;                        <span class="stringliteral">&quot;Failed to get channel {0} in response to message {1}!&quot;</span>,</div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;                        messageCreateEvent.ChannelID,</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;                        messageCreateEvent.ID);</div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;            }</div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160; </div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;            var result = <span class="keyword">new</span> Message</div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;            {</div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;                Content = content,</div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> = <span class="keyword">new</span> ChatUser</div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;                {</div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                    RealId = messageCreateEvent.Author.ID.Value,</div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                    Channel = <span class="keyword">new</span> ChannelRepresentation</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                    {</div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                        RealId = messageCreateEvent.ChannelID.Value,</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                        IsPrivateChannel = pm,</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                        ConnectionName = pm ? messageCreateEvent.Author.Username : guildName,</div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                        FriendlyName = channelResponse.Entity.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a74805e22cab51569d1d1aa098d62c9d3">Name</a>.Value,</div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160; </div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;                        <span class="comment">// isAdmin and Tag populated by manager</span></div>
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;                    },</div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;                    FriendlyName = messageCreateEvent.Author.Username,</div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;                    Mention = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>($<span class="stringliteral">&quot;&lt;@{messageCreateEvent.Author.ID}&gt;&quot;</span>),</div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                },</div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;            };</div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160; </div>
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(result);</div>
+<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;            <span class="keywordflow">return</span> Result.FromSuccess();</div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name_html_a74805e22cab51569d1d1aa098d62c9d3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a74805e22cab51569d1d1aa098d62c9d3">Tgstation.Server.Api.Models.UserName.Name</a></div><div class="ttdeci">override? string Name</div><div class="ttdef"><b>Definition:</b> <a href="_user_name_8cs_source.html#l00010">UserName.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a3cf5b9ba9079d6c9f582f61b5894f7c1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions</a></div><div class="ttdeci">static string NormalizeMentions(string fromDiscord)</div><div class="ttdoc">Normalize a discord mention string.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_ac986f3eaca89e94c1a16d3a6392c44dd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage</a></div><div class="ttdeci">override async Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken)</div><div class="ttdoc">Send a message to the IProvider.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00298">DiscordProvider.cs:298</a></div></div>
@@ -1015,13 +1018,17 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00583">583</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        {</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">gatewayReadyTcs</a>?.TrySetResult(<span class="keyword">null</span>);</div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;            <span class="keywordflow">return</span> Task.FromResult(Result.FromSuccess());</div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00586">586</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;        {</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;            <span class="keywordflow">if</span> (readyEvent == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(readyEvent));</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160; </div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Gatway ready. Version: {version}&quot;</span>, readyEvent.Version);</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ad789ecc727bed6320d87df9734cf34b6">gatewayReadyTcs</a>?.TrySetResult(<span class="keyword">null</span>);</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;            <span class="keywordflow">return</span> Task.FromResult(Result.FromSuccess());</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00084">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayReadyTcs</a>.</p>
+<p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00084">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.gatewayReadyTcs</a>, and <a class="el" href="_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>.</p>
 
 </div>
 </div>
@@ -1427,7 +1434,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00064">64</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00590">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00646">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00157">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DiscordProvider()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00597">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00653">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00157">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DiscordProvider()</a>.</p>
 
 </div>
 </div>
@@ -1455,7 +1462,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00094">94</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00590">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00490">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00597">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00490">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>.</p>
 
 </div>
 </div>
@@ -1483,7 +1490,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00079">79</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00590">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00646">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00182">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisposeAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00597">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00653">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00182">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisposeAsync()</a>.</p>
 
 </div>
 </div>
@@ -1511,7 +1518,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00084">84</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00590">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00583">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00597">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00586">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>.</p>
 
 </div>
 </div>
@@ -1539,7 +1546,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00089">89</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00590">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00646">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00597">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00653">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>.</p>
 
 </div>
 </div>
@@ -1623,7 +1630,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00054">54</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00590">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00157">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DiscordProvider()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00182">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisposeAsync()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00192">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannels()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00490">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00298">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00362">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendUpdateMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00597">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00157">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DiscordProvider()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00182">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisposeAsync()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00192">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannels()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00490">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00298">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00362">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendUpdateMessage()</a>.</p>
 
 </div>
 </div>

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.15.1</span>
+   &#160;<span id="projectnumber">4.15.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -979,7 +979,7 @@ $(function() {
 <div class="line"><a name="l01020"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a6719687a79352e215ff727c1ede6d68f"> 1020</a></span>&#160;        CheckoutProgressHandler <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a6719687a79352e215ff727c1ede6d68f">CheckoutProgressHandler</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">JobProgressReporter</a> progressReporter, <span class="keywordtype">string</span> stage) =&gt; (a, completedSteps, totalSteps) =&gt;</div>
 <div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;        {</div>
 <div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;            <span class="keywordtype">int</span>? percentage;</div>
-<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;            <span class="keywordflow">if</span> (totalSteps &gt; completedSteps || totalSteps == 0)</div>
+<div class="line"><a name="l01023"></a><span class="lineno"> 1023</span>&#160;            <span class="keywordflow">if</span> (totalSteps &lt; completedSteps || totalSteps == 0)</div>
 <div class="line"><a name="l01024"></a><span class="lineno"> 1024</span>&#160;                percentage = <span class="keyword">null</span>;</div>
 <div class="line"><a name="l01025"></a><span class="lineno"> 1025</span>&#160;            <span class="keywordflow">else</span></div>
 <div class="line"><a name="l01026"></a><span class="lineno"> 1026</span>&#160;            {</div>
@@ -1005,7 +1005,7 @@ $(function() {
 <div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;            <span class="keywordtype">float</span>? percentage;</div>
 <div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;            var totalObjectsToProcess = transferProgress.TotalObjects * 2;</div>
 <div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;            var processedObjects = transferProgress.IndexedObjects + transferProgress.ReceivedObjects;</div>
-<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;            <span class="keywordflow">if</span> (totalObjectsToProcess &gt; processedObjects || totalObjectsToProcess == 0)</div>
+<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;            <span class="keywordflow">if</span> (totalObjectsToProcess &lt; processedObjects || totalObjectsToProcess == 0)</div>
 <div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;                percentage = <span class="keyword">null</span>;</div>
 <div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;            <span class="keywordflow">else</span></div>
 <div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;            {</div>
