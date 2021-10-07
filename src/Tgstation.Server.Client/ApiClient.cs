@@ -11,6 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
+using Microsoft.Net.Http.Headers;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -30,7 +32,7 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public ApiHeaders Headers
 		{
-			get => headers ?? throw new InvalidOperationException("ApiClient constructed without headers!");
+			get => headers;
 			set => headers = value ?? throw new InvalidOperationException("Cannot set null headers!");
 		}
 
@@ -62,9 +64,14 @@ namespace Tgstation.Server.Client
 		readonly SemaphoreSlim semaphoreSlim;
 
 		/// <summary>
+		/// If the authentication header should be stripped from requests.
+		/// </summary>
+		readonly bool authless;
+
+		/// <summary>
 		/// Backing field for <see cref="Headers"/>.
 		/// </summary>
-		ApiHeaders? headers;
+		ApiHeaders headers;
 
 		/// <summary>
 		/// Get the <see cref="JsonSerializerSettings"/> to use.
@@ -131,12 +138,14 @@ namespace Tgstation.Server.Client
 		/// <param name="url">The value of <see cref="Url"/>.</param>
 		/// <param name="apiHeaders">The value of <see cref="Headers"/>.</param>
 		/// <param name="tokenRefreshHeaders">The value of <see cref="tokenRefreshHeaders"/>.</param>
-		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders? apiHeaders, ApiHeaders? tokenRefreshHeaders)
+		/// <param name="authless">The value of <see cref="authless"/>.</param>
+		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders, bool authless)
 		{
 			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 			Url = url ?? throw new ArgumentNullException(nameof(url));
-			headers = apiHeaders;
+			headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
 			this.tokenRefreshHeaders = tokenRefreshHeaders;
+			this.authless = authless;
 
 			requestLoggers = new List<IRequestLogger>();
 			semaphoreSlim = new SemaphoreSlim(1);
@@ -257,9 +266,6 @@ namespace Tgstation.Server.Client
 			if (tokenRefreshHeaders == null)
 				return false;
 
-			if (headers == null)
-				throw new InvalidOperationException("Cannot refresh token with no headers!");
-
 			var startingToken = headers.Token;
 			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
 			try
@@ -354,8 +360,11 @@ namespace Tgstation.Server.Client
 				if (content != null)
 					request.Content = content;
 
-				var headersToUse = tokenRefresh ? tokenRefreshHeaders : headers;
-				headersToUse?.SetRequestHeaders(request.Headers, instanceId);
+				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
+				headersToUse.SetRequestHeaders(request.Headers, instanceId);
+
+				if (authless)
+					request.Headers.Remove(HeaderNames.Authorization);
 
 				if (fileDownload)
 					request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
