@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>Fixed automatic refresh erroring internally. Fixed request loggers given to ServerClientFactory not being passed to the IServerClient.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added OAuth login methods to IServerClientFactory.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>

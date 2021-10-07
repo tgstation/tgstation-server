@@ -30,7 +30,7 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public ApiHeaders Headers
 		{
-			get => headers;
+			get => headers ?? throw new InvalidOperationException("ApiClient constructed without headers!");
 			set => headers = value ?? throw new InvalidOperationException("Cannot set null headers!");
 		}
 
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Backing field for <see cref="Headers"/>.
 		/// </summary>
-		ApiHeaders headers;
+		ApiHeaders? headers;
 
 		/// <summary>
 		/// Get the <see cref="JsonSerializerSettings"/> to use.
@@ -131,11 +131,11 @@ namespace Tgstation.Server.Client
 		/// <param name="url">The value of <see cref="Url"/>.</param>
 		/// <param name="apiHeaders">The value of <see cref="Headers"/>.</param>
 		/// <param name="tokenRefreshHeaders">The value of <see cref="tokenRefreshHeaders"/>.</param>
-		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders)
+		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders? apiHeaders, ApiHeaders? tokenRefreshHeaders)
 		{
 			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 			Url = url ?? throw new ArgumentNullException(nameof(url));
-			headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
+			headers = apiHeaders;
 			this.tokenRefreshHeaders = tokenRefreshHeaders;
 
 			requestLoggers = new List<IRequestLogger>();
@@ -257,6 +257,9 @@ namespace Tgstation.Server.Client
 			if (tokenRefreshHeaders == null)
 				return false;
 
+			if (headers == null)
+				throw new InvalidOperationException("Cannot refresh token with no headers!");
+
 			var startingToken = headers.Token;
 			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
 			try
@@ -351,8 +354,8 @@ namespace Tgstation.Server.Client
 				if (content != null)
 					request.Content = content;
 
-				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
-				headersToUse.SetRequestHeaders(request.Headers, instanceId);
+				var headersToUse = tokenRefresh ? tokenRefreshHeaders : headers;
+				headersToUse?.SetRequestHeaders(request.Headers, instanceId);
 
 				if (fileDownload)
 					request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
