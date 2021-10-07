@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.ServerClientFactory.CreateFromLogin" name="Tgstation.Server.Client.ServerClientFactory.CreateFromLogin">
+<area shape="rect" id="node1" title="Create a IServerClient using a password login." alt="" coords="5,13,244,54"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1c828515b61d7151cff35ff5e109818a" title="Creates a IServerClient from a login operation." alt="" coords="292,5,495,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7" title="Create an IApiClient." alt="" coords="543,13,753,54"/>
+</map>

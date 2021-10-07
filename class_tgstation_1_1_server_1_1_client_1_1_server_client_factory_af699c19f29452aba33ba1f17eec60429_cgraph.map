@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.ServerClientFactory.GetServerInformation" name="Tgstation.Server.Client.ServerClientFactory.GetServerInformation">
+<area shape="rect" id="node1" title="Gets the ServerInformationResponse for a given host ." alt="" coords="5,31,204,87"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a55853418698889c9f90804d1e9067b51" title="Adds a requestLogger &#160;to the request pipeline." alt="" coords="261,5,453,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7" title="Create an IApiClient." alt="" coords="252,71,463,112"/>
+</map>
