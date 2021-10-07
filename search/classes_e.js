@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['oauthconfiguration_3356',['OAuthConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html',1,'Tgstation::Server::Host::Configuration']]],
-  ['oauthconfigurationbase_3357',['OAuthConfigurationBase',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html',1,'Tgstation::Server::Host::Configuration']]],
-  ['oauthconnection_3358',['OAuthConnection',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html',1,'Tgstation.Server.Api.Models.OAuthConnection'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_o_auth_connection.html',1,'Tgstation.Server.Host.Models.OAuthConnection']]],
-  ['oauthproviderinfo_3359',['OAuthProviderInfo',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html',1,'Tgstation::Server::Api::Models']]],
-  ['oauthproviders_3360',['OAuthProviders',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html',1,'Tgstation::Server::Host::Security::OAuth']]],
-  ['oauthtokenrequest_3361',['OAuthTokenRequest',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_token_request.html',1,'Tgstation::Server::Host::Security::OAuth']]],
-  ['openapienumvarnamesextension_3362',['OpenApiEnumVarNamesExtension',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_open_api_enum_var_names_extension.html',1,'Tgstation::Server::Host::Core']]]
+  ['oauthconfiguration_3364',['OAuthConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html',1,'Tgstation::Server::Host::Configuration']]],
+  ['oauthconfigurationbase_3365',['OAuthConfigurationBase',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html',1,'Tgstation::Server::Host::Configuration']]],
+  ['oauthconnection_3366',['OAuthConnection',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html',1,'Tgstation.Server.Api.Models.OAuthConnection'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_o_auth_connection.html',1,'Tgstation.Server.Host.Models.OAuthConnection']]],
+  ['oauthproviderinfo_3367',['OAuthProviderInfo',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html',1,'Tgstation::Server::Api::Models']]],
+  ['oauthproviders_3368',['OAuthProviders',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html',1,'Tgstation::Server::Host::Security::OAuth']]],
+  ['oauthtokenrequest_3369',['OAuthTokenRequest',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_token_request.html',1,'Tgstation::Server::Host::Security::OAuth']]],
+  ['openapienumvarnamesextension_3370',['OpenApiEnumVarNamesExtension',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_open_api_enum_var_names_extension.html',1,'Tgstation::Server::Host::Core']]]
 ];

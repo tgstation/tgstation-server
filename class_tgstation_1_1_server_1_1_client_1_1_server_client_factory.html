@@ -266,7 +266,7 @@ Here is the call graph for this function:</div>
 <map name="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_a29a017dcd4bc172a11d46ff343055ffe_cgraph" id="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_a29a017dcd4bc172a11d46ff343055ffe_cgraph">
 <area shape="rect" title="Create a IServerClient using a password login." alt="" coords="5,13,244,54"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1c828515b61d7151cff35ff5e109818a" title="Creates a IServerClient from a login operation." alt="" coords="292,5,495,61"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7" title="Create an IApiClient." alt="" coords="543,13,753,54"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient." alt="" coords="543,13,753,54"/>
 </map>
 </div>
 
@@ -351,7 +351,7 @@ Here is the call graph for this function:</div>
 <map name="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_a91b26572a019546543983be36f3d6b77_cgraph" id="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_a91b26572a019546543983be36f3d6b77_cgraph">
 <area shape="rect" title="Create a IServerClient using am OAuth login." alt="" coords="5,13,249,54"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1c828515b61d7151cff35ff5e109818a" title="Creates a IServerClient from a login operation." alt="" coords="297,5,500,61"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7" title="Create an IApiClient." alt="" coords="548,13,759,54"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient." alt="" coords="548,13,759,54"/>
 </map>
 </div>
 
@@ -396,20 +396,20 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">if</span> (token.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a4e34824faf49cfdb38d3f9aa8c1085ec">Bearer</a> == <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;token.Bearer should not be null!&quot;</span>, nameof(token));</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> ServerClient(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">ApiClientFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#abfa3fbc9656d326c7d5abc995dc1e1a1">CreateApiClient</a>(host, <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a5db19a315f04b37200db2761f678661b">productHeaderValue</a>, token.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a4e34824faf49cfdb38d3f9aa8c1085ec">Bearer</a>), <span class="keyword">null</span>), token);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> ServerClient(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">ApiClientFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#adff5102bf5e2ed006298c644ca876a2e">CreateApiClient</a>(host, <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a5db19a315f04b37200db2761f678661b">productHeaderValue</a>, token.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a4e34824faf49cfdb38d3f9aa8c1085ec">Bearer</a>), <span class="keyword">null</span>, <span class="keyword">false</span>), token);</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response_html_a4e34824faf49cfdb38d3f9aa8c1085ec"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html#a4e34824faf49cfdb38d3f9aa8c1085ec">Tgstation.Server.Api.Models.Response.TokenResponse.Bearer</a></div><div class="ttdeci">string? Bearer</div><div class="ttdoc">The value of the JWT.</div><div class="ttdef"><b>Definition:</b> <a href="_token_response_8cs_source.html#l00013">TokenResponse.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_html_a1ce05c0c437fca7e62dd764346be53a0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">Tgstation.Server.Client.ServerClientFactory.ApiClientFactory</a></div><div class="ttdeci">static readonly IApiClientFactory ApiClientFactory</div><div class="ttdoc">The IApiClientFactory for the ServerClientFactory.</div><div class="ttdef"><b>Definition:</b> <a href="_server_client_factory_8cs_source.html#l00020">ServerClientFactory.cs:20</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory_html_abfa3fbc9656d326c7d5abc995dc1e1a1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#abfa3fbc9656d326c7d5abc995dc1e1a1">Tgstation.Server.Client.IApiClientFactory.CreateApiClient</a></div><div class="ttdeci">IApiClient CreateApiClient(Uri url, ApiHeaders? apiHeaders, ApiHeaders? tokenRefreshHeaders)</div><div class="ttdoc">Create an IApiClient.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory_html_adff5102bf5e2ed006298c644ca876a2e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#adff5102bf5e2ed006298c644ca876a2e">Tgstation.Server.Client.IApiClientFactory.CreateApiClient</a></div><div class="ttdeci">IApiClient CreateApiClient(Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders, bool authless)</div><div class="ttdoc">Create an IApiClient.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_token_response_8cs_source.html#l00013">Tgstation.Server.Api.Models.Response.TokenResponse.Bearer</a>, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7">Tgstation.Server.Client.ApiClientFactory.CreateApiClient()</a>, and <a class="el" href="_server_client_factory_8cs_source.html#l00025">Tgstation.Server.Client.ServerClientFactory.productHeaderValue</a>.</p>
+<p class="reference">References <a class="el" href="_token_response_8cs_source.html#l00013">Tgstation.Server.Api.Models.Response.TokenResponse.Bearer</a>, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd">Tgstation.Server.Client.ApiClientFactory.CreateApiClient()</a>, and <a class="el" href="_server_client_factory_8cs_source.html#l00025">Tgstation.Server.Client.ServerClientFactory.productHeaderValue</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory_af526e8ead3e961581e00c65865a1978a_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_af526e8ead3e961581e00c65865a1978a_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_af526e8ead3e961581e00c65865a1978a_cgraph" id="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_af526e8ead3e961581e00c65865a1978a_cgraph">
 <area shape="rect" title="Create a IServerClient." alt="" coords="5,5,248,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7" title="Create an IApiClient." alt="" coords="296,5,507,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient." alt="" coords="296,5,507,47"/>
 </map>
 </div>
 
@@ -492,7 +492,7 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            requestLoggers ??= Enumerable.Empty&lt;IRequestLogger&gt;();</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> token;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keyword">using</span> (var api = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">ApiClientFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#abfa3fbc9656d326c7d5abc995dc1e1a1">CreateApiClient</a>(host, loginHeaders, <span class="keyword">null</span>))</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keyword">using</span> (var api = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">ApiClientFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#adff5102bf5e2ed006298c644ca876a2e">CreateApiClient</a>(host, loginHeaders, <span class="keyword">null</span>, <span class="keyword">false</span>))</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            {</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="keywordflow">foreach</span> (var requestLogger <span class="keywordflow">in</span> requestLoggers)</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                    api.AddRequestLogger(requestLogger);</div>
@@ -504,24 +504,25 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            var apiHeaders = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a5db19a315f04b37200db2761f678661b">productHeaderValue</a>, token.Bearer!);</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            var client = <span class="keyword">new</span> ServerClient(</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">ApiClientFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#abfa3fbc9656d326c7d5abc995dc1e1a1">CreateApiClient</a>(</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">ApiClientFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#adff5102bf5e2ed006298c644ca876a2e">CreateApiClient</a>(</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                    host,</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                    apiHeaders,</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                    attemptLoginRefresh ? loginHeaders : <span class="keyword">null</span>),</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                token);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordflow">if</span> (timeout.HasValue)</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                client.Timeout = timeout.Value;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">foreach</span> (var requestLogger <span class="keywordflow">in</span> requestLoggers)</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                client.AddRequestLogger(requestLogger);</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">return</span> client;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        }</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                    attemptLoginRefresh ? loginHeaders : <span class="keyword">null</span>,</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                    <span class="keyword">false</span>),</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                token);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keywordflow">if</span> (timeout.HasValue)</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                client.Timeout = timeout.Value;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <span class="keywordflow">foreach</span> (var requestLogger <span class="keywordflow">in</span> requestLoggers)</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                client.AddRequestLogger(requestLogger);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="keywordflow">return</span> client;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">Tgstation.Server.Api.Models.Response.TokenResponse</a></div><div class="ttdoc">Represents a JWT returned by the API.</div><div class="ttdef"><b>Definition:</b> <a href="_token_response_8cs_source.html#l00008">TokenResponse.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00008">Routes.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_aa336e9d55df01b49f6d217b48563900a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#aa336e9d55df01b49f6d217b48563900a">Tgstation.Server.Api.Routes.Root</a></div><div class="ttdeci">const string Root</div><div class="ttdoc">The root controller.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00013">Routes.cs:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7">Tgstation.Server.Client.ApiClientFactory.CreateApiClient()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00025">Tgstation.Server.Client.ServerClientFactory.productHeaderValue</a>, and <a class="el" href="_routes_8cs_source.html#l00013">Tgstation.Server.Api.Routes.Root</a>.</p>
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd">Tgstation.Server.Client.ApiClientFactory.CreateApiClient()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00025">Tgstation.Server.Client.ServerClientFactory.productHeaderValue</a>, and <a class="el" href="_routes_8cs_source.html#l00013">Tgstation.Server.Api.Routes.Root</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_server_client_factory_8cs_source.html#l00037">Tgstation.Server.Client.ServerClientFactory.CreateFromLogin()</a>, and <a class="el" href="_server_client_factory_8cs_source.html#l00064">Tgstation.Server.Client.ServerClientFactory.CreateFromOAuth()</a>.</p>
 <div class="dynheader">
@@ -530,7 +531,7 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory_a1c828515b61d7151cff35ff5e109818a_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_a1c828515b61d7151cff35ff5e109818a_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_a1c828515b61d7151cff35ff5e109818a_cgraph" id="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_a1c828515b61d7151cff35ff5e109818a_cgraph">
 <area shape="rect" title="Creates a IServerClient from a login operation." alt="" coords="5,5,208,61"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7" title="Create an IApiClient." alt="" coords="256,13,467,54"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient." alt="" coords="256,13,467,54"/>
 </map>
 </div>
 <div class="dynheader">
@@ -590,7 +591,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_client_factory_8cs_source.html#l00101">101</a> of file <a class="el" href="_server_client_factory_8cs_source.html">ServerClientFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keyword">using</span> var api = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">ApiClientFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#abfa3fbc9656d326c7d5abc995dc1e1a1">CreateApiClient</a>(host, <span class="keyword">null</span>, <span class="keyword">null</span>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keyword">using</span> var api = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1ce05c0c437fca7e62dd764346be53a0">ApiClientFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html#adff5102bf5e2ed006298c644ca876a2e">CreateApiClient</a>(host, <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a5db19a315f04b37200db2761f678661b">productHeaderValue</a>, <span class="stringliteral">&quot;fake&quot;</span>), <span class="keyword">null</span>, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">if</span> (requestLoggers != <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                <span class="keywordflow">foreach</span> (var requestLogger <span class="keywordflow">in</span> requestLoggers)</div>
@@ -604,7 +605,7 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html">Tgstation.Server.Api.Models.Response.ServerInformationResponse</a></div><div class="ttdoc">Represents basic server information.</div><div class="ttdef"><b>Definition:</b> <a href="_server_information_response_8cs_source.html#l00009">ServerInformationResponse.cs:10</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_html_a55853418698889c9f90804d1e9067b51"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a55853418698889c9f90804d1e9067b51">Tgstation.Server.Client.IApiClient.AddRequestLogger</a></div><div class="ttdeci">void AddRequestLogger(IRequestLogger requestLogger)</div><div class="ttdoc">Adds a requestLogger  to the request pipeline.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a55853418698889c9f90804d1e9067b51">Tgstation.Server.Client.IApiClient.AddRequestLogger()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7">Tgstation.Server.Client.ApiClientFactory.CreateApiClient()</a>, and <a class="el" href="_routes_8cs_source.html#l00013">Tgstation.Server.Api.Routes.Root</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a55853418698889c9f90804d1e9067b51">Tgstation.Server.Client.IApiClient.AddRequestLogger()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd">Tgstation.Server.Client.ApiClientFactory.CreateApiClient()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00025">Tgstation.Server.Client.ServerClientFactory.productHeaderValue</a>, and <a class="el" href="_routes_8cs_source.html#l00013">Tgstation.Server.Api.Routes.Root</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -612,7 +613,7 @@ Here is the call graph for this function:</div>
 <map name="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_af699c19f29452aba33ba1f17eec60429_cgraph" id="aclass_tgstation_1_1_server_1_1_client_1_1_server_client_factory_af699c19f29452aba33ba1f17eec60429_cgraph">
 <area shape="rect" title="Gets the ServerInformationResponse for a given host ." alt="" coords="5,31,204,87"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a55853418698889c9f90804d1e9067b51" title="Adds a requestLogger &#160;to the request pipeline." alt="" coords="261,5,453,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#a8c25019d1b070b4a312a5f3fccb3a0e7" title="Create an IApiClient." alt="" coords="252,71,463,112"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#aca41a822cce8517c0ccec8cf409555cd" title="Create an IApiClient." alt="" coords="252,71,463,112"/>
 </map>
 </div>
 
@@ -669,7 +670,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_client_factory_8cs_source.html#l00025">25</a> of file <a class="el" href="_server_client_factory_8cs_source.html">ServerClientFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_client_factory_8cs_source.html#l00037">Tgstation.Server.Client.ServerClientFactory.CreateFromLogin()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00064">Tgstation.Server.Client.ServerClientFactory.CreateFromOAuth()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00088">Tgstation.Server.Client.ServerClientFactory.CreateFromToken()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00129">Tgstation.Server.Client.ServerClientFactory.CreateWithNewToken()</a>, and <a class="el" href="_server_client_factory_8cs_source.html#l00031">Tgstation.Server.Client.ServerClientFactory.ServerClientFactory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_client_factory_8cs_source.html#l00037">Tgstation.Server.Client.ServerClientFactory.CreateFromLogin()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00064">Tgstation.Server.Client.ServerClientFactory.CreateFromOAuth()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00088">Tgstation.Server.Client.ServerClientFactory.CreateFromToken()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00129">Tgstation.Server.Client.ServerClientFactory.CreateWithNewToken()</a>, <a class="el" href="_server_client_factory_8cs_source.html#l00101">Tgstation.Server.Client.ServerClientFactory.GetServerInformation()</a>, and <a class="el" href="_server_client_factory_8cs_source.html#l00031">Tgstation.Server.Client.ServerClientFactory.ServerClientFactory()</a>.</p>
 
 </div>
 </div>
