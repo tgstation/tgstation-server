@@ -183,6 +183,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="message">The <see cref="Message"/> to queue.</param>
 		protected void EnqueueMessage(Message message)
 		{
+			if (message == null)
+				Logger.LogTrace("Requesting channel remap...");
+
 			lock (messageQueue)
 			{
 				messageQueue.Enqueue(message);
