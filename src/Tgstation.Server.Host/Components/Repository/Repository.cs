@@ -276,7 +276,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							FastForwardStrategy = FastForwardStrategy.NoFastForward,
 							SkipReuc = true,
 							OnCheckoutProgress = CheckoutProgressHandler(
-								(lambdaStage, progress) => progressReporter(lambdaStage, progress.HasValue ? 50 + (progress.Value / 2) : null),
+								(lambdaStage, progress) => progressReporter(lambdaStage, progress.HasValue ? (int?)(50 + (progress.Value / 2)) : null),
 								$"Merge {testMergeParameters.TargetCommitSha}"),
 						});
 					}
@@ -646,7 +646,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						libGitRepo.Reset(ResetMode.Hard, libGitRepo.Head.Tip, new CheckoutOptions
 						{
-							OnCheckoutProgress = CheckoutProgressHandler((stage, progress) => progressReporter(stage, progress.HasValue ? progress.Value / 10 : null), "Hard reset and remove untracked files"),
+							OnCheckoutProgress = CheckoutProgressHandler((stage, progress) => progressReporter(stage, progress.HasValue ? (int?)(progress.Value / 10) : null), "Hard reset and remove untracked files"),
 						});
 						cancellationToken.ThrowIfCancellationRequested();
 						libGitRepo.RemoveUntrackedFiles();
@@ -939,7 +939,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var factor = 100 / submoduleCount;
 			foreach (var submodule in libGitRepo.Submodules)
 			{
-				void LocalProgressReporter(string stage, int? percentage) => progressReporter(stage, percentage.HasValue ? (iteration * factor) + (percentage.Value / submoduleCount) : null);
+				void LocalProgressReporter(string stage, int? percentage) => progressReporter(stage, percentage.HasValue ? (int?)((iteration * factor) + (percentage.Value / submoduleCount)) : null);
 				var submoduleUpdateOptions = new SubmoduleUpdateOptions
 				{
 					Init = true,
@@ -951,7 +951,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 					OnCheckoutProgress = CheckoutProgressHandler(
-						(stage, progress) => LocalProgressReporter(stage, progress.HasValue ? 50 + (progress.Value / 2) : null),
+						(stage, progress) => LocalProgressReporter(stage, progress.HasValue ? (int?)(50 + (progress.Value / 2)) : null),
 						$"Checkout submodule {submodule.Name}"),
 				};
 
