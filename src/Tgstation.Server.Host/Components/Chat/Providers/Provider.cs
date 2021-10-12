@@ -107,6 +107,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			if (Connected)
 			{
+				Logger.LogTrace("Disconnecting...");
 				await DisconnectImpl(cancellationToken).ConfigureAwait(false);
 				Logger.LogTrace("Disconnected");
 			}
