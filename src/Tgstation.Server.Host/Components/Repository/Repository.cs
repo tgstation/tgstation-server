@@ -112,19 +112,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		bool disposed;
 
 		/// <summary>
-		/// Rethrow the authentication failure message as a <see cref="JobException"/> if it is one.
-		/// </summary>
-		/// <param name="exception">The current <see cref="LibGit2SharpException"/>.</param>
-		static void CheckBadCredentialsException(LibGit2SharpException exception)
-		{
-			if (exception.Message == "too many redirects or authentication replays")
-				throw new JobException("Bad git credentials exchange!", exception);
-
-			if (exception.Message == ErrorCode.RepoCredentialsRequired.Describe())
-				throw new JobException(ErrorCode.RepoCredentialsRequired);
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="Repository"/> class.
 		/// </summary>
 		/// <param name="libGitRepo">The value of <see cref="libGitRepo"/>.</param>
@@ -262,7 +249,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						}
 						catch (LibGit2SharpException ex)
 						{
-							CheckBadCredentialsException(ex);
+							credentialsProvider.CheckBadCredentialsException(ex);
 						}
 
 						cancellationToken.ThrowIfCancellationRequested();
@@ -439,7 +426,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					}
 					catch (LibGit2SharpException ex)
 					{
-						CheckBadCredentialsException(ex);
+						credentialsProvider.CheckBadCredentialsException(ex);
 					}
 				},
 				cancellationToken,
@@ -982,7 +969,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					// workaround for https://github.com/libgit2/libgit2/issues/3820
 					// kill off the modules/ folder in .git and try again
-					CheckBadCredentialsException(ex);
+					credentialsProvider.CheckBadCredentialsException(ex);
 					logger.LogWarning(ex, "Initial update of submodule {0} failed. Deleting submodule directories and re-attempting...", submodule.Name);
 
 					await Task.WhenAll(
@@ -1001,7 +988,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					}
 					catch (LibGit2SharpException ex2)
 					{
-						CheckBadCredentialsException(ex2);
+						credentialsProvider.CheckBadCredentialsException(ex2);
 						logger.LogTrace(ex2, "Retried update of submodule {0} failed!", submodule.Name);
 						throw new AggregateException(ex, ex2);
 					}
