@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								cancellationToken)
 								.ConfigureAwait(false);
 						}
-						catch (Exception ex)
+						catch
 						{
 							try
 							{
