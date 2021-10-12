@@ -276,7 +276,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							FastForwardStrategy = FastForwardStrategy.NoFastForward,
 							SkipReuc = true,
 							OnCheckoutProgress = CheckoutProgressHandler(
-								(lambdaStage, progress) => progressReporter(lambdaStage, 50 + (progress / 2)),
+								(lambdaStage, progress) => progressReporter(lambdaStage, progress.HasValue ? 50 + (progress.Value / 2) : null),
 								$"Merge {testMergeParameters.TargetCommitSha}"),
 						});
 					}
@@ -646,7 +646,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						libGitRepo.Reset(ResetMode.Hard, libGitRepo.Head.Tip, new CheckoutOptions
 						{
-							OnCheckoutProgress = CheckoutProgressHandler((stage, progress) => progressReporter(stage, progress / 10), "Hard reset and remove untracked files"),
+							OnCheckoutProgress = CheckoutProgressHandler((stage, progress) => progressReporter(stage, progress.HasValue ? progress.Value / 10 : null), "Hard reset and remove untracked files"),
 						});
 						cancellationToken.ThrowIfCancellationRequested();
 						libGitRepo.RemoveUntrackedFiles();
@@ -939,7 +939,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var factor = 100 / submoduleCount;
 			foreach (var submodule in libGitRepo.Submodules)
 			{
-				void LocalProgressReporter(string stage, int percentage) => progressReporter(stage, (iteration * factor) + (percentage / submoduleCount));
+				void LocalProgressReporter(string stage, int? percentage) => progressReporter(stage, percentage.HasValue ? (iteration * factor) + (percentage.Value / submoduleCount) : null);
 				var submoduleUpdateOptions = new SubmoduleUpdateOptions
 				{
 					Init = true,
@@ -951,7 +951,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 					OnCheckoutProgress = CheckoutProgressHandler(
-						(stage, progress) => LocalProgressReporter(stage, 50 + (progress.Value / 2)),
+						(stage, progress) => LocalProgressReporter(stage, progress.HasValue ? 50 + (progress.Value / 2) : null),
 						$"Checkout submodule {submodule.Name}"),
 				};
 
@@ -1007,7 +1007,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		CheckoutProgressHandler CheckoutProgressHandler(JobProgressReporter progressReporter, string stage) => (a, completedSteps, totalSteps) =>
 		{
 			int? percentage;
-			if (totalSteps < completedSteps || totalSteps == 0)
+
+			// short circuit initialization where totalSteps is 0
+			if (completedSteps == 0)
+				percentage = 0;
+			else if (totalSteps < completedSteps || totalSteps == 0)
 				percentage = null;
 			else
 			{
