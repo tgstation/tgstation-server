@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -308,7 +309,11 @@ namespace Tgstation.Server.Host.Jobs
 						{
 							if (progress.HasValue
 								&& (progress.Value < 0 || progress.Value > 100))
-								throw new ArgumentOutOfRangeException(nameof(progress), progress, "Progress must be a value from 0-100!");
+							{
+								Debug.Assert(false, "Invalid progress value!");
+								var exception = new ArgumentOutOfRangeException(nameof(progress), progress, "Progress must be a value from 0-100!");
+								logger.LogError(exception, "Invalid progress value!");
+							}
 
 							lock (synchronizationLock)
 								if (jobs.TryGetValue(oldJob.Id, out var handler))

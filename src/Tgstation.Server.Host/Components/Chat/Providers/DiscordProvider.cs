@@ -91,6 +91,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		Snowflake currentUserId;
 
 		/// <summary>
+		/// The bot's username at the time of connection.
+		/// </summary>
+		string? initialUserName;
+
+		/// <summary>
 		/// Normalize a discord mention string.
 		/// </summary>
 		/// <param name="fromDiscord">The mention <see cref="string"/> provided by the Discord library.</param>
@@ -202,20 +207,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
 
-			if (!Connected)
-			{
-				Logger.LogWarning("Cannot map channels, provider disconnected!");
-				return Array.Empty<ChannelRepresentation>();
-			}
-
-			var usersClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
-			var currentUserResponse = await usersClient.GetCurrentUserAsync(cancellationToken).ConfigureAwait(false);
-
-			if (!currentUserResponse.IsSuccess)
-			{
-				Logger.LogWarning("Error retrieving current Discord user: {errorMessage}", currentUserResponse.Error.Message);
-				return Array.Empty<ChannelRepresentation>();
-			}
+			bool remapRequired = false;
 
 			async Task<ChannelRepresentation?> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
 			{
@@ -223,14 +215,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
 
 				var channelId = channelFromDB.DiscordChannelId.Value;
-				ulong discordChannelId;
 				string connectionName;
 				string friendlyName;
 				if (channelId == 0)
 				{
-					connectionName = currentUserResponse.Entity.Username;
+					connectionName = initialUserName ?? throw new InvalidOperationException("iniitalUserName not set!");
 					friendlyName = "(Unmapped accessible channels)";
-					discordChannelId = 0;
 				}
 				else
 				{
@@ -239,6 +229,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!discordChannelResponse.IsSuccess)
 					{
 						Logger.LogWarning("Error retrieving discord channel {channelId}: {errorMessage}", channelId, discordChannelResponse.Error.Message);
+						remapRequired = true;
 						return null;
 					}
 
@@ -248,7 +239,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return null;
 					}
 
-					discordChannelId = discordChannelResponse.Entity.ID.Value;
 					friendlyName = discordChannelResponse.Entity.Name.Value;
 
 					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
@@ -262,13 +252,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							"Error retrieving discord guild {guildID}: {errorMessage}",
 							discordChannelResponse.Entity.GuildID.Value,
 							discordChannelResponse.Error?.Message);
+						remapRequired = true;
 						return null;
 					}
 
 					connectionName = guildsResponse.Entity.Name;
 				}
 
-				var channelModel = new ChannelRepresentation(connectionName, friendlyName, discordChannelId)
+				var channelModel = new ChannelRepresentation(connectionName, friendlyName, channelId)
 				{
 					IsAdminChannel = channelFromDB.IsAdminChannel == true,
 					IsPrivateChannel = false,
@@ -281,7 +272,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var tasks = channels
 				.Select(x => GetModelChannelFromDBChannel(x))
-				.Where(x => x != null)
 				.ToList();
 
 			await Task.WhenAll(tasks);
@@ -296,6 +286,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				mappedChannels.Clear();
 				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
 			}
+
+			if (remapRequired)
+				EnqueueMessage(null);
 
 			return enumerator;
 		}
@@ -494,6 +487,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task<Result> RespondAsync(IMessageCreate messageCreateEvent, CancellationToken cancellationToken)
 		{
+			if (messageCreateEvent == null)
+				throw new ArgumentNullException(nameof(messageCreateEvent));
+
 			if ((messageCreateEvent.Type != MessageType.Default
 				&& messageCreateEvent.Type != MessageType.InlineReply)
 				|| messageCreateEvent.Author.ID == currentUserId)
@@ -583,6 +579,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public Task<Result> RespondAsync(IReady readyEvent, CancellationToken cancellationToken)
 		{
+			if (readyEvent == null)
+				throw new ArgumentNullException(nameof(readyEvent));
+
+			Logger.LogTrace("Gatway ready. Version: {version}", readyEvent.Version);
 			gatewayReadyTcs?.TrySetResult();
 			return Task.FromResult(Result.FromSuccess());
 		}
@@ -606,7 +606,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
 
 				cancellationToken.ThrowIfCancellationRequested();
-				var localGatewayTask = new CancellableTask<Result>(gatewayCancellationToken => gatewayClient.RunAsync(gatewayCancellationToken));
+				var localGatewayTask = new CancellableTask<Result>(gatewayCancellationToken =>
+				{
+					gatewayCancellationToken.Register(() => Logger.LogTrace("Stopping gateway client..."));
+					return gatewayClient.RunAsync(gatewayCancellationToken);
+				});
 
 				try
 				{
@@ -627,6 +631,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 
 					currentUserId = currentUserResult.Entity.ID;
+					initialUserName = currentUserResult.Entity.Username;
 				}
 				finally
 				{

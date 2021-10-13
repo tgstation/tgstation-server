@@ -198,9 +198,16 @@ namespace Tgstation.Server.Host.Components.Chat
 				throw new ArgumentNullException(nameof(newChannels));
 
 			logger.LogTrace("ChangeChannels {0}...", connectionId);
-			var provider = await RemoveProvider(connectionId, false, cancellationToken).ConfigureAwait(false);
+			var provider = await RemoveProviderChannels(connectionId, false, cancellationToken).ConfigureAwait(false);
 			if (provider == null)
 				return;
+
+			if (!provider.Connected)
+			{
+				logger.LogDebug("Cannot map channels, provider {providerId} disconnected!", connectionId);
+				return;
+			}
+
 			var results = await provider.MapChannels(newChannels, cancellationToken).ConfigureAwait(false);
 			lock (activeChatBots)
 			{
@@ -267,29 +274,14 @@ namespace Tgstation.Server.Host.Components.Chat
 				throw new ArgumentNullException(nameof(newSettings));
 
 			logger.LogTrace("ChangeSettings...");
-			IProvider? provider;
-
-			async Task DisconnectProvider(IProvider p)
-			{
-				try
-				{
-					await p.Disconnect(cancellationToken).ConfigureAwait(false);
-				}
-				finally
-				{
-					await p.DisposeAsync().ConfigureAwait(false);
-				}
-			}
 
 			Task disconnectTask;
+			IProvider? provider = null;
 			lock (providers)
 			{
 				// raw settings changes forces a rebuild of the provider
-				if (providers.TryGetValue(newSettings.Id, out provider))
-				{
-					providers.Remove(newSettings.Id);
-					disconnectTask = DisconnectProvider(provider);
-				}
+				if (providers.ContainsKey(newSettings.Id))
+					disconnectTask = DeleteConnection(newSettings.Id, cancellationToken);
 				else
 					disconnectTask = Task.CompletedTask;
 
@@ -443,7 +435,6 @@ namespace Tgstation.Server.Host.Components.Chat
 				builtinCommands.Add(tgsCommand.Name.ToUpperInvariant(), tgsCommand);
 			var initialChatBots = activeChatBots.ToList();
 			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
-			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
 			initialProviderConnectionsTask = InitialConnection();
 			chatHandler = MonitorMessages(handlerCts.Token);
 		}
@@ -454,7 +445,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			handlerCts.Cancel();
 			if (chatHandler != null)
 				await chatHandler.ConfigureAwait(false);
-			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Disconnect(cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(providers.Select(x => x.Key).Select(x => DeleteConnection(x, cancellationToken))).ConfigureAwait(false);
 			await messageSendTask.ConfigureAwait(false);
 		}
 
@@ -494,7 +485,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task DeleteConnection(long connectionId, CancellationToken cancellationToken)
 		{
-			var provider = await RemoveProvider(connectionId, true, cancellationToken).ConfigureAwait(false);
+			var provider = await RemoveProviderChannels(connectionId, true, cancellationToken).ConfigureAwait(false);
 			if (provider != null)
 				try
 				{
@@ -524,22 +515,27 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <summary>
-		/// Remove a <see cref="IProvider"/> from <see cref="providers"/> and <see cref="mappedChannels"/> optionally updating the <see cref="trackingContexts"/> as well.
+		/// Remove a <see cref="IProvider"/> from <see cref="mappedChannels"/> optionally removing the provider itself from <see cref="providers"/> and updating the <see cref="trackingContexts"/> as well.
 		/// </summary>
 		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="IProvider"/> to delete.</param>
-		/// <param name="updateTrackings">If <see cref="trackingContexts"/> should be update.</param>
+		/// <param name="removeProvider">If the provider should be removed from <see cref="providers"/> and <see cref="trackingContexts"/> should be update.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>
-		async Task<IProvider?> RemoveProvider(long connectionId, bool updateTrackings, CancellationToken cancellationToken)
+		async Task<IProvider?> RemoveProviderChannels(long connectionId, bool removeProvider, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("RemoveProvider {0}...", connectionId);
+			logger.LogTrace("RemoveProviderChannels {0}...", connectionId);
 			IProvider? provider;
 			lock (providers)
+			{
 				if (!providers.TryGetValue(connectionId, out provider))
 				{
 					logger.LogTrace("Aborted, no such provider!");
 					return null;
 				}
+
+				if (removeProvider)
+					providers.Remove(connectionId);
+			}
 
 			Task trackingContextsUpdateTask;
 			lock (mappedChannels)
@@ -549,7 +545,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				var newMappedChannels = mappedChannels.Select(y => y.Value.Channel).ToList();
 
-				if (updateTrackings)
+				if (removeProvider)
 					lock (trackingContexts)
 						trackingContextsUpdateTask = Task.WhenAll(trackingContexts.Select(x => x.UpdateChannels(newMappedChannels, cancellationToken)));
 				else
@@ -607,40 +603,70 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 
 			// map the channel if it's private and we haven't seen it
+			var providerChannelId = message.User.Channel.RealId;
+			KeyValuePair<ulong, ChannelMapping>? mappedChannel;
+			long providerId;
 			lock (providers)
 			{
-				var providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
-				var enumerable = mappedChannels.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == message.User.Channel.RealId);
-				if (message.User.Channel.IsPrivateChannel)
-					lock (mappedChannels)
-						if (!enumerable.Any())
+				// important, otherwise we could end up processing during shutdown
+				cancellationToken.ThrowIfCancellationRequested();
+
+				providerId = providers
+					.Where(x => x.Value == provider)
+					.Select(x => x.Key)
+					.First();
+				mappedChannel = mappedChannels
+					.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == providerChannelId)
+					.Select(x => (KeyValuePair<ulong, ChannelMapping>?)x)
+					.FirstOrDefault();
+			}
+
+			if (message.User.Channel.IsPrivateChannel)
+				lock (mappedChannels)
+					if (!mappedChannel.HasValue)
+					{
+						ulong newId;
+						lock (synchronizationLock)
+							newId = channelIdCounter++;
+						logger.LogTrace(
+							"Mapping private channel {connection}:{friendlyName} as {id}",
+							message.User.Channel.ConnectionName,
+							message.User.FriendlyName,
+							newId);
+						mappedChannels.Add(newId, new ChannelMapping(message.User.Channel)
 						{
-							ulong newId;
-							lock (synchronizationLock)
-								newId = channelIdCounter++;
-							logger.LogTrace(
-								"Mapping private channel {0}:{1} as {2}",
-								message.User.Channel.ConnectionName,
-								message.User.FriendlyName,
-								newId);
-							mappedChannels.Add(newId, new ChannelMapping(message.User.Channel)
-							{
-								IsWatchdogChannel = false,
-								ProviderChannelId = message.User.Channel.RealId,
-								ProviderId = providerId,
-							});
-							message.User.Channel.RealId = newId;
-						}
-						else
-							message.User.Channel.RealId = enumerable.First().Key;
-				else
+							IsWatchdogChannel = false,
+							ProviderChannelId = message.User.Channel.RealId,
+							ProviderId = providerId,
+						});
+						message.User.Channel.RealId = newId;
+					}
+					else
+						message.User.Channel.RealId = mappedChannel.Value.Key;
+			else
+			{
+				if (!mappedChannel.HasValue)
 				{
-					// need to add tag and isAdminChannel
-					var mapping = enumerable.First().Value;
-					message.User.Channel.Id = mapping.Channel.Id;
-					message.User.Channel.Tag = mapping.Channel.Tag;
-					message.User.Channel.IsAdminChannel = mapping.Channel.IsAdminChannel;
+					logger.LogError(
+						"Error mapping message: Provider ID: {providerId}, Channel Real ID: {realId}",
+						providerId,
+						message.User.Channel.RealId);
+					await SendMessage(
+						"Processing error, check logs!",
+						new List<ulong>
+						{
+							message.User.Channel.RealId,
+						},
+						cancellationToken)
+						.ConfigureAwait(false);
+					return;
 				}
+
+				var mappingChannelRepresentation = mappedChannel.Value.Value.Channel;
+
+				message.User.Channel.Id = mappingChannelRepresentation.Id;
+				message.User.Channel.Tag = mappingChannelRepresentation.Tag;
+				message.User.Channel.IsAdminChannel = mappingChannelRepresentation.IsAdminChannel;
 			}
 
 			var splits = new List<string>(message.Content.Trim().Split(' '));
@@ -807,12 +833,12 @@ namespace Tgstation.Server.Host.Components.Chat
 						async Task WrapProcessMessage()
 						{
 							var localActiveProcessingTask = activeProcessingTask;
-							await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
+							using (LogContext.PushProperty("ChatMessage", messageNumber))
+								await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
 							await localActiveProcessingTask.ConfigureAwait(false);
 						}
 
-						using (LogContext.PushProperty("ChatMessage", messageNumber))
-							activeProcessingTask = WrapProcessMessage();
+						activeProcessingTask = WrapProcessMessage();
 
 						messageTasks.Remove(completedMessageTaskKvp.Key);
 					}

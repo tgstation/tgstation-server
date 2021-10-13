@@ -71,6 +71,11 @@ namespace Tgstation.Server.Host.Components.Repository
 					logger.LogTrace(ex, "Suppressing clone cancellation exception");
 					cancellationToken.ThrowIfCancellationRequested();
 				}
+				catch (LibGit2SharpException ex)
+				{
+					CheckBadCredentialsException(ex);
+					throw;
+				}
 			},
 			cancellationToken,
 			DefaultIOManager.BlockingTaskCreationOptions,
@@ -99,5 +104,22 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			throw new JobException(ErrorCode.RepoCannotAuthenticate);
 		};
+
+		/// <inheritdoc />
+		public void CheckBadCredentialsException(LibGit2SharpException exception)
+		{
+			if (exception == null)
+				throw new ArgumentNullException(nameof(exception));
+
+			if (exception.Message == "too many redirects or authentication replays")
+				throw new JobException("Bad git credentials exchange!", exception);
+
+			if (exception.Message == ErrorCode.RepoCredentialsRequired.Describe())
+				throw new JobException(ErrorCode.RepoCredentialsRequired);
+
+			// submodule recursion
+			if (exception.InnerException is LibGit2SharpException innerException)
+				CheckBadCredentialsException(innerException);
+		}
 	}
 }

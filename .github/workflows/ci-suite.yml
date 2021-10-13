@@ -187,9 +187,7 @@ jobs:
     env:
       TGS_TEST_DATABASE_TYPE: SqlServer
       TGS_TEST_DUMP_API_SPEC: yes
-    concurrency: integration-windows-${{ github.head_ref }}
     strategy:
-      max-parallel: 2
       matrix:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
@@ -303,9 +301,7 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-    concurrency: integration-linux-${{ github.head_ref }}
     strategy:
-      max-parallel: 2
       matrix:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'System' ]
@@ -773,7 +769,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y xmlstarlet
-          xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props >> $Env:GITHUB_ENV
+          echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $Env:GITHUB_ENV
 
       - name: Docker Build and Push
         uses: elgohr/Publish-Docker-Github-Action@master

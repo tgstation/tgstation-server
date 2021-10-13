@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Client.Tests
 			var httpClient = new Mock<IHttpClient>();
 			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
 
-			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null);
+			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, false);
 
 			var result = await client.Read<ByondResponse>(Routes.Byond, default).ConfigureAwait(false);
 			Assert.AreEqual(sample.Version, result.Version);
@@ -66,7 +66,7 @@ namespace Tgstation.Server.Client.Tests
 			var httpClient = new Mock<IHttpClient>();
 			httpClient.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(response));
 
-			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null);
+			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, true);
 
 			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<ByondResponse>(Routes.Byond, default)).ConfigureAwait(false);
 		}

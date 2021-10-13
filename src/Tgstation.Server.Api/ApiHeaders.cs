@@ -315,19 +315,20 @@ namespace Tgstation.Server.Api
 
 			headers.Clear();
 			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-			if (!IsTokenAuthentication)
+			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
+			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name!, ApiVersion.ToString()).ToString());
+			if (OAuthProvider.HasValue)
+			{
+				headers.Authorization = new AuthenticationHeaderValue(OAuthAuthenticationScheme, Token);
+				headers.Add(OAuthProviderHeader, OAuthProvider.ToString());
+			}
+			else if (!IsTokenAuthentication)
 				headers.Authorization = new AuthenticationHeaderValue(
 					BasicAuthenticationScheme,
 					Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Username}:{Password}")));
 			else
-			{
 				headers.Authorization = new AuthenticationHeaderValue(BearerAuthenticationScheme, Token);
-				if (OAuthProvider.HasValue)
-					headers.Add(OAuthProviderHeader, OAuthProvider.ToString());
-			}
 
-			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
-			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name!, ApiVersion.ToString()).ToString());
 			instanceId ??= InstanceId;
 			if (instanceId.HasValue)
 				headers.Add(InstanceIdHeader, instanceId.ToString());

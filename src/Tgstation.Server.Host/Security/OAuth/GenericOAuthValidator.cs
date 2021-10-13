@@ -51,6 +51,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public override async Task<string?> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
 			using var httpClient = CreateHttpClient();
+			string? tokenResponsePayload = null;
+			string? userInformationPayload = null;
 			try
 			{
 				Logger.LogTrace("Validating response code...");
@@ -75,8 +77,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 				tokenRequest.Content = new FormUrlEncodedContent(tokenRequestDictionary);
 
 				var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken).ConfigureAwait(false);
+				tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 				tokenResponse.EnsureSuccessStatusCode();
-				var tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 				var tokenResponseJson = JObject.Parse(tokenResponsePayload);
 
 				var accessToken = DecodeTokenPayload(tokenResponseJson);
@@ -93,16 +95,20 @@ namespace Tgstation.Server.Host.Security.OAuth
 					accessToken);
 
 				var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken).ConfigureAwait(false);
+				userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 				userInformationResponse.EnsureSuccessStatusCode();
 
-				var userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 				var userInformationJson = JObject.Parse(userInformationPayload);
 
 				return DecodeUserInformationPayload(userInformationJson);
 			}
 			catch (Exception ex)
 			{
-				Logger.LogWarning(ex, "Error while completing OAuth handshake!");
+				Logger.LogWarning(
+					ex,
+					"Error while completing OAuth handshake! Payload:{newLine}{responsePayload}",
+					Environment.NewLine,
+					userInformationPayload ?? tokenResponsePayload);
 				return null;
 			}
 		}
