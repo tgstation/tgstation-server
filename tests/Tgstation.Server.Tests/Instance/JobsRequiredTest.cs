@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +20,7 @@ namespace Tgstation.Server.Tests.Instance
 			this.JobsClient = jobsClient;
 		}
 
-		public async Task<JobResponse> WaitForJob(JobResponse originalJob, int timeout, bool expectFailure, ErrorCode? expectedCode, CancellationToken cancellationToken)
+		public async Task<JobResponse> WaitForJob(JobResponse originalJob, int timeout, bool? expectFailure, ErrorCode? expectedCode, CancellationToken cancellationToken)
 		{
 			var job = originalJob;
 			do
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.Fail($"Job ID {job.Id} \"{job.Description}\" timed out!");
 			}
 
-			if (expectFailure ^ job.ExceptionDetails != null)
+			if(expectFailure.HasValue && (expectFailure.Value ^ job.ExceptionDetails != null))
 				Assert.Fail(job.ExceptionDetails
 					?? $"Expected job \"{job.Id}\" \"{job.Description}\" to fail {(expectedCode.HasValue ? $"with ErrorCode \"{expectedCode.Value}\" " : String.Empty)}but it didn't");
 
