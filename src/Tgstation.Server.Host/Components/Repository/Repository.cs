@@ -112,19 +112,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		bool disposed;
 
 		/// <summary>
-		/// Rethrow the authentication failure message as a <see cref="JobException"/> if it is one.
-		/// </summary>
-		/// <param name="exception">The current <see cref="LibGit2SharpException"/>.</param>
-		static void CheckBadCredentialsException(LibGit2SharpException exception)
-		{
-			if (exception.Message == "too many redirects or authentication replays")
-				throw new JobException("Bad git credentials exchange!", exception);
-
-			if (exception.Message == ErrorCode.RepoCredentialsRequired.Describe())
-				throw new JobException(ErrorCode.RepoCredentialsRequired);
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="Repository"/> class.
 		/// </summary>
 		/// <param name="libGitRepo">The value of <see cref="libGitRepo"/>.</param>
@@ -262,7 +249,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						}
 						catch (LibGit2SharpException ex)
 						{
-							CheckBadCredentialsException(ex);
+							credentialsProvider.CheckBadCredentialsException(ex);
 						}
 
 						cancellationToken.ThrowIfCancellationRequested();
@@ -289,7 +276,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							FastForwardStrategy = FastForwardStrategy.NoFastForward,
 							SkipReuc = true,
 							OnCheckoutProgress = CheckoutProgressHandler(
-								(lambdaStage, progress) => progressReporter(lambdaStage, 50 + (progress / 2)),
+								(lambdaStage, progress) => progressReporter(lambdaStage, progress.HasValue ? (int?)(50 + (progress.Value / 2)) : null),
 								$"Merge {testMergeParameters.TargetCommitSha}"),
 						});
 					}
@@ -439,7 +426,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					}
 					catch (LibGit2SharpException ex)
 					{
-						CheckBadCredentialsException(ex);
+						credentialsProvider.CheckBadCredentialsException(ex);
 					}
 				},
 				cancellationToken,
@@ -659,7 +646,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						libGitRepo.Reset(ResetMode.Hard, libGitRepo.Head.Tip, new CheckoutOptions
 						{
-							OnCheckoutProgress = CheckoutProgressHandler((stage, progress) => progressReporter(stage, progress / 10), "Hard reset and remove untracked files"),
+							OnCheckoutProgress = CheckoutProgressHandler((stage, progress) => progressReporter(stage, progress.HasValue ? (int?)(progress.Value / 10) : null), "Hard reset and remove untracked files"),
 						});
 						cancellationToken.ThrowIfCancellationRequested();
 						libGitRepo.RemoveUntrackedFiles();
@@ -952,7 +939,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var factor = 100 / submoduleCount;
 			foreach (var submodule in libGitRepo.Submodules)
 			{
-				void LocalProgressReporter(string stage, int percentage) => progressReporter(stage, (iteration * factor) + (percentage / submoduleCount));
+				void LocalProgressReporter(string stage, int? percentage) => progressReporter(stage, percentage.HasValue ? (int?)((iteration * factor) + (percentage.Value / submoduleCount)) : null);
 				var submoduleUpdateOptions = new SubmoduleUpdateOptions
 				{
 					Init = true,
@@ -964,7 +951,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 					CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),
 					OnCheckoutProgress = CheckoutProgressHandler(
-						(stage, progress) => LocalProgressReporter(stage, 50 + (progress.Value / 2)),
+						(stage, progress) => LocalProgressReporter(stage, progress.HasValue ? (int?)(50 + (progress.Value / 2)) : null),
 						$"Checkout submodule {submodule.Name}"),
 				};
 
@@ -982,7 +969,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					// workaround for https://github.com/libgit2/libgit2/issues/3820
 					// kill off the modules/ folder in .git and try again
-					CheckBadCredentialsException(ex);
+					credentialsProvider.CheckBadCredentialsException(ex);
 					logger.LogWarning(ex, "Initial update of submodule {0} failed. Deleting submodule directories and re-attempting...", submodule.Name);
 
 					await Task.WhenAll(
@@ -1001,7 +988,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					}
 					catch (LibGit2SharpException ex2)
 					{
-						CheckBadCredentialsException(ex2);
+						credentialsProvider.CheckBadCredentialsException(ex2);
 						logger.LogTrace(ex2, "Retried update of submodule {0} failed!", submodule.Name);
 						throw new AggregateException(ex, ex2);
 					}
@@ -1020,7 +1007,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		CheckoutProgressHandler CheckoutProgressHandler(JobProgressReporter progressReporter, string stage) => (a, completedSteps, totalSteps) =>
 		{
 			int? percentage;
-			if (totalSteps < completedSteps || totalSteps == 0)
+
+			// short circuit initialization where totalSteps is 0
+			if (completedSteps == 0)
+				percentage = 0;
+			else if (totalSteps < completedSteps || totalSteps == 0)
 				percentage = null;
 			else
 			{

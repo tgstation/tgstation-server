@@ -958,7 +958,7 @@ namespace Tgstation.Server.Tests
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
-						await jrt.WaitForJob(job, 140, false, null, cancellationToken);
+						await jrt.WaitForJob(job, 140, job.Description.Contains("Reconnect chat bot") ? (bool?)null : (bool?)false, null, cancellationToken);
 					}
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);

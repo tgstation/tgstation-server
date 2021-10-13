@@ -94,6 +94,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		Snowflake currentUserId;
 
 		/// <summary>
+		/// The bot's username at the time of connection.
+		/// </summary>
+		string initialUserName;
+
+		/// <summary>
 		/// Normalize a discord mention string.
 		/// </summary>
 		/// <param name="fromDiscord">The mention <see cref="string"/> provided by the Discord library.</param>
@@ -194,20 +199,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
 
-			if (!Connected)
-			{
-				Logger.LogWarning("Cannot map channels, provider disconnected!");
-				return Array.Empty<ChannelRepresentation>();
-			}
-
-			var usersClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
-			var currentUserResponse = await usersClient.GetCurrentUserAsync(cancellationToken).ConfigureAwait(false);
-
-			if (!currentUserResponse.IsSuccess)
-			{
-				Logger.LogWarning("Error retrieving current Discord user: {0}", currentUserResponse.Error.Message);
-				return Array.Empty<ChannelRepresentation>();
-			}
+			bool remapRequired = false;
 
 			async Task<ChannelRepresentation> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
 			{
@@ -215,14 +207,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
 
 				var channelId = channelFromDB.DiscordChannelId.Value;
-				ulong discordChannelId;
 				string connectionName;
 				string friendlyName;
 				if (channelId == 0)
 				{
-					connectionName = currentUserResponse.Entity.Username;
+					connectionName = initialUserName;
 					friendlyName = "(Unmapped accessible channels)";
-					discordChannelId = 0;
 				}
 				else
 				{
@@ -231,6 +221,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!discordChannelResponse.IsSuccess)
 					{
 						Logger.LogWarning("Error retrieving discord channel {0}: {1}", channelId, discordChannelResponse.Error.Message);
+						remapRequired = true;
 						return null;
 					}
 
@@ -240,7 +231,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return null;
 					}
 
-					discordChannelId = discordChannelResponse.Entity.ID.Value;
 					friendlyName = discordChannelResponse.Entity.Name.Value;
 
 					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
@@ -254,6 +244,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							"Error retrieving discord guild {0}: {1}",
 							discordChannelResponse.Entity.GuildID.Value,
 							discordChannelResponse.Error.Message);
+						remapRequired = true;
 						return null;
 					}
 
@@ -262,7 +253,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				var channelModel = new ChannelRepresentation
 				{
-					RealId = discordChannelId,
+					RealId = channelId,
 					IsAdminChannel = channelFromDB.IsAdminChannel == true,
 					ConnectionName = connectionName,
 					FriendlyName = friendlyName,
@@ -276,13 +267,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var tasks = channels
 				.Select(x => GetModelChannelFromDBChannel(x))
-				.Where(x => x != null)
 				.ToList();
 
 			await Task.WhenAll(tasks);
 
 			var enumerator = tasks
 				.Select(x => x.Result)
+				.Where(x => x != null)
 				.ToList();
 
 			lock (mappedChannels)
@@ -290,6 +281,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				mappedChannels.Clear();
 				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
 			}
+
+			if (remapRequired)
+				EnqueueMessage(null);
 
 			return enumerator;
 		}
@@ -613,6 +607,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				gatewayReadyTcs = new TaskCompletionSource<object>();
 
 				using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled());
+				gatewayCancellationToken.Register(() => Logger.LogTrace("Stopping gateway client..."));
 
 				// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter
 				localGatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);
@@ -634,6 +629,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 
 					currentUserId = currentUserResult.Entity.ID;
+					initialUserName = currentUserResult.Entity.Username;
 				}
 				finally
 				{

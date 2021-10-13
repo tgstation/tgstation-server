@@ -519,7 +519,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			IQueryable<Models.Instance> GetBaseQuery()
 			{
-				IQueryable<Models.Instance> query = DatabaseContext
+				var query = DatabaseContext
 					.Instances
 					.AsQueryable()
 					.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier);
