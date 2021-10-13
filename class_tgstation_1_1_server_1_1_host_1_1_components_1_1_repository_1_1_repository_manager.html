@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.15.3</span>
+   &#160;<span id="projectnumber">4.15.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -383,9 +383,9 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                                <span class="comment">// DCT: Cancellation token is for job, operation must run regardless</span></div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#aa62f89a29abc7febb886a1e7216067a2">ioManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(repositoryPath, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                            }</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                            <span class="keywordflow">catch</span> (Exception innerException)</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                            {</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ab48210b91ab8add64013a209d4223070">logger</a>.LogDebug(e, <span class="stringliteral">&quot;Error deleting partially cloned repository!&quot;</span>);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ab48210b91ab8add64013a209d4223070">logger</a>.LogError(innerException, <span class="stringliteral">&quot;Error deleting partially cloned repository!&quot;</span>);</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                            }</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                            <span class="keywordflow">throw</span>;</div>

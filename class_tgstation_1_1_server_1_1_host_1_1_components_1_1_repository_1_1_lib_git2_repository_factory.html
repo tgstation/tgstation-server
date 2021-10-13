@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.15.3</span>
+   &#160;<span id="projectnumber">4.15.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -118,6 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8690f8be311b5092a11782a2c54b3728"><td class="memItemLeft" align="right" valign="top">CredentialsHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a8690f8be311b5092a11782a2c54b3728">GenerateCredentialsHandler</a> (string username, string password)</td></tr>
 <tr class="memdesc:a8690f8be311b5092a11782a2c54b3728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a CredentialsHandler from a given <em>username</em>  and <em>password</em> .  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a8690f8be311b5092a11782a2c54b3728">More...</a><br /></td></tr>
 <tr class="separator:a8690f8be311b5092a11782a2c54b3728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaf5b1d3a64659bcfc1dfb60038b9d0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">CheckBadCredentialsException</a> (LibGit2SharpException exception)</td></tr>
+<tr class="memdesc:afaf5b1d3a64659bcfc1dfb60038b9d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rethrow the authentication failure message as a JobException if it is one.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">More...</a><br /></td></tr>
+<tr class="separator:afaf5b1d3a64659bcfc1dfb60038b9d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -164,6 +167,58 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="afaf5b1d3a64659bcfc1dfb60038b9d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaf5b1d3a64659bcfc1dfb60038b9d0f">&#9670;&nbsp;</a></span>CheckBadCredentialsException()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException </td>
+          <td>(</td>
+          <td class="paramtype">LibGit2SharpException&#160;</td>
+          <td class="paramname"><em>exception</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rethrow the authentication failure message as a JobException if it is one. </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#adadfc1a59c4a3f30bc795c43b3c6fa42">Tgstation.Server.Host.Components.Repository.ICredentialsProvider</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00109">109</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="keywordflow">if</span> (exception == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(exception));</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">if</span> (exception.Message == <span class="stringliteral">&quot;too many redirects or authentication replays&quot;</span>)</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<span class="stringliteral">&quot;Bad git credentials exchange!&quot;</span>, exception);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">if</span> (exception.Message == <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoCredentialsRequired.Describe())</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoCredentialsRequired);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="comment">// submodule recursion</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keywordflow">if</span> (exception.InnerException is LibGit2SharpException innerException)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">CheckBadCredentialsException</a>(innerException);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_html_afaf5b1d3a64659bcfc1dfb60038b9d0f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException</a></div><div class="ttdeci">void CheckBadCredentialsException(LibGit2SharpException exception)</div><div class="ttdoc">Rethrow the authentication failure message as a JobException if it is one.</div><div class="ttdef"><b>Definition:</b> <a href="_lib_git2_repository_factory_8cs_source.html#l00109">LibGit2RepositoryFactory.cs:109</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition:</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.Clone()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_afaf5b1d3a64659bcfc1dfb60038b9d0f_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_afaf5b1d3a64659bcfc1dfb60038b9d0f_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_afaf5b1d3a64659bcfc1dfb60038b9d0f_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_afaf5b1d3a64659bcfc1dfb60038b9d0f_icgraph">
+<area shape="rect" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="321,5,556,61"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4" title="Clone a remote LibGit2Sharp.IRepository." alt="" coords="5,13,273,54"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="ac40ab8e01d38e4283f2b108b6cf3d4e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac40ab8e01d38e4283f2b108b6cf3d4e4">&#9670;&nbsp;</a></span>Clone()</h2>
 
@@ -206,7 +261,16 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>.</p>
 
-<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
+<p class="reference">References <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00109">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException()</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_ac40ab8e01d38e4283f2b108b6cf3d4e4_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_ac40ab8e01d38e4283f2b108b6cf3d4e4_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_ac40ab8e01d38e4283f2b108b6cf3d4e4_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_ac40ab8e01d38e4283f2b108b6cf3d4e4_cgraph">
+<area shape="rect" title="Clone a remote LibGit2Sharp.IRepository." alt="" coords="5,13,273,54"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#afaf5b1d3a64659bcfc1dfb60038b9d0f" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="321,5,556,61"/>
+</map>
+</div>
 
 </div>
 </div>

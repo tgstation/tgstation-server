@@ -1,25 +1,24 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DreamMaker" name="Tgstation.Server.Host.Components.Deployment.DreamMaker">
-<area shape="rect" id="node1" title=" " alt="" coords="745,533,972,574"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler." alt="" coords="313,22,413,48"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation." alt="" coords="249,321,476,362"/>
-<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="39,220,151,247"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="249,73,476,114"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="49,419,140,446"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="249,504,476,545"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers." alt="" coords="249,138,476,180"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="279,204,447,245"/>
-<area shape="rect" id="node8" title=" " alt="" coords="335,270,390,296"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="249,621,476,662"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,628,184,655"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="249,386,476,428"/>
-<area shape="rect" id="node12" title=" " alt="" coords="342,452,383,479"/>
-<area shape="rect" id="node14" href="$class_i_async_disposable.html" title=" " alt="" coords="31,80,158,107"/>
-<area shape="rect" id="node15" title=" " alt="" coords="287,570,439,596"/>
-<area shape="rect" id="node17" title=" " alt="" coords="339,687,386,714"/>
-<area shape="rect" id="node18" title=" " alt="" coords="309,738,417,764"/>
-<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="233,788,492,844"/>
-<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="263,868,462,909"/>
-<area shape="rect" id="node21" title=" " alt="" coords="242,932,483,988"/>
-<area shape="rect" id="node22" title=" " alt="" coords="318,1012,407,1039"/>
-<area shape="rect" id="node23" title=" " alt="" coords="321,1063,405,1090"/>
+<area shape="rect" id="node1" title=" " alt="" coords="745,528,972,570"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler." alt="" coords="313,18,413,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation." alt="" coords="249,135,476,176"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="39,133,151,160"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="249,70,476,111"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="49,200,140,226"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys." alt="" coords="249,200,476,242"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers." alt="" coords="249,266,476,307"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="279,331,447,372"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="249,396,476,438"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,404,184,430"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="249,462,476,503"/>
+<area shape="rect" id="node11" title=" " alt="" coords="335,528,390,554"/>
+<area shape="rect" id="node12" title=" " alt="" coords="342,578,383,605"/>
+<area shape="rect" id="node14" href="$class_i_async_disposable.html" title=" " alt="" coords="31,74,158,101"/>
+<area shape="rect" id="node15" title=" " alt="" coords="287,629,439,656"/>
+<area shape="rect" id="node17" title=" " alt="" coords="339,680,386,706"/>
+<area shape="rect" id="node18" title=" " alt="" coords="309,730,417,757"/>
+<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="233,781,492,837"/>
+<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="263,860,462,902"/>
+<area shape="rect" id="node21" title=" " alt="" coords="242,925,483,981"/>
+<area shape="rect" id="node22" title=" " alt="" coords="321,1005,405,1032"/>
 </map>

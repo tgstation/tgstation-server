@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProvider" name="Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProvider">
-<area shape="rect" id="node1" title="Remove a IProvider from providers and mappedChannels optionally updating the trackingContexts as well..." alt="" coords="284,5,512,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9" title="Change chat channels." alt="" coords="5,5,236,47"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.IProvider.Disconnect" name="Tgstation.Server.Host.Components.Chat.Providers.IProvider.Disconnect">
-<area shape="rect" id="node1" title="Gracefully disconnects the provider. Permanently stops the reconnection timer." alt="" coords="280,5,511,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0821ad5d467ff2ea9216eadd33273104" title="Change chat settings. If the Api.Models.EntityId.Id is not currently in use, a new connection will be..." alt="" coords="5,5,232,47"/>
-</map>

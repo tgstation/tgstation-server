@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.15.3</span>
+   &#160;<span id="projectnumber">4.15.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -517,7 +517,7 @@ $(function() {
 <div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;        {</div>
 <div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;            <a class="code" href="class_i_queryable.html">IQueryable</a>&lt;Models.Instance&gt; GetBaseQuery()</div>
 <div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;            {</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;                <a class="code" href="class_i_queryable.html">IQueryable</a>&lt;Models.Instance&gt; query = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;                var query = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
 <div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;                    .<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a1bc257ebf1d31bfba7f665d61da5c4a2">Instances</a></div>
 <div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;                    .AsQueryable()</div>
 <div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;                    .Where(x =&gt; x.SwarmIdentifer == swarmConfiguration.Identifier);</div>
