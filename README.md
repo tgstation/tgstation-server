@@ -62,7 +62,7 @@ docker run \
 	--restart=always \ # Recommended for maximum uptime
 	--network="host" \ # Not recommended, eases networking setup if your sql server is on the same machine
 	--name="tgs" \ # Name for the container
-	--cap-add=sys_nice \ # Recommended, allows tgs to schedule DreamDaemon as a higher priority process
+	--cap-add=sys_nice \ # Recommended, allows TGS to lower the niceness of child processes if it sees fit
 	--init \ #Highly recommended, reaps potential zombie processes
 	-p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need
 	-p 0.0.0.0:<public game port>:<public game port> \ # Port bridge for accessing DreamDaemon
