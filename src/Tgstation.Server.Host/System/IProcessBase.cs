@@ -14,9 +14,10 @@ namespace Tgstation.Server.Host.System
 		Task<int> Lifetime { get; }
 
 		/// <summary>
-		/// Set's the owned <see cref="global::System.Diagnostics.Process.PriorityClass"/> to <see cref="global::System.Diagnostics.ProcessPriorityClass.AboveNormal"/>.
+		/// Set's the owned <see cref="global::System.Diagnostics.Process.PriorityClass"/> to a non-normal value.
 		/// </summary>
-		void SetHighPriority();
+		/// <param name="higher">If <see langword="true"/> will be set to <see cref="global::System.Diagnostics.ProcessPriorityClass.AboveNormal"/> otherwise, will be set to <see cref="global::System.Diagnostics.ProcessPriorityClass.BelowNormal"/>.</param>
+		void AdjustPriority(bool higher);
 
 		/// <summary>
 		/// Suspends the process.

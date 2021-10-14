@@ -247,8 +247,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return;
 				}
 
-				Server.SetHighPriority();
-
+				// Server.AdjustPriority(true);
 				if (!reattachInProgress)
 					await SessionPersistor.Save(Server.ReattachInformation, cancellationToken).ConfigureAwait(false);
 
