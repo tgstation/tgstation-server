@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.15.4</span>
+   &#160;<span id="projectnumber">4.15.5</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -362,7 +362,7 @@ $(function() {
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;            var originalModel = await InstanceQuery()</div>
 <div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                .Include(x =&gt; x.RepositorySettings)</div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                .Include(x =&gt; x.ChatSettings)</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                .ThenInclude(x =&gt; x.Channels)</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                    .ThenInclude(x =&gt; x.Channels)</div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                .Include(x =&gt; x.DreamDaemonSettings) <span class="comment">// need these for onlining</span></div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;            <span class="keywordflow">if</span> (originalModel == <span class="keywordflow">default</span>(Models.Instance))</div>

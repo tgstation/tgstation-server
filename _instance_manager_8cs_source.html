@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.15.4</span>
+   &#160;<span id="projectnumber">4.15.5</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -398,7 +398,7 @@ $(function() {
 <div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                        .Where(x =&gt; x.Online.Value &amp;&amp; x.SwarmIdentifer == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9eaeb3190a96e2d25bdb58dedb00e07f">swarmConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>)</div>
 <div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                        .Include(x =&gt; x.RepositorySettings)</div>
 <div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                        .Include(x =&gt; x.ChatSettings)</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                        .ThenInclude(x =&gt; x.Channels)</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                            .ThenInclude(x =&gt; x.Channels)</div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                        .Include(x =&gt; x.DreamDaemonSettings)</div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                        .ToListAsync(cancellationToken)</div>
 <div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                        .ConfigureAwait(<span class="keyword">false</span>));</div>
