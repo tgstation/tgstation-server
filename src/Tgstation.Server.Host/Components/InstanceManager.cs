@@ -404,7 +404,7 @@ namespace Tgstation.Server.Host.Components
 						.Where(x => x.Online && x.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.RepositorySettings)
 						.Include(x => x.ChatSettings)
-						.ThenInclude(x => x.Channels)
+							.ThenInclude(x => x.Channels)
 						.Include(x => x.DreamDaemonSettings)
 						.ToListAsync(cancellationToken)
 						.ConfigureAwait(false));

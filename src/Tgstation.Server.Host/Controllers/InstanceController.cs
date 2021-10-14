@@ -360,7 +360,7 @@ namespace Tgstation.Server.Host.Controllers
 			var originalModel = await InstanceQuery()
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
-				.ThenInclude(x => x.Channels)
+					.ThenInclude(x => x.Channels)
 				.Include(x => x.DreamDaemonSettings) // need these for onlining
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))

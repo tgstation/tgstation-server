@@ -324,6 +324,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					Name = newSettings.Name,
 					ReconnectionInterval = newSettings.ReconnectionInterval,
 					Provider = newSettings.Provider,
+					Channels = newSettings.Channels,
 				});
 			}
 
@@ -834,7 +835,15 @@ namespace Tgstation.Server.Host.Components.Chat
 						{
 							var localActiveProcessingTask = activeProcessingTask;
 							using (LogContext.PushProperty("ChatMessage", messageNumber))
-								await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
+								try
+								{
+									await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
+								}
+								catch (Exception ex)
+								{
+									logger.LogError(ex, "Error processing message {messageNumber}!", messageNumber);
+								}
+
 							await localActiveProcessingTask.ConfigureAwait(false);
 						}
 
