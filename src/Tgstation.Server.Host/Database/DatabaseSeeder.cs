@@ -14,8 +14,6 @@ using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 
-using Z.EntityFramework.Plus;
-
 namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />
