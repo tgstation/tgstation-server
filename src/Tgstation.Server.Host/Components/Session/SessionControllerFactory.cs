@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -17,6 +18,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -100,6 +102,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ILogger<SessionControllerFactory> logger;
 
 		/// <summary>
+		/// The <see cref="SessionConfiguration"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly SessionConfiguration sessionConfiguration;
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
 		readonly Api.Models.Instance instance;
@@ -170,7 +177,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IByondManager byond,
@@ -183,9 +191,10 @@ namespace Tgstation.Server.Host.Components.Session
 			IPlatformIdentifier platformIdentifier,
 			IBridgeRegistrar bridgeRegistrar,
 			IServerPortProvider serverPortProvider,
-			EventConsumer eventConsumer,
+			IEventConsumer eventConsumer,
 			ILoggerFactory loggerFactory,
 			ILogger<SessionControllerFactory> logger,
+			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
@@ -193,7 +202,6 @@ namespace Tgstation.Server.Host.Components.Session
 			this.topicClientFactory = topicClientFactory ?? throw new ArgumentNullException(nameof(topicClientFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
@@ -203,6 +211,8 @@ namespace Tgstation.Server.Host.Components.Session
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
 		/// <inheritdoc />
@@ -379,6 +389,14 @@ namespace Tgstation.Server.Host.Components.Session
 							launchParameters.StartupTimeout,
 							false,
 							apiValidate);
+
+						if (apiValidate)
+						{
+							if (sessionConfiguration.HighPriorityLiveDreamDaemon)
+								process.AdjustPriority(true);
+						}
+						else if (sessionConfiguration.LowPriorityDeploymentProcesses)
+							process.AdjustPriority(false);
 
 						// If this isnt a staging DD (From a Deployment), fire off an event
 						if (!apiValidate)

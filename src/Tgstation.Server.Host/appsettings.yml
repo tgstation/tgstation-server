@@ -11,6 +11,9 @@ General:
   InstanceLimit: 10
   ValidInstancePaths:
   HostApiDocumentation: false
+Session:
+  HighPriorityLiveDreamDaemon: false
+  LowPriorityDeploymentProcesses: true
 FileLogging:
   Directory:
   Disable: false

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -16,6 +17,7 @@ using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -94,6 +96,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ILogger<DreamMaker> logger;
 
 		/// <summary>
+		/// The <see cref="SessionConfiguration"/> for <see cref="DreamMaker"/>.
+		/// </summary>
+		readonly SessionConfiguration sessionConfiguration;
+
+		/// <summary>
 		/// The <see cref="Instance"/> <see cref="DreamMaker"/> belongs to.
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -147,6 +154,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DreamMaker(
 			IByondManager byond,
@@ -160,6 +168,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IRepositoryManager repositoryManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<DreamMaker> logger,
+			IOptions<SessionConfiguration> sessionConfigurationOptions,
 			Api.Models.Instance metadata)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -173,6 +182,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			deploymentLock = new object();
@@ -825,6 +835,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				true,
 				true,
 				true);
+
+			if (sessionConfiguration.LowPriorityDeploymentProcesses)
+				dm.AdjustPriority(false);
+
 			int exitCode;
 			using (cancellationToken.Register(() => dm.Terminate()))
 				exitCode = await dm.Lifetime.ConfigureAwait(false);
