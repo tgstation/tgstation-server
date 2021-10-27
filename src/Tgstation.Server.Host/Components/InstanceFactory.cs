@@ -149,6 +149,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly SessionConfiguration sessionConfiguration;
 
+#pragma warning disable CA1502 // TODO: Decomplexify
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InstanceFactory"/> class.
 		/// </summary>
@@ -227,6 +228,7 @@ namespace Tgstation.Server.Host.Components
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
+#pragma warning restore CA1502
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
