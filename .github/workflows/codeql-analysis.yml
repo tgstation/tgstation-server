@@ -21,6 +21,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
+        
+    - name: Upgrade NPM
+      run: npm install -g npm
 
     - name: Checkout repository
       uses: actions/checkout@v2
