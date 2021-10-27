@@ -135,7 +135,7 @@ jobs:
         node-version: 12.x
         
     - name: Upgrade NPM
-      run: npm install -g npm
+      run: sudo npm install -g npm
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
