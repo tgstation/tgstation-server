@@ -145,6 +145,11 @@ namespace Tgstation.Server.Host.Components
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="SessionConfiguration"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly SessionConfiguration sessionConfiguration;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="InstanceFactory"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
@@ -170,6 +175,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
@@ -193,7 +199,8 @@ namespace Tgstation.Server.Host.Components
 			IFileTransferTicketProvider fileTransferService,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -218,6 +225,7 @@ namespace Tgstation.Server.Host.Components
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 
 		/// <inheritdoc />
@@ -276,6 +284,7 @@ namespace Tgstation.Server.Host.Components
 						eventConsumer,
 						loggerFactory,
 						loggerFactory.CreateLogger<SessionControllerFactory>(),
+						sessionConfiguration,
 						metadata);
 
 					var dmbFactory = new DmbFactory(
@@ -320,6 +329,7 @@ namespace Tgstation.Server.Host.Components
 								repoManager,
 								remoteDeploymentManagerFactory,
 								loggerFactory.CreateLogger<DreamMaker>(),
+								sessionConfiguration,
 								metadata);
 
 							instance = new Instance(

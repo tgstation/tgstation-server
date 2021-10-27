@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
@@ -154,7 +153,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DreamMaker(
 			IByondManager byond,
@@ -168,7 +167,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IRepositoryManager repositoryManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<DreamMaker> logger,
-			IOptions<SessionConfiguration> sessionConfigurationOptions,
+			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance metadata)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -182,7 +181,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			deploymentLock = new object();

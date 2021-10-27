@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -177,7 +176,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
+		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
@@ -194,7 +193,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IEventConsumer eventConsumer,
 			ILoggerFactory loggerFactory,
 			ILogger<SessionControllerFactory> logger,
-			IOptions<SessionConfiguration> sessionConfigurationOptions,
+			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
@@ -211,7 +210,7 @@ namespace Tgstation.Server.Host.Components.Session
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
+			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
