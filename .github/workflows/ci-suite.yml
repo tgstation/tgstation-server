@@ -117,7 +117,7 @@ jobs:
       uses: actions/checkout@v1
       
     - name: Upgrade NPM
-      run: npm install -g npm
+      run: sudo npm install -g npm
 
     - name: Build Docker Image
       run: docker build . -f build/Dockerfile
@@ -133,9 +133,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-        
-    - name: Upgrade NPM
-      run: sudo npm install -g npm
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
@@ -144,6 +141,9 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v1
+      
+    - name: Upgrade NPM
+      run: sudo npm install -g npm
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoService
