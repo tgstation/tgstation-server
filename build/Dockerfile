@@ -14,10 +14,11 @@ RUN . $NVM_DIR/nvm.sh \
 	&& apt-get install -y \
 		dos2unix \
 	&& rm -rf /var/lib/apt/lists/*
-RUN npm install -g npm
-
+	
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN npm install -g npm
 
 # Build web control panel
 WORKDIR /repo/build
