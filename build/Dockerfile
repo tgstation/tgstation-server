@@ -5,7 +5,10 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | sh
 
 ENV NODE_VERSION 14.18.1
+
 ENV NVM_DIR /root/.nvm
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
@@ -13,12 +16,8 @@ RUN . $NVM_DIR/nvm.sh \
 	&& apt-get update \
 	&& apt-get install -y \
 		dos2unix \
-	&& rm -rf /var/lib/apt/lists/*
-	
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-
-RUN npm install -g npm
+	&& rm -rf /var/lib/apt/lists/* \
+	&& npm install -g npm
 
 # Build web control panel
 WORKDIR /repo/build
