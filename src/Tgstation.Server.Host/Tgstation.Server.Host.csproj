@@ -57,7 +57,7 @@
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="1.5.3" />
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
-    <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
+    <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0119" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0-rc.1.21452.15" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0-rc.1.21452.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-rc.1.21452.10" />

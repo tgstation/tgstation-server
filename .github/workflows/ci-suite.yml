@@ -115,6 +115,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
+      
+    - name: Upgrade NPM
+      run: sudo npm install -g npm
 
     - name: Build Docker Image
       run: docker build . -f build/Dockerfile
@@ -126,11 +129,6 @@ jobs:
         configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
     steps:
-    - name: Install Node 12.X
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
@@ -138,6 +136,9 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v1
+      
+    - name: Upgrade NPM
+      run: sudo npm install -g npm
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}
@@ -165,6 +166,9 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v1
+      
+    - name: Upgrade NPM
+      run: npm install -g npm
 
     - name: Clean package cache as a temporary workaround for actions/setup-dotnet#155
       run: dotnet clean && dotnet nuget locals all --clear
@@ -197,6 +201,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+        
+    - name: Upgrade NPM
+      run: npm install -g npm
 
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
@@ -321,6 +328,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
+        
+    - name: Upgrade NPM
+      run: npm install -g npm
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1

@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 # replace shell with bash so we can source files
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | sh
 
-ENV NODE_VERSION 10.13.0
+ENV NODE_VERSION 14.18.1
 ENV NVM_DIR /root/.nvm
 
 RUN . $NVM_DIR/nvm.sh \
@@ -14,9 +14,11 @@ RUN . $NVM_DIR/nvm.sh \
 	&& apt-get install -y \
 		dos2unix \
 	&& rm -rf /var/lib/apt/lists/*
-
+	
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN npm install -g npm
 
 # Build web control panel
 WORKDIR /repo
