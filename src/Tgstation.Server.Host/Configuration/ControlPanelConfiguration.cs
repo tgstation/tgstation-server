@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Configuration
+﻿using System.Collections.Generic;
+
+namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// Configuration options for the web control panel.
