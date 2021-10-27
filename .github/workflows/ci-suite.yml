@@ -129,11 +129,6 @@ jobs:
         configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
     steps:
-    - name: Install Node 12.X
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
