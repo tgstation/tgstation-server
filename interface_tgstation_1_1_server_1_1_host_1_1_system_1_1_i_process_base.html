@@ -94,9 +94,9 @@ Inheritance diagram for Tgstation.Server.Host.System.IProcessBase:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4c32c6fcf031cd1c996b505e6c58e510"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a4c32c6fcf031cd1c996b505e6c58e510">SetHighPriority</a> ()</td></tr>
-<tr class="memdesc:a4c32c6fcf031cd1c996b505e6c58e510"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set's the owned global::System.Diagnostics.Process.PriorityClass to global::System.Diagnostics.ProcessPriorityClass.AboveNormal.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a4c32c6fcf031cd1c996b505e6c58e510">More...</a><br /></td></tr>
-<tr class="separator:a4c32c6fcf031cd1c996b505e6c58e510"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d860a501568835fac115772ee87902d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d860a501568835fac115772ee87902d">AdjustPriority</a> (bool higher)</td></tr>
+<tr class="memdesc:a9d860a501568835fac115772ee87902d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set's the owned global::System.Diagnostics.Process.PriorityClass to a non-normal value.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d860a501568835fac115772ee87902d">More...</a><br /></td></tr>
+<tr class="separator:a9d860a501568835fac115772ee87902d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50cf121e04a59decc0262d2eaef0845f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a50cf121e04a59decc0262d2eaef0845f">Suspend</a> ()</td></tr>
 <tr class="memdesc:a50cf121e04a59decc0262d2eaef0845f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspends the process.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a50cf121e04a59decc0262d2eaef0845f">More...</a><br /></td></tr>
 <tr class="separator:a50cf121e04a59decc0262d2eaef0845f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,6 +118,34 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_i_process_base_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_process_base_8cs_source.html">IProcessBase.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9d860a501568835fac115772ee87902d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d860a501568835fac115772ee87902d">&#9670;&nbsp;</a></span>AdjustPriority()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.System.IProcessBase.AdjustPriority </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>higher</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set's the owned global::System.Diagnostics.Process.PriorityClass to a non-normal value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">higher</td><td>If <code>true</code> will be set to global::System.Diagnostics.ProcessPriorityClass.AboveNormal otherwise, will be set to global::System.Diagnostics.ProcessPriorityClass.BelowNormal.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a363841873e7329d5b7c8d79bed0bb25d">Tgstation.Server.Host.System.Process</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a133dff7bd50f95537a01fef1fad6a407">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
+
+</div>
+</div>
 <a id="acf8d9dfdf49269e33dd78e634b741620"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acf8d9dfdf49269e33dd78e634b741620">&#9670;&nbsp;</a></span>CreateDump()</h2>
 
@@ -176,27 +204,6 @@ Properties</h2></td></tr>
 <p>Resumes the process. </p>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ac71f30aab7fc20ad92dc9b1ce8971b55">Tgstation.Server.Host.System.Process</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aca14b07bc405fa3d1c61a9007762876d">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
-
-</div>
-</div>
-<a id="a4c32c6fcf031cd1c996b505e6c58e510"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c32c6fcf031cd1c996b505e6c58e510">&#9670;&nbsp;</a></span>SetHighPriority()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Tgstation.Server.Host.System.IProcessBase.SetHighPriority </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Set's the owned global::System.Diagnostics.Process.PriorityClass to global::System.Diagnostics.ProcessPriorityClass.AboveNormal. </p>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a60950c5460a2ac65c8040adbe67f711b">Tgstation.Server.Host.System.Process</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a682e5041a73a975a85fa38ea6511d2a6">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
 
 </div>
 </div>

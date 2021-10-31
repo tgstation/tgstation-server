@@ -116,7 +116,7 @@ Docker (Linux)</h3>
 <div class="line">    --restart=always \ # Recommended for maximum uptime</div>
 <div class="line">    --network=&quot;host&quot; \ # Not recommended, eases networking setup if your sql server is on the same machine</div>
 <div class="line">    --name=&quot;tgs&quot; \ # Name for the container</div>
-<div class="line">    --cap-add=sys_nice \ # Recommended, allows tgs to schedule DreamDaemon as a higher priority process</div>
+<div class="line">    --cap-add=sys_nice \ # Recommended, allows TGS to lower the niceness of child processes if it sees fit</div>
 <div class="line">    --init \ #Highly recommended, reaps potential zombie processes</div>
 <div class="line">    -p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need</div>
 <div class="line">    -p 0.0.0.0:&lt;public game port&gt;:&lt;public game port&gt; \ # Port bridge for accessing DreamDaemon</div>
@@ -155,6 +155,8 @@ Manual Configuration</h3>
 <li><code>General:UserLimit</code>: Maximum number of users that may be created</li>
 <li><code>General:InstanceLimit</code>: Maximum number of instances that may be created</li>
 <li><code>General:GitHubAccessToken</code>: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests</li>
+<li><code>Session:HighPriorityLiveDreamDaemon</code>: Boolean controlling if live DreamDaemon instances get set to above normal priority processes.</li>
+<li><code>Session:LowPriorityDeploymentProcesses</code>: Boolean controlling if DreamMaker and API validation DreamDaemon instances get set to below normal priority processes.</li>
 <li><code>FileLogging:Directory</code>: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise</li>
 <li><code>FileLogging:LogLevel</code>: Can be one of <code>Trace</code>, <code>Debug</code>, <code>Information</code>, <code>Warning</code>, <code>Error</code>, or <code>Critical</code>. Restricts what is put into the log files. Currently <code>Debug</code> is reccommended for help with error reporting.</li>
 <li><code>Kestrel:Endpoints:Http:Url</code>: The URL (i.e. interface and ports) your application should listen on. General use case should be <code><a href="http://localhost:">http://localhost:</a>&lt;port&gt;</code> for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the <code>-p</code> option instead</li>

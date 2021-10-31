@@ -157,9 +157,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3bf4bd799f6cdbe8c992f37798b44cf9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a3bf4bd799f6cdbe8c992f37798b44cf9">ResetRebootState</a> ()</td></tr>
 <tr class="memdesc:a3bf4bd799f6cdbe8c992f37798b44cf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a71b97ab7d82ac6304133d90895332e45" title="The current RebootState.">RebootState</a> to <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a3a9adb69be732dbd67aef59559f830c2a960b44c579bc2f6818d2daaf9e4c16f0" title="Run DreamDaemon&#39;s normal reboot process">RebootState.Normal</a> without telling the DMAPI.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a3bf4bd799f6cdbe8c992f37798b44cf9">More...</a><br /></td></tr>
 <tr class="separator:a3bf4bd799f6cdbe8c992f37798b44cf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a682e5041a73a975a85fa38ea6511d2a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a682e5041a73a975a85fa38ea6511d2a6">SetHighPriority</a> ()</td></tr>
-<tr class="memdesc:a682e5041a73a975a85fa38ea6511d2a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set's the owned global::System.Diagnostics.Process.PriorityClass to global::System.Diagnostics.ProcessPriorityClass.AboveNormal.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a682e5041a73a975a85fa38ea6511d2a6">More...</a><br /></td></tr>
-<tr class="separator:a682e5041a73a975a85fa38ea6511d2a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a133dff7bd50f95537a01fef1fad6a407"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a133dff7bd50f95537a01fef1fad6a407">AdjustPriority</a> (bool higher)</td></tr>
+<tr class="memdesc:a133dff7bd50f95537a01fef1fad6a407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set's the owned global::System.Diagnostics.Process.PriorityClass to a non-normal value.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a133dff7bd50f95537a01fef1fad6a407">More...</a><br /></td></tr>
+<tr class="separator:a133dff7bd50f95537a01fef1fad6a407"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0dad64e931bd586e45de09d28027cf50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0dad64e931bd586e45de09d28027cf50">Suspend</a> ()</td></tr>
 <tr class="memdesc:a0dad64e931bd586e45de09d28027cf50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspends the process.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0dad64e931bd586e45de09d28027cf50">More...</a><br /></td></tr>
 <tr class="separator:a0dad64e931bd586e45de09d28027cf50"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -543,6 +543,28 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a133dff7bd50f95537a01fef1fad6a407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a133dff7bd50f95537a01fef1fad6a407">&#9670;&nbsp;</a></span>AdjustPriority()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.Components.Session.SessionController.AdjustPriority </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>higher</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set's the owned global::System.Diagnostics.Process.PriorityClass to a non-normal value. </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d860a501568835fac115772ee87902d">Tgstation.Server.Host.System.IProcessBase</a>.</p>
+
+</div>
+</div>
 <a id="ab0660ae6440a38aa85f8473a8220533a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab0660ae6440a38aa85f8473a8220533a">&#9670;&nbsp;</a></span>CheckDisposed()</h2>
 
@@ -1392,27 +1414,6 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aca4798c3df5c740c0690c6b13db4f0f0" title="Initializes a new instance of the SessionController class." alt="" coords="5,5,284,47"/>
 </map>
 </div>
-
-</div>
-</div>
-<a id="a682e5041a73a975a85fa38ea6511d2a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a682e5041a73a975a85fa38ea6511d2a6">&#9670;&nbsp;</a></span>SetHighPriority()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Tgstation.Server.Host.Components.Session.SessionController.SetHighPriority </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Set's the owned global::System.Diagnostics.Process.PriorityClass to global::System.Diagnostics.ProcessPriorityClass.AboveNormal. </p>
-
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a4c32c6fcf031cd1c996b505e6c58e510">Tgstation.Server.Host.System.IProcessBase</a>.</p>
 
 </div>
 </div>
