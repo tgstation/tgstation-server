@@ -54,6 +54,8 @@
 	return ""
 
 /datum/tgs_api/v3210/proc/file2list(filename)
+	if(IsAdminAdvancedProcCall())
+		CRASH("Attempted to read file via admin call")
 	return splittext(trim_left(trim_right(file2text(filename))), "\n")
 
 /datum/tgs_api/v3210/OnWorldNew(datum/tgs_event_handler/event_handler)	//don't use event handling in this version
