@@ -34,6 +34,9 @@ RUN npm set unsafe-perm true
 RUN dotnet msbuild -target:NpmBuild
 RUN npm set unsafe-perm false
 
+#Install yarn globally for webpanel
+RUN npm install -g yarn
+
 WORKDIR /repo
 
 # Restore nuget packages
