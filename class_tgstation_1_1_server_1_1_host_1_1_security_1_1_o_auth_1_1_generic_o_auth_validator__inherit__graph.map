@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator">
-<area shape="rect" id="node1" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="356,39,557,80"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="606,5,807,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="605,71,808,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html" title="Base class for IOAuthValidators." alt="" coords="168,46,308,73"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,46,120,73"/>
+<area shape="rect" id="node1" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="168,71,369,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="423,5,624,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="422,71,625,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="417,136,629,177"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,78,120,105"/>
 </map>

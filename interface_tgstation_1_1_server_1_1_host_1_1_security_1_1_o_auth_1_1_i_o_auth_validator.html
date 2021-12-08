@@ -84,13 +84,12 @@ Inheritance diagram for Tgstation.Server.Host.Security.OAuth.IOAuthValidator:</d
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_o_auth_8_i_o_auth_validator_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_o_auth_8_i_o_auth_validator_inherit__map" id="a_tgstation_8_server_8_host_8_security_8_o_auth_8_i_o_auth_validator_inherit__map">
-<area shape="rect" title="Validates OAuth responses for a given Provider." alt="" coords="5,103,207,144"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html" title="Base class for IOAuthValidators." alt="" coords="255,69,456,111"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html" title="IOAuthValidator for GitHub." alt="" coords="255,135,456,176"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="509,37,711,79"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="504,103,716,144"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="765,5,966,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="764,71,967,112"/>
+<area shape="rect" title="Validates OAuth responses for a given Provider." alt="" coords="5,104,207,145"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="255,71,456,112"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html" title="IOAuthValidator for GitHub." alt="" coords="255,136,456,177"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="509,5,711,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="509,71,711,112"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="504,136,716,177"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -139,7 +138,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the client ID of the validator on success, <code>null</code> on failure.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a3dae929ddccb17cc82fe4f682fabb2a6">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#afe658c96a578b52b1dc8f1a8c4397509">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#af6fee105ccc24555cca7569a2a0772d8">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#ac69970e67acd0f74da2925c9af14c213">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#afe658c96a578b52b1dc8f1a8c4397509">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#ad819f0c86c3d39b502baa4d643e89596">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>.</p>
 
 </div>
 </div>
@@ -179,7 +178,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>null</code> if authentication failed, global::System.UInt64.MaxValue if a rate limit occurred, and the validated OAuthConnection.ExternalUserId otherwise.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a7139c35ff4a0844158f5e13193349f35">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#af730e0d53a1a16df134c6ffaf2976184">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#ae06ed31cca9c75a46bae8e708ca9cb1b">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#ad9687e0e93b1eaddb122093b41f81ad0">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#af730e0d53a1a16df134c6ffaf2976184">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a72568b70c5cac2ad9e4c67db1ec2afd6">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>.</p>
 
 </div>
 </div>

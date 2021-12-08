@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Security.OAuth.TGCreateSessionResponse" name="Tgstation.Server.Host.Security.OAuth.TGCreateSessionResponse">
-<area shape="rect" id="node1" title="Response when creating a tgstation forums session." alt="" coords="5,80,228,121"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_base_response.html" title="Base class for tgstation forum responses." alt="" coords="53,5,181,32"/>
-</map>

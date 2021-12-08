@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.SerializerSettings" name="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.SerializerSettings">
+<area shape="rect" id="node1" title="Gets JsonSerializerSettings that should be used." alt="" coords="299,5,549,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a72568b70c5cac2ad9e4c67db1ec2afd6" title="Validate a given OAuth response code ." alt="" coords="5,5,251,61"/>
+</map>

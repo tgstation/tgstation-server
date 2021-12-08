@@ -1,6 +1,5 @@
 <map id="Tgstation.Server.Host.Security.OAuth.DiscordOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.DiscordOAuthValidator">
-<area shape="rect" id="node1" title="OAuth validator for Discord." alt="" coords="5,229,207,271"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="29,155,183,181"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html" title="Base class for IOAuthValidators." alt="" coords="36,80,176,107"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="49,5,163,32"/>
+<area shape="rect" id="node1" title="OAuth validator for Discord." alt="" coords="5,155,207,196"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="29,80,183,107"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="49,5,163,32"/>
 </map>

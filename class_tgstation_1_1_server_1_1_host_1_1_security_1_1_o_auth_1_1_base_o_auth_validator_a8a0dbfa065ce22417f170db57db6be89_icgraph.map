@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.CreateHttpClient" name="Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.CreateHttpClient">
-<area shape="rect" id="node1" title="Create a new configured HttpClient." alt="" coords="360,77,639,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a3dae929ddccb17cc82fe4f682fabb2a6" title="Gets the OAuthProvider of validator." alt="" coords="5,5,312,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#ae06ed31cca9c75a46bae8e708ca9cb1b" title="Validate a given OAuth response code ." alt="" coords="36,70,281,126"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a7139c35ff4a0844158f5e13193349f35" title="Validate a given OAuth response code ." alt="" coords="27,150,290,206"/>
-</map>
