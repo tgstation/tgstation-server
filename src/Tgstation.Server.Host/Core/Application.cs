@@ -119,6 +119,7 @@ namespace Tgstation.Server.Host.Core
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
 			services.UseStandardConfig<SwarmConfiguration>(Configuration);
+			services.UseStandardConfig<SessionConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();

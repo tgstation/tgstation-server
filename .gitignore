@@ -23,3 +23,4 @@ artifacts/
 release_notes.md
 *nupkg
 *.sqlite3
+debug.log

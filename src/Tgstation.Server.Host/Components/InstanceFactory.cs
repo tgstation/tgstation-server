@@ -138,6 +138,17 @@ namespace Tgstation.Server.Host.Components
 		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
+		/// The <see cref="SessionConfiguration"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly SessionConfiguration sessionConfiguration;
+
+#pragma warning disable CA1502 // TODO: Decomplexify
+		/// <summary>
 		/// Initializes a new instance of the <see cref="InstanceFactory"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
@@ -162,9 +173,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
-			IDatabaseContextFactory databaseContextFactory,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILoggerFactory loggerFactory,
 			ITopicClientFactory topicClientFactory,
@@ -184,13 +195,13 @@ namespace Tgstation.Server.Host.Components
 			IServerPortProvider serverPortProvider,
 			IFileTransferTicketProvider fileTransferService,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
-			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory)
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SessionConfiguration> sessionConfigurationOptions)
 		{
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-			this.topicClientFactory = topicClientFactory ?? throw new ArgumentNullException(nameof(topicClientFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
@@ -208,7 +219,10 @@ namespace Tgstation.Server.Host.Components
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
+#pragma warning restore CA1502
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
@@ -266,6 +280,7 @@ namespace Tgstation.Server.Host.Components
 						eventConsumer,
 						loggerFactory,
 						loggerFactory.CreateLogger<SessionControllerFactory>(),
+						sessionConfiguration,
 						metadata);
 
 					var dmbFactory = new DmbFactory(
@@ -309,6 +324,7 @@ namespace Tgstation.Server.Host.Components
 								repoManager,
 								remoteDeploymentManagerFactory,
 								loggerFactory.CreateLogger<DreamMaker>(),
+								sessionConfiguration,
 								metadata);
 
 							var instance = new Instance(
