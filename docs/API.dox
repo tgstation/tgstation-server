@@ -146,7 +146,7 @@ You will be granted a bearer token as in basic auth. This will have an extended 
 
 - GitHub: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps
 - Discord: https://discord.com/developers/docs/topics/oauth2
-- TGForums: https://tgstation13.org/phpBB/viewtopic.php?f=45&t=9922
+- TGForums: https://tgstation13.org/phpBB/viewtopic.php?f=45&t=30155
 - Keycloak: https://plugins.miniorange.com/keycloak-single-sign-on-wordpress-sso-oauth-openid-connect
 
 @section api_perms Permissions

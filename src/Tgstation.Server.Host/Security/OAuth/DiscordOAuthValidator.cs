@@ -14,6 +14,15 @@ namespace Tgstation.Server.Host.Security.OAuth
 	/// </summary>
 	sealed class DiscordOAuthValidator : GenericOAuthValidator
 	{
+		/// <inheritdoc />
+		public override OAuthProvider Provider => OAuthProvider.Discord;
+
+		/// <inheritdoc />
+		protected override Uri TokenUrl => new Uri("https://discord.com/api/oauth2/token");
+
+		/// <inheritdoc />
+		protected override Uri UserInformationUrl => new Uri("https://discord.com/api/users/@me");
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DiscordOAuthValidator"/> class.
 		/// </summary>
@@ -29,15 +38,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 			: base(httpClientFactory, assemblyInformationProvider, logger, oAuthConfiguration)
 		{
 		}
-
-		/// <inheritdoc />
-		public override OAuthProvider Provider => OAuthProvider.Discord;
-
-		/// <inheritdoc />
-		protected override Uri TokenUrl => new Uri("https://discord.com/api/oauth2/token");
-
-		/// <inheritdoc />
-		protected override Uri UserInformationUrl => new Uri("https://discord.com/api/users/@me");
 
 		/// <inheritdoc />
 		protected override OAuthTokenRequest CreateTokenRequest(string code) => new OAuthTokenRequest(OAuthConfiguration, code, "identify");

@@ -184,16 +184,17 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void SetHighPriority()
+		public void AdjustPriority(bool higher)
 		{
+			var targetPriority = higher ? ProcessPriorityClass.AboveNormal : ProcessPriorityClass.BelowNormal;
 			try
 			{
-				handle.PriorityClass = ProcessPriorityClass.AboveNormal;
-				logger.LogTrace("Set PID {0} to above normal priority", Id);
+				handle.PriorityClass = targetPriority;
+				logger.LogTrace("Set PID {pid} to {targetPriority} priority", Id, targetPriority);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				logger.LogWarning(e, "Unable to raise process priority for PID {0}!", Id);
+				logger.LogWarning(ex, "Unable to set priority for PID {id} to {targetPriority}!", Id, targetPriority);
 			}
 		}
 

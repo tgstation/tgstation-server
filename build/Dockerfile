@@ -4,8 +4,11 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 # replace shell with bash so we can source files
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | sh
 
-ENV NODE_VERSION 10.13.0
+ENV NODE_VERSION 14.18.1
+
 ENV NVM_DIR /root/.nvm
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
@@ -13,10 +16,11 @@ RUN . $NVM_DIR/nvm.sh \
 	&& apt-get update \
 	&& apt-get install -y \
 		dos2unix \
-	&& rm -rf /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/* \
+	&& npm install -g npm
 
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+#You may wonder why this needs to be in a seperate step. I don't know... It just works(tm)
+RUN npm install -g yarn
 
 # Build web control panel
 WORKDIR /repo/build
@@ -31,7 +35,7 @@ COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj ./
 # I cant figure out how to run npm as non root so eh
 RUN npm set unsafe-perm true
 RUN dotnet msbuild -target:NpmBuild
-RUN npm set unsafe-perm false
+RUN npm set unsafe-perm fals
 
 WORKDIR /repo
 

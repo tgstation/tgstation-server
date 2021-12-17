@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
@@ -19,28 +12,24 @@ namespace Tgstation.Server.Host.Security.OAuth
 	/// <summary>
 	/// <see cref="IOAuthValidator"/> for /tg/ forums.
 	/// </summary>
-	sealed class TGForumsOAuthValidator : BaseOAuthValidator
+	sealed class TGForumsOAuthValidator : GenericOAuthValidator
 	{
-		/// <summary>
-		/// Amount of minutes until unused sessions that were created are forgotten.
-		/// </summary>
-		const uint SessionRetentionMinutes = 10;
-
 		/// <inheritdoc />
 		public override OAuthProvider Provider => OAuthProvider.TGForums;
 
-		/// <summary>
-		/// The active session.
-		/// </summary>
-		readonly List<Tuple<TGCreateSessionResponse, DateTimeOffset>> sessions;
+		/// <inheritdoc />
+		protected override Uri TokenUrl => new Uri("https://tgstation13.org/phpBB/app.php/tgapi/oauth/token");
+
+		/// <inheritdoc />
+		protected override Uri UserInformationUrl => new Uri("https://tgstation13.org/phpBB/app.php/tgapi/user/me");
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TGForumsOAuthValidator"/> class.
 		/// </summary>
-		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="BaseOAuthValidator"/>.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseOAuthValidator"/>.</param>
-		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="BaseOAuthValidator"/>.</param>
+		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="GenericOAuthValidator"/>.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="GenericOAuthValidator"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="GenericOAuthValidator"/>.</param>
+		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="GenericOAuthValidator"/>.</param>
 		public TGForumsOAuthValidator(
 			IHttpClientFactory httpClientFactory,
 			IAssemblyInformationProvider assemblyInformationProvider,
@@ -52,98 +41,15 @@ namespace Tgstation.Server.Host.Security.OAuth
 				 logger,
 				 oAuthConfiguration)
 		{
-			sessions = new List<Tuple<TGCreateSessionResponse, DateTimeOffset>>();
 		}
 
 		/// <inheritdoc />
-		public override async Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken)
-		{
-			var expiredSessions = sessions.RemoveAll(x => x.Item2.AddMinutes(SessionRetentionMinutes) < DateTimeOffset.UtcNow);
-			if (expiredSessions > 0)
-				Logger.LogTrace("Expired {0} sessions", expiredSessions);
-
-			Logger.LogTrace("Creating new session...");
-			try
-			{
-				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_create_session.php")
-				{
-					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&return_uri={HttpUtility.UrlEncode(OAuthConfiguration.RedirectUrl.ToString())}",
-				};
-
-				using var request = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
-				using var httpClient = CreateHttpClient();
-
-				using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-				response.EnsureSuccessStatusCode();
-
-				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-				var newSession = JsonConvert.DeserializeObject<TGCreateSessionResponse>(json, SerializerSettings());
-
-				if (newSession.Status != TGBaseResponse.OkStatus)
-				{
-					Logger.LogWarning("Invalid status from /tg/ API! Status: {0}, Error: {1}", newSession.Status, newSession.Error);
-					return null;
-				}
-
-				sessions.Add(
-					Tuple.Create(
-						newSession,
-						DateTimeOffset.UtcNow));
-				return new OAuthProviderInfo
-				{
-					ClientId = newSession.SessionPublicToken,
-					RedirectUri = OAuthConfiguration.RedirectUrl,
-				};
-			}
-			catch (Exception ex)
-			{
-				Logger.LogWarning(ex, "Failed to create TG Forums session!");
-				return null;
-			}
-		}
+		protected override string DecodeTokenPayload(dynamic responseJson) => responseJson.access_token;
 
 		/// <inheritdoc />
-		public override async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
-		{
-			try
-			{
-				var sessionTuple = sessions.FirstOrDefault(x => x.Item1.SessionPublicToken == code);
-				if (sessionTuple == null)
-				{
-					Logger.LogWarning("No known session with this code active!");
-					return null;
-				}
+		protected override string DecodeUserInformationPayload(dynamic responseJson) => responseJson.phpbb_username;
 
-				Logger.LogTrace("Validating session...");
-
-				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_get_session_info.php")
-				{
-					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&session_private_token={HttpUtility.UrlEncode(sessionTuple.Item1.SessionPrivateToken)}",
-				};
-
-				using var request = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
-				using var httpClient = CreateHttpClient();
-
-				using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-				response.EnsureSuccessStatusCode();
-
-				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-				var sessionInfo = JsonConvert.DeserializeObject<TGGetSessionInfoResponse>(json, SerializerSettings());
-
-				if (sessionInfo.Status != TGBaseResponse.OkStatus)
-				{
-					Logger.LogWarning("Invalid status from /tg/ API! Status: {0}, Error: {1}", sessionInfo.Status, sessionInfo.Error);
-					return null;
-				}
-
-				sessions.Remove(sessionTuple);
-				return sessionInfo.PhpbbUsername;
-			}
-			catch (Exception ex)
-			{
-				Logger.LogWarning(ex, "Failed to create TG Forums session!");
-				return null;
-			}
-		}
+		/// <inheritdoc />
+		protected override OAuthTokenRequest CreateTokenRequest(string code) => new OAuthTokenRequest(OAuthConfiguration, code, "user");
 	}
 }

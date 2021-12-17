@@ -590,7 +590,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public void SetHighPriority() => process.SetHighPriority();
+		public void AdjustPriority(bool higher) => process.AdjustPriority(higher);
 
 		/// <inheritdoc />
 		public void Suspend() => process.Suspend();
