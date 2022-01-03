@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(clone.RevisionInformation);
 			Assert.IsNotNull(clone.ActiveJob);
 
-			await WaitForJobProgressThenCancel(clone.ActiveJob, 20, cancellationToken).ConfigureAwait(false);
+			await WaitForJobProgressThenCancel(clone.ActiveJob, 40, cancellationToken).ConfigureAwait(false);
 
 			var secondRead = await repositoryClient.Read(cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(secondRead);
