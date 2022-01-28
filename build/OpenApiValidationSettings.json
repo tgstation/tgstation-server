@@ -48,8 +48,7 @@
       "inconsistent_property_type": "error",
       "property_case_convention": "off",
       "property_case_collision": "error",
-      "enum_case_convention": "off",
-      "undefined_required_properties": "error"
+      "enum_case_convention": "off"
     },
     "walker": {
       "no_empty_descriptions": "error",
