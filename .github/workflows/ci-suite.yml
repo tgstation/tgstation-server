@@ -115,7 +115,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-      
+
     - name: Upgrade NPM
       run: sudo npm install -g npm
 
@@ -136,7 +136,7 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v1
-      
+
     - name: Upgrade NPM
       run: sudo npm install -g npm
 
@@ -166,7 +166,7 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v1
-      
+
     - name: Upgrade NPM
       run: npm install -g npm
 
@@ -201,7 +201,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
-        
+
     - name: Upgrade NPM
       run: npm install -g npm
 
@@ -328,7 +328,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-        
+
     - name: Upgrade NPM
       run: npm install -g npm
 
@@ -437,7 +437,7 @@ jobs:
         node-version: 12.x
 
     - name: Install IBM OpenAPI Validator
-      run: npm i -g ibm-openapi-validator
+      run: npm i -g ibm-openapi-validator@0.51.3
 
     - name: Checkout
       uses: actions/checkout@v1
