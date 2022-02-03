@@ -830,15 +830,18 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				// Maybe (likely) a remote?
 				var remoteName = $"origin/{committish}";
-				var potentialBranch = libGitRepo.Branches.FirstOrDefault(
+				var remoteBranch = libGitRepo.Branches.FirstOrDefault(
 					branch => branch.FriendlyName.Equals(remoteName, StringComparison.Ordinal));
 				cancellationToken.ThrowIfCancellationRequested();
 
-				if (potentialBranch == default)
+				if (remoteBranch == default)
 					throw;
 
-				logger.LogDebug("Creating local branch for {0}...", potentialBranch.FriendlyName);
-				libGitRepo.CreateBranch(committish, potentialBranch.Tip);
+				logger.LogDebug("Creating local branch for {0}...", remoteBranch.FriendlyName);
+				var branch = libGitRepo.CreateBranch(committish, remoteBranch.Tip);
+
+				libGitRepo.Branches.Update(branch, branchUpdate => branchUpdate.TrackedBranch = remoteBranch.CanonicalName);
+
 				cancellationToken.ThrowIfCancellationRequested();
 
 				RunCheckout();
