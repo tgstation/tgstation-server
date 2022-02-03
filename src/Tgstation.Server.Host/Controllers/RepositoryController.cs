@@ -371,7 +371,9 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.ShowTestMergeCommitters, RepositoryRights.ChangeTestMergeCommits)
 				|| CheckModified(x => x.PostTestMergeComment, RepositoryRights.ChangeTestMergeCommits)
 				|| CheckModified(x => x.UpdateSubmodules, RepositoryRights.ChangeSubmoduleUpdate)
-				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
+				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch))
+				|| (model.CheckoutSha != null && !userRights.HasFlag(RepositoryRights.SetSha))
+				|| (model.Reference != null && model.UpdateFromOrigin != true && !userRights.HasFlag(RepositoryRights.SetReference))) // don't care if it's the same reference, we want to forbid them before starting the job
 				return Forbid();
 
 			if (model.AccessToken?.Length == 0 && model.AccessUser?.Length == 0)
