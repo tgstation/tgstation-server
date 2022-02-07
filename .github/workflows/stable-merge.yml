@@ -20,6 +20,7 @@ jobs:
         stable_branch: 'master'
         development_branch: 'dev'
         allow_ff: true
+        allow_forks: true
         user_name: tgstation-server
         user_email: tgstation-server@users.noreply.github.com
         push_token: DEV_PUSH_TOKEN
