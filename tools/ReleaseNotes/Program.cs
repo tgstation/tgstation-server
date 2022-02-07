@@ -381,25 +381,22 @@ namespace ReleaseNotes
 						tasks.Add(nextMinorMilestoneTask);
 
 						// Move unfinished stuff to new minor milestone
-						if (milestone.OpenIssues > 0)
+						Console.WriteLine($"Moving {milestone.OpenIssues} abandoned issue(s) from previous milestone to new one...");
+						var abandonedIssues = await client.Search.SearchIssues(new SearchIssuesRequest
 						{
-							Console.WriteLine($"Moving abandoned {milestone.OpenIssues} issue(s) from previous milestone to new one...");
-							var abandonedIssues = await client.Search.SearchIssues(new SearchIssuesRequest
-							{
-								Milestone = milestone.Title,
-								Repos = { { RepoOwner, RepoName } },
-								State = ItemState.Open
-							});
+							Milestone = milestone.Title,
+							Repos = { { RepoOwner, RepoName } },
+							State = ItemState.Open
+						});
 
-							if (abandonedIssues.Items.Any())
-							{
-								var nextMinorMilestone = await nextMinorMilestoneTask.ConfigureAwait(false);
-								foreach (var I in abandonedIssues.Items)
-									tasks.Add(client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
-									{
-										Milestone = nextMinorMilestone.Number
-									}));
-							}
+						if (abandonedIssues.Items.Any())
+						{
+							var nextMinorMilestone = await nextMinorMilestoneTask.ConfigureAwait(false);
+							foreach (var I in abandonedIssues.Items)
+								tasks.Add(client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
+								{
+									Milestone = nextMinorMilestone.Number
+								}));
 						}
 					}
 				}
