@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Client.ApiClientFactory.CreateApiClient" name="Tgstation.Server.Client.ApiClientFactory.CreateApiClient">
 <area shape="rect" id="node1" title="Create an IApiClient." alt="" coords="588,77,799,119"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#af526e8ead3e961581e00c65865a1978a" title="Create a IServerClient." alt="" coords="297,5,540,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a1c828515b61d7151cff35ff5e109818a" title="Creates a IServerClient from a login operation." alt="" coords="317,70,520,126"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#af699c19f29452aba33ba1f17eec60429" title="Gets the ServerInformationResponse for a given host ." alt="" coords="319,150,518,206"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a29a017dcd4bc172a11d46ff343055ffe" title="Create a IServerClient using a password login." alt="" coords="8,45,247,87"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a91b26572a019546543983be36f3d6b77" title="Create a IServerClient using am OAuth login." alt="" coords="5,111,249,152"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a77600c7e0bfc5b8b3bf3eba8ef157923" title="Creates a IServerClient from a login operation." alt="" coords="317,70,520,126"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a6664e8fbfab210d343e8d13a9cff87c2" title="Gets the ServerInformationResponse for a given host ." alt="" coords="319,150,518,206"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#ac6b3d4fa0296c5683978385873acf3fc" title="Create a IServerClient using a password login." alt="" coords="8,45,247,87"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#acf31334390ab2823fa7999f33eaee17e" title="Create a IServerClient using am OAuth login." alt="" coords="5,111,249,152"/>
 </map>

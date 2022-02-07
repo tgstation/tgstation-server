@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.System.Process.GetErrorOutput" name="Tgstation.Server.Host.System.Process.GetErrorOutput">
-<area shape="rect" id="node1" title="Get the stderr output of the IProcess." alt="" coords="252,5,451,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ac0865b3b4306e3fde82f9ba2bb91340b" title="Get the stderr and stdout output of the IProcess." alt="" coords="5,5,204,47"/>
-</map>

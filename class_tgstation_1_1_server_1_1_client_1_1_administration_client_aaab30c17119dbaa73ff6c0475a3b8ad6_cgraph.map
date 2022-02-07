@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.AdministrationClient.GetLog" name="Tgstation.Server.Client.AdministrationClient.GetLog">
+<area shape="rect" id="node1" title="Download a given logFile ." alt="" coords="5,39,189,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a3e8321b21d545147abfb2ecabd36f360" title="Downloads a file Stream for a given ticket ." alt="" coords="253,5,409,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483" title="Sanitize a Models.Response.FileTicketResponse path for use in a GET Uri." alt="" coords="237,71,424,112"/>
+</map>

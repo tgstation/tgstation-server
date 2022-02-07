@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider" name="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider">
-<area shape="rect" id="node1" title="A IDmbProvider that uses symlinks." alt="" coords="535,122,767,163"/>
+<area shape="rect" id="node1" title="A IDmbProvider that uses symlinks." alt="" coords="535,115,767,157"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="208,5,309,32"/>
 <area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="5,36,96,63"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="145,57,372,98"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="175,122,343,163"/>
-<area shape="rect" id="node5" title=" " alt="" coords="231,188,286,215"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links." alt="" coords="175,239,343,281"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="145,57,372,98"/>
+<area shape="rect" id="node4" title=" " alt="" coords="231,123,286,149"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="175,174,343,215"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links." alt="" coords="175,239,343,281"/>
 </map>

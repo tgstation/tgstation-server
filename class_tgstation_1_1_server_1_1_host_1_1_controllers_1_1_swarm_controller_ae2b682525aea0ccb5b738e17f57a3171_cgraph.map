@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate" name="Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate">
+<area shape="rect" id="node1" title="Update commit endpoint." alt="" coords="5,39,221,80"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#adfd2d301a0354f98dd5720f6bf914a74" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="269,5,547,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="289,71,527,112"/>
+</map>

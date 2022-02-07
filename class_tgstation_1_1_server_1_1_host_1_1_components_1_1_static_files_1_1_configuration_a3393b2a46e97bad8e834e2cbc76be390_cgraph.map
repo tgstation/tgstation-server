@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.Write" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.Write">
-<area shape="rect" id="node1" title="Writes to a given configurationRelativePath ." alt="" coords="5,46,232,87"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore ." alt="" coords="293,13,484,54"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e" title="Runs a given action &#160;in the context of the ISystemIdentity." alt="" coords="280,78,497,119"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Initializes a new instance of the SemaphoreSlimContext class." alt="" coords="545,5,799,61"/>
-</map>

@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.NativeMethods.EnumWindowProc" name="Tgstation.Server.Host.NativeMethods.EnumWindowProc">
 <area shape="rect" id="node1" title="See https://msdn.microsoft.com/en&#45;us/library/ms633493(v=VS.85).aspx." alt="" coords="904,13,1093,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#aac5f71ca200a6db578d25fa072d96692" title="Get all the child windows handles of a given mainWindow ." alt="" coords="609,5,856,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#adcd1b50a331c6d1876e3f91c1794d66e" title="Get all the child windows handles of a given mainWindow ." alt="" coords="609,5,856,61"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a5915daef37817261e058fd1d9251bd0a" title="Main loop for the WindowsNetworkPromptReaper." alt="" coords="328,13,561,54"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a4da1abbdff058acc086c60bac413df19" title=" " alt="" coords="5,13,280,54"/>
 </map>

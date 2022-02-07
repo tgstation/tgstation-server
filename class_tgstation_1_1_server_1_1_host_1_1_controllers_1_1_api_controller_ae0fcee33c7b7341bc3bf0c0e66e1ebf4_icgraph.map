@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.Created" name="Tgstation.Server.Host.Controllers.ApiController.Created">
 <area shape="rect" id="node1" title="Generic 201 response with a given payload ." alt="" coords="307,169,523,211"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a90d8cbc7d3d0fee8337cbe57be14bf21" title="Create an InstancePermissionSet." alt="" coords="5,5,259,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a3daa9970770a800d580e85e1c593835e" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="24,71,240,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a85513fdc1bb19ed81b17d3ae98a2562f" title="Create a new User." alt="" coords="24,136,240,177"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a4f7d1fa92af72dde8110932019eaffa0" title="Create a new UserGroup." alt="" coords="24,201,240,243"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#aa095d8122e0a62ee97e6a678be8f14b0" title="Create a configuration directory." alt="" coords="10,267,254,308"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a0263b7f7bef9a5b23cdc52c3735af3c5" title="Get the repository&#39;s status." alt="" coords="24,332,240,373"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a9954e2543c31e0f968f1beee63a38777" title="Create an InstancePermissionSet." alt="" coords="5,5,259,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a12f8174933870e22f21cf34497e49789" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="24,71,240,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a1fc91e4c2f717f7e87b61c84c03c2b97" title="Create a new User." alt="" coords="24,136,240,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#a87e5efe0d7d2a7e8afe06fef9b06abd2" title="Create a new UserGroup." alt="" coords="24,201,240,243"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828" title="Create a configuration directory." alt="" coords="10,291,254,332"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad57c46f8518725528dc5df0c4020d48c" title="Get the repository&#39;s status." alt="" coords="24,356,240,397"/>
 </map>

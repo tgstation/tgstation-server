@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GetTestMergeImpl" name="Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.GetTestMergeImpl">
-<area shape="rect" id="node1" title="Implementation of GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)." alt="" coords="307,5,560,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#a172aca6e32bed188bbb488d7a359dfbe" title="Retrieve the Models.TestMerge representation of given test merge parameters ." alt="" coords="5,5,259,61"/>
-</map>

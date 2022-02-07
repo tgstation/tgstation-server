@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.NormalizeAndDelete" name="Tgstation.Server.Host.IO.DefaultIOManager.NormalizeAndDelete">
-<area shape="rect" id="node1" title="Recursively empty a directory." alt="" coords="272,5,520,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a1c0202582bb5f80ba212bf7cceb2bd6d" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="5,5,224,47"/>
+<area shape="rect" id="node1" title="Recursively empty a directory." alt="" coords="272,29,520,71"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a1c0202582bb5f80ba212bf7cceb2bd6d" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="5,29,224,71"/>
 </map>

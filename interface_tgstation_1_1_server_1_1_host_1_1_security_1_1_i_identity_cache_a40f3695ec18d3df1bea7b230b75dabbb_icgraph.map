@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Security.IIdentityCache.CacheSystemIdentity" name="Tgstation.Server.Host.Security.IIdentityCache.CacheSystemIdentity">
 <area shape="rect" id="node1" title="Keep a user &#39;s systemIdentity &#160;alive until an expiry &#160;time." alt="" coords="500,5,731,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,452,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a67855ece28f07fcb4c4a67e06500d8d3" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="236,5,452,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a050adcf275d869f1db4760d553fadb6e" title=" " alt="" coords="5,5,188,47"/>
 </map>

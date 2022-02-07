@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.SessionController" name="Tgstation.Server.Host.Components.Session.SessionController.SessionController">
 <area shape="rect" id="node1" title="Initializes a new instance of the SessionController class." alt="" coords="5,77,284,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad52f86b450b23dc51fdc42359545d2d0" title="The Task&lt;TResult&gt; for LaunchResult." alt="" coords="332,5,611,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6552a1ff883df9f9aaa0d98094ee5025" title="The Task&lt;TResult&gt; for LaunchResult." alt="" coords="332,5,611,47"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html#aa36d6072e7a96ece183b77544c9bfe4b" title="Register a given bridgeHandler ." alt="" coords="347,70,596,126"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#affd4bf60a56058a56804994741cceff5" title="Sets the channelSink &#160;for the IChatTrackingContext." alt="" coords="335,149,608,191"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab45f8ef0b9ff253433d2122f5e3ba455" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="659,5,925,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a742966929d20fd55dbc53167f940fc3f" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="659,5,925,47"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle" name="Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle">
 <area shape="rect" id="node1" title="Create a IProcess given an existing handle ." alt="" coords="5,5,241,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5b7c65480cf6cb9573ea1eca15f49add" title="Attach an asychronous exit handler to a given process handle ." alt="" coords="289,13,516,54"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a" title="Attach an asychronous exit handler to a given process handle ." alt="" coords="289,13,516,54"/>
 </map>

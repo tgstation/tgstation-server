@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.IChatManagerFactory.CreateChatManager" name="Tgstation.Server.Host.Components.Chat.IChatManagerFactory.CreateChatManager">
 <area shape="rect" id="node1" title="Create a IChatManager." alt="" coords="280,5,524,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a009ffff68f9d96d360cde0fefe4c8b5e" title="Create an IInstance." alt="" coords="5,13,232,54"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf28ce0a3f52d47f8e5200e48ef6ee4d" title="Create an IInstance." alt="" coords="5,13,232,54"/>
 </map>

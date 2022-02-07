@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.ServerFactory.CreateServer" name="Tgstation.Server.Host.ServerFactory.CreateServer">
-<area shape="rect" id="node1" title="Create a IServer." alt="" coords="284,5,473,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c" title="Entrypoint for the Program." alt="" coords="5,13,236,39"/>
-</map>

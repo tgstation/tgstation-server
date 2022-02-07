@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Security.IdentityCacheObject" name="Tgstation.Server.Host.Security.IdentityCacheObject">
-<area shape="rect" id="node1" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="45,95,246,136"/>
+<area shape="rect" id="node1" title="For keeping a specific ISystemIdentity alive for a period of time." alt="" coords="105,95,306,136"/>
 <area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,5,96,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="120,5,171,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="195,5,365,32"/>
+<area shape="rect" id="node3" title=" " alt="" coords="120,5,291,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="360,5,411,32"/>
 </map>

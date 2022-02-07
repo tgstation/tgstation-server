@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Api.Models.Internal.ChatBotApiBase.ValidateProviderChannelTypes" name="Tgstation.Server.Api.Models.Internal.ChatBotApiBase.ValidateProviderChannelTypes">
 <area shape="rect" id="node1" title="Validates Channels are correct for the ChatBotSettings.Provider." alt="" coords="556,31,771,87"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#adca21dc990e0822272aa3bf17fcdaae8" title="Perform some basic validation of a given model ." alt="" coords="269,39,508,80"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a45b987a90e54fd4d8ef831986fa3ebf7" title="Create a new chat bot model ." alt="" coords="5,5,221,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#ab93c620631d53cf3a942515c2b9c1708" title="Updates a chat bot model ." alt="" coords="5,71,221,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#adbe7a715e0df8bba87014be9e29555f9" title="Create a new chat bot model ." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a9526e569e4152295283ac186951ce699" title="Updates a chat bot model ." alt="" coords="5,71,221,112"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Models.User.CanonicalizeName" name="Tgstation.Server.Host.Models.User.CanonicalizeName">
 <area shape="rect" id="node1" title="Change a UserName.Name into a CanonicalName." alt="" coords="1089,58,1285,99"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1eed27ad5d706f6f3f4c691704205f67" title="Get or create the admin User." alt="" coords="561,24,771,66"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a9d3ab19eabecf05d192266dcef7fb7f6" title="Get or create the admin User." alt="" coords="561,24,771,66"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1ed443f053ba4e1098f0e4099d23b774" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="277,87,499,128"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext ." alt="" coords="822,28,1038,70"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad65df3157dcd8d5485b4564fa7f92798" title="Add a default system User to a given databaseContext ." alt="" coords="819,146,1041,187"/>

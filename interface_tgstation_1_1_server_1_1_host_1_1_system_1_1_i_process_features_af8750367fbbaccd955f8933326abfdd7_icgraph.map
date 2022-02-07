@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.System.IProcessFeatures.GetExecutingUsername" name="Tgstation.Server.Host.System.IProcessFeatures.GetExecutingUsername">
+<area shape="rect" id="node1" title="Get the name of the user executing a given process ." alt="" coords="264,5,529,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a70b4788b8a02130ef82973ed83cd966b" title="Get the name of the account executing the IProcess." alt="" coords="5,5,216,47"/>
+</map>

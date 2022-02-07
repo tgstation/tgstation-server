@@ -1,13 +1,13 @@
 <map id="Tgstation.Server.Host.Controllers.ByondController" name="Tgstation.Server.Host.Controllers.ByondController">
-<area shape="rect" id="node1" title="Controller for managing BYOND installations." alt="" coords="1031,205,1247,246"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="680,153,859,180"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="356,69,452,96"/>
+<area shape="rect" id="node1" title="Controller for managing BYOND installations." alt="" coords="1031,198,1247,239"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="680,147,859,173"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="356,67,452,93"/>
 <area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="29,5,107,32"/>
-<area shape="rect" id="node5" title=" " alt="" coords="45,56,91,83"/>
-<area shape="rect" id="node6" title=" " alt="" coords="21,116,115,143"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="291,146,517,187"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,167,131,193"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="678,205,861,246"/>
-<area shape="rect" id="node10" href="$class_i_hosted_service.html" title=" " alt="" coords="348,212,460,239"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="668,270,871,311"/>
+<area shape="rect" id="node5" title=" " alt="" coords="21,56,115,83"/>
+<area shape="rect" id="node6" title=" " alt="" coords="45,107,91,133"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="291,139,517,181"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,157,131,184"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="678,198,861,239"/>
+<area shape="rect" id="node10" href="$class_i_hosted_service.html" title=" " alt="" coords="348,205,460,232"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="668,263,871,305"/>
 </map>

@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ByondController.Update" name="Tgstation.Server.Host.Controllers.ByondController.Update">
-<area shape="rect" id="node1" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="5,41,221,83"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#aeb8789b5965bdc1e1819aef5a871d2b7" title="Create a IFileUploadTicket." alt="" coords="275,5,537,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#ab20aad6535d46cb0f297e9a1b88d6e74" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,70,543,126"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata ." alt="" coords="591,77,849,119"/>
-</map>

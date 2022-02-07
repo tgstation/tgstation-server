@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Controllers.HomeController.CreateToken" name="Tgstation.Server.Host.Controllers.HomeController.CreateToken">
+<area shape="rect" id="node1" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="5,248,221,289"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#a40f3695ec18d3df1bea7b230b75dabbb" title="Keep a user &#39;s systemIdentity &#160;alive until an expiry &#160;time." alt="" coords="283,5,513,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc" title="Checks a given password &#160;matches a given user &#39;s User.PasswordHash. This may result in User...." alt="" coords="269,71,527,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a20f91f6106ff918ffd3bb970df92a572" title="Create a ISystemIdentity for a given user ." alt="" coords="278,135,518,191"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a24aa475bf6a9d0a6feb74136f4b2e379" title="Create a TokenResponse for a given user ." alt="" coords="297,215,499,256"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a65bc09f0519643a3e29cf8032858ea07" title="Gets the IOAuthValidator for a given oAuthProvider ." alt="" coords="281,280,515,321"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221" title="Response for missing/Invalid headers." alt="" coords="290,345,506,387"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="290,411,506,452"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext." alt="" coords="293,476,503,517"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="575,379,791,420"/>
+</map>

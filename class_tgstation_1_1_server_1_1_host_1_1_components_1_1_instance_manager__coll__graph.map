@@ -4,30 +4,30 @@
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="20,8,145,34"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core_provider.html" title="Provider for IInstanceCores." alt="" coords="441,58,591,85"/>
 <area shape="rect" id="node5" href="$class_i_hosted_service.html" title=" " alt="" coords="27,182,139,209"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="425,110,607,151"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances." alt="" coords="403,175,629,216"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances." alt="" coords="403,110,629,151"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="425,175,607,216"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html" title="Registers IBridgeHandlers." alt="" coords="459,292,573,318"/>
 <area shape="rect" id="node7" href="$class_i_async_disposable.html" title=" " alt="" coords="453,342,579,369"/>
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="432,394,600,435"/>
 <area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="411,459,621,500"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="419,524,613,566"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="425,590,607,631"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="417,524,615,566"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="425,590,607,631"/>
 <area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="415,655,617,696"/>
-<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,786,631,827"/>
-<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,940,160,966"/>
-<area shape="rect" id="node17" title=" " alt="" coords="43,788,122,814"/>
-<area shape="rect" id="node18" title=" " alt="" coords="55,645,110,672"/>
-<area shape="rect" id="node28" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="401,720,631,762"/>
-<area shape="rect" id="node19" title=" " alt="" coords="7,838,159,865"/>
-<area shape="rect" id="node20" title=" " alt="" coords="36,889,129,916"/>
-<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="425,851,607,892"/>
-<area shape="rect" id="node22" title=" " alt="" coords="493,917,539,944"/>
-<area shape="rect" id="node23" title=" " alt="" coords="437,968,595,1010"/>
-<area shape="rect" id="node24" title=" " alt="" coords="406,1033,626,1089"/>
-<area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="417,1112,615,1154"/>
-<area shape="rect" id="node26" title=" " alt="" coords="409,1177,623,1233"/>
-<area shape="rect" id="node27" title=" " alt="" coords="431,1256,601,1298"/>
-<area shape="rect" id="node29" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="32,580,133,606"/>
-<area shape="rect" id="node30" title=" " alt="" coords="433,1322,599,1349"/>
-<area shape="rect" id="node31" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="425,1374,607,1415"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="425,720,607,762"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="425,786,607,827"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="419,851,613,892"/>
+<area shape="rect" id="node18" title=" " alt="" coords="406,916,626,972"/>
+<area shape="rect" id="node19" title=" " alt="" coords="409,996,623,1052"/>
+<area shape="rect" id="node20" title=" " alt="" coords="431,1075,601,1116"/>
+<area shape="rect" id="node21" title=" " alt="" coords="433,1141,599,1168"/>
+<area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,1258,631,1299"/>
+<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,1412,160,1438"/>
+<area shape="rect" id="node24" title=" " alt="" coords="55,1117,110,1144"/>
+<area shape="rect" id="node28" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="401,1192,631,1234"/>
+<area shape="rect" id="node25" title=" " alt="" coords="36,1361,129,1388"/>
+<area shape="rect" id="node26" title=" " alt="" coords="43,1260,122,1286"/>
+<area shape="rect" id="node27" title=" " alt="" coords="7,1310,159,1337"/>
+<area shape="rect" id="node29" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="32,1052,133,1078"/>
+<area shape="rect" id="node30" title=" " alt="" coords="437,1323,595,1364"/>
+<area shape="rect" id="node31" title=" " alt="" coords="493,1389,539,1416"/>
 </map>

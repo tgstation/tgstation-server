@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CheckPagerIsNotRunning" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CheckPagerIsNotRunning">
 <area shape="rect" id="node1" title="Make sure the BYOND pager is not running." alt="" coords="5,63,263,119"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a81eeee7944e490c141d2e7b66f651369" title="Get a IProcess representing the running executable." alt="" coords="315,5,553,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a1981fd196af57d3f4ee8385ecbc50870" title="Get the name of the account executing the IProcess." alt="" coords="327,71,541,112"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a9da1b487c37cdd7b72c295b102c5e8de" title="Get the name of the account executing the IProcess." alt="" coords="327,71,541,112"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a337ac6db6c428317a05fa7fb46e8b72a" title="Get a IProcess with a given name ." alt="" coords="311,136,557,177"/>
 </map>

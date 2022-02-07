@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Client.ApiClient.Upload" name="Tgstation.Server.Client.ApiClient.Upload">
 <area shape="rect" id="node1" title="Uploads a given uploadStream &#160;for a given ticket ." alt="" coords="292,49,448,90"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a1e2bddfa55aae0b87eb303da3174cace" title="Updates the ByondInstallResponse information." alt="" coords="11,5,238,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a31fa73e4d30a8d7a1298f73b54d0f6c0" title="Overwrite a file ." alt="" coords="5,85,244,126"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a4d050f6748454d8c4f0ddf7ae595b3b8" title="Updates the ByondInstallResponse information." alt="" coords="11,5,238,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a985fa888edbcb5c868c6250a8f4d8897" title="Overwrite a file ." alt="" coords="5,85,244,126"/>
 </map>

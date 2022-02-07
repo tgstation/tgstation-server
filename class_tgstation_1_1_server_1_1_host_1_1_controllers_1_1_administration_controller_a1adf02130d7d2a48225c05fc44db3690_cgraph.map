@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.AdministrationController.Update" name="Tgstation.Server.Host.Controllers.AdministrationController.Update">
-<area shape="rect" id="node1" title="Attempt to perform a server upgrade." alt="" coords="5,104,221,145"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ad8f0e312590d7f235e930763cd0ee57d" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="269,5,496,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="275,71,491,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="275,136,491,177"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="544,165,760,207"/>
-</map>

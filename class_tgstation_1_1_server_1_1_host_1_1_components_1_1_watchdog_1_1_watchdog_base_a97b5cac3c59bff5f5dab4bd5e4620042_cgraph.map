@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat">
+<area shape="rect" id="node1" title="Handles a watchdog heartbeat." alt="" coords="5,149,277,191"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a875fe1589eb86e57a50a0e793b0d74f5" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="335,70,602,126"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a634f53946305b875c65c04dfd1719830" title="Get the active ISessionController." alt="" coords="325,149,612,191"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1f6855c98ad2fd9d071eb31236630258" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="326,215,611,256"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#aebef451cedbed6fe5a4367fe035470a7" title="Clear any stored ReattachInformation." alt="" coords="680,5,907,47"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2f8ea066a8ae2408f1c86f828d7974f8" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="660,70,927,126"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e" title="Asyncronously locks a semaphore ." alt="" coords="698,149,889,191"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#aa948dc00c200539206747c99b95986af" title="Clear any stored ReattachInformation." alt="" coords="987,5,1216,47"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a" title="Remove a given model &#160;from the the working set." alt="" coords="1276,5,1485,47"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Initializes a new instance of the SemaphoreSlimContext class." alt="" coords="975,142,1228,198"/>
+</map>

@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="5,123,228,164"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#a05e77420e74de1e7739eadcd7c9c8070" title="Attach a given model &#160;to the the working set." alt="" coords="276,5,485,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a UserName.Name into a CanonicalName." alt="" coords="826,108,1022,149"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1eed27ad5d706f6f3f4c691704205f67" title="Get or create the admin User." alt="" coords="276,123,485,164"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a9d3ab19eabecf05d192266dcef7fb7f6" title="Get or create the admin User." alt="" coords="276,123,485,164"/>
 <area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a74e123c6393ad813f997c882a22b228e" title="Saves changes made to the IDatabaseContext." alt="" coords="276,240,485,281"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ad65df3157dcd8d5485b4564fa7f92798" title="Add a default system User to a given databaseContext ." alt="" coords="533,239,756,280"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext ." alt="" coords="537,173,753,215"/>

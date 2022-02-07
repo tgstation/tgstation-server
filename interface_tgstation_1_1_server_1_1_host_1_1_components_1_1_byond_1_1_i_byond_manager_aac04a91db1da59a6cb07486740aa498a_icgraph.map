@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.Byond.IByondManager.UseExecutables" name="Tgstation.Server.Host.Components.Byond.IByondManager.UseExecutables">
+<area shape="rect" id="node1" title="Lock the current installation&#39;s location and return a IByondExecutableLock." alt="" coords="1503,104,1751,145"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad04b0e3f67e6e5a4e7383dbd36a19743" title="Run the compile implementation." alt="" coords="1196,39,1423,80"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance." alt="" coords="1164,104,1455,145"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#ac4d9f68fc72e3eed915634537de8647a" title="Create a ISessionController from an existing DreamDaemon instance." alt="" coords="1173,169,1445,211"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7" title=" " alt="" coords="829,39,1116,80"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,39,781,80"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore." alt="" coords="280,39,507,80"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,47"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,112"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="847,136,1098,177"/>
+</map>

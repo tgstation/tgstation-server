@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.System.Process.GetCombinedOutput" name="Tgstation.Server.Host.System.Process.GetCombinedOutput">
+<area shape="rect" id="node1" title="Get the stderr and stdout output of the IProcess." alt="" coords="5,39,204,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a736d1f3fd51c64de26a2645375bad22f" title="Get the stderr output of the IProcess." alt="" coords="252,5,451,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a83b3b0382cfa477c8c8073e5ca6a9482" title="Get the stdout output of the IProcess." alt="" coords="252,71,451,112"/>
+</map>

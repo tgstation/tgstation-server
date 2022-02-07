@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi" name="Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi">
+<area shape="rect" id="node1" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561" title="Load the RevisionInformation for the current repository &#160;state into a given databaseContext ." alt="" coords="269,5,555,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="603,5,812,47"/>
+</map>

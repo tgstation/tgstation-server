@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateFromController" name="Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateFromController">
-<area shape="rect" id="node1" title="Notify the node of an update request from the controller." alt="" coords="5,64,288,105"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a44ea2df8df1a5d14c30a85cce5f736aa" title="Implementation of PrepareUpdate(Version, CancellationToken),." alt="" coords="336,64,559,105"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465" title="Abort an uncommitted update." alt="" coords="623,5,817,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="881,35,1125,76"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ad8f0e312590d7f235e930763cd0ee57d" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="607,123,833,164"/>
-</map>

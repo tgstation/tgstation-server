@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Interop.Bridge.BridgeRegistration" name="Tgstation.Server.Host.Components.Interop.Bridge.BridgeRegistration">
-<area shape="rect" id="node1" title=" " alt="" coords="78,171,305,212"/>
+<area shape="rect" id="node1" title=" " alt="" coords="102,171,329,212"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session." alt="" coords="5,81,137,108"/>
 <area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="26,5,117,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="162,81,221,108"/>
-<area shape="rect" id="node5" title=" " alt="" coords="245,81,353,108"/>
+<area shape="rect" id="node4" title=" " alt="" coords="161,81,269,108"/>
+<area shape="rect" id="node5" title=" " alt="" coords="294,81,353,108"/>
 </map>

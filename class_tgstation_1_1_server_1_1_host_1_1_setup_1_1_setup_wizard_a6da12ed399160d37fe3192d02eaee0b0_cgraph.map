@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Setup.SetupWizard.ConfigureLogging" name="Tgstation.Server.Host.Setup.SetupWizard.ConfigureLogging">
+<area shape="rect" id="node1" title="Prompts the user to create a FileLoggingConfiguration." alt="" coords="5,195,204,236"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="262,5,430,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="255,71,437,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="262,136,430,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a9cdbbb0a183071a732a73e338a122cd0" title="A prompt for a yes or no value." alt="" coords="252,253,440,295"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34" title="Read a line from the IConsole." alt="" coords="488,208,656,249"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470" title="Write some text &#160;to the IConsole." alt="" coords="488,287,656,328"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="261,371,431,412"/>
+</map>

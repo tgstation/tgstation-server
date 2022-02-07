@@ -1,20 +1,20 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration" name="Tgstation.Server.Host.Components.StaticFiles.Configuration">
-<area shape="rect" id="node1" title=" " alt="" coords="636,457,863,498"/>
+<area shape="rect" id="node1" title=" " alt="" coords="636,513,863,554"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory." alt="" coords="240,56,341,83"/>
 <area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="9,5,121,32"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="5,56,124,83"/>
 <area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="19,107,110,133"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="207,107,375,149"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="207,173,375,214"/>
-<area shape="rect" id="node8" title=" " alt="" coords="263,239,318,265"/>
-<area shape="rect" id="node9" title=" " alt="" coords="173,289,408,345"/>
-<area shape="rect" id="node10" title=" " alt="" coords="265,369,316,396"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="207,421,375,462"/>
-<area shape="rect" id="node12" title=" " alt="" coords="207,485,375,541"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="191,565,390,606"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="191,630,390,671"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="189,695,392,737"/>
-<area shape="rect" id="node16" title=" " alt="" coords="205,761,376,788"/>
-<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links." alt="" coords="207,813,375,854"/>
-<area shape="rect" id="node18" title=" " alt="" coords="208,879,373,905"/>
+<area shape="rect" id="node6" title=" " alt="" coords="263,153,318,180"/>
+<area shape="rect" id="node7" title=" " alt="" coords="207,204,375,260"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="207,283,375,325"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner." alt="" coords="207,349,375,390"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links." alt="" coords="207,414,375,455"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="191,479,390,521"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="207,545,375,586"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="191,610,390,651"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="189,675,392,717"/>
+<area shape="rect" id="node15" title=" " alt="" coords="173,740,408,796"/>
+<area shape="rect" id="node16" title=" " alt="" coords="208,820,373,847"/>
+<area shape="rect" id="node17" title=" " alt="" coords="205,871,376,897"/>
+<area shape="rect" id="node18" title=" " alt="" coords="265,921,316,948"/>
 </map>

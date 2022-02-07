@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.System.IProcessExecutor.GetProcess" name="Tgstation.Server.Host.System.IProcessExecutor.GetProcess">
 <area shape="rect" id="node1" title="Get a IProcess by id ." alt="" coords="624,5,823,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a43661606c528da37b2aea840fe5766ef" title="Create a ISessionController from an existing DreamDaemon instance." alt="" coords="304,5,576,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#ac4d9f68fc72e3eed915634537de8647a" title="Create a ISessionController from an existing DreamDaemon instance." alt="" coords="304,5,576,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="5,5,256,47"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.Repository" name="Tgstation.Server.Host.Components.Repository.Repository.Repository">
 <area shape="rect" id="node1" title="Initializes a new instance of the Repository class." alt="" coords="1164,71,1391,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a009ffff68f9d96d360cde0fefe4c8b5e" title="Create an IInstance." alt="" coords="859,5,1086,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf28ce0a3f52d47f8e5200e48ef6ee4d" title="Create an IInstance." alt="" coords="859,5,1086,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7" title=" " alt="" coords="829,71,1116,112"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af8422c62401719f452a5c70cdb1d96d1" title="The JobEntrypoint for updating the repository." alt="" coords="859,136,1086,177"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,104,781,145"/>

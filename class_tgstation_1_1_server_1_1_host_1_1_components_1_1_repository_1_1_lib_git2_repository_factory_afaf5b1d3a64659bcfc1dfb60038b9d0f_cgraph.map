@@ -1,0 +1,3 @@
+<map id="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException" name="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CheckBadCredentialsException">
+<area shape="rect" id="node1" title="Rethrow the authentication failure message as a JobException if it is one." alt="" coords="5,29,240,85"/>
+</map>

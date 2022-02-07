@@ -1,16 +1,16 @@
 var searchData=
 [
-  ['watchdog_3527',['Watchdog',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html',1,'Tgstation::Server::Host::Watchdog']]],
-  ['watchdogbase_3528',['WatchdogBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['watchdogfactory_3529',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation.Server.Host.Components.Watchdog.WatchdogFactory'],['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation.Server.Host.Watchdog.WatchdogFactory']]],
-  ['webhostbuilderextensions_3530',['WebHostBuilderExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html',1,'Tgstation::Server::Host::Extensions']]],
-  ['windowsbyondinstaller_3531',['WindowsByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html',1,'Tgstation::Server::Host::Components::Byond']]],
-  ['windowsnetworkpromptreaper_3532',['WindowsNetworkPromptReaper',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html',1,'Tgstation::Server::Host::System']]],
-  ['windowspostwritehandler_3533',['WindowsPostWriteHandler',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html',1,'Tgstation::Server::Host::IO']]],
-  ['windowsprocessfeatures_3534',['WindowsProcessFeatures',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html',1,'Tgstation::Server::Host::System']]],
-  ['windowssymlinkfactory_3535',['WindowsSymlinkFactory',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html',1,'Tgstation::Server::Host::IO']]],
-  ['windowssystemidentity_3536',['WindowsSystemIdentity',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html',1,'Tgstation::Server::Host::Security']]],
-  ['windowssystemidentityfactory_3537',['WindowsSystemIdentityFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html',1,'Tgstation::Server::Host::Security']]],
-  ['windowswatchdog_3538',['WindowsWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['windowswatchdogfactory_3539',['WindowsWatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]]
+  ['watchdog_0',['Watchdog',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html',1,'Tgstation::Server::Host::Watchdog']]],
+  ['watchdogbase_1',['WatchdogBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['watchdogfactory_2',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation.Server.Host.Components.Watchdog.WatchdogFactory'],['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation.Server.Host.Watchdog.WatchdogFactory']]],
+  ['webhostbuilderextensions_3',['WebHostBuilderExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html',1,'Tgstation::Server::Host::Extensions']]],
+  ['windowsbyondinstaller_4',['WindowsByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html',1,'Tgstation::Server::Host::Components::Byond']]],
+  ['windowsnetworkpromptreaper_5',['WindowsNetworkPromptReaper',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html',1,'Tgstation::Server::Host::System']]],
+  ['windowspostwritehandler_6',['WindowsPostWriteHandler',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html',1,'Tgstation::Server::Host::IO']]],
+  ['windowsprocessfeatures_7',['WindowsProcessFeatures',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html',1,'Tgstation::Server::Host::System']]],
+  ['windowssymlinkfactory_8',['WindowsSymlinkFactory',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html',1,'Tgstation::Server::Host::IO']]],
+  ['windowssystemidentity_9',['WindowsSystemIdentity',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html',1,'Tgstation::Server::Host::Security']]],
+  ['windowssystemidentityfactory_10',['WindowsSystemIdentityFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html',1,'Tgstation::Server::Host::Security']]],
+  ['windowswatchdog_11',['WindowsWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['windowswatchdogfactory_12',['WindowsWatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]]
 ];
