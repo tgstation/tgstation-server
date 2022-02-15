@@ -91,6 +91,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(ErrorCode.RepoMismatchUserAndAccessToken);
 
+			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
+			if (((model.AccessUser ?? model.AccessToken) != null && !userRights.HasFlag(RepositoryRights.ChangeCredentials))
+				|| ((model.CommitterEmail ?? model.CommitterName) != null && !userRights.HasFlag(RepositoryRights.ChangeCommitter)))
+				return Forbid();
+
 			#pragma warning disable CS0618 // Support for obsolete API field
 			model.UpdateSubmodules ??= model.RecurseSubmodules;
 			#pragma warning restore CS0618
@@ -107,7 +112,11 @@ namespace Tgstation.Server.Host.Controllers
 
 			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? true;
 			currentModel.AccessToken = model.AccessToken;
-			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
+			currentModel.AccessUser = model.AccessUser;
+
+			currentModel.CommitterEmail = model.CommitterEmail ?? currentModel.CommitterEmail;
+			currentModel.CommitterName = model.CommitterName ?? currentModel.CommitterName;
+
 			var cloneBranch = model.Reference;
 			var origin = model.Origin;
 
