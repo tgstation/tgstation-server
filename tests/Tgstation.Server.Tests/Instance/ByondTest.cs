@@ -1,4 +1,4 @@
-using Castle.Core.Logging;
+﻿using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Tests.Instance
 			};
 			var test = await byondClient.SetActiveVersion(newModel, null, cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 120, false, null, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(test.InstallJob, 180, false, null, cancellationToken).ConfigureAwait(false);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken).ConfigureAwait(false);
 			Assert.AreEqual(newModel.Version.Semver(), currentShit.Version);
 

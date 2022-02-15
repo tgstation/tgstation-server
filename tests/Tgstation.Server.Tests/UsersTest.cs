@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -193,6 +193,17 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(1, group.Users.Count);
 			Assert.AreEqual(testUser2.Id, group.Users.First().Id);
 			Assert.IsNotNull(group.PermissionSet);
+
+			testUserUpdate.Group = null;
+			testUserUpdate.PermissionSet = new PermissionSet
+			{
+				AdministrationRights = RightsHelper.AllRights<AdministrationRights>(),
+				InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
+			};
+
+			testUser2 = await serverClient.Users.Update(testUserUpdate, cancellationToken);
+			Assert.IsNull(testUser2.Group);
+			Assert.IsNotNull(testUser2.PermissionSet);
 		}
 
 		async Task TestCreateSysUser(CancellationToken cancellationToken)

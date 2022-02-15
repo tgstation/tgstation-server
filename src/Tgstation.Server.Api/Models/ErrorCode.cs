@@ -327,7 +327,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The DMAPI never validated itself
 		/// </summary>
-		[Description("DreamDaemon did not validate the DMAPI!")]
+		[Description("DreamDaemon did not validate the DMAPI! This can occur if your world is encountering runtime errors during startup.")]
 		DreamMakerNeverValidated,
 
 		/// <summary>
