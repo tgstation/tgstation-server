@@ -248,7 +248,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   72</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a9ae1ecab8e3826302aa8d692c0d659d1">asyncDelayer</a>,</div>
 <div class="line"><span class="lineno">   73</span>                    () =&gt;</div>
 <div class="line"><span class="lineno">   74</span>                    {</div>
-<div class="line"><span class="lineno">   75</span>                        logger.LogDebug(<span class="stringliteral">&quot;Expiring system identity cache for user {1}&quot;</span>, uid, user.Id);</div>
+<div class="line"><span class="lineno">   75</span>                        logger.LogDebug(<span class="stringliteral">&quot;Expiring system identity cache for user {0}&quot;</span>, user.Id);</div>
 <div class="line"><span class="lineno">   76</span>                        lock (cachedIdentities)</div>
 <div class="line"><span class="lineno">   77</span>                            cachedIdentities.Remove(user.Id.Value);</div>
 <div class="line"><span class="lineno">   78</span>                    },</div>
