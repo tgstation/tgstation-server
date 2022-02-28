@@ -305,7 +305,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			else if (version.Build > 0)
 				throw new JobException(ErrorCode.ByondNonExistentCustomVersion);
 			else
-				logger.LogDebug("Requested BYOND version {0} not currently installed. Doing so now...");
+				logger.LogDebug("Requested BYOND version {0} not currently installed. Doing so now...", versionKey);
 
 			// okay up to us to install it then
 			try

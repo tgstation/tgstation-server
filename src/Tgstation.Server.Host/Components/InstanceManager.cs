@@ -252,7 +252,8 @@ namespace Tgstation.Server.Host.Components
 				{
 					logger.LogCritical(
 						innerEx,
-						"Error reverting database after failing to move instance {0}! Attempting to detach...");
+						"Error reverting database after failing to move instance {0}! Attempting to detach...",
+						instance.Id);
 
 					try
 					{
@@ -421,7 +422,7 @@ namespace Tgstation.Server.Host.Components
 						}
 						catch (Exception ex)
 						{
-							logger.LogError(ex, "Failed to online instance {0}!");
+							logger.LogError(ex, "Failed to online instance {0}!", metadata.Id);
 						}
 					});
 

@@ -395,13 +395,6 @@ namespace Tgstation.Server.Host.Core
 			logger.LogDebug("Content Root: {0}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
 
-			if (generalConfiguration.MinimumPasswordLength > Limits.MaximumStringLength)
-			{
-				logger.LogCritical("Configured minimum password length ({0}) is greater than the maximum database string length ({1})!");
-				serverControl.Die(new InvalidOperationException("Minimum password length greater than database limit!"));
-				return;
-			}
-
 			// attempt to restart the server if the configuration changes
 			if (serverControl.WatchdogPresent)
 				ChangeToken.OnChange(Configuration.GetReloadToken, () =>
