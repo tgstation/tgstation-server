@@ -417,6 +417,7 @@ namespace Tgstation.Server.Host.Controllers
 					Content = finalResults,
 					PageSize = pageSize,
 					TotalPages = (ushort)(totalResults / pageSize) + carryTheOne,
+					TotalItems = totalResults,
 				});
 		}
 	}
