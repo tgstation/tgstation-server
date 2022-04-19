@@ -24,5 +24,10 @@ namespace Tgstation.Server.Api.Models.Response
 		/// The current size of pages in the query.
 		/// </summary>
 		public int PageSize { get; set; }
+
+		/// <summary>
+		/// The total items across all pages.
+		/// </summary>
+		public int TotalItems { get; set; }
 	}
 }
