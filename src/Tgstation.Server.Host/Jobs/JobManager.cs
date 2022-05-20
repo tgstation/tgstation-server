@@ -334,7 +334,7 @@ namespace Tgstation.Server.Host.Jobs
 					catch (JobException e)
 					{
 						job.ErrorCode = e.ErrorCode;
-						job.ExceptionDetails = String.IsNullOrWhiteSpace(e.Message) ? e.InnerException?.Message : e.Message;
+						job.ExceptionDetails = String.IsNullOrWhiteSpace(e.Message) ? e.InnerException?.Message : e.Message + $" (Inner exception: {e.InnerException?.Message}";
 						LogException(e);
 					}
 					catch (Exception e)
