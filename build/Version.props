@@ -3,7 +3,7 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="ControlPanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>4.17.0</TgsCoreVersion>
+    <TgsCoreVersion>4.17.1</TgsCoreVersion>
     <TgsConfigVersion>4.1.0</TgsConfigVersion>
     <TgsApiVersion>9.4.0</TgsApiVersion>
     <TgsApiLibraryVersion>9.4.0</TgsApiLibraryVersion>
