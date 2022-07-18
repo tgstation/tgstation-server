@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Jobs.Tests
 		{
 			new JobException();
 			new JobException("Message");
-			new JobException("Message", new Exception());
+			new JobException("Message", new Exception("Inner Message"));
 		}
 	}
 }
