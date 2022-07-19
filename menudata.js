@@ -28,8 +28,8 @@ var menudata={children:[
 {text:"API",url:"api.html"},
 {text:"Architecture",url:"architecture.html"},
 {text:"Packages",url:"namespaces.html",children:[
-{text:"Packages",url:"namespaces.html"},
-{text:"Package Functions",url:"namespacemembers.html",children:[
+{text:"Package List",url:"namespaces.html"},
+{text:"Package Members",url:"namespacemembers.html",children:[
 {text:"All",url:"namespacemembers.html",children:[
 {text:"a",url:"namespacemembers.html#index_a"},
 {text:"b",url:"namespacemembers.html#index_b"},
