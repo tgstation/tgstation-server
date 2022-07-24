@@ -492,3 +492,4 @@ Feel free to ask for help [on the discussions page](https://github.com/tgstation
 * The remainder of the project is licensed under [GNU AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html)
 
 See the files in the `/src/DMAPI` tree for the MIT license
+
