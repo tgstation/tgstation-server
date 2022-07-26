@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public string Name => "revision";
 
 		/// <inheritdoc />
-		public string HelpText => "Display live commit sha. Add --repo to view repository revision";
+		public string HelpText => "Display live origin commit sha. Add --repo to view repository revision";
 
 		/// <inheritdoc />
 		public bool AdminOnly => false;
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			{
 				if (watchdog.Status == WatchdogStatus.Offline)
 					return "Server offline!";
-				result = watchdog.ActiveCompileJob?.RevisionInformation.CommitSha;
+				result = watchdog.ActiveCompileJob?.RevisionInformation.OriginCommitSha;
 			}
 
 			return String.Format(CultureInfo.InvariantCulture, "^{0}", result);
