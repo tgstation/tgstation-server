@@ -40,7 +40,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<InvisionCommunityOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
-			: base(httpClientFactory, assemblyInformationProvider, logger, oAuthConfiguration) {
+			: base(httpClientFactory, assemblyInformationProvider, logger, oAuthConfiguration)
+		{
 		}
 
 		/// <inheritdoc />
