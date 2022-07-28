@@ -10,7 +10,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Security.OAuth
 {
 	/// <summary>
-	/// OAuth validator for Discord.
+	/// OAuth validator for Invision Community (selfhosted).
 	/// </summary>
 	sealed class InvisionCommunityOAuthValidator : GenericOAuthValidator
 		{
@@ -18,15 +18,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public override OAuthProvider Provider => OAuthProvider.InvisionCommunity;
 
 		/// <inheritdoc />
-		protected override Uri TokenUrl => new Uri($"{BaseProtocolPath}/oauth/token/");
+		protected override Uri TokenUrl => new Uri($"{OAuthConfiguration.ServerUrl}/oauth/token/"); // This needs the trailing slash or it doesnt get the token. Do not remove.
 
 		/// <inheritdoc />
-		protected override Uri UserInformationUrl => new Uri($"{BaseProtocolPath}/api/core/me");
-
-		/// <summary>
-		/// Base path to the server's OAuth endpoint.
-		/// </summary>
-		string BaseProtocolPath => $"{OAuthConfiguration.ServerUrl}";
+		protected override Uri UserInformationUrl => new Uri($"{OAuthConfiguration.ServerUrl}/api/core/me");
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InvisionCommunityOAuthValidator"/> class.
