@@ -23,6 +23,7 @@ var searchData=
   ['instancewhitespacename_20',['InstanceWhitespaceName',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a024cf09531e01356ce46f4e6abd33f77',1,'Tgstation::Server::Api::Models']]],
   ['internalservererror_21',['InternalServerError',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed',1,'Tgstation::Server::Api::Models']]],
   ['invisible_22',['Invisible',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2ca30004669a0f022b39b67d21ac976ca8bcda43732b0928d269955e0f09ff76f',1,'Tgstation::Server::Api::Models']]],
-  ['ioerror_23',['IOError',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5206bd7472156351d2d9a99633ac9580',1,'Tgstation::Server::Api::Models']]],
-  ['irc_24',['Irc',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca2b6446aa685b2e1260e9d6f60239e547',1,'Tgstation::Server::Api::Models']]]
+  ['invisioncommunity_23',['InvisionCommunity',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a0d5820a1882caca84cdcc8ccc81e9d30',1,'Tgstation::Server::Api::Models']]],
+  ['ioerror_24',['IOError',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5206bd7472156351d2d9a99633ac9580',1,'Tgstation::Server::Api::Models']]],
+  ['irc_25',['Irc',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca2b6446aa685b2e1260e9d6f60239e547',1,'Tgstation::Server::Api::Models']]]
 ];

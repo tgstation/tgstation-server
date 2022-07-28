@@ -1,8 +1,9 @@
 <map id="Tgstation.Server.Host.Security.OAuth.IOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.IOAuthValidator">
-<area shape="rect" id="node1" title="Validates OAuth responses for a given Provider." alt="" coords="5,104,207,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="255,71,456,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html" title="IOAuthValidator for GitHub." alt="" coords="255,136,456,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="509,5,711,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="509,71,711,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="504,136,716,177"/>
+<area shape="rect" id="node1" title="Validates OAuth responses for a given Provider." alt="" coords="5,137,207,179"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="255,104,456,145"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html" title="IOAuthValidator for GitHub." alt="" coords="255,169,456,211"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="533,5,735,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_invision_community_o_auth_validator.html" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="504,71,764,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="533,136,735,177"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="528,201,740,243"/>
 </map>
