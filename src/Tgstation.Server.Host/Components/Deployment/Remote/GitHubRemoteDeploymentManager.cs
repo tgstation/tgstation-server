@@ -75,8 +75,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.ConfigureAwait(false))
 				.ConfigureAwait(false);
 
-			var instanceAuthenticated = repositorySettings.AccessToken == null;
-			var gitHubClient = repositorySettings.AccessToken == null
+			var instanceAuthenticated = repositorySettings.AccessToken != null;
+			var gitHubClient = !instanceAuthenticated
 				? gitHubClientFactory.CreateClient()
 				: gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
 
