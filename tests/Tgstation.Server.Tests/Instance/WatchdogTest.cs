@@ -66,7 +66,8 @@ namespace Tgstation.Server.Tests.Instance
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
-			await RunHeartbeatTest(cancellationToken);
+			await RunHeartbeatTest(true, cancellationToken);
+			await RunHeartbeatTest(false, cancellationToken);
 
 			await StartAndLeaveRunning(cancellationToken);
 
@@ -205,13 +206,14 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(String.Empty, daemonStatus.AdditionalParameters);
 		}
 
-		async Task RunHeartbeatTest(CancellationToken cancellationToken)
+		async Task RunHeartbeatTest(bool checkDump, CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG HEARTBEAT TEST");
 			// enable heartbeats
 			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				HeartbeatSeconds = 1,
+				DumpOnHeartbeatRestart = checkDump,
 			}, cancellationToken);
 
 			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);
@@ -266,6 +268,15 @@ namespace Tgstation.Server.Tests.Instance
 			{
 				HeartbeatSeconds = 0,
 			}, cancellationToken);
+
+			if (checkDump)
+			{
+				// check the dump happened
+				var dumpFiles = Directory.GetFiles(Path.Combine(
+					instanceClient.Metadata.Path, "Diagnostics", "ProcessDumps"), "*.dmp");
+				Assert.AreEqual(1, dumpFiles.Length);
+				File.Delete(dumpFiles.Single());
+			}
 		}
 
 		async Task<JobResponse> StartDD(CancellationToken cancellationToken)

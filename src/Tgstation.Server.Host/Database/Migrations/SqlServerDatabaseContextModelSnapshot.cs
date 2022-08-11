@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "3.1.18")
+				.HasAnnotation("ProductVersion", "3.1.20")
 				.HasAnnotation("Relational:MaxIdentifierLength", 128)
 				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -182,6 +182,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("bit");
 
 				b.Property<bool?>("AutoStart")
+					.IsRequired()
+					.HasColumnType("bit");
+
+				b.Property<bool?>("DumpOnHeartbeatRestart")
 					.IsRequired()
 					.HasColumnType("bit");
 

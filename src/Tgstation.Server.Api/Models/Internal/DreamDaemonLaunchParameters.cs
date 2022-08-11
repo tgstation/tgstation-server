@@ -55,6 +55,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint? HeartbeatSeconds { get; set; }
 
 		/// <summary>
+		/// If a process core dump should be created prior to restarting the watchdog due to heartbeat failure.
+		/// </summary>
+		[Required]
+		[ResponseOptions]
+		public bool? DumpOnHeartbeatRestart { get; set; }
+
+		/// <summary>
 		/// The timeout for sending and receiving BYOND topics in milliseconds.
 		/// </summary>
 		[Required]
@@ -81,6 +88,6 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& Visibility == otherParameters.Visibility
 				&& Port == otherParameters.Port
 				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout
-				&& AdditionalParameters == otherParameters.AdditionalParameters; // We intentionally don't check StartupTimeout or heartbeat seconds as it doesn't matter in terms of the watchdog
+				&& AdditionalParameters == otherParameters.AdditionalParameters; // We intentionally don't check StartupTimeout, heartbeat seconds, or heartbeat dump as they don't matter in terms of the watchdog
 	}
 }

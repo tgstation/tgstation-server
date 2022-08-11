@@ -32,12 +32,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Models.CompileJob ActiveCompileJob { get; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is using.
+		/// The <see cref="DreamDaemonLaunchParameters"/> to be applied.
 		/// </summary>
 		DreamDaemonLaunchParameters ActiveLaunchParameters { get; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonLaunchParameters"/> to be applied.
+		/// The <see cref="DreamDaemonLaunchParameters"/> the active server is using.
 		/// </summary>
 		DreamDaemonLaunchParameters LastLaunchParameters { get; }
 
