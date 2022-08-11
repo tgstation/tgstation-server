@@ -118,6 +118,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a15ea3f57d3c8d953d2b12386469c73b2"><td class="memItemLeft" align="right" valign="top">uint?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a15ea3f57d3c8d953d2b12386469c73b2">HeartbeatSeconds</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a15ea3f57d3c8d953d2b12386469c73b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of seconds between each watchdog heartbeat. 0 disables.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a15ea3f57d3c8d953d2b12386469c73b2">More...</a><br /></td></tr>
 <tr class="separator:a15ea3f57d3c8d953d2b12386469c73b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1c8b66f8a23b32e80e2c88c1b405202"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ab1c8b66f8a23b32e80e2c88c1b405202">DumpOnHeartbeatRestart</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ab1c8b66f8a23b32e80e2c88c1b405202"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a process core dump should be created prior to restarting the watchdog due to heartbeat failure.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ab1c8b66f8a23b32e80e2c88c1b405202">More...</a><br /></td></tr>
+<tr class="separator:ab1c8b66f8a23b32e80e2c88c1b405202"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e172ad3abdcc1f6a0f24cdf08646d0a"><td class="memItemLeft" align="right" valign="top">uint?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5e172ad3abdcc1f6a0f24cdf08646d0a">TopicRequestTimeout</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a5e172ad3abdcc1f6a0f24cdf08646d0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The timeout for sending and receiving BYOND topics in milliseconds.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5e172ad3abdcc1f6a0f24cdf08646d0a">More...</a><br /></td></tr>
 <tr class="separator:a5e172ad3abdcc1f6a0f24cdf08646d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,8 +194,8 @@ Here is the caller graph for this function:</div>
 
 <p>Parameters string for DreamDaemon. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00071">71</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   71</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00078">78</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   78</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
@@ -224,6 +227,35 @@ Here is the caller graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+
+</div>
+</div>
+<a id="ab1c8b66f8a23b32e80e2c88c1b405202" name="ab1c8b66f8a23b32e80e2c88c1b405202"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1c8b66f8a23b32e80e2c88c1b405202">&#9670;&nbsp;</a></span>DumpOnHeartbeatRestart</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool? Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.DumpOnHeartbeatRestart</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If a process core dump should be created prior to restarting the watchdog due to heartbeat failure. </p>
+
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00062">62</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l01011">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat()</a>.</p>
 
 </div>
 </div>
@@ -365,8 +397,8 @@ Here is the caller graph for this function:</div>
 
 <p>The timeout for sending and receiving BYOND topics in milliseconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00063">63</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   63</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00070">70</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   70</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
