@@ -1042,6 +1042,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var message4 = $"DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
 						Logger.LogWarning(message4);
 						await Chat.QueueWatchdogMessage(message4, cancellationToken).ConfigureAwait(false);
+
+						if (ActiveLaunchParameters.DumpOnHeartbeatRestart.Value)
+						{
+							Logger.LogDebug("DumpOnHeartbeatRestart enabled.");
+							await CreateDump(cancellationToken).ConfigureAwait(false);
+						}
+						else
+							Logger.LogTrace("DumpOnHeartbeatRestart disabled.");
+
 						await DisposeAndNullControllers(cancellationToken).ConfigureAwait(false);
 						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
 					default:

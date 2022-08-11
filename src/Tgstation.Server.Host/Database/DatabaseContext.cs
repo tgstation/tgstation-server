@@ -373,28 +373,28 @@ namespace Tgstation.Server.Host.Database
 
 		// HEY YOU
 		// IF YOU HAVE A TEST THAT'S CREATING ERRORS BECAUSE THESE VALUES AREN'T SET CORRECTLY THERE'S MORE TO FIXING IT THAN JUST UPDATING THEM
-		// IN THE FUNCTION BELOW YOU ALSO NEED TO CORRECTLY SET THE RIGHT MIGRATION TO DOWNLOAD TO FOR THE LAST TGS VERSION
+		// IN THE FUNCTION BELOW YOU ALSO NEED TO CORRECTLY SET THE RIGHT MIGRATION TO DOWNGRADE TO FOR THE LAST TGS VERSION
 		// IF THIS BREAKS AGAIN I WILL PERSONALLY HAUNT YOUR ASS WHEN I DIE
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddUpdateSubmodules);
+		internal static readonly Type MSLatestMigration = typeof(MSAddDumpOnHeartbeatRestart);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddUpdateSubmodules);
+		internal static readonly Type MYLatestMigration = typeof(MYAddDumpOnHeartbeatRestart);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddUpdateSubmodules);
+		internal static readonly Type PGLatestMigration = typeof(PGAddDumpOnHeartbeatRestart);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddUpdateSubmodules);
+		internal static readonly Type SLLatestMigration = typeof(SLAddDumpOnHeartbeatRestart);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -422,6 +422,15 @@ namespace Tgstation.Server.Host.Database
 
 			// Update this with new migrations as they are made
 			string targetMigration = null;
+			if (targetVersion < new Version(4, 18, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddUpdateSubmodules),
+					DatabaseType.PostgresSql => nameof(PGAddUpdateSubmodules),
+					DatabaseType.SqlServer => nameof(MSAddUpdateSubmodules),
+					DatabaseType.Sqlite => nameof(SLAddUpdateSubmodules),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
 			if (targetVersion < new Version(4, 14, 0))
 				targetMigration = currentDatabaseType switch
 				{

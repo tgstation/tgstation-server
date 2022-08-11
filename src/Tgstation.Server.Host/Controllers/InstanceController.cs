@@ -719,6 +719,7 @@ namespace Tgstation.Server.Host.Controllers
 					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 60,
 					HeartbeatSeconds = 60,
+					DumpOnHeartbeatRestart = false,
 					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout,
 					AdditionalParameters = String.Empty,
 				},

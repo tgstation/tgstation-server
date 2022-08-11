@@ -79,6 +79,14 @@ namespace Tgstation.Server.Host.Security.OAuth
 						assemblyInformationProvider,
 						loggerFactory.CreateLogger<KeycloakOAuthValidator>(),
 						keyCloakConfig));
+
+			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.InvisionCommunity, out var invisionConfig))
+				validatorsBuilder.Add(
+					new InvisionCommunityOAuthValidator(
+						httpClientFactory,
+						assemblyInformationProvider,
+						loggerFactory.CreateLogger<InvisionCommunityOAuthValidator>(),
+						invisionConfig));
 		}
 
 		/// <inheritdoc />

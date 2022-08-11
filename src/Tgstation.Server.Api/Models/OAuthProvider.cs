@@ -28,5 +28,10 @@ namespace Tgstation.Server.Api.Models
 		/// https://www.keycloak.org
 		/// </summary>
 		Keycloak,
+
+		/// <summary>
+		/// https://invisioncommunity.com/
+		/// </summary>
+		InvisionCommunity,
 	}
 }
