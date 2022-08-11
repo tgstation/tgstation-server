@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "3.1.18");
+				.HasAnnotation("ProductVersion", "3.1.20");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -175,6 +175,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("INTEGER");
 
 				b.Property<bool?>("AutoStart")
+					.IsRequired()
+					.HasColumnType("INTEGER");
+
+				b.Property<bool?>("DumpOnHeartbeatRestart")
 					.IsRequired()
 					.HasColumnType("INTEGER");
 

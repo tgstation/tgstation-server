@@ -217,6 +217,7 @@ namespace Tgstation.Server.Host.Controllers
 						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
 						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
+						|| CheckModified(x => x.DumpOnHeartbeatRestart, DreamDaemonRights.CreateDump)
 						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
 						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters))
 						return Forbid();
@@ -355,6 +356,7 @@ namespace Tgstation.Server.Host.Controllers
 					result.SoftShutdown = rstate == RebootState.Shutdown;
 					result.StartupTimeout = settings.StartupTimeout.Value;
 					result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
+					result.DumpOnHeartbeatRestart = settings.DumpOnHeartbeatRestart.Value;
 					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
 					result.AdditionalParameters = settings.AdditionalParameters;
 				}
