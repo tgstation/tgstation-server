@@ -13,6 +13,6 @@ Vulnerabilities should ideally be reported by directly messaging one of the TGS 
 
 Here is a list of their discord IDs.
 
-@Cyberboss - Dominion#0444 (<@133295178197893120>)
+@Cyberboss - Dominion#0444
 
 Once reported, they will handle the processing of the security advisory.
