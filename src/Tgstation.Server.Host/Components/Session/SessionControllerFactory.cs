@@ -282,7 +282,7 @@ namespace Tgstation.Server.Host.Components.Session
 					Guid? logFileGuid = null;
 					var arguments = String.Format(
 						CultureInfo.InvariantCulture,
-						"{0} -port {1} -ports 1-65535 {2}-close -logself -{3} -{4}{5} -params \"{6}\"",
+						"{0} -port {1} -ports 1-65535 {2}-close -verbose -logself -{3} -{4}{5} -params \"{6}\"",
 						dmbProvider.DmbName,
 						launchParameters.Port.Value,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
