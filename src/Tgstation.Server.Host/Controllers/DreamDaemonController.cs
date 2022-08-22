@@ -146,7 +146,8 @@ namespace Tgstation.Server.Host.Controllers
 			| DreamDaemonRights.SetHeartbeatInterval
 			| DreamDaemonRights.SetTopicTimeout
 			| DreamDaemonRights.SetAdditionalParameters
-			| DreamDaemonRights.SetVisibility)]
+			| DreamDaemonRights.SetVisibility
+			| DreamDaemonRights.SetProfiler)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
@@ -219,7 +220,8 @@ namespace Tgstation.Server.Host.Controllers
 						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
 						|| CheckModified(x => x.DumpOnHeartbeatRestart, DreamDaemonRights.CreateDump)
 						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
-						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters))
+						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
+						|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler))
 						return Forbid();
 
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);

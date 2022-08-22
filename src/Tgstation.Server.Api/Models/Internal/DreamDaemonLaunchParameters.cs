@@ -16,6 +16,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? AllowWebClient { get; set; }
 
 		/// <summary>
+		/// If -profile is passed in on the DreamDaemon command line.
+		/// </summary>
+		[Required]
+		[ResponseOptions]
+		public bool? StartProfiler { get; set; }
+
+		/// <summary>
 		/// The <see cref="DreamDaemonVisibility"/> level of DreamDaemon.
 		/// </summary>
 		[Required]
@@ -82,12 +89,18 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against.</param>
 		/// <returns><see langword="true"/> if they match, <see langword="false"/> otherwise.</returns>
-		public bool CanApplyWithoutReboot(DreamDaemonLaunchParameters otherParameters) =>
-			AllowWebClient == (otherParameters?.AllowWebClient ?? throw new ArgumentNullException(nameof(otherParameters)))
+		public bool CanApplyWithoutReboot(DreamDaemonLaunchParameters otherParameters)
+		{
+			if (otherParameters == null)
+				throw new ArgumentNullException(nameof(otherParameters));
+
+			return AllowWebClient == otherParameters.AllowWebClient
 				&& SecurityLevel == otherParameters.SecurityLevel
 				&& Visibility == otherParameters.Visibility
 				&& Port == otherParameters.Port
 				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout
-				&& AdditionalParameters == otherParameters.AdditionalParameters; // We intentionally don't check StartupTimeout, heartbeat seconds, or heartbeat dump as they don't matter in terms of the watchdog
+				&& AdditionalParameters == otherParameters.AdditionalParameters
+				&& StartProfiler == otherParameters.StartProfiler; // We intentionally don't check StartupTimeout, heartbeat seconds, or heartbeat dump as they don't matter in terms of the watchdog
+		}
 	}
 }
