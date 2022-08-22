@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.18.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -103,6 +103,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a5f96244396a57f351043723b254803bc"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5f96244396a57f351043723b254803bc">AllowWebClient</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a5f96244396a57f351043723b254803bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the BYOND web client can be used to connect to the game server.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5f96244396a57f351043723b254803bc">More...</a><br /></td></tr>
 <tr class="separator:a5f96244396a57f351043723b254803bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa599a7221543ef48c8a27462bc3f7c34"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#aa599a7221543ef48c8a27462bc3f7c34">StartProfiler</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aa599a7221543ef48c8a27462bc3f7c34"><td class="mdescLeft">&#160;</td><td class="mdescRight">If -profile is passed in on the DreamDaemon command line.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#aa599a7221543ef48c8a27462bc3f7c34">More...</a><br /></td></tr>
+<tr class="separator:aa599a7221543ef48c8a27462bc3f7c34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08f11d77340868a0c8f2e1af89c7affe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2ca30004669a0f022b39b67d21ac976c">DreamDaemonVisibility</a>?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a08f11d77340868a0c8f2e1af89c7affe">Visibility</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a08f11d77340868a0c8f2e1af89c7affe"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2ca30004669a0f022b39b67d21ac976c" title="The visibility setting for DreamDaemon.">DreamDaemonVisibility</a> level of DreamDaemon.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a08f11d77340868a0c8f2e1af89c7affe">More...</a><br /></td></tr>
 <tr class="separator:a08f11d77340868a0c8f2e1af89c7affe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,6 +161,29 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if they match, <code>false</code> otherwise.</dd></dl>
 
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00092">92</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   93</span>        {</div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">if</span> (otherParameters == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(otherParameters));</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>            <span class="keywordflow">return</span> <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5f96244396a57f351043723b254803bc">AllowWebClient</a> == otherParameters.AllowWebClient</div>
+<div class="line"><span class="lineno">   98</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#aab2ca846e0aade7de3cfcea099f40fa4">SecurityLevel</a> == otherParameters.SecurityLevel</div>
+<div class="line"><span class="lineno">   99</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a08f11d77340868a0c8f2e1af89c7affe">Visibility</a> == otherParameters.Visibility</div>
+<div class="line"><span class="lineno">  100</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a00af90c86ba9ced8f7b718cea098892b">Port</a> == otherParameters.Port</div>
+<div class="line"><span class="lineno">  101</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5e172ad3abdcc1f6a0f24cdf08646d0a">TopicRequestTimeout</a> == otherParameters.TopicRequestTimeout</div>
+<div class="line"><span class="lineno">  102</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16">AdditionalParameters</a> == otherParameters.AdditionalParameters</div>
+<div class="line"><span class="lineno">  103</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#aa599a7221543ef48c8a27462bc3f7c34">StartProfiler</a> == otherParameters.StartProfiler; <span class="comment">// We intentionally don&#39;t check StartupTimeout, heartbeat seconds, or heartbeat dump as they don&#39;t matter in terms of the watchdog</span></div>
+<div class="line"><span class="lineno">  104</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_a00af90c86ba9ced8f7b718cea098892b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a00af90c86ba9ced8f7b718cea098892b">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.Port</a></div><div class="ttdeci">ushort? Port</div><div class="ttdoc">The port DreamDaemon uses. This should be publically accessible.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00047">DreamDaemonLaunchParameters.cs:47</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_a08f11d77340868a0c8f2e1af89c7affe"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a08f11d77340868a0c8f2e1af89c7affe">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.Visibility</a></div><div class="ttdeci">DreamDaemonVisibility? Visibility</div><div class="ttdoc">The DreamDaemonVisibility level of DreamDaemon.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00031">DreamDaemonLaunchParameters.cs:31</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_a5e172ad3abdcc1f6a0f24cdf08646d0a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5e172ad3abdcc1f6a0f24cdf08646d0a">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.TopicRequestTimeout</a></div><div class="ttdeci">uint? TopicRequestTimeout</div><div class="ttdoc">The timeout for sending and receiving BYOND topics in milliseconds.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00077">DreamDaemonLaunchParameters.cs:77</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_a5f96244396a57f351043723b254803bc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5f96244396a57f351043723b254803bc">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.AllowWebClient</a></div><div class="ttdeci">bool? AllowWebClient</div><div class="ttdoc">If the BYOND web client can be used to connect to the game server.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00016">DreamDaemonLaunchParameters.cs:16</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_aa599a7221543ef48c8a27462bc3f7c34"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#aa599a7221543ef48c8a27462bc3f7c34">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.StartProfiler</a></div><div class="ttdeci">bool? StartProfiler</div><div class="ttdoc">If -profile is passed in on the DreamDaemon command line.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00023">DreamDaemonLaunchParameters.cs:23</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_aab2ca846e0aade7de3cfcea099f40fa4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#aab2ca846e0aade7de3cfcea099f40fa4">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.SecurityLevel</a></div><div class="ttdeci">DreamDaemonSecurity? SecurityLevel</div><div class="ttdoc">The DreamDaemonSecurity level of DreamDaemon.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00039">DreamDaemonLaunchParameters.cs:39</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_ae0805858305339e11954cf91f9c21a16"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.AdditionalParameters</a></div><div class="ttdeci">string? AdditionalParameters</div><div class="ttdoc">Parameters string for DreamDaemon.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00085">DreamDaemonLaunchParameters.cs:85</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00085">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.AdditionalParameters</a>, <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00016">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.AllowWebClient</a>, <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00047">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.Port</a>, <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00039">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.SecurityLevel</a>, <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00023">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.StartProfiler</a>, <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00077">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.TopicRequestTimeout</a>, and <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00031">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.Visibility</a>.</p>
+
 <p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00255">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ChangeSettings()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -194,10 +220,10 @@ Here is the caller graph for this function:</div>
 
 <p>Parameters string for DreamDaemon. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00078">78</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00085">85</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00092">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
 </div>
 </div>
@@ -226,7 +252,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00016">16</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00092">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
 </div>
 </div>
@@ -252,8 +278,8 @@ Here is the caller graph for this function:</div>
 
 <p>If a process core dump should be created prior to restarting the watchdog due to heartbeat failure. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00062">62</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   62</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00069">69</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   69</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l01011">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat()</a>.</p>
 
@@ -281,8 +307,8 @@ Here is the caller graph for this function:</div>
 
 <p>The number of seconds between each watchdog heartbeat. 0 disables. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00055">55</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00062">62</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00763">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>.</p>
 
@@ -310,10 +336,10 @@ Here is the caller graph for this function:</div>
 
 <p>The port DreamDaemon uses. This should be publically accessible. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00040">40</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00047">47</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00092">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
 </div>
 </div>
@@ -339,10 +365,39 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5" title="DreamDaemon&#39;s security level.">DreamDaemonSecurity</a> level of DreamDaemon. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00032">32</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00039">39</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00092">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+
+</div>
+</div>
+<a id="aa599a7221543ef48c8a27462bc3f7c34" name="aa599a7221543ef48c8a27462bc3f7c34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa599a7221543ef48c8a27462bc3f7c34">&#9670;&nbsp;</a></span>StartProfiler</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool? Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.StartProfiler</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If -profile is passed in on the DreamDaemon command line. </p>
+
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00023">23</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00092">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
 </div>
 </div>
@@ -368,8 +423,8 @@ Here is the caller graph for this function:</div>
 
 <p>The DreamDaemon startup timeout in seconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00048">48</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00055">55</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00192">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
@@ -397,10 +452,10 @@ Here is the caller graph for this function:</div>
 
 <p>The timeout for sending and receiving BYOND topics in milliseconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00070">70</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   70</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00077">77</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   77</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00092">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
 </div>
 </div>
@@ -426,10 +481,10 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2ca30004669a0f022b39b67d21ac976c" title="The visibility setting for DreamDaemon.">DreamDaemonVisibility</a> level of DreamDaemon. </p>
 
-<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00024">24</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00031">31</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00092">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot()</a>, and <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
 </div>
 </div>
