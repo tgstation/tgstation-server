@@ -578,9 +578,9 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  300</span>                            <span class="keywordflow">if</span> (progress.HasValue</div>
 <div class="line"><span class="lineno">  301</span>                                &amp;&amp; (progress.Value &lt; 0 || progress.Value &gt; 100))</div>
 <div class="line"><span class="lineno">  302</span>                            {</div>
-<div class="line"><span class="lineno">  303</span>                                Debug.Assert(<span class="keyword">false</span>, <span class="stringliteral">&quot;Invalid progress value!&quot;</span>);</div>
-<div class="line"><span class="lineno">  304</span>                                var exception = <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(progress), progress, <span class="stringliteral">&quot;Progress must be a value from 0-100!&quot;</span>);</div>
-<div class="line"><span class="lineno">  305</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aecd93d616cf56f52f149457f064dd520">logger</a>.LogError(exception, <span class="stringliteral">&quot;Invalid progress value!&quot;</span>);</div>
+<div class="line"><span class="lineno">  303</span>                                var exception = <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(progress), progress, <span class="stringliteral">&quot;Progress must be a value from 0-100!&quot;</span>);</div>
+<div class="line"><span class="lineno">  304</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aecd93d616cf56f52f149457f064dd520">logger</a>.LogError(exception, <span class="stringliteral">&quot;Invalid progress value!&quot;</span>);</div>
+<div class="line"><span class="lineno">  305</span>                                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  306</span>                            }</div>
 <div class="line"><span class="lineno">  307</span> </div>
 <div class="line"><span class="lineno">  308</span>                            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aec64bbed8584f4daad12932098999e1b">synchronizationLock</a>)</div>

@@ -325,9 +325,9 @@ $(function() {
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>                            <span class="keywordflow">if</span> (progress.HasValue</div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                                &amp;&amp; (progress.Value &lt; 0 || progress.Value &gt; 100))</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                            {</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>                                Debug.Assert(<span class="keyword">false</span>, <span class="stringliteral">&quot;Invalid progress value!&quot;</span>);</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                                var exception = <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(progress), progress, <span class="stringliteral">&quot;Progress must be a value from 0-100!&quot;</span>);</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>                                logger.LogError(exception, <span class="stringliteral">&quot;Invalid progress value!&quot;</span>);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>                                var exception = <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(progress), progress, <span class="stringliteral">&quot;Progress must be a value from 0-100!&quot;</span>);</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                                logger.LogError(exception, <span class="stringliteral">&quot;Invalid progress value!&quot;</span>);</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>                                <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>                            }</div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
 <div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                            lock (synchronizationLock)</div>
