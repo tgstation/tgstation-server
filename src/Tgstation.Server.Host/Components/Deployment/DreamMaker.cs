@@ -763,6 +763,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				StartupTimeout = timeout,
 				TopicRequestTimeout = 0, // not used
 				HeartbeatSeconds = 0, // not used
+				StartProfiler = false,
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider

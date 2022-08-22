@@ -379,22 +379,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddDumpOnHeartbeatRestart);
+		internal static readonly Type MSLatestMigration = typeof(MSAddProfiler);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddDumpOnHeartbeatRestart);
+		internal static readonly Type MYLatestMigration = typeof(MYAddProfiler);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddDumpOnHeartbeatRestart);
+		internal static readonly Type PGLatestMigration = typeof(PGAddProfiler);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddDumpOnHeartbeatRestart);
+		internal static readonly Type SLLatestMigration = typeof(SLAddProfiler);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -422,6 +422,18 @@ namespace Tgstation.Server.Host.Database
 
 			// Update this with new migrations as they are made
 			string targetMigration = null;
+
+			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+
+			if (targetVersion < new Version(4, 19, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddDumpOnHeartbeatRestart),
+					DatabaseType.PostgresSql => nameof(PGAddDumpOnHeartbeatRestart),
+					DatabaseType.SqlServer => nameof(MSAddDumpOnHeartbeatRestart),
+					DatabaseType.Sqlite => nameof(SLAddDumpOnHeartbeatRestart),
+					_ => BadDatabaseType(),
+				};
 			if (targetVersion < new Version(4, 18, 0))
 				targetMigration = currentDatabaseType switch
 				{
@@ -429,7 +441,7 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.PostgresSql => nameof(PGAddUpdateSubmodules),
 					DatabaseType.SqlServer => nameof(MSAddUpdateSubmodules),
 					DatabaseType.Sqlite => nameof(SLAddUpdateSubmodules),
-					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+					_ => BadDatabaseType(),
 				};
 			if (targetVersion < new Version(4, 14, 0))
 				targetMigration = currentDatabaseType switch
@@ -438,7 +450,7 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.PostgresSql => nameof(PGTruncateInstanceNames),
 					DatabaseType.SqlServer => nameof(MSTruncateInstanceNames),
 					DatabaseType.Sqlite => nameof(SLAddRevInfoTimestamp),
-					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+					_ => BadDatabaseType(),
 				};
 			if (targetVersion < new Version(4, 10, 0))
 				targetMigration = currentDatabaseType switch
@@ -447,7 +459,7 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.PostgresSql => nameof(PGAddRevInfoTimestamp),
 					DatabaseType.SqlServer => nameof(MSAddRevInfoTimestamp),
 					DatabaseType.Sqlite => nameof(SLAddRevInfoTimestamp),
-					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+					_ => BadDatabaseType(),
 				};
 			if (targetVersion < new Version(4, 8, 0))
 				targetMigration = currentDatabaseType switch
@@ -456,7 +468,7 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.PostgresSql => nameof(PGAddSwarmIdentifer),
 					DatabaseType.SqlServer => nameof(MSAddSwarmIdentifer),
 					DatabaseType.Sqlite => nameof(SLAddSwarmIdentifer),
-					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+					_ => BadDatabaseType(),
 				};
 			if (targetVersion < new Version(4, 7, 0))
 				targetMigration = currentDatabaseType switch
@@ -465,7 +477,7 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.PostgresSql => nameof(PGAddAdditionalDDParameters),
 					DatabaseType.SqlServer => nameof(MSAddAdditionalDDParameters),
 					DatabaseType.Sqlite => nameof(SLAddAdditionalDDParameters),
-					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+					_ => BadDatabaseType(),
 				};
 			if (targetVersion < new Version(4, 6, 0))
 				targetMigration = currentDatabaseType switch
@@ -474,7 +486,7 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.PostgresSql => nameof(PGAddDeploymentColumns),
 					DatabaseType.SqlServer => nameof(MSAddDeploymentColumns),
 					DatabaseType.Sqlite => nameof(SLAddDeploymentColumns),
-					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+					_ => BadDatabaseType(),
 				};
 			if (targetVersion < new Version(4, 5, 0))
 				targetMigration = currentDatabaseType switch
@@ -483,7 +495,7 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.PostgresSql => nameof(PGAllowNullDMApi),
 					DatabaseType.SqlServer => nameof(MSAllowNullDMApi),
 					DatabaseType.Sqlite => nameof(SLAllowNullDMApi),
-					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+					_ => BadDatabaseType(),
 				};
 			if (targetVersion < new Version(4, 4, 0))
 				targetMigration = currentDatabaseType switch
@@ -492,7 +504,7 @@ namespace Tgstation.Server.Host.Database
 					DatabaseType.PostgresSql => nameof(PGCreate),
 					DatabaseType.SqlServer => nameof(MSRemoveSoftColumns),
 					DatabaseType.Sqlite => nameof(SLRemoveSoftColumns),
-					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+					_ => BadDatabaseType(),
 				};
 			if (targetVersion < new Version(4, 2, 0))
 				targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
