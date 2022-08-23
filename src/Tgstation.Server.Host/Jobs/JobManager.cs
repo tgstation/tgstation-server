@@ -300,9 +300,9 @@ namespace Tgstation.Server.Host.Jobs
 							if (progress.HasValue
 								&& (progress.Value < 0 || progress.Value > 100))
 							{
-								Debug.Assert(false, "Invalid progress value!");
 								var exception = new ArgumentOutOfRangeException(nameof(progress), progress, "Progress must be a value from 0-100!");
 								logger.LogError(exception, "Invalid progress value!");
+								return;
 							}
 
 							lock (synchronizationLock)

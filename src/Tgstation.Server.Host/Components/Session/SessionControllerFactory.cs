@@ -282,7 +282,7 @@ namespace Tgstation.Server.Host.Components.Session
 					Guid? logFileGuid = null;
 					var arguments = String.Format(
 						CultureInfo.InvariantCulture,
-						"{0} -port {1} -ports 1-65535 {2}-close -logself -{3} -{4}{5} -params \"{6}\"",
+						"{0} -port {1} -ports 1-65535 {2}-close -verbose -logself -{3} -{4}{5}{6} -params \"{7}\"",
 						dmbProvider.DmbName,
 						launchParameters.Port.Value,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
@@ -291,6 +291,9 @@ namespace Tgstation.Server.Host.Components.Session
 						platformIdentifier.IsWindows
 							? $" -log {logFileGuid = Guid.NewGuid()}"
 							: String.Empty, // Just use stdout on linux
+						launchParameters.StartProfiler.Value
+							? " -profile"
+							: String.Empty,
 						parameters);
 
 					// See https://github.com/tgstation/tgstation-server/issues/719

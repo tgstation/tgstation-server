@@ -94,8 +94,13 @@ namespace Tgstation.Server.Api.Rights
 		SetAdditionalParameters = 32768,
 
 		/// <summary>
-		/// User set <see cref="Models.Internal.DreamDaemonLaunchParameters.Visibility"/>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.Visibility"/>
 		/// </summary>
 		SetVisibility = 65536,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartProfiler"/>
+		/// </summary>
+		SetProfiler = 131072,
 	}
 }
