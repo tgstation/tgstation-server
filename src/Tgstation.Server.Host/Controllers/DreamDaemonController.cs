@@ -361,6 +361,7 @@ namespace Tgstation.Server.Host.Controllers
 					result.DumpOnHeartbeatRestart = settings.DumpOnHeartbeatRestart.Value;
 					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
 					result.AdditionalParameters = settings.AdditionalParameters;
+					result.StartProfiler = settings.StartProfiler;
 				}
 
 				if (revision)
