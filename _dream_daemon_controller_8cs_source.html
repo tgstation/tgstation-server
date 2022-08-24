@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -371,23 +371,24 @@ $(function() {
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>                    result.DumpOnHeartbeatRestart = settings.DumpOnHeartbeatRestart.Value;</div>
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>                    result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;</div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>                    result.AdditionalParameters = settings.AdditionalParameters;</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                }</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span> </div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>                <span class="keywordflow">if</span> (revision)</div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>                {</div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>                    var latestCompileJob = instance.LatestCompileJob();</div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>                    result.ActiveCompileJob = ((instance.Watchdog.Status != WatchdogStatus.Offline</div>
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>                        ? dd.ActiveCompileJob</div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>                        : latestCompileJob) ?? latestCompileJob)</div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>                        ?.ToApi();</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>                    <span class="keywordflow">if</span> (latestCompileJob?.Id != result.ActiveCompileJob?.Id)</div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>                        result.StagedCompileJob = latestCompileJob?.ToApi();</div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>                }</div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span> </div>
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>                <span class="keywordflow">return</span> Json(result);</div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            });</div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>    }</div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>}</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                    result.StartProfiler = settings.StartProfiler;</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>                }</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>                <span class="keywordflow">if</span> (revision)</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>                {</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>                    var latestCompileJob = instance.LatestCompileJob();</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>                    result.ActiveCompileJob = ((instance.Watchdog.Status != WatchdogStatus.Offline</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>                        ? dd.ActiveCompileJob</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>                        : latestCompileJob) ?? latestCompileJob)</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>                        ?.ToApi();</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>                    <span class="keywordflow">if</span> (latestCompileJob?.Id != result.ActiveCompileJob?.Id)</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>                        result.StagedCompileJob = latestCompileJob?.ToApi();</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>                }</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>                <span class="keywordflow">return</span> Json(result);</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            });</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    }</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></div><div class="ttdoc">Metadata about a server instance.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00008">Instance.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set_html_abfc8da417cc86fda32f60feba2617cda"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set.html#abfc8da417cc86fda32f60feba2617cda">Tgstation.Server.Api.Models.Internal.InstancePermissionSet.DreamDaemonRights</a></div><div class="ttdeci">DreamDaemonRights? DreamDaemonRights</div><div class="ttdoc">The Rights.DreamDaemonRights of the InstancePermissionSet.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_instance_permission_set_8cs_source.html#l00034">InstancePermissionSet.cs:34</a></div></div>
