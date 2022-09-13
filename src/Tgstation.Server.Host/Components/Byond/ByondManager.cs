@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -326,8 +326,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					Stream downloadedStream = null;
 					if (customVersionStream == null)
 					{
-						var bytes = await byondInstaller.DownloadVersion(version, cancellationToken).ConfigureAwait(false);
-						downloadedStream = new MemoryStream(bytes);
+						downloadedStream = await byondInstaller.DownloadVersion(version, cancellationToken).ConfigureAwait(false);
 						versionZipStream = downloadedStream;
 					}
 					else
@@ -349,7 +348,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						cancellationToken)
 						.ConfigureAwait(false);
 				}
-				catch (WebException e)
+				catch (HttpRequestException e)
 				{
 					// since the user can easily provide non-exitent version numbers, we'll turn this into a JobException
 					throw new JobException(ErrorCode.ByondDownloadFail, e);

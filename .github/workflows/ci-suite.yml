@@ -1,4 +1,4 @@
-﻿name: 'CI'
+name: 'CI'
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
     - master
 
 env:
-  TGS_DOTNET_VERSION: 3.1.x
+  TGS_DOTNET_VERSION: 6.0.x
   TGS_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
   TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
   TGS_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
@@ -46,7 +46,7 @@ jobs:
         exit 0
 
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Build DMAPI Test Project
       run: |
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Patch Doxyfile
         run: |
@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Upgrade NPM
       run: sudo npm install -g npm
@@ -130,12 +130,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Upgrade NPM
       run: sudo npm install -g npm
@@ -147,7 +147,7 @@ jobs:
       run: sudo dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults
 
     - name: Store Code Coverage
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: linux-unit-test-coverage-${{ matrix.configuration }}
         path: ./TestResults/
@@ -160,18 +160,15 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Upgrade NPM
       run: npm install -g npm
-
-    - name: Clean package cache as a temporary workaround for actions/setup-dotnet#155
-      run: dotnet clean && dotnet nuget locals all --clear
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}
@@ -180,7 +177,7 @@ jobs:
       run: dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }} --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults
 
     - name: Store Code Coverage
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: windows-unit-test-coverage-${{ matrix.configuration }}
         path: ./TestResults/
@@ -198,7 +195,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
@@ -216,7 +213,7 @@ jobs:
         echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
 
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Set TGS_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
@@ -233,9 +230,6 @@ jobs:
         TEMP_GITHUB_REF="${{ github.event.ref }}"
         echo "TGS_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
 
-    - name: Clean package cache as a temporary workaround for actions/setup-dotnet#155
-      run: dotnet clean && dotnet nuget locals all --clear
-
     - name: Run Integration Test
       run: |
         cd tests/Tgstation.Server.Tests
@@ -243,14 +237,14 @@ jobs:
         dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
 
     - name: Store Code Coverage
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}
         path: tests/Tgstation.Server.Tests/TestResults/
 
     - name: Store OpenAPI Spec
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: openapi-spec
         path: C:/swagger.json
@@ -266,7 +260,7 @@ jobs:
 
     - name: Store Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ServerService
         path: Artifacts/Service/
@@ -333,7 +327,7 @@ jobs:
       run: npm install -g npm
 
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
@@ -367,7 +361,7 @@ jobs:
       run: echo "General__UseBasicWatchdog=true" >> $GITHUB_ENV
 
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Set TGS_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
@@ -391,7 +385,7 @@ jobs:
         dotnet test -c ${{ matrix.configuration }}NoService -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
 
     - name: Store Code Coverage
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: linux-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: tests/Tgstation.Server.Tests/TestResults/
@@ -414,14 +408,14 @@ jobs:
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ServerConsole
         path: Artifacts/Console/
 
     - name: Store Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ServerUpdatePackage
         path: Artifacts/ServerUpdate/
@@ -440,10 +434,10 @@ jobs:
       run: npm i -g ibm-openapi-validator@0.51.3
 
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Retrieve OpenAPI Spec
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: openapi-spec
         path: ./swagger
@@ -457,70 +451,70 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout for .codecov.yml
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Retrieve Linux Unit Test Coverage (Debug)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: linux-unit-test-coverage-Debug
         path: ./code_coverage/unit_tests/linux_unit_tests_debug
 
     - name: Retrieve Linux Unit Test Coverage (Release)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: linux-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/linux_unit_tests_release
 
     - name: Retrieve Linux Integration Test Coverage (Release, System, Sqlite)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Release-System-Sqlite
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
 
     - name: Retrieve Linux Integration Test Coverage (Release, System, PostgresSql)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Release-System-PostgresSql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
 
     - name: Retrieve Linux Integration Test Coverage (Release, System, MariaDB)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Release-System-MariaDB
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
     - name: Retrieve Linux Integration Test Coverage (Release, System, MySql)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: linux-integration-test-coverage-Release-System-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
     - name: Retrieve Windows Unit Test Coverage (Release)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: windows-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/windows_unit_tests_release
 
     - name: Retrieve Windows Integration Test Coverage (Debug, Basic)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: windows-integration-test-coverage-Debug-Basic
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic
 
     - name: Retrieve Windows Integration Test Coverage (Release, Basic)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: windows-integration-test-coverage-Release-Basic
         path: ./code_coverage/integration_tests/windows_integration_tests_release_basic
 
     - name: Retrieve Windows Integration Test Coverage (Debug, System)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: windows-integration-test-coverage-Debug-System
         path: ./code_coverage/integration_tests/windows_integration_tests_debug_system
 
     - name: Retrieve Windows Integration Test Coverage (Release, System)
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: windows-integration-test-coverage-Release-System
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system
@@ -546,7 +540,7 @@ jobs:
     if: github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Parse API version
         shell: powershell
@@ -556,7 +550,7 @@ jobs:
           echo "TGS_API_VERSION=$apiVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Retrieve OpenAPI Spec
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: openapi-spec
           path: swagger
@@ -590,7 +584,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Parse DMAPI version
         shell: powershell
@@ -632,12 +626,12 @@ jobs:
     if: github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')
     steps:
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Publish API to NuGet
         uses: rohith/publish-nuget@v2
@@ -662,7 +656,7 @@ jobs:
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Parse TGS version
         shell: powershell
@@ -672,25 +666,25 @@ jobs:
           echo "TGS_VERSION=$tgsVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Retrieve Server Service
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ServerService
           path: ServerService
 
       - name: Retrieve Server Console
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ServerConsole
           path: ServerConsole
 
       - name: Retrieve Server Update Package
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ServerUpdatePackage
           path: ServerUpdatePackage
 
       - name: Retrieve OpenAPI Spec
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: openapi-spec
           path: swagger

@@ -9,5 +9,5 @@ This is a bag of classes used throughout TGS that don't quite belong anywhere el
 - [IServerControl](./IServerControl.cs) is an interface used to initiate a restart or update the server.
 - [IServerPortProvider](./IServerPortProvider.cs) and [implementation](./ServerPortProvider.cs) is used by services to determine the local TGS API port. Used mainly for telling DreamDaemon where to make bridge requests.
 - [OpenApiEnumVarNamesExtension](./OpenApiEnumVarNamesExtension) implements the [x-var-names OpenAPI 3.0 extension](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/templating.md#enum) in our generated API json.
-- [SemaphoreSlimContext](./SemaphoreSlimContext.cs) is a helper class for working with [.NET asynchronous sempahores](https://docs.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim?view=netcore-3.1).
+- [SemaphoreSlimContext](./SemaphoreSlimContext.cs) is a helper class for working with [.NET asynchronous sempahores](https://docs.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim?view=netcore-6.0).
 - [SwaggerConfiguration](./SwaggerConfiguration.cs) configures [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) to generate our OpenAPI specification.

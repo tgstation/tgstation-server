@@ -20,14 +20,14 @@ namespace Tgstation.Server.Host.Setup
 	class SetupApplication
 	{
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="SetupApplication"/>.
-		/// </summary>
-		protected static readonly IIOManager IOManager = new DefaultIOManager();
-
-		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SetupApplication"/>.
 		/// </summary>
 		protected static readonly IAssemblyInformationProvider AssemblyInformationProvider = new AssemblyInformationProvider();
+
+		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="SetupApplication"/>.
+		/// </summary>
+		protected static readonly IIOManager IOManager = new DefaultIOManager(AssemblyInformationProvider);
 
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="SetupApplication"/>.

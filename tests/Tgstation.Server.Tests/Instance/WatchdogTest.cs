@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -228,7 +229,7 @@ namespace Tgstation.Server.Tests.Instance
 			using var ddProc = ddProcs.Single();
 			IProcessExecutor executor = null;
 			executor = new ProcessExecutor(
-				new PlatformIdentifier().IsWindows
+				RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 					? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<ILogger<ProcessExecutor>>(),

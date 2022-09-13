@@ -184,8 +184,8 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="url">The URL to download.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="byte"/>s of the downloaded file.</returns>
-		Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="MemoryStream"/> of the downloaded file.</returns>
+		Task<MemoryStream> DownloadFile(Uri url, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Extract a set of <paramref name="zipFile"/> to a given <paramref name="path"/>.

@@ -11,9 +11,9 @@ using Remora.Discord.API.Abstractions.Gateway.Events;
 using Remora.Discord.API.Abstractions.Objects;
 using Remora.Discord.API.Abstractions.Rest;
 using Remora.Discord.API.Objects;
-using Remora.Discord.Core;
 using Remora.Discord.Gateway;
 using Remora.Discord.Gateway.Extensions;
+using Remora.Rest.Core;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
@@ -320,9 +320,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return;
 					}
 
-					var unmappedTextChannels = currentGuildsResponse
-						.Entity
-						.SelectMany(x => x.Channels.Value);
+					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
+
+					var guildsChannelsTasks = currentGuildsResponse.Entity.Select(
+						guild => guildsClient.GetGuildChannelsAsync(guild.ID.Value, cancellationToken));
+
+					await Task.WhenAll(guildsChannelsTasks).ConfigureAwait(false);
+
+					var unmappedTextChannels = guildsChannelsTasks
+						.Select(task => task.Result)
+						.SelectMany(guildChannels => guildChannels.Entity)
+						.Where(guildChannel => guildChannel.Type == ChannelType.GuildText);
 
 					lock (mappedChannels)
 						unmappedTextChannels = unmappedTextChannels

@@ -261,9 +261,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						string GetFileSha()
 						{
 							var content = synchronousIOManager.ReadFile(path);
-#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-							using var sha1 = new SHA1Managed();
-#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
+							using var sha1 = SHA1.Create();
 							return String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
 						}
 

@@ -3,7 +3,9 @@ using System.Data.Common;
 using System.Data.SqlClient;
 
 using Microsoft.Data.Sqlite;
-using MySql.Data.MySqlClient;
+
+using MySqlConnector;
+
 using Npgsql;
 
 using Tgstation.Server.Host.Configuration;

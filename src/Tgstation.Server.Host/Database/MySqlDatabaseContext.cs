@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Microsoft.EntityFrameworkCore;
+
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 using Tgstation.Server.Host.Configuration;
@@ -38,19 +39,22 @@ namespace Tgstation.Server.Host.Database
 			if (databaseConfiguration.DatabaseType != DatabaseType.MariaDB && databaseConfiguration.DatabaseType != DatabaseType.MySql)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(MySqlDatabaseContext)}!");
 
+			ServerVersion serverVersion;
+			if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))
+			{
+				serverVersion = ServerVersion.Parse(
+					databaseConfiguration.ServerVersion,
+					databaseConfiguration.DatabaseType == DatabaseType.MariaDB
+						? ServerType.MariaDb
+				: ServerType.MySql);
+			}
+			else
+				serverVersion = ServerVersion.AutoDetect(databaseConfiguration.ConnectionString);
+
 			options.UseMySql(
 				databaseConfiguration.ConnectionString,
-				mySqlOptions =>
-				{
-					mySqlOptions.EnableRetryOnFailure();
-
-					if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))
-						mySqlOptions.ServerVersion(
-							Version.Parse(databaseConfiguration.ServerVersion),
-							databaseConfiguration.DatabaseType == DatabaseType.MariaDB
-								? ServerType.MariaDb
-								: ServerType.MySql);
-				});
+				serverVersion,
+				mySqlOptions => mySqlOptions.EnableRetryOnFailure());
 		}
 	}
 }
