@@ -520,14 +520,14 @@ jobs:
         path: ./code_coverage/integration_tests/windows_integration_tests_release_system
 
     - name: Upload Unit Test Coverage to CodeCov
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3
       with:
         directory: ./code_coverage/unit_tests
         flags: unittests
         fail_ci_if_error: true
 
     - name: Upload Integration Test Coverage to CodeCov
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3
       with:
         directory: ./code_coverage/integration_tests
         flags: integration
