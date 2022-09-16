@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="octokit" Version="2.0.1" />
+    <PackageReference Include="octokit" Version="3.0.0" />
   </ItemGroup>
 
 </Project>
