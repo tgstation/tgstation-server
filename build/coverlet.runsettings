@@ -4,6 +4,8 @@
     <DataCollectors>
       <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
+          <Format>lcov</Format>
+          <IncludeTestAssembly>false</IncludeTestAssembly>
         </Configuration>
       </DataCollector>
     </DataCollectors>
