@@ -23,12 +23,6 @@ jobs:
   analyze:
     name: Code Scanning
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ['csharp']
-
     steps:
     - name: Install Node 12.X
       uses: actions/setup-node@v1
@@ -46,7 +40,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: ${{ matrix.language }}
+        languages: csharp
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v1
@@ -194,7 +188,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [ 'Release' ]
+        configuration: [ 'Debug', 'Release' ]
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
