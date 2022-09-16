@@ -175,13 +175,11 @@ jobs:
     - name: Run Unit Tests
       run: sudo dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults
 
-    - name: Coveralls Upload
-      uses: Cyberboss/coveralls-action@master
+    - name: Store Code Coverage
+      uses: actions/upload-artifact@v3
       with:
-        github-token: ${{ secrets.github_token }}
-        path-to-lcov: ./TestResults/**/coverage.info
-        flag-name: linux-unit-test-coverage-${{ matrix.configuration }}
-        parallel: true
+        name: linux-unit-test-coverage-${{ matrix.configuration }}
+        path: ./TestResults/
 
   windows-unit-tests:
     name: Windows Unit Tests
@@ -208,13 +206,11 @@ jobs:
     - name: Run Unit Tests
       run: dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }} --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults
 
-    - name: Coveralls Upload
-      uses: coverallsapp/github-action@master
+    - name: Store Code Coverage
+      uses: actions/upload-artifact@v3
       with:
-        github-token: ${{ secrets.github_token }}
-        path-to-lcov: ./TestResults/**/coverage.info
-        flag-name: windows-unit-test-coverage-${{ matrix.configuration }}
-        parallel: true
+        name: windows-unit-test-coverage-${{ matrix.configuration }}
+        path: ./TestResults/
 
   windows-integration-test:
     name: Windows Integration Test
@@ -271,13 +267,11 @@ jobs:
         Start-Sleep -Seconds 10
         dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
 
-    - name: Coveralls Upload
-      uses: coverallsapp/github-action@master
+    - name: Store Code Coverage
+      uses: actions/upload-artifact@v3
       with:
-        github-token: ${{ secrets.github_token }}
-        path-to-lcov: ./TestResults/**/coverage.info
-        flag-name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}
-        parallel: true
+        name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}
+        path: tests/Tgstation.Server.Tests/TestResults/
 
     - name: Store OpenAPI Spec
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' }}
@@ -422,13 +416,11 @@ jobs:
         sleep 10
         dotnet test -c ${{ matrix.configuration }}NoService -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
 
-    - name: Coveralls Upload
-      uses: coverallsapp/github-action@master
+    - name: Store Code Coverage
+      uses: actions/upload-artifact@v3
       with:
-        github-token: ${{ secrets.github_token }}
-        path-to-lcov: ./TestResults/**/coverage.info
-        flag-name: linux-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
-        parallel: true
+        name: linux-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+        path: tests/Tgstation.Server.Tests/TestResults/
 
     - name: Package Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
@@ -486,15 +478,85 @@ jobs:
       run: npx lint-openapi -v -p -c build/OpenApiValidationSettings.json ./swagger/swagger.json
 
   upload-code-coverage:
-    name: Complete Code Coverage Upload
+    name: Upload Code Coverage
     needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
     runs-on: ubuntu-latest
     steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
+    - name: Checkout for .codecov.yml
+      uses: actions/checkout@v3
+
+    - name: Retrieve Linux Unit Test Coverage (Debug)
+      uses: actions/download-artifact@v3
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
+        name: linux-unit-test-coverage-Debug
+        path: ./code_coverage/unit_tests/linux_unit_tests_debug
+
+    - name: Retrieve Linux Unit Test Coverage (Release)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-unit-test-coverage-Release
+        path: ./code_coverage/unit_tests/linux_unit_tests_release
+
+    - name: Retrieve Linux Integration Test Coverage (Release, System, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Release-System-Sqlite
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
+
+    - name: Retrieve Linux Integration Test Coverage (Release, System, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Release-System-PostgresSql
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
+
+    - name: Retrieve Linux Integration Test Coverage (Release, System, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Release-System-MariaDB
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Release, System, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Release-System-MySql
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
+
+    - name: Retrieve Windows Unit Test Coverage (Release)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-unit-test-coverage-Release
+        path: ./code_coverage/unit_tests/windows_unit_tests_release
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system
+
+    - name: Upload Coverage to CodeCov
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./code_coverage
+        fail_ci_if_error: true
+
 
   deploy-http:
     name: Deploy HTTP API
