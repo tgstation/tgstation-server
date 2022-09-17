@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -449,38 +449,36 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   95</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">   96</span> </div>
 <div class="line"><span class="lineno">   97</span>                <span class="comment">// suppressed due to only using for consistency checks</span></div>
-<div class="line"><span class="lineno">   98</span><span class="preprocessor">#pragma warning disable CA5350 </span><span class="comment">// Do not use insecure cryptographic algorithm SHA1.</span></div>
-<div class="line"><span class="lineno">   99</span>                <span class="keyword">using</span> (var sha1 = <span class="keyword">new</span> SHA1Managed())</div>
-<div class="line"><span class="lineno">  100</span>#pragma warning restore CA5350 <span class="comment">// Do not use insecure cryptographic algorithm SHA1.</span></div>
-<div class="line"><span class="lineno">  101</span>                {</div>
-<div class="line"><span class="lineno">  102</span>                    <span class="keywordtype">string</span> GetSha1(<a class="code hl_class" href="class_stream.html">Stream</a> dataToHash) =&gt; dataToHash != <span class="keyword">null</span> &amp;&amp; dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b =&gt; b.ToString(<span class="stringliteral">&quot;x2&quot;</span>, CultureInfo.InvariantCulture))) : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  103</span>                    var originalSha1 = GetSha1(file);</div>
-<div class="line"><span class="lineno">  104</span>                    <span class="keywordflow">if</span> (originalSha1 != sha1InOut)</div>
-<div class="line"><span class="lineno">  105</span>                    {</div>
-<div class="line"><span class="lineno">  106</span>                        sha1InOut = originalSha1;</div>
-<div class="line"><span class="lineno">  107</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  108</span>                    }</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>                    sha1InOut = GetSha1(data);</div>
-<div class="line"><span class="lineno">  111</span>                }</div>
+<div class="line"><span class="lineno">   98</span>                <span class="keyword">using</span> (var sha1 = SHA1.Create())</div>
+<div class="line"><span class="lineno">   99</span>                {</div>
+<div class="line"><span class="lineno">  100</span>                    <span class="keywordtype">string</span> GetSha1(<a class="code hl_class" href="class_stream.html">Stream</a> dataToHash) =&gt; dataToHash != <span class="keyword">null</span> &amp;&amp; dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b =&gt; b.ToString(<span class="stringliteral">&quot;x2&quot;</span>, CultureInfo.InvariantCulture))) : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  101</span>                    var originalSha1 = GetSha1(file);</div>
+<div class="line"><span class="lineno">  102</span>                    <span class="keywordflow">if</span> (originalSha1 != sha1InOut)</div>
+<div class="line"><span class="lineno">  103</span>                    {</div>
+<div class="line"><span class="lineno">  104</span>                        sha1InOut = originalSha1;</div>
+<div class="line"><span class="lineno">  105</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  106</span>                    }</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>                    sha1InOut = GetSha1(data);</div>
+<div class="line"><span class="lineno">  109</span>                }</div>
+<div class="line"><span class="lineno">  110</span> </div>
+<div class="line"><span class="lineno">  111</span>                cancellationToken.ThrowIfCancellationRequested();</div>
 <div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>                cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>                <span class="keywordflow">if</span> (data.Length != 0)</div>
-<div class="line"><span class="lineno">  116</span>                {</div>
-<div class="line"><span class="lineno">  117</span>                    file.Seek(0, SeekOrigin.Begin);</div>
-<div class="line"><span class="lineno">  118</span>                    data.Seek(0, SeekOrigin.Begin);</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>                    cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><span class="lineno">  121</span>                    file.SetLength(data.Length);</div>
-<div class="line"><span class="lineno">  122</span>                    data.CopyTo(file);</div>
-<div class="line"><span class="lineno">  123</span>                }</div>
-<div class="line"><span class="lineno">  124</span>            }</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">if</span> (data.Length == 0)</div>
-<div class="line"><span class="lineno">  127</span>                File.Delete(path);</div>
-<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  129</span>        }</div>
+<div class="line"><span class="lineno">  113</span>                <span class="keywordflow">if</span> (data.Length != 0)</div>
+<div class="line"><span class="lineno">  114</span>                {</div>
+<div class="line"><span class="lineno">  115</span>                    file.Seek(0, SeekOrigin.Begin);</div>
+<div class="line"><span class="lineno">  116</span>                    data.Seek(0, SeekOrigin.Begin);</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>                    cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><span class="lineno">  119</span>                    file.SetLength(data.Length);</div>
+<div class="line"><span class="lineno">  120</span>                    data.CopyTo(file);</div>
+<div class="line"><span class="lineno">  121</span>                }</div>
+<div class="line"><span class="lineno">  122</span>            }</div>
+<div class="line"><span class="lineno">  123</span> </div>
+<div class="line"><span class="lineno">  124</span>            <span class="keywordflow">if</span> (data.Length == 0)</div>
+<div class="line"><span class="lineno">  125</span>                File.Delete(path);</div>
+<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  127</span>        }</div>
 <div class="ttc" id="aclass_stream_html"><div class="ttname"><a href="class_stream.html">Stream</a></div></div>
 </div><!-- fragment -->
 </div>

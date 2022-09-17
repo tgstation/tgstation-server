@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -267,7 +267,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00034">34</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keyword">using </span>var rng = <span class="keyword">new</span> RNGCryptoServiceProvider();</div>
+<div class="line"><span class="lineno">   36</span>            <span class="keyword">using </span>var rng = RandomNumberGenerator.Create(); <span class="comment">// uses RNGCryptoServiceProvider under the hood https://khalidabuhakmeh.com/creating-random-numbers-with-dotnet-core</span></div>
 <div class="line"><span class="lineno">   37</span>            var byt = <span class="keyword">new</span> <span class="keywordtype">byte</span>[amount];</div>
 <div class="line"><span class="lineno">   38</span>            rng.GetBytes(byt);</div>
 <div class="line"><span class="lineno">   39</span>            <span class="keywordflow">return</span> byt;</div>

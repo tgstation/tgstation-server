@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -422,7 +422,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  149</span>                    <span class="keywordflow">if</span> (!uploadingZip &amp;&amp; byondManager.InstalledVersions.Any(x =&gt; x == model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html#a2a9e42b301e3b07a4cd8c300d2a993d0">Version</a>))</div>
 <div class="line"><span class="lineno">  150</span>                    {</div>
 <div class="line"><span class="lineno">  151</span>                        Logger.LogInformation(</div>
-<div class="line"><span class="lineno">  152</span>                            <span class="stringliteral">&quot;User ID {0} changing instance ID {1} BYOND version to {2}&quot;</span>,</div>
+<div class="line"><span class="lineno">  152</span>                            <span class="stringliteral">&quot;User ID {userId} changing instance ID {instanceId} BYOND version to {newByondVersion}&quot;</span>,</div>
 <div class="line"><span class="lineno">  153</span>                            AuthenticationContext.User.Id,</div>
 <div class="line"><span class="lineno">  154</span>                            Instance.Id,</div>
 <div class="line"><span class="lineno">  155</span>                            model.Version);</div>
@@ -437,7 +437,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  164</span>                            : model.Version;</div>
 <div class="line"><span class="lineno">  165</span> </div>
 <div class="line"><span class="lineno">  166</span>                        Logger.LogInformation(</div>
-<div class="line"><span class="lineno">  167</span>                            <span class="stringliteral">&quot;User ID {0} installing BYOND version to {1} on instance ID {2}&quot;</span>,</div>
+<div class="line"><span class="lineno">  167</span>                            <span class="stringliteral">&quot;User ID {userId} installing BYOND version to {newByondVersion} on instance ID {instanceId}&quot;</span>,</div>
 <div class="line"><span class="lineno">  168</span>                            AuthenticationContext.User.Id,</div>
 <div class="line"><span class="lineno">  169</span>                            installingVersion,</div>
 <div class="line"><span class="lineno">  170</span>                            Instance.Id);</div>

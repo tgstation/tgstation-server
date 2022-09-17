@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -322,7 +322,7 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext.">DatabaseContext</a> for MySQL. </p>
 
-<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00013">13</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00014">14</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aba92933ea065139f2f91518346dbd9c0" name="aba92933ea065139f2f91518346dbd9c0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aba92933ea065139f2f91518346dbd9c0">&#9670;&nbsp;</a></span>MySqlDatabaseContext()</h2>
@@ -348,10 +348,10 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00022">22</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>                                                                                             : base(dbContextOptions)</div>
-<div class="line"><span class="lineno">   23</span>        {</div>
-<div class="line"><span class="lineno">   24</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00023">23</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>                                                                                             : base(dbContextOptions)</div>
+<div class="line"><span class="lineno">   24</span>        {</div>
+<div class="line"><span class="lineno">   25</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -399,35 +399,39 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00031">31</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>        {</div>
-<div class="line"><span class="lineno">   33</span>            <span class="keywordflow">if</span> (options == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   34</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(options));</div>
-<div class="line"><span class="lineno">   35</span>            <span class="keywordflow">if</span> (databaseConfiguration == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   36</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(databaseConfiguration));</div>
-<div class="line"><span class="lineno">   37</span> </div>
-<div class="line"><span class="lineno">   38</span>            <span class="keywordflow">if</span> (databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a> != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB &amp;&amp; databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a> != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MySql)</div>
-<div class="line"><span class="lineno">   39</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DatabaseType for {nameof(MySqlDatabaseContext)}!&quot;</span>);</div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>            options.UseMySql(</div>
-<div class="line"><span class="lineno">   42</span>                databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a>,</div>
-<div class="line"><span class="lineno">   43</span>                mySqlOptions =&gt;</div>
-<div class="line"><span class="lineno">   44</span>                {</div>
-<div class="line"><span class="lineno">   45</span>                    mySqlOptions.EnableRetryOnFailure();</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>                    if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))</div>
-<div class="line"><span class="lineno">   48</span>                        mySqlOptions.ServerVersion(</div>
-<div class="line"><span class="lineno">   49</span>                            Version.Parse(databaseConfiguration.ServerVersion),</div>
-<div class="line"><span class="lineno">   50</span>                            databaseConfiguration.DatabaseType == DatabaseType.MariaDB</div>
-<div class="line"><span class="lineno">   51</span>                                ? ServerType.MariaDb</div>
-<div class="line"><span class="lineno">   52</span>                                : ServerType.MySql);</div>
-<div class="line"><span class="lineno">   53</span>                });</div>
-<div class="line"><span class="lineno">   54</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00032">32</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>        {</div>
+<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">if</span> (options == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(options));</div>
+<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">if</span> (databaseConfiguration == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   37</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(databaseConfiguration));</div>
+<div class="line"><span class="lineno">   38</span> </div>
+<div class="line"><span class="lineno">   39</span>            <span class="keywordflow">if</span> (databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a> != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB &amp;&amp; databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a> != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MySql)</div>
+<div class="line"><span class="lineno">   40</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DatabaseType for {nameof(MySqlDatabaseContext)}!&quot;</span>);</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>            ServerVersion serverVersion;</div>
+<div class="line"><span class="lineno">   43</span>            <span class="keywordflow">if</span> (!String.IsNullOrEmpty(databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a37d2a2cb232af1fcc3a5ea4139a052e9">ServerVersion</a>))</div>
+<div class="line"><span class="lineno">   44</span>            {</div>
+<div class="line"><span class="lineno">   45</span>                serverVersion = ServerVersion.Parse(</div>
+<div class="line"><span class="lineno">   46</span>                    databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a37d2a2cb232af1fcc3a5ea4139a052e9">ServerVersion</a>,</div>
+<div class="line"><span class="lineno">   47</span>                    databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a> == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB</div>
+<div class="line"><span class="lineno">   48</span>                        ? ServerType.MariaDb</div>
+<div class="line"><span class="lineno">   49</span>                : ServerType.MySql);</div>
+<div class="line"><span class="lineno">   50</span>            }</div>
+<div class="line"><span class="lineno">   51</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   52</span>                serverVersion = ServerVersion.AutoDetect(databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a>);</div>
+<div class="line"><span class="lineno">   53</span> </div>
+<div class="line"><span class="lineno">   54</span>            options.UseMySql(</div>
+<div class="line"><span class="lineno">   55</span>                databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a>,</div>
+<div class="line"><span class="lineno">   56</span>                serverVersion,</div>
+<div class="line"><span class="lineno">   57</span>                mySqlOptions =&gt; mySqlOptions.EnableRetryOnFailure());</div>
+<div class="line"><span class="lineno">   58</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a37d2a2cb232af1fcc3a5ea4139a052e9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a37d2a2cb232af1fcc3a5ea4139a052e9">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ServerVersion</a></div><div class="ttdeci">string ServerVersion</div><div class="ttdoc">The string form of the global::System.Version of the target server.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00045">DatabaseConfiguration.cs:45</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a53a14b4a89de73b8ea223804c4aea365"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a></div><div class="ttdeci">string ConnectionString</div><div class="ttdoc">The connection string for the database.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00030">DatabaseConfiguration.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_adab83eaad53afabdb2f7b43c23ece38a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a></div><div class="ttdeci">DatabaseType DatabaseType</div><div class="ttdoc">The Configuration.DatabaseType to create.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00020">DatabaseConfiguration.cs:20</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user.</div><div class="ttdef"><b>Definition:</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_database_configuration_8cs_source.html#l00030">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a>, and <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>.</p>
+<p class="reference">References <a class="el" href="_database_configuration_8cs_source.html#l00030">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a>, <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>, and <a class="el" href="_database_configuration_8cs_source.html#l00045">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ServerVersion</a>.</p>
 
 </div>
 </div>
@@ -454,7 +458,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00016">16</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_my_sql_database_context_8cs_source.html#l00017">17</a> of file <a class="el" href="_my_sql_database_context_8cs_source.html">MySqlDatabaseContext.cs</a>.</p>
 
 </div>
 </div>

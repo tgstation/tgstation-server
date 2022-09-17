@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -301,7 +301,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   64</span>                    Directory.Delete(assemblyStoragePath, <span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">   65</span>                    Directory.CreateDirectory(defaultAssemblyPath);</div>
 <div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>                    var sourcePath = <span class="stringliteral">&quot;../../../../Tgstation.Server.Host/bin/Debug/netcoreapp3.1&quot;</span>;</div>
+<div class="line"><span class="lineno">   67</span>                    var sourcePath = <span class="stringliteral">&quot;../../../../Tgstation.Server.Host/bin/Debug/net6.0&quot;</span>;</div>
 <div class="line"><span class="lineno">   68</span>                    <span class="keywordflow">foreach</span> (<span class="keywordtype">string</span> dirPath <span class="keywordflow">in</span> Directory.GetDirectories(sourcePath, <span class="stringliteral">&quot;*&quot;</span>, SearchOption.AllDirectories))</div>
 <div class="line"><span class="lineno">   69</span>                        Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));</div>
 <div class="line"><span class="lineno">   70</span> </div>

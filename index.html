@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;4.19.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -80,7 +80,7 @@ Setup</h1>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Pre-Requisites</h2>
 <ul>
-<li><a href="https://dotnet.microsoft.com/download/dotnet/3.1">ASP .NET Core Runtime (&gt;= v3.1, &lt; v5.0)</a> (Choose the option to <code>Run Server Apps</code> for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.2 (Download can be found on same page). Ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or that of the user's that will be running the server).</li>
+<li><a href="https://dotnet.microsoft.com/download/dotnet/6.0">ASP .NET Core Runtime (&gt;= v6.0)</a> (Choose the option to <code>Run Server Apps</code> for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.2 (Download can be found on same page). Ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or that of the user's that will be running the server).</li>
 <li>A <a href="https://downloads.mariadb.org/">MariaDB</a>, MySQL, <a href="https://www.postgresql.org/download/">PostgresSQL</a>, or <a href="https://www.microsoft.com/en-us/download/details.aspx?id=55994">Microsoft SQL Server</a> database engine is required</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
@@ -143,7 +143,7 @@ Configuration Methods</h3>
 <li>Set environment variables in the form <code>Section__Subsection=value</code> or <code>Section__ArraySubsection__0=value</code> for arrays.</li>
 <li>Set command line arguments in the form <code>--Section:Subsection=value</code> or <code>--Section:ArraySubsection:0=value</code> for arrays.</li>
 </ul>
-<p >The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1">here</a>.</p>
+<p >The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0">here</a>.</p>
 <h3><a class="anchor" id="autotoc_md10"></a>
 Manual Configuration</h3>
 <p >Create an <code>appsettings.Production.yml</code> file next to <code>appsettings.yml</code>. This will override the default settings in <code>appsettings.yml</code> with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:</p>
