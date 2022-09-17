@@ -5,6 +5,8 @@
       <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
           <IncludeTestAssembly>false</IncludeTestAssembly>
+          <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+          <Include>[Tgstation.Server.Host*]*</Include>
         </Configuration>
       </DataCollector>
     </DataCollectors>
