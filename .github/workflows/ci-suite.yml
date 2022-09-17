@@ -265,13 +265,13 @@ jobs:
       run: |
         cd tests/Tgstation.Server.Tests
         Start-Sleep -Seconds 10
-        dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
+        dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
       with:
         name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}
-        path: tests/Tgstation.Server.Tests/TestResults/
+        path: ./TestResults/
 
     - name: Store OpenAPI Spec
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' }}
@@ -414,13 +414,13 @@ jobs:
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoService -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
+        dotnet test -c ${{ matrix.configuration }}NoService -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
       with:
         name: linux-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
-        path: tests/Tgstation.Server.Tests/TestResults/
+        path: ./TestResults/
 
     - name: Package Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
