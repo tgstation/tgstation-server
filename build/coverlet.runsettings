@@ -6,6 +6,7 @@
         <Configuration>
           <IncludeTestAssembly>false</IncludeTestAssembly>
           <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+          <UseSourceLink>true</UseSourceLink>
         </Configuration>
       </DataCollector>
     </DataCollectors>
