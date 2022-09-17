@@ -459,6 +459,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			try
 			{
+				logger.LogDebug("Stopping instance manager...");
 				var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
 				await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(instances.Select(x => x.Value.Instance.StopAsync(cancellationToken))).ConfigureAwait(false);

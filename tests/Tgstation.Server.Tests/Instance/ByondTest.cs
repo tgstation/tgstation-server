@@ -20,7 +20,7 @@ namespace Tgstation.Server.Tests.Instance
 {
 	sealed class ByondTest : JobsRequiredTest
 	{
-		public static readonly Version TestVersion = new Version(513, 1536);
+		public static readonly Version TestVersion = new (513, 1536);
 
 		readonly IByondClient byondClient;
 
@@ -90,16 +90,15 @@ namespace Tgstation.Server.Tests.Instance
 			var byondInstaller = new PlatformIdentifier().IsWindows
 				? (IByondInstaller)new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
-					new DefaultIOManager(),
+					new DefaultIOManager(new AssemblyInformationProvider()),
 					Mock.Of<ILogger<WindowsByondInstaller>>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),
-					new DefaultIOManager(),
+					new DefaultIOManager(new AssemblyInformationProvider()),
 					Mock.Of<ILogger<PosixByondInstaller>>());
 
 			// get the bytes for stable
-			using var stableBytesMs = new MemoryStream(
-				await byondInstaller.DownloadVersion(TestVersion, cancellationToken));
+			using var stableBytesMs = await byondInstaller.DownloadVersion(TestVersion, cancellationToken);
 
 			var test = await byondClient.SetActiveVersion(
 				new ByondVersionRequest

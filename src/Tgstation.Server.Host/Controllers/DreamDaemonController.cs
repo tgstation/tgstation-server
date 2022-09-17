@@ -21,6 +21,8 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
+#pragma warning disable API1001 // Action method returns a success result without a corresponding ProducesResponseType. Somehow this happens ONLY IN THIS CONTROLLER???
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>

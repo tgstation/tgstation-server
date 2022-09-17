@@ -39,6 +39,8 @@ namespace Tgstation.Server.Host.Database
 			if (databaseConfiguration.DatabaseType != DatabaseType.PostgresSql)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(PostgresSqlDatabaseContext)}!");
 
+			// Why the fuck is this an AppContext switch
+			AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 			options.UseNpgsql(databaseConfiguration.ConnectionString, options =>
 			{
 				options.EnableRetryOnFailure();

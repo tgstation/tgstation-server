@@ -245,6 +245,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			restartRegistration.Dispose();
 
 			// DCT: None available, Operation must always run
+			releaseServers = false; // Server release should have been handled in StopAsync, this causes a DB access that can create ObjectDisposedExceptions
 			await DisposeAndNullControllers(default).ConfigureAwait(false);
 			controllerDisposeSemaphore.Dispose();
 			monitorCts?.Dispose();

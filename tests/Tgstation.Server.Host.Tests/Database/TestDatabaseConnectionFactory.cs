@@ -1,5 +1,7 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using MySqlConnector;
+
 using System;
 using System.Data.SqlClient;
 

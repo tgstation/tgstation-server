@@ -2,9 +2,9 @@
 <RunSettings>
   <DataCollectionRunSettings>
     <DataCollectors>
-      <DataCollector friendlyName="XPlat code coverage">
+      <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
-          <Format>opencover</Format>
+          <Format>lcov</Format>
           <IncludeTestAssembly>false</IncludeTestAssembly>
         </Configuration>
       </DataCollector>

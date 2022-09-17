@@ -188,6 +188,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
+				logger.LogDebug("Stopping instance...");
 				await SetAutoUpdateInterval(0).ConfigureAwait(false);
 				await Watchdog.StopAsync(cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(

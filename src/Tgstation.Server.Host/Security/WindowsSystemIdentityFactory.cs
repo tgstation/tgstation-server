@@ -1,5 +1,6 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
+using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace Tgstation.Server.Host.Security
 	/// <summary>
 	/// <see cref="ISystemIdentityFactory"/> for windows systems. Uses long running tasks due to potential networked domains.
 	/// </summary>
+	[SupportedOSPlatform("windows")]
 	sealed class WindowsSystemIdentityFactory : ISystemIdentityFactory
 	{
 		/// <summary>

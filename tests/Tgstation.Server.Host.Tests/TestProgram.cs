@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.IO;
@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Tests
 {
@@ -70,7 +71,7 @@ namespace Tgstation.Server.Host.Tests
 			mockServer.Setup(x => x.Run(It.IsAny<CancellationToken>())).Throws(exception);
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
-			mockServerFactory.SetupGet(x => x.IOManager).Returns(new DefaultIOManager());
+			mockServerFactory.SetupGet(x => x.IOManager).Returns(new DefaultIOManager(new AssemblyInformationProvider()));
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			Program.ServerFactory = mockServerFactory.Object;
 

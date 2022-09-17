@@ -18,7 +18,7 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Pre-Requisites
 
-- [ASP .NET Core Runtime (>= v3.1, < v5.0)](https://dotnet.microsoft.com/download/dotnet/3.1) (Choose the option to `Run Server Apps` for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server).
+- [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0) (Choose the option to `Run Server Apps` for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server).
 - A [MariaDB](https://downloads.mariadb.org/), MySQL, [PostgresSQL](https://www.postgresql.org/download/), or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
 
 ### Installation
@@ -101,7 +101,7 @@ There are 3 primary supported ways to configure TGS:
 - Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
 - Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
 
-The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1).
+The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0).
 
 #### Manual Configuration
 

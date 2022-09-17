@@ -149,7 +149,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (!uploadingZip && byondManager.InstalledVersions.Any(x => x == model.Version))
 					{
 						Logger.LogInformation(
-							"User ID {0} changing instance ID {1} BYOND version to {2}",
+							"User ID {userId} changing instance ID {instanceId} BYOND version to {newByondVersion}",
 							AuthenticationContext.User.Id,
 							Instance.Id,
 							model.Version);
@@ -164,7 +164,7 @@ namespace Tgstation.Server.Host.Controllers
 							: model.Version;
 
 						Logger.LogInformation(
-							"User ID {0} installing BYOND version to {1} on instance ID {2}",
+							"User ID {userId} installing BYOND version to {newByondVersion} on instance ID {instanceId}",
 							AuthenticationContext.User.Id,
 							installingVersion,
 							Instance.Id);

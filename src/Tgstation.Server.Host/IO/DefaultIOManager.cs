@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -28,6 +30,11 @@ namespace Tgstation.Server.Host.IO
 		/// The <see cref="TaskCreationOptions"/> used to spawn <see cref="Task"/>s for potentially long running, blocking operations.
 		/// </summary>
 		public const TaskCreationOptions BlockingTaskCreationOptions = TaskCreationOptions.None;
+
+		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DefaultIOManager"/>.
+		/// </summary>
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// Recursively empty a directory.
@@ -62,6 +69,22 @@ namespace Tgstation.Server.Host.IO
 			await Task.WhenAll(tasks).ConfigureAwait(false);
 			cancellationToken.ThrowIfCancellationRequested();
 			dir.Delete(true);
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DefaultIOManager"/> class.
+		/// </summary>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		public DefaultIOManager(IAssemblyInformationProvider assemblyInformationProvider)
+		{
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DefaultIOManager"/> class.
+		/// </summary>
+		protected DefaultIOManager()
+		{
 		}
 
 		/// <inheritdoc />
@@ -270,27 +293,26 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
+		public async Task<MemoryStream> DownloadFile(Uri url, CancellationToken cancellationToken)
 		{
-			// DownloadDataTaskAsync can't be cancelled and is shittily written, don't use it
-			using var wc = new WebClient();
-			var tcs = new TaskCompletionSource<byte[]>();
-			wc.DownloadDataCompleted += (a, b) =>
+			using var httpClient = new HttpClient();
+			httpClient.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
+			var webRequestTask = httpClient.GetAsync(url, cancellationToken);
+			using var response = await webRequestTask.ConfigureAwait(false);
+			response.EnsureSuccessStatusCode();
+			using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+			var memoryStream = new MemoryStream();
+			try
 			{
-				if (b.Error != null)
-					tcs.TrySetException(b.Error);
-				else if (b.Cancelled)
-					tcs.TrySetCanceled();
-				else
-					tcs.TrySetResult(b.Result);
-			};
-			wc.DownloadDataAsync(url);
-			using (cancellationToken.Register(() =>
+				await responseStream.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
+				memoryStream.Seek(0, SeekOrigin.Begin);
+				return memoryStream;
+			}
+			catch
 			{
-				wc.CancelAsync();
-				tcs.TrySetCanceled();
-			}))
-				return await tcs.Task.ConfigureAwait(false);
+				memoryStream.Dispose();
+				throw;
+			}
 		}
 
 		/// <inheritdoc />
@@ -332,7 +354,7 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public FileStream GetFileStream(string path, bool shareWrite) => new FileStream(
+		public FileStream GetFileStream(string path, bool shareWrite) => new (
 			ResolvePath(path),
 			FileMode.Open,
 			FileAccess.Read,

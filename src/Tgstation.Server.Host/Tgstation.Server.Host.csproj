@@ -2,16 +2,16 @@
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <DebugType>Full</DebugType>
     <Version>$(TgsCoreVersion)</Version>
     <LangVersion>latest</LangVersion>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
-    <DocumentationFile>bin\$(Configuration)\netcoreapp3.1\Tgstation.Server.Host.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\net6.0\Tgstation.Server.Host.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <NoWarn>API1000,IDE0004</NoWarn>
+    <NoWarn>API1000</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -35,7 +35,7 @@
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
 
-  <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="@(ClientApp)" Outputs="wwwroot\index.html">
+  <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/ControlPanelVersion.props" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="yarn run msbuild" />
   </Target>
@@ -69,41 +69,37 @@
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="1.5.3" />
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.20" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.20" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.20" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.20">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.20" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
-    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.1.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
-    <PackageReference Include="Octokit" Version="0.50.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.7" />
-    <PackageReference Include="Remora.Discord" Version="3.0.72" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.6" />
+    <PackageReference Include="Octokit" Version="3.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+    <PackageReference Include="Remora.Discord" Version="2022.48.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.4.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="5.0.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.13.1" />
-    <PackageReference Include="System.Management" Version="5.0.0" />
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="3.2.16" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="6.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
+    <PackageReference Include="System.Management" Version="6.0.0" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.15.0" />
   </ItemGroup>
 
   <ItemGroup>
