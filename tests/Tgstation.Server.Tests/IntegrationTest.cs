@@ -330,11 +330,11 @@ namespace Tgstation.Server.Tests
 						cancellationToken);
 					var node2InstanceList = await node2Client.Instances.List(null, cancellationToken);
 					Assert.AreEqual(1, node2InstanceList.Count);
-					Assert.AreEqual(node2Instance.Id, node2InstanceList.First().Id);
+					Assert.AreEqual(node2Instance.Id, node2InstanceList[0].Id);
 					Assert.IsNotNull(await node2Client.Instances.GetId(node2Instance, cancellationToken));
 					var controllerInstanceList = await controllerClient.Instances.List(null, cancellationToken);
 					Assert.AreEqual(1, controllerInstanceList.Count);
-					Assert.AreEqual(controllerInstance.Id, controllerInstanceList.First().Id);
+					Assert.AreEqual(controllerInstance.Id, controllerInstanceList[0].Id);
 					Assert.IsNotNull(await controllerClient.Instances.GetId(controllerInstance, cancellationToken));
 
 					await Assert.ThrowsExceptionAsync<ConflictException>(() => controllerClient.Instances.GetId(node2Instance, cancellationToken));
@@ -1001,8 +1001,8 @@ namespace Tgstation.Server.Tests
 			await serverTask;
 		}
 
-		public static ushort DDPort = FreeTcpPort();
-		public static ushort DMPort = GetDMPort();
+		public static readonly ushort DDPort = FreeTcpPort();
+		public static readonly ushort DMPort = GetDMPort();
 
 		static ushort GetDMPort()
 		{
