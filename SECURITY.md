@@ -4,8 +4,11 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 5.x.x   | :white_check_mark: |
 | 4.x.x   | :white_check_mark: |
 | < 4.0   | :x:                |
+
+Please note that we provide full support for issues that are not due to misconfiguration for the current iteration of TGS but you must be running the latest version to receive support. TGS3 is fully defunct and will no longer receive support
 
 ## Reporting a Vulnerability
 
