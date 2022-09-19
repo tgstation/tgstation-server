@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -113,7 +112,7 @@ namespace Tgstation.Server.Host.Jobs
 
 					await databaseContext.Save(cancellationToken);
 
-					logger.LogDebug("Registering job {0}: {1}...", job.Id, job.Description);
+					logger.LogDebug("Registering job {jobId}: {jobDesc}...", job.Id, job.Description);
 					var jobHandler = new JobHandler(jobCancellationToken => RunJob(job, operation, jobCancellationToken));
 					try
 					{
@@ -146,7 +145,7 @@ namespace Tgstation.Server.Host.Jobs
 					;
 				if (badJobIds.Count > 0)
 				{
-					logger.LogTrace("Cleaning {0} unfinished jobs...", badJobIds.Count);
+					logger.LogTrace("Cleaning {unfinishedJobCount} unfinished jobs...", badJobIds.Count);
 					foreach (var badJobId in badJobIds)
 					{
 						var job = new Job { Id = badJobId };
@@ -197,8 +196,7 @@ namespace Tgstation.Server.Host.Jobs
 
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
-				if (user == null)
-					user = await databaseContext.Users.GetTgsUser(cancellationToken);
+				user ??= await databaseContext.Users.GetTgsUser(cancellationToken);
 
 				var updatedJob = new Job { Id = job.Id };
 				databaseContext.Jobs.Attach(updatedJob);
@@ -213,9 +211,9 @@ namespace Tgstation.Server.Host.Jobs
 
 			if (blocking)
 			{
-				logger.LogTrace("Waiting on cancelled job #{0}...", job.Id);
+				logger.LogTrace("Waiting on cancelled job #{jobId}...", job.Id);
 				await handler.Wait(cancellationToken);
-				logger.LogTrace("Done waiting on job #{0}...", job.Id);
+				logger.LogTrace("Done waiting on job #{jobId}...", job.Id);
 			}
 
 			return job;
@@ -289,7 +287,7 @@ namespace Tgstation.Server.Host.Jobs
 			using (LogContext.PushProperty("Job", job.Id))
 				try
 				{
-					void LogException(Exception ex) => logger.LogDebug(ex, "Job {0} exited with error!", job.Id);
+					void LogException(Exception ex) => logger.LogDebug(ex, "Job {jobId} exited with error!", job.Id);
 					try
 					{
 						var oldJob = job;
@@ -324,11 +322,11 @@ namespace Tgstation.Server.Host.Jobs
 							cancellationToken)
 							;
 
-						logger.LogDebug("Job {0} completed!", job.Id);
+						logger.LogDebug("Job {jobId} completed!", job.Id);
 					}
 					catch (OperationCanceledException ex)
 					{
-						logger.LogDebug(ex, "Job {0} cancelled!", job.Id);
+						logger.LogDebug(ex, "Job {jobId} cancelled!", job.Id);
 						job.Cancelled = true;
 					}
 					catch (JobException e)
