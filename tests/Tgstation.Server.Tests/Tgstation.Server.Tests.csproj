@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
@@ -22,12 +22,6 @@
     <ProjectReference Include="..\..\src\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
     <ProjectReference Include="..\..\src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
     <ProjectReference Include="..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Byond.TopicSender">
-      <HintPath>..\..\..\Byond.TopicSender\Byond.TopicSender\bin\Debug\netstandard2.1\Byond.TopicSender.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
