@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>$(TgsNetVersion)</TargetFramework>
 
-    <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
