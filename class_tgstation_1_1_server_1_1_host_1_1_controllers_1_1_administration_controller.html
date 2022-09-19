@@ -391,24 +391,24 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the request.</dd></dl>
 <p>&lt;response code="204"&gt;Restart begun successfully.&lt;/response&gt; &lt;response code="422"&gt;Restart operations are unavailable due to the launch configuration of TGS.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00272">272</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  273</span>        {</div>
-<div class="line"><span class="lineno">  274</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  275</span>            {</div>
-<div class="line"><span class="lineno">  276</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#af5fd9e32b26b176d9e13416f32c69f1b">serverControl</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a1c9a042a42da1e39316d2f1b45b28765">WatchdogPresent</a>)</div>
-<div class="line"><span class="lineno">  277</span>                {</div>
-<div class="line"><span class="lineno">  278</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;Restart request failed due to lack of host watchdog!&quot;</span>);</div>
-<div class="line"><span class="lineno">  279</span>                    <span class="keywordflow">return</span> UnprocessableEntity(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.MissingHostWatchdog));</div>
-<div class="line"><span class="lineno">  280</span>                }</div>
-<div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  282</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#af5fd9e32b26b176d9e13416f32c69f1b">serverControl</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a13dcbb02bca9b289a8bccd07a848b4b9">Restart</a>();</div>
-<div class="line"><span class="lineno">  283</span>                <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  284</span>            }</div>
-<div class="line"><span class="lineno">  285</span>            <span class="keywordflow">catch</span> (InvalidOperationException)</div>
-<div class="line"><span class="lineno">  286</span>            {</div>
-<div class="line"><span class="lineno">  287</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.ServiceUnavailable);</div>
-<div class="line"><span class="lineno">  288</span>            }</div>
-<div class="line"><span class="lineno">  289</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00271">271</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  272</span>        {</div>
+<div class="line"><span class="lineno">  273</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  274</span>            {</div>
+<div class="line"><span class="lineno">  275</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#af5fd9e32b26b176d9e13416f32c69f1b">serverControl</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a1c9a042a42da1e39316d2f1b45b28765">WatchdogPresent</a>)</div>
+<div class="line"><span class="lineno">  276</span>                {</div>
+<div class="line"><span class="lineno">  277</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;Restart request failed due to lack of host watchdog!&quot;</span>);</div>
+<div class="line"><span class="lineno">  278</span>                    <span class="keywordflow">return</span> UnprocessableEntity(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.MissingHostWatchdog));</div>
+<div class="line"><span class="lineno">  279</span>                }</div>
+<div class="line"><span class="lineno">  280</span> </div>
+<div class="line"><span class="lineno">  281</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#af5fd9e32b26b176d9e13416f32c69f1b">serverControl</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a13dcbb02bca9b289a8bccd07a848b4b9">Restart</a>();</div>
+<div class="line"><span class="lineno">  282</span>                <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">  283</span>            }</div>
+<div class="line"><span class="lineno">  284</span>            <span class="keywordflow">catch</span> (InvalidOperationException)</div>
+<div class="line"><span class="lineno">  285</span>            {</div>
+<div class="line"><span class="lineno">  286</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.ServiceUnavailable);</div>
+<div class="line"><span class="lineno">  287</span>            }</div>
+<div class="line"><span class="lineno">  288</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_response_8cs_source.html#l00009">ErrorMessageResponse.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a978fe89eeaea424d7e034d2c7ab7b76e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">Tgstation.Server.Host.Controllers.ApiController.StatusCode</a></div><div class="ttdeci">StatusCodeResult StatusCode(HttpStatusCode statusCode)</div><div class="ttdoc">Strongly type calls to ControllerBase.StatusCode(int).</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_ae5655868c2b2b913046ecf61934ce119"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Tgstation.Server.Host.Controllers.ApiController.Logger</a></div><div class="ttdeci">ILogger&lt; ApiController &gt; Logger</div><div class="ttdoc">The ILogger for the ApiController.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_8cs_source.html#l00064">ApiController.cs:64</a></div></div>
@@ -467,47 +467,47 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the request.</dd></dl>
 <p>&lt;response code="200"&gt;Downloaded LogFileResponse successfully.&lt;/response&gt; &lt;response code="409"&gt;An <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_i_o.html">IO</a> error occurred while downloading.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00358">358</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  359</span>        {</div>
-<div class="line"><span class="lineno">  360</span>            <span class="keywordflow">if</span> (path == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  361</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(path));</div>
+<p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00356">356</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  357</span>        {</div>
+<div class="line"><span class="lineno">  358</span>            <span class="keywordflow">if</span> (path == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  359</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(path));</div>
+<div class="line"><span class="lineno">  360</span> </div>
+<div class="line"><span class="lineno">  361</span>            path = HttpUtility.UrlDecode(path);</div>
 <div class="line"><span class="lineno">  362</span> </div>
-<div class="line"><span class="lineno">  363</span>            path = HttpUtility.UrlDecode(path);</div>
-<div class="line"><span class="lineno">  364</span> </div>
-<div class="line"><span class="lineno">  365</span>            <span class="comment">// guard against directory navigation</span></div>
-<div class="line"><span class="lineno">  366</span>            var sanitizedPath = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(path);</div>
-<div class="line"><span class="lineno">  367</span>            <span class="keywordflow">if</span> (path != sanitizedPath)</div>
-<div class="line"><span class="lineno">  368</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  369</span> </div>
-<div class="line"><span class="lineno">  370</span>            var fullPath = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">  371</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3a7e9c7e19c93ccfac6f3cf1df6ddcfc">fileLoggingConfiguration</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3">GetFullLogDirectory</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a4e26166b0342015cc789ec8f897e3f65">assemblyInformationProvider</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab5c882433d208418174394df71cfab4">platformIdentifier</a>),</div>
-<div class="line"><span class="lineno">  372</span>                path);</div>
-<div class="line"><span class="lineno">  373</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  374</span>            {</div>
-<div class="line"><span class="lineno">  375</span>                var fileTransferTicket = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a72adffbafbfb36167ffa5aaa380b87e3">fileTransferService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#a4df208caec70ad306a00a42f0f5889f1">CreateDownload</a>(</div>
-<div class="line"><span class="lineno">  376</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html">FileDownloadProvider</a>(</div>
-<div class="line"><span class="lineno">  377</span>                        () =&gt; <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  378</span>                        <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  379</span>                        fullPath,</div>
-<div class="line"><span class="lineno">  380</span>                        <span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">  363</span>            <span class="comment">// guard against directory navigation</span></div>
+<div class="line"><span class="lineno">  364</span>            var sanitizedPath = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">GetFileName</a>(path);</div>
+<div class="line"><span class="lineno">  365</span>            <span class="keywordflow">if</span> (path != sanitizedPath)</div>
+<div class="line"><span class="lineno">  366</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  367</span> </div>
+<div class="line"><span class="lineno">  368</span>            var fullPath = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">  369</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a3a7e9c7e19c93ccfac6f3cf1df6ddcfc">fileLoggingConfiguration</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3">GetFullLogDirectory</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a4e26166b0342015cc789ec8f897e3f65">assemblyInformationProvider</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aab5c882433d208418174394df71cfab4">platformIdentifier</a>),</div>
+<div class="line"><span class="lineno">  370</span>                path);</div>
+<div class="line"><span class="lineno">  371</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  372</span>            {</div>
+<div class="line"><span class="lineno">  373</span>                var fileTransferTicket = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a72adffbafbfb36167ffa5aaa380b87e3">fileTransferService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#a4df208caec70ad306a00a42f0f5889f1">CreateDownload</a>(</div>
+<div class="line"><span class="lineno">  374</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html">FileDownloadProvider</a>(</div>
+<div class="line"><span class="lineno">  375</span>                        () =&gt; <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  376</span>                        <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  377</span>                        fullPath,</div>
+<div class="line"><span class="lineno">  378</span>                        <span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">  379</span> </div>
+<div class="line"><span class="lineno">  380</span>                var readTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ac922bdac0d00614949510725420ddd4e">ReadAllBytes</a>(fullPath, cancellationToken);</div>
 <div class="line"><span class="lineno">  381</span> </div>
-<div class="line"><span class="lineno">  382</span>                var readTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ac922bdac0d00614949510725420ddd4e">ReadAllBytes</a>(fullPath, cancellationToken);</div>
-<div class="line"><span class="lineno">  383</span> </div>
-<div class="line"><span class="lineno">  384</span>                <span class="keywordflow">return</span> Ok(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a></div>
-<div class="line"><span class="lineno">  385</span>                {</div>
-<div class="line"><span class="lineno">  386</span>                    Name = path,</div>
-<div class="line"><span class="lineno">  387</span>                    LastModified = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a912c1db298c553ee69df3fa0dfe9ad85">GetLastModified</a>(fullPath, cancellationToken),</div>
-<div class="line"><span class="lineno">  388</span>                    FileTicket = fileTransferTicket.FileTicket,</div>
-<div class="line"><span class="lineno">  389</span>                });</div>
-<div class="line"><span class="lineno">  390</span>            }</div>
-<div class="line"><span class="lineno">  391</span>            <span class="keywordflow">catch</span> (IOException ex)</div>
-<div class="line"><span class="lineno">  392</span>            {</div>
-<div class="line"><span class="lineno">  393</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.IOError)</div>
-<div class="line"><span class="lineno">  394</span>                {</div>
-<div class="line"><span class="lineno">  395</span>                    AdditionalData = ex.ToString(),</div>
-<div class="line"><span class="lineno">  396</span>                });</div>
-<div class="line"><span class="lineno">  397</span>            }</div>
-<div class="line"><span class="lineno">  398</span>        }</div>
+<div class="line"><span class="lineno">  382</span>                <span class="keywordflow">return</span> Ok(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a></div>
+<div class="line"><span class="lineno">  383</span>                {</div>
+<div class="line"><span class="lineno">  384</span>                    Name = path,</div>
+<div class="line"><span class="lineno">  385</span>                    LastModified = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac2d19cdcca5ed40c3f6f2123f426e655">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a912c1db298c553ee69df3fa0dfe9ad85">GetLastModified</a>(fullPath, cancellationToken),</div>
+<div class="line"><span class="lineno">  386</span>                    FileTicket = fileTransferTicket.FileTicket,</div>
+<div class="line"><span class="lineno">  387</span>                });</div>
+<div class="line"><span class="lineno">  388</span>            }</div>
+<div class="line"><span class="lineno">  389</span>            <span class="keywordflow">catch</span> (IOException ex)</div>
+<div class="line"><span class="lineno">  390</span>            {</div>
+<div class="line"><span class="lineno">  391</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.IOError)</div>
+<div class="line"><span class="lineno">  392</span>                {</div>
+<div class="line"><span class="lineno">  393</span>                    AdditionalData = ex.ToString(),</div>
+<div class="line"><span class="lineno">  394</span>                });</div>
+<div class="line"><span class="lineno">  395</span>            }</div>
+<div class="line"><span class="lineno">  396</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">Tgstation.Server.Api.Models.Response.LogFileResponse</a></div><div class="ttdoc">Represents a server log file.</div><div class="ttdef"><b>Definition:</b> <a href="_log_file_response_8cs_source.html#l00008">LogFileResponse.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration_html_a6e9e186a1456017f692358f96bdab2c3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory</a></div><div class="ttdeci">string GetFullLogDirectory(IIOManager ioManager, IAssemblyInformationProvider assemblyInformationProvider, IPlatformIdentifier platformIdentifier)</div><div class="ttdoc">Gets the evaluated log Directory.</div><div class="ttdef"><b>Definition:</b> <a href="_file_logging_configuration_8cs_source.html#l00061">FileLoggingConfiguration.cs:61</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html">Tgstation.Server.Host.Transfer.FileDownloadProvider</a></div><div class="ttdoc">Represents a file on disk to be downloaded.</div><div class="ttdef"><b>Definition:</b> <a href="_file_download_provider_8cs_source.html#l00013">FileDownloadProvider.cs:14</a></div></div>
@@ -638,43 +638,42 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  158</span>                        .Repository</div>
 <div class="line"><span class="lineno">  159</span>                        .Release</div>
 <div class="line"><span class="lineno">  160</span>                        .GetAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa09210575a84b625e234e7e0b19fa08">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2f6c66d4e10c5fb6a758727893ea4cd0">GitHubRepositoryId</a>)</div>
-<div class="line"><span class="lineno">  161</span>                        .WithToken(cancellationToken)</div>
-<div class="line"><span class="lineno">  162</span>                        )</div>
-<div class="line"><span class="lineno">  163</span>                        .Where(x =&gt; x.TagName.StartsWith(</div>
-<div class="line"><span class="lineno">  164</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa09210575a84b625e234e7e0b19fa08">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>,</div>
-<div class="line"><span class="lineno">  165</span>                            StringComparison.InvariantCulture));</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>                    <span class="keywordflow">foreach</span> (var release <span class="keywordflow">in</span> releases)</div>
-<div class="line"><span class="lineno">  168</span>                        <span class="keywordflow">if</span> (Version.TryParse(release.TagName.Replace(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa09210575a84b625e234e7e0b19fa08">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>, String.Empty, StringComparison.Ordinal), out var version)</div>
-<div class="line"><span class="lineno">  169</span>                            &amp;&amp; version.Major &gt; 3 <span class="comment">// Forward/backward compatible but not before TGS4</span></div>
-<div class="line"><span class="lineno">  170</span>                            &amp;&amp; (greatestVersion == <span class="keyword">null</span> || version &gt; greatestVersion))</div>
-<div class="line"><span class="lineno">  171</span>                            greatestVersion = version;</div>
-<div class="line"><span class="lineno">  172</span>                    repoUrl = <span class="keyword">new</span> Uri((await repositoryTask).HtmlUrl);</div>
-<div class="line"><span class="lineno">  173</span>                }</div>
-<div class="line"><span class="lineno">  174</span>                <span class="keywordflow">catch</span> (NotFoundException e)</div>
-<div class="line"><span class="lineno">  175</span>                {</div>
-<div class="line"><span class="lineno">  176</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(e, <span class="stringliteral">&quot;Not found exception while retrieving upstream repository info!&quot;</span>);</div>
-<div class="line"><span class="lineno">  177</span>                }</div>
-<div class="line"><span class="lineno">  178</span> </div>
-<div class="line"><span class="lineno">  179</span>                <span class="keywordflow">return</span> Json(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a></div>
-<div class="line"><span class="lineno">  180</span>                {</div>
-<div class="line"><span class="lineno">  181</span>                    LatestVersion = greatestVersion,</div>
-<div class="line"><span class="lineno">  182</span>                    TrackedRepositoryUrl = repoUrl,</div>
-<div class="line"><span class="lineno">  183</span>                });</div>
-<div class="line"><span class="lineno">  184</span>            }</div>
-<div class="line"><span class="lineno">  185</span>            <span class="keywordflow">catch</span> (RateLimitExceededException e)</div>
-<div class="line"><span class="lineno">  186</span>            {</div>
-<div class="line"><span class="lineno">  187</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4">RateLimit</a>(e);</div>
-<div class="line"><span class="lineno">  188</span>            }</div>
-<div class="line"><span class="lineno">  189</span>            <span class="keywordflow">catch</span> (ApiException e)</div>
-<div class="line"><span class="lineno">  190</span>            {</div>
-<div class="line"><span class="lineno">  191</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(e, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aae91f209dda2b1d6a356a3cc3700750e">OctokitException</a>);</div>
-<div class="line"><span class="lineno">  192</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.FailedDependency, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RemoteApiError)</div>
-<div class="line"><span class="lineno">  193</span>                {</div>
-<div class="line"><span class="lineno">  194</span>                    AdditionalData = e.Message,</div>
-<div class="line"><span class="lineno">  195</span>                });</div>
-<div class="line"><span class="lineno">  196</span>            }</div>
-<div class="line"><span class="lineno">  197</span>        }</div>
+<div class="line"><span class="lineno">  161</span>                        .WithToken(cancellationToken))</div>
+<div class="line"><span class="lineno">  162</span>                        .Where(x =&gt; x.TagName.StartsWith(</div>
+<div class="line"><span class="lineno">  163</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa09210575a84b625e234e7e0b19fa08">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>,</div>
+<div class="line"><span class="lineno">  164</span>                            StringComparison.InvariantCulture));</div>
+<div class="line"><span class="lineno">  165</span> </div>
+<div class="line"><span class="lineno">  166</span>                    <span class="keywordflow">foreach</span> (var release <span class="keywordflow">in</span> releases)</div>
+<div class="line"><span class="lineno">  167</span>                        <span class="keywordflow">if</span> (Version.TryParse(release.TagName.Replace(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa09210575a84b625e234e7e0b19fa08">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>, String.Empty, StringComparison.Ordinal), out var version)</div>
+<div class="line"><span class="lineno">  168</span>                            &amp;&amp; version.Major &gt; 3 <span class="comment">// Forward/backward compatible but not before TGS4</span></div>
+<div class="line"><span class="lineno">  169</span>                            &amp;&amp; (greatestVersion == <span class="keyword">null</span> || version &gt; greatestVersion))</div>
+<div class="line"><span class="lineno">  170</span>                            greatestVersion = version;</div>
+<div class="line"><span class="lineno">  171</span>                    repoUrl = <span class="keyword">new</span> Uri((await repositoryTask).HtmlUrl);</div>
+<div class="line"><span class="lineno">  172</span>                }</div>
+<div class="line"><span class="lineno">  173</span>                <span class="keywordflow">catch</span> (NotFoundException e)</div>
+<div class="line"><span class="lineno">  174</span>                {</div>
+<div class="line"><span class="lineno">  175</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(e, <span class="stringliteral">&quot;Not found exception while retrieving upstream repository info!&quot;</span>);</div>
+<div class="line"><span class="lineno">  176</span>                }</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>                <span class="keywordflow">return</span> Json(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a></div>
+<div class="line"><span class="lineno">  179</span>                {</div>
+<div class="line"><span class="lineno">  180</span>                    LatestVersion = greatestVersion,</div>
+<div class="line"><span class="lineno">  181</span>                    TrackedRepositoryUrl = repoUrl,</div>
+<div class="line"><span class="lineno">  182</span>                });</div>
+<div class="line"><span class="lineno">  183</span>            }</div>
+<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">catch</span> (RateLimitExceededException e)</div>
+<div class="line"><span class="lineno">  185</span>            {</div>
+<div class="line"><span class="lineno">  186</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4">RateLimit</a>(e);</div>
+<div class="line"><span class="lineno">  187</span>            }</div>
+<div class="line"><span class="lineno">  188</span>            <span class="keywordflow">catch</span> (ApiException e)</div>
+<div class="line"><span class="lineno">  189</span>            {</div>
+<div class="line"><span class="lineno">  190</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(e, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aae91f209dda2b1d6a356a3cc3700750e">OctokitException</a>);</div>
+<div class="line"><span class="lineno">  191</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.FailedDependency, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RemoteApiError)</div>
+<div class="line"><span class="lineno">  192</span>                {</div>
+<div class="line"><span class="lineno">  193</span>                    AdditionalData = e.Message,</div>
+<div class="line"><span class="lineno">  194</span>                });</div>
+<div class="line"><span class="lineno">  195</span>            }</div>
+<div class="line"><span class="lineno">  196</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">Tgstation.Server.Api.Models.Response.AdministrationResponse</a></div><div class="ttdoc">Represents administrative server information.</div><div class="ttdef"><b>Definition:</b> <a href="_administration_response_8cs_source.html#l00008">AdministrationResponse.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html_a2f6c66d4e10c5fb6a758727893ea4cd0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2f6c66d4e10c5fb6a758727893ea4cd0">Tgstation.Server.Host.Configuration.UpdatesConfiguration.GitHubRepositoryId</a></div><div class="ttdeci">long GitHubRepositoryId</div><div class="ttdoc">The Octokit.Repository.Id of the tgstation-server fork to recieve updates from.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00031">UpdatesConfiguration.cs:31</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html_a9dce394437a9bc79041a3467e7ad75f4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">Tgstation.Server.Host.Configuration.UpdatesConfiguration.GitTagPrefix</a></div><div class="ttdeci">string GitTagPrefix</div><div class="ttdoc">Prefix before the global::System.Version of TGS published in git tags.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00036">UpdatesConfiguration.cs:36</a></div></div>
@@ -734,50 +733,50 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult for the operation.</dd></dl>
 <p>&lt;response code="202"&gt;Update has been started successfully.&lt;/response&gt; &lt;response code="410"&gt;The requested release version could not be found in the target GitHub repository.&lt;/response&gt; &lt;response code="422"&gt;Upgrade operations are unavailable due to the launch configuration of TGS.&lt;/response&gt; &lt;response code="424"&gt;A GitHub rate limit was encountered.&lt;/response&gt; &lt;response code="429"&gt;A GitHub API error occurred.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00217">217</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  218</span>        {</div>
-<div class="line"><span class="lineno">  219</span>            <span class="keywordflow">if</span> (model == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  220</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(model));</div>
-<div class="line"><span class="lineno">  221</span> </div>
-<div class="line"><span class="lineno">  222</span>            <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">NewVersion</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  223</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure)</div>
-<div class="line"><span class="lineno">  224</span>                {</div>
-<div class="line"><span class="lineno">  225</span>                    AdditionalData = <span class="stringliteral">&quot;newVersion is required!&quot;</span>,</div>
-<div class="line"><span class="lineno">  226</span>                });</div>
-<div class="line"><span class="lineno">  227</span> </div>
-<div class="line"><span class="lineno">  228</span>            <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">NewVersion</a>.Major &lt; 3)</div>
-<div class="line"><span class="lineno">  229</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.CannotChangeServerSuite));</div>
-<div class="line"><span class="lineno">  230</span> </div>
-<div class="line"><span class="lineno">  231</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#af5fd9e32b26b176d9e13416f32c69f1b">serverControl</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a1c9a042a42da1e39316d2f1b45b28765">WatchdogPresent</a>)</div>
-<div class="line"><span class="lineno">  232</span>                <span class="keywordflow">return</span> UnprocessableEntity(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.MissingHostWatchdog));</div>
-<div class="line"><span class="lineno">  233</span> </div>
-<div class="line"><span class="lineno">  234</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  235</span>            {</div>
-<div class="line"><span class="lineno">  236</span>                var updateResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a7b6cc8d99ad7c11cb958bf781328e9b8">serverUpdater</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ac8909b69744276b792b9fcde8dc938f1">BeginUpdate</a>(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">NewVersion</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  237</span>                <span class="keywordflow">if</span> (updateResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.ReleaseMissing)</div>
-<div class="line"><span class="lineno">  238</span>                    <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
-<div class="line"><span class="lineno">  239</span> </div>
-<div class="line"><span class="lineno">  240</span>                <span class="keywordflow">if</span> (updateResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.UpdateInProgress)</div>
-<div class="line"><span class="lineno">  241</span>                    <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ServerUpdateInProgress));</div>
-<div class="line"><span class="lineno">  242</span> </div>
-<div class="line"><span class="lineno">  243</span>                <span class="keywordflow">return</span> Accepted(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a></div>
-<div class="line"><span class="lineno">  244</span>                {</div>
-<div class="line"><span class="lineno">  245</span>                    NewVersion = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">NewVersion</a>,</div>
-<div class="line"><span class="lineno">  246</span>                });</div>
-<div class="line"><span class="lineno">  247</span>            }</div>
-<div class="line"><span class="lineno">  248</span>            <span class="keywordflow">catch</span> (RateLimitExceededException e)</div>
-<div class="line"><span class="lineno">  249</span>            {</div>
-<div class="line"><span class="lineno">  250</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4">RateLimit</a>(e);</div>
-<div class="line"><span class="lineno">  251</span>            }</div>
-<div class="line"><span class="lineno">  252</span>            <span class="keywordflow">catch</span> (ApiException e)</div>
-<div class="line"><span class="lineno">  253</span>            {</div>
-<div class="line"><span class="lineno">  254</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(e, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aae91f209dda2b1d6a356a3cc3700750e">OctokitException</a>);</div>
-<div class="line"><span class="lineno">  255</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.FailedDependency, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RemoteApiError)</div>
-<div class="line"><span class="lineno">  256</span>                {</div>
-<div class="line"><span class="lineno">  257</span>                    AdditionalData = e.Message,</div>
-<div class="line"><span class="lineno">  258</span>                });</div>
-<div class="line"><span class="lineno">  259</span>            }</div>
-<div class="line"><span class="lineno">  260</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00216">216</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  217</span>        {</div>
+<div class="line"><span class="lineno">  218</span>            <span class="keywordflow">if</span> (model == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  219</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(model));</div>
+<div class="line"><span class="lineno">  220</span> </div>
+<div class="line"><span class="lineno">  221</span>            <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">NewVersion</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  222</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure)</div>
+<div class="line"><span class="lineno">  223</span>                {</div>
+<div class="line"><span class="lineno">  224</span>                    AdditionalData = <span class="stringliteral">&quot;newVersion is required!&quot;</span>,</div>
+<div class="line"><span class="lineno">  225</span>                });</div>
+<div class="line"><span class="lineno">  226</span> </div>
+<div class="line"><span class="lineno">  227</span>            <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">NewVersion</a>.Major &lt; 3)</div>
+<div class="line"><span class="lineno">  228</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.CannotChangeServerSuite));</div>
+<div class="line"><span class="lineno">  229</span> </div>
+<div class="line"><span class="lineno">  230</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#af5fd9e32b26b176d9e13416f32c69f1b">serverControl</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a1c9a042a42da1e39316d2f1b45b28765">WatchdogPresent</a>)</div>
+<div class="line"><span class="lineno">  231</span>                <span class="keywordflow">return</span> UnprocessableEntity(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.MissingHostWatchdog));</div>
+<div class="line"><span class="lineno">  232</span> </div>
+<div class="line"><span class="lineno">  233</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  234</span>            {</div>
+<div class="line"><span class="lineno">  235</span>                var updateResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a7b6cc8d99ad7c11cb958bf781328e9b8">serverUpdater</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ac8909b69744276b792b9fcde8dc938f1">BeginUpdate</a>(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">NewVersion</a>, cancellationToken);</div>
+<div class="line"><span class="lineno">  236</span>                <span class="keywordflow">if</span> (updateResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.ReleaseMissing)</div>
+<div class="line"><span class="lineno">  237</span>                    <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
+<div class="line"><span class="lineno">  238</span> </div>
+<div class="line"><span class="lineno">  239</span>                <span class="keywordflow">if</span> (updateResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.UpdateInProgress)</div>
+<div class="line"><span class="lineno">  240</span>                    <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ServerUpdateInProgress));</div>
+<div class="line"><span class="lineno">  241</span> </div>
+<div class="line"><span class="lineno">  242</span>                <span class="keywordflow">return</span> Accepted(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a></div>
+<div class="line"><span class="lineno">  243</span>                {</div>
+<div class="line"><span class="lineno">  244</span>                    NewVersion = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">NewVersion</a>,</div>
+<div class="line"><span class="lineno">  245</span>                });</div>
+<div class="line"><span class="lineno">  246</span>            }</div>
+<div class="line"><span class="lineno">  247</span>            <span class="keywordflow">catch</span> (RateLimitExceededException e)</div>
+<div class="line"><span class="lineno">  248</span>            {</div>
+<div class="line"><span class="lineno">  249</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4">RateLimit</a>(e);</div>
+<div class="line"><span class="lineno">  250</span>            }</div>
+<div class="line"><span class="lineno">  251</span>            <span class="keywordflow">catch</span> (ApiException e)</div>
+<div class="line"><span class="lineno">  252</span>            {</div>
+<div class="line"><span class="lineno">  253</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(e, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aae91f209dda2b1d6a356a3cc3700750e">OctokitException</a>);</div>
+<div class="line"><span class="lineno">  254</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.FailedDependency, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RemoteApiError)</div>
+<div class="line"><span class="lineno">  255</span>                {</div>
+<div class="line"><span class="lineno">  256</span>                    AdditionalData = e.Message,</div>
+<div class="line"><span class="lineno">  257</span>                });</div>
+<div class="line"><span class="lineno">  258</span>            }</div>
+<div class="line"><span class="lineno">  259</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">Tgstation.Server.Api.Models.Response.ServerUpdateResponse</a></div><div class="ttdef"><b>Definition:</b> <a href="_server_update_response_8cs_source.html#l00004">ServerUpdateResponse.cs:5</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update_html_a5ed58b7f764bbb626f375832e1b122b3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_update.html#a5ed58b7f764bbb626f375832e1b122b3">Tgstation.Server.Api.Models.ServerUpdate.NewVersion</a></div><div class="ttdeci">Version? NewVersion</div><div class="ttdoc">Changes the version of tgstation-server to the given version from the upstream repository.</div><div class="ttdef"><b>Definition:</b> <a href="_server_update_8cs_source.html#l00014">ServerUpdate.cs:14</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a30f0e4c93d7b119d4bf7aadefc1e5b8f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone</a></div><div class="ttdeci">ObjectResult Gone()</div><div class="ttdoc">Generic 410 response.</div></div>
@@ -825,7 +824,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00059">59</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00358">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00356">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
 
 </div>
 </div>
@@ -853,7 +852,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00084">84</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00358">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00356">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
 
 </div>
 </div>
@@ -881,7 +880,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00074">74</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00358">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00356">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>.</p>
 
 </div>
 </div>
@@ -937,7 +936,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00064">64</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00358">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00356">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
 
 </div>
 </div>
@@ -965,7 +964,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00039">39</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.AdministrationController.Read()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00217">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.AdministrationController.Read()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
 
 </div>
 </div>
@@ -993,7 +992,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00069">69</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00358">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00356">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
 
 </div>
 </div>
@@ -1021,7 +1020,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00049">49</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00272">Tgstation.Server.Host.Controllers.AdministrationController.Delete()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00217">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00271">Tgstation.Server.Host.Controllers.AdministrationController.Delete()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
 
 </div>
 </div>
@@ -1049,7 +1048,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_administration_controller_8cs_source.html#l00054">54</a> of file <a class="el" href="_administration_controller_8cs_source.html">AdministrationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00217">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.AdministrationController.AdministrationController()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
 
 </div>
 </div>
