@@ -5,7 +5,6 @@
       <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
           <IncludeTestAssembly>false</IncludeTestAssembly>
-          <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
           <UseSourceLink>true</UseSourceLink>
         </Configuration>
       </DataCollector>
