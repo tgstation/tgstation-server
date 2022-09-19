@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -91,9 +90,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 							Number = x.Number,
 							TargetCommitSha = x.TargetCommitSha,
 						})
-						.ToListAsync(cancellationToken)
-						)
-					;
+						.ToListAsync(cancellationToken));
 			}
 			else
 			{
@@ -102,7 +99,12 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				results = watchdog.ActiveCompileJob?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? new List<Models.TestMerge>();
 			}
 
-			return !results.Any() ? "None!" : String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha.Substring(0, 7))));
+			return !results.Any()
+				? "None!"
+				: String.Join(
+					", ",
+					results.Select(
+						x => $"#{x.Number} at {x.TargetCommitSha[..7]}"));
 		}
 #pragma warning restore CA1506
 	}

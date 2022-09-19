@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="api">The <see cref="Api.Models.ChatChannel"/>. </param>
 		/// <returns>A <see cref="ChatChannel"/> based on <paramref name="api"/>.</returns>
-		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new Models.ChatChannel
+		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new ()
 		{
 			DiscordChannelId = api.DiscordChannelId,
 			IrcChannel = api.IrcChannel,
@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					return null;
 				})
-				
+
 				?? StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 		}
 
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Controllers
 						;
 					return null;
 				})
-				
+
 				?? NoContent();
 
 		/// <summary>

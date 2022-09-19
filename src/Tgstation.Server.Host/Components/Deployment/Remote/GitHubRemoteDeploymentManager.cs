@@ -71,9 +71,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.RepositorySettings
 						.AsQueryable()
 						.Where(x => x.InstanceId == Metadata.Id)
-						.FirstAsync(cancellationToken)
-						)
-				;
+						.FirstAsync(cancellationToken));
 
 			var instanceAuthenticated = repositorySettings.AccessToken != null;
 			var gitHubClient = !instanceAuthenticated
@@ -111,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					;
 
 				compileJob.GitHubDeploymentId = deployment.Id;
-				Logger.LogDebug("Created deployment ID {0}", deployment.Id);
+				Logger.LogDebug("Created deployment ID {deploymentId}", deployment.Id);
 
 				await gitHubClient
 					.Repository
@@ -139,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					;
 
 				compileJob.GitHubRepoId = gitHubRepo.Id;
-				Logger.LogTrace("Set GitHub ID as {0}", compileJob.GitHubRepoId);
+				Logger.LogTrace("Set GitHub ID as {gitHubRepoId}", compileJob.GitHubRepoId);
 			}
 			catch (RateLimitExceededException ex) when (!repositorySettings.CreateGitHubDeployments.Value)
 			{
@@ -215,7 +213,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				await Task.WhenAll(tasks);
 			}
-			catch (Exception ex) when (!(ex is OperationCanceledException))
+			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
 				Logger.LogWarning(ex, "Pull requests update check failed!");
 			}
@@ -326,7 +324,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return;
 			}
 
-			Logger.LogTrace("Updating deployment {0} to {1}...", compileJob.GitHubDeploymentId.Value, deploymentState);
+			Logger.LogTrace("Updating deployment {gitHubDeploymentId} to {deploymentState}...", compileJob.GitHubDeploymentId.Value, deploymentState);
 
 			string gitHubAccessToken = null;
 			await databaseContextFactory.UseContext(
@@ -336,14 +334,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.AsQueryable()
 						.Where(x => x.InstanceId == Metadata.Id)
 						.Select(x => x.AccessToken)
-						.FirstAsync(cancellationToken)
-						)
-				;
+						.FirstAsync(cancellationToken));
 
 			if (gitHubAccessToken == null)
 			{
 				Logger.LogWarning(
-					"GitHub access token disappeared during deployment, can't update to {0}!",
+					"GitHub access token disappeared during deployment, can't update to {deploymentState}!",
 					deploymentState);
 				return;
 			}

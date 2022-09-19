@@ -714,9 +714,7 @@ namespace Tgstation.Server.Host.Controllers
 											&& x.ActiveTestMerges.Count > 0)
 											.Include(x => x.ActiveTestMerges)
 											.ThenInclude(x => x.TestMerge)
-											.ToListAsync(cancellationToken)
-											)
-									;
+											.ToListAsync(cancellationToken));
 
 								// split here cause this bit has to be done locally
 								revInfoWereLookingFor = dbPull

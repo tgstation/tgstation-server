@@ -256,9 +256,8 @@ namespace Tgstation.Server.Host.Controllers
 					async instance => await instance
 						.Configuration
 						.CreateDirectory(model.Path, systemIdentity, cancellationToken)
-						
-						? (IActionResult)Json(resultModel)
-						: Created(resultModel))
+							? Json(resultModel)
+							: Created(resultModel))
 					;
 			}
 			catch (IOException e)
@@ -306,10 +305,8 @@ namespace Tgstation.Server.Host.Controllers
 					async instance => await instance
 					.Configuration
 					.DeleteDirectory(directory.Path, systemIdentity, cancellationToken)
-					
-					? (IActionResult)NoContent()
-					: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)))
-					;
+						? NoContent()
+						: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)));
 			}
 			catch (NotImplementedException)
 			{

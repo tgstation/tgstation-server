@@ -405,8 +405,7 @@ namespace Tgstation.Server.Host.Components
 						.Include(x => x.ChatSettings)
 							.ThenInclude(x => x.Channels)
 						.Include(x => x.DreamDaemonSettings)
-						.ToListAsync(cancellationToken)
-						);
+						.ToListAsync(cancellationToken));
 
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				var jobManagerStartup = jobManager.StartAsync(cancellationToken);

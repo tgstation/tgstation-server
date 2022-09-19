@@ -229,9 +229,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						.ThenInclude(x => x.ActiveTestMerges)
 						.ThenInclude(x => x.TestMerge)
 						.ThenInclude(x => x.MergedBy)
-					.FirstAsync(cancellationToken)
-					)
-				; // can't wait to see that query
+					.FirstAsync(cancellationToken)); // can't wait to see that query
 
 			if (!compileJob.Job.StoppedAt.HasValue)
 			{
@@ -331,14 +329,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await databaseContextFactory.UseContext(async db =>
 			{
 				jobUidsToNotErase = (await db
-					.CompileJobs
-					.AsQueryable()
-					.Where(
-						x => x.Job.Instance.Id == metadata.Id
-						&& jobIdsToSkip.Contains(x.Id.Value))
-					.Select(x => x.DirectoryName.Value)
-					.ToListAsync(cancellationToken)
-					)
+						.CompileJobs
+						.AsQueryable()
+						.Where(
+							x => x.Job.Instance.Id == metadata.Id
+							&& jobIdsToSkip.Contains(x.Id.Value))
+						.Select(x => x.DirectoryName.Value)
+						.ToListAsync(cancellationToken))
 					.Select(x => x.ToString())
 					.ToList();
 			});

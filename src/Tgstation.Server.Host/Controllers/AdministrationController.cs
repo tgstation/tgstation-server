@@ -158,8 +158,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Repository
 						.Release
 						.GetAll(updatesConfiguration.GitHubRepositoryId)
-						.WithToken(cancellationToken)
-						)
+						.WithToken(cancellationToken))
 						.Where(x => x.TagName.StartsWith(
 							updatesConfiguration.GitTagPrefix,
 							StringComparison.InvariantCulture));
@@ -316,8 +315,7 @@ namespace Tgstation.Server.Host.Controllers
 								LastModified = await ioManager
 									.GetLastModified(
 										ioManager.ConcatPath(path, file),
-										cancellationToken)
-										,
+										cancellationToken),
 							})
 							.ToList();
 
