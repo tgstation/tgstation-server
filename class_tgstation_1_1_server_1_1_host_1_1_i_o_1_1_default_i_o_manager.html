@@ -455,7 +455,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   98</span>            src = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(src);</div>
 <div class="line"><span class="lineno">   99</span>            dest = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(dest);</div>
 <div class="line"><span class="lineno">  100</span>            <span class="keywordflow">foreach</span> (var directoryCopy <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adb0be7f9a21a594cabe8110639faf01b">CopyDirectoryImpl</a>(src, dest, ignore, cancellationToken))</div>
-<div class="line"><span class="lineno">  101</span>                await directoryCopy.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  101</span>                await directoryCopy;</div>
 <div class="line"><span class="lineno">  102</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a34087ebccffcf9f51173e01fe4a50be4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath</a></div><div class="ttdeci">string ResolvePath()</div><div class="ttdoc">Retrieve the full path of the current working directory.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_adb0be7f9a21a594cabe8110639faf01b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adb0be7f9a21a594cabe8110639faf01b">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl</a></div><div class="ttdeci">IEnumerable&lt; Task &gt; CopyDirectoryImpl(string src, string dest, IEnumerable&lt; string &gt; ignore, CancellationToken cancellationToken)</div><div class="ttdoc">Copies a directory from src  to dest .</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00373">DefaultIOManager.cs:373</a></div></div>
@@ -552,7 +552,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  388</span>            async Task CopyThisDirectory()</div>
 <div class="line"><span class="lineno">  389</span>            {</div>
 <div class="line"><span class="lineno">  390</span>                <span class="keywordflow">if</span> (!atLeastOneSubDir)</div>
-<div class="line"><span class="lineno">  391</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3">CreateDirectory</a>(dest, cancellationToken).ConfigureAwait(<span class="keyword">false</span>); <span class="comment">// save on createdir calls</span></div>
+<div class="line"><span class="lineno">  391</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3">CreateDirectory</a>(dest, cancellationToken); <span class="comment">// save on createdir calls</span></div>
 <div class="line"><span class="lineno">  392</span> </div>
 <div class="line"><span class="lineno">  393</span>                var tasks = <span class="keyword">new</span> List&lt;Task&gt;();</div>
 <div class="line"><span class="lineno">  394</span>                <span class="keywordflow">foreach</span> (var fileInfo <span class="keywordflow">in</span> dir.EnumerateFiles())</div>
@@ -562,7 +562,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  398</span>                    tasks.Add(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb">CopyFile</a>(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));</div>
 <div class="line"><span class="lineno">  399</span>                }</div>
 <div class="line"><span class="lineno">  400</span> </div>
-<div class="line"><span class="lineno">  401</span>                await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  401</span>                await Task.WhenAll(tasks);</div>
 <div class="line"><span class="lineno">  402</span>            }</div>
 <div class="line"><span class="lineno">  403</span> </div>
 <div class="line"><span class="lineno">  404</span>            yield <span class="keywordflow">return</span> CopyThisDirectory();</div>
@@ -654,7 +654,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  127</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
 <div class="line"><span class="lineno">  128</span> </div>
 <div class="line"><span class="lineno">  129</span>            <span class="comment">// value taken from documentation</span></div>
-<div class="line"><span class="lineno">  130</span>            await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  130</span>            await srcStream.CopyToAsync(destStream, 81920, cancellationToken);</div>
 <div class="line"><span class="lineno">  131</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a8d302b2be6862b23b9a18a9412fc7fc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">Tgstation.Server.Host.IO.DefaultIOManager.DefaultBufferSize</a></div><div class="ttdeci">const int DefaultBufferSize</div><div class="ttdoc">Default FileStream buffer size used by .NET.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00027">DefaultIOManager.cs:27</a></div></div>
 </div><!-- fragment -->
@@ -886,13 +886,13 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  298</span>            <span class="keyword">using </span>var httpClient = <span class="keyword">new</span> HttpClient();</div>
 <div class="line"><span class="lineno">  299</span>            httpClient.DefaultRequestHeaders.UserAgent.Add(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3d1b09f86517315949230c66713824e0">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">ProductInfoHeaderValue</a>);</div>
 <div class="line"><span class="lineno">  300</span>            var webRequestTask = httpClient.GetAsync(url, cancellationToken);</div>
-<div class="line"><span class="lineno">  301</span>            <span class="keyword">using </span>var response = await webRequestTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  301</span>            <span class="keyword">using </span>var response = await webRequestTask;</div>
 <div class="line"><span class="lineno">  302</span>            response.EnsureSuccessStatusCode();</div>
-<div class="line"><span class="lineno">  303</span>            <span class="keyword">using </span>var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  303</span>            <span class="keyword">using </span>var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  304</span>            var memoryStream = <span class="keyword">new</span> MemoryStream();</div>
 <div class="line"><span class="lineno">  305</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  306</span>            {</div>
-<div class="line"><span class="lineno">  307</span>                await responseStream.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  307</span>                await responseStream.CopyToAsync(memoryStream, cancellationToken);</div>
 <div class="line"><span class="lineno">  308</span>                memoryStream.Seek(0, SeekOrigin.Begin);</div>
 <div class="line"><span class="lineno">  309</span>                <span class="keywordflow">return</span> memoryStream;</div>
 <div class="line"><span class="lineno">  310</span>            }</div>
@@ -1388,7 +1388,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   66</span>                file.Delete();</div>
 <div class="line"><span class="lineno">   67</span>            }</div>
 <div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>            await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   69</span>            await Task.WhenAll(tasks);</div>
 <div class="line"><span class="lineno">   70</span>            cancellationToken.ThrowIfCancellationRequested();</div>
 <div class="line"><span class="lineno">   71</span>            dir.Delete(<span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">   72</span>        }</div>
@@ -1480,7 +1480,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  230</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
 <div class="line"><span class="lineno">  231</span>            <span class="keywordtype">byte</span>[] buf;</div>
 <div class="line"><span class="lineno">  232</span>            buf = <span class="keyword">new</span> <span class="keywordtype">byte</span>[file.Length];</div>
-<div class="line"><span class="lineno">  233</span>            await file.ReadAsync(buf, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  233</span>            await file.ReadAsync(buf, cancellationToken);</div>
 <div class="line"><span class="lineno">  234</span>            <span class="keywordflow">return</span> buf;</div>
 <div class="line"><span class="lineno">  235</span>        }</div>
 </div><!-- fragment -->
@@ -1619,7 +1619,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  251</span>                FileShare.ReadWrite,</div>
 <div class="line"><span class="lineno">  252</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">DefaultBufferSize</a>,</div>
 <div class="line"><span class="lineno">  253</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
-<div class="line"><span class="lineno">  254</span>            await file.WriteAsync(contents, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  254</span>            await file.WriteAsync(contents, cancellationToken);</div>
 <div class="line"><span class="lineno">  255</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00027">Tgstation.Server.Host.IO.DefaultIOManager.DefaultBufferSize</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath()</a>.</p>

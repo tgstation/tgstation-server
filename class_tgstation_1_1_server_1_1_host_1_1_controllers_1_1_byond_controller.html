@@ -426,7 +426,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  153</span>                            AuthenticationContext.User.Id,</div>
 <div class="line"><span class="lineno">  154</span>                            Instance.Id,</div>
 <div class="line"><span class="lineno">  155</span>                            model.Version);</div>
-<div class="line"><span class="lineno">  156</span>                        await byondManager.ChangeVersion(model.Version, null, cancellationToken).ConfigureAwait(false);</div>
+<div class="line"><span class="lineno">  156</span>                        await byondManager.ChangeVersion(model.Version, null, cancellationToken);</div>
 <div class="line"><span class="lineno">  157</span>                    }</div>
 <div class="line"><span class="lineno">  158</span>                    <span class="keywordflow">else</span> if (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html#a2a9e42b301e3b07a4cd8c300d2a993d0">Version</a>.Build &gt; 0)</div>
 <div class="line"><span class="lineno">  159</span>                        <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ByondNonExistentCustomVersion));</div>
@@ -466,18 +466,18 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  193</span>                                    if (fileUploadTicket != null)</div>
 <div class="line"><span class="lineno">  194</span>                                        using (fileUploadTicket)</div>
 <div class="line"><span class="lineno">  195</span>                                        {</div>
-<div class="line"><span class="lineno">  196</span>                                            var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken).ConfigureAwait(false);</div>
+<div class="line"><span class="lineno">  196</span>                                            var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken);</div>
 <div class="line"><span class="lineno">  197</span>                                            if (uploadStream == null)</div>
 <div class="line"><span class="lineno">  198</span>                                                throw new JobException(ErrorCode.FileUploadExpired);</div>
 <div class="line"><span class="lineno">  199</span> </div>
 <div class="line"><span class="lineno">  200</span>                                            zipFileStream = new MemoryStream();</div>
 <div class="line"><span class="lineno">  201</span>                                            try</div>
 <div class="line"><span class="lineno">  202</span>                                            {</div>
-<div class="line"><span class="lineno">  203</span>                                                await uploadStream.CopyToAsync(zipFileStream, jobCancellationToken).ConfigureAwait(false);</div>
+<div class="line"><span class="lineno">  203</span>                                                await uploadStream.CopyToAsync(zipFileStream, jobCancellationToken);</div>
 <div class="line"><span class="lineno">  204</span>                                            }</div>
 <div class="line"><span class="lineno">  205</span>                                            catch</div>
 <div class="line"><span class="lineno">  206</span>                                            {</div>
-<div class="line"><span class="lineno">  207</span>                                                await zipFileStream.DisposeAsync().ConfigureAwait(false);</div>
+<div class="line"><span class="lineno">  207</span>                                                await zipFileStream.DisposeAsync();</div>
 <div class="line"><span class="lineno">  208</span>                                                throw;</div>
 <div class="line"><span class="lineno">  209</span>                                            }</div>
 <div class="line"><span class="lineno">  210</span>                                        }</div>
@@ -487,10 +487,10 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  214</span>                                            model.Version,</div>
 <div class="line"><span class="lineno">  215</span>                                            zipFileStream,</div>
 <div class="line"><span class="lineno">  216</span>                                            jobCancellationToken)</div>
-<div class="line"><span class="lineno">  217</span>                                        .ConfigureAwait(false);</div>
+<div class="line"><span class="lineno">  217</span>                                        ;</div>
 <div class="line"><span class="lineno">  218</span>                                },</div>
 <div class="line"><span class="lineno">  219</span>                                cancellationToken)</div>
-<div class="line"><span class="lineno">  220</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  220</span>                                ;</div>
 <div class="line"><span class="lineno">  221</span> </div>
 <div class="line"><span class="lineno">  222</span>                            result.InstallJob = job.ToApi();</div>
 <div class="line"><span class="lineno">  223</span>                            result.FileTicket = fileUploadTicket?.Ticket.FileTicket;</div>
@@ -504,7 +504,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  231</span> </div>
 <div class="line"><span class="lineno">  232</span>                    <span class="keywordflow">return</span> result.InstallJob != <span class="keyword">null</span> ? (IActionResult)Accepted(result) : Json(result);</div>
 <div class="line"><span class="lineno">  233</span>                })</div>
-<div class="line"><span class="lineno">  234</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  234</span>                ;</div>
 <div class="line"><span class="lineno">  235</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set_html_adb35a0208abcbee870cc99a0ba259a6a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set.html#adb35a0208abcbee870cc99a0ba259a6a">Tgstation.Server.Api.Models.Internal.InstancePermissionSet.ByondRights</a></div><div class="ttdeci">ByondRights? ByondRights</div><div class="ttdoc">The Rights.ByondRights of the InstancePermissionSet.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_instance_permission_set_8cs_source.html#l00028">InstancePermissionSet.cs:28</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request_html_a2a9e42b301e3b07a4cd8c300d2a993d0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html#a2a9e42b301e3b07a4cd8c300d2a993d0">Tgstation.Server.Api.Models.Request.ByondVersionRequest.Version</a></div><div class="ttdeci">Version? Version</div><div class="ttdoc">The BYOND version to install.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_version_request_8cs_source.html#l00014">ByondVersionRequest.cs:14</a></div></div>

@@ -155,18 +155,18 @@ $(function() {
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                .<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a></div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                .AsQueryable()</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                .CountAsync(cancellationToken)</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                ;</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            <span class="keywordflow">if</span> (totalUsers &gt;= <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a79e1198432e7e557c8d72b3adf71bbf1">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html#ae598bca044b6997650efb8996104419a">UserLimit</a>)</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.UserLimitReached));</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            var dbUser = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a19eb9da062620834709104bb4fe19139">CreateNewUserFromModel</a>(model, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            var dbUser = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a19eb9da062620834709104bb4fe19139">CreateNewUserFromModel</a>(model, cancellationToken);</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="keywordflow">if</span> (dbUser == <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            <span class="keywordflow">if</span> (model.SystemIdentifier != <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                {</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                    <span class="keyword">using </span>var sysIdentity = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#adcb096909c25a05c74f2714128607c05">systemIdentityFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a20f91f6106ff918ffd3bb970df92a572">CreateSystemIdentity</a>(dbUser, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                    <span class="keyword">using </span>var sysIdentity = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#adcb096909c25a05c74f2714128607c05">systemIdentityFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a20f91f6106ff918ffd3bb970df92a572">CreateSystemIdentity</a>(dbUser, cancellationToken);</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                    <span class="keywordflow">if</span> (sysIdentity == <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                        <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                    dbUser.Name = sysIdentity.Username;</div>
@@ -187,7 +187,7 @@ $(function() {
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Add(dbUser);</div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(<span class="stringliteral">&quot;Created new user {0} ({1})&quot;</span>, dbUser.Name, dbUser.Id);</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
@@ -231,7 +231,7 @@ $(function() {
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                        .ThenInclude(x =&gt; x.PermissionSet)</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                    .Include(x =&gt; x.PermissionSet)</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                    .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                    ;</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            <span class="keywordflow">if</span> (originalUser == <span class="keywordflow">default</span>)</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f">NotFound</a>();</div>
@@ -298,7 +298,7 @@ $(function() {
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                    .Where(x =&gt; x.Id == model.Group.Id)</div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                    .Include(x =&gt; x.PermissionSet)</div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>                    .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>                    ;</div>
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>                <span class="keywordflow">if</span> (originalUser.Group == <span class="keywordflow">default</span>)</div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>                    <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
@@ -332,7 +332,7 @@ $(function() {
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>            originalUser.Name = model.Name ?? originalUser.Name;</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(<span class="stringliteral">&quot;Updated user {0} ({1})&quot;</span>, originalUser.Name, originalUser.Id);</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
@@ -393,7 +393,7 @@ $(function() {
 <div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>                .Include(x =&gt; x.Group)</div>
 <div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>                    .ThenInclude(x =&gt; x.PermissionSet)</div>
 <div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>                .Include(x =&gt; x.PermissionSet)</div>
-<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>                .FirstOrDefaultAsync(cancellationToken);</div>
 <div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>            <span class="keywordflow">if</span> (user == <span class="keywordflow">default</span>)</div>
 <div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f">NotFound</a>();</div>
 <div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span> </div>
@@ -414,7 +414,7 @@ $(function() {
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                    .Where(x =&gt; x.Id == model.Group.Id)</div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>                    .Include(x =&gt; x.PermissionSet)</div>
 <div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                    .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                    ;</div>
 <div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>            <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>                permissionSet = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html">Models.PermissionSet</a></div>
 <div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>                {</div>

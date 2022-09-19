@@ -194,7 +194,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   69</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
 <div class="line"><span class="lineno">   70</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   71</span>                {</div>
-<div class="line"><span class="lineno">   72</span>                    await next().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   72</span>                    await next();</div>
 <div class="line"><span class="lineno">   73</span>                }</div>
 <div class="line"><span class="lineno">   74</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
 <div class="line"><span class="lineno">   75</span>                {</div>
@@ -259,7 +259,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   34</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
 <div class="line"><span class="lineno">   35</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   36</span>                {</div>
-<div class="line"><span class="lineno">   37</span>                    await next().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   37</span>                    await next();</div>
 <div class="line"><span class="lineno">   38</span>                }</div>
 <div class="line"><span class="lineno">   39</span>                <span class="keywordflow">catch</span> (DbUpdateException e)</div>
 <div class="line"><span class="lineno">   40</span>                {</div>
@@ -276,7 +276,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   51</span>                    }).ExecuteResultAsync(<span class="keyword">new</span> ActionContext</div>
 <div class="line"><span class="lineno">   52</span>                    {</div>
 <div class="line"><span class="lineno">   53</span>                        HttpContext = context,</div>
-<div class="line"><span class="lineno">   54</span>                    }).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   54</span>                    });</div>
 <div class="line"><span class="lineno">   55</span>                }</div>
 <div class="line"><span class="lineno">   56</span>            });</div>
 <div class="line"><span class="lineno">   57</span>        }</div>
@@ -349,7 +349,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  128</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
 <div class="line"><span class="lineno">  129</span>            {</div>
 <div class="line"><span class="lineno">  130</span>                context.Response.Headers.Add(<span class="stringliteral">&quot;X-Powered-By&quot;</span>, assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
-<div class="line"><span class="lineno">  131</span>                await next().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  131</span>                await next();</div>
 <div class="line"><span class="lineno">  132</span>            });</div>
 <div class="line"><span class="lineno">  133</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ab2a2be82555afbf6ffb5b7ae3d90b7f0"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a></div><div class="ttdeci">string VersionPrefix</div><div class="ttdoc">Prefix to VersionString.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00025">IAssemblyInformationProvider.cs:25</a></div></div>
@@ -399,7 +399,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   91</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
 <div class="line"><span class="lineno">   92</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   93</span>                {</div>
-<div class="line"><span class="lineno">   94</span>                    await next().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   94</span>                    await next();</div>
 <div class="line"><span class="lineno">   95</span>                }</div>
 <div class="line"><span class="lineno">   96</span>                <span class="keywordflow">catch</span> (Exception e)</div>
 <div class="line"><span class="lineno">   97</span>                {</div>
@@ -416,7 +416,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  108</span>                    {</div>
 <div class="line"><span class="lineno">  109</span>                        HttpContext = context,</div>
 <div class="line"><span class="lineno">  110</span>                    })</div>
-<div class="line"><span class="lineno">  111</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  111</span>                    ;</div>
 <div class="line"><span class="lineno">  112</span>                }</div>
 <div class="line"><span class="lineno">  113</span>            });</div>
 <div class="line"><span class="lineno">  114</span>        }</div>

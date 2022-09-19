@@ -201,7 +201,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   80</span>            <span class="keyword">using</span> (var setupHost = setupWizardHostBuilder.Build())</div>
 <div class="line"><span class="lineno">   81</span>            {</div>
 <div class="line"><span class="lineno">   82</span>                postSetupServices = setupHost.Services.GetRequiredService&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html">IPostSetupServices&lt;ServerFactory&gt;</a>&gt;();</div>
-<div class="line"><span class="lineno">   83</span>                await setupHost.RunAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   83</span>                await setupHost.RunAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">   84</span> </div>
 <div class="line"><span class="lineno">   85</span>                <span class="keywordflow">if</span> (postSetupServices.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a11ecc704e68650d06ce04f8da01e47d1">GeneralConfiguration</a>.SetupWizardMode == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">SetupWizardMode</a>.Only)</div>
 <div class="line"><span class="lineno">   86</span>                {</div>

@@ -666,7 +666,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  352</span>                        }</div>
 <div class="line"><span class="lineno">  353</span>                        <span class="keywordflow">catch</span></div>
 <div class="line"><span class="lineno">  354</span>                        {</div>
-<div class="line"><span class="lineno">  355</span>                            await watchdog.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  355</span>                            await watchdog.DisposeAsync();</div>
 <div class="line"><span class="lineno">  356</span>                            <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  357</span>                        }</div>
 <div class="line"><span class="lineno">  358</span>                    }</div>
@@ -678,7 +678,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  364</span>                }</div>
 <div class="line"><span class="lineno">  365</span>                <span class="keywordflow">catch</span></div>
 <div class="line"><span class="lineno">  366</span>                {</div>
-<div class="line"><span class="lineno">  367</span>                    await chatManager.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  367</span>                    await chatManager.DisposeAsync();</div>
 <div class="line"><span class="lineno">  368</span>                    <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  369</span>                }</div>
 <div class="line"><span class="lineno">  370</span>            }</div>

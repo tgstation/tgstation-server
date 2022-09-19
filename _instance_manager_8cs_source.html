@@ -188,7 +188,7 @@ $(function() {
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>            }</div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            <span class="keywordflow">foreach</span> (var instanceKvp <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a7fbbda0a3ee75cc0c9a3a7a5446b2861">instances</a>)</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                await instanceKvp.Value.Instance.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                await instanceKvp.Value.Instance.DisposeAsync();</div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#abaf66550ead757ef3bc6915c9b15d06b">instanceStateChangeSemaphore</a>.Dispose();</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
@@ -222,7 +222,7 @@ $(function() {
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            var newPath = instance.Path;</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            {</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a59bc4b977f9b72208d553fbfa57f118e">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(oldPath, newPath, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a59bc4b977f9b72208d553fbfa57f118e">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(oldPath, newPath, cancellationToken);</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>            }</div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>            {</div>
@@ -244,7 +244,7 @@ $(function() {
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>                        db.Instances.Attach(targetInstance);</div>
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                        targetInstance.Path = oldPath;</div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>                        <span class="keywordflow">return</span> db.Save(<span class="keywordflow">default</span>);</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>                    }).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>                    });</div>
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>                }</div>
 <div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                <span class="keywordflow">catch</span> (Exception innerEx)</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                {</div>
@@ -260,7 +260,7 @@ $(function() {
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a59bc4b977f9b72208d553fbfa57f118e">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(oldPath, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html">InstanceController</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#aa40d55750e2193d714eb1470505c47ee">InstanceAttachFileName</a>),</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>                            Array.Empty&lt;<span class="keywordtype">byte</span>&gt;(),</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                            <span class="keywordflow">default</span>)</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                            ;</div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>                    }</div>
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>                    <span class="keywordflow">catch</span> (Exception tripleEx)</div>
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>                    {</div>
@@ -283,7 +283,7 @@ $(function() {
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>            <span class="keywordflow">if</span> (metadata == <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(metadata));</div>
 <div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>            <span class="keyword">using </span>var lockContext = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#abaf66550ead757ef3bc6915c9b15d06b">instanceStateChangeSemaphore</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>            <span class="keyword">using </span>var lockContext = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#abaf66550ead757ef3bc6915c9b15d06b">instanceStateChangeSemaphore</a>, cancellationToken);</div>
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogInformation(<span class="stringliteral">&quot;Offlining instance ID {0}&quot;</span>, metadata.Id);</div>
 <div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_container.html">InstanceContainer</a> container;</div>
@@ -300,7 +300,7 @@ $(function() {
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>            <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            {</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>                await container.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_container.html#a56b930287994449e0179439173b88327">OnZeroReferences</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>                await container.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_container.html#a56b930287994449e0179439173b88327">OnZeroReferences</a>;</div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
 <div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                <span class="comment">// we are the one responsible for cancelling his jobs</span></div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                var tasks = <span class="keyword">new</span> List&lt;Task&gt;();</div>
@@ -319,16 +319,16 @@ $(function() {
 <div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                    {</div>
 <div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                        lock (tasks)</div>
 <div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                            tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                    }, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                }).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                    }, cancellationToken);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                });</div>
 <div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span> </div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>                await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>                await Task.WhenAll(tasks);</div>
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>                await container.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_container.html#a1e2ffe3a3e89009efec3e4dc5b59baf6">Instance</a>.StopAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>                await container.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_container.html#a1e2ffe3a3e89009efec3e4dc5b59baf6">Instance</a>.StopAsync(cancellationToken);</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>            }</div>
 <div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>            <span class="keywordflow">finally</span></div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>            {</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>                await container.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_container.html#a1e2ffe3a3e89009efec3e4dc5b59baf6">Instance</a>.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>                await container.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_container.html#a1e2ffe3a3e89009efec3e4dc5b59baf6">Instance</a>.DisposeAsync();</div>
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>            }</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>        }</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span> </div>
@@ -337,7 +337,7 @@ $(function() {
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>            <span class="keywordflow">if</span> (metadata == <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(metadata));</div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>            <span class="keyword">using </span>var lockContext = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#abaf66550ead757ef3bc6915c9b15d06b">instanceStateChangeSemaphore</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>            <span class="keyword">using </span>var lockContext = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#abaf66550ead757ef3bc6915c9b15d06b">instanceStateChangeSemaphore</a>, cancellationToken);</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a7fbbda0a3ee75cc0c9a3a7a5446b2861">instances</a>)</div>
 <div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a7fbbda0a3ee75cc0c9a3a7a5446b2861">instances</a>.ContainsKey(metadata.Id.Value))</div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                {</div>
@@ -346,10 +346,10 @@ $(function() {
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                }</div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogInformation(<span class="stringliteral">&quot;Onlining instance ID {0} ({1}) at {2}&quot;</span>, metadata.Id, metadata.Name, metadata.Path);</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>            var instance = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae2b48b5197337f7a311fd115951be7f6">instanceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#a85af2a0153062b03bde4bd6f1df9d846">CreateInstance</a>(<span class="keyword">this</span>, metadata).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>            var instance = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae2b48b5197337f7a311fd115951be7f6">instanceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#a85af2a0153062b03bde4bd6f1df9d846">CreateInstance</a>(<span class="keyword">this</span>, metadata);</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>            <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>            {</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                await instance.StartAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                await instance.StartAsync(cancellationToken);</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>                <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>                {</div>
@@ -362,7 +362,7 @@ $(function() {
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>                    <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>                    {</div>
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>                        <span class="comment">// DCT: Must always run</span></div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>                        await instance.StopAsync(<span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>                        await instance.StopAsync(<span class="keywordflow">default</span>);</div>
 <div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>                    }</div>
 <div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>                    <span class="keywordflow">catch</span> (Exception innerEx)</div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>                    {</div>
@@ -374,7 +374,7 @@ $(function() {
 <div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            }</div>
 <div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            <span class="keywordflow">catch</span></div>
 <div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>            {</div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>                await instance.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>                await instance.DisposeAsync();</div>
 <div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>                <span class="keywordflow">throw</span>;</div>
 <div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>            }</div>
 <div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>        }</div>
@@ -388,7 +388,7 @@ $(function() {
 <div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span> </div>
 <div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44">CheckSystemCompatibility</a>();</div>
 <div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a14961bdb98a47d970eee34c7949661ed">InitializeSwarm</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a14961bdb98a47d970eee34c7949661ed">InitializeSwarm</a>(cancellationToken);</div>
 <div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span> </div>
 <div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>                List&lt;Models.Instance&gt; dbInstances = <span class="keyword">null</span>;</div>
 <div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>                var instanceEnumeration = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ab5c8e78bdae6eb6eb2ed289563c639cc">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(</div>
@@ -401,19 +401,19 @@ $(function() {
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>                            .ThenInclude(x =&gt; x.Channels)</div>
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                        .Include(x =&gt; x.DreamDaemonSettings)</div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>                        .ToListAsync(cancellationToken)</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                        .ConfigureAwait(<span class="keyword">false</span>));</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                        );</div>
 <div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span> </div>
 <div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>                var factoryStartup = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae2b48b5197337f7a311fd115951be7f6">instanceFactory</a>.StartAsync(cancellationToken);</div>
 <div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>                var jobManagerStartup = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a26d85ac963bb5258ff0ff1041fce7fa3">jobManager</a>.StartAsync(cancellationToken);</div>
 <div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span> </div>
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>                await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>                await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup);</div>
 <div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span> </div>
 <div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>                var instanceOnliningTasks = dbInstances.Select(</div>
 <div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>                    async metadata =&gt;</div>
 <div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>                    {</div>
 <div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>                        <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>                        {</div>
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>                            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a00b4178d67ebc7ac4b0e3fe87484df15">OnlineInstance</a>(metadata, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>                            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a00b4178d67ebc7ac4b0e3fe87484df15">OnlineInstance</a>(metadata, cancellationToken);</div>
 <div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>                        }</div>
 <div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>                        <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>                        {</div>
@@ -421,7 +421,7 @@ $(function() {
 <div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>                        }</div>
 <div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>                    });</div>
 <div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span> </div>
-<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                await Task.WhenAll(instanceOnliningTasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                await Task.WhenAll(instanceOnliningTasks);</div>
 <div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span> </div>
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a26d85ac963bb5258ff0ff1041fce7fa3">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a9e14a1757415a90da51678d31c04a534">Activate</a>();</div>
 <div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span> </div>
@@ -437,7 +437,7 @@ $(function() {
 <div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogCritical(e, <span class="stringliteral">&quot;Instance manager startup error!&quot;</span>);</div>
 <div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>                <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>                {</div>
-<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ac2ba10fddea5448f4c8c08f363a0e391">serverControl</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a2eb5bdeb76bf1fbfdb297219af3ede45">Die</a>(e).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ac2ba10fddea5448f4c8c08f363a0e391">serverControl</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a2eb5bdeb76bf1fbfdb297219af3ede45">Die</a>(e);</div>
 <div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>                }</div>
 <div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>                <span class="keywordflow">catch</span> (Exception e2)</div>
@@ -455,11 +455,11 @@ $(function() {
 <div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>            {</div>
 <div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogDebug(<span class="stringliteral">&quot;Stopping instance manager...&quot;</span>);</div>
 <div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>                var instanceFactoryStopTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ae2b48b5197337f7a311fd115951be7f6">instanceFactory</a>.StopAsync(cancellationToken);</div>
-<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a26d85ac963bb5258ff0ff1041fce7fa3">jobManager</a>.StopAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>                await Task.WhenAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a7fbbda0a3ee75cc0c9a3a7a5446b2861">instances</a>.Select(x =&gt; x.Value.Instance.StopAsync(cancellationToken))).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>                await instanceFactoryStopTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a26d85ac963bb5258ff0ff1041fce7fa3">jobManager</a>.StopAsync(cancellationToken);</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>                await Task.WhenAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a7fbbda0a3ee75cc0c9a3a7a5446b2861">instances</a>.Select(x =&gt; x.Value.Instance.StopAsync(cancellationToken)));</div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>                await instanceFactoryStopTask;</div>
 <div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span> </div>
-<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad71558ef36bfa98213f058e82ee42a9c">swarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ac6d9e40d5100430fb7215bd3f11b4e7a">Shutdown</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad71558ef36bfa98213f058e82ee42a9c">swarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ac6d9e40d5100430fb7215bd3f11b4e7a">Shutdown</a>(cancellationToken);</div>
 <div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>            }</div>
 <div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>            {</div>
@@ -482,7 +482,7 @@ $(function() {
 <div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>                    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa63fb27d9675a19d4682b34a6d48130d">bridgeHandlers</a>.TryGetValue(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html#af84241c8eda4d8f7deddb9c5b7eb79a5">AccessIdentifier</a>, out bridgeHandler))</div>
 <div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>                        delayTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad6f992fed638980594fd5a6c45b8946b">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6">Delay</a>(TimeSpan.FromMilliseconds(100), cancellationToken);</div>
 <div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span> </div>
-<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>                await delayTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>                await delayTask;</div>
 <div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>            }</div>
 <div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span> </div>
 <div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>            <span class="keywordflow">if</span> (bridgeHandler == <span class="keyword">null</span>)</div>
@@ -493,7 +493,7 @@ $(function() {
 <div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>                    }</div>
 <div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span> </div>
-<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>            <span class="keywordflow">return</span> await bridgeHandler.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html#a4289247b599134eacf98e10f85c9058a">ProcessBridgeRequest</a>(parameters, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>            <span class="keywordflow">return</span> await bridgeHandler.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html#a4289247b599134eacf98e10f85c9058a">ProcessBridgeRequest</a>(parameters, cancellationToken);</div>
 <div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>        }</div>
 <div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span> </div>
 <div class="line"><a id="l00507" name="l00507"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a785c474a5d39316af850239b0c7e107b">  507</a></span>        <span class="keyword">public</span> <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html">IBridgeRegistration</a> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a785c474a5d39316af850239b0c7e107b">RegisterHandler</a>(<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html">IBridgeHandler</a> bridgeHandler)</div>
@@ -545,7 +545,7 @@ $(function() {
 <div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>            <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a> registrationResult;</div>
 <div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>            <span class="keywordflow">do</span></div>
 <div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>            {</div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>                registrationResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad71558ef36bfa98213f058e82ee42a9c">swarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a22ddc215074b213b5071324b9314a076">Initialize</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>                registrationResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad71558ef36bfa98213f058e82ee42a9c">swarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a22ddc215074b213b5071324b9314a076">Initialize</a>(cancellationToken);</div>
 <div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span> </div>
 <div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>                <span class="keywordflow">if</span> (registrationResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a>.Unauthorized)</div>
 <div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Swarm private key does not match the swarm controller&#39;s!&quot;</span>);</div>

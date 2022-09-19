@@ -564,7 +564,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  291</span> </div>
 <div class="line"><span class="lineno">  292</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  293</span>                {</div>
-<div class="line"><span class="lineno">  294</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  294</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken);</div>
 <div class="line"><span class="lineno">  295</span>                    response.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  296</span>                }</div>
 <div class="line"><span class="lineno">  297</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
@@ -593,7 +593,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  320</span>                            .Select(SendRemoteAbort));</div>
 <div class="line"><span class="lineno">  321</span>            }</div>
 <div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>            await task.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  323</span>            await task;</div>
 <div class="line"><span class="lineno">  324</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration_html_a1a843a6921ef680c0b8f0a23e4a9d588"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a1a843a6921ef680c0b8f0a23e4a9d588">Tgstation.Server.Host.Configuration.SwarmConfiguration.ControllerAddress</a></div><div class="ttdeci">Uri ControllerAddress</div><div class="ttdoc">The SwarmServer.Address of the swarm controller. If null, the current server is considered the contro...</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_configuration_8cs_source.html#l00030">SwarmConfiguration.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a6513605dbb89e28a9bdaf5d7bdb5daa1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6513605dbb89e28a9bdaf5d7bdb5daa1">Tgstation.Server.Host.Swarm.SwarmService.nodesThatNeedToBeReadyToCommit</a></div><div class="ttdeci">List&lt; string &gt; nodesThatNeedToBeReadyToCommit</div><div class="ttdoc">List&lt;T&gt; of Api.Models.Internal.SwarmServer.Identifiers that need to send a ready-commit before the up...</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_service_8cs_source.html#l00157">SwarmService.cs:157</a></div></div>
@@ -670,13 +670,13 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  343</span> </div>
 <div class="line"><span class="lineno">  344</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  345</span>                {</div>
-<div class="line"><span class="lineno">  346</span>                    <span class="keyword">using </span>var commitReadyResponse = await httpClient.SendAsync(commitReadyRequest, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  346</span>                    <span class="keyword">using </span>var commitReadyResponse = await httpClient.SendAsync(commitReadyRequest, cancellationToken);</div>
 <div class="line"><span class="lineno">  347</span>                    commitReadyResponse.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  348</span>                }</div>
 <div class="line"><span class="lineno">  349</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  350</span>                {</div>
 <div class="line"><span class="lineno">  351</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Unable to send ready-commit to swarm controller!&quot;</span>);</div>
-<div class="line"><span class="lineno">  352</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  352</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  353</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  354</span>                }</div>
 <div class="line"><span class="lineno">  355</span>            }</div>
@@ -686,7 +686,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  359</span>            <span class="keywordflow">if</span> (commitTcsTask == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  360</span>            {</div>
 <div class="line"><span class="lineno">  361</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogDebug(<span class="stringliteral">&quot;Update commit failed, no pending task completion source!&quot;</span>);</div>
-<div class="line"><span class="lineno">  362</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  362</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  363</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  364</span>            }</div>
 <div class="line"><span class="lineno">  365</span> </div>
@@ -698,7 +698,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  371</span> </div>
 <div class="line"><span class="lineno">  372</span>            var commitTask = Task.WhenAny(commitTcsTask, timeoutTask);</div>
 <div class="line"><span class="lineno">  373</span> </div>
-<div class="line"><span class="lineno">  374</span>            await commitTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  374</span>            await commitTask;</div>
 <div class="line"><span class="lineno">  375</span> </div>
 <div class="line"><span class="lineno">  376</span>            var commitGoAhead = commitTcsTask.IsCompleted</div>
 <div class="line"><span class="lineno">  377</span>                &amp;&amp; commitTcsTask.Result</div>
@@ -710,7 +710,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  383</span>                    timeoutTask.IsCompleted</div>
 <div class="line"><span class="lineno">  384</span>                        ? <span class="stringliteral">&quot; Timed out!&quot;</span></div>
 <div class="line"><span class="lineno">  385</span>                        : String.Empty);</div>
-<div class="line"><span class="lineno">  386</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  386</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  387</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  388</span>            }</div>
 <div class="line"><span class="lineno">  389</span> </div>
@@ -735,7 +735,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  408</span>                {</div>
 <div class="line"><span class="lineno">  409</span>                    <span class="comment">// I know using the cancellationToken after this point doesn&#39;t seem very sane</span></div>
 <div class="line"><span class="lineno">  410</span>                    <span class="comment">// It&#39;s the token for Ctrl+C on server&#39;s console though, so we must respect it</span></div>
-<div class="line"><span class="lineno">  411</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  411</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken);</div>
 <div class="line"><span class="lineno">  412</span>                    response.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  413</span>                }</div>
 <div class="line"><span class="lineno">  414</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
@@ -751,7 +751,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  424</span>                        .Where(x =&gt; !x.Controller)</div>
 <div class="line"><span class="lineno">  425</span>                        .Select(SendRemoteCommitUpdate));</div>
 <div class="line"><span class="lineno">  426</span> </div>
-<div class="line"><span class="lineno">  427</span>            await task.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  427</span>            await task;</div>
 <div class="line"><span class="lineno">  428</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">  429</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a47f16358d7a62edb1ea12317e0d27e20"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a47f16358d7a62edb1ea12317e0d27e20">Tgstation.Server.Host.Swarm.SwarmService.UpdateCommitTimeoutMinutes</a></div><div class="ttdeci">const int UpdateCommitTimeoutMinutes</div><div class="ttdoc">Number of minutes the controller waits to receive a ready-commit from all nodes before aborting an up...</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_service_8cs_source.html#l00044">SwarmService.cs:44</a></div></div>
@@ -916,7 +916,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  984</span>                        HttpMethod.Get,</div>
 <div class="line"><span class="lineno">  985</span>                        String.Empty,</div>
 <div class="line"><span class="lineno">  986</span>                        <span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  987</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  987</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken);</div>
 <div class="line"><span class="lineno">  988</span>                    response.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  989</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogTrace(<span class="stringliteral">&quot;Controller health check successful&quot;</span>);</div>
 <div class="line"><span class="lineno">  990</span>                    <span class="keywordflow">return</span>;</div>
@@ -931,7 +931,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  999</span>            <span class="keywordflow">for</span> (var registrationAttempt = 1UL; ; ++registrationAttempt)</div>
 <div class="line"><span class="lineno"> 1000</span>            {</div>
 <div class="line"><span class="lineno"> 1001</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogInformation(<span class="stringliteral">&quot;Swarm re-registration attempt {0}...&quot;</span>, registrationAttempt);</div>
-<div class="line"><span class="lineno"> 1002</span>                registrationResult = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ade41eff6442a1a8fc025640738e746f2">RegisterWithController</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno"> 1002</span>                registrationResult = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ade41eff6442a1a8fc025640738e746f2">RegisterWithController</a>(cancellationToken);</div>
 <div class="line"><span class="lineno"> 1003</span> </div>
 <div class="line"><span class="lineno"> 1004</span>                <span class="keywordflow">if</span> (registrationResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a>.Success)</div>
 <div class="line"><span class="lineno"> 1005</span>                    <span class="keywordflow">return</span>;</div>
@@ -1049,7 +1049,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno"> 1235</span>                        delayTask,</div>
 <div class="line"><span class="lineno"> 1236</span>                        nextForceHealthCheckTask);</div>
 <div class="line"><span class="lineno"> 1237</span> </div>
-<div class="line"><span class="lineno"> 1238</span>                    await awakeningTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno"> 1238</span>                    await awakeningTask;</div>
 <div class="line"><span class="lineno"> 1239</span> </div>
 <div class="line"><span class="lineno"> 1240</span>                    <span class="keywordflow">if</span> (nextForceHealthCheckTask.IsCompleted &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a100bde23a659ca75ab63c9d5f839251a">swarmController</a>)</div>
 <div class="line"><span class="lineno"> 1241</span>                    {</div>
@@ -1078,9 +1078,9 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno"> 1264</span>                    <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno"> 1265</span>                    {</div>
 <div class="line"><span class="lineno"> 1266</span>                        <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a100bde23a659ca75ab63c9d5f839251a">swarmController</a>)</div>
-<div class="line"><span class="lineno"> 1267</span>                            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a8b4fc2ec080f4fe94a0e44ca475f4fd7">HealthCheckNodes</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno"> 1267</span>                            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a8b4fc2ec080f4fe94a0e44ca475f4fd7">HealthCheckNodes</a>(cancellationToken);</div>
 <div class="line"><span class="lineno"> 1268</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno"> 1269</span>                            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a1e94a2fdb30e0bdb0e2f18f334b4c909">HealthCheckController</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno"> 1269</span>                            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a1e94a2fdb30e0bdb0e2f18f334b4c909">HealthCheckController</a>(cancellationToken);</div>
 <div class="line"><span class="lineno"> 1270</span>                    }</div>
 <div class="line"><span class="lineno"> 1271</span>                    <span class="keywordflow">catch</span> (Exception ex) when (!(ex is OperationCanceledException))</div>
 <div class="line"><span class="lineno"> 1272</span>                    {</div>
@@ -1184,7 +1184,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  913</span> </div>
 <div class="line"><span class="lineno">  914</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  915</span>                {</div>
-<div class="line"><span class="lineno">  916</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  916</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken);</div>
 <div class="line"><span class="lineno">  917</span>                    response.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  918</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  919</span>                }</div>
@@ -1207,14 +1207,14 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  936</span>                currentSwarmServers</div>
 <div class="line"><span class="lineno">  937</span>                    .Where(x =&gt; !x.Controller)</div>
 <div class="line"><span class="lineno">  938</span>                    .Select(HealthRequestForServer))</div>
-<div class="line"><span class="lineno">  939</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  939</span>                    ;</div>
 <div class="line"><span class="lineno">  940</span> </div>
 <div class="line"><span class="lineno">  941</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa74759b8947e504c1443403d7b1426d1">swarmServers</a>)</div>
 <div class="line"><span class="lineno">  942</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa74759b8947e504c1443403d7b1426d1">swarmServers</a>.Count != currentSwarmServers.Count)</div>
 <div class="line"><span class="lineno">  943</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529">MarkServersDirty</a>();</div>
 <div class="line"><span class="lineno">  944</span> </div>
 <div class="line"><span class="lineno">  945</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac468acd7c153f9b080827fb202b6ab32">serversDirty</a>)</div>
-<div class="line"><span class="lineno">  946</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a83c9d1f94839af4dffa28563744d5c19">SendUpdatedServerListToNodes</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  946</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a83c9d1f94839af4dffa28563744d5c19">SendUpdatedServerListToNodes</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  947</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_a83c9d1f94839af4dffa28563744d5c19"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a83c9d1f94839af4dffa28563744d5c19">Tgstation.Server.Host.Swarm.SwarmService.SendUpdatedServerListToNodes</a></div><div class="ttdeci">async Task SendUpdatedServerListToNodes(CancellationToken cancellationToken)</div><div class="ttdoc">Sends the controllers list of nodes to all nodes.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_service_8cs_source.html#l01093">SwarmService.cs:1093</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html_ac4194e4d0fb3cad95550e55859228529"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529">Tgstation.Server.Host.Swarm.SwarmService.MarkServersDirty</a></div><div class="ttdeci">void MarkServersDirty()</div><div class="ttdoc">Set serversDirty and complete the current forceHealthCheckTcs.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_service_8cs_source.html#l00952">SwarmService.cs:952</a></div></div>
@@ -1287,12 +1287,12 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  472</span>            {</div>
 <div class="line"><span class="lineno">  473</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a73896d238e3483d8d9a4391680e68cef">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(</div>
 <div class="line"><span class="lineno">  474</span>                    databaseContext =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afb6a38b0336ac8c201a45701dddb406a">databaseSeeder</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a62bc67dd82ccf210c92c01966640cb64">Initialize</a>(databaseContext, cancellationToken))</div>
-<div class="line"><span class="lineno">  475</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  475</span>                    ;</div>
 <div class="line"><span class="lineno">  476</span> </div>
 <div class="line"><span class="lineno">  477</span>                result = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a>.Success;</div>
 <div class="line"><span class="lineno">  478</span>            }</div>
 <div class="line"><span class="lineno">  479</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  480</span>                result = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ade41eff6442a1a8fc025640738e746f2">RegisterWithController</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  480</span>                result = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ade41eff6442a1a8fc025640738e746f2">RegisterWithController</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  481</span> </div>
 <div class="line"><span class="lineno">  482</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a33ea557bd6d58e80ec8fee3133f4ed2f">SwarmMode</a> &amp;&amp; result == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a>.Success)</div>
 <div class="line"><span class="lineno">  483</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a05185ea27d74831739dff16e9bc80518">serverHealthCheckTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a629900d5614b289a8701057e0436ec2d">HealthCheckLoop</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2448c6ba5909a0a226d28c4476cb90bf">serverHealthCheckCancellationTokenSource</a>.Token);</div>
@@ -1788,7 +1788,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  773</span>                        UpdateVersion = version,</div>
 <div class="line"><span class="lineno">  774</span>                    });</div>
 <div class="line"><span class="lineno">  775</span> </div>
-<div class="line"><span class="lineno">  776</span>                <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  776</span>                <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken);</div>
 <div class="line"><span class="lineno">  777</span>                <span class="keywordflow">return</span> response.IsSuccessStatusCode;</div>
 <div class="line"><span class="lineno">  778</span>            }</div>
 <div class="line"><span class="lineno">  779</span> </div>
@@ -1816,7 +1816,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  801</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a100bde23a659ca75ab63c9d5f839251a">swarmController</a> &amp;&amp; initiator)</div>
 <div class="line"><span class="lineno">  802</span>                {</div>
 <div class="line"><span class="lineno">  803</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogDebug(<span class="stringliteral">&quot;Forwarding update request to swarm controller...&quot;</span>);</div>
-<div class="line"><span class="lineno">  804</span>                    var result = await RemotePrepareUpdate(<span class="keyword">null</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  804</span>                    var result = await RemotePrepareUpdate(<span class="keyword">null</span>);</div>
 <div class="line"><span class="lineno">  805</span>                    <span class="keywordflow">if</span> (result)</div>
 <div class="line"><span class="lineno">  806</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#adf08a8fa4dc27e193da4cffb4d7ec696">updateCommitTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;bool&gt;();</div>
 <div class="line"><span class="lineno">  807</span> </div>
@@ -1830,7 +1830,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  815</span>                    var updateApplyResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a13ddce111f3e9f5f408e4befa88fba36">serverUpdater</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ac8909b69744276b792b9fcde8dc938f1">BeginUpdate</a>(</div>
 <div class="line"><span class="lineno">  816</span>                        version,</div>
 <div class="line"><span class="lineno">  817</span>                        cancellationToken)</div>
-<div class="line"><span class="lineno">  818</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  818</span>                        ;</div>
 <div class="line"><span class="lineno">  819</span>                    <span class="keywordflow">if</span> (updateApplyResult != <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.Started)</div>
 <div class="line"><span class="lineno">  820</span>                    {</div>
 <div class="line"><span class="lineno">  821</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogWarning(<span class="stringliteral">&quot;Failed to prepare update! Result: {0}&quot;</span>, updateApplyResult);</div>
@@ -1855,7 +1855,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  840</span>            <span class="keywordflow">finally</span></div>
 <div class="line"><span class="lineno">  841</span>            {</div>
 <div class="line"><span class="lineno">  842</span>                <span class="keywordflow">if</span> (shouldAbort)</div>
-<div class="line"><span class="lineno">  843</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  843</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  844</span>            }</div>
 <div class="line"><span class="lineno">  845</span> </div>
 <div class="line"><span class="lineno">  846</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a100bde23a659ca75ab63c9d5f839251a">swarmController</a>)</div>
@@ -1901,7 +1901,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  886</span>            }</div>
 <div class="line"><span class="lineno">  887</span> </div>
 <div class="line"><span class="lineno">  888</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogDebug(<span class="stringliteral">&quot;Distrubuted prepare failed!&quot;</span>);</div>
-<div class="line"><span class="lineno">  889</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  889</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  890</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  891</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_html_ac8909b69744276b792b9fcde8dc938f1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ac8909b69744276b792b9fcde8dc938f1">Tgstation.Server.Host.Core.IServerUpdateInitiator.BeginUpdate</a></div><div class="ttdeci">Task&lt; ServerUpdateResult &gt; BeginUpdate(Version version, CancellationToken cancellationToken)</div><div class="ttdoc">Start the process of downloading and applying an update to a new server version .</div></div>
@@ -2094,7 +2094,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno"> 1048</span> </div>
 <div class="line"><span class="lineno"> 1049</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno"> 1050</span>            {</div>
-<div class="line"><span class="lineno"> 1051</span>                <span class="keyword">using </span>var response = await httpClient.SendAsync(registrationRequest, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno"> 1051</span>                <span class="keyword">using </span>var response = await httpClient.SendAsync(registrationRequest, cancellationToken);</div>
 <div class="line"><span class="lineno"> 1052</span>                <span class="keywordflow">if</span> (response.IsSuccessStatusCode)</div>
 <div class="line"><span class="lineno"> 1053</span>                {</div>
 <div class="line"><span class="lineno"> 1054</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogInformation(<span class="stringliteral">&quot;Sucessfully registered with ID {0}&quot;</span>, requestedRegistrationId);</div>
@@ -2185,7 +2185,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  265</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  266</span>            }</div>
 <div class="line"><span class="lineno">  267</span> </div>
-<div class="line"><span class="lineno">  268</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  268</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  269</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_swarm_service_8cs_source.html#l00272">Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate()</a>, <a class="el" href="_swarm_service_8cs_source.html#l00112">Tgstation.Server.Host.Swarm.SwarmService.logger</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00167">Tgstation.Server.Host.Swarm.SwarmService.targetUpdateVersion</a>.</p>
@@ -2247,7 +2247,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  683</span>            {</div>
 <div class="line"><span class="lineno">  684</span>                <span class="comment">// Something fucky is happening, take no chances.</span></div>
 <div class="line"><span class="lineno">  685</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogDebug(<span class="stringliteral">&quot;Aborting update due to unforseen circumstances!&quot;</span>);</div>
-<div class="line"><span class="lineno">  686</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  686</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  687</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  688</span>            }</div>
 <div class="line"><span class="lineno">  689</span> </div>
@@ -2344,7 +2344,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno"> 1111</span> </div>
 <div class="line"><span class="lineno"> 1112</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno"> 1113</span>                {</div>
-<div class="line"><span class="lineno"> 1114</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno"> 1114</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken);</div>
 <div class="line"><span class="lineno"> 1115</span>                    response.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno"> 1116</span>                }</div>
 <div class="line"><span class="lineno"> 1117</span>                <span class="keywordflow">catch</span> (Exception ex) when (!(ex is OperationCanceledException))</div>
@@ -2363,7 +2363,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno"> 1130</span>                currentSwarmServers</div>
 <div class="line"><span class="lineno"> 1131</span>                    .Where(x =&gt; !x.Controller)</div>
 <div class="line"><span class="lineno"> 1132</span>                    .Select(UpdateRequestForServer))</div>
-<div class="line"><span class="lineno"> 1133</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno"> 1133</span>                ;</div>
 <div class="line"><span class="lineno"> 1134</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac468acd7c153f9b080827fb202b6ab32">serversDirty</a> = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno"> 1135</span>        }</div>
 </div><!-- fragment -->
@@ -2426,7 +2426,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  499</span> </div>
 <div class="line"><span class="lineno">  500</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  501</span>                {</div>
-<div class="line"><span class="lineno">  502</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  502</span>                    <span class="keyword">using </span>var response = await httpClient.SendAsync(request, cancellationToken);</div>
 <div class="line"><span class="lineno">  503</span>                    response.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  504</span>                }</div>
 <div class="line"><span class="lineno">  505</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
@@ -2443,7 +2443,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  516</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a05185ea27d74831739dff16e9bc80518">serverHealthCheckTask</a> != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  517</span>            {</div>
 <div class="line"><span class="lineno">  518</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2448c6ba5909a0a226d28c4476cb90bf">serverHealthCheckCancellationTokenSource</a>.Cancel();</div>
-<div class="line"><span class="lineno">  519</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a05185ea27d74831739dff16e9bc80518">serverHealthCheckTask</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  519</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a05185ea27d74831739dff16e9bc80518">serverHealthCheckTask</a>;</div>
 <div class="line"><span class="lineno">  520</span>            }</div>
 <div class="line"><span class="lineno">  521</span> </div>
 <div class="line"><span class="lineno">  522</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a100bde23a659ca75ab63c9d5f839251a">swarmController</a>)</div>
@@ -2466,7 +2466,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  539</span>                &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a68bb8ac65909ab118a0c834fca75697c">targetUpdateVersion</a> &lt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae3726735260e60dbc0c9b1af67d77b3a">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Version</a>)</div>
 <div class="line"><span class="lineno">  540</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a73896d238e3483d8d9a4391680e68cef">databaseContextFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(</div>
 <div class="line"><span class="lineno">  541</span>                    db =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afb6a38b0336ac8c201a45701dddb406a">databaseSeeder</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a83bee4040049ba8768dcb04ae7f50deb">Downgrade</a>(db, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a68bb8ac65909ab118a0c834fca75697c">targetUpdateVersion</a>, cancellationToken))</div>
-<div class="line"><span class="lineno">  542</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  542</span>                    ;</div>
 <div class="line"><span class="lineno">  543</span> </div>
 <div class="line"><span class="lineno">  544</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a33ea557bd6d58e80ec8fee3133f4ed2f">SwarmMode</a>)</div>
 <div class="line"><span class="lineno">  545</span>            {</div>
@@ -2485,7 +2485,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  558</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0926eb3be45146873ad16a2c071b5622">registrationIds</a>.Clear();</div>
 <div class="line"><span class="lineno">  559</span>                    }</div>
 <div class="line"><span class="lineno">  560</span> </div>
-<div class="line"><span class="lineno">  561</span>                    await task.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  561</span>                    await task;</div>
 <div class="line"><span class="lineno">  562</span>                }</div>
 <div class="line"><span class="lineno">  563</span> </div>
 <div class="line"><span class="lineno">  564</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogTrace(<span class="stringliteral">&quot;Swarm controller shutdown&quot;</span>);</div>
@@ -2609,7 +2609,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  728</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  729</span> </div>
 <div class="line"><span class="lineno">  730</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aca8c6ac628fafb6fd9590a891310de7e">logger</a>.LogInformation(<span class="stringliteral">&quot;Unregistering node {0}...&quot;</span>, nodeIdentifier);</div>
-<div class="line"><span class="lineno">  731</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  731</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">AbortUpdate</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  732</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa74759b8947e504c1443403d7b1426d1">swarmServers</a>)</div>
 <div class="line"><span class="lineno">  733</span>            {</div>
 <div class="line"><span class="lineno">  734</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa74759b8947e504c1443403d7b1426d1">swarmServers</a>.RemoveAll(x =&gt; x.Identifier == nodeIdentifier);</div>

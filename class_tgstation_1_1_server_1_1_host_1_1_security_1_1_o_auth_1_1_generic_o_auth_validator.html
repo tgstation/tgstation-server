@@ -566,8 +566,8 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  108</span>                var tokenRequestDictionary = JsonConvert.DeserializeObject&lt;Dictionary&lt;string, string&gt;&gt;(tokenRequestJson);</div>
 <div class="line"><span class="lineno">  109</span>                tokenRequest.Content = <span class="keyword">new</span> FormUrlEncodedContent(tokenRequestDictionary);</div>
 <div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>                var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  112</span>                tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  111</span>                var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken);</div>
+<div class="line"><span class="lineno">  112</span>                tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync();</div>
 <div class="line"><span class="lineno">  113</span>                tokenResponse.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  114</span>                var tokenResponseJson = JObject.Parse(tokenResponsePayload);</div>
 <div class="line"><span class="lineno">  115</span> </div>
@@ -584,8 +584,8 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  126</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>,</div>
 <div class="line"><span class="lineno">  127</span>                    accessToken);</div>
 <div class="line"><span class="lineno">  128</span> </div>
-<div class="line"><span class="lineno">  129</span>                var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  130</span>                userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  129</span>                var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken);</div>
+<div class="line"><span class="lineno">  130</span>                userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync();</div>
 <div class="line"><span class="lineno">  131</span>                userInformationResponse.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  132</span> </div>
 <div class="line"><span class="lineno">  133</span>                var userInformationJson = JObject.Parse(userInformationPayload);</div>

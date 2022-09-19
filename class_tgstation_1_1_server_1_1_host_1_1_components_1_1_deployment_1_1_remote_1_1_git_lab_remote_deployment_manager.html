@@ -602,7 +602,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   65</span>                    .WithToken(cancellationToken));</div>
 <div class="line"><span class="lineno">   66</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   67</span>            {</div>
-<div class="line"><span class="lineno">   68</span>                await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   68</span>                await Task.WhenAll(tasks);</div>
 <div class="line"><span class="lineno">   69</span>            }</div>
 <div class="line"><span class="lineno">   70</span>            <span class="keywordflow">catch</span> (Exception ex) when (!(ex is OperationCanceledException))</div>
 <div class="line"><span class="lineno">   71</span>            {</div>
@@ -614,12 +614,12 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   77</span>            MergeRequest lastMerged = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   78</span>            async Task CheckRemoveMR(Task&lt;MergeRequest&gt; task)</div>
 <div class="line"><span class="lineno">   79</span>            {</div>
-<div class="line"><span class="lineno">   80</span>                var mergeRequest = await task.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   80</span>                var mergeRequest = await task;</div>
 <div class="line"><span class="lineno">   81</span>                <span class="keywordflow">if</span> (mergeRequest.State != MergeRequestState.Merged)</div>
 <div class="line"><span class="lineno">   82</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">   83</span> </div>
 <div class="line"><span class="lineno">   84</span>                <span class="comment">// We don&#39;t just assume, actually check the repo contains the merge commit.</span></div>
-<div class="line"><span class="lineno">   85</span>                <span class="keywordflow">if</span> (await repository.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a571b73cd3f566ba5da313facdb1ed2ad">ShaIsParent</a>(mergeRequest.MergeCommitSha, cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><span class="lineno">   85</span>                <span class="keywordflow">if</span> (await repository.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a571b73cd3f566ba5da313facdb1ed2ad">ShaIsParent</a>(mergeRequest.MergeCommitSha, cancellationToken))</div>
 <div class="line"><span class="lineno">   86</span>                {</div>
 <div class="line"><span class="lineno">   87</span>                    <span class="keywordflow">if</span> (lastMerged == <span class="keyword">null</span> || lastMerged.ClosedAt &lt; mergeRequest.ClosedAt)</div>
 <div class="line"><span class="lineno">   88</span>                        lastMerged = mergeRequest;</div>
@@ -630,7 +630,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   93</span>            }</div>
 <div class="line"><span class="lineno">   94</span> </div>
 <div class="line"><span class="lineno">   95</span>            <span class="keywordflow">foreach</span> (var prTask <span class="keywordflow">in</span> tasks)</div>
-<div class="line"><span class="lineno">   96</span>                await CheckRemoveMR(prTask).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   96</span>                await CheckRemoveMR(prTask);</div>
 <div class="line"><span class="lineno">   97</span> </div>
 <div class="line"><span class="lineno">   98</span>            <span class="keywordflow">return</span> newList;</div>
 <div class="line"><span class="lineno">   99</span>        }</div>

@@ -174,7 +174,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   22</span> </div>
 <div class="line"><span class="lineno">   23</span>            async Task&lt;object&gt; Wrap()</div>
 <div class="line"><span class="lineno">   24</span>            {</div>
-<div class="line"><span class="lineno">   25</span>                await task.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   25</span>                await task;</div>
 <div class="line"><span class="lineno">   26</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   27</span>            }</div>
 <div class="line"><span class="lineno">   28</span> </div>
@@ -240,10 +240,10 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   43</span> </div>
 <div class="line"><span class="lineno">   44</span>            var cancelTcs = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
 <div class="line"><span class="lineno">   45</span>            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; cancelTcs.SetCanceled()))</div>
-<div class="line"><span class="lineno">   46</span>                await Task.WhenAny(task, cancelTcs.Task).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   46</span>                await Task.WhenAny(task, cancelTcs.Task);</div>
 <div class="line"><span class="lineno">   47</span>            cancellationToken.ThrowIfCancellationRequested();</div>
 <div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>            <span class="keywordflow">return</span> await task.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   49</span>            <span class="keywordflow">return</span> await task;</div>
 <div class="line"><span class="lineno">   50</span>        }</div>
 </div><!-- fragment -->
 </div>

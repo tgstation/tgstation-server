@@ -160,7 +160,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   62</span>                IServer server;</div>
 <div class="line"><span class="lineno">   63</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   64</span>                {</div>
-<div class="line"><span class="lineno">   65</span>                    server = await ServerFactory.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a90a1e3e10caa49f7830f8a5bffc5f146">CreateServer</a>(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   65</span>                    server = await ServerFactory.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a90a1e3e10caa49f7830f8a5bffc5f146">CreateServer</a>(updatedArgsArray, updatePath, cancellationToken);</div>
 <div class="line"><span class="lineno">   66</span>                }</div>
 <div class="line"><span class="lineno">   67</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
 <div class="line"><span class="lineno">   68</span>                {</div>
@@ -173,7 +173,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   75</span> </div>
 <div class="line"><span class="lineno">   76</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   77</span>                {</div>
-<div class="line"><span class="lineno">   78</span>                    await server.Run(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   78</span>                    await server.Run(cancellationToken);</div>
 <div class="line"><span class="lineno">   79</span>                }</div>
 <div class="line"><span class="lineno">   80</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
 <div class="line"><span class="lineno">   81</span>                {</div>
@@ -186,7 +186,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   88</span>                <span class="keywordflow">if</span> (updatePath != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   89</span>                {</div>
 <div class="line"><span class="lineno">   90</span>                    <span class="comment">// DCT: None available, operation should always run</span></div>
-<div class="line"><span class="lineno">   91</span>                    await ServerFactory.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a48f520e11b35ecee4fb2677a4ea08824">IOManager</a>.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   91</span>                    await ServerFactory.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a48f520e11b35ecee4fb2677a4ea08824">IOManager</a>.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), <span class="keywordflow">default</span>);</div>
 <div class="line"><span class="lineno">   92</span>                    <span class="keywordflow">return</span> 2;</div>
 <div class="line"><span class="lineno">   93</span>                }</div>
 <div class="line"><span class="lineno">   94</span> </div>

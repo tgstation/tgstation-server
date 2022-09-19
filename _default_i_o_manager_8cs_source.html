@@ -118,7 +118,7 @@ $(function() {
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                file.Delete();</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            }</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            await Task.WhenAll(tasks);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            cancellationToken.ThrowIfCancellationRequested();</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            dir.Delete(<span class="keyword">true</span>);</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        }</div>
@@ -142,7 +142,7 @@ $(function() {
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            src = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(src);</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            dest = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(dest);</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keywordflow">foreach</span> (var directoryCopy <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adb0be7f9a21a594cabe8110639faf01b">CopyDirectoryImpl</a>(src, dest, ignore, cancellationToken))</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                await directoryCopy.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                await directoryCopy;</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        }</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">  105</a></span>        <span class="keyword">public</span> <span class="keywordtype">string</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">ConcatPath</a>(params <span class="keywordtype">string</span>[] paths) =&gt; Path.Combine(paths);</div>
@@ -169,7 +169,7 @@ $(function() {
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            <span class="comment">// value taken from documentation</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            await srcStream.CopyToAsync(destStream, 81920, cancellationToken);</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        }</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3">  134</a></span>        <span class="keyword">public</span> Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3">CreateDirectory</a>(<span class="keywordtype">string</span> path, CancellationToken cancellationToken) =&gt; Task.Factory.StartNew(() =&gt; Directory.CreateDirectory(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(path)), cancellationToken, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>, TaskScheduler.Current);</div>
@@ -260,7 +260,7 @@ $(function() {
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>            <span class="keywordtype">byte</span>[] buf;</div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            buf = <span class="keyword">new</span> <span class="keywordtype">byte</span>[file.Length];</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            await file.ReadAsync(buf, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            await file.ReadAsync(buf, cancellationToken);</div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>            <span class="keywordflow">return</span> buf;</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        }</div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
@@ -278,7 +278,7 @@ $(function() {
 <div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                FileShare.ReadWrite,</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">DefaultBufferSize</a>,</div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                FileOptions.Asynchronous | FileOptions.SequentialScan);</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            await file.WriteAsync(contents, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            await file.WriteAsync(contents, cancellationToken);</div>
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        }</div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3">  258</a></span>        <span class="keyword">public</span> Task&lt;IReadOnlyList&lt;string&gt;&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3">GetDirectories</a>(<span class="keywordtype">string</span> path, CancellationToken cancellationToken) =&gt; Task.Factory.StartNew(</div>
@@ -322,13 +322,13 @@ $(function() {
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            <span class="keyword">using </span>var httpClient = <span class="keyword">new</span> HttpClient();</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>            httpClient.DefaultRequestHeaders.UserAgent.Add(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3d1b09f86517315949230c66713824e0">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">ProductInfoHeaderValue</a>);</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>            var webRequestTask = httpClient.GetAsync(url, cancellationToken);</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            <span class="keyword">using </span>var response = await webRequestTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            <span class="keyword">using </span>var response = await webRequestTask;</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>            response.EnsureSuccessStatusCode();</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            <span class="keyword">using </span>var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            <span class="keyword">using </span>var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>            var memoryStream = <span class="keyword">new</span> MemoryStream();</div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>            {</div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>                await responseStream.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>                await responseStream.CopyToAsync(memoryStream, cancellationToken);</div>
 <div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                memoryStream.Seek(0, SeekOrigin.Begin);</div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                <span class="keywordflow">return</span> memoryStream;</div>
 <div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>            }</div>
@@ -400,7 +400,7 @@ $(function() {
 <div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            async Task CopyThisDirectory()</div>
 <div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>            {</div>
 <div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>                <span class="keywordflow">if</span> (!atLeastOneSubDir)</div>
-<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3">CreateDirectory</a>(dest, cancellationToken).ConfigureAwait(<span class="keyword">false</span>); <span class="comment">// save on createdir calls</span></div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3">CreateDirectory</a>(dest, cancellationToken); <span class="comment">// save on createdir calls</span></div>
 <div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span> </div>
 <div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>                var tasks = <span class="keyword">new</span> List&lt;Task&gt;();</div>
 <div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>                <span class="keywordflow">foreach</span> (var fileInfo <span class="keywordflow">in</span> dir.EnumerateFiles())</div>
@@ -410,7 +410,7 @@ $(function() {
 <div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>                    tasks.Add(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb">CopyFile</a>(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));</div>
 <div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>                }</div>
 <div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span> </div>
-<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>                await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>                await Task.WhenAll(tasks);</div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>            }</div>
 <div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
 <div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>            yield <span class="keywordflow">return</span> CopyThisDirectory();</div>

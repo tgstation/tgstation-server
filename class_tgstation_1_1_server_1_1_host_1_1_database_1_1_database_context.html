@@ -576,18 +576,18 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">  287</span>        {</div>
 <div class="line"><span class="lineno">  288</span>            <span class="keywordflow">if</span> (logger == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  289</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(logger));</div>
-<div class="line"><span class="lineno">  290</span>            var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  290</span>            var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  291</span>            var wasEmpty = !migrations.Any();</div>
 <div class="line"><span class="lineno">  292</span> </div>
-<div class="line"><span class="lineno">  293</span>            <span class="keywordflow">if</span> (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>)).Any())</div>
+<div class="line"><span class="lineno">  293</span>            <span class="keywordflow">if</span> (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken)).Any())</div>
 <div class="line"><span class="lineno">  294</span>            {</div>
 <div class="line"><span class="lineno">  295</span>                logger.LogInformation(<span class="stringliteral">&quot;Migrating database...&quot;</span>);</div>
-<div class="line"><span class="lineno">  296</span>                await Database.MigrateAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  296</span>                await Database.MigrateAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  297</span>            }</div>
 <div class="line"><span class="lineno">  298</span>            <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  299</span>                logger.LogDebug(<span class="stringliteral">&quot;No migrations to apply&quot;</span>);</div>
 <div class="line"><span class="lineno">  300</span> </div>
-<div class="line"><span class="lineno">  301</span>            wasEmpty |= (await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>)) == 0;</div>
+<div class="line"><span class="lineno">  301</span>            wasEmpty |= (await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.AsQueryable().CountAsync(cancellationToken)) == 0;</div>
 <div class="line"><span class="lineno">  302</span> </div>
 <div class="line"><span class="lineno">  303</span>            <span class="keywordflow">return</span> wasEmpty;</div>
 <div class="line"><span class="lineno">  304</span>        }</div>
@@ -935,7 +935,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  535</span>            logger.LogInformation(<span class="stringliteral">&quot;Migrating down to version {0}. Target: {1}&quot;</span>, targetVersion, targetMigration);</div>
 <div class="line"><span class="lineno">  536</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  537</span>            {</div>
-<div class="line"><span class="lineno">  538</span>                await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  538</span>                await migrator.MigrateAsync(targetMigration, cancellationToken);</div>
 <div class="line"><span class="lineno">  539</span>            }</div>
 <div class="line"><span class="lineno">  540</span>            <span class="keywordflow">catch</span> (Exception e)</div>
 <div class="line"><span class="lineno">  541</span>            {</div>

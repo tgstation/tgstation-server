@@ -607,7 +607,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_watchdog_8cs_source.html#l00115">115</a> of file <a class="el" href="_windows_watchdog_8cs_source.html">WindowsWatchdog.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  116</span>        {</div>
-<div class="line"><span class="lineno">  117</span>            await base.DisposeAndNullControllersImpl().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  117</span>            await base.DisposeAndNullControllersImpl();</div>
 <div class="line"><span class="lineno">  118</span> </div>
 <div class="line"><span class="lineno">  119</span>            <span class="comment">// If we reach this point, we can guarantee PrepServerForLaunch will be called before starting again.</span></div>
 <div class="line"><span class="lineno">  120</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a0864d506e58d2f6a0f5f3e4d912e572a">ActiveSwappable</a> = <span class="keyword">null</span>;</div>
@@ -692,7 +692,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  174</span>            <span class="keywordflow">if</span> (!canSeamlesslySwap)</div>
 <div class="line"><span class="lineno">  175</span>            {</div>
 <div class="line"><span class="lineno">  176</span>                compileJobProvider.Dispose();</div>
-<div class="line"><span class="lineno">  177</span>                await base.HandleNewDmbAvailable(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  177</span>                await base.HandleNewDmbAvailable(cancellationToken);</div>
 <div class="line"><span class="lineno">  178</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  179</span>            }</div>
 <div class="line"><span class="lineno">  180</span> </div>
@@ -713,7 +713,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  195</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2143ec7079d0ffd42c76f61cf7b71cf6">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Exception while suspending server!&quot;</span>);</div>
 <div class="line"><span class="lineno">  196</span>                }</div>
 <div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  198</span>                await windowsProvider.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b">MakeActive</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  198</span>                await windowsProvider.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b">MakeActive</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  199</span>            }</div>
 <div class="line"><span class="lineno">  200</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  201</span>            {</div>
@@ -801,7 +801,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  136</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a0864d506e58d2f6a0f5f3e4d912e572a">ActiveSwappable</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a1e9fdb7045235885318ab5bc309bdec3">pendingSwappable</a>;</div>
 <div class="line"><span class="lineno">  137</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a1e9fdb7045235885318ab5bc309bdec3">pendingSwappable</a> = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>                await updateTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  139</span>                await updateTask;</div>
 <div class="line"><span class="lineno">  140</span>            }</div>
 <div class="line"><span class="lineno">  141</span>            <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  142</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2143ec7079d0ffd42c76f61cf7b71cf6">Logger</a>.LogTrace(<span class="stringliteral">&quot;Nothing to do as pendingSwappable is null.&quot;</span>);</div>
@@ -943,7 +943,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  224</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2143ec7079d0ffd42c76f61cf7b71cf6">Logger</a>.LogTrace(<span class="stringliteral">&quot;Prep for server launch. pendingSwappable is {0}available&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a1e9fdb7045235885318ab5bc309bdec3">pendingSwappable</a> == <span class="keyword">null</span> ? <span class="stringliteral">&quot;not &quot;</span> : String.Empty);</div>
 <div class="line"><span class="lineno">  225</span> </div>
 <div class="line"><span class="lineno">  226</span>            <span class="comment">// Add another lock to the startup DMB because it&#39;ll be used throughout the lifetime of the watchdog</span></div>
-<div class="line"><span class="lineno">  227</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afa65470fdf88d190f47de568b3b9791e">startupDmbProvider</a> = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html">DmbFactory</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afe6a4dc38429e7b81b53351b1337ae43">FromCompileJob</a>(dmbToUse.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#aa70dea09833e84fe4b5fead42a9067a6">CompileJob</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  227</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afa65470fdf88d190f47de568b3b9791e">startupDmbProvider</a> = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html">DmbFactory</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afe6a4dc38429e7b81b53351b1337ae43">FromCompileJob</a>(dmbToUse.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#aa70dea09833e84fe4b5fead42a9067a6">CompileJob</a>, cancellationToken);</div>
 <div class="line"><span class="lineno">  228</span> </div>
 <div class="line"><span class="lineno">  229</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a1e9fdb7045235885318ab5bc309bdec3">pendingSwappable</a> ??= <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html">SwappableDmbProvider</a>(dmbToUse, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a61cde2a19bd6fc5619a5bad94a3c5f9b">GameIOManager</a>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a65ab5bf0783d6732eb6b1018f7a1983a">symlinkFactory</a>);</div>
 <div class="line"><span class="lineno">  230</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a0864d506e58d2f6a0f5f3e4d912e572a">ActiveSwappable</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a1e9fdb7045235885318ab5bc309bdec3">pendingSwappable</a>;</div>
@@ -951,7 +951,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  232</span> </div>
 <div class="line"><span class="lineno">  233</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  234</span>            {</div>
-<div class="line"><span class="lineno">  235</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a95894cd21ba5de89171ff97a53b7130c">InitialLink</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  235</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a95894cd21ba5de89171ff97a53b7130c">InitialLink</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  236</span>            }</div>
 <div class="line"><span class="lineno">  237</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  238</span>            {</div>

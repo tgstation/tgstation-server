@@ -290,7 +290,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   99</span>                x =&gt; x.Provider,</div>
 <div class="line"><span class="lineno">  100</span>                x =&gt; x.GetProviderInfo(cancellationToken));</div>
 <div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>            await Task.WhenAll(providersAndTasks.Values).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  102</span>            await Task.WhenAll(providersAndTasks.Values);</div>
 <div class="line"><span class="lineno">  103</span> </div>
 <div class="line"><span class="lineno">  104</span>            <span class="keywordflow">return</span> providersAndTasks</div>
 <div class="line"><span class="lineno">  105</span>                .Where(x =&gt; x.Value.Result != <span class="keyword">null</span>)</div>

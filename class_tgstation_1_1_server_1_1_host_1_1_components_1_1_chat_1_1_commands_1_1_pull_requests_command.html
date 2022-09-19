@@ -269,7 +269,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   72</span>            <span class="keywordflow">if</span> (arguments.Split(<span class="charliteral">&#39; &#39;</span>).Any(x =&gt; x.ToUpperInvariant() == <span class="stringliteral">&quot;--REPO&quot;</span>))</div>
 <div class="line"><span class="lineno">   73</span>            {</div>
 <div class="line"><span class="lineno">   74</span>                <span class="keywordtype">string</span> head;</div>
-<div class="line"><span class="lineno">   75</span>                <span class="keyword">using</span> (var repo = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#af5857133d7544a45ce4b4e75210830b2">repositoryManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a998518f9e2bebaffcf575021a07f35c5">LoadRepository</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><span class="lineno">   75</span>                <span class="keyword">using</span> (var repo = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#af5857133d7544a45ce4b4e75210830b2">repositoryManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a998518f9e2bebaffcf575021a07f35c5">LoadRepository</a>(cancellationToken))</div>
 <div class="line"><span class="lineno">   76</span>                {</div>
 <div class="line"><span class="lineno">   77</span>                    <span class="keywordflow">if</span> (repo == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   78</span>                        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Repository unavailable!&quot;</span>;</div>
@@ -289,8 +289,8 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   92</span>                            TargetCommitSha = x.TargetCommitSha,</div>
 <div class="line"><span class="lineno">   93</span>                        })</div>
 <div class="line"><span class="lineno">   94</span>                        .ToListAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">   95</span>                        .ConfigureAwait(<span class="keyword">false</span>))</div>
-<div class="line"><span class="lineno">   96</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   95</span>                        )</div>
+<div class="line"><span class="lineno">   96</span>                    ;</div>
 <div class="line"><span class="lineno">   97</span>            }</div>
 <div class="line"><span class="lineno">   98</span>            <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">   99</span>            {</div>

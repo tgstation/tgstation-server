@@ -149,7 +149,7 @@ $(function() {
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="keywordflow">if</span> (job == <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(job));</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            var newProvider = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afe6a4dc38429e7b81b53351b1337ae43">FromCompileJob</a>(job, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            var newProvider = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afe6a4dc38429e7b81b53351b1337ae43">FromCompileJob</a>(job, cancellationToken);</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            <span class="keywordflow">if</span> (newProvider == <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
@@ -162,7 +162,7 @@ $(function() {
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                await remoteDeploymentManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a18be29696e2c96305700770162c3b5f5">StageDeployment</a>(</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                        newProvider.CompileJob,</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                        cancellationToken)</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                        ;</div>
 <div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            }</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a218effcf67da26e5364cc0d277be5e72">jobLockCounts</a>)</div>
@@ -203,13 +203,13 @@ $(function() {
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                    .Where(x =&gt; x.Job.Instance.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a7e60b90c964406fb8fedc79408bc8fec">metadata</a>.Id)</div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                    .OrderByDescending(x =&gt; x.Job.StoppedAt)</div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                    .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                    ;</div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>            })</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            ;</div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            <span class="keywordflow">if</span> (cj == <span class="keywordflow">default</span>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>))</div>
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa48032d06fd0ad559ab3b6a02e6bf2f7">LoadCompileJob</a>(cj, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa48032d06fd0ad559ab3b6a02e6bf2f7">LoadCompileJob</a>(cj, cancellationToken);</div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae4128b124ad48c9a541cebfe31db34de">started</a> = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>            <span class="comment">// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet</span></div>
@@ -220,7 +220,7 @@ $(function() {
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>            <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            {</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#adc133e7ea90f5d87f12c0621959ded92">cleanupCts</a>.Cancel()))</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afcf8224ef94997af93339db4d69f34a3">cleanupTask</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afcf8224ef94997af93339db4d69f34a3">cleanupTask</a>;</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            }</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <span class="keywordflow">finally</span></div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            {</div>
@@ -251,8 +251,8 @@ $(function() {
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                        .ThenInclude(x =&gt; x.TestMerge)</div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                        .ThenInclude(x =&gt; x.MergedBy)</div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                    .FirstAsync(cancellationToken)</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                    .ConfigureAwait(<span class="keyword">false</span>))</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                .ConfigureAwait(<span class="keyword">false</span>); <span class="comment">// can&#39;t wait to see that query</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                    )</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                ; <span class="comment">// can&#39;t wait to see that query</span></div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>            <span class="keywordflow">if</span> (!compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a0676e94669f8de80f67aa20c72db5b7c">Job</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a2b6b6dbe1243f140d9fb04767ea16c61">StoppedAt</a>.HasValue)</div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>            {</div>
@@ -282,7 +282,7 @@ $(function() {
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>                        newProvider.Directory,</div>
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>                        newProvider.DmbName),</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>                    cancellationToken)</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                    ;</div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>                <span class="keywordflow">if</span> (!dmbExistsAtRoot)</div>
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>                {</div>
@@ -300,7 +300,7 @@ $(function() {
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>                            newProvider.DmbName),</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>                        cancellationToken);</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>                    <span class="keywordflow">if</span> (!(await primaryCheckTask.ConfigureAwait(<span class="keyword">false</span>) &amp;&amp; await secondaryCheckTask.ConfigureAwait(<span class="keyword">false</span>)))</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>                    <span class="keywordflow">if</span> (!(await primaryCheckTask &amp;&amp; await secondaryCheckTask))</div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>                    {</div>
 <div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a71b829b7913fed5b414e4e6875f8819d">logger</a>.LogWarning(<span class="stringliteral">&quot;Error loading compile job, .dmb missing!&quot;</span>);</div>
 <div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>; <span class="comment">// omae wa mou shinderu</span></div>
@@ -358,10 +358,10 @@ $(function() {
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                        &amp;&amp; jobIdsToSkip.Contains(x.Id.Value))</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                    .Select(x =&gt; x.DirectoryName.Value)</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                    .ToListAsync(cancellationToken)</div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                    .ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                    )</div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>                    .Select(x =&gt; x.ToString())</div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>                    .ToList();</div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>            }).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>            });</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span> </div>
 <div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>            jobUidsToNotErase.Add(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html">SwappableDmbProvider</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ac3447ec1377df66f5b60e0a12ecc109c">LiveGameDirectory</a>);</div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
@@ -369,8 +369,8 @@ $(function() {
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>            <span class="comment">// cleanup</span></div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>            var gameDirectory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>();</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(gameDirectory, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>            var directories = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a>(gameDirectory, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(gameDirectory, cancellationToken);</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>            var directories = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a>(gameDirectory, cancellationToken);</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>            <span class="keywordtype">int</span> deleting = 0;</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>            var tasks = directories.Select(async x =&gt;</div>
 <div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>            {</div>
@@ -381,7 +381,7 @@ $(function() {
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>                <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>                {</div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>                    ++deleting;</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(x, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(x, cancellationToken);</div>
 <div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>                }</div>
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>                {</div>
@@ -393,7 +393,7 @@ $(function() {
 <div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>                }</div>
 <div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>            }).ToList();</div>
 <div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>            <span class="keywordflow">if</span> (deleting &gt; 0)</div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>                await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>                await Task.WhenAll(tasks);</div>
 <div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>        }</div>
 <div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span><span class="preprocessor">#pragma warning restore CA1506</span></div>
 <div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span> </div>
@@ -416,7 +416,7 @@ $(function() {
 <div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>                <span class="comment">// DCT: None available</span></div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>                var deploymentJob = remoteDeploymentManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a956c9afaf0a390c654c421c195a263f8">MarkInactive</a>(job, <span class="keywordflow">default</span>);</div>
 <div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>                var otherTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afcf8224ef94997af93339db4d69f34a3">cleanupTask</a>;</div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>                await Task.WhenAll(otherTask, deleteJob, deploymentJob).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>                await Task.WhenAll(otherTask, deleteJob, deploymentJob);</div>
 <div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>            }</div>
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span> </div>
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a218effcf67da26e5364cc0d277be5e72">jobLockCounts</a>)</div>

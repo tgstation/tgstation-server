@@ -448,7 +448,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  442</span>                    StartedAt = x.Job.StartedAt,</div>
 <div class="line"><span class="lineno">  443</span>                })</div>
 <div class="line"><span class="lineno">  444</span>                .ToListAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  445</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  445</span>                ;</div>
 <div class="line"><span class="lineno">  446</span> </div>
 <div class="line"><span class="lineno">  447</span>            TimeSpan? averageSpan = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  448</span>            <span class="keywordflow">if</span> (previousCompileJobs.Count != 0)</div>
@@ -542,7 +542,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  924</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  925</span>                {</div>
 <div class="line"><span class="lineno">  926</span>                    <span class="comment">// DCT: None available</span></div>
-<div class="line"><span class="lineno">  927</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(jobPath, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  927</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(jobPath, <span class="keywordflow">default</span>);</div>
 <div class="line"><span class="lineno">  928</span>                }</div>
 <div class="line"><span class="lineno">  929</span>                <span class="keywordflow">catch</span> (Exception e)</div>
 <div class="line"><span class="lineno">  930</span>                {</div>
@@ -557,7 +557,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  939</span>                    job,</div>
 <div class="line"><span class="lineno">  940</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a8cdce0ecb73a635564b1eafc0fc0372f">FormatExceptionForUsers</a>(exception),</div>
 <div class="line"><span class="lineno">  941</span>                    <span class="keywordflow">default</span>))</div>
-<div class="line"><span class="lineno">  942</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  942</span>                ;</div>
 <div class="line"><span class="lineno">  943</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a8cdce0ecb73a635564b1eafc0fc0372f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a8cdce0ecb73a635564b1eafc0fc0372f">Tgstation.Server.Host.Components.Deployment.DreamMaker.FormatExceptionForUsers</a></div><div class="ttdeci">static string FormatExceptionForUsers(Exception exception)</div><div class="ttdoc">Format a given Exception for display to users.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_html_a48026829d47a7fb1265e5a01791eacc6"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a48026829d47a7fb1265e5a01791eacc6">Tgstation.Server.Host.Components.Deployment.Remote.IRemoteDeploymentManager.FailDeployment</a></div><div class="ttdeci">Task FailDeployment(CompileJob compileJob, string errorMessage, CancellationToken cancellationToken)</div><div class="ttdoc">Fail a deployment for a given compileJob .</div></div>
@@ -695,7 +695,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  488</span>            var progressTask = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a6f936498d32c2497d7c961bf568e53af">ProgressTask</a>(progressReporter, estimatedDuration, progressCts.Token);</div>
 <div class="line"><span class="lineno">  489</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  490</span>            {</div>
-<div class="line"><span class="lineno">  491</span>                <span class="keyword">using </span>var byondLock = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#aabc95ce5c908039204f8509226447212">byond</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#aac04a91db1da59a6cb07486740aa498a">UseExecutables</a>(<span class="keyword">null</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  491</span>                <span class="keyword">using </span>var byondLock = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#aabc95ce5c908039204f8509226447212">byond</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#aac04a91db1da59a6cb07486740aa498a">UseExecutables</a>(<span class="keyword">null</span>, cancellationToken);</div>
 <div class="line"><span class="lineno">  492</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a320766d19959d5512097fcdc56c42fff">currentChatCallback</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad8f8e86f9e52a3f5e027b9570c5f32df">chatManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a19e9d342100ed60a26a97e82305730f6">QueueDeploymentMessage</a>(</div>
 <div class="line"><span class="lineno">  493</span>                    revisionInformation,</div>
 <div class="line"><span class="lineno">  494</span>                    byondLock.Version,</div>
@@ -718,7 +718,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  511</span>                    repository,</div>
 <div class="line"><span class="lineno">  512</span>                    job,</div>
 <div class="line"><span class="lineno">  513</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  514</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  514</span>                    ;</div>
 <div class="line"><span class="lineno">  515</span> </div>
 <div class="line"><span class="lineno">  516</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogTrace(<span class="stringliteral">&quot;Deployment will timeout at {0}&quot;</span>, DateTimeOffset.Now + dreamMakerSettings.Timeout.Value);</div>
 <div class="line"><span class="lineno">  517</span>                <span class="keyword">using </span>var timeoutTokenSource = <span class="keyword">new</span> CancellationTokenSource(dreamMakerSettings.Timeout.Value);</div>
@@ -736,7 +736,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  529</span>                            remoteDeploymentManager,</div>
 <div class="line"><span class="lineno">  530</span>                            apiValidateTimeout,</div>
 <div class="line"><span class="lineno">  531</span>                            combinedTokenSource.Token)</div>
-<div class="line"><span class="lineno">  532</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  532</span>                            ;</div>
 <div class="line"><span class="lineno">  533</span>                    }</div>
 <div class="line"><span class="lineno">  534</span>                    <span class="keywordflow">catch</span> (OperationCanceledException) when (timeoutToken.IsCancellationRequested)</div>
 <div class="line"><span class="lineno">  535</span>                    {</div>
@@ -750,13 +750,13 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  543</span>            {</div>
 <div class="line"><span class="lineno">  544</span>                <span class="comment">// DCT: Cancellation token is for job, delaying here is fine</span></div>
 <div class="line"><span class="lineno">  545</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a> = <span class="stringliteral">&quot;Running CompileCancelled event&quot;</span>;</div>
-<div class="line"><span class="lineno">  546</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#abfcbd4e2f809faa445f7ea56fe4e5f0e">eventConsumer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a>.CompileCancelled, Enumerable.Empty&lt;<span class="keywordtype">string</span>&gt;(), <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  546</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#abfcbd4e2f809faa445f7ea56fe4e5f0e">eventConsumer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a>.CompileCancelled, Enumerable.Empty&lt;<span class="keywordtype">string</span>&gt;(), <span class="keywordflow">default</span>);</div>
 <div class="line"><span class="lineno">  547</span>                <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  548</span>            }</div>
 <div class="line"><span class="lineno">  549</span>            <span class="keywordflow">finally</span></div>
 <div class="line"><span class="lineno">  550</span>            {</div>
 <div class="line"><span class="lineno">  551</span>                progressCts.Cancel();</div>
-<div class="line"><span class="lineno">  552</span>                await progressTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  552</span>                await progressTask;</div>
 <div class="line"><span class="lineno">  553</span>            }</div>
 <div class="line"><span class="lineno">  554</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html">Tgstation.Server.Api.Models.Internal.RevisionInformation</a></div><div class="ttdoc">Represents information about a current git revison.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00009">RevisionInformation.cs:10</a></div></div>
@@ -889,7 +889,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  226</span>                await databaseContextFactory.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(</div>
 <div class="line"><span class="lineno">  227</span>                    async databaseContext =&gt;</div>
 <div class="line"><span class="lineno">  228</span>                    {</div>
-<div class="line"><span class="lineno">  229</span>                        averageSpan = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1c6db3e73ef30aef7e79baa30df69b81">CalculateExpectedDeploymentTime</a>(databaseContext, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  229</span>                        averageSpan = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1c6db3e73ef30aef7e79baa30df69b81">CalculateExpectedDeploymentTime</a>(databaseContext, cancellationToken);</div>
 <div class="line"><span class="lineno">  230</span> </div>
 <div class="line"><span class="lineno">  231</span>                        ddSettings = await databaseContext</div>
 <div class="line"><span class="lineno">  232</span>                            .DreamDaemonSettings</div>
@@ -900,7 +900,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  237</span>                                StartupTimeout = x.StartupTimeout,</div>
 <div class="line"><span class="lineno">  238</span>                            })</div>
 <div class="line"><span class="lineno">  239</span>                            .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  240</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  240</span>                            ;</div>
 <div class="line"><span class="lineno">  241</span>                        <span class="keywordflow">if</span> (ddSettings == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  242</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.InstanceMissingDreamDaemonSettings);</div>
 <div class="line"><span class="lineno">  243</span> </div>
@@ -909,7 +909,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  246</span>                            .AsQueryable()</div>
 <div class="line"><span class="lineno">  247</span>                            .Where(x =&gt; x.InstanceId == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ac5b667aa89c476c9cb0cf71cb5add8a6">metadata</a>.Id)</div>
 <div class="line"><span class="lineno">  248</span>                            .FirstAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  249</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  249</span>                            ;</div>
 <div class="line"><span class="lineno">  250</span>                        <span class="keywordflow">if</span> (dreamMakerSettings == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  251</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.InstanceMissingDreamMakerSettings);</div>
 <div class="line"><span class="lineno">  252</span> </div>
@@ -925,11 +925,11 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  262</span>                                PostTestMergeComment = x.PostTestMergeComment,</div>
 <div class="line"><span class="lineno">  263</span>                            })</div>
 <div class="line"><span class="lineno">  264</span>                            .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  265</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  265</span>                            ;</div>
 <div class="line"><span class="lineno">  266</span>                        <span class="keywordflow">if</span> (repositorySettings == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  267</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.InstanceMissingRepositorySettings);</div>
 <div class="line"><span class="lineno">  268</span> </div>
-<div class="line"><span class="lineno">  269</span>                        repo = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a0cfc680dd4fa5908a6ae164d14530f39">repositoryManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a998518f9e2bebaffcf575021a07f35c5">LoadRepository</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  269</span>                        repo = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a0cfc680dd4fa5908a6ae164d14530f39">repositoryManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a998518f9e2bebaffcf575021a07f35c5">LoadRepository</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  270</span>                        <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  271</span>                        {</div>
 <div class="line"><span class="lineno">  272</span>                            <span class="keywordflow">if</span> (repo == <span class="keyword">null</span>)</div>
@@ -949,14 +949,14 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  286</span>                                    .ThenInclude(x =&gt; x.TestMerge)</div>
 <div class="line"><span class="lineno">  287</span>                                    .ThenInclude(x =&gt; x.MergedBy)</div>
 <div class="line"><span class="lineno">  288</span>                                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  289</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  289</span>                                ;</div>
 <div class="line"><span class="lineno">  290</span> </div>
 <div class="line"><span class="lineno">  291</span>                            <span class="keywordflow">if</span> (revInfo == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  292</span>                            {</div>
 <div class="line"><span class="lineno">  293</span>                                revInfo = <span class="keyword">new</span> Models.RevisionInformation</div>
 <div class="line"><span class="lineno">  294</span>                                {</div>
 <div class="line"><span class="lineno">  295</span>                                    CommitSha = repoSha,</div>
-<div class="line"><span class="lineno">  296</span>                                    Timestamp = await repo.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a242e53e0f353e3ca1597acec0441c05a">TimestampCommit</a>(repoSha, cancellationToken).ConfigureAwait(<span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  296</span>                                    Timestamp = await repo.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a242e53e0f353e3ca1597acec0441c05a">TimestampCommit</a>(repoSha, cancellationToken),</div>
 <div class="line"><span class="lineno">  297</span>                                    OriginCommitSha = repoSha,</div>
 <div class="line"><span class="lineno">  298</span>                                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> = <span class="keyword">new</span> Models.Instance</div>
 <div class="line"><span class="lineno">  299</span>                                    {</div>
@@ -968,7 +968,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  305</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogInformation(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html">Repository</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a7d75a9e231bf808aab132ec9de724ff6">Repository</a>.OriginTrackingErrorTemplate, repoSha);</div>
 <div class="line"><span class="lineno">  306</span>                                databaseContext.RevisionInformations.Add(revInfo);</div>
 <div class="line"><span class="lineno">  307</span>                                databaseContext.Instances.Attach(revInfo.Instance);</div>
-<div class="line"><span class="lineno">  308</span>                                await databaseContext.Save(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  308</span>                                await databaseContext.Save(cancellationToken);</div>
 <div class="line"><span class="lineno">  309</span>                            }</div>
 <div class="line"><span class="lineno">  310</span>                        }</div>
 <div class="line"><span class="lineno">  311</span>                        <span class="keywordflow">catch</span></div>
@@ -977,7 +977,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  314</span>                            <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  315</span>                        }</div>
 <div class="line"><span class="lineno">  316</span>                    })</div>
-<div class="line"><span class="lineno">  317</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  317</span>                    ;</div>
 <div class="line"><span class="lineno">  318</span> </div>
 <div class="line"><span class="lineno">  319</span>                var likelyPushedTestMergeCommit =</div>
 <div class="line"><span class="lineno">  320</span>                    repositorySettings.PushTestMergeCommits.Value</div>
@@ -994,7 +994,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  331</span>                        averageSpan,</div>
 <div class="line"><span class="lineno">  332</span>                        likelyPushedTestMergeCommit,</div>
 <div class="line"><span class="lineno">  333</span>                        cancellationToken)</div>
-<div class="line"><span class="lineno">  334</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  334</span>                        ;</div>
 <div class="line"><span class="lineno">  335</span> </div>
 <div class="line"><span class="lineno">  336</span>                var activeCompileJob = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab01d9cb0fcd270eea9ec47a4e0684f4a">compileJobConsumer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html#a12c574e4b8010e0005b77dd242c055e7">LatestCompileJob</a>();</div>
 <div class="line"><span class="lineno">  337</span>                <span class="keywordflow">try</span></div>
@@ -1018,11 +1018,11 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  355</span>                            databaseContext.CompileJobs.Add(compileJob);</div>
 <div class="line"><span class="lineno">  356</span> </div>
 <div class="line"><span class="lineno">  357</span>                            <span class="comment">// The difficulty with compile jobs is they have a two part commit</span></div>
-<div class="line"><span class="lineno">  358</span>                            await databaseContext.Save(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  358</span>                            await databaseContext.Save(cancellationToken);</div>
 <div class="line"><span class="lineno">  359</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogTrace(<span class="stringliteral">&quot;Created CompileJob {0}&quot;</span>, compileJob.Id);</div>
 <div class="line"><span class="lineno">  360</span>                            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  361</span>                            {</div>
-<div class="line"><span class="lineno">  362</span>                                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab01d9cb0fcd270eea9ec47a4e0684f4a">compileJobConsumer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html#a78892eb61b9c1875b0d2be83abfe481a">LoadCompileJob</a>(compileJob, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  362</span>                                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab01d9cb0fcd270eea9ec47a4e0684f4a">compileJobConsumer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html#a78892eb61b9c1875b0d2be83abfe481a">LoadCompileJob</a>(compileJob, cancellationToken);</div>
 <div class="line"><span class="lineno">  363</span>                            }</div>
 <div class="line"><span class="lineno">  364</span>                            <span class="keywordflow">catch</span></div>
 <div class="line"><span class="lineno">  365</span>                            {</div>
@@ -1030,18 +1030,18 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  367</span>                                databaseContext.CompileJobs.Remove(compileJob);</div>
 <div class="line"><span class="lineno">  368</span> </div>
 <div class="line"><span class="lineno">  369</span>                                <span class="comment">// DCT: Cancellation token is for job, operation must run regardless</span></div>
-<div class="line"><span class="lineno">  370</span>                                await databaseContext.Save(<span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  370</span>                                await databaseContext.Save(<span class="keywordflow">default</span>);</div>
 <div class="line"><span class="lineno">  371</span>                                <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  372</span>                            }</div>
 <div class="line"><span class="lineno">  373</span> </div>
 <div class="line"><span class="lineno">  374</span>                            compileJob.Job = fullJob;</div>
 <div class="line"><span class="lineno">  375</span>                            compileJob.RevisionInformation = fullRevInfo;</div>
 <div class="line"><span class="lineno">  376</span>                        })</div>
-<div class="line"><span class="lineno">  377</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  377</span>                        ;</div>
 <div class="line"><span class="lineno">  378</span>                }</div>
 <div class="line"><span class="lineno">  379</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  380</span>                {</div>
-<div class="line"><span class="lineno">  381</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">CleanupFailedCompile</a>(compileJob, remoteDeploymentManager, ex).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  381</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">CleanupFailedCompile</a>(compileJob, remoteDeploymentManager, ex);</div>
 <div class="line"><span class="lineno">  382</span>                    <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  383</span>                }</div>
 <div class="line"><span class="lineno">  384</span> </div>
@@ -1059,7 +1059,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  396</span>                {</div>
 <div class="line"><span class="lineno">  397</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a320766d19959d5512097fcdc56c42fff">currentChatCallback</a>(<span class="keyword">null</span>, compileJob.Output);</div>
 <div class="line"><span class="lineno">  398</span> </div>
-<div class="line"><span class="lineno">  399</span>                    await Task.WhenAll(commentsTask, eventTask).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  399</span>                    await Task.WhenAll(commentsTask, eventTask);</div>
 <div class="line"><span class="lineno">  400</span>                }</div>
 <div class="line"><span class="lineno">  401</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  402</span>                {</div>
@@ -1259,10 +1259,10 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  865</span> </div>
 <div class="line"><span class="lineno">  866</span>            var dmeModificationsTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2fe7ecccab0b5b1be9fdda8cbf097d9b">configuration</a>.CopyDMFilesTo(dmeFileName, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(job.DirectoryName.ToString()), cancellationToken);</div>
 <div class="line"><span class="lineno">  867</span> </div>
-<div class="line"><span class="lineno">  868</span>            var dmeBytes = await dmeReadTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  868</span>            var dmeBytes = await dmeReadTask;</div>
 <div class="line"><span class="lineno">  869</span>            var dme = Encoding.UTF8.GetString(dmeBytes);</div>
 <div class="line"><span class="lineno">  870</span> </div>
-<div class="line"><span class="lineno">  871</span>            var dmeModifications = await dmeModificationsTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  871</span>            var dmeModifications = await dmeModificationsTask;</div>
 <div class="line"><span class="lineno">  872</span> </div>
 <div class="line"><span class="lineno">  873</span>            <span class="keywordflow">if</span> (dmeModifications == <span class="keyword">null</span> || dmeModifications.TotalDmeOverwrite)</div>
 <div class="line"><span class="lineno">  874</span>            {</div>
@@ -1299,7 +1299,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  905</span>            }</div>
 <div class="line"><span class="lineno">  906</span> </div>
 <div class="line"><span class="lineno">  907</span>            dmeBytes = Encoding.UTF8.GetBytes(String.Join(Environment.NewLine, dmeLines));</div>
-<div class="line"><span class="lineno">  908</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e">WriteAllBytes</a>(dmePath, dmeBytes, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  908</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e">WriteAllBytes</a>(dmePath, dmeBytes, cancellationToken);</div>
 <div class="line"><span class="lineno">  909</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_a373e2cd0c56f6826367b9aebf150040f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a373e2cd0c56f6826367b9aebf150040f">Tgstation.Server.Host.Components.Deployment.DreamMaker.DmeExtension</a></div><div class="ttdeci">const string DmeExtension</div><div class="ttdoc">Extension for .dmes.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00040">DreamMaker.cs:40</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a286f4eb5c679683b7e519847a6c3574e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath</a></div><div class="ttdeci">string ConcatPath(params string[] paths)</div><div class="ttdoc">Combines an array of strings into a path.</div></div>
@@ -1386,7 +1386,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  724</span>            {</div>
 <div class="line"><span class="lineno">  725</span>                <span class="keywordflow">for</span> (var iteration = 0; iteration &lt; (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)</div>
 <div class="line"><span class="lineno">  726</span>                {</div>
-<div class="line"><span class="lineno">  727</span>                    await Task.Delay(sleepInterval, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  727</span>                    await Task.Delay(sleepInterval, cancellationToken);</div>
 <div class="line"><span class="lineno">  728</span>                    progressReporter(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a>, estimatedDuration.HasValue ? (<span class="keywordtype">int</span>?)(iteration + 1) : <span class="keyword">null</span>);</div>
 <div class="line"><span class="lineno">  729</span>                }</div>
 <div class="line"><span class="lineno">  730</span>            }</div>
@@ -1505,7 +1505,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  584</span>                var resolvedOutputDirectory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(outputDirectory);</div>
 <div class="line"><span class="lineno">  585</span>                var repoOrigin = repository.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ae8ac73c5a625a5c20ee4b25dcb3b04ba">Origin</a>;</div>
 <div class="line"><span class="lineno">  586</span>                <span class="keyword">using</span> (repository)</div>
-<div class="line"><span class="lineno">  587</span>                    await repository.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ada48f9615977d839874139999fdd69ef">CopyTo</a>(resolvedOutputDirectory, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  587</span>                    await repository.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ada48f9615977d839874139999fdd69ef">CopyTo</a>(resolvedOutputDirectory, cancellationToken);</div>
 <div class="line"><span class="lineno">  588</span> </div>
 <div class="line"><span class="lineno">  589</span>                <span class="comment">// repository closed now</span></div>
 <div class="line"><span class="lineno">  590</span> </div>
@@ -1520,14 +1520,14 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  599</span>                        $<span class="stringliteral">&quot;{byondLock.Version.Major}.{byondLock.Version.Minor}&quot;</span>,</div>
 <div class="line"><span class="lineno">  600</span>                    },</div>
 <div class="line"><span class="lineno">  601</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  602</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  602</span>                    ;</div>
 <div class="line"><span class="lineno">  603</span> </div>
 <div class="line"><span class="lineno">  604</span>                <span class="comment">// determine the dme</span></div>
 <div class="line"><span class="lineno">  605</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a> = <span class="stringliteral">&quot;Determining .dme&quot;</span>;</div>
 <div class="line"><span class="lineno">  606</span>                <span class="keywordflow">if</span> (job.DmeName == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  607</span>                {</div>
 <div class="line"><span class="lineno">  608</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogTrace(<span class="stringliteral">&quot;Searching for available .dmes&quot;</span>);</div>
-<div class="line"><span class="lineno">  609</span>                    var foundPaths = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad71a483a00641af2838418f677801df5">GetFilesWithExtension</a>(resolvedOutputDirectory, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a373e2cd0c56f6826367b9aebf150040f">DmeExtension</a>, <span class="keyword">true</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  609</span>                    var foundPaths = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad71a483a00641af2838418f677801df5">GetFilesWithExtension</a>(resolvedOutputDirectory, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a373e2cd0c56f6826367b9aebf150040f">DmeExtension</a>, <span class="keyword">true</span>, cancellationToken);</div>
 <div class="line"><span class="lineno">  610</span>                    var foundPath = foundPaths.FirstOrDefault();</div>
 <div class="line"><span class="lineno">  611</span>                    <span class="keywordflow">if</span> (foundPath == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  612</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DreamMakerNoDme);</div>
@@ -1538,7 +1538,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  617</span>                <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  618</span>                {</div>
 <div class="line"><span class="lineno">  619</span>                    var targetDme = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(outputDirectory, String.Join(<span class="charliteral">&#39;.&#39;</span>, job.DmeName, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a373e2cd0c56f6826367b9aebf150040f">DmeExtension</a>));</div>
-<div class="line"><span class="lineno">  620</span>                    var targetDmeExists = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">FileExists</a>(targetDme, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  620</span>                    var targetDmeExists = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">FileExists</a>(targetDme, cancellationToken);</div>
 <div class="line"><span class="lineno">  621</span>                    <span class="keywordflow">if</span> (!targetDmeExists)</div>
 <div class="line"><span class="lineno">  622</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DreamMakerMissingDme);</div>
 <div class="line"><span class="lineno">  623</span>                }</div>
@@ -1546,7 +1546,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  625</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogDebug(<span class="stringliteral">&quot;Selected {0}.dme for compilation!&quot;</span>, job.DmeName);</div>
 <div class="line"><span class="lineno">  626</span> </div>
 <div class="line"><span class="lineno">  627</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a> = <span class="stringliteral">&quot;Modifying .dme&quot;</span>;</div>
-<div class="line"><span class="lineno">  628</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa">ModifyDme</a>(job, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  628</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa">ModifyDme</a>(job, cancellationToken);</div>
 <div class="line"><span class="lineno">  629</span> </div>
 <div class="line"><span class="lineno">  630</span>                <span class="comment">// run precompile scripts</span></div>
 <div class="line"><span class="lineno">  631</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a> = <span class="stringliteral">&quot;Running PreDreamMaker event&quot;</span>;</div>
@@ -1559,11 +1559,11 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  638</span>                        $<span class="stringliteral">&quot;{byondLock.Version.Major}.{byondLock.Version.Minor}&quot;</span>,</div>
 <div class="line"><span class="lineno">  639</span>                    },</div>
 <div class="line"><span class="lineno">  640</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  641</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  641</span>                    ;</div>
 <div class="line"><span class="lineno">  642</span> </div>
 <div class="line"><span class="lineno">  643</span>                <span class="comment">// run compiler</span></div>
 <div class="line"><span class="lineno">  644</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a> = <span class="stringliteral">&quot;Running DreamMaker&quot;</span>;</div>
-<div class="line"><span class="lineno">  645</span>                var exitCode = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d859e0826571e81cb8e80861c31e764">RunDreamMaker</a>(byondLock.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html#a45a3041c6d9e0ba81d361090549bb072">DreamMakerPath</a>, job, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  645</span>                var exitCode = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d859e0826571e81cb8e80861c31e764">RunDreamMaker</a>(byondLock.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html#a45a3041c6d9e0ba81d361090549bb072">DreamMakerPath</a>, job, cancellationToken);</div>
 <div class="line"><span class="lineno">  646</span> </div>
 <div class="line"><span class="lineno">  647</span>                <span class="comment">// verify api</span></div>
 <div class="line"><span class="lineno">  648</span>                <span class="keywordflow">try</span></div>
@@ -1582,7 +1582,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  661</span>                        dreamMakerSettings.ApiValidationPort.Value,</div>
 <div class="line"><span class="lineno">  662</span>                        dreamMakerSettings.RequireDMApiValidation.Value,</div>
 <div class="line"><span class="lineno">  663</span>                        cancellationToken)</div>
-<div class="line"><span class="lineno">  664</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  664</span>                        ;</div>
 <div class="line"><span class="lineno">  665</span>                }</div>
 <div class="line"><span class="lineno">  666</span>                <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>)</div>
 <div class="line"><span class="lineno">  667</span>                {</div>
@@ -1597,7 +1597,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  676</span>                            $<span class="stringliteral">&quot;{byondLock.Version.Major}.{byondLock.Version.Minor}&quot;</span>,</div>
 <div class="line"><span class="lineno">  677</span>                        },</div>
 <div class="line"><span class="lineno">  678</span>                        cancellationToken)</div>
-<div class="line"><span class="lineno">  679</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  679</span>                        ;</div>
 <div class="line"><span class="lineno">  680</span>                    <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  681</span>                }</div>
 <div class="line"><span class="lineno">  682</span> </div>
@@ -1610,20 +1610,20 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  689</span>                        $<span class="stringliteral">&quot;{byondLock.Version.Major}.{byondLock.Version.Minor}&quot;</span>,</div>
 <div class="line"><span class="lineno">  690</span>                    },</div>
 <div class="line"><span class="lineno">  691</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  692</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  692</span>                    ;</div>
 <div class="line"><span class="lineno">  693</span> </div>
 <div class="line"><span class="lineno">  694</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogTrace(<span class="stringliteral">&quot;Applying static game file symlinks...&quot;</span>);</div>
 <div class="line"><span class="lineno">  695</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a> = <span class="stringliteral">&quot;Symlinking GameStaticFiles&quot;</span>;</div>
 <div class="line"><span class="lineno">  696</span> </div>
 <div class="line"><span class="lineno">  697</span>                <span class="comment">// symlink in the static data</span></div>
-<div class="line"><span class="lineno">  698</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2fe7ecccab0b5b1be9fdda8cbf097d9b">configuration</a>.SymlinkStaticFilesTo(resolvedOutputDirectory, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  698</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2fe7ecccab0b5b1be9fdda8cbf097d9b">configuration</a>.SymlinkStaticFilesTo(resolvedOutputDirectory, cancellationToken);</div>
 <div class="line"><span class="lineno">  699</span> </div>
 <div class="line"><span class="lineno">  700</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogDebug(<span class="stringliteral">&quot;Compile complete!&quot;</span>);</div>
 <div class="line"><span class="lineno">  701</span>            }</div>
 <div class="line"><span class="lineno">  702</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  703</span>            {</div>
 <div class="line"><span class="lineno">  704</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a> = <span class="stringliteral">&quot;Cleaning output directory&quot;</span>;</div>
-<div class="line"><span class="lineno">  705</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">CleanupFailedCompile</a>(job, remoteDeploymentManager, ex).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  705</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71">CleanupFailedCompile</a>(job, remoteDeploymentManager, ex);</div>
 <div class="line"><span class="lineno">  706</span>                <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  707</span>            }</div>
 <div class="line"><span class="lineno">  708</span>        }</div>
@@ -1739,11 +1739,11 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  841</span> </div>
 <div class="line"><span class="lineno">  842</span>            <span class="keywordtype">int</span> exitCode;</div>
 <div class="line"><span class="lineno">  843</span>            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; dm.Terminate()))</div>
-<div class="line"><span class="lineno">  844</span>                exitCode = await dm.Lifetime.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  844</span>                exitCode = await dm.Lifetime;</div>
 <div class="line"><span class="lineno">  845</span>            cancellationToken.ThrowIfCancellationRequested();</div>
 <div class="line"><span class="lineno">  846</span> </div>
 <div class="line"><span class="lineno">  847</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogDebug(<span class="stringliteral">&quot;DreamMaker exit code: {0}&quot;</span>, exitCode);</div>
-<div class="line"><span class="lineno">  848</span>            job.Output = await dm.GetCombinedOutput(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  848</span>            job.Output = await dm.GetCombinedOutput(cancellationToken);</div>
 <div class="line"><span class="lineno">  849</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a0e3523b8ef4f0d5c93f108c0de792977">currentDreamMakerOutput</a> = job.Output;</div>
 <div class="line"><span class="lineno">  850</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1d5a133d669af1e14db0104b67103ccf">logger</a>.LogDebug(<span class="stringliteral">&quot;DreamMaker output: {0}{1}&quot;</span>, Environment.NewLine, job.Output);</div>
 <div class="line"><span class="lineno">  851</span>            <span class="keywordflow">return</span> exitCode;</div>
@@ -1869,17 +1869,17 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  770</span> </div>
 <div class="line"><span class="lineno">  771</span>            <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3">ApiValidationStatus</a> validationStatus;</div>
 <div class="line"><span class="lineno">  772</span>            <span class="keyword">using</span> (var provider = <span class="keyword">new</span> TemporaryDmbProvider(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a5f0da2a044d1b9df7e85492cb58c076c">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(job.DirectoryName.ToString()), String.Concat(job.DmeName, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad68af0912872eba94733cb322b08ecb3">DmbExtension</a>), job))</div>
-<div class="line"><span class="lineno">  773</span>            await <span class="keyword">using</span> (var controller = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a8322a848923985ee4e06d792dccb8643">sessionControllerFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html#a502c3b976fd4ed267fd742ec2435e1bc">LaunchNew</a>(provider, byondLock, launchParameters, <span class="keyword">true</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><span class="lineno">  773</span>            await <span class="keyword">using</span> (var controller = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a8322a848923985ee4e06d792dccb8643">sessionControllerFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html#a502c3b976fd4ed267fd742ec2435e1bc">LaunchNew</a>(provider, byondLock, launchParameters, <span class="keyword">true</span>, cancellationToken))</div>
 <div class="line"><span class="lineno">  774</span>            {</div>
 <div class="line"><span class="lineno">  775</span>                controller.AdjustPriority(<span class="keyword">false</span>);</div>
 <div class="line"><span class="lineno">  776</span> </div>
-<div class="line"><span class="lineno">  777</span>                var launchResult = await controller.LaunchResult.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  777</span>                var launchResult = await controller.LaunchResult;</div>
 <div class="line"><span class="lineno">  778</span> </div>
 <div class="line"><span class="lineno">  779</span>                <span class="keywordflow">if</span> (launchResult.StartupTime.HasValue)</div>
-<div class="line"><span class="lineno">  780</span>                    await controller.Lifetime.WithToken(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  780</span>                    await controller.Lifetime.WithToken(cancellationToken);</div>
 <div class="line"><span class="lineno">  781</span> </div>
 <div class="line"><span class="lineno">  782</span>                <span class="keywordflow">if</span> (!controller.Lifetime.IsCompleted)</div>
-<div class="line"><span class="lineno">  783</span>                    await controller.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  783</span>                    await controller.DisposeAsync();</div>
 <div class="line"><span class="lineno">  784</span> </div>
 <div class="line"><span class="lineno">  785</span>                validationStatus = controller.ApiValidationStatus;</div>
 <div class="line"><span class="lineno">  786</span> </div>

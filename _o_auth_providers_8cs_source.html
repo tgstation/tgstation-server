@@ -158,7 +158,7 @@ $(function() {
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                x =&gt; x.Provider,</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                x =&gt; x.GetProviderInfo(cancellationToken));</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            await Task.WhenAll(providersAndTasks.Values).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            await Task.WhenAll(providersAndTasks.Values);</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <span class="keywordflow">return</span> providersAndTasks</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                .Where(x =&gt; x.Value.Result != <span class="keyword">null</span>)</div>

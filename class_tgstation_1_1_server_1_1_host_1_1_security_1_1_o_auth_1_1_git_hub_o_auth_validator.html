@@ -277,7 +277,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   71</span>                        {</div>
 <div class="line"><span class="lineno">   72</span>                            RedirectUri = oAuthConfiguration.RedirectUrl,</div>
 <div class="line"><span class="lineno">   73</span>                        })</div>
-<div class="line"><span class="lineno">   74</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   74</span>                    ;</div>
 <div class="line"><span class="lineno">   75</span> </div>
 <div class="line"><span class="lineno">   76</span>                var token = response.AccessToken;</div>
 <div class="line"><span class="lineno">   77</span>                <span class="keywordflow">if</span> (token == <span class="keyword">null</span>)</div>
@@ -289,7 +289,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   83</span>                var userDetails = await authenticatedClient</div>
 <div class="line"><span class="lineno">   84</span>                    .User</div>
 <div class="line"><span class="lineno">   85</span>                    .Current()</div>
-<div class="line"><span class="lineno">   86</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   86</span>                    ;</div>
 <div class="line"><span class="lineno">   87</span> </div>
 <div class="line"><span class="lineno">   88</span>                <span class="keywordflow">return</span> userDetails.Id.ToString(CultureInfo.InvariantCulture);</div>
 <div class="line"><span class="lineno">   89</span>            }</div>

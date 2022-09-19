@@ -379,7 +379,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   92</span>                .AsQueryable()</div>
 <div class="line"><span class="lineno">   93</span>                .Where(x =&gt; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">   94</span>                .CountAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">   95</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   95</span>                ;</div>
 <div class="line"><span class="lineno">   96</span> </div>
 <div class="line"><span class="lineno">   97</span>            <span class="keywordflow">if</span> (countOfExistingBotsInInstance &gt;= <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#ae07e119a1bd8ddbcf2641a8f7b734c2b">ChatBotLimit</a>.Value)</div>
 <div class="line"><span class="lineno">   98</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ChatBotMax));</div>
@@ -402,17 +402,17 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  115</span> </div>
 <div class="line"><span class="lineno">  116</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad4cf2228c8dae3c2641251070fee76af">ChatBots</a>.Add(dbModel);</div>
 <div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  118</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  119</span>            <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#a9aa5378db351ad07ac7b3706ac7c6620">WithComponentInstance</a>(</div>
 <div class="line"><span class="lineno">  120</span>                async instance =&gt;</div>
 <div class="line"><span class="lineno">  121</span>                {</div>
 <div class="line"><span class="lineno">  122</span>                    <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  123</span>                    {</div>
 <div class="line"><span class="lineno">  124</span>                        <span class="comment">// try to create it</span></div>
-<div class="line"><span class="lineno">  125</span>                        await instance.Chat.ChangeSettings(dbModel, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  125</span>                        await instance.Chat.ChangeSettings(dbModel, cancellationToken);</div>
 <div class="line"><span class="lineno">  126</span> </div>
 <div class="line"><span class="lineno">  127</span>                        <span class="keywordflow">if</span> (dbModel.Channels.Count &gt; 0)</div>
-<div class="line"><span class="lineno">  128</span>                            await instance.Chat.ChangeChannels(dbModel.Id.Value, dbModel.Channels, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  128</span>                            await instance.Chat.ChangeChannels(dbModel.Id.Value, dbModel.Channels, cancellationToken);</div>
 <div class="line"><span class="lineno">  129</span>                    }</div>
 <div class="line"><span class="lineno">  130</span>                    <span class="keywordflow">catch</span></div>
 <div class="line"><span class="lineno">  131</span>                    {</div>
@@ -420,14 +420,14 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  133</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad4cf2228c8dae3c2641251070fee76af">ChatBots</a>.Remove(dbModel);</div>
 <div class="line"><span class="lineno">  134</span> </div>
 <div class="line"><span class="lineno">  135</span>                        <span class="comment">// DCTx2: Operations must always run</span></div>
-<div class="line"><span class="lineno">  136</span>                        await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(<span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  137</span>                        await instance.Chat.DeleteConnection(dbModel.Id.Value, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  136</span>                        await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(<span class="keywordflow">default</span>);</div>
+<div class="line"><span class="lineno">  137</span>                        await instance.Chat.DeleteConnection(dbModel.Id.Value, <span class="keywordflow">default</span>);</div>
 <div class="line"><span class="lineno">  138</span>                        <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  139</span>                    }</div>
 <div class="line"><span class="lineno">  140</span> </div>
 <div class="line"><span class="lineno">  141</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  142</span>                })</div>
-<div class="line"><span class="lineno">  143</span>                .ConfigureAwait(<span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  143</span>                </div>
 <div class="line"><span class="lineno">  144</span>                ?? <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.Created, dbModel.ToApi());</div>
 <div class="line"><span class="lineno">  145</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
@@ -560,7 +560,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  225</span>                .Where(x =&gt; x.Id == <span class="keywordtype">id</span> &amp;&amp; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">  226</span>                .Include(x =&gt; x.Channels);</div>
 <div class="line"><span class="lineno">  227</span> </div>
-<div class="line"><span class="lineno">  228</span>            var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  228</span>            var results = await query.FirstOrDefaultAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  229</span>            <span class="keywordflow">if</span> (results == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  230</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
 <div class="line"><span class="lineno">  231</span> </div>
@@ -837,7 +837,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  268</span>                .Where(x =&gt; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a> &amp;&amp; x.Id == model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">  269</span>                .Include(x =&gt; x.Channels);</div>
 <div class="line"><span class="lineno">  270</span> </div>
-<div class="line"><span class="lineno">  271</span>            var current = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  271</span>            var current = await query.FirstOrDefaultAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  272</span> </div>
 <div class="line"><span class="lineno">  273</span>            <span class="keywordflow">if</span> (current == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  274</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
@@ -896,21 +896,21 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  327</span>                    current.Channels.Clear();</div>
 <div class="line"><span class="lineno">  328</span>            }</div>
 <div class="line"><span class="lineno">  329</span> </div>
-<div class="line"><span class="lineno">  330</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  330</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  331</span> </div>
 <div class="line"><span class="lineno">  332</span>            earlyOut = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#a9aa5378db351ad07ac7b3706ac7c6620">WithComponentInstance</a>(</div>
 <div class="line"><span class="lineno">  333</span>                async instance =&gt;</div>
 <div class="line"><span class="lineno">  334</span>                {</div>
 <div class="line"><span class="lineno">  335</span>                    var chat = instance.Chat;</div>
 <div class="line"><span class="lineno">  336</span>                    <span class="keywordflow">if</span> (anySettingsModified)</div>
-<div class="line"><span class="lineno">  337</span>                        await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(<span class="keyword">false</span>); <span class="comment">// have to rebuild the thing first</span></div>
+<div class="line"><span class="lineno">  337</span>                        await chat.ChangeSettings(current, cancellationToken); <span class="comment">// have to rebuild the thing first</span></div>
 <div class="line"><span class="lineno">  338</span> </div>
 <div class="line"><span class="lineno">  339</span>                    if (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a9e6391aa99ab09fadc17d8a4599c827b">Channels</a> != <span class="keyword">null</span> || anySettingsModified)</div>
-<div class="line"><span class="lineno">  340</span>                        await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  340</span>                        await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken);</div>
 <div class="line"><span class="lineno">  341</span> </div>
 <div class="line"><span class="lineno">  342</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  343</span>                })</div>
-<div class="line"><span class="lineno">  344</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  344</span>                ;</div>
 <div class="line"><span class="lineno">  345</span>            <span class="keywordflow">if</span> (earlyOut != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  346</span>                <span class="keywordflow">return</span> earlyOut;</div>
 <div class="line"><span class="lineno">  347</span> </div>

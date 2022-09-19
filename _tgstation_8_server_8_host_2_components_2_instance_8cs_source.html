@@ -167,8 +167,8 @@ $(function() {
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            {</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aab6ba11c7820ee9de39771aabbecdfcb">timerCts</a>?.Dispose();</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a49c2073606768819b91a401c21fe3555">Configuration</a>.Dispose();</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a33d0e17d96ba16ead347ff8fb1bf6b45">Chat</a>.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a902e9a3917553cae8ec372948e98d6ec">Watchdog</a>.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a33d0e17d96ba16ead347ff8fb1bf6b45">Chat</a>.DisposeAsync();</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a902e9a3917553cae8ec372948e98d6ec">Watchdog</a>.DisposeAsync();</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4c3746b0143784d232119fdb418263ba">dmbFactory</a>.Dispose();</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d">Dispose</a>();</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            }</div>
@@ -192,12 +192,12 @@ $(function() {
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html">ByondManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a7b6d8a1eef58f0e3265a67ebe9036f13">StartAsync</a>(cancellationToken),</div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a33d0e17d96ba16ead347ff8fb1bf6b45">Chat</a>.StartAsync(cancellationToken),</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4c3746b0143784d232119fdb418263ba">dmbFactory</a>.StartAsync(cancellationToken))</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                ;</div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
 <div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                <span class="comment">// dependent on so many things, its just safer this way</span></div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a902e9a3917553cae8ec372948e98d6ec">Watchdog</a>.StartAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a902e9a3917553cae8ec372948e98d6ec">Watchdog</a>.StartAsync(cancellationToken);</div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4c3746b0143784d232119fdb418263ba">dmbFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#a1c5532c254d0eadf738379a4c0c33c62">CleanUnusedCompileJobs</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4c3746b0143784d232119fdb418263ba">dmbFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#a1c5532c254d0eadf738379a4c0c33c62">CleanUnusedCompileJobs</a>(cancellationToken);</div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>            }</div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        }</div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
@@ -206,14 +206,14 @@ $(function() {
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            <span class="keyword">using</span> (LogContext.PushProperty(<span class="stringliteral">&quot;Instance&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ad54344c590beab965fead49ac08224a9">metadata</a>.Id))</div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            {</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogDebug(<span class="stringliteral">&quot;Stopping instance...&quot;</span>);</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c">SetAutoUpdateInterval</a>(0).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a902e9a3917553cae8ec372948e98d6ec">Watchdog</a>.StopAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c">SetAutoUpdateInterval</a>(0);</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a902e9a3917553cae8ec372948e98d6ec">Watchdog</a>.StopAsync(cancellationToken);</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                await Task.WhenAll(</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a49c2073606768819b91a401c21fe3555">Configuration</a>.StopAsync(cancellationToken),</div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html">ByondManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a691493488b449c0589784dc2f91e039b">StopAsync</a>(cancellationToken),</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a33d0e17d96ba16ead347ff8fb1bf6b45">Chat</a>.StopAsync(cancellationToken),</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4c3746b0143784d232119fdb418263ba">dmbFactory</a>.StopAsync(cancellationToken))</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                    ;</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            }</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        }</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
@@ -235,7 +235,7 @@ $(function() {
 <div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                    toWait = Task.CompletedTask;</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            }</div>
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            await toWait.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            await toWait;</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            <span class="keywordflow">if</span> (newInterval == 0)</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            {</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogTrace(<span class="stringliteral">&quot;New auto-update interval is 0. Not starting task.&quot;</span>);</div>
@@ -291,7 +291,7 @@ $(function() {
 <div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>                        <span class="keywordflow">return</span> (status, progress) =&gt; progressReporter(status, (progress + (100 * tmpDoneSteps)) / NumSteps);</div>
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>                    }</div>
 <div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                    <span class="keyword">using </span>var repo = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ad44304880259ff6f82c328199ea6166f">LoadRepository</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                    <span class="keyword">using </span>var repo = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ad44304880259ff6f82c328199ea6166f">LoadRepository</a>(cancellationToken);</div>
 <div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>                    <span class="keywordflow">if</span> (repo == <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>                    {</div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogTrace(<span class="stringliteral">&quot;Aborting repo update, no repository!&quot;</span>);</div>
@@ -305,7 +305,7 @@ $(function() {
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>                        return;</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>                    }</div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                    var repositorySettings = await repositorySettingsTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                    var repositorySettings = await repositorySettingsTask;</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                    <span class="comment">// the main point of auto update is to pull the remote</span></div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>                    await repo.FetchOrigin(</div>
@@ -313,7 +313,7 @@ $(function() {
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>                        repositorySettings.AccessToken,</div>
 <div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                        NextProgressReporter(),</div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                        cancellationToken)</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>                        ;</div>
 <div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                    var hasDbChanges = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a> currentRevInfo = <span class="keyword">null</span>;</div>
@@ -329,7 +329,7 @@ $(function() {
 <div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                                .Where(x =&gt; x.CommitSha == startSha &amp;&amp; x.Instance.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ad54344c590beab965fead49ac08224a9">metadata</a>.Id)</div>
 <div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                                .Include(x =&gt; x.ActiveTestMerges)</div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                                    .ThenInclude(x =&gt; x.TestMerge)</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                                .FirstOrDefaultAsync(cancellationToken);</div>
 <div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>                        }</div>
 <div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>                        <span class="keywordflow">if</span> (currentRevInfo == <span class="keywordflow">default</span>)</div>
@@ -356,10 +356,10 @@ $(function() {
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                        currentRevInfo = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a></div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                        {</div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                            CommitSha = currentHead,</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                            Timestamp = await repo.TimestampCommit(currentHead, cancellationToken).ConfigureAwait(<span class="keyword">false</span>),</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                            Timestamp = await repo.TimestampCommit(currentHead, cancellationToken),</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>                            OriginCommitSha = onOrigin</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>                                ? currentHead</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                                : await repo.GetOriginSha(cancellationToken).ConfigureAwait(<span class="keyword">false</span>),</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                                : await repo.GetOriginSha(cancellationToken),</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html">Instance</a> = attachedInstance,</div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>                        };</div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span> </div>
@@ -372,14 +372,14 @@ $(function() {
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>                    }</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>                    <span class="comment">// build current commit data if it&#39;s missing</span></div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>                    await UpdateRevInfo(repo.Head, <span class="keyword">false</span>, <span class="keyword">null</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>                    await UpdateRevInfo(repo.Head, <span class="keyword">false</span>, <span class="keyword">null</span>);</div>
 <div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span> </div>
 <div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>                    var result = await repo.MergeOrigin(</div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>                        repositorySettings.CommitterName,</div>
 <div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>                        repositorySettings.CommitterEmail,</div>
 <div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>                        NextProgressReporter(),</div>
 <div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>                        cancellationToken)</div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>                        ;</div>
 <div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
 <div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>                    var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;</div>
 <div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>                    var remoteDeploymentManager = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aaa5f6dd5ae57a3570f7d1da005e657de">remoteDeploymentManagerFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3">CreateRemoteDeploymentManager</a>(</div>
@@ -395,7 +395,7 @@ $(function() {
 <div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>                            repositorySettings,</div>
 <div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>                            currentRevInfo,</div>
 <div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>                            cancellationToken)</div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>                        ;</div>
 <div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span> </div>
 <div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>                        <span class="keywordflow">if</span> (updatedTestMerges.Count == 0)</div>
 <div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>                        {</div>
@@ -412,7 +412,7 @@ $(function() {
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>                            var currentHead = repo.Head;</div>
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                            <span class="keywordflow">if</span> (currentHead != startSha)</div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>                            {</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                                await UpdateRevInfo(currentHead, stillOnOrigin, updatedTestMerges).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                                await UpdateRevInfo(currentHead, stillOnOrigin, updatedTestMerges);</div>
 <div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                                shouldSyncTracked = stillOnOrigin;</div>
 <div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>                            }</div>
 <div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>                        }</div>
@@ -429,7 +429,7 @@ $(function() {
 <div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>                            repositorySettings.UpdateSubmodules.Value,</div>
 <div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>                            NextProgressReporter(),</div>
 <div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>                            cancellationToken)</div>
-<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>                        ;</div>
 <div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span> </div>
 <div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                        var currentHead = repo.Head;</div>
 <div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span> </div>
@@ -437,10 +437,10 @@ $(function() {
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>                            .AsQueryable()</div>
 <div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>                            .Where(x =&gt; x.CommitSha == currentHead &amp;&amp; x.Instance.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ad54344c590beab965fead49ac08224a9">metadata</a>.Id)</div>
 <div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>                            .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>                            ;</div>
 <div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span> </div>
 <div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>                        <span class="keywordflow">if</span> (currentHead != startSha &amp;&amp; currentRevInfo == <span class="keywordflow">default</span>)</div>
-<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>                            await UpdateRevInfo(currentHead, <span class="keyword">true</span>, <span class="keyword">null</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>                            await UpdateRevInfo(currentHead, <span class="keyword">true</span>, <span class="keyword">null</span>);</div>
 <div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span> </div>
 <div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>                        shouldSyncTracked = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>                    }</div>
@@ -455,21 +455,21 @@ $(function() {
 <div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>                            repositorySettings.CommitterEmail,</div>
 <div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>                            NextProgressReporter(),</div>
 <div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>                            shouldSyncTracked,</div>
-<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>                            cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>                            cancellationToken);</div>
 <div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>                        var currentHead = repo.Head;</div>
 <div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>                        <span class="keywordflow">if</span> (currentHead != currentRevInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>)</div>
-<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span>                            await UpdateRevInfo(currentHead, pushedOrigin, <span class="keyword">null</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span>                            await UpdateRevInfo(currentHead, pushedOrigin, <span class="keyword">null</span>);</div>
 <div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>                    }</div>
 <div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span> </div>
 <div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span>                    <span class="keywordflow">if</span> (hasDbChanges)</div>
 <div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>                        <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>                        {</div>
-<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>                            await databaseContext.Save(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>                            await databaseContext.Save(cancellationToken);</div>
 <div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>                        }</div>
 <div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>                        <span class="keywordflow">catch</span></div>
 <div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>                        {</div>
 <div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>                            <span class="comment">// DCT: Cancellation token is for job, operation must run regardless</span></div>
-<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>                            await repo.ResetToSha(startSha, progressReporter, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>                            await repo.ResetToSha(startSha, progressReporter, <span class="keywordflow">default</span>);</div>
 <div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>                            <span class="keywordflow">throw</span>;</div>
 <div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>                        }</div>
 <div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span> </div>
@@ -484,9 +484,9 @@ $(function() {
 <div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span>            <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
 <div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>                <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>                {</div>
-<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>                    await Task.Delay(TimeSpan.FromMinutes(minutes &gt; Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>                    await Task.Delay(TimeSpan.FromMinutes(minutes &gt; Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken);</div>
 <div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogInformation(<span class="stringliteral">&quot;Beginning auto update...&quot;</span>);</div>
-<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a16093d1600746a3ab9c232461c5d7da6">eventConsumer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a>.InstanceAutoUpdateStart, Enumerable.Empty&lt;<span class="keywordtype">string</span>&gt;(), cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a16093d1600746a3ab9c232461c5d7da6">eventConsumer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a>.InstanceAutoUpdateStart, Enumerable.Empty&lt;<span class="keywordtype">string</span>&gt;(), cancellationToken);</div>
 <div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>                    <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>                    {</div>
 <div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>                        var repositoryUpdateJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
@@ -504,13 +504,13 @@ $(function() {
 <div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>                            repositoryUpdateJob,</div>
 <div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>                            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af8422c62401719f452a5c70cdb1d96d1">RepositoryAutoUpdateJob</a>,</div>
 <div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>                            cancellationToken)</div>
-<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>                            ;</div>
 <div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span> </div>
 <div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>                        <span class="comment">// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted</span></div>
-<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(repositoryUpdateJob, <span class="keyword">null</span>, cancellationToken, <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(repositoryUpdateJob, <span class="keyword">null</span>, cancellationToken, <span class="keywordflow">default</span>);</div>
 <div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span> </div>
 <div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> compileProcessJob;</div>
-<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>                        <span class="keyword">using</span> (var repo = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ad44304880259ff6f82c328199ea6166f">LoadRepository</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>                        <span class="keyword">using</span> (var repo = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ad44304880259ff6f82c328199ea6166f">LoadRepository</a>(cancellationToken))</div>
 <div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>                        {</div>
 <div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>                            var deploySha = repo.Head;</div>
 <div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>                            <span class="keywordflow">if</span> (deploySha == <span class="keyword">null</span>)</div>
@@ -547,10 +547,10 @@ $(function() {
 <div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>                                        jobCancellationToken);</div>
 <div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>                                },</div>
 <div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>                                cancellationToken)</div>
-<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span>                                ;</div>
 <div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>                        }</div>
 <div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span> </div>
-<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(compileProcessJob, <span class="keyword">null</span>, <span class="keywordflow">default</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(compileProcessJob, <span class="keyword">null</span>, <span class="keywordflow">default</span>, cancellationToken);</div>
 <div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>                    }</div>
 <div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>                    <span class="keywordflow">catch</span> (Exception e) when (!(e is OperationCanceledException))</div>
 <div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>                    {</div>

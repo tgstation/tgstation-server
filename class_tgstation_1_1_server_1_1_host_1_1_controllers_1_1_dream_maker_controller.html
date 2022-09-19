@@ -448,7 +448,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  153</span>                (core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken)</div>
 <div class="line"><span class="lineno">  154</span>                    =&gt; core.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),</div>
 <div class="line"><span class="lineno">  155</span>                cancellationToken)</div>
-<div class="line"><span class="lineno">  156</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  156</span>                ;</div>
 <div class="line"><span class="lineno">  157</span>            <span class="keywordflow">return</span> Accepted(job.ToApi());</div>
 <div class="line"><span class="lineno">  158</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></div><div class="ttdoc">Metadata about a server instance.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00008">Instance.cs:9</a></div></div>
@@ -513,7 +513,7 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">  100</span>        {</div>
 <div class="line"><span class="lineno">  101</span>            var compileJob = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a8ca1436d93cb0f0a6767fe79e2714b05">BaseCompileJobsQuery</a>()</div>
 <div class="line"><span class="lineno">  102</span>                .Where(x =&gt; x.Id == <span class="keywordtype">id</span>)</div>
-<div class="line"><span class="lineno">  103</span>                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  103</span>                .FirstOrDefaultAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  104</span>            <span class="keywordflow">if</span> (compileJob == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  105</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f">NotFound</a>();</div>
 <div class="line"><span class="lineno">  106</span>            <span class="keywordflow">return</span> Json(compileJob.ToApi());</div>
@@ -614,7 +614,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   80</span>                .AsQueryable()</div>
 <div class="line"><span class="lineno">   81</span>                .Where(x =&gt; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">   82</span>                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">   83</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   83</span>                ;</div>
 <div class="line"><span class="lineno">   84</span>            <span class="keywordflow">return</span> Json(dreamMakerSettings.ToApi());</div>
 <div class="line"><span class="lineno">   85</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
@@ -686,7 +686,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  189</span>                .AsQueryable()</div>
 <div class="line"><span class="lineno">  190</span>                .Where(x =&gt; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">  191</span>                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  192</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  192</span>                ;</div>
 <div class="line"><span class="lineno">  193</span>            <span class="keywordflow">if</span> (hostModel == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  194</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
 <div class="line"><span class="lineno">  195</span> </div>
@@ -712,7 +712,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  215</span>                            model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html#a210cbf21017f80a0665bb154126b5340">ApiValidationPort</a>.Value,</div>
 <div class="line"><span class="lineno">  216</span>                            <span class="keyword">true</span>,</div>
 <div class="line"><span class="lineno">  217</span>                            cancellationToken)</div>
-<div class="line"><span class="lineno">  218</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  218</span>                            ;</div>
 <div class="line"><span class="lineno">  219</span>                    <span class="keywordflow">if</span> (verifiedPort != model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html#a210cbf21017f80a0665bb154126b5340">ApiValidationPort</a>)</div>
 <div class="line"><span class="lineno">  220</span>                        <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.PortNotAvailable));</div>
 <div class="line"><span class="lineno">  221</span> </div>
@@ -741,12 +741,12 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  244</span>                hostModel.Timeout = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html#abf59ba034a900659ff8d19a2d98847c9">Timeout</a>;</div>
 <div class="line"><span class="lineno">  245</span>            }</div>
 <div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  247</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  248</span> </div>
 <div class="line"><span class="lineno">  249</span>            <span class="keywordflow">if</span> ((<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7">GetRight</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.DreamMaker) &amp; (ulong)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a>.Read) == 0)</div>
 <div class="line"><span class="lineno">  250</span>                <span class="keywordflow">return</span> NoContent();</div>
 <div class="line"><span class="lineno">  251</span> </div>
-<div class="line"><span class="lineno">  252</span>            <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a27395db5054c8a45666c3c2c6d189680">Read</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  252</span>            <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a27395db5054c8a45666c3c2c6d189680">Read</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  253</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings_html_a210cbf21017f80a0665bb154126b5340"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html#a210cbf21017f80a0665bb154126b5340">Tgstation.Server.Api.Models.Internal.DreamMakerSettings.ApiValidationPort</a></div><div class="ttdeci">ushort? ApiValidationPort</div><div class="ttdoc">The port used during compilation to validate the DMAPI.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_dream_maker_settings_8cs_source.html#l00023">DreamMakerSettings.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings_html_a2382b143a3da29cd0f748d793771cd03"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_maker_settings.html#a2382b143a3da29cd0f748d793771cd03">Tgstation.Server.Api.Models.Internal.DreamMakerSettings.ProjectName</a></div><div class="ttdeci">string? ProjectName</div><div class="ttdoc">The name of the .dme file the server tries to compile with without the extension.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_dream_maker_settings_8cs_source.html#l00016">DreamMakerSettings.cs:16</a></div></div>

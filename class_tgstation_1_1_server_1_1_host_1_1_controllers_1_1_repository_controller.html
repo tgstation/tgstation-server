@@ -367,7 +367,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  105</span>                .AsQueryable()</div>
 <div class="line"><span class="lineno">  106</span>                .Where(x =&gt; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">  107</span>                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  108</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  108</span>                ;</div>
 <div class="line"><span class="lineno">  109</span> </div>
 <div class="line"><span class="lineno">  110</span>            <span class="keywordflow">if</span> (currentModel == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  111</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
@@ -393,7 +393,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  131</span>                    if (repoManager.InUse)</div>
 <div class="line"><span class="lineno">  132</span>                        <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoBusy));</div>
 <div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>                    <span class="keyword">using</span> var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  134</span>                    <span class="keyword">using</span> var repo = await repoManager.LoadRepository(cancellationToken);</div>
 <div class="line"><span class="lineno">  135</span> </div>
 <div class="line"><span class="lineno">  136</span>                    <span class="comment">// clone conflict</span></div>
 <div class="line"><span class="lineno">  137</span>                    if (repo != <span class="keyword">null</span>)</div>
@@ -415,7 +415,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  153</span>                    };</div>
 <div class="line"><span class="lineno">  154</span>                    var api = currentModel.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a26803af89e798afe4e8878b9bc2f213b">ToApi</a>();</div>
 <div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>                    await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  156</span>                    await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  157</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad15c0217bf9e5ce926a198191d0a04c4">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a>(</div>
 <div class="line"><span class="lineno">  158</span>                        job,</div>
 <div class="line"><span class="lineno">  159</span>                        async (core, databaseContextFactory, paramJob, progressReporter, ct) =&gt;</div>
@@ -429,7 +429,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  167</span>                                progressReporter,</div>
 <div class="line"><span class="lineno">  168</span>                                currentModel.UpdateSubmodules.Value,</div>
 <div class="line"><span class="lineno">  169</span>                                ct)</div>
-<div class="line"><span class="lineno">  170</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  170</span>                                ;</div>
 <div class="line"><span class="lineno">  171</span>                            if (repos == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  172</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoExists);</div>
 <div class="line"><span class="lineno">  173</span>                            var instance = <span class="keyword">new</span> Models.Instance</div>
@@ -440,13 +440,13 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  178</span>                                async databaseContext =&gt;</div>
 <div class="line"><span class="lineno">  179</span>                                {</div>
 <div class="line"><span class="lineno">  180</span>                                    databaseContext.Instances.Attach(instance);</div>
-<div class="line"><span class="lineno">  181</span>                                    if (await PopulateApi(api, repos, databaseContext, instance, ct).ConfigureAwait(false))</div>
-<div class="line"><span class="lineno">  182</span>                                        await databaseContext.Save(ct).ConfigureAwait(false);</div>
+<div class="line"><span class="lineno">  181</span>                                    if (await PopulateApi(api, repos, databaseContext, instance, ct))</div>
+<div class="line"><span class="lineno">  182</span>                                        await databaseContext.Save(ct);</div>
 <div class="line"><span class="lineno">  183</span>                                })</div>
-<div class="line"><span class="lineno">  184</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  184</span>                                ;</div>
 <div class="line"><span class="lineno">  185</span>                        },</div>
 <div class="line"><span class="lineno">  186</span>                        cancellationToken)</div>
-<div class="line"><span class="lineno">  187</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  187</span>                        ;</div>
 <div class="line"><span class="lineno">  188</span> </div>
 <div class="line"><span class="lineno">  189</span>                    api.Origin = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html#aabc1e9fd7eda56f4652175e9d7c615a5">Origin</a>;</div>
 <div class="line"><span class="lineno">  190</span>                    api.Reference = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a>;</div>
@@ -454,7 +454,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  192</span> </div>
 <div class="line"><span class="lineno">  193</span>                    <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Created</a>(api);</div>
 <div class="line"><span class="lineno">  194</span>                })</div>
-<div class="line"><span class="lineno">  195</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  195</span>                ;</div>
 <div class="line"><span class="lineno">  196</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></div><div class="ttdoc">Metadata about a server instance.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00008">Instance.cs:9</a></div></div>
@@ -537,7 +537,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  213</span>                .AsQueryable()</div>
 <div class="line"><span class="lineno">  214</span>                .Where(x =&gt; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">  215</span>                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  216</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  216</span>                ;</div>
 <div class="line"><span class="lineno">  217</span> </div>
 <div class="line"><span class="lineno">  218</span>            <span class="keywordflow">if</span> (currentModel == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  219</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
@@ -545,7 +545,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  221</span>            currentModel.AccessToken = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  222</span>            currentModel.AccessUser = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  224</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  225</span> </div>
 <div class="line"><span class="lineno">  226</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(<span class="stringliteral">&quot;Instance {0} repository delete initiated by user {1}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value);</div>
 <div class="line"><span class="lineno">  227</span> </div>
@@ -560,7 +560,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  236</span>                job,</div>
 <div class="line"><span class="lineno">  237</span>                (core, databaseContextFactory, paramJob, progressReporter, ct) =&gt; core.RepositoryManager.DeleteRepository(ct),</div>
 <div class="line"><span class="lineno">  238</span>                cancellationToken)</div>
-<div class="line"><span class="lineno">  239</span>            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  239</span>            ;</div>
 <div class="line"><span class="lineno">  240</span>            api.ActiveJob = job.ToApi();</div>
 <div class="line"><span class="lineno">  241</span>            <span class="keywordflow">return</span> Accepted(api);</div>
 <div class="line"><span class="lineno">  242</span>        }</div>
@@ -664,7 +664,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  951</span>                .Include(x =&gt; x.CompileJobs)</div>
 <div class="line"><span class="lineno">  952</span>                .Include(x =&gt; x.ActiveTestMerges).ThenInclude(x =&gt; x.TestMerge).ThenInclude(x =&gt; x.MergedBy);</div>
 <div class="line"><span class="lineno">  953</span> </div>
-<div class="line"><span class="lineno">  954</span>            var revisionInfo = await ApplyQuery(databaseContext.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5633532d3f76127562905242d6a14e91">RevisionInformations</a>).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  954</span>            var revisionInfo = await ApplyQuery(databaseContext.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5633532d3f76127562905242d6a14e91">RevisionInformations</a>).FirstOrDefaultAsync(cancellationToken);</div>
 <div class="line"><span class="lineno">  955</span> </div>
 <div class="line"><span class="lineno">  956</span>            <span class="comment">// If the DB doesn&#39;t have it, check the local set</span></div>
 <div class="line"><span class="lineno">  957</span>            <span class="keywordflow">if</span> (revisionInfo == <span class="keywordflow">default</span>)</div>
@@ -682,7 +682,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  969</span>                {</div>
 <div class="line"><span class="lineno">  970</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> = instance,</div>
 <div class="line"><span class="lineno">  971</span>                    CommitSha = repoSha,</div>
-<div class="line"><span class="lineno">  972</span>                    Timestamp = await repository.TimestampCommit(repoSha, cancellationToken).ConfigureAwait(<span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  972</span>                    Timestamp = await repository.TimestampCommit(repoSha, cancellationToken),</div>
 <div class="line"><span class="lineno">  973</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5da7c63725727d75ca94b3b395198026acb">CompileJobs</a> = <span class="keyword">new</span> List&lt;CompileJob&gt;(),</div>
 <div class="line"><span class="lineno">  974</span>                    ActiveTestMerges = <span class="keyword">new</span> List&lt;RevInfoTestMerge&gt;(), <span class="comment">// non null vals for api returns</span></div>
 <div class="line"><span class="lineno">  975</span>                };</div>
@@ -810,7 +810,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno"> 1014</span> </div>
 <div class="line"><span class="lineno"> 1015</span>            <span class="comment">// rev info stuff</span></div>
 <div class="line"><span class="lineno"> 1016</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInfo = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno"> 1017</span>            var needsDbUpdate = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561">LoadRevisionInformation</a>(repository, databaseContext, instance, <span class="keyword">null</span>, x =&gt; revisionInfo = x, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno"> 1017</span>            var needsDbUpdate = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561">LoadRevisionInformation</a>(repository, databaseContext, instance, <span class="keyword">null</span>, x =&gt; revisionInfo = x, cancellationToken);</div>
 <div class="line"><span class="lineno"> 1018</span>            apiResponse.RevisionInformation = revisionInfo.ToApi();</div>
 <div class="line"><span class="lineno"> 1019</span>            <span class="keywordflow">return</span> needsDbUpdate;</div>
 <div class="line"><span class="lineno"> 1020</span>        }</div>
@@ -878,7 +878,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  261</span>                .AsQueryable()</div>
 <div class="line"><span class="lineno">  262</span>                .Where(x =&gt; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">  263</span>                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  264</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  264</span>                ;</div>
 <div class="line"><span class="lineno">  265</span> </div>
 <div class="line"><span class="lineno">  266</span>            <span class="keywordflow">if</span> (currentModel == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  267</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
@@ -896,17 +896,17 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  279</span>                    if (repoManager.InUse)</div>
 <div class="line"><span class="lineno">  280</span>                        <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoBusy));</div>
 <div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  282</span>                    <span class="keyword">using</span> var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  283</span>                    if (repo != <span class="keyword">null</span> &amp;&amp; await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a093daf40d8629d7e65b635571abd0b15">PopulateApi</a>(api, repo, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><span class="lineno">  282</span>                    <span class="keyword">using</span> var repo = await repoManager.LoadRepository(cancellationToken);</div>
+<div class="line"><span class="lineno">  283</span>                    if (repo != <span class="keyword">null</span> &amp;&amp; await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a093daf40d8629d7e65b635571abd0b15">PopulateApi</a>(api, repo, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>, cancellationToken))</div>
 <div class="line"><span class="lineno">  284</span>                    {</div>
 <div class="line"><span class="lineno">  285</span>                        <span class="comment">// user may have fucked with the repo manually, do what we can</span></div>
-<div class="line"><span class="lineno">  286</span>                        await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  286</span>                        await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  287</span>                        <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Created</a>(api);</div>
 <div class="line"><span class="lineno">  288</span>                    }</div>
 <div class="line"><span class="lineno">  289</span> </div>
 <div class="line"><span class="lineno">  290</span>                    <span class="keywordflow">return</span> Json(api);</div>
 <div class="line"><span class="lineno">  291</span>                })</div>
-<div class="line"><span class="lineno">  292</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  292</span>                ;</div>
 <div class="line"><span class="lineno">  293</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_html_a093daf40d8629d7e65b635571abd0b15"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a093daf40d8629d7e65b635571abd0b15">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi</a></div><div class="ttdeci">async Task&lt; bool &gt; PopulateApi(RepositoryResponse apiResponse, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)</div><div class="ttdoc">Populate a given apiResponse  with the current state of a given repository .</div><div class="ttdef"><b>Definition:</b> <a href="_repository_controller_8cs_source.html#l01001">RepositoryController.cs:1001</a></div></div>
 </div><!-- fragment -->
@@ -1003,7 +1003,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  349</span>                .AsQueryable()</div>
 <div class="line"><span class="lineno">  350</span>                .Where(x =&gt; x.InstanceId == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
 <div class="line"><span class="lineno">  351</span>                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  352</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  352</span>                ;</div>
 <div class="line"><span class="lineno">  353</span> </div>
 <div class="line"><span class="lineno">  354</span>            <span class="keywordflow">if</span> (currentModel == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  355</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
@@ -1061,21 +1061,21 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  407</span>                    if (repoManager.InUse)</div>
 <div class="line"><span class="lineno">  408</span>                        <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoBusy));</div>
 <div class="line"><span class="lineno">  409</span> </div>
-<div class="line"><span class="lineno">  410</span>                    <span class="keyword">using</span> var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  410</span>                    <span class="keyword">using</span> var repo = await repoManager.LoadRepository(cancellationToken);</div>
 <div class="line"><span class="lineno">  411</span>                    if (repo == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  412</span>                        <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoMissing));</div>
-<div class="line"><span class="lineno">  413</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a093daf40d8629d7e65b635571abd0b15">PopulateApi</a>(api, repo, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  413</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a093daf40d8629d7e65b635571abd0b15">PopulateApi</a>(api, repo, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>, cancellationToken);</div>
 <div class="line"><span class="lineno">  414</span> </div>
 <div class="line"><span class="lineno">  415</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  416</span>                })</div>
-<div class="line"><span class="lineno">  417</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  417</span>                ;</div>
 <div class="line"><span class="lineno">  418</span> </div>
 <div class="line"><span class="lineno">  419</span>                <span class="keywordflow">if</span> (earlyOut != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  420</span>                    <span class="keywordflow">return</span> earlyOut;</div>
 <div class="line"><span class="lineno">  421</span>            }</div>
 <div class="line"><span class="lineno">  422</span> </div>
 <div class="line"><span class="lineno">  423</span>            <span class="comment">// this is just db stuf so stow it away</span></div>
-<div class="line"><span class="lineno">  424</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  424</span>            await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  425</span> </div>
 <div class="line"><span class="lineno">  426</span>            <span class="comment">// format the job description</span></div>
 <div class="line"><span class="lineno">  427</span>            <span class="keywordtype">string</span> description = <span class="keyword">null</span>;</div>
@@ -1123,7 +1123,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  469</span>                CancellationToken ct)</div>
 <div class="line"><span class="lineno">  470</span>            {</div>
 <div class="line"><span class="lineno">  471</span>                var repoManager = instance.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#a51d56fca894257dc7c6747a152f9f1fc">RepositoryManager</a>;</div>
-<div class="line"><span class="lineno">  472</span>                <span class="keyword">using </span>var repo = await repoManager.LoadRepository(ct).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  472</span>                <span class="keyword">using </span>var repo = await repoManager.LoadRepository(ct);</div>
 <div class="line"><span class="lineno">  473</span>                <span class="keywordflow">if</span> (repo == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  474</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoMissing);</div>
 <div class="line"><span class="lineno">  475</span> </div>
@@ -1175,7 +1175,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  521</span>                                lastOriginCommitSha,</div>
 <div class="line"><span class="lineno">  522</span>                                x =&gt; lastRevisionInfo = x,</div>
 <div class="line"><span class="lineno">  523</span>                                ct)</div>
-<div class="line"><span class="lineno">  524</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  524</span>                                ;</div>
 <div class="line"><span class="lineno">  525</span> </div>
 <div class="line"><span class="lineno">  526</span>                            <span class="keywordflow">if</span> (testMergeToAdd != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  527</span>                            {</div>
@@ -1206,10 +1206,10 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  552</span>                            }</div>
 <div class="line"><span class="lineno">  553</span> </div>
 <div class="line"><span class="lineno">  554</span>                            <span class="keywordflow">if</span> (needsUpdate)</div>
-<div class="line"><span class="lineno">  555</span>                                await databaseContext.Save(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  555</span>                                await databaseContext.Save(cancellationToken);</div>
 <div class="line"><span class="lineno">  556</span>                        });</div>
 <div class="line"><span class="lineno">  557</span> </div>
-<div class="line"><span class="lineno">  558</span>                await CallLoadRevInfo().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  558</span>                await CallLoadRevInfo();</div>
 <div class="line"><span class="lineno">  559</span> </div>
 <div class="line"><span class="lineno">  560</span>                <span class="comment">// apply new rev info, tracking applied test merges</span></div>
 <div class="line"><span class="lineno">  561</span>                Task UpdateRevInfo(Models.TestMerge testMergeToAdd = <span class="keyword">null</span>) =&gt; CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7239f5d0bb2d47b69a444b9ce6ecddea">OriginCommitSha</a>);</div>
@@ -1221,15 +1221,15 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  567</span>                    {</div>
 <div class="line"><span class="lineno">  568</span>                        <span class="keywordflow">if</span> (!repo.Tracking)</div>
 <div class="line"><span class="lineno">  569</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoReferenceRequired);</div>
-<div class="line"><span class="lineno">  570</span>                        await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  570</span>                        await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct);</div>
 <div class="line"><span class="lineno">  571</span>                        doneSteps = 1;</div>
 <div class="line"><span class="lineno">  572</span>                        <span class="keywordflow">if</span> (!modelHasShaOrReference)</div>
 <div class="line"><span class="lineno">  573</span>                        {</div>
-<div class="line"><span class="lineno">  574</span>                            var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  574</span>                            var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct);</div>
 <div class="line"><span class="lineno">  575</span>                            <span class="keywordflow">if</span> (!fastForward.HasValue)</div>
 <div class="line"><span class="lineno">  576</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoMergeConflict);</div>
-<div class="line"><span class="lineno">  577</span>                            lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  578</span>                            await UpdateRevInfo().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  577</span>                            lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken);</div>
+<div class="line"><span class="lineno">  578</span>                            await UpdateRevInfo();</div>
 <div class="line"><span class="lineno">  579</span>                            <span class="keywordflow">if</span> (fastForward.Value)</div>
 <div class="line"><span class="lineno">  580</span>                            {</div>
 <div class="line"><span class="lineno">  581</span>                                await repo.Sychronize(</div>
@@ -1240,7 +1240,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  586</span>                                    NextProgressReporter(),</div>
 <div class="line"><span class="lineno">  587</span>                                    <span class="keyword">true</span>,</div>
 <div class="line"><span class="lineno">  588</span>                                    ct)</div>
-<div class="line"><span class="lineno">  589</span>                                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  589</span>                                    ;</div>
 <div class="line"><span class="lineno">  590</span>                                postUpdateSha = repo.Head;</div>
 <div class="line"><span class="lineno">  591</span>                            }</div>
 <div class="line"><span class="lineno">  592</span>                            <span class="keywordflow">else</span></div>
@@ -1263,7 +1263,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  609</span>                        <span class="keywordflow">if</span> (validCheckoutSha || validCheckoutReference)</div>
 <div class="line"><span class="lineno">  610</span>                        {</div>
 <div class="line"><span class="lineno">  611</span>                            var committish = model.CheckoutSha ?? model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a>;</div>
-<div class="line"><span class="lineno">  612</span>                            var isSha = await repo.IsSha(committish, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  612</span>                            var isSha = await repo.IsSha(committish, cancellationToken);</div>
 <div class="line"><span class="lineno">  613</span> </div>
 <div class="line"><span class="lineno">  614</span>                            <span class="keywordflow">if</span> ((isSha &amp;&amp; model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a> != <span class="keyword">null</span>) || (!isSha &amp;&amp; model.CheckoutSha != <span class="keyword">null</span>))</div>
 <div class="line"><span class="lineno">  615</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoSwappedShaOrReference);</div>
@@ -1275,8 +1275,8 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  621</span>                                updateSubmodules,</div>
 <div class="line"><span class="lineno">  622</span>                                NextProgressReporter(),</div>
 <div class="line"><span class="lineno">  623</span>                                ct)</div>
-<div class="line"><span class="lineno">  624</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  625</span>                            await CallLoadRevInfo().ConfigureAwait(<span class="keyword">false</span>); <span class="comment">// we&#39;ve either seen origin before or what we&#39;re checking out is on origin</span></div>
+<div class="line"><span class="lineno">  624</span>                                ;</div>
+<div class="line"><span class="lineno">  625</span>                            await CallLoadRevInfo(); <span class="comment">// we&#39;ve either seen origin before or what we&#39;re checking out is on origin</span></div>
 <div class="line"><span class="lineno">  626</span>                        }</div>
 <div class="line"><span class="lineno">  627</span>                        <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  628</span>                            NextProgressReporter()(<span class="keyword">null</span>, 100);</div>
@@ -1291,7 +1291,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  637</span>                                updateSubmodules,</div>
 <div class="line"><span class="lineno">  638</span>                                NextProgressReporter(),</div>
 <div class="line"><span class="lineno">  639</span>                                ct)</div>
-<div class="line"><span class="lineno">  640</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  640</span>                                ;</div>
 <div class="line"><span class="lineno">  641</span>                            await repo.Sychronize(</div>
 <div class="line"><span class="lineno">  642</span>                                currentModel.AccessUser,</div>
 <div class="line"><span class="lineno">  643</span>                                currentModel.AccessToken,</div>
@@ -1300,8 +1300,8 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  646</span>                                NextProgressReporter(),</div>
 <div class="line"><span class="lineno">  647</span>                                <span class="keyword">true</span>,</div>
 <div class="line"><span class="lineno">  648</span>                                ct)</div>
-<div class="line"><span class="lineno">  649</span>                                .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  650</span>                            await CallLoadRevInfo().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  649</span>                                ;</div>
+<div class="line"><span class="lineno">  650</span>                            await CallLoadRevInfo();</div>
 <div class="line"><span class="lineno">  651</span> </div>
 <div class="line"><span class="lineno">  652</span>                            <span class="comment">// repo head is on origin so force this</span></div>
 <div class="line"><span class="lineno">  653</span>                            <span class="comment">// will update the db if necessary</span></div>
@@ -1342,7 +1342,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  688</span>                                    <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  689</span>                                    {</div>
 <div class="line"><span class="lineno">  690</span>                                        <span class="comment">// retrieve the latest sha</span></div>
-<div class="line"><span class="lineno">  691</span>                                        var pr = await repo.GetTestMerge(newTestMerge, currentModel, ct).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  691</span>                                        var pr = await repo.GetTestMerge(newTestMerge, currentModel, ct);</div>
 <div class="line"><span class="lineno">  692</span> </div>
 <div class="line"><span class="lineno">  693</span>                                        <span class="comment">// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it</span></div>
 <div class="line"><span class="lineno">  694</span>                                        newTestMerge.TargetCommitSha = pr.TargetCommitSha;</div>
@@ -1369,8 +1369,8 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  715</span>                                            .Include(x =&gt; x.ActiveTestMerges)</div>
 <div class="line"><span class="lineno">  716</span>                                            .ThenInclude(x =&gt; x.TestMerge)</div>
 <div class="line"><span class="lineno">  717</span>                                            .ToListAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  718</span>                                            .ConfigureAwait(<span class="keyword">false</span>))</div>
-<div class="line"><span class="lineno">  719</span>                                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  718</span>                                            )</div>
+<div class="line"><span class="lineno">  719</span>                                    ;</div>
 <div class="line"><span class="lineno">  720</span> </div>
 <div class="line"><span class="lineno">  721</span>                                <span class="comment">// split here cause this bit has to be done locally</span></div>
 <div class="line"><span class="lineno">  722</span>                                revInfoWereLookingFor = dbPull</div>
@@ -1453,7 +1453,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  799</span>                        {</div>
 <div class="line"><span class="lineno">  800</span>                            <span class="comment">// goteem</span></div>
 <div class="line"><span class="lineno">  801</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;Reusing existing SHA {0}...&quot;</span>, revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>);</div>
-<div class="line"><span class="lineno">  802</span>                            await repo.ResetToSha(revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>, NextProgressReporter(), cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  802</span>                            await repo.ResetToSha(revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>, NextProgressReporter(), cancellationToken);</div>
 <div class="line"><span class="lineno">  803</span>                            lastRevisionInfo = revInfoWereLookingFor;</div>
 <div class="line"><span class="lineno">  804</span>                        }</div>
 <div class="line"><span class="lineno">  805</span> </div>
@@ -1474,7 +1474,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  820</span>                                    currentModel.AccessToken,</div>
 <div class="line"><span class="lineno">  821</span>                                    updateSubmodules,</div>
 <div class="line"><span class="lineno">  822</span>                                    NextProgressReporter(),</div>
-<div class="line"><span class="lineno">  823</span>                                    ct).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  823</span>                                    ct);</div>
 <div class="line"><span class="lineno">  824</span> </div>
 <div class="line"><span class="lineno">  825</span>                                <span class="keywordflow">if</span> (mergeResult == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  826</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
@@ -1485,7 +1485,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  831</span>                                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">Models.TestMerge</a> fullTestMerge;</div>
 <div class="line"><span class="lineno">  832</span>                                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  833</span>                                {</div>
-<div class="line"><span class="lineno">  834</span>                                    fullTestMerge = await fullTestMergeTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  834</span>                                    fullTestMerge = await fullTestMergeTask;</div>
 <div class="line"><span class="lineno">  835</span>                                }</div>
 <div class="line"><span class="lineno">  836</span>                                <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  837</span>                                {</div>
@@ -1509,7 +1509,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  855</span>                                <span class="comment">// MergedBy will be set later</span></div>
 <div class="line"><span class="lineno">  856</span>                                ++doneSteps;</div>
 <div class="line"><span class="lineno">  857</span> </div>
-<div class="line"><span class="lineno">  858</span>                                await UpdateRevInfo(fullTestMerge).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  858</span>                                await UpdateRevInfo(fullTestMerge);</div>
 <div class="line"><span class="lineno">  859</span>                            }</div>
 <div class="line"><span class="lineno">  860</span>                        }</div>
 <div class="line"><span class="lineno">  861</span>                    }</div>
@@ -1525,8 +1525,8 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  871</span>                            NextProgressReporter(),</div>
 <div class="line"><span class="lineno">  872</span>                            <span class="keyword">false</span>,</div>
 <div class="line"><span class="lineno">  873</span>                            ct)</div>
-<div class="line"><span class="lineno">  874</span>                            .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  875</span>                        await UpdateRevInfo().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  874</span>                            ;</div>
+<div class="line"><span class="lineno">  875</span>                        await UpdateRevInfo();</div>
 <div class="line"><span class="lineno">  876</span>                    }</div>
 <div class="line"><span class="lineno">  877</span> </div>
 <div class="line"><span class="lineno">  878</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
@@ -1545,9 +1545,9 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  891</span>                        <span class="keyword">true</span>,</div>
 <div class="line"><span class="lineno">  892</span>                        NextProgressReporter(),</div>
 <div class="line"><span class="lineno">  893</span>                        <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  894</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  894</span>                        ;</div>
 <div class="line"><span class="lineno">  895</span>                    <span class="keywordflow">if</span> (startReference != <span class="keyword">null</span> &amp;&amp; repo.Head != startSha)</div>
-<div class="line"><span class="lineno">  896</span>                        await repo.ResetToSha(startSha, NextProgressReporter(), <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  896</span>                        await repo.ResetToSha(startSha, NextProgressReporter(), <span class="keywordflow">default</span>);</div>
 <div class="line"><span class="lineno">  897</span>                    <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  898</span>                        progressReporter(<span class="keyword">null</span>, 100);</div>
 <div class="line"><span class="lineno">  899</span>                    <span class="keywordflow">throw</span>;</div>
@@ -1573,7 +1573,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  919</span>                        progressReporter,</div>
 <div class="line"><span class="lineno">  920</span>                        ct),</div>
 <div class="line"><span class="lineno">  921</span>                cancellationToken)</div>
-<div class="line"><span class="lineno">  922</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  922</span>                ;</div>
 <div class="line"><span class="lineno">  923</span> </div>
 <div class="line"><span class="lineno">  924</span>            api.ActiveJob = job.ToApi();</div>
 <div class="line"><span class="lineno">  925</span>            <span class="keywordflow">return</span> Accepted(api);</div>

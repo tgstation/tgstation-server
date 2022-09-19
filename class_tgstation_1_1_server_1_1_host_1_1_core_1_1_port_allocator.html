@@ -246,7 +246,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   67</span>                .Where(x =&gt; x.Instance.SwarmIdentifer == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_port_allocator.html#a761a6d058a0ed15dc5247cc84cb54558">swarmConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>)</div>
 <div class="line"><span class="lineno">   68</span>                .Select(x =&gt; x.Port)</div>
 <div class="line"><span class="lineno">   69</span>                .ToListAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">   70</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   70</span>                ;</div>
 <div class="line"><span class="lineno">   71</span> </div>
 <div class="line"><span class="lineno">   72</span>            var dmPorts = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_port_allocator.html#ae20b3ff46f64e259cb076b5d8a35d50a">databaseContext</a></div>
 <div class="line"><span class="lineno">   73</span>                .<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aac927b14c117b14a4bafdf3811c2c859">DreamMakerSettings</a></div>
@@ -254,7 +254,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   75</span>                .Where(x =&gt; x.Instance.SwarmIdentifer == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_port_allocator.html#a761a6d058a0ed15dc5247cc84cb54558">swarmConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>)</div>
 <div class="line"><span class="lineno">   76</span>                .Select(x =&gt; x.ApiValidationPort)</div>
 <div class="line"><span class="lineno">   77</span>                .ToListAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">   78</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   78</span>                ;</div>
 <div class="line"><span class="lineno">   79</span> </div>
 <div class="line"><span class="lineno">   80</span>            var exceptions = <span class="keyword">new</span> List&lt;Exception&gt;();</div>
 <div class="line"><span class="lineno">   81</span>            ushort port = 0;</div>

@@ -351,7 +351,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  401</span>                <span class="comment">// DCT: None available</span></div>
 <div class="line"><span class="lineno">  402</span>                var deploymentJob = remoteDeploymentManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a956c9afaf0a390c654c421c195a263f8">MarkInactive</a>(job, <span class="keywordflow">default</span>);</div>
 <div class="line"><span class="lineno">  403</span>                var otherTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afcf8224ef94997af93339db4d69f34a3">cleanupTask</a>;</div>
-<div class="line"><span class="lineno">  404</span>                await Task.WhenAll(otherTask, deleteJob, deploymentJob).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  404</span>                await Task.WhenAll(otherTask, deleteJob, deploymentJob);</div>
 <div class="line"><span class="lineno">  405</span>            }</div>
 <div class="line"><span class="lineno">  406</span> </div>
 <div class="line"><span class="lineno">  407</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a218effcf67da26e5364cc0d277be5e72">jobLockCounts</a>)</div>
@@ -443,10 +443,10 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  338</span>                        &amp;&amp; jobIdsToSkip.Contains(x.Id.Value))</div>
 <div class="line"><span class="lineno">  339</span>                    .Select(x =&gt; x.DirectoryName.Value)</div>
 <div class="line"><span class="lineno">  340</span>                    .ToListAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  341</span>                    .ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><span class="lineno">  341</span>                    )</div>
 <div class="line"><span class="lineno">  342</span>                    .Select(x =&gt; x.ToString())</div>
 <div class="line"><span class="lineno">  343</span>                    .ToList();</div>
-<div class="line"><span class="lineno">  344</span>            }).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  344</span>            });</div>
 <div class="line"><span class="lineno">  345</span> </div>
 <div class="line"><span class="lineno">  346</span>            jobUidsToNotErase.Add(SwappableDmbProvider.LiveGameDirectory);</div>
 <div class="line"><span class="lineno">  347</span> </div>
@@ -454,8 +454,8 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  349</span> </div>
 <div class="line"><span class="lineno">  350</span>            <span class="comment">// cleanup</span></div>
 <div class="line"><span class="lineno">  351</span>            var gameDirectory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>();</div>
-<div class="line"><span class="lineno">  352</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(gameDirectory, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  353</span>            var directories = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a>(gameDirectory, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  352</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7">CreateDirectory</a>(gameDirectory, cancellationToken);</div>
+<div class="line"><span class="lineno">  353</span>            var directories = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a39ebf958ad54ba63a6b74a1d4d75a6f2">GetDirectories</a>(gameDirectory, cancellationToken);</div>
 <div class="line"><span class="lineno">  354</span>            <span class="keywordtype">int</span> deleting = 0;</div>
 <div class="line"><span class="lineno">  355</span>            var tasks = directories.Select(async x =&gt;</div>
 <div class="line"><span class="lineno">  356</span>            {</div>
@@ -466,7 +466,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  361</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  362</span>                {</div>
 <div class="line"><span class="lineno">  363</span>                    ++deleting;</div>
-<div class="line"><span class="lineno">  364</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(x, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  364</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a2bb559eb27c511b6f897ff1202e47282">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(x, cancellationToken);</div>
 <div class="line"><span class="lineno">  365</span>                }</div>
 <div class="line"><span class="lineno">  366</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
 <div class="line"><span class="lineno">  367</span>                {</div>
@@ -478,7 +478,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  373</span>                }</div>
 <div class="line"><span class="lineno">  374</span>            }).ToList();</div>
 <div class="line"><span class="lineno">  375</span>            <span class="keywordflow">if</span> (deleting &gt; 0)</div>
-<div class="line"><span class="lineno">  376</span>                await Task.WhenAll(tasks).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  376</span>                await Task.WhenAll(tasks);</div>
 <div class="line"><span class="lineno">  377</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory_html_ad22fce8fc51129e9da203dcef2f7ab42"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext</a></div><div class="ttdeci">Task UseContext(Func&lt; IDatabaseContext, Task &gt; operation)</div><div class="ttdoc">Run an operation  in the scope of an IDatabaseContext.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a0d6d5a54db205d2d1d45a927d57f5182"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182">Tgstation.Server.Host.IO.IIOManager.GetFileName</a></div><div class="ttdeci">string GetFileName(string path)</div><div class="ttdoc">Gets the file name portion of a path .</div></div>
@@ -575,8 +575,8 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  230</span>                        .ThenInclude(x =&gt; x.TestMerge)</div>
 <div class="line"><span class="lineno">  231</span>                        .ThenInclude(x =&gt; x.MergedBy)</div>
 <div class="line"><span class="lineno">  232</span>                    .FirstAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  233</span>                    .ConfigureAwait(<span class="keyword">false</span>))</div>
-<div class="line"><span class="lineno">  234</span>                .ConfigureAwait(<span class="keyword">false</span>); <span class="comment">// can&#39;t wait to see that query</span></div>
+<div class="line"><span class="lineno">  233</span>                    )</div>
+<div class="line"><span class="lineno">  234</span>                ; <span class="comment">// can&#39;t wait to see that query</span></div>
 <div class="line"><span class="lineno">  235</span> </div>
 <div class="line"><span class="lineno">  236</span>            <span class="keywordflow">if</span> (!compileJob.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a0676e94669f8de80f67aa20c72db5b7c">Job</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a2b6b6dbe1243f140d9fb04767ea16c61">StoppedAt</a>.HasValue)</div>
 <div class="line"><span class="lineno">  237</span>            {</div>
@@ -606,7 +606,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  261</span>                        newProvider.Directory,</div>
 <div class="line"><span class="lineno">  262</span>                        newProvider.DmbName),</div>
 <div class="line"><span class="lineno">  263</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  264</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  264</span>                    ;</div>
 <div class="line"><span class="lineno">  265</span> </div>
 <div class="line"><span class="lineno">  266</span>                <span class="keywordflow">if</span> (!dmbExistsAtRoot)</div>
 <div class="line"><span class="lineno">  267</span>                {</div>
@@ -624,7 +624,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  279</span>                            newProvider.DmbName),</div>
 <div class="line"><span class="lineno">  280</span>                        cancellationToken);</div>
 <div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  282</span>                    <span class="keywordflow">if</span> (!(await primaryCheckTask.ConfigureAwait(<span class="keyword">false</span>) &amp;&amp; await secondaryCheckTask.ConfigureAwait(<span class="keyword">false</span>)))</div>
+<div class="line"><span class="lineno">  282</span>                    <span class="keywordflow">if</span> (!(await primaryCheckTask &amp;&amp; await secondaryCheckTask))</div>
 <div class="line"><span class="lineno">  283</span>                    {</div>
 <div class="line"><span class="lineno">  284</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a71b829b7913fed5b414e4e6875f8819d">logger</a>.LogWarning(<span class="stringliteral">&quot;Error loading compile job, .dmb missing!&quot;</span>);</div>
 <div class="line"><span class="lineno">  285</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>; <span class="comment">// omae wa mou shinderu</span></div>
@@ -773,7 +773,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  124</span>            <span class="keywordflow">if</span> (job == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  125</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(job));</div>
 <div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>            var newProvider = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afe6a4dc38429e7b81b53351b1337ae43">FromCompileJob</a>(job, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  127</span>            var newProvider = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afe6a4dc38429e7b81b53351b1337ae43">FromCompileJob</a>(job, cancellationToken);</div>
 <div class="line"><span class="lineno">  128</span>            <span class="keywordflow">if</span> (newProvider == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  129</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  130</span> </div>
@@ -786,7 +786,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  137</span>                await remoteDeploymentManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a18be29696e2c96305700770162c3b5f5">StageDeployment</a>(</div>
 <div class="line"><span class="lineno">  138</span>                        newProvider.CompileJob,</div>
 <div class="line"><span class="lineno">  139</span>                        cancellationToken)</div>
-<div class="line"><span class="lineno">  140</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  140</span>                        ;</div>
 <div class="line"><span class="lineno">  141</span>            }</div>
 <div class="line"><span class="lineno">  142</span> </div>
 <div class="line"><span class="lineno">  143</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a218effcf67da26e5364cc0d277be5e72">jobLockCounts</a>)</div>
@@ -918,13 +918,13 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  180</span>                    .Where(x =&gt; x.Job.Instance.Id == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a7e60b90c964406fb8fedc79408bc8fec">metadata</a>.Id)</div>
 <div class="line"><span class="lineno">  181</span>                    .OrderByDescending(x =&gt; x.Job.StoppedAt)</div>
 <div class="line"><span class="lineno">  182</span>                    .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  183</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  183</span>                    ;</div>
 <div class="line"><span class="lineno">  184</span>            })</div>
-<div class="line"><span class="lineno">  185</span>            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  185</span>            ;</div>
 <div class="line"><span class="lineno">  186</span> </div>
 <div class="line"><span class="lineno">  187</span>            <span class="keywordflow">if</span> (cj == <span class="keywordflow">default</span>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>))</div>
 <div class="line"><span class="lineno">  188</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  189</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa48032d06fd0ad559ab3b6a02e6bf2f7">LoadCompileJob</a>(cj, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  189</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa48032d06fd0ad559ab3b6a02e6bf2f7">LoadCompileJob</a>(cj, cancellationToken);</div>
 <div class="line"><span class="lineno">  190</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae4128b124ad48c9a541cebfe31db34de">started</a> = <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">  191</span> </div>
 <div class="line"><span class="lineno">  192</span>            <span class="comment">// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet</span></div>
@@ -977,7 +977,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  198</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  199</span>            {</div>
 <div class="line"><span class="lineno">  200</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#adc133e7ea90f5d87f12c0621959ded92">cleanupCts</a>.Cancel()))</div>
-<div class="line"><span class="lineno">  201</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afcf8224ef94997af93339db4d69f34a3">cleanupTask</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  201</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#afcf8224ef94997af93339db4d69f34a3">cleanupTask</a>;</div>
 <div class="line"><span class="lineno">  202</span>            }</div>
 <div class="line"><span class="lineno">  203</span>            <span class="keywordflow">finally</span></div>
 <div class="line"><span class="lineno">  204</span>            {</div>

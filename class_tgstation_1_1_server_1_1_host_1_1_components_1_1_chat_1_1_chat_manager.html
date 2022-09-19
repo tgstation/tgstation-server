@@ -464,10 +464,10 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">  901</span>        {</div>
 <div class="line"><span class="lineno">  902</span>            async Task Wrap(Task originalTask)</div>
 <div class="line"><span class="lineno">  903</span>            {</div>
-<div class="line"><span class="lineno">  904</span>                await originalTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  904</span>                await originalTask;</div>
 <div class="line"><span class="lineno">  905</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  906</span>                {</div>
-<div class="line"><span class="lineno">  907</span>                    await task.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  907</span>                    await task;</div>
 <div class="line"><span class="lineno">  908</span>                }</div>
 <div class="line"><span class="lineno">  909</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  910</span>                {</div>
@@ -535,7 +535,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  190</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(newChannels));</div>
 <div class="line"><span class="lineno">  191</span> </div>
 <div class="line"><span class="lineno">  192</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;ChangeChannels {0}...&quot;</span>, connectionId);</div>
-<div class="line"><span class="lineno">  193</span>            var provider = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af235956bb2332f8a772864a984822264">RemoveProviderChannels</a>(connectionId, <span class="keyword">false</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  193</span>            var provider = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af235956bb2332f8a772864a984822264">RemoveProviderChannels</a>(connectionId, <span class="keyword">false</span>, cancellationToken);</div>
 <div class="line"><span class="lineno">  194</span>            <span class="keywordflow">if</span> (provider == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  195</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  196</span> </div>
@@ -545,7 +545,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  200</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  201</span>            }</div>
 <div class="line"><span class="lineno">  202</span> </div>
-<div class="line"><span class="lineno">  203</span>            var results = await provider.MapChannels(newChannels, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  203</span>            var results = await provider.MapChannels(newChannels, cancellationToken);</div>
 <div class="line"><span class="lineno">  204</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a3ca52a2da0df3c6f05614dc8e87a4ec0">activeChatBots</a>)</div>
 <div class="line"><span class="lineno">  205</span>            {</div>
 <div class="line"><span class="lineno">  206</span>                var botToUpdate = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a3ca52a2da0df3c6f05614dc8e87a4ec0">activeChatBots</a>.FirstOrDefault(bot =&gt; bot.Id == connectionId);</div>
@@ -602,7 +602,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  257</span>                                cancellationToken)));</div>
 <div class="line"><span class="lineno">  258</span>            }</div>
 <div class="line"><span class="lineno">  259</span> </div>
-<div class="line"><span class="lineno">  260</span>            await trackingContextUpdateTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  260</span>            await trackingContextUpdateTask;</div>
 <div class="line"><span class="lineno">  261</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_af235956bb2332f8a772864a984822264"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af235956bb2332f8a772864a984822264">Tgstation.Server.Host.Components.Chat.ChatManager.RemoveProviderChannels</a></div><div class="ttdeci">async Task&lt; IProvider &gt; RemoveProviderChannels(long connectionId, bool removeProvider, CancellationToken cancellationToken)</div><div class="ttdoc">Remove a IProvider from mappedChannels optionally removing the provider itself from providers and upd...</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00511">ChatManager.cs:511</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html">Tgstation.Server.Host.Components.Chat.Providers.IProvider</a></div><div class="ttdoc">For interacting with a chat service.</div><div class="ttdef"><b>Definition:</b> <a href="_i_provider_8cs_source.html#l00013">IProvider.cs:14</a></div></div>
@@ -677,7 +677,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  288</span>                <span class="keywordflow">foreach</span> (var oldMappedChannelId <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a556af78ef77307e5bff2d79daa628bcb">mappedChannels</a>.Where(x =&gt; x.Value.ProviderId == newSettings.Id).Select(x =&gt; x.Key).ToList())</div>
 <div class="line"><span class="lineno">  289</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a556af78ef77307e5bff2d79daa628bcb">mappedChannels</a>.Remove(oldMappedChannelId);</div>
 <div class="line"><span class="lineno">  290</span> </div>
-<div class="line"><span class="lineno">  291</span>            await disconnectTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  291</span>            await disconnectTask;</div>
 <div class="line"><span class="lineno">  292</span> </div>
 <div class="line"><span class="lineno">  293</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a1ac2daf67a09f128290588a5181c88ba">synchronizationLock</a>)</div>
 <div class="line"><span class="lineno">  294</span>            {</div>
@@ -709,7 +709,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  320</span>                });</div>
 <div class="line"><span class="lineno">  321</span>            }</div>
 <div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>            await reconnectionUpdateTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  323</span>            await reconnectionUpdateTask;</div>
 <div class="line"><span class="lineno">  324</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ae8f42e9fc59f0aa9d70de26a4b6600b7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae8f42e9fc59f0aa9d70de26a4b6600b7">Tgstation.Server.Host.Components.Chat.ChatManager.DeleteConnection</a></div><div class="ttdeci">async Task DeleteConnection(long connectionId, CancellationToken cancellationToken)</div><div class="ttdoc">Disconnects and deletes a given connection.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00473">ChatManager.cs:473</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory_html_a4250fc0dc09258c391507fbf29977758"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html#a4250fc0dc09258c391507fbf29977758">Tgstation.Server.Host.Components.Chat.Providers.IProviderFactory.CreateProvider</a></div><div class="ttdeci">IProvider CreateProvider(ChatBot settings)</div><div class="ttdoc">Create a IProvider.</div></div>
@@ -806,15 +806,15 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00473">473</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  474</span>        {</div>
-<div class="line"><span class="lineno">  475</span>            var provider = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af235956bb2332f8a772864a984822264">RemoveProviderChannels</a>(connectionId, <span class="keyword">true</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  475</span>            var provider = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af235956bb2332f8a772864a984822264">RemoveProviderChannels</a>(connectionId, <span class="keyword">true</span>, cancellationToken);</div>
 <div class="line"><span class="lineno">  476</span>            <span class="keywordflow">if</span> (provider != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  477</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  478</span>                {</div>
-<div class="line"><span class="lineno">  479</span>                    await provider.Disconnect(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  479</span>                    await provider.Disconnect(cancellationToken);</div>
 <div class="line"><span class="lineno">  480</span>                }</div>
 <div class="line"><span class="lineno">  481</span>                <span class="keywordflow">finally</span></div>
 <div class="line"><span class="lineno">  482</span>                {</div>
-<div class="line"><span class="lineno">  483</span>                    await provider.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  483</span>                    await provider.DisposeAsync();</div>
 <div class="line"><span class="lineno">  484</span>                }</div>
 <div class="line"><span class="lineno">  485</span>        }</div>
 </div><!-- fragment -->
@@ -854,9 +854,9 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  178</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ac3dec357800cfc9a526c82d61fe99803">restartRegistration</a>.Dispose();</div>
 <div class="line"><span class="lineno">  179</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981">handlerCts</a>.Dispose();</div>
 <div class="line"><span class="lineno">  180</span>            <span class="keywordflow">foreach</span> (var providerKvp <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>)</div>
-<div class="line"><span class="lineno">  181</span>                await providerKvp.Value.DisposeAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  181</span>                await providerKvp.Value.DisposeAsync();</div>
 <div class="line"><span class="lineno">  182</span> </div>
-<div class="line"><span class="lineno">  183</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8537715fb809f78e49b1497bcd82849e">messageSendTask</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  183</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8537715fb809f78e49b1497bcd82849e">messageSendTask</a>;</div>
 <div class="line"><span class="lineno">  184</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_chat_manager_8cs_source.html#l00089">Tgstation.Server.Host.Components.Chat.ChatManager.handlerCts</a>, <a class="el" href="_chat_manager_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.ChatManager.logger</a>, <a class="el" href="_chat_manager_8cs_source.html#l00119">Tgstation.Server.Host.Components.Chat.ChatManager.messageSendTask</a>, <a class="el" href="_chat_manager_8cs_source.html#l00074">Tgstation.Server.Host.Components.Chat.ChatManager.providers</a>, and <a class="el" href="_chat_manager_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.ChatManager.restartRegistration</a>.</p>
@@ -946,7 +946,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00890">890</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  891</span>        {</div>
-<div class="line"><span class="lineno">  892</span>            await Task.WhenAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>.Select(x =&gt; x.Value.InitialConnectionJob)).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  892</span>            await Task.WhenAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>.Select(x =&gt; x.Value.InitialConnectionJob));</div>
 <div class="line"><span class="lineno">  893</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Initial provider connection task completed&quot;</span>);</div>
 <div class="line"><span class="lineno">  894</span>        }</div>
 </div><!-- fragment -->
@@ -1012,18 +1012,18 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  805</span>                    <span class="keywordflow">if</span> (messageTasks.Count == 0)</div>
 <div class="line"><span class="lineno">  806</span>                    {</div>
 <div class="line"><span class="lineno">  807</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;No providers active, pausing messsage monitoring...&quot;</span>);</div>
-<div class="line"><span class="lineno">  808</span>                        await updatedTask.WithToken(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  808</span>                        await updatedTask.WithToken(cancellationToken);</div>
 <div class="line"><span class="lineno">  809</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Resuming message monitoring...&quot;</span>);</div>
 <div class="line"><span class="lineno">  810</span>                        <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  811</span>                    }</div>
 <div class="line"><span class="lineno">  812</span> </div>
 <div class="line"><span class="lineno">  813</span>                    <span class="comment">// wait for a message</span></div>
-<div class="line"><span class="lineno">  814</span>                    await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x =&gt; x.Value))).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  814</span>                    await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x =&gt; x.Value)));</div>
 <div class="line"><span class="lineno">  815</span> </div>
 <div class="line"><span class="lineno">  816</span>                    <span class="comment">// process completed ones</span></div>
 <div class="line"><span class="lineno">  817</span>                    <span class="keywordflow">foreach</span> (var completedMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; x.Value.IsCompleted).ToList())</div>
 <div class="line"><span class="lineno">  818</span>                    {</div>
-<div class="line"><span class="lineno">  819</span>                        var message = await completedMessageTaskKvp.Value.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  819</span>                        var message = await completedMessageTaskKvp.Value;</div>
 <div class="line"><span class="lineno">  820</span>                        var messageNumber = Interlocked.Increment(ref <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0f90df8e6ed21489cc4b57f690f41c7e">messagesProcessed</a>);</div>
 <div class="line"><span class="lineno">  821</span> </div>
 <div class="line"><span class="lineno">  822</span>                        async Task WrapProcessMessage()</div>
@@ -1032,14 +1032,14 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  825</span>                            <span class="keyword">using</span> (LogContext.PushProperty(<span class="stringliteral">&quot;ChatMessage&quot;</span>, messageNumber))</div>
 <div class="line"><span class="lineno">  826</span>                                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  827</span>                                {</div>
-<div class="line"><span class="lineno">  828</span>                                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c">ProcessMessage</a>(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  828</span>                                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c">ProcessMessage</a>(completedMessageTaskKvp.Key, message, cancellationToken);</div>
 <div class="line"><span class="lineno">  829</span>                                }</div>
 <div class="line"><span class="lineno">  830</span>                                <span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line"><span class="lineno">  831</span>                                {</div>
 <div class="line"><span class="lineno">  832</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error processing message {messageNumber}!&quot;</span>, messageNumber);</div>
 <div class="line"><span class="lineno">  833</span>                                }</div>
 <div class="line"><span class="lineno">  834</span> </div>
-<div class="line"><span class="lineno">  835</span>                            await localActiveProcessingTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  835</span>                            await localActiveProcessingTask;</div>
 <div class="line"><span class="lineno">  836</span>                        }</div>
 <div class="line"><span class="lineno">  837</span> </div>
 <div class="line"><span class="lineno">  838</span>                        activeProcessingTask = WrapProcessMessage();</div>
@@ -1058,7 +1058,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  851</span>            }</div>
 <div class="line"><span class="lineno">  852</span>            <span class="keywordflow">finally</span></div>
 <div class="line"><span class="lineno">  853</span>            {</div>
-<div class="line"><span class="lineno">  854</span>                await activeProcessingTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  854</span>                await activeProcessingTask;</div>
 <div class="line"><span class="lineno">  855</span>            }</div>
 <div class="line"><span class="lineno">  856</span> </div>
 <div class="line"><span class="lineno">  857</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Leaving message processing loop&quot;</span>);</div>
@@ -1130,7 +1130,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  585</span>            <span class="comment">// provider reconnected, remap channels.</span></div>
 <div class="line"><span class="lineno">  586</span>            <span class="keywordflow">if</span> (message == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  587</span>            {</div>
-<div class="line"><span class="lineno">  588</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa8388f0bf72714eba49fd88540c8a397">RemapProvider</a>(provider, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  588</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa8388f0bf72714eba49fd88540c8a397">RemapProvider</a>(provider, cancellationToken);</div>
 <div class="line"><span class="lineno">  589</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  590</span>            }</div>
 <div class="line"><span class="lineno">  591</span> </div>
@@ -1191,7 +1191,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  646</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>,</div>
 <div class="line"><span class="lineno">  647</span>                        },</div>
 <div class="line"><span class="lineno">  648</span>                        cancellationToken)</div>
-<div class="line"><span class="lineno">  649</span>                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  649</span>                        ;</div>
 <div class="line"><span class="lineno">  650</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  651</span>                }</div>
 <div class="line"><span class="lineno">  652</span> </div>
@@ -1229,7 +1229,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  684</span>                <span class="keywordflow">if</span> (splits.Count == 0)</div>
 <div class="line"><span class="lineno">  685</span>                {</div>
 <div class="line"><span class="lineno">  686</span>                    <span class="comment">// just a mention</span></div>
-<div class="line"><span class="lineno">  687</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(<span class="stringliteral">&quot;Hi!&quot;</span>, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  687</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(<span class="stringliteral">&quot;Hi!&quot;</span>, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken);</div>
 <div class="line"><span class="lineno">  688</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  689</span>                }</div>
 <div class="line"><span class="lineno">  690</span> </div>
@@ -1275,7 +1275,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  730</span>                            helpText = UnknownCommandMessage;</div>
 <div class="line"><span class="lineno">  731</span>                    }</div>
 <div class="line"><span class="lineno">  732</span> </div>
-<div class="line"><span class="lineno">  733</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(helpText, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  733</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(helpText, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken);</div>
 <div class="line"><span class="lineno">  734</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  735</span>                }</div>
 <div class="line"><span class="lineno">  736</span> </div>
@@ -1283,19 +1283,19 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  738</span> </div>
 <div class="line"><span class="lineno">  739</span>                <span class="keywordflow">if</span> (commandHandler == <span class="keywordflow">default</span>)</div>
 <div class="line"><span class="lineno">  740</span>                {</div>
-<div class="line"><span class="lineno">  741</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(UnknownCommandMessage, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  741</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(UnknownCommandMessage, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken);</div>
 <div class="line"><span class="lineno">  742</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  743</span>                }</div>
 <div class="line"><span class="lineno">  744</span> </div>
 <div class="line"><span class="lineno">  745</span>                <span class="keywordflow">if</span> (commandHandler.AdminOnly &amp;&amp; !message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a5e3306682c350b0cfac4507762b6d8b1">IsAdminChannel</a>)</div>
 <div class="line"><span class="lineno">  746</span>                {</div>
-<div class="line"><span class="lineno">  747</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(<span class="stringliteral">&quot;Use this command in an admin channel!&quot;</span>, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  747</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(<span class="stringliteral">&quot;Use this command in an admin channel!&quot;</span>, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken);</div>
 <div class="line"><span class="lineno">  748</span>                    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  749</span>                }</div>
 <div class="line"><span class="lineno">  750</span> </div>
-<div class="line"><span class="lineno">  751</span>                var result = await commandHandler.Invoke(arguments, message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  751</span>                var result = await commandHandler.Invoke(arguments, message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>, cancellationToken);</div>
 <div class="line"><span class="lineno">  752</span>                <span class="keywordflow">if</span> (result != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  753</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(result, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  753</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">SendMessage</a>(result, <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, cancellationToken);</div>
 <div class="line"><span class="lineno">  754</span>            }</div>
 <div class="line"><span class="lineno">  755</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
 <div class="line"><span class="lineno">  756</span>            {</div>
@@ -1310,7 +1310,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  765</span>                    <span class="stringliteral">&quot;TGS: Internal error processing command! Check server logs!&quot;</span>,</div>
 <div class="line"><span class="lineno">  766</span>                    <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
 <div class="line"><span class="lineno">  767</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  768</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  768</span>                    ;</div>
 <div class="line"><span class="lineno">  769</span>            }</div>
 <div class="line"><span class="lineno">  770</span>            <span class="keywordflow">finally</span></div>
 <div class="line"><span class="lineno">  771</span>            {</div>
@@ -1422,7 +1422,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  393</span>                                channelMapping.ProviderChannelId,</div>
 <div class="line"><span class="lineno">  394</span>                                localCommitPushed,</div>
 <div class="line"><span class="lineno">  395</span>                                handlerCts.Token)</div>
-<div class="line"><span class="lineno">  396</span>                                .ConfigureAwait(false);</div>
+<div class="line"><span class="lineno">  396</span>                                ;</div>
 <div class="line"><span class="lineno">  397</span> </div>
 <div class="line"><span class="lineno">  398</span>                            callbacks.Add(callback);</div>
 <div class="line"><span class="lineno">  399</span>                        }</div>
@@ -1554,7 +1554,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  344</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">initialProviderConnectionsTask</a>.IsCompleted)</div>
 <div class="line"><span class="lineno">  345</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Waiting for initial provider connections before sending watchdog message...&quot;</span>);</div>
 <div class="line"><span class="lineno">  346</span> </div>
-<div class="line"><span class="lineno">  347</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">initialProviderConnectionsTask</a>.WithToken(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  347</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">initialProviderConnectionsTask</a>.WithToken(cancellationToken);</div>
 <div class="line"><span class="lineno">  348</span> </div>
 <div class="line"><span class="lineno">  349</span>            <span class="comment">// so it doesn&#39;t change while we&#39;re using it</span></div>
 <div class="line"><span class="lineno">  350</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a556af78ef77307e5bff2d79daa628bcb">mappedChannels</a>)</div>
@@ -1665,7 +1665,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  562</span>                channelsToMap = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a3ca52a2da0df3c6f05614dc8e87a4ec0">activeChatBots</a>.FirstOrDefault(x =&gt; x.Id == providerId)?.Channels;</div>
 <div class="line"><span class="lineno">  563</span> </div>
 <div class="line"><span class="lineno">  564</span>            <span class="keywordflow">if</span> (channelsToMap?.Any() ?? <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  565</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9">ChangeChannels</a>(providerId, channelsToMap, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  565</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9">ChangeChannels</a>(providerId, channelsToMap, cancellationToken);</div>
 <div class="line"><span class="lineno">  566</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a29ba2842fd3cf2c5532acc07966eb1a9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9">Tgstation.Server.Host.Components.Chat.ChatManager.ChangeChannels</a></div><div class="ttdeci">async Task ChangeChannels(long connectionId, IEnumerable&lt; Api.Models.ChatChannel &gt; newChannels, CancellationToken cancellationToken)</div><div class="ttdoc">Change chat channels.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00187">ChatManager.cs:187</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_html_a8696a05b0d8adb9b7cc0f59ec4f6c5efa72664dc0959f3b0c04891f8c7046a9f3"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5efa72664dc0959f3b0c04891f8c7046a9f3">Tgstation.Server.Api.HeaderTypes.Api</a></div><div class="ttdeci">@ Api</div><div class="ttdoc">ApiHeaders.ApiVersionHeader.</div></div>
@@ -1754,7 +1754,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  539</span>                    trackingContextsUpdateTask = Task.CompletedTask;</div>
 <div class="line"><span class="lineno">  540</span>            }</div>
 <div class="line"><span class="lineno">  541</span> </div>
-<div class="line"><span class="lineno">  542</span>            await trackingContextsUpdateTask.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  542</span>            await trackingContextsUpdateTask;</div>
 <div class="line"><span class="lineno">  543</span> </div>
 <div class="line"><span class="lineno">  544</span>            <span class="keywordflow">return</span> provider;</div>
 <div class="line"><span class="lineno">  545</span>        }</div>
@@ -1879,7 +1879,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  422</span>            <span class="keywordflow">foreach</span> (var tgsCommand <span class="keywordflow">in</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa6a9c74750f2d7681b3e2f2a2913d0b3">commandFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html#aeb2c367e49d99ddde4c96c516cba6633">GenerateCommands</a>())</div>
 <div class="line"><span class="lineno">  423</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae3868b098a806dcfe331ce581059f1c7">builtinCommands</a>.Add(tgsCommand.Name.ToUpperInvariant(), tgsCommand);</div>
 <div class="line"><span class="lineno">  424</span>            var initialChatBots = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a3ca52a2da0df3c6f05614dc8e87a4ec0">activeChatBots</a>.ToList();</div>
-<div class="line"><span class="lineno">  425</span>            await Task.WhenAll(initialChatBots.Select(x =&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0821ad5d467ff2ea9216eadd33273104">ChangeSettings</a>(x, cancellationToken))).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  425</span>            await Task.WhenAll(initialChatBots.Select(x =&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0821ad5d467ff2ea9216eadd33273104">ChangeSettings</a>(x, cancellationToken)));</div>
 <div class="line"><span class="lineno">  426</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">initialProviderConnectionsTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498">InitialConnection</a>();</div>
 <div class="line"><span class="lineno">  427</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">chatHandler</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">MonitorMessages</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981">handlerCts</a>.Token);</div>
 <div class="line"><span class="lineno">  428</span>        }</div>
@@ -1913,9 +1913,9 @@ Here is the caller graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">  432</span>        {</div>
 <div class="line"><span class="lineno">  433</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981">handlerCts</a>.Cancel();</div>
 <div class="line"><span class="lineno">  434</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">chatHandler</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  435</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">chatHandler</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  436</span>            await Task.WhenAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>.Select(x =&gt; x.Key).Select(x =&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae8f42e9fc59f0aa9d70de26a4b6600b7">DeleteConnection</a>(x, cancellationToken))).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  437</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8537715fb809f78e49b1497bcd82849e">messageSendTask</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  435</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">chatHandler</a>;</div>
+<div class="line"><span class="lineno">  436</span>            await Task.WhenAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>.Select(x =&gt; x.Key).Select(x =&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae8f42e9fc59f0aa9d70de26a4b6600b7">DeleteConnection</a>(x, cancellationToken)));</div>
+<div class="line"><span class="lineno">  437</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a8537715fb809f78e49b1497bcd82849e">messageSendTask</a>;</div>
 <div class="line"><span class="lineno">  438</span>        }</div>
 </div><!-- fragment -->
 </div>

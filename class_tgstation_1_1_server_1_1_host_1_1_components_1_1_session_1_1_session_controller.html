@@ -534,8 +534,8 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  239</span> </div>
 <div class="line"><span class="lineno">  240</span>            async Task&lt;int&gt; WrapLifetime()</div>
 <div class="line"><span class="lineno">  241</span>            {</div>
-<div class="line"><span class="lineno">  242</span>                var exitCode = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af72f0ef89d2933aacb840b4371a5d55c">process</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a1d57ffc6a03199bba632d2c33dc139d3">Lifetime</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  243</span>                await postLifetimeCallback().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  242</span>                var exitCode = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af72f0ef89d2933aacb840b4371a5d55c">process</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a1d57ffc6a03199bba632d2c33dc139d3">Lifetime</a>;</div>
+<div class="line"><span class="lineno">  243</span>                await postLifetimeCallback();</div>
 <div class="line"><span class="lineno">  244</span>                <span class="keywordflow">return</span> exitCode;</div>
 <div class="line"><span class="lineno">  245</span>            }</div>
 <div class="line"><span class="lineno">  246</span> </div>
@@ -741,7 +741,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  284</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a63130d91727f1706f6f7c25ca55ee29f">released</a>)</div>
 <div class="line"><span class="lineno">  285</span>            {</div>
 <div class="line"><span class="lineno">  286</span>                <span class="comment">// finish the async callback</span></div>
-<div class="line"><span class="lineno">  287</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a1c788fd5a67f57bd4344d30c3bbd6d48">Lifetime</a>.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  287</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a1c788fd5a67f57bd4344d30c3bbd6d48">Lifetime</a>;</div>
 <div class="line"><span class="lineno">  288</span>            }</div>
 <div class="line"><span class="lineno">  289</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information_html_ae9210ff3236e194682fabe36fe20620d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html#ae9210ff3236e194682fabe36fe20620d">Tgstation.Server.Host.Components.Session.ReattachInformation.Dmb</a></div><div class="ttdeci">IDmbProvider Dmb</div><div class="ttdoc">The IDmbProvider used by DreamDaemon.</div><div class="ttdef"><b>Definition:</b> <a href="_components_2_session_2_reattach_information_8cs_source.html#l00018">ReattachInformation.cs:18</a></div></div>
@@ -867,12 +867,12 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  652</span>                useBridgeRequestForLaunchResult ? <span class="stringliteral">&quot;initial bridge request&quot;</span> : <span class="stringliteral">&quot;process startup&quot;</span>,</div>
 <div class="line"><span class="lineno">  653</span>                startupTimeout.HasValue ? $<span class="stringliteral">&quot; with a timeout of {startupTimeout.Value}s&quot;</span> : String.Empty);</div>
 <div class="line"><span class="lineno">  654</span> </div>
-<div class="line"><span class="lineno">  655</span>            await toAwait.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  655</span>            await toAwait;</div>
 <div class="line"><span class="lineno">  656</span> </div>
 <div class="line"><span class="lineno">  657</span>            var result = <span class="keyword">new</span> <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9df2774fefe9116cc88f3ba14c6e68fc">LaunchResult</a></div>
 <div class="line"><span class="lineno">  658</span>            {</div>
-<div class="line"><span class="lineno">  659</span>                ExitCode = process.Lifetime.IsCompleted ? (<span class="keywordtype">int</span>?)await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af72f0ef89d2933aacb840b4371a5d55c">process</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a1d57ffc6a03199bba632d2c33dc139d3">Lifetime</a>.ConfigureAwait(<span class="keyword">false</span>) : <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  660</span>                StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.UtcNow - startTime) : null,</div>
+<div class="line"><span class="lineno">  659</span>                ExitCode = process.Lifetime.IsCompleted ? (<span class="keywordtype">int</span>?)await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#af72f0ef89d2933aacb840b4371a5d55c">process</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a1d57ffc6a03199bba632d2c33dc139d3">Lifetime</a> : <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  660</span>                StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.UtcNow - startTime) : <span class="keyword">null</span>,</div>
 <div class="line"><span class="lineno">  661</span>            };</div>
 <div class="line"><span class="lineno">  662</span> </div>
 <div class="line"><span class="lineno">  663</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a085d964312b1fe2e1ceef9bdad40708f">logger</a>.LogTrace(<span class="stringliteral">&quot;Launch result: {0}&quot;</span>, result);</div>
@@ -884,7 +884,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  669</span>                        assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Version</a>,</div>
 <div class="line"><span class="lineno">  670</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a5808b1dee440b5dc251360fad2341b6d">ReattachInformation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html#a0fd772ae059a153465f76bda841292ef">RuntimeInformation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a34f2ed18e36028c8a913c4c542fc9dba">ServerPort</a>),</div>
 <div class="line"><span class="lineno">  671</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a585c2703d8cea3397a20f06a290ae48f">reattachTopicCts</a>.Token)</div>
-<div class="line"><span class="lineno">  672</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  672</span>                    ;</div>
 <div class="line"><span class="lineno">  673</span> </div>
 <div class="line"><span class="lineno">  674</span>                <span class="keywordflow">if</span> (reattachResponse != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  675</span>                {</div>
@@ -1219,7 +1219,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  445</span>            var tmpProvider = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a5808b1dee440b5dc251360fad2341b6d">ReattachInformation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html#ae9210ff3236e194682fabe36fe20620d">Dmb</a>;</div>
 <div class="line"><span class="lineno">  446</span>            ReattachInformation.Dmb = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  447</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a63130d91727f1706f6f7c25ca55ee29f">released</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  448</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1">DisposeAsync</a>().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  448</span>            await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1">DisposeAsync</a>();</div>
 <div class="line"><span class="lineno">  449</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a910e577062b12d5311aec27e7fb1db88">byondLock</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html#aefcf67dd06a656e319e6d6e42a2aef81">DoNotDeleteThisSession</a>();</div>
 <div class="line"><span class="lineno">  450</span>            tmpProvider.KeepAlive();</div>
 <div class="line"><span class="lineno">  451</span>            ReattachInformation.Dmb = tmpProvider;</div>
@@ -1402,7 +1402,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  488</span>                var topicResponse = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a9aa75319f31efb998077ea7a2323aff6">byondTopicSender</a>.SendTopic(</div>
 <div class="line"><span class="lineno">  489</span>                    <span class="keyword">new</span> IPEndPoint(IPAddress.Loopback, targetPort),</div>
 <div class="line"><span class="lineno">  490</span>                    commandString,</div>
-<div class="line"><span class="lineno">  491</span>                    cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  491</span>                    cancellationToken);</div>
 <div class="line"><span class="lineno">  492</span> </div>
 <div class="line"><span class="lineno">  493</span>                var topicReturn = topicResponse.StringData;</div>
 <div class="line"><span class="lineno">  494</span> </div>
@@ -1509,7 +1509,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  542</span>                var commandResult = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a742966929d20fd55dbc53167f940fc3f">SendCommand</a>(</div>
 <div class="line"><span class="lineno">  543</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html">TopicParameters</a>(port),</div>
 <div class="line"><span class="lineno">  544</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  545</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  545</span>                    ;</div>
 <div class="line"><span class="lineno">  546</span> </div>
 <div class="line"><span class="lineno">  547</span>                <span class="keywordflow">if</span> (commandResult.InteropResponse?.ErrorMessage != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  548</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -1586,7 +1586,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  576</span>            var result = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a742966929d20fd55dbc53167f940fc3f">SendCommand</a>(</div>
 <div class="line"><span class="lineno">  577</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html">TopicParameters</a>(newRebootState),</div>
 <div class="line"><span class="lineno">  578</span>                cancellationToken)</div>
-<div class="line"><span class="lineno">  579</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  579</span>                ;</div>
 <div class="line"><span class="lineno">  580</span> </div>
 <div class="line"><span class="lineno">  581</span>            <span class="keywordflow">return</span> result?.InteropResponse != <span class="keyword">null</span> &amp;&amp; result.InteropResponse?.ErrorMessage == <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  582</span>        }</div>
