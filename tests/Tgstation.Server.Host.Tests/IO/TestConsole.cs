@@ -13,10 +13,10 @@ namespace Tgstation.Server.Host.IO.Tests
 		public async Task TestWriteLine()
 		{
 			var console = new Console();
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => console.WriteAsync(null, false, default)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => console.WriteAsync(null, false, default));
 			try
 			{
-				await console.WriteAsync(null, true, default).ConfigureAwait(false);
+				await console.WriteAsync(null, true, default);
 				await console.WriteAsync(String.Empty, false, default).ConfigureAwait(true);
 			}
 			catch (InvalidOperationException)

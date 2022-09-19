@@ -72,8 +72,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.AsQueryable()
 						.Where(x => x.InstanceId == Metadata.Id)
 						.FirstAsync(cancellationToken)
-						.ConfigureAwait(false))
-				.ConfigureAwait(false);
+						)
+				;
 
 			var instanceAuthenticated = repositorySettings.AccessToken != null;
 			var gitHubClient = !instanceAuthenticated
@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 							RequiredContexts = new Collection<string>(),
 						})
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				compileJob.GitHubDeploymentId = deployment.Id;
 				Logger.LogDebug("Created deployment ID {0}", deployment.Id);
@@ -127,7 +127,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 							AutoInactive = false,
 						})
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				Logger.LogTrace("In-progress deployment status created");
 			}
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				var gitHubRepo = await repositoryTask
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				compileJob.GitHubRepoId = gitHubRepo.Id;
 				Logger.LogTrace("Set GitHub ID as {0}", compileJob.GitHubRepoId);
@@ -213,7 +213,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.WithToken(cancellationToken));
 			try
 			{
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 			}
 			catch (Exception ex) when (!(ex is OperationCanceledException))
 			{
@@ -225,12 +225,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			PullRequest lastMerged = null;
 			async Task CheckRemovePR(Task<PullRequest> task)
 			{
-				var pr = await task.ConfigureAwait(false);
+				var pr = await task;
 				if (!pr.Merged)
 					return;
 
 				// We don't just assume, actually check the repo contains the merge commit.
-				if (await repository.ShaIsParent(pr.MergeCommitSha, cancellationToken).ConfigureAwait(false))
+				if (await repository.ShaIsParent(pr.MergeCommitSha, cancellationToken))
 				{
 					if (lastMerged == null || lastMerged.MergedAt < pr.MergedAt)
 						lastMerged = pr;
@@ -241,7 +241,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			}
 
 			foreach (var prTask in tasks)
-				await CheckRemovePR(prTask).ConfigureAwait(false);
+				await CheckRemovePR(prTask);
 
 			return newList;
 		}
@@ -261,7 +261,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				await gitHubClient.Issue.Comment.Create(remoteRepositoryOwner, remoteRepositoryName, testMergeNumber, comment)
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 			}
 			catch (ApiException e)
 			{
@@ -337,8 +337,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.Where(x => x.InstanceId == Metadata.Id)
 						.Select(x => x.AccessToken)
 						.FirstAsync(cancellationToken)
-						.ConfigureAwait(false))
-				.ConfigureAwait(false);
+						)
+				;
 
 			if (gitHubAccessToken == null)
 			{
@@ -362,7 +362,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						Description = description,
 					})
 				.WithToken(cancellationToken)
-				.ConfigureAwait(false);
+				;
 		}
 	}
 }

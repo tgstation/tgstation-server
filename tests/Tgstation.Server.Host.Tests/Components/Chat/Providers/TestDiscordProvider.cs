@@ -80,10 +80,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
 			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), mockLogger.Object, testToken1);
 			Assert.IsFalse(provider.Connected);
-			await InvokeConnect(provider).ConfigureAwait(false);
+			await InvokeConnect(provider);
 			Assert.IsTrue(provider.Connected);
 
-			await provider.Disconnect(default).ConfigureAwait(false);
+			await provider.Disconnect(default);
 			Assert.IsFalse(provider.Connected);
 		}
 	}

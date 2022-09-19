@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Jobs
 						job.StartedBy = await databaseContext
 							.Users
 							.GetTgsUser(cancellationToken)
-							.ConfigureAwait(false);
+							;
 					else
 						job.StartedBy = new User
 						{
@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Jobs
 
 					databaseContext.Jobs.Add(job);
 
-					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+					await databaseContext.Save(cancellationToken);
 
 					logger.LogDebug("Registering job {0}: {1}...", job.Id, job.Description);
 					var jobHandler = new JobHandler(jobCancellationToken => RunJob(job, operation, jobCancellationToken));
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Jobs
 					.Where(y => !y.StoppedAt.HasValue)
 					.Select(y => y.Id)
 					.ToListAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 				if (badJobIds.Count > 0)
 				{
 					logger.LogTrace("Cleaning {0} unfinished jobs...", badJobIds.Count);
@@ -155,7 +155,7 @@ namespace Tgstation.Server.Host.Jobs
 						job.StoppedAt = DateTimeOffset.UtcNow;
 					}
 
-					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+					await databaseContext.Save(cancellationToken);
 				}
 			});
 
@@ -170,7 +170,7 @@ namespace Tgstation.Server.Host.Jobs
 				null,
 				true,
 				cancellationToken));
-			await Task.WhenAll(joinTasks).ConfigureAwait(false);
+			await Task.WhenAll(joinTasks);
 		}
 
 		/// <inheritdoc />
@@ -198,7 +198,7 @@ namespace Tgstation.Server.Host.Jobs
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
 				if (user == null)
-					user = await databaseContext.Users.GetTgsUser(cancellationToken).ConfigureAwait(false);
+					user = await databaseContext.Users.GetTgsUser(cancellationToken);
 
 				var updatedJob = new Job { Id = job.Id };
 				databaseContext.Jobs.Attach(updatedJob);
@@ -207,14 +207,14 @@ namespace Tgstation.Server.Host.Jobs
 				updatedJob.CancelledBy = attachedUser;
 
 				// let either startup or cancellation set job.cancelled
-				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+				await databaseContext.Save(cancellationToken);
 				job.CancelledBy = user;
-			}).ConfigureAwait(false);
+			});
 
 			if (blocking)
 			{
 				logger.LogTrace("Waiting on cancelled job #{0}...", job.Id);
-				await handler.Wait(cancellationToken).ConfigureAwait(false);
+				await handler.Wait(cancellationToken);
 				logger.LogTrace("Done waiting on job #{0}...", job.Id);
 			}
 
@@ -249,10 +249,10 @@ namespace Tgstation.Server.Host.Jobs
 
 			Task cancelTask = null;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
-				await handler.Wait(cancellationToken).ConfigureAwait(false);
+				await handler.Wait(cancellationToken);
 
 			if (cancelTask != null)
-				await cancelTask.ConfigureAwait(false);
+				await cancelTask;
 		}
 
 		/// <inheritdoc />
@@ -313,7 +313,7 @@ namespace Tgstation.Server.Host.Jobs
 								}
 						}
 
-						await activationTcs.Task.WithToken(cancellationToken).ConfigureAwait(false);
+						await activationTcs.Task.WithToken(cancellationToken);
 
 						logger.LogTrace("Starting job...");
 						await operation(
@@ -322,7 +322,7 @@ namespace Tgstation.Server.Host.Jobs
 							job,
 							UpdateProgress,
 							cancellationToken)
-							.ConfigureAwait(false);
+							;
 
 						logger.LogDebug("Job {0} completed!", job.Id);
 					}
@@ -357,8 +357,8 @@ namespace Tgstation.Server.Host.Jobs
 						attachedJob.Cancelled = job.Cancelled;
 
 						// DCT: Cancellation token is for job, operation should always run
-						await databaseContext.Save(default).ConfigureAwait(false);
-					}).ConfigureAwait(false);
+						await databaseContext.Save(default);
+					});
 				}
 				finally
 				{

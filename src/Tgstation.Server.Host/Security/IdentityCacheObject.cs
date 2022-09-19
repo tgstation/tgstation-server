@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Security
 				using (SystemIdentity)
 					try
 					{
-						await asyncDelayer.Delay(expiry - now, cancellationToken).ConfigureAwait(false);
+						await asyncDelayer.Delay(expiry - now, cancellationToken);
 					}
 					finally
 					{

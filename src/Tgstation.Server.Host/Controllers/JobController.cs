@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.StartedBy)
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (job == default)
 				return NotFound();
 
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (job.CancelRight.HasValue && job.CancelRightsType.HasValue && (AuthenticationContext.GetRight(job.CancelRightsType.Value) & job.CancelRight.Value) == 0)
 				return Forbid();
 
-			var updatedJob = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
+			var updatedJob = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken);
 			return updatedJob != null ? Accepted(updatedJob.ToApi()) : Gone();
 		}
 
@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.StartedBy)
 				.Include(x => x.CancelledBy)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (job == default)
 				return NotFound();
 			var api = job.ToApi();

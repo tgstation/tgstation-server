@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.IO
 				file.Delete();
 			}
 
-			await Task.WhenAll(tasks).ConfigureAwait(false);
+			await Task.WhenAll(tasks);
 			cancellationToken.ThrowIfCancellationRequested();
 			dir.Delete(true);
 		}
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.IO
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
 			foreach (var directoryCopy in CopyDirectoryImpl(src, dest, ignore, cancellationToken))
-				await directoryCopy.ConfigureAwait(false);
+				await directoryCopy;
 		}
 
 		/// <inheritdoc />
@@ -127,7 +127,7 @@ namespace Tgstation.Server.Host.IO
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
 
 			// value taken from documentation
-			await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(false);
+			await srcStream.CopyToAsync(destStream, 81920, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -230,7 +230,7 @@ namespace Tgstation.Server.Host.IO
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
 			byte[] buf;
 			buf = new byte[file.Length];
-			await file.ReadAsync(buf, cancellationToken).ConfigureAwait(false);
+			await file.ReadAsync(buf, cancellationToken);
 			return buf;
 		}
 
@@ -251,7 +251,7 @@ namespace Tgstation.Server.Host.IO
 				FileShare.ReadWrite,
 				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
-			await file.WriteAsync(contents, cancellationToken).ConfigureAwait(false);
+			await file.WriteAsync(contents, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -298,13 +298,13 @@ namespace Tgstation.Server.Host.IO
 			using var httpClient = new HttpClient();
 			httpClient.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
 			var webRequestTask = httpClient.GetAsync(url, cancellationToken);
-			using var response = await webRequestTask.ConfigureAwait(false);
+			using var response = await webRequestTask;
 			response.EnsureSuccessStatusCode();
-			using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+			using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
 			var memoryStream = new MemoryStream();
 			try
 			{
-				await responseStream.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
+				await responseStream.CopyToAsync(memoryStream, cancellationToken);
 				memoryStream.Seek(0, SeekOrigin.Begin);
 				return memoryStream;
 			}
@@ -388,7 +388,7 @@ namespace Tgstation.Server.Host.IO
 			async Task CopyThisDirectory()
 			{
 				if (!atLeastOneSubDir)
-					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false); // save on createdir calls
+					await CreateDirectory(dest, cancellationToken); // save on createdir calls
 
 				var tasks = new List<Task>();
 				foreach (var fileInfo in dir.EnumerateFiles())
@@ -398,7 +398,7 @@ namespace Tgstation.Server.Host.IO
 					tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
 				}
 
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 			}
 
 			yield return CopyThisDirectory();

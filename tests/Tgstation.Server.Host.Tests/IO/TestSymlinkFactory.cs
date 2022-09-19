@@ -43,10 +43,10 @@ namespace Tgstation.Server.Host.IO.Tests
 				f2 = f1 + ".linked";
 				File.WriteAllText(f1, Text);
 
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(null, null, default)).ConfigureAwait(false);
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(f1, null, default)).ConfigureAwait(false);
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(null, null, default));
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(f1, null, default));
 
-				await symlinkFactory.CreateSymbolicLink(f1, f2, default).ConfigureAwait(false);
+				await symlinkFactory.CreateSymbolicLink(f1, f2, default);
 				Assert.IsTrue(File.Exists(f2));
 
 				var f2Contents = File.ReadAllText(f2);
@@ -76,10 +76,10 @@ namespace Tgstation.Server.Host.IO.Tests
 				var p1 = Path.Combine(f1, FileName);
 				File.WriteAllText(p1, Text);
 
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(null, null, default)).ConfigureAwait(false);
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(f1, null, default)).ConfigureAwait(false);
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(null, null, default));
+				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => symlinkFactory.CreateSymbolicLink(f1, null, default));
 
-				await symlinkFactory.CreateSymbolicLink(f1, f2, default).ConfigureAwait(false);
+				await symlinkFactory.CreateSymbolicLink(f1, f2, default);
 
 				var p2 = Path.Combine(f2, FileName);
 				Assert.IsTrue(File.Exists(p2));
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.IO.Tests
 
 			try
 			{
-				await symlinkFactory.CreateSymbolicLink(BadPath, BadPath, default).ConfigureAwait(false);
+				await symlinkFactory.CreateSymbolicLink(BadPath, BadPath, default);
 				Assert.Fail("No exception thrown!");
 			}
 			catch { }

@@ -110,24 +110,24 @@ namespace Tgstation.Server.Host.Database
 			if (databaseConfiguration.DropDatabase)
 			{
 				logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
-				await databaseContext.Drop(cancellationToken).ConfigureAwait(false);
+				await databaseContext.Drop(cancellationToken);
 			}
 
-			var wasEmpty = await databaseContext.Migrate(databaseLogger, cancellationToken).ConfigureAwait(false);
+			var wasEmpty = await databaseContext.Migrate(databaseLogger, cancellationToken);
 			if (wasEmpty)
 			{
 				logger.LogInformation("Seeding database...");
-				await SeedDatabase(databaseContext, cancellationToken).ConfigureAwait(false);
+				await SeedDatabase(databaseContext, cancellationToken);
 			}
 			else
 			{
 				if (databaseConfiguration.ResetAdminPassword)
 				{
 					logger.LogWarning("Enabling and resetting admin password due to configuration!");
-					await ResetAdminPassword(databaseContext, cancellationToken).ConfigureAwait(false);
+					await ResetAdminPassword(databaseContext, cancellationToken);
 				}
 
-				await SanitizeDatabase(databaseContext, cancellationToken).ConfigureAwait(false);
+				await SanitizeDatabase(databaseContext, cancellationToken);
 			}
 		}
 
@@ -182,11 +182,11 @@ namespace Tgstation.Server.Host.Database
 
 			// Save here because we want admin to have the first DB Id
 			// The system user isn't shown in the API except by references in the admin user and jobs
-			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await databaseContext.Save(cancellationToken);
 			var tgsUser = SeedSystemUser(databaseContext);
 			adminUser.CreatedBy = tgsUser;
 
-			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await databaseContext.Save(cancellationToken);
 		}
 
 		/// <summary>
@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Database
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task SanitizeDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var admin = await GetAdminUser(databaseContext, cancellationToken).ConfigureAwait(false);
+			var admin = await GetAdminUser(databaseContext, cancellationToken);
 			if (admin != null)
 			{
 				if (admin.PermissionSet != null)
@@ -216,7 +216,7 @@ namespace Tgstation.Server.Host.Database
 						.AsQueryable()
 						.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
 						.FirstOrDefaultAsync(cancellationToken)
-						.ConfigureAwait(false);
+						;
 
 					if (tgsUser != null)
 						logger.LogError(
@@ -234,7 +234,7 @@ namespace Tgstation.Server.Host.Database
 					.Instances
 					.AsQueryable()
 					.ToListAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 				foreach (var instance in allInstances)
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
@@ -247,7 +247,7 @@ namespace Tgstation.Server.Host.Database
 					.Where(x => x.TopicRequestTimeout == 0)
 					.Select(x => x.Id)
 					.ToListAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				var rowsUpdated = ids.Count;
 				foreach (var id in ids)
@@ -268,7 +268,7 @@ namespace Tgstation.Server.Host.Database
 						generalConfiguration.ByondTopicTimeout);
 			}
 
-			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await databaseContext.Save(cancellationToken);
 		}
 
 		/// <summary>
@@ -279,7 +279,7 @@ namespace Tgstation.Server.Host.Database
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var admin = await GetAdminUser(databaseContext, cancellationToken).ConfigureAwait(false);
+			var admin = await GetAdminUser(databaseContext, cancellationToken);
 			if (admin != null)
 			{
 				admin.Enabled = true;
@@ -300,7 +300,7 @@ namespace Tgstation.Server.Host.Database
 				cryptographySuite.SetUserPassword(admin, DefaultCredentials.DefaultAdminUserPassword, false);
 			}
 
-			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await databaseContext.Save(cancellationToken);
 		}
 
 		/// <summary>
@@ -319,7 +319,7 @@ namespace Tgstation.Server.Host.Database
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Group)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (admin == default)
 				SeedAdminUser(databaseContext);
 

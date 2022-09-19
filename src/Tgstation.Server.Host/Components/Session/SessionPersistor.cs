@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogDebug("Saving reattach information: {0}...", reattachInformation);
 
-			await ClearImpl(db, false, cancellationToken).ConfigureAwait(false);
+			await ClearImpl(db, false, cancellationToken);
 
 			var dbReattachInfo = new Models.ReattachInformation
 			{
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Components.Session
 			};
 
 			db.ReattachInformations.Add(dbReattachInfo);
-			await db.Save(cancellationToken).ConfigureAwait(false);
+			await db.Save(cancellationToken);
 		});
 
 		/// <inheritdoc />
@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Session
 					.AsQueryable()
 					.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id)
 					.Include(x => x.CompileJob)
-					.ToListAsync(cancellationToken).ConfigureAwait(false);
+					.ToListAsync(cancellationToken);
 				result = dbReattachInfos.FirstOrDefault();
 				if (result == default)
 					return;
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Components.Session
 					.Where(x => x.Id == metadata.Id)
 					.Select(x => x.DreamDaemonSettings.TopicRequestTimeout)
 					.FirstOrDefaultAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				if (timeoutMilliseconds == default)
 				{
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Components.Session
 					{
 						using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
 						process.Terminate();
-						await process.Lifetime.ConfigureAwait(false);
+						await process.Lifetime;
 					}
 					catch (Exception ex)
 					{
@@ -146,8 +146,8 @@ namespace Tgstation.Server.Host.Components.Session
 					db.ReattachInformations.Remove(reattachInfo);
 				}
 
-				await db.Save(cancellationToken).ConfigureAwait(false);
-			}).ConfigureAwait(false);
+				await db.Save(cancellationToken);
+			});
 
 			if (!topicTimeout.HasValue)
 			{
@@ -155,7 +155,7 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
-			var dmb = await dmbFactory.FromCompileJob(result.CompileJob, cancellationToken).ConfigureAwait(false);
+			var dmb = await dmbFactory.FromCompileJob(result.CompileJob, cancellationToken);
 			if (dmb == null)
 			{
 				logger.LogError("Unable to reattach! Could not load .dmb!");
@@ -198,10 +198,10 @@ namespace Tgstation.Server.Host.Components.Session
 			if (instant)
 				await baseQuery
 					.DeleteAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 			else
 			{
-				var results = await baseQuery.ToListAsync(cancellationToken).ConfigureAwait(false);
+				var results = await baseQuery.ToListAsync(cancellationToken);
 				foreach (var result in results)
 					databaseContext.ReattachInformations.Remove(result);
 			}

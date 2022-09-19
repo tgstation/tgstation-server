@@ -287,18 +287,18 @@ namespace Tgstation.Server.Host.Database
 		{
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
-			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
+			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);
 			var wasEmpty = !migrations.Any();
 
-			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
+			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken)).Any())
 			{
 				logger.LogInformation("Migrating database...");
-				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+				await Database.MigrateAsync(cancellationToken);
 			}
 			else
 				logger.LogDebug("No migrations to apply");
 
-			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
+			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken)) == 0;
 
 			return wasEmpty;
 		}
@@ -535,7 +535,7 @@ namespace Tgstation.Server.Host.Database
 			logger.LogInformation("Migrating down to version {0}. Target: {1}", targetVersion, targetMigration);
 			try
 			{
-				await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(false);
+				await migrator.MigrateAsync(targetMigration, cancellationToken);
 			}
 			catch (Exception e)
 			{

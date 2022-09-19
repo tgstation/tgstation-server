@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						cancellationToken));
 
 			if (tasks.Any())
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 		}
 
 		/// <inheritdoc />

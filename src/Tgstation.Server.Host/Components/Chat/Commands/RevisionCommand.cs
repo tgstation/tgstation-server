@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		{
 			string result;
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
-				using (var repo = await repositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+				using (var repo = await repositoryManager.LoadRepository(cancellationToken))
 				{
 					if (repo == null)
 						return "Repository unavailable!";

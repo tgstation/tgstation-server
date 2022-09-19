@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				x => x.Provider,
 				x => x.GetProviderInfo(cancellationToken));
 
-			await Task.WhenAll(providersAndTasks.Values).ConfigureAwait(false);
+			await Task.WhenAll(providersAndTasks.Values);
 
 			return providersAndTasks
 				.Where(x => x.Value.Result != null)

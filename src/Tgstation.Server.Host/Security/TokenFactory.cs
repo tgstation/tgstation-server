@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Security
 			// just delay a second so we can force a round up
 			var lpuUnix = user.LastPasswordUpdate?.ToUnixTimeSeconds();
 			if (nowUnix == lpuUnix)
-				await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+				await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 
 			var expiry = now.AddMinutes(oAuth
 				? securityConfiguration.OAuthTokenExpiryMinutes

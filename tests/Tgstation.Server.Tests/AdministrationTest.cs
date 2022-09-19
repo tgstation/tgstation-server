@@ -22,7 +22,7 @@ namespace Tgstation.Server.Tests
 		public async Task Run(CancellationToken cancellationToken)
 		{
 			var logsTest = TestLogs(cancellationToken);
-			await TestRead(cancellationToken).ConfigureAwait(false);
+			await TestRead(cancellationToken);
 			await logsTest;
 		}
 
@@ -56,7 +56,7 @@ namespace Tgstation.Server.Tests
 			AdministrationResponse model;
 			try
 			{
-				model = await client.Read(cancellationToken).ConfigureAwait(false);
+				model = await client.Read(cancellationToken);
 			}
 			catch (RateLimitException)
 			{

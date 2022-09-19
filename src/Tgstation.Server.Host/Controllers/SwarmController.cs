@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!ValidateRegistration())
 				return Forbid();
 
-			await swarmOperations.UnregisterNode(RequestRegistrationId, cancellationToken).ConfigureAwait(false);
+			await swarmOperations.UnregisterNode(RequestRegistrationId, cancellationToken);
 			return NoContent();
 		}
 
@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!ValidateRegistration())
 				return Forbid();
 
-			var prepareResult = await swarmOperations.PrepareUpdateFromController(updateRequest.UpdateVersion, cancellationToken).ConfigureAwait(false);
+			var prepareResult = await swarmOperations.PrepareUpdateFromController(updateRequest.UpdateVersion, cancellationToken);
 			if (!prepareResult)
 				return Conflict();
 
@@ -169,7 +169,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!ValidateRegistration())
 				return Forbid();
 
-			var result = await swarmOperations.RemoteCommitRecieved(RequestRegistrationId, cancellationToken).ConfigureAwait(false);
+			var result = await swarmOperations.RemoteCommitRecieved(RequestRegistrationId, cancellationToken);
 			if (!result)
 				return Conflict();
 			return NoContent();
@@ -186,7 +186,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!ValidateRegistration())
 				return Forbid();
 
-			await swarmOperations.RemoteAbortUpdate(cancellationToken).ConfigureAwait(false);
+			await swarmOperations.RemoteAbortUpdate(cancellationToken);
 			return NoContent();
 		}
 
@@ -199,7 +199,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (swarmConfiguration.PrivateKey == null)
 				{
 					logger.LogDebug("Attempted swarm request without private key configured!");
-					await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
+					await Forbid().ExecuteResultAsync(context);
 					return;
 				}
 
@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Controllers
 					&& apiKeyHeaderValues.First() == swarmConfiguration.PrivateKey))
 				{
 					logger.LogDebug("Unauthorized swarm request!");
-					await Unauthorized().ExecuteResultAsync(context).ConfigureAwait(false);
+					await Unauthorized().ExecuteResultAsync(context);
 					return;
 				}
 
@@ -217,7 +217,7 @@ namespace Tgstation.Server.Host.Controllers
 					&& Guid.TryParse(registrationHeaderValues.First(), out var registrationId)))
 				{
 					logger.LogDebug("Swarm request without registration ID!");
-					await BadRequest().ExecuteResultAsync(context).ConfigureAwait(false);
+					await BadRequest().ExecuteResultAsync(context);
 					return;
 				}
 
@@ -229,12 +229,12 @@ namespace Tgstation.Server.Host.Controllers
 						.Select(x => x.Exception);
 
 					logger.LogDebug(new AggregateException(errors), "Swarm request model validation failed!");
-					await BadRequest().ExecuteResultAsync(context).ConfigureAwait(false);
+					await BadRequest().ExecuteResultAsync(context);
 					return;
 				}
 
 				logger.LogTrace("Starting swarm request processing...");
-				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
+				await base.OnActionExecutionAsync(context, next);
 			}
 		}
 

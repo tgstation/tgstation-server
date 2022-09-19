@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host
 				IServer server;
 				try
 				{
-					server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(false);
+					server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host
 
 				try
 				{
-					await server.Run(cancellationToken).ConfigureAwait(false);
+					await server.Run(cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host
 				if (updatePath != null)
 				{
 					// DCT: None available, operation should always run
-					await ServerFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), default).ConfigureAwait(false);
+					await ServerFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), default);
 					return 2;
 				}
 

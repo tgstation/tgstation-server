@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.System
 			cancellationTokenSource.Cancel();
 
 			logger.LogTrace("Joining SignalCheckerThread...");
-			await signalCheckerTask.ConfigureAwait(false);
+			await signalCheckerTask;
 		}
 
 		/// <summary>
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.System
 					logger.LogDebug("SIGUSR1 has already been sent");
 
 				logger.LogTrace("Triggering graceful shutdown...");
-				await serverControl.GracefulShutdown().ConfigureAwait(false);
+				await serverControl.GracefulShutdown();
 			}
 			catch (OperationCanceledException ex)
 			{

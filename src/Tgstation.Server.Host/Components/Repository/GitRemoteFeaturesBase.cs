@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (result == null)
 			{
 				Logger.LogTrace("Retrieving metadata for test merge #{0}...", parameters.Number);
-				result = await GetTestMergeImpl(parameters, repositorySettings, cancellationToken).ConfigureAwait(false);
+				result = await GetTestMergeImpl(parameters, repositorySettings, cancellationToken);
 				lock (cachedLookups)
 					if (!cachedLookups.TryAdd(parameters, result))
 						Logger.LogError("Race condition on adding test merge #{0}!", parameters.Number);

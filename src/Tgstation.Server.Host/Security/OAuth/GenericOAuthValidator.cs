@@ -108,8 +108,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 				var tokenRequestDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenRequestJson);
 				tokenRequest.Content = new FormUrlEncodedContent(tokenRequestDictionary);
 
-				var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken).ConfigureAwait(false);
-				tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken);
+				tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync();
 				tokenResponse.EnsureSuccessStatusCode();
 				var tokenResponseJson = JObject.Parse(tokenResponsePayload);
 
@@ -126,8 +126,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 					ApiHeaders.BearerAuthenticationScheme,
 					accessToken);
 
-				var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken).ConfigureAwait(false);
-				userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken);
+				userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync();
 				userInformationResponse.EnsureSuccessStatusCode();
 
 				var userInformationJson = JObject.Parse(userInformationPayload);

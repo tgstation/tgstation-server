@@ -76,13 +76,13 @@ namespace Tgstation.Server.Tests
 					await adminClient.Administration.Update(new ServerUpdateRequest
 					{
 						NewVersion = testUpdateVersion
-					}, cancellationToken).ConfigureAwait(false);
+					}, cancellationToken);
 					var serverInfo = await adminClient.ServerInformation(cancellationToken);
 					Assert.IsTrue(serverInfo.UpdateInProgress);
 				}
 
 				//wait up to 3 minutes for the dl and install
-				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(3), cancellationToken)).ConfigureAwait(false);
+				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(3), cancellationToken));
 
 				Assert.IsTrue(serverTask.IsCompleted, "Server still running!");
 
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Tests
 				serverCts.Cancel();
 				try
 				{
-					await serverTask.ConfigureAwait(false);
+					await serverTask;
 				}
 				catch (OperationCanceledException) { }
 				catch (AggregateException ex)
@@ -626,7 +626,7 @@ namespace Tgstation.Server.Tests
 						DefaultCredentials.DefaultAdminUserPassword,
 						attemptLoginRefresh: false,
 						cancellationToken: cancellationToken)
-						.ConfigureAwait(false);
+						;
 				}
 				catch (HttpRequestException)
 				{
@@ -990,7 +990,7 @@ namespace Tgstation.Server.Tests
 				serverCts.Cancel();
 				try
 				{
-					await serverTask.WithToken(hardCancellationToken).ConfigureAwait(false);
+					await serverTask.WithToken(hardCancellationToken);
 				}
 				catch (OperationCanceledException) { }
 

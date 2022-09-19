@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 						{
 							RedirectUri = oAuthConfiguration.RedirectUrl,
 						})
-					.ConfigureAwait(false);
+					;
 
 				var token = response.AccessToken;
 				if (token == null)
@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				var userDetails = await authenticatedClient
 					.User
 					.Current()
-					.ConfigureAwait(false);
+					;
 
 				return userDetails.Id.ToString(CultureInfo.InvariantCulture);
 			}

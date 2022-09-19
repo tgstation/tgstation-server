@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
 			{
 				string head;
-				using (var repo = await repositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
+				using (var repo = await repositoryManager.LoadRepository(cancellationToken))
 				{
 					if (repo == null)
 						return "Repository unavailable!";
@@ -92,8 +92,8 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 							TargetCommitSha = x.TargetCommitSha,
 						})
 						.ToListAsync(cancellationToken)
-						.ConfigureAwait(false))
-					.ConfigureAwait(false);
+						)
+					;
 			}
 			else
 			{

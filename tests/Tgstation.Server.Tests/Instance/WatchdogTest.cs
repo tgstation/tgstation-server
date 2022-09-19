@@ -128,7 +128,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
-			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);
+			var startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
@@ -179,12 +179,12 @@ namespace Tgstation.Server.Tests.Instance
 					blockSocket.Bind(new IPEndPoint(IPAddress.Any, IntegrationTest.DDPort));
 
 					// Don't use StartDD here
-					startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
+					startJob = await instanceClient.DreamDaemon.Start(cancellationToken);
 
 					await WaitForJob(startJob, 40, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
 				}
 
-			startJob = await StartDD(cancellationToken).ConfigureAwait(false);
+			startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
@@ -217,7 +217,7 @@ namespace Tgstation.Server.Tests.Instance
 				DumpOnHeartbeatRestart = checkDump,
 			}, cancellationToken);
 
-			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);
+			var startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
@@ -253,7 +253,7 @@ namespace Tgstation.Server.Tests.Instance
 			var timeout = 20;
 			do
 			{
-				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 				Assert.AreEqual(1U, ddStatus.HeartbeatSeconds.Value);
 				if (ddStatus.Status.Value == WatchdogStatus.Offline)
@@ -325,7 +325,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
-			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);
+			var startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
@@ -365,7 +365,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
-			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);
+			var startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
@@ -402,7 +402,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
-			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);
+			var startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 70, false, null, cancellationToken);
 
@@ -451,7 +451,7 @@ namespace Tgstation.Server.Tests.Instance
 			if (dd.ActiveCompileJob == null)
 				await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
-			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);
+			var startJob = await StartDD(cancellationToken);
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
@@ -528,7 +528,7 @@ namespace Tgstation.Server.Tests.Instance
 
 					do
 					{
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 						daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 					}
 					while (initialCompileJob.Id == daemonStatus.ActiveCompileJob.Id && !tempToken.IsCancellationRequested);
@@ -585,7 +585,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			do
 			{
-				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 				if (ddStatus.Status.Value == WatchdogStatus.Offline)
 					break;

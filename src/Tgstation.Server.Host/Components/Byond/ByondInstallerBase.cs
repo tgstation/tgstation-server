@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						PathToUserByondFolder,
 						CacheDirectoryName),
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 			}
 			catch (OperationCanceledException)
 			{

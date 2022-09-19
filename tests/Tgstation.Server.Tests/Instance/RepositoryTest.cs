@@ -54,7 +54,7 @@ namespace Tgstation.Server.Tests.Instance
 				Reference = workingBranch,
 			};
 
-			var clone = await repositoryClient.Clone(cloneRequest, cancellationToken).ConfigureAwait(false);
+			var clone = await repositoryClient.Clone(cloneRequest, cancellationToken);
 			await ApiAssert.ThrowsException<ConflictException>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
 			Assert.IsNotNull(clone);
 			Assert.AreEqual(cloneRequest.Origin, clone.Origin);
@@ -62,25 +62,25 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(clone.RevisionInformation);
 			Assert.IsNotNull(clone.ActiveJob);
 
-			await WaitForJobProgressThenCancel(clone.ActiveJob, 40, cancellationToken).ConfigureAwait(false);
+			await WaitForJobProgressThenCancel(clone.ActiveJob, 40, cancellationToken);
 
-			var secondRead = await repositoryClient.Read(cancellationToken).ConfigureAwait(false);
+			var secondRead = await repositoryClient.Read(cancellationToken);
 			Assert.IsNotNull(secondRead);
 			Assert.IsNull(secondRead.ActiveJob);
 
-			clone = await repositoryClient.Clone(cloneRequest, cancellationToken).ConfigureAwait(false);
+			clone = await repositoryClient.Clone(cloneRequest, cancellationToken);
 
 			// throwing this small jobs consistency test in here
-			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken).ConfigureAwait(false);
+			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 			var activeJobs = await JobsClient.ListActive(null, cancellationToken);
-			var allJobs = await JobsClient.List(null, cancellationToken).ConfigureAwait(false);
+			var allJobs = await JobsClient.List(null, cancellationToken);
 
 			Assert.IsTrue(activeJobs.Any(x => x.Id == clone.ActiveJob.Id));
 			Assert.IsTrue(allJobs.Any(x => x.Id == clone.ActiveJob.Id));
 			Assert.IsTrue(activeJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
 			Assert.IsTrue(allJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
 
-			await WaitForJob(clone.ActiveJob, 9000, false, null, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(clone.ActiveJob, 9000, false, null, cancellationToken);
 			var readAfterClone = await repositoryClient.Read(cancellationToken);
 
 			Assert.AreEqual(cloneRequest.Origin, readAfterClone.Origin);
@@ -219,8 +219,8 @@ namespace Tgstation.Server.Tests.Instance
 			var deleting = await repositoryClient.Delete(cancellationToken);
 			Assert.IsNotNull(deleting.ActiveJob);
 
-			await WaitForJob(deleting.ActiveJob, 60, false, null, cancellationToken).ConfigureAwait(false);
-			var deleted = await repositoryClient.Read(cancellationToken).ConfigureAwait(false);
+			await WaitForJob(deleting.ActiveJob, 60, false, null, cancellationToken);
+			var deleted = await repositoryClient.Read(cancellationToken);
 
 			Assert.IsNull(deleted.Origin);
 			Assert.IsNull(deleted.Reference);

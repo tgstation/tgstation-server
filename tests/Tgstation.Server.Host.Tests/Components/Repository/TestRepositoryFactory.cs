@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 					}
 					catch (UnauthorizedAccessException)
 					{
-						await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
+						await Task.Delay(TimeSpan.FromSeconds(3));
 					}
 				}
 			}

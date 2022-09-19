@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Tests
 		[TestMethod]
 		public async Task TestIncompatibleWatchdog()
 		{
-			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => Program.Main(new string[] { "garbage", "0.0.1" })).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => Program.Main(new string[] { "garbage", "0.0.1" }));
 		}
 
 		[TestMethod]
@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Tests
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			Program.ServerFactory = mockServerFactory.Object;
 
-			var result = await Program.Main(Array.Empty<string>()).ConfigureAwait(false);
+			var result = await Program.Main(Array.Empty<string>());
 			Assert.AreEqual(0, result);
 		}
 
@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Tests
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			Program.ServerFactory = mockServerFactory.Object;
 
-			var result = await Program.Main(Array.Empty<string>()).ConfigureAwait(false);
+			var result = await Program.Main(Array.Empty<string>());
 			Assert.AreEqual(1, result);
 		}
 
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Tests
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			Program.ServerFactory = mockServerFactory.Object;
 
-			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => Program.Main(Array.Empty<string>())).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => Program.Main(Array.Empty<string>()));
 		}
 
 		[TestMethod]
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Tests
 			File.Delete(tempFileName);
 			try
 			{
-				var result = await Program.Main(new string[] { tempFileName }).ConfigureAwait(false);
+				var result = await Program.Main(new string[] { tempFileName });
 				Assert.AreEqual(2, result);
 				Assert.AreEqual(exception.ToString(), File.ReadAllText(tempFileName));
 			}

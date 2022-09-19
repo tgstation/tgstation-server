@@ -123,11 +123,11 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			try
 			{
-				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 				{
 					logger.LogTrace("Semaphore acquired");
 					var repositoryPath = ioManager.ResolvePath();
-					if (!await ioManager.DirectoryExists(repositoryPath, cancellationToken).ConfigureAwait(false))
+					if (!await ioManager.DirectoryExists(repositoryPath, cancellationToken))
 						try
 						{
 							var cloneOptions = new CloneOptions
@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								cloneOptions,
 								repositoryPath,
 								cancellationToken)
-								.ConfigureAwait(false);
+								;
 						}
 						catch
 						{
@@ -160,7 +160,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								logger.LogTrace("Deleting partially cloned repository...");
 
 								// DCT: Cancellation token is for job, operation must run regardless
-								await ioManager.DeleteDirectory(repositoryPath, default).ConfigureAwait(false);
+								await ioManager.DeleteDirectory(repositoryPath, default);
 							}
 							catch (Exception innerException)
 							{
@@ -183,7 +183,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				CloneInProgress = false;
 			}
 
-			return await LoadRepository(cancellationToken).ConfigureAwait(false);
+			return await LoadRepository(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -193,12 +193,12 @@ namespace Tgstation.Server.Host.Components.Repository
 			lock (semaphore)
 				if (CloneInProgress)
 					throw new JobException(ErrorCode.RepoCloning);
-			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+			await semaphore.WaitAsync(cancellationToken);
 			try
 			{
 				try
 				{
-					var libGit2Repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
+					var libGit2Repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken);
 
 					return new Repository(
 						libGit2Repo,
@@ -231,10 +231,10 @@ namespace Tgstation.Server.Host.Components.Repository
 		public async Task DeleteRepository(CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Deleting repository...");
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
 				logger.LogTrace("Semaphore acquired, deleting Repository directory...");
-				await ioManager.DeleteDirectory(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
+				await ioManager.DeleteDirectory(ioManager.ResolvePath(), cancellationToken);
 			}
 		}
 	}

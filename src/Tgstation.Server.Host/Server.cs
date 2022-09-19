@@ -129,7 +129,7 @@ namespace Tgstation.Server.Host
 					{
 						var generalConfigurationOptions = host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
 						generalConfiguration = generalConfigurationOptions.Value;
-						await host.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+						await host.RunAsync(cancellationTokenSource.Token);
 					}
 				}
 				catch (OperationCanceledException ex)
@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host
 						throw new InvalidOperationException("Tried to update a non-running Server!");
 					var cancellationToken = cancellationTokenSource.Token;
 
-					var updatePrepareResult = await swarmService.PrepareUpdate(version, cancellationToken).ConfigureAwait(false);
+					var updatePrepareResult = await swarmService.PrepareUpdate(version, cancellationToken);
 					if (!updatePrepareResult)
 						return;
 
@@ -190,13 +190,13 @@ namespace Tgstation.Server.Host
 					try
 					{
 						logger.LogTrace("Downloading zip package...");
-						updateZipData = await ioManager.DownloadFile(updateZipUrl, cancellationToken).ConfigureAwait(false);
+						updateZipData = await ioManager.DownloadFile(updateZipUrl, cancellationToken);
 					}
 					catch (Exception e1)
 					{
 						try
 						{
-							await swarmService.AbortUpdate(cancellationToken).ConfigureAwait(false);
+							await swarmService.AbortUpdate(cancellationToken);
 						}
 						catch (Exception e2)
 						{
@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host
 
 					using (updateZipData)
 					{
-						var updateCommitResult = await swarmService.CommitUpdate(cancellationToken).ConfigureAwait(false);
+						var updateCommitResult = await swarmService.CommitUpdate(cancellationToken);
 						if (!updateCommitResult)
 						{
 							logger.LogError("Swarm distributed commit failed, not applying update!");
@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host
 						try
 						{
 							logger.LogTrace("Extracting zip package to {extractPath}...", updatePath);
-							await ioManager.ZipToDirectory(updatePath, updateZipData, cancellationToken).ConfigureAwait(false);
+							await ioManager.ZipToDirectory(updatePath, updateZipData, cancellationToken);
 						}
 						catch (Exception e)
 						{
@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host
 							try
 							{
 								// important to not leave this directory around if possible
-								await ioManager.DeleteDirectory(updatePath, default).ConfigureAwait(false);
+								await ioManager.DeleteDirectory(updatePath, default);
 							}
 							catch (Exception e2)
 							{
@@ -237,7 +237,7 @@ namespace Tgstation.Server.Host
 						}
 					}
 
-					await Restart(version, null, true).ConfigureAwait(false);
+					await Restart(version, null, true);
 				}
 				catch (OperationCanceledException)
 				{
@@ -367,7 +367,7 @@ namespace Tgstation.Server.Host
 				logger.LogTrace("Joining restart handlers...");
 				try
 				{
-					await eventsTask.ConfigureAwait(false);
+					await eventsTask;
 				}
 				catch (OperationCanceledException ex)
 				{

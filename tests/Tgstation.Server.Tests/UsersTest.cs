@@ -28,14 +28,14 @@ namespace Tgstation.Server.Tests
 			await Task.WhenAll(
 				BasicTests(cancellationToken),
 				TestCreateSysUser(cancellationToken),
-				TestSpamCreation(cancellationToken)).ConfigureAwait(false);
+				TestSpamCreation(cancellationToken));
 
 			await TestPagination(cancellationToken);
 		}
 
 		async Task BasicTests(CancellationToken cancellationToken)
 		{
-			var user = await serverClient.Users.Read(cancellationToken).ConfigureAwait(false);
+			var user = await serverClient.Users.Read(cancellationToken);
 			Assert.IsNotNull(user);
 			Assert.AreEqual("Admin", user.Name);
 			Assert.IsNull(user.SystemIdentifier);
@@ -80,7 +80,7 @@ namespace Tgstation.Server.Tests
 					Name = $"BasicTestUser",
 					Password = "asdfasdjfhauwiehruiy273894234jhndjkwh"
 				},
-				cancellationToken).ConfigureAwait(false);
+				cancellationToken);
 
 			Assert.IsNotNull(testUser.OAuthConnections);
 			testUser = await serverClient.Users.Update(
@@ -89,7 +89,7 @@ namespace Tgstation.Server.Tests
 				   Id = testUser.Id,
 				   OAuthConnections = sampleOAuthConnections
 			   },
-			   cancellationToken).ConfigureAwait(false);
+			   cancellationToken);
 
 			Assert.AreEqual(1, testUser.OAuthConnections.Count);
 			Assert.AreEqual(sampleOAuthConnections.First().ExternalUserId, testUser.OAuthConnections.First().ExternalUserId);
@@ -243,7 +243,7 @@ namespace Tgstation.Server.Tests
 							cancellationToken));
 				}
 
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 			}
 			finally
 			{

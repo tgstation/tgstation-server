@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current)
-				.ConfigureAwait(false);
+				;
 
 			return repo;
 		}

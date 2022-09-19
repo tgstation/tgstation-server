@@ -160,7 +160,7 @@ namespace Tgstation.Server.Host.Service
 #pragma warning restore CS0618 // Type or member is obsolete
 
 					// DCT: None available
-					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
+					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default);
 				}
 			}
 		}

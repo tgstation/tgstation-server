@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var eventType = Server.TerminationWasRequested
 						? EventType.WorldEndProcess
 						: EventType.WatchdogCrash;
-					await HandleNonRelayedEvent(eventType, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+					await HandleNonRelayedEvent(eventType, Enumerable.Empty<string>(), cancellationToken);
 
 					var exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
 					if (Server.RebootState == Session.RebootState.Shutdown)
@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								"Server {0}! Shutting down due to graceful termination request...",
 								exitWord),
 							cancellationToken)
-							.ConfigureAwait(false);
+							;
 						return MonitorAction.Exit;
 					}
 
@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							"Server {0}! Rebooting...",
 							exitWord),
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 					return MonitorAction.Restart;
 				case MonitorActivationReason.ActiveServerRebooted:
 					var rebootState = Server.RebootState;
@@ -146,12 +146,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					gracefulRebootRequired = false;
 					Server.ResetRebootState();
 
-					await HandleNonRelayedEvent(EventType.WorldReboot, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+					await HandleNonRelayedEvent(EventType.WorldReboot, Enumerable.Empty<string>(), cancellationToken);
 
 					switch (rebootState)
 					{
 						case Session.RebootState.Normal:
-							return await HandleNormalReboot(cancellationToken).ConfigureAwait(false);
+							return await HandleNormalReboot(cancellationToken);
 						case Session.RebootState.Restart:
 							return MonitorAction.Restart;
 						case Session.RebootState.Shutdown:
@@ -159,21 +159,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							await Chat.QueueWatchdogMessage(
 								"Active server rebooted! Shutting down due to graceful termination request...",
 								cancellationToken)
-								.ConfigureAwait(false);
+								;
 							return MonitorAction.Exit;
 						default:
 							throw new InvalidOperationException($"Invalid reboot state: {rebootState}");
 					}
 
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
-					await Server.SetRebootState(Session.RebootState.Restart, cancellationToken).ConfigureAwait(false);
+					await Server.SetRebootState(Session.RebootState.Restart, cancellationToken);
 					gracefulRebootRequired = true;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
-					await HandleNewDmbAvailable(cancellationToken).ConfigureAwait(false);
+					await HandleNewDmbAvailable(cancellationToken);
 					break;
 				case MonitorActivationReason.ActiveServerPrimed:
-					await HandleNonRelayedEvent(EventType.WorldPrime, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+					await HandleNonRelayedEvent(EventType.WorldPrime, Enumerable.Empty<string>(), cancellationToken);
 					break;
 				case MonitorActivationReason.Heartbeat:
 				default:
@@ -191,7 +191,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!disposeTask.HasValue)
 				return;
 
-			await disposeTask.Value.ConfigureAwait(false);
+			await disposeTask.Value;
 			Server = null;
 		}
 
@@ -218,10 +218,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!reattachInProgress)
 				{
 					Logger.LogTrace("Initializing controller with CompileJob {0}...", dmbToUse.CompileJob.Id);
-					await BeforeApplyDmb(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
-					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken).ConfigureAwait(false);
+					await BeforeApplyDmb(dmbToUse.CompileJob, cancellationToken);
+					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken);
 
-					await chatTask.ConfigureAwait(false);
+					await chatTask;
 					serverLaunchTask = SessionControllerFactory.LaunchNew(
 						dmbToUse,
 						null,
@@ -231,27 +231,27 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				else
 				{
-					await chatTask.ConfigureAwait(false);
+					await chatTask;
 					serverLaunchTask = SessionControllerFactory.Reattach(reattachInfo, cancellationToken);
 				}
 
 				// retrieve the session controller
-				Server = await serverLaunchTask.ConfigureAwait(false);
+				Server = await serverLaunchTask;
 
 				// possiblity of null servers due to failed reattaches
 				if (Server == null)
 				{
 					await ReattachFailure(
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 					return;
 				}
 
 				// Server.AdjustPriority(true);
 				if (!reattachInProgress)
-					await SessionPersistor.Save(Server.ReattachInformation, cancellationToken).ConfigureAwait(false);
+					await SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
 
-				await CheckLaunchResult(Server, "Server", cancellationToken).ConfigureAwait(false);
+				await CheckLaunchResult(Server, "Server", cancellationToken);
 
 				Server.EnableCustomChatCommands();
 			}
@@ -263,7 +263,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				bool serverWasActive = Server != null;
 
 				// DCT: Operation must always run
-				await DisposeAndNullControllers(default).ConfigureAwait(false);
+				await DisposeAndNullControllers(default);
 
 				// server didn't get control of this dmb
 				if (dmbToUse != null && !serverWasActive)

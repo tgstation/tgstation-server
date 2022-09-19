@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.System
 			await Task.WhenAll(
 				GetStandardOutput(cancellationToken),
 				GetErrorOutput(cancellationToken))
-				.ConfigureAwait(false);
+				;
 			return combinedStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
 		}
 
@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.System
 				throw new InvalidOperationException("Error stream reading was not enabled!");
 			if (!standardErrorTask.IsCompleted)
 				logger.LogTrace("Waiting for PID {0} to close error stream...", Id);
-			return await standardErrorTask.WithToken(cancellationToken).ConfigureAwait(false);
+			return await standardErrorTask.WithToken(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -158,7 +158,7 @@ namespace Tgstation.Server.Host.System
 				throw new InvalidOperationException("Output stream reading was not enabled!");
 			if (!standardOutputTask.IsCompleted)
 				logger.LogTrace("Waiting for PID {0} to close output stream...", Id);
-			return await standardOutputTask.WithToken(cancellationToken).ConfigureAwait(false);
+			return await standardOutputTask.WithToken(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public async Task<string> GetExecutingUsername(CancellationToken cancellationToken)
 		{
-			var result = await processFeatures.GetExecutingUsername(handle, cancellationToken).ConfigureAwait(false);
+			var result = await processFeatures.GetExecutingUsername(handle, cancellationToken);
 			logger.LogTrace("PID {0} Username: {1}", Id, result);
 			return result;
 		}
@@ -253,7 +253,7 @@ namespace Tgstation.Server.Host.System
 		/// <returns>A <see cref="Task{TResult}"/> functionally identical to <paramref name="lifetimeTask"/>.</returns>
 		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
 		{
-			var exitCode = await lifetimeTask.ConfigureAwait(false);
+			var exitCode = await lifetimeTask;
 			logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
 			return exitCode;
 		}

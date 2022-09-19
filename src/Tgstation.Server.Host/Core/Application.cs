@@ -416,7 +416,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				var tcs = new TaskCompletionSource<object>();
 				using (cancellationToken.Register(() => tcs.SetCanceled()))
-					await Task.WhenAny(tcs.Task, instanceManager.Ready).ConfigureAwait(false);
+					await Task.WhenAny(tcs.Task, instanceManager.Ready);
 			});
 
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests

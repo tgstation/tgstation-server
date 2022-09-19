@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				logger.LogTrace("Bridge Request: {0}", data);
 
-				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken).ConfigureAwait(false);
+				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken);
 				if (response == null)
 					Forbid();
 

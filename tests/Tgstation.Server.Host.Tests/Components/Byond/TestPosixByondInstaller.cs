@@ -44,12 +44,12 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, default)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, default));
 
 			var ourArray = Array.Empty<byte>();
 			mockIOManager.Setup(x => x.DownloadFile(It.Is<Uri>(uri => uri == new Uri("https://secure.byond.com/download/build/511/511.1385_byond_linux.zip")), default)).Returns(Task.FromResult(new MemoryStream(ourArray))).Verifiable();
 
-			var result = await installer.DownloadVersion(new Version(511, 1385), default).ConfigureAwait(false);
+			var result = await installer.DownloadVersion(new Version(511, 1385), default);
 
 			Assert.AreSame(ourArray, result.ToArray());
 			mockIOManager.Verify();
@@ -64,10 +64,10 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
 
 			const string FakePath = "fake";
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(null, null, default)).ConfigureAwait(false);
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(FakePath, null, default)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(null, null, default));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(FakePath, null, default));
 
-			await installer.InstallByond(FakePath, new Version(511, 1385), default).ConfigureAwait(false);
+			await installer.InstallByond(FakePath, new Version(511, 1385), default);
 
 			mockPostWriteHandler.Verify(x => x.HandleWrite(It.IsAny<string>()), Times.Exactly(4));
 		}

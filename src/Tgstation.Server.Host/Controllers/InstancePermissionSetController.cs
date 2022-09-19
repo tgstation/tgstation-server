@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 					UserId = x.UserId,
 				})
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (existingPermissionSet == default)
 				return Gone();
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => x.Id == existingPermissionSet.UserId.Value)
 					.Select(x => x.CanonicalName)
 					.FirstAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				if (userCanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 					return Forbid();
@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.InstancePermissionSets.Add(dbUser);
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 			return Created(dbUser.ToApi());
 		}
 #pragma warning restore CA1506
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Controllers
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == model.PermissionSetId)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (originalPermissionSet == null)
 				return Gone();
 
@@ -150,7 +150,7 @@ namespace Tgstation.Server.Host.Controllers
 			originalPermissionSet.DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? originalPermissionSet.DreamDaemonRights.Value);
 			originalPermissionSet.DreamMakerRights = RightsHelper.Clamp(model.DreamMakerRights ?? originalPermissionSet.DreamMakerRights.Value);
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 			var showFullPermissionSet = originalPermissionSet.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value
 				|| (AuthenticationContext.GetRight(RightsType.InstancePermissionSet) & (ulong)InstancePermissionSetRights.Read) != 0;
 			return Json(
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == id)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (permissionSet == default)
 				return Gone();
 			return Json(permissionSet.ToApi());
@@ -247,7 +247,7 @@ namespace Tgstation.Server.Host.Controllers
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == id)
 				.DeleteAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			return numDeleted > 0 ? (IActionResult)NoContent() : Gone();
 		}
 	}

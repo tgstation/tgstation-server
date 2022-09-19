@@ -85,11 +85,11 @@ namespace Tgstation.Server.Host.Controllers
 								systemIdentity,
 								model.LastReadHash,
 								cancellationToken)
-							.ConfigureAwait(false);
+							;
 
 						return model.LastReadHash == null ? (IActionResult)Accepted(newFile) : Json(newFile);
 					})
-					.ConfigureAwait(false);
+					;
 			}
 			catch (IOException e)
 			{
@@ -130,13 +130,13 @@ namespace Tgstation.Server.Host.Controllers
 						var result = await instance
 							.Configuration
 							.Read(filePath, systemIdentity, cancellationToken)
-							.ConfigureAwait(false);
+							;
 						if (result == null)
 							return Gone();
 
 						return Json(result);
 					})
-					.ConfigureAwait(false);
+					;
 			}
 			catch (IOException e)
 			{
@@ -184,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 							var result = await instance
 								.Configuration
 								.ListDirectory(directoryPath, systemIdentity, cancellationToken)
-								.ConfigureAwait(false);
+								;
 							if (result == null)
 								return new PaginatableResult<ConfigurationFileResponse>(Gone());
 
@@ -256,10 +256,10 @@ namespace Tgstation.Server.Host.Controllers
 					async instance => await instance
 						.Configuration
 						.CreateDirectory(model.Path, systemIdentity, cancellationToken)
-						.ConfigureAwait(false)
+						
 						? (IActionResult)Json(resultModel)
 						: Created(resultModel))
-					.ConfigureAwait(false);
+					;
 			}
 			catch (IOException e)
 			{
@@ -306,10 +306,10 @@ namespace Tgstation.Server.Host.Controllers
 					async instance => await instance
 					.Configuration
 					.DeleteDirectory(directory.Path, systemIdentity, cancellationToken)
-					.ConfigureAwait(false)
+					
 					? (IActionResult)NoContent()
 					: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)))
-					.ConfigureAwait(false);
+					;
 			}
 			catch (NotImplementedException)
 			{

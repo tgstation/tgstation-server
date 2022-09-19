@@ -178,9 +178,9 @@ namespace Tgstation.Server.Host.Components.Chat
 			restartRegistration.Dispose();
 			handlerCts.Dispose();
 			foreach (var providerKvp in providers)
-				await providerKvp.Value.DisposeAsync().ConfigureAwait(false);
+				await providerKvp.Value.DisposeAsync();
 
-			await messageSendTask.ConfigureAwait(false);
+			await messageSendTask;
 		}
 
 		/// <inheritdoc />
@@ -190,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				throw new ArgumentNullException(nameof(newChannels));
 
 			logger.LogTrace("ChangeChannels {0}...", connectionId);
-			var provider = await RemoveProviderChannels(connectionId, false, cancellationToken).ConfigureAwait(false);
+			var provider = await RemoveProviderChannels(connectionId, false, cancellationToken);
 			if (provider == null)
 				return;
 
@@ -200,7 +200,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				return;
 			}
 
-			var results = await provider.MapChannels(newChannels, cancellationToken).ConfigureAwait(false);
+			var results = await provider.MapChannels(newChannels, cancellationToken);
 			lock (activeChatBots)
 			{
 				var botToUpdate = activeChatBots.FirstOrDefault(bot => bot.Id == connectionId);
@@ -257,7 +257,7 @@ namespace Tgstation.Server.Host.Components.Chat
 								cancellationToken)));
 			}
 
-			await trackingContextUpdateTask.ConfigureAwait(false);
+			await trackingContextUpdateTask;
 		}
 
 		/// <inheritdoc />
@@ -288,7 +288,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				foreach (var oldMappedChannelId in mappedChannels.Where(x => x.Value.ProviderId == newSettings.Id).Select(x => x.Key).ToList())
 					mappedChannels.Remove(oldMappedChannelId);
 
-			await disconnectTask.ConfigureAwait(false);
+			await disconnectTask;
 
 			lock (synchronizationLock)
 			{
@@ -320,7 +320,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				});
 			}
 
-			await reconnectionUpdateTask.ConfigureAwait(false);
+			await reconnectionUpdateTask;
 		}
 
 		/// <inheritdoc />
@@ -344,7 +344,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (!initialProviderConnectionsTask.IsCompleted)
 				logger.LogTrace("Waiting for initial provider connections before sending watchdog message...");
 
-			await initialProviderConnectionsTask.WithToken(cancellationToken).ConfigureAwait(false);
+			await initialProviderConnectionsTask.WithToken(cancellationToken);
 
 			// so it doesn't change while we're using it
 			lock (mappedChannels)
@@ -393,7 +393,7 @@ namespace Tgstation.Server.Host.Components.Chat
 								channelMapping.ProviderChannelId,
 								localCommitPushed,
 								handlerCts.Token)
-								.ConfigureAwait(false);
+								;
 
 							callbacks.Add(callback);
 						}
@@ -422,7 +422,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			foreach (var tgsCommand in commandFactory.GenerateCommands())
 				builtinCommands.Add(tgsCommand.Name.ToUpperInvariant(), tgsCommand);
 			var initialChatBots = activeChatBots.ToList();
-			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken)));
 			initialProviderConnectionsTask = InitialConnection();
 			chatHandler = MonitorMessages(handlerCts.Token);
 		}
@@ -432,9 +432,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			handlerCts.Cancel();
 			if (chatHandler != null)
-				await chatHandler.ConfigureAwait(false);
-			await Task.WhenAll(providers.Select(x => x.Key).Select(x => DeleteConnection(x, cancellationToken))).ConfigureAwait(false);
-			await messageSendTask.ConfigureAwait(false);
+				await chatHandler;
+			await Task.WhenAll(providers.Select(x => x.Key).Select(x => DeleteConnection(x, cancellationToken)));
+			await messageSendTask;
 		}
 
 		/// <inheritdoc />
@@ -472,15 +472,15 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task DeleteConnection(long connectionId, CancellationToken cancellationToken)
 		{
-			var provider = await RemoveProviderChannels(connectionId, true, cancellationToken).ConfigureAwait(false);
+			var provider = await RemoveProviderChannels(connectionId, true, cancellationToken);
 			if (provider != null)
 				try
 				{
-					await provider.Disconnect(cancellationToken).ConfigureAwait(false);
+					await provider.Disconnect(cancellationToken);
 				}
 				finally
 				{
-					await provider.DisposeAsync().ConfigureAwait(false);
+					await provider.DisposeAsync();
 				}
 		}
 
@@ -539,7 +539,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					trackingContextsUpdateTask = Task.CompletedTask;
 			}
 
-			await trackingContextsUpdateTask.ConfigureAwait(false);
+			await trackingContextsUpdateTask;
 
 			return provider;
 		}
@@ -562,7 +562,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				channelsToMap = activeChatBots.FirstOrDefault(x => x.Id == providerId)?.Channels;
 
 			if (channelsToMap?.Any() ?? false)
-				await ChangeChannels(providerId, channelsToMap, cancellationToken).ConfigureAwait(false);
+				await ChangeChannels(providerId, channelsToMap, cancellationToken);
 		}
 
 		/// <summary>
@@ -585,7 +585,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			// provider reconnected, remap channels.
 			if (message == null)
 			{
-				await RemapProvider(provider, cancellationToken).ConfigureAwait(false);
+				await RemapProvider(provider, cancellationToken);
 				return;
 			}
 
@@ -646,7 +646,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							message.User.Channel.RealId,
 						},
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 					return;
 				}
 
@@ -684,7 +684,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (splits.Count == 0)
 				{
 					// just a mention
-					await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken);
 					return;
 				}
 
@@ -730,7 +730,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							helpText = UnknownCommandMessage;
 					}
 
-					await SendMessage(helpText, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					await SendMessage(helpText, new List<ulong> { message.User.Channel.RealId }, cancellationToken);
 					return;
 				}
 
@@ -738,19 +738,19 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				if (commandHandler == default)
 				{
-					await SendMessage(UnknownCommandMessage, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					await SendMessage(UnknownCommandMessage, new List<ulong> { message.User.Channel.RealId }, cancellationToken);
 					return;
 				}
 
 				if (commandHandler.AdminOnly && !message.User.Channel.IsAdminChannel)
 				{
-					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken);
 					return;
 				}
 
-				var result = await commandHandler.Invoke(arguments, message.User, cancellationToken).ConfigureAwait(false);
+				var result = await commandHandler.Invoke(arguments, message.User, cancellationToken);
 				if (result != null)
-					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken);
 			}
 			catch (OperationCanceledException ex)
 			{
@@ -765,7 +765,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					"TGS: Internal error processing command! Check server logs!",
 					new List<ulong> { message.User.Channel.RealId },
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 			}
 			finally
 			{
@@ -805,18 +805,18 @@ namespace Tgstation.Server.Host.Components.Chat
 					if (messageTasks.Count == 0)
 					{
 						logger.LogTrace("No providers active, pausing messsage monitoring...");
-						await updatedTask.WithToken(cancellationToken).ConfigureAwait(false);
+						await updatedTask.WithToken(cancellationToken);
 						logger.LogTrace("Resuming message monitoring...");
 						continue;
 					}
 
 					// wait for a message
-					await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x => x.Value))).ConfigureAwait(false);
+					await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x => x.Value)));
 
 					// process completed ones
 					foreach (var completedMessageTaskKvp in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
-						var message = await completedMessageTaskKvp.Value.ConfigureAwait(false);
+						var message = await completedMessageTaskKvp.Value;
 						var messageNumber = Interlocked.Increment(ref messagesProcessed);
 
 						async Task WrapProcessMessage()
@@ -825,14 +825,14 @@ namespace Tgstation.Server.Host.Components.Chat
 							using (LogContext.PushProperty("ChatMessage", messageNumber))
 								try
 								{
-									await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken).ConfigureAwait(false);
+									await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken);
 								}
 								catch (Exception ex)
 								{
 									logger.LogError(ex, "Error processing message {messageNumber}!", messageNumber);
 								}
 
-							await localActiveProcessingTask.ConfigureAwait(false);
+							await localActiveProcessingTask;
 						}
 
 						activeProcessingTask = WrapProcessMessage();
@@ -851,7 +851,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 			finally
 			{
-				await activeProcessingTask.ConfigureAwait(false);
+				await activeProcessingTask;
 			}
 
 			logger.LogTrace("Leaving message processing loop");
@@ -889,7 +889,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task InitialConnection()
 		{
-			await Task.WhenAll(providers.Select(x => x.Value.InitialConnectionJob)).ConfigureAwait(false);
+			await Task.WhenAll(providers.Select(x => x.Value.InitialConnectionJob));
 			logger.LogTrace("Initial provider connection task completed");
 		}
 
@@ -901,10 +901,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			async Task Wrap(Task originalTask)
 			{
-				await originalTask.ConfigureAwait(false);
+				await originalTask;
 				try
 				{
-					await task.ConfigureAwait(false);
+					await task;
 				}
 				catch (Exception ex)
 				{

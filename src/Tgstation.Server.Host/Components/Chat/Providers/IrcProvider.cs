@@ -149,10 +149,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask DisposeAsync()
 		{
-			await base.DisposeAsync().ConfigureAwait(false);
+			await base.DisposeAsync();
 
 			// DCT: None available
-			await HardDisconnect(default).ConfigureAwait(false);
+			await HardDisconnect(default);
 		}
 
 		/// <inheritdoc />
@@ -308,7 +308,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					estimatedCompletionTime.HasValue
 						? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
 						: String.Empty),
-				cancellationToken).ConfigureAwait(false);
+				cancellationToken);
 
 			return (errorMessage, dreamMakerOutput) => SendMessage(
 				channelId,
@@ -329,7 +329,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -345,7 +345,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						client.SendMessage(SendType.Message, "NickServ", String.Format(CultureInfo.InvariantCulture, "IDENTIFY {0}", password));
 						break;
 					case IrcPasswordType.Sasl:
-						await SaslAuthenticate(cancellationToken).ConfigureAwait(false);
+						await SaslAuthenticate(cancellationToken);
 						break;
 					case null:
 						break;
@@ -355,7 +355,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				cancellationToken.ThrowIfCancellationRequested();
 				Logger.LogTrace("Processing initial messages...");
-				await NonBlockingListen(cancellationToken).ConfigureAwait(false);
+				await NonBlockingListen(cancellationToken);
 
 				var nickCheckCompleteTcs = new TaskCompletionSource<object>();
 				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled()))
@@ -369,7 +369,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							client.ListenOnce(true);
 							if (disconnecting || !client.IsConnected)
 								break;
-							await NonBlockingListen(cancellationToken).ConfigureAwait(false);
+							await NonBlockingListen(cancellationToken);
 
 							// ensure we have the correct nick
 							if (client.GetIrcUser(nickname) == null)
@@ -394,7 +394,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current);
 
-					await nickCheckCompleteTcs.Task.ConfigureAwait(false);
+					await nickCheckCompleteTcs.Task;
 				}
 
 				Logger.LogTrace("Connection established!");
@@ -429,8 +429,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
-					.ConfigureAwait(false);
-				await HardDisconnect(cancellationToken).ConfigureAwait(false);
+					;
+				await HardDisconnect(cancellationToken);
 			}
 			catch (OperationCanceledException)
 			{
@@ -577,15 +577,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				var listenTimeSpan = TimeSpan.FromMilliseconds(10);
 				for (; !recievedAck;
-					await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
-					await NonBlockingListen(cancellationToken).ConfigureAwait(false);
+					await asyncDelayer.Delay(listenTimeSpan, timeoutToken))
+					await NonBlockingListen(cancellationToken);
 
 				client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
 				timeoutToken.ThrowIfCancellationRequested();
 
 				for (; !recievedPlus;
-					await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
-					await NonBlockingListen(cancellationToken).ConfigureAwait(false);
+					await asyncDelayer.Delay(listenTimeSpan, timeoutToken))
+					await NonBlockingListen(cancellationToken);
 			}
 			finally
 			{
@@ -651,7 +651,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					disconnectTask,
 					listenTask ?? Task.CompletedTask),
 				asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken))
-				.ConfigureAwait(false);
+				;
 		}
 	}
 }
