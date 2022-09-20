@@ -659,7 +659,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Publish API to NuGet
-        uses: brandedoutcast/publish-nuget@v2
+        uses: alirezanet/publish-nuget@v3.0.0
         with:
           PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
           TAG_COMMIT: false
@@ -667,7 +667,7 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Publish Client to NuGet
-        uses: brandedoutcast/publish-nuget@v2
+        uses: alirezanet/publish-nuget@v3.0.0
         with:
           PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
           TAG_COMMIT: false
