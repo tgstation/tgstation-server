@@ -104,8 +104,7 @@ namespace ReleaseNotes
 					};
 
 					lock (milestoneTaskLock)
-						if (milestoneTask == null)
-							milestoneTask = GetMilestone();
+						milestoneTask ??= GetMilestone();
 
 					// if (!fullPR.Merged)
 					//return;
@@ -171,7 +170,7 @@ namespace ReleaseNotes
 							{
 								if (trimmedLine.StartsWith(":cl:", StringComparison.Ordinal))
 								{
-									targetComponent = trimmedLine.Substring(4).Trim();
+									targetComponent = trimmedLine[4..].Trim();
 									if (targetComponent.Length == 0)
 										targetComponent = "Core";
 								}
@@ -335,7 +334,7 @@ namespace ReleaseNotes
 							State = ItemStateFilter.Open
 						});
 
-						var milestoneToDelete = milestones.FirstOrDefault(x => x.Title.StartsWith($"v{version.Major}.{version.Minor - 1}."));
+						var milestoneToDelete = milestones.FirstOrDefault(x => x.Title.StartsWith($"v{highestReleaseVersion.Major}.{highestReleaseVersion.Minor}."));
 						if (milestoneToDelete != null)
 						{
 							Console.WriteLine($"Moving {milestoneToDelete.OpenIssues} open issues and {milestoneToDelete.ClosedIssues} closed issues from unused patch milestone {milestoneToDelete.Title} to upcoming ones and deleting...");
