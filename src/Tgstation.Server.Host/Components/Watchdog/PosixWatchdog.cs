@@ -89,17 +89,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogTrace("Hard linking compile job...");
 
 			// Symlinks are counted as a file on linux??
-			if (await GameIOManager.DirectoryExists(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false))
-				await GameIOManager.DeleteDirectory(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false);
+			if (await GameIOManager.DirectoryExists(ActiveSwappable.Directory, cancellationToken))
+				await GameIOManager.DeleteDirectory(ActiveSwappable.Directory, cancellationToken);
 			else
-				await GameIOManager.DeleteFile(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false);
+				await GameIOManager.DeleteFile(ActiveSwappable.Directory, cancellationToken);
 
 			// Instead of symlinking to begin with we actually rename the directory
 			await GameIOManager.MoveDirectory(
 				ActiveSwappable.CompileJob.DirectoryName.ToString(),
 				ActiveSwappable.Directory,
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			hardLinkedDmb = ActiveSwappable;
 		}
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			try
 			{
-				await base.InitController(chatTask, reattachInfo, cancellationToken).ConfigureAwait(false);
+				await base.InitController(chatTask, reattachInfo, cancellationToken);
 			}
 			finally
 			{
@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							hardLink,
 							originalPosition,
 							default)
-							.ConfigureAwait(false);
+							;
 					}
 					catch (Exception ex)
 					{
@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			Logger.LogTrace("Symlinking compile job...");
-			await ActiveSwappable.MakeActive(cancellationToken).ConfigureAwait(false);
+			await ActiveSwappable.MakeActive(cancellationToken);
 			Server.Resume();
 		}
 	}

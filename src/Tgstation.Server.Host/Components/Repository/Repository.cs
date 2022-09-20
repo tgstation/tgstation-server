@@ -300,7 +300,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current)
-				.ConfigureAwait(false);
+				;
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
@@ -314,7 +314,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						testMergeBranchName,
 					},
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 				return null;
 			}
 
@@ -329,14 +329,14 @@ namespace Tgstation.Server.Host.Components.Repository
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
-					.ConfigureAwait(false);
+					;
 
 				if (updateSubmodules)
 					await UpdateSubmodules(
 						(stage, progress) => progressReporter(stage, 66 + (progress.Value / 3)),
 						username,
 						password,
-						cancellationToken).ConfigureAwait(false);
+						cancellationToken);
 			}
 
 			await eventConsumer.HandleEvent(
@@ -348,7 +348,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					testMergeParameters.Comment,
 				},
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			return result.Status != MergeStatus.NonFastForward;
 		}
@@ -368,7 +368,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 			logger.LogDebug("Checkout object: {0}...", committish);
-			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, cancellationToken).ConfigureAwait(false);
+			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -381,14 +381,14 @@ namespace Tgstation.Server.Host.Components.Repository
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current)
-				.ConfigureAwait(false);
+				;
 
 			if (updateSubmodules)
 				await UpdateSubmodules(
 					(stage, progress) => progressReporter(stage, 66 + (progress / 3)),
 					username,
 					password,
-					cancellationToken).ConfigureAwait(false);
+					cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -397,7 +397,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 			logger.LogDebug("Fetch origin...");
-			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -432,7 +432,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current)
-				.ConfigureAwait(false);
+				;
 		}
 
 		/// <inheritdoc />
@@ -449,15 +449,15 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new JobException(ErrorCode.RepoReferenceRequired);
 			logger.LogTrace("Reset to origin...");
 			var trackedBranch = libGitRepo.Head.TrackedBranch;
-			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken).ConfigureAwait(false);
+			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken);
 			await ResetToSha(
 				trackedBranch.Tip.Sha,
 				(stage, progress) => progressReporter(stage, progress / (updateSubmodules ? 2 : 1)),
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (updateSubmodules)
-				await UpdateSubmodules((stage, progress) => progressReporter(stage, 50 + (progress / 2)), username, password, cancellationToken).ConfigureAwait(false);
+				await UpdateSubmodules((stage, progress) => progressReporter(stage, 50 + (progress / 2)), username, password, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -495,7 +495,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
 			logger.LogTrace("Copying to {0}...", path);
-			await ioMananger.CopyDirectory(ioMananger.ResolvePath(), path, new List<string> { ".git" }, cancellationToken).ConfigureAwait(false);
+			await ioMananger.CopyDirectory(ioMananger.ResolvePath(), path, new List<string> { ".git" }, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -571,11 +571,11 @@ namespace Tgstation.Server.Host.Components.Repository
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current)
-				.ConfigureAwait(false);
+				;
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
-				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { oldTip.Sha, trackedBranch.Tip.Sha, oldHead.FriendlyName ?? UnknownReference, trackedBranch.FriendlyName }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { oldTip.Sha, trackedBranch.Tip.Sha, oldHead.FriendlyName ?? UnknownReference, trackedBranch.FriendlyName }, cancellationToken);
 				return null;
 			}
 
@@ -624,7 +624,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current).ConfigureAwait(false);
+				TaskScheduler.Current);
 
 			cancellationToken.ThrowIfCancellationRequested();
 			try
@@ -636,7 +636,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						ioMananger.ResolvePath(),
 					},
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 			}
 			finally
 			{
@@ -654,14 +654,14 @@ namespace Tgstation.Server.Host.Components.Repository
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
-					.ConfigureAwait(false);
+					;
 			}
 
 			void FinalReporter(string stage, int? progress) => progressReporter(stage, (int)(((float)progress) / 100 * 90));
 
 			if (!synchronizeTrackedBranch)
 			{
-				await PushHeadToTemporaryBranch(username, password, FinalReporter, cancellationToken).ConfigureAwait(false);
+				await PushHeadToTemporaryBranch(username, password, FinalReporter, cancellationToken);
 				return false;
 			}
 
@@ -702,7 +702,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current)
-				.ConfigureAwait(false);
+				;
 		}
 
 		/// <inheritdoc />
@@ -966,7 +966,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					TaskScheduler.Current);
 				try
 				{
-					await RawSubModuleUpdate().ConfigureAwait(false);
+					await RawSubModuleUpdate();
 				}
 				catch (LibGit2SharpException ex)
 				{
@@ -978,12 +978,12 @@ namespace Tgstation.Server.Host.Components.Repository
 					await Task.WhenAll(
 						ioMananger.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken),
 						ioMananger.DeleteDirectory(submodule.Path, cancellationToken))
-						.ConfigureAwait(false);
+						;
 
 					logger.LogTrace("Second update attempt for submodule {0}...", submodule.Name);
 					try
 					{
-						await RawSubModuleUpdate().ConfigureAwait(false);
+						await RawSubModuleUpdate();
 					}
 					catch (UserCancelledException)
 					{
@@ -997,7 +997,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					}
 				}
 
-				await eventConsumer.HandleEvent(EventType.RepoSubmoduleUpdate, new List<string> { submodule.Name }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.RepoSubmoduleUpdate, new List<string> { submodule.Name }, cancellationToken);
 			}
 		}
 

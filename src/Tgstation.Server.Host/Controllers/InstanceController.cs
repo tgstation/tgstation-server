@@ -189,7 +189,7 @@ namespace Tgstation.Server.Host.Controllers
 									cts.Cancel();
 							},
 							newCancellationToken)
-						.ConfigureAwait(false);
+						;
 				}
 				catch (OperationCanceledException)
 				{
@@ -208,40 +208,40 @@ namespace Tgstation.Server.Host.Controllers
 
 			async Task<bool> DirExistsAndIsNotEmpty()
 			{
-				if (!await ioManager.DirectoryExists(model.Path, cancellationToken).ConfigureAwait(false))
+				if (!await ioManager.DirectoryExists(model.Path, cancellationToken))
 					return false;
 
 				var filesTask = ioManager.GetFiles(model.Path, cancellationToken);
 				var dirsTask = ioManager.GetDirectories(model.Path, cancellationToken);
 
-				var files = await filesTask.ConfigureAwait(false);
-				var dirs = await dirsTask.ConfigureAwait(false);
+				var files = await filesTask;
+				var dirs = await dirsTask;
 
 				return files.Concat(dirs).Any();
 			}
 
 			var dirExistsTask = DirExistsAndIsNotEmpty();
 			bool attached = false;
-			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
-				if (!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken).ConfigureAwait(false))
+			if (await ioManager.FileExists(model.Path, cancellationToken) || await dirExistsTask)
+				if (!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken))
 					return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtExistingPath));
 				else
 					attached = true;
 
-			var newInstance = await CreateDefaultInstance(model, cancellationToken).ConfigureAwait(false);
+			var newInstance = await CreateDefaultInstance(model, cancellationToken);
 			if (newInstance == null)
 				return Conflict(new ErrorMessageResponse(ErrorCode.NoPortsAvailable));
 
 			DatabaseContext.Instances.Add(newInstance);
 			try
 			{
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+				await DatabaseContext.Save(cancellationToken);
 
 				try
 				{
 					// actually reserve it now
-					await ioManager.CreateDirectory(unNormalizedPath, cancellationToken).ConfigureAwait(false);
-					await ioManager.DeleteFile(ioManager.ConcatPath(targetInstancePath, InstanceAttachFileName), cancellationToken).ConfigureAwait(false);
+					await ioManager.CreateDirectory(unNormalizedPath, cancellationToken);
+					await ioManager.DeleteFile(ioManager.ConcatPath(targetInstancePath, InstanceAttachFileName), cancellationToken);
 				}
 				catch
 				{
@@ -249,7 +249,7 @@ namespace Tgstation.Server.Host.Controllers
 					DatabaseContext.Instances.Remove(newInstance);
 
 					// DCT: Operation must always run
-					await DatabaseContext.Save(default).ConfigureAwait(false);
+					await DatabaseContext.Save(default);
 					throw;
 				}
 			}
@@ -286,7 +286,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Instances
 				.AsQueryable()
 				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default)
 				return Gone();
 			if (originalModel.Online.Value)
@@ -297,16 +297,16 @@ namespace Tgstation.Server.Host.Controllers
 			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
 			try
 			{
-				await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+				await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), cancellationToken);
 			}
 			catch (OperationCanceledException)
 			{
 				// DCT: Operation must always run
-				await ioManager.DeleteFile(attachFileName, default).ConfigureAwait(false);
+				await ioManager.DeleteFile(attachFileName, default);
 				throw;
 			}
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false); // cascades everything
+			await DatabaseContext.Save(cancellationToken); // cascades everything
 			return NoContent();
 		}
 
@@ -343,14 +343,14 @@ namespace Tgstation.Server.Host.Controllers
 				.Select(x => new Job
 				{
 					Id = x.Id,
-				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				}).FirstOrDefaultAsync(cancellationToken);
 
 			if (moveJob != default)
 			{
 				// don't allow them to cancel it if they can't start it.
 				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.Relocate))
 					return Forbid();
-				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false); // cancel it now
+				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken); // cancel it now
 			}
 
 			var originalModel = await InstanceQuery()
@@ -358,12 +358,12 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.ChatSettings)
 					.ThenInclude(x => x.Channels)
 				.Include(x => x.DreamDaemonSettings) // need these for onlining
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default(Models.Instance))
 				return Gone();
 
 			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, originalModel))
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+				await DatabaseContext.Save(cancellationToken);
 
 			var userRights = (InstanceManagerRights)AuthenticationContext.GetRight(RightsType.InstanceManager);
 			bool CheckModified<T>(Expression<Func<Api.Models.Instance, T>> expression, InstanceManagerRights requiredRight)
@@ -395,7 +395,7 @@ namespace Tgstation.Server.Host.Controllers
 						return Conflict(new ErrorMessageResponse(ErrorCode.InstanceRelocateOnline));
 
 					var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
-					if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
+					if (await ioManager.FileExists(model.Path, cancellationToken) || await dirExistsTask)
 						return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtExistingPath));
 
 					originalModelPath = originalModel.Path;
@@ -421,32 +421,32 @@ namespace Tgstation.Server.Host.Controllers
 					.AsQueryable()
 					.Where(x => x.InstanceId == originalModel.Id)
 					.CountAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				if (countOfExistingChatBots > model.ChatBotLimit.Value)
 					return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
 			}
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			if (renamed)
 			{
 				using var componentInstance = instanceManager.GetInstanceReference(originalModel);
 				if (componentInstance != null)
-					await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken).ConfigureAwait(false);
+					await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken);
 			}
 
 			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
 			{
 				if (originalOnline && model.Online == false)
-					await instanceManager.OfflineInstance(originalModel, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
+					await instanceManager.OfflineInstance(originalModel, AuthenticationContext.User, cancellationToken);
 				else if (!originalOnline && model.Online == true)
 				{
 					// force autostart false here because we don't want any long running jobs right now
 					// remember to document this
 					originalModel.DreamDaemonSettings.AutoStart = false;
-					await instanceManager.OnlineInstance(originalModel, cancellationToken).ConfigureAwait(false);
+					await instanceManager.OnlineInstance(originalModel, cancellationToken);
 				}
 			}
 			catch (Exception e)
@@ -459,7 +459,7 @@ namespace Tgstation.Server.Host.Controllers
 					originalModel.Path = originalModelPath;
 
 				// DCT: Operation must always run
-				await DatabaseContext.Save(default).ConfigureAwait(false);
+				await DatabaseContext.Save(default);
 				throw;
 			}
 
@@ -485,7 +485,7 @@ namespace Tgstation.Server.Host.Controllers
 					(core, databaseContextFactory, paramJob, progressHandler, ct) // core will be null here since the instance is offline
 						=> instanceManager.MoveInstance(originalModel, originalModelPath, ct),
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 				api.MoveJob = job.ToApi();
 			}
 
@@ -493,10 +493,10 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				using var componentInstance = instanceManager.GetInstanceReference(originalModel);
 				if (componentInstance != null)
-					await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
+					await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value);
 			}
 
-			await CheckAccessible(api, cancellationToken).ConfigureAwait(false);
+			await CheckAccessible(api, cancellationToken);
 			return moving ? (IActionResult)Accepted(api) : Json(api);
 		}
 #pragma warning restore CA1502
@@ -546,7 +546,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
 				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			var needsUpdate = false;
 			var result = await Paginated<Models.Instance, InstanceResponse>(
@@ -558,15 +558,15 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
 					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id)?.ToApi();
-					await CheckAccessible(instance, cancellationToken).ConfigureAwait(false);
+					await CheckAccessible(instance, cancellationToken);
 				},
 				page,
 				pageSize,
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (needsUpdate)
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+				await DatabaseContext.Save(cancellationToken);
 
 			return result;
 		}
@@ -598,13 +598,13 @@ namespace Tgstation.Server.Host.Controllers
 				return query;
 			}
 
-			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken);
 
 			if (instance == null)
 				return Gone();
 
 			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance))
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+				await DatabaseContext.Save(cancellationToken);
 
 			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value &&
 				(instanceUser.ByondRights != ByondRights.None ||
@@ -624,9 +624,9 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			api.MoveJob = moveJob?.ToApi();
-			await CheckAccessible(api, cancellationToken).ConfigureAwait(false);
+			await CheckAccessible(api, cancellationToken);
 			return Json(api);
 		}
 
@@ -653,13 +653,13 @@ namespace Tgstation.Server.Host.Controllers
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (usersInstancePermissionSet == default)
 			{
 				// does the instance actually exist?
 				var instanceExists = await BaseQuery()
 					.AnyAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				if (!instanceExists)
 					return Gone();
@@ -671,7 +671,7 @@ namespace Tgstation.Server.Host.Controllers
 			else
 				InstanceAdminPermissionSet(usersInstancePermissionSet);
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			return NoContent();
 		}
@@ -684,14 +684,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="Models.Instance"/> or <see langword="null"/> if ports could not be allocated.</returns>
 		async Task<Models.Instance> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
 		{
-			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken).ConfigureAwait(false);
+			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken);
 			if (!ddPort.HasValue)
 				return null;
 
 			// try to use the old default if possible
 			const ushort DefaultDreamDaemonPort = 1337;
 			if (ddPort.Value < DefaultDreamDaemonPort)
-				ddPort = await portAllocator.GetAvailablePort(DefaultDreamDaemonPort, false, cancellationToken).ConfigureAwait(false) ?? ddPort;
+				ddPort = await portAllocator.GetAvailablePort(DefaultDreamDaemonPort, false, cancellationToken) ?? ddPort;
 
 			const ushort DefaultApiValidationPort = 1339;
 			var dmPort = await portAllocator
@@ -699,13 +699,13 @@ namespace Tgstation.Server.Host.Controllers
 					Math.Min((ushort)(ddPort.Value + 1), DefaultApiValidationPort),
 					false,
 					cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (!dmPort.HasValue)
 				return null;
 
 			// try to use the old default if possible
 			if (dmPort < DefaultApiValidationPort)
-				dmPort = await portAllocator.GetAvailablePort(DefaultApiValidationPort, false, cancellationToken).ConfigureAwait(false) ?? dmPort;
+				dmPort = await portAllocator.GetAvailablePort(DefaultApiValidationPort, false, cancellationToken) ?? dmPort;
 
 			return new Models.Instance
 			{

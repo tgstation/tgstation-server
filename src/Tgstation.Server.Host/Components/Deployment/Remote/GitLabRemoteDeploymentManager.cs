@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.WithToken(cancellationToken));
 			try
 			{
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 			}
 			catch (Exception ex) when (!(ex is OperationCanceledException))
 			{
@@ -77,12 +77,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			MergeRequest lastMerged = null;
 			async Task CheckRemoveMR(Task<MergeRequest> task)
 			{
-				var mergeRequest = await task.ConfigureAwait(false);
+				var mergeRequest = await task;
 				if (mergeRequest.State != MergeRequestState.Merged)
 					return;
 
 				// We don't just assume, actually check the repo contains the merge commit.
-				if (await repository.ShaIsParent(mergeRequest.MergeCommitSha, cancellationToken).ConfigureAwait(false))
+				if (await repository.ShaIsParent(mergeRequest.MergeCommitSha, cancellationToken))
 				{
 					if (lastMerged == null || lastMerged.ClosedAt < mergeRequest.ClosedAt)
 						lastMerged = mergeRequest;
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			}
 
 			foreach (var prTask in tasks)
-				await CheckRemoveMR(prTask).ConfigureAwait(false);
+				await CheckRemoveMR(prTask);
 
 			return newList;
 		}

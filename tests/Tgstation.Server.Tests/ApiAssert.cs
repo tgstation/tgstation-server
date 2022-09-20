@@ -24,7 +24,7 @@ namespace Tgstation.Server.Tests
 		{
 			try
 			{
-				await action().ConfigureAwait(false);
+				await action();
 			}
 			catch (TApiException ex)
 			{

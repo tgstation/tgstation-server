@@ -352,7 +352,7 @@ namespace Tgstation.Server.Host.Components
 						}
 						catch
 						{
-							await watchdog.DisposeAsync().ConfigureAwait(false);
+							await watchdog.DisposeAsync();
 							throw;
 						}
 					}
@@ -364,7 +364,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				catch
 				{
-					await chatManager.DisposeAsync().ConfigureAwait(false);
+					await chatManager.DisposeAsync();
 					throw;
 				}
 			}

@@ -188,7 +188,7 @@ namespace Tgstation.Server.Host.Components
 			}
 
 			foreach (var instanceKvp in instances)
-				await instanceKvp.Value.Instance.DisposeAsync().ConfigureAwait(false);
+				await instanceKvp.Value.Instance.DisposeAsync();
 
 			instanceStateChangeSemaphore.Dispose();
 
@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Components
 			var newPath = instance.Path;
 			try
 			{
-				await ioManager.MoveDirectory(oldPath, newPath, cancellationToken).ConfigureAwait(false);
+				await ioManager.MoveDirectory(oldPath, newPath, cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -246,7 +246,7 @@ namespace Tgstation.Server.Host.Components
 						db.Instances.Attach(targetInstance);
 						targetInstance.Path = oldPath;
 						return db.Save(default);
-					}).ConfigureAwait(false);
+					});
 				}
 				catch (Exception innerEx)
 				{
@@ -262,7 +262,7 @@ namespace Tgstation.Server.Host.Components
 							ioManager.ConcatPath(oldPath, InstanceController.InstanceAttachFileName),
 							Array.Empty<byte>(),
 							default)
-							.ConfigureAwait(false);
+							;
 					}
 					catch (Exception tripleEx)
 					{
@@ -286,7 +286,7 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 
-			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken).ConfigureAwait(false);
+			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 
 			logger.LogInformation("Offlining instance ID {0}", metadata.Id);
 			InstanceContainer container;
@@ -303,7 +303,7 @@ namespace Tgstation.Server.Host.Components
 
 			try
 			{
-				await container.OnZeroReferences.ConfigureAwait(false);
+				await container.OnZeroReferences;
 
 				// we are the one responsible for cancelling his jobs
 				var tasks = new List<Task>();
@@ -322,16 +322,16 @@ namespace Tgstation.Server.Host.Components
 					{
 						lock (tasks)
 							tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));
-					}, cancellationToken).ConfigureAwait(false);
-				}).ConfigureAwait(false);
+					}, cancellationToken);
+				});
 
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 
-				await container.Instance.StopAsync(cancellationToken).ConfigureAwait(false);
+				await container.Instance.StopAsync(cancellationToken);
 			}
 			finally
 			{
-				await container.Instance.DisposeAsync().ConfigureAwait(false);
+				await container.Instance.DisposeAsync();
 			}
 		}
 
@@ -341,7 +341,7 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 
-			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken).ConfigureAwait(false);
+			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			lock (instances)
 				if (instances.ContainsKey(metadata.Id.Value))
 				{
@@ -350,10 +350,10 @@ namespace Tgstation.Server.Host.Components
 				}
 
 			logger.LogInformation("Onlining instance ID {0} ({1}) at {2}", metadata.Id, metadata.Name, metadata.Path);
-			var instance = await instanceFactory.CreateInstance(this, metadata).ConfigureAwait(false);
+			var instance = await instanceFactory.CreateInstance(this, metadata);
 			try
 			{
-				await instance.StartAsync(cancellationToken).ConfigureAwait(false);
+				await instance.StartAsync(cancellationToken);
 
 				try
 				{
@@ -366,7 +366,7 @@ namespace Tgstation.Server.Host.Components
 					try
 					{
 						// DCT: Must always run
-						await instance.StopAsync(default).ConfigureAwait(false);
+						await instance.StopAsync(default);
 					}
 					catch (Exception innerEx)
 					{
@@ -378,7 +378,7 @@ namespace Tgstation.Server.Host.Components
 			}
 			catch
 			{
-				await instance.DisposeAsync().ConfigureAwait(false);
+				await instance.DisposeAsync();
 				throw;
 			}
 		}
@@ -393,7 +393,7 @@ namespace Tgstation.Server.Host.Components
 
 				CheckSystemCompatibility();
 
-				await InitializeSwarm(cancellationToken).ConfigureAwait(false);
+				await InitializeSwarm(cancellationToken);
 
 				List<Models.Instance> dbInstances = null;
 				var instanceEnumeration = databaseContextFactory.UseContext(
@@ -405,20 +405,19 @@ namespace Tgstation.Server.Host.Components
 						.Include(x => x.ChatSettings)
 							.ThenInclude(x => x.Channels)
 						.Include(x => x.DreamDaemonSettings)
-						.ToListAsync(cancellationToken)
-						.ConfigureAwait(false));
+						.ToListAsync(cancellationToken));
 
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				var jobManagerStartup = jobManager.StartAsync(cancellationToken);
 
-				await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup).ConfigureAwait(false);
+				await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup);
 
 				var instanceOnliningTasks = dbInstances.Select(
 					async metadata =>
 					{
 						try
 						{
-							await OnlineInstance(metadata, cancellationToken).ConfigureAwait(false);
+							await OnlineInstance(metadata, cancellationToken);
 						}
 						catch (Exception ex)
 						{
@@ -426,7 +425,7 @@ namespace Tgstation.Server.Host.Components
 						}
 					});
 
-				await Task.WhenAll(instanceOnliningTasks).ConfigureAwait(false);
+				await Task.WhenAll(instanceOnliningTasks);
 
 				jobManager.Activate();
 
@@ -442,7 +441,7 @@ namespace Tgstation.Server.Host.Components
 				logger.LogCritical(e, "Instance manager startup error!");
 				try
 				{
-					await serverControl.Die(e).ConfigureAwait(false);
+					await serverControl.Die(e);
 					return;
 				}
 				catch (Exception e2)
@@ -459,12 +458,13 @@ namespace Tgstation.Server.Host.Components
 		{
 			try
 			{
+				logger.LogDebug("Stopping instance manager...");
 				var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
-				await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
-				await Task.WhenAll(instances.Select(x => x.Value.Instance.StopAsync(cancellationToken))).ConfigureAwait(false);
-				await instanceFactoryStopTask.ConfigureAwait(false);
+				await jobManager.StopAsync(cancellationToken);
+				await Task.WhenAll(instances.Select(x => x.Value.Instance.StopAsync(cancellationToken)));
+				await instanceFactoryStopTask;
 
-				await swarmService.Shutdown(cancellationToken).ConfigureAwait(false);
+				await swarmService.Shutdown(cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -488,7 +488,7 @@ namespace Tgstation.Server.Host.Components
 					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
 						delayTask = asyncDelayer.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
 
-				await delayTask.ConfigureAwait(false);
+				await delayTask;
 			}
 
 			if (bridgeHandler == null)
@@ -499,7 +499,7 @@ namespace Tgstation.Server.Host.Components
 						return null;
 					}
 
-			return await bridgeHandler.ProcessBridgeRequest(parameters, cancellationToken).ConfigureAwait(false);
+			return await bridgeHandler.ProcessBridgeRequest(parameters, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -561,7 +561,7 @@ namespace Tgstation.Server.Host.Components
 			SwarmRegistrationResult registrationResult;
 			do
 			{
-				registrationResult = await swarmService.Initialize(cancellationToken).ConfigureAwait(false);
+				registrationResult = await swarmService.Initialize(cancellationToken);
 
 				if (registrationResult == SwarmRegistrationResult.Unauthorized)
 					throw new InvalidOperationException("Swarm private key does not match the swarm controller's!");

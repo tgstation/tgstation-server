@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Core
 			if (semaphore == null)
 				throw new ArgumentNullException(nameof(semaphore));
 			cancellationToken.ThrowIfCancellationRequested();
-			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+			await semaphore.WaitAsync(cancellationToken);
 			return new SemaphoreSlimContext(semaphore);
 		}
 

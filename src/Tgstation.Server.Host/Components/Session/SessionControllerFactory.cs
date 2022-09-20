@@ -252,7 +252,7 @@ namespace Tgstation.Server.Host.Components.Session
 			try
 			{
 				// get the byond lock
-				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
+				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken);
 				try
 				{
 					logger.LogDebug(
@@ -260,10 +260,10 @@ namespace Tgstation.Server.Host.Components.Session
 						dmbProvider.CompileJob.Id);
 
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
-						await byondLock.TrustDmbPath(ioManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
+						await byondLock.TrustDmbPath(ioManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken);
 
 					PortBindTest(launchParameters.Port.Value);
-					await CheckPagerIsNotRunning(cancellationToken).ConfigureAwait(false);
+					await CheckPagerIsNotRunning(cancellationToken);
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
 
@@ -315,7 +315,7 @@ namespace Tgstation.Server.Host.Components.Session
 					{
 						// DCT x2: None available
 						if (!platformIdentifier.IsWindows)
-							return await process.GetCombinedOutput(default).ConfigureAwait(false);
+							return await process.GetCombinedOutput(default);
 
 						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileGuid.ToString());
 						try
@@ -323,7 +323,7 @@ namespace Tgstation.Server.Host.Components.Session
 							var dreamDaemonLogBytes = await ioManager.ReadAllBytes(
 								logFilePath,
 								default)
-								.ConfigureAwait(false);
+								;
 
 							return Encoding.UTF8.GetString(dreamDaemonLogBytes);
 						}
@@ -332,7 +332,7 @@ namespace Tgstation.Server.Host.Components.Session
 							try
 							{
 								// DCT: No token available
-								await ioManager.DeleteFile(logFilePath, default).ConfigureAwait(false);
+								await ioManager.DeleteFile(logFilePath, default);
 							}
 							catch (Exception ex)
 							{
@@ -346,7 +346,7 @@ namespace Tgstation.Server.Host.Components.Session
 					{
 						try
 						{
-							var ddOutput = await GetDDOutput().ConfigureAwait(false);
+							var ddOutput = await GetDDOutput();
 							logger.LogTrace(
 								"DreamDaemon Output:{0}{1}",
 								Environment.NewLine,
@@ -409,7 +409,7 @@ namespace Tgstation.Server.Host.Components.Session
 									process.Id.ToString(CultureInfo.InvariantCulture),
 								},
 								cancellationToken)
-								.ConfigureAwait(false);
+								;
 
 						return sessionController;
 					}
@@ -418,7 +418,7 @@ namespace Tgstation.Server.Host.Components.Session
 						using (process)
 						{
 							process.Terminate();
-							await process.Lifetime.ConfigureAwait(false);
+							await process.Lifetime;
 							throw;
 						}
 					}
@@ -451,7 +451,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var chatTrackingContext = chat.CreateTrackingContext();
 			try
 			{
-				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
+				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken);
 
 				try
 				{
@@ -554,8 +554,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 			var otherUsernameTask = otherProcess.GetExecutingUsername(cancellationToken);
 			using var ourProcess = processExecutor.GetCurrentProcess();
-			var ourUserName = await ourProcess.GetExecutingUsername(cancellationToken).ConfigureAwait(false);
-			var otherUserName = await otherUsernameTask.ConfigureAwait(false);
+			var ourUserName = await ourProcess.GetExecutingUsername(cancellationToken);
+			var otherUserName = await otherUsernameTask;
 
 			if (otherUserName.Equals(ourUserName, StringComparison.Ordinal))
 				throw new JobException(ErrorCode.DeploymentPagerRunning);

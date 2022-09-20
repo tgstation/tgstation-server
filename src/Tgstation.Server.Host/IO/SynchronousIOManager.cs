@@ -95,9 +95,7 @@ namespace Tgstation.Server.Host.IO
 					return false;
 
 				// suppressed due to only using for consistency checks
-#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-				using (var sha1 = new SHA1Managed())
-#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
+				using (var sha1 = SHA1.Create())
 				{
 					string GetSha1(Stream dataToHash) => dataToHash != null && dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
 					var originalSha1 = GetSha1(file);

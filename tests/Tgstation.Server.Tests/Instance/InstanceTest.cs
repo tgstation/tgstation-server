@@ -29,11 +29,11 @@ namespace Tgstation.Server.Tests.Instance
 			var byondTests = byondTest.Run(cancellationToken);
 			var repoTests = repoTest.RunPreWatchdog(cancellationToken);
 			var chatTests = chatTest.RunPreWatchdog(cancellationToken);
-			await byondTests.ConfigureAwait(false);
+			await byondTests;
 			await dmTest.Run(repoTests, cancellationToken);
 
-			await configTest.Run(cancellationToken).ConfigureAwait(false);
-			await chatTests.ConfigureAwait(false);
+			await configTest.Run(cancellationToken);
+			await chatTests;
 			await repoTests;
 			await new WatchdogTest(instanceClient).Run(cancellationToken);
 		}

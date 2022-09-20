@@ -172,9 +172,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
-				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+				await EnsureDirectories(cancellationToken);
 
 				// just assume no other fs race conditions here
 				var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
 				var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, cancellationToken);
 
-				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask, copyTask).ConfigureAwait(false);
+				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask, copyTask);
 
 				if (!dmeExistsTask.Result && !headFileExistsTask.Result && !tailFileExistsTask.Result)
 					return null;
@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task<IReadOnlyList<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
-			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			if (configurationRelativePath == null)
@@ -236,11 +236,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}).OrderBy(file => file.Path));
 			}
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 				if (systemIdentity == null)
 					ListImpl();
 				else
-					await systemIdentity.RunImpersonated(ListImpl, cancellationToken).ConfigureAwait(false);
+					await systemIdentity.RunImpersonated(ListImpl, cancellationToken);
 
 			return result;
 		}
@@ -248,7 +248,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task<ConfigurationFileResponse> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
-			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			ConfigurationFileResponse result = null;
@@ -261,9 +261,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						string GetFileSha()
 						{
 							var content = synchronousIOManager.ReadFile(path);
-#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-							using var sha1 = new SHA1Managed();
-#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
+							using var sha1 = SHA1.Create();
 							return String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
 						}
 
@@ -291,11 +289,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 										result = ioManager.GetFileStream(path, false);
 									}
 
-									using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+									using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 										if (systemIdentity == null)
-											await Task.Factory.StartNew(GetFileStream, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+											await Task.Factory.StartNew(GetFileStream, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 										else
-											await systemIdentity.RunImpersonated(GetFileStream, cancellationToken).ConfigureAwait(false);
+											await systemIdentity.RunImpersonated(GetFileStream, cancellationToken);
 
 									return result;
 								},
@@ -336,11 +334,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					}
 			}
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 				if (systemIdentity == null)
-					await Task.Factory.StartNew(ReadImpl, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+					await Task.Factory.StartNew(ReadImpl, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 				else
-					await systemIdentity.RunImpersonated(ReadImpl, cancellationToken).ConfigureAwait(false);
+					await systemIdentity.RunImpersonated(ReadImpl, cancellationToken);
 
 			return result;
 		}
@@ -350,7 +348,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		{
 			async Task<IReadOnlyList<string>> GetIgnoreFiles()
 			{
-				var ignoreFileBytes = await ioManager.ReadAllBytes(StaticIgnorePath(), cancellationToken).ConfigureAwait(false);
+				var ignoreFileBytes = await ioManager.ReadAllBytes(StaticIgnorePath(), cancellationToken);
 				var ignoreFileText = Encoding.UTF8.GetString(ignoreFileBytes);
 
 				var results = new List<string> { StaticIgnoreFile };
@@ -359,7 +357,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				using (var reader = new StringReader(ignoreFileText))
 				{
 					cancellationToken.ThrowIfCancellationRequested();
-					var line = await reader.ReadLineAsync().ConfigureAwait(false);
+					var line = await reader.ReadLineAsync();
 					if (!String.IsNullOrEmpty(line))
 						results.Add(line);
 				}
@@ -376,7 +374,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					task = ioManager.GetFiles(GameStaticFilesSubdirectory, cancellationToken);
 				else
 					task = ioManager.GetDirectories(GameStaticFilesSubdirectory, cancellationToken);
-				var entries = await task.ConfigureAwait(false);
+				var entries = await task;
 
 				await Task.WhenAll(entries.Select(async x =>
 				{
@@ -398,27 +396,27 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					var destPath = ioManager.ConcatPath(destination, fileName);
 					logger.LogTrace("Symlinking {0} to {1}...", x, destPath);
 					var fileExistsTask = ioManager.FileExists(destPath, cancellationToken);
-					if (await ioManager.DirectoryExists(destPath, cancellationToken).ConfigureAwait(false))
-						await ioManager.DeleteDirectory(destPath, cancellationToken).ConfigureAwait(false);
-					var fileExists = await fileExistsTask.ConfigureAwait(false);
+					if (await ioManager.DirectoryExists(destPath, cancellationToken))
+						await ioManager.DeleteDirectory(destPath, cancellationToken);
+					var fileExists = await fileExistsTask;
 					if (fileExists)
-						await ioManager.DeleteFile(destPath, cancellationToken).ConfigureAwait(false);
-					await symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(x), ioManager.ResolvePath(destPath), cancellationToken).ConfigureAwait(false);
-				})).ConfigureAwait(false);
+						await ioManager.DeleteFile(destPath, cancellationToken);
+					await symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(x), ioManager.ResolvePath(destPath), cancellationToken);
+				}));
 			}
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
-				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
-				ignoreFiles = await GetIgnoreFiles().ConfigureAwait(false);
-				await Task.WhenAll(SymlinkBase(true), SymlinkBase(false)).ConfigureAwait(false);
+				await EnsureDirectories(cancellationToken);
+				ignoreFiles = await GetIgnoreFiles();
+				await Task.WhenAll(SymlinkBase(true), SymlinkBase(false));
 			}
 		}
 
 		/// <inheritdoc />
 		public async Task<ConfigurationFileResponse> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
 		{
-			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			ConfigurationFileResponse result = null;
@@ -435,18 +433,18 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							using (fileTicket)
 							{
 								var fileHash = previousHash;
-								using var uploadStream = await fileTicket.GetResult(uploadCancellationToken).ConfigureAwait(false);
+								using var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
 								bool success = false;
 								void WriteCallback()
 								{
 									success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, cancellationToken);
 								}
 
-								using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+								using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 									if (systemIdentity == null)
-										await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+										await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 									else
-										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken).ConfigureAwait(false);
+										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken);
 
 								if (!success)
 									fileTicket.SetErrorMessage(new ErrorMessageResponse(ErrorCode.ConfigurationFileUpdated)
@@ -495,11 +493,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					}
 			}
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 				if (systemIdentity == null)
-					await Task.Factory.StartNew(WriteImpl, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+					await Task.Factory.StartNew(WriteImpl, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 				else
-					await systemIdentity.RunImpersonated(WriteImpl, cancellationToken).ConfigureAwait(false);
+					await systemIdentity.RunImpersonated(WriteImpl, cancellationToken);
 
 			return result;
 		}
@@ -507,17 +505,17 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task<bool> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
-			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			bool? result = null;
 			void DoCreate() => result = synchronousIOManager.CreateDirectory(path, cancellationToken);
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 				if (systemIdentity == null)
-					await Task.Factory.StartNew(DoCreate, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+					await Task.Factory.StartNew(DoCreate, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 				else
-					await systemIdentity.RunImpersonated(DoCreate, cancellationToken).ConfigureAwait(false);
+					await systemIdentity.RunImpersonated(DoCreate, cancellationToken);
 
 			return result.Value;
 		}
@@ -534,15 +532,15 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			await EnsureDirectories(cancellationToken);
 
 			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))
 				return;
 
 			// always execute in serial
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
-				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken).ConfigureAwait(false);
+				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken);
 				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
 
 				var scriptFiles = files
@@ -578,9 +576,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						true))
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
-						var exitCode = await script.Lifetime.ConfigureAwait(false);
+						var exitCode = await script.Lifetime;
 						cancellationToken.ThrowIfCancellationRequested();
-						var scriptOutput = await script.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
+						var scriptOutput = await script.GetCombinedOutput(cancellationToken);
 						if (exitCode != 0)
 							throw new JobException($"Script {scriptFile} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
 						else
@@ -593,16 +591,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task<bool> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
-			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			var result = false;
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
 				void CheckDeleteImpl() => result = synchronousIOManager.DeleteDirectory(path);
 
 				if (systemIdentity != null)
-					await systemIdentity.RunImpersonated(CheckDeleteImpl, cancellationToken).ConfigureAwait(false);
+					await systemIdentity.RunImpersonated(CheckDeleteImpl, cancellationToken);
 				else
 					CheckDeleteImpl();
 			}
@@ -625,17 +623,17 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		{
 			async Task ValidateStaticFolder()
 			{
-				await ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken).ConfigureAwait(false);
+				await ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken);
 				var staticIgnorePath = StaticIgnorePath();
-				if (!await ioManager.FileExists(staticIgnorePath, cancellationToken).ConfigureAwait(false))
-					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+				if (!await ioManager.FileExists(staticIgnorePath, cancellationToken))
+					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken);
 			}
 
 			await Task.WhenAll(
 				ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken),
 				ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken),
 				ValidateStaticFolder())
-				.ConfigureAwait(false);
+				;
 		}
 
 		/// <summary>

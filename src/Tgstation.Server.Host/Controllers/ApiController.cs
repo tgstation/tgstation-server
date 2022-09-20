@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Octokit;
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (AuthenticationContext != null && AuthenticationContext.User == null)
 			{
 				// valid token, expired password
-				await Unauthorized().ExecuteResultAsync(context).ConfigureAwait(false);
+				await Unauthorized().ExecuteResultAsync(context);
 				return;
 			}
 
@@ -122,14 +122,14 @@ namespace Tgstation.Server.Host.Controllers
 						HttpStatusCode.UpgradeRequired,
 						new ErrorMessageResponse(ErrorCode.ApiMismatch))
 						.ExecuteResultAsync(context)
-						.ConfigureAwait(false);
+						;
 					return;
 				}
 
-				var errorCase = await ValidateRequest(context.HttpContext.RequestAborted).ConfigureAwait(false);
+				var errorCase = await ValidateRequest(context.HttpContext.RequestAborted);
 				if (errorCase != null)
 				{
-					await errorCase.ExecuteResultAsync(context).ConfigureAwait(false);
+					await errorCase.ExecuteResultAsync(context);
 					return;
 				}
 			}
@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					await HeadersIssue(false)
 						.ExecuteResultAsync(context)
-						.ConfigureAwait(false);
+						;
 					return;
 				}
 			}
@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							AdditionalData = String.Join(Environment.NewLine, errorMessages),
 						})
-						.ExecuteResultAsync(context).ConfigureAwait(false);
+						.ExecuteResultAsync(context);
 					return;
 				}
 
@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Controllers
 					Logger.LogDebug(
 						"Starting unauthorized API request. No {0}!",
 						HeaderNames.UserAgent);
-				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
+				await base.OnActionExecutionAsync(context, next);
 			}
 		}
 #pragma warning restore CA1506
@@ -371,7 +371,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var page = pageQuery ?? 1;
 
-			var paginationResult = await queryGenerator().ConfigureAwait(false);
+			var paginationResult = await queryGenerator();
 			if (paginationResult.EarlyOut != null)
 				return paginationResult.EarlyOut;
 
@@ -384,10 +384,10 @@ namespace Tgstation.Server.Host.Controllers
 			List<TModel> pagedResults;
 			if (queriedResults.Provider is IAsyncQueryProvider)
 			{
-				totalResults = await paginationResult.Results.CountAsync(cancellationToken).ConfigureAwait(false);
+				totalResults = await paginationResult.Results.CountAsync(cancellationToken);
 				pagedResults = await queriedResults
 					.ToListAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 			}
 			else
 			{
@@ -406,7 +406,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (resultTransformer != null)
 				foreach (var finalResult in finalResults)
-					await resultTransformer(finalResult).ConfigureAwait(false);
+					await resultTransformer(finalResult);
 
 			var carryTheOne = totalResults % pageSize != 0
 				? 1

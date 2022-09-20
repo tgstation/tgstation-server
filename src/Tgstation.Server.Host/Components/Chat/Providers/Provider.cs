@@ -96,19 +96,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public virtual async ValueTask DisposeAsync()
 		{
 			Disposed = true;
-			await StopReconnectionTimer().ConfigureAwait(false);
+			await StopReconnectionTimer();
 			Logger.LogTrace("Disposed");
 		}
 
 		/// <inheritdoc />
 		public async Task Disconnect(CancellationToken cancellationToken)
 		{
-			await StopReconnectionTimer().ConfigureAwait(false);
+			await StopReconnectionTimer();
 
 			if (Connected)
 			{
 				Logger.LogTrace("Disconnecting...");
-				await DisconnectImpl(cancellationToken).ConfigureAwait(false);
+				await DisconnectImpl(cancellationToken);
 				Logger.LogTrace("Disconnected");
 			}
 		}
@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			while (true)
 			{
-				await nextMessage.Task.WithToken(cancellationToken).ConfigureAwait(false);
+				await nextMessage.Task.WithToken(cancellationToken);
 				lock (messageQueue)
 					if (messageQueue.Count > 0)
 					{
@@ -228,7 +228,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				try
 				{
 					if (!connectNow)
-						await Task.Delay(TimeSpan.FromMinutes(reconnectInterval), cancellationToken).ConfigureAwait(false);
+						await Task.Delay(TimeSpan.FromMinutes(reconnectInterval), cancellationToken);
 					else
 						connectNow = false;
 					if (!Connected)
@@ -248,21 +248,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								if (Connected)
 								{
 									Logger.LogTrace("Disconnecting...");
-									await DisconnectImpl(jobCancellationToken).ConfigureAwait(false);
+									await DisconnectImpl(jobCancellationToken);
 								}
 								else
 									Logger.LogTrace("Already disconnected not doing disconnection attempt!");
 
 								Logger.LogTrace("Connecting...");
-								await Connect(jobCancellationToken).ConfigureAwait(false);
+								await Connect(jobCancellationToken);
 								Logger.LogTrace("Connected successfully");
 								EnqueueMessage(null);
 							},
 							cancellationToken)
-							.ConfigureAwait(false);
+							;
 
 						// DCT: Always wait for the job to complete here
-						await jobManager.WaitForJobCompletion(job, null, cancellationToken, default).ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(job, null, cancellationToken, default);
 					}
 				}
 				catch (OperationCanceledException)

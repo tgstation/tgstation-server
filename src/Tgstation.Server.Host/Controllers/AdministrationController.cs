@@ -158,8 +158,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Repository
 						.Release
 						.GetAll(updatesConfiguration.GitHubRepositoryId)
-						.WithToken(cancellationToken)
-						.ConfigureAwait(false))
+						.WithToken(cancellationToken))
 						.Where(x => x.TagName.StartsWith(
 							updatesConfiguration.GitTagPrefix,
 							StringComparison.InvariantCulture));
@@ -169,7 +168,7 @@ namespace Tgstation.Server.Host.Controllers
 							&& version.Major > 3 // Forward/backward compatible but not before TGS4
 							&& (greatestVersion == null || version > greatestVersion))
 							greatestVersion = version;
-					repoUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
+					repoUrl = new Uri((await repositoryTask).HtmlUrl);
 				}
 				catch (NotFoundException e)
 				{
@@ -233,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
-				var updateResult = await serverUpdater.BeginUpdate(model.NewVersion, cancellationToken).ConfigureAwait(false);
+				var updateResult = await serverUpdater.BeginUpdate(model.NewVersion, cancellationToken);
 				if (updateResult == ServerUpdateResult.ReleaseMissing)
 					return Gone();
 
@@ -279,7 +278,7 @@ namespace Tgstation.Server.Host.Controllers
 					return UnprocessableEntity(new ErrorMessageResponse(ErrorCode.MissingHostWatchdog));
 				}
 
-				await serverControl.Restart().ConfigureAwait(false);
+				await serverControl.Restart();
 				return NoContent();
 			}
 			catch (InvalidOperationException)
@@ -308,7 +307,7 @@ namespace Tgstation.Server.Host.Controllers
 					var path = fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier);
 					try
 					{
-						var files = await ioManager.GetFiles(path, cancellationToken).ConfigureAwait(false);
+						var files = await ioManager.GetFiles(path, cancellationToken);
 						var tasks = files.Select(
 							async file => new LogFileResponse
 							{
@@ -316,12 +315,11 @@ namespace Tgstation.Server.Host.Controllers
 								LastModified = await ioManager
 									.GetLastModified(
 										ioManager.ConcatPath(path, file),
-										cancellationToken)
-										.ConfigureAwait(false),
+										cancellationToken),
 							})
 							.ToList();
 
-						await Task.WhenAll(tasks).ConfigureAwait(false);
+						await Task.WhenAll(tasks);
 
 						return new PaginatableResult<LogFileResponse>(
 							tasks
@@ -384,7 +382,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Ok(new LogFileResponse
 				{
 					Name = path,
-					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken).ConfigureAwait(false),
+					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken),
 					FileTicket = fileTransferTicket.FileTicket,
 				});
 			}

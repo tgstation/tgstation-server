@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			async Task WriteAndMakeExecutable(string pathToScript, string script)
 			{
 				Logger.LogTrace("Writing script {0}:{1}{2}", pathToScript, Environment.NewLine, script);
-				await IOManager.WriteAllBytes(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken).ConfigureAwait(false);
+				await IOManager.WriteAllBytes(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken);
 				postWriteHandler.HandleWrite(IOManager.ResolvePath(pathToScript));
 			}
 

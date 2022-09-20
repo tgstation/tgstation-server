@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.Security
 					.ThenInclude(x => x.PermissionSet)
 				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (user == default)
 			{
 				logger.LogWarning("Unable to find user with ID {0}!", userId);
@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Security
 						.Where(x => x.PermissionSetId == userPermissionSet.Id && x.InstanceId == instanceId && x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken)
-						.ConfigureAwait(false);
+						;
 
 					if (instancePermissionSet == null)
 						logger.LogDebug("User {0} does not have permissions on instance {1}!", userId, instanceId.Value);

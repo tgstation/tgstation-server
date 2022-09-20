@@ -36,14 +36,14 @@ namespace Tgstation.Server.Host.Core.Tests
 
 			var client = factory.CreateClient();
 			Assert.IsNotNull(client);
-			var credentials = await client.Connection.CredentialStore.GetCredentials().ConfigureAwait(false);
+			var credentials = await client.Connection.CredentialStore.GetCredentials();
 
 			Assert.AreEqual(AuthenticationType.Anonymous, credentials.AuthenticationType);
 
 			gc.GitHubAccessToken = "asdfasdfasdfasdfasdfasdf";
 			client = factory.CreateClient();
 			Assert.IsNotNull(client);
-			credentials = await client.Connection.CredentialStore.GetCredentials().ConfigureAwait(false);
+			credentials = await client.Connection.CredentialStore.GetCredentials();
 
 			Assert.AreEqual(AuthenticationType.Oauth, credentials.AuthenticationType);
 
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			var client = factory.CreateClient("asdf");
 			Assert.IsNotNull(client);
 
-			var credentials = await client.Connection.CredentialStore.GetCredentials().ConfigureAwait(false);
+			var credentials = await client.Connection.CredentialStore.GetCredentials();
 
 			Assert.AreEqual(AuthenticationType.Oauth, credentials.AuthenticationType);
 

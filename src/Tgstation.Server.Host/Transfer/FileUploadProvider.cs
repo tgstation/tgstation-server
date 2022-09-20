@@ -70,7 +70,7 @@ namespace Tgstation.Server.Host.Transfer
 		{
 			using (cancellationToken.Register(() => taskCompletionSource.TrySetCanceled()))
 			using (ticketExpiryCts.Token.Register(() => taskCompletionSource.TrySetResult(null)))
-				return await taskCompletionSource.Task.ConfigureAwait(false);
+				return await taskCompletionSource.Task;
 		}
 
 		/// <summary>
@@ -101,14 +101,14 @@ namespace Tgstation.Server.Host.Transfer
 			{
 				// big reads, we should buffer to disk
 				bufferedStream = new FileBufferingReadStream(stream, DefaultIOManager.DefaultBufferSize);
-				await bufferedStream.DrainAsync(cancellationToken).ConfigureAwait(false);
+				await bufferedStream.DrainAsync(cancellationToken);
 			}
 
 			using (bufferedStream)
 			{
 				taskCompletionSource.TrySetResult(bufferedStream ?? stream);
 
-				await completionTcs.Task.WithToken(cancellationToken).ConfigureAwait(false);
+				await completionTcs.Task.WithToken(cancellationToken);
 				return errorMessage;
 			}
 		}

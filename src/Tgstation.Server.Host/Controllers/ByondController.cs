@@ -149,11 +149,11 @@ namespace Tgstation.Server.Host.Controllers
 					if (!uploadingZip && byondManager.InstalledVersions.Any(x => x == model.Version))
 					{
 						Logger.LogInformation(
-							"User ID {0} changing instance ID {1} BYOND version to {2}",
+							"User ID {userId} changing instance ID {instanceId} BYOND version to {newByondVersion}",
 							AuthenticationContext.User.Id,
 							Instance.Id,
 							model.Version);
-						await byondManager.ChangeVersion(model.Version, null, cancellationToken).ConfigureAwait(false);
+						await byondManager.ChangeVersion(model.Version, null, cancellationToken);
 					}
 					else if (model.Version.Build > 0)
 						return BadRequest(new ErrorMessageResponse(ErrorCode.ByondNonExistentCustomVersion));
@@ -164,7 +164,7 @@ namespace Tgstation.Server.Host.Controllers
 							: model.Version;
 
 						Logger.LogInformation(
-							"User ID {0} installing BYOND version to {1} on instance ID {2}",
+							"User ID {userId} installing BYOND version to {newByondVersion} on instance ID {instanceId}",
 							AuthenticationContext.User.Id,
 							installingVersion,
 							Instance.Id);
@@ -193,18 +193,18 @@ namespace Tgstation.Server.Host.Controllers
 									if (fileUploadTicket != null)
 										using (fileUploadTicket)
 										{
-											var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken).ConfigureAwait(false);
+											var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken);
 											if (uploadStream == null)
 												throw new JobException(ErrorCode.FileUploadExpired);
 
 											zipFileStream = new MemoryStream();
 											try
 											{
-												await uploadStream.CopyToAsync(zipFileStream, jobCancellationToken).ConfigureAwait(false);
+												await uploadStream.CopyToAsync(zipFileStream, jobCancellationToken);
 											}
 											catch
 											{
-												await zipFileStream.DisposeAsync().ConfigureAwait(false);
+												await zipFileStream.DisposeAsync();
 												throw;
 											}
 										}
@@ -214,10 +214,10 @@ namespace Tgstation.Server.Host.Controllers
 											model.Version,
 											zipFileStream,
 											jobCancellationToken)
-										.ConfigureAwait(false);
+										;
 								},
 								cancellationToken)
-								.ConfigureAwait(false);
+								;
 
 							result.InstallJob = job.ToApi();
 							result.FileTicket = fileUploadTicket?.Ticket.FileTicket;
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);
 				})
-				.ConfigureAwait(false);
+				;
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Database.Tests
 
 			var factory = new DatabaseContextFactory(mockScopeFactory.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.UseContext(null)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.UseContext(null));
 
 			await factory.UseContext(context =>
 			{

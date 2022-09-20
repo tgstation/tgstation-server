@@ -1,8 +1,8 @@
-﻿using Castle.Core.Logging;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.IO;
@@ -20,9 +20,9 @@ namespace Tgstation.Server.Host.System.Tests
 		[TestInitialize]
 		public void Init()
 		{
-			features = new PlatformIdentifier().IsWindows
+			features = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 				? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
-				: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => null), new DefaultIOManager(), Mock.Of<ILogger<PosixProcessFeatures>>());
+				: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => null), new DefaultIOManager(new AssemblyInformationProvider()), Mock.Of<ILogger<PosixProcessFeatures>>());
 		}
 
 		[TestMethod]

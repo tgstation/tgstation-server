@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					.PullRequest
 					.Get(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number)
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 			}
 			catch (RateLimitExceededException ex)
 			{

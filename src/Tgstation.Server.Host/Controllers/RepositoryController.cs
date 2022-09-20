@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (currentModel == default)
 				return Gone();
@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (repoManager.InUse)
 						return Conflict(new ErrorMessageResponse(ErrorCode.RepoBusy));
 
-					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+					using var repo = await repoManager.LoadRepository(cancellationToken);
 
 					// clone conflict
 					if (repo != null)
@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Controllers
 					};
 					var api = currentModel.ToApi();
 
-					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+					await DatabaseContext.Save(cancellationToken);
 					await jobManager.RegisterOperation(
 						job,
 						async (core, databaseContextFactory, paramJob, progressReporter, ct) =>
@@ -167,7 +167,7 @@ namespace Tgstation.Server.Host.Controllers
 								progressReporter,
 								currentModel.UpdateSubmodules.Value,
 								ct)
-								.ConfigureAwait(false);
+								;
 							if (repos == null)
 								throw new JobException(ErrorCode.RepoExists);
 							var instance = new Models.Instance
@@ -178,13 +178,13 @@ namespace Tgstation.Server.Host.Controllers
 								async databaseContext =>
 								{
 									databaseContext.Instances.Attach(instance);
-									if (await PopulateApi(api, repos, databaseContext, instance, ct).ConfigureAwait(false))
-										await databaseContext.Save(ct).ConfigureAwait(false);
+									if (await PopulateApi(api, repos, databaseContext, instance, ct))
+										await databaseContext.Save(ct);
 								})
-								.ConfigureAwait(false);
+								;
 						},
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 
 					api.Origin = model.Origin;
 					api.Reference = model.Reference;
@@ -192,7 +192,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					return Created(api);
 				})
-				.ConfigureAwait(false);
+				;
 		}
 
 		/// <summary>
@@ -213,7 +213,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (currentModel == default)
 				return Gone();
@@ -221,7 +221,7 @@ namespace Tgstation.Server.Host.Controllers
 			currentModel.AccessToken = null;
 			currentModel.AccessUser = null;
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			Logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id.Value);
 
@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Controllers
 				job,
 				(core, databaseContextFactory, paramJob, progressReporter, ct) => core.RepositoryManager.DeleteRepository(ct),
 				cancellationToken)
-			.ConfigureAwait(false);
+			;
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
 		}
@@ -261,7 +261,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (currentModel == default)
 				return Gone();
@@ -279,17 +279,17 @@ namespace Tgstation.Server.Host.Controllers
 					if (repoManager.InUse)
 						return Conflict(new ErrorMessageResponse(ErrorCode.RepoBusy));
 
-					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
-					if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false))
+					using var repo = await repoManager.LoadRepository(cancellationToken);
+					if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken))
 					{
 						// user may have fucked with the repo manually, do what we can
-						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+						await DatabaseContext.Save(cancellationToken);
 						return Created(api);
 					}
 
 					return Json(api);
 				})
-				.ConfigureAwait(false);
+				;
 		}
 
 		/// <summary>
@@ -349,7 +349,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (currentModel == default)
 				return Gone();
@@ -407,21 +407,21 @@ namespace Tgstation.Server.Host.Controllers
 					if (repoManager.InUse)
 						return Conflict(new ErrorMessageResponse(ErrorCode.RepoBusy));
 
-					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+					using var repo = await repoManager.LoadRepository(cancellationToken);
 					if (repo == null)
 						return Conflict(new ErrorMessageResponse(ErrorCode.RepoMissing));
-					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
+					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken);
 
 					return null;
 				})
-				.ConfigureAwait(false);
+				;
 
 				if (earlyOut != null)
 					return earlyOut;
 			}
 
 			// this is just db stuf so stow it away
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			// format the job description
 			string description = null;
@@ -469,7 +469,7 @@ namespace Tgstation.Server.Host.Controllers
 				CancellationToken ct)
 			{
 				var repoManager = instance.RepositoryManager;
-				using var repo = await repoManager.LoadRepository(ct).ConfigureAwait(false);
+				using var repo = await repoManager.LoadRepository(ct);
 				if (repo == null)
 					throw new JobException(ErrorCode.RepoMissing);
 
@@ -521,7 +521,7 @@ namespace Tgstation.Server.Host.Controllers
 								lastOriginCommitSha,
 								x => lastRevisionInfo = x,
 								ct)
-								.ConfigureAwait(false);
+								;
 
 							if (testMergeToAdd != null)
 							{
@@ -552,10 +552,10 @@ namespace Tgstation.Server.Host.Controllers
 							}
 
 							if (needsUpdate)
-								await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+								await databaseContext.Save(cancellationToken);
 						});
 
-				await CallLoadRevInfo().ConfigureAwait(false);
+				await CallLoadRevInfo();
 
 				// apply new rev info, tracking applied test merges
 				Task UpdateRevInfo(Models.TestMerge testMergeToAdd = null) => CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.OriginCommitSha);
@@ -567,15 +567,15 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						if (!repo.Tracking)
 							throw new JobException(ErrorCode.RepoReferenceRequired);
-						await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
+						await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct);
 						doneSteps = 1;
 						if (!modelHasShaOrReference)
 						{
-							var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct).ConfigureAwait(false);
+							var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct);
 							if (!fastForward.HasValue)
 								throw new JobException(ErrorCode.RepoMergeConflict);
-							lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken).ConfigureAwait(false);
-							await UpdateRevInfo().ConfigureAwait(false);
+							lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken);
+							await UpdateRevInfo();
 							if (fastForward.Value)
 							{
 								await repo.Sychronize(
@@ -586,7 +586,7 @@ namespace Tgstation.Server.Host.Controllers
 									NextProgressReporter(),
 									true,
 									ct)
-									.ConfigureAwait(false);
+									;
 								postUpdateSha = repo.Head;
 							}
 							else
@@ -609,7 +609,7 @@ namespace Tgstation.Server.Host.Controllers
 						if (validCheckoutSha || validCheckoutReference)
 						{
 							var committish = model.CheckoutSha ?? model.Reference;
-							var isSha = await repo.IsSha(committish, cancellationToken).ConfigureAwait(false);
+							var isSha = await repo.IsSha(committish, cancellationToken);
 
 							if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
 								throw new JobException(ErrorCode.RepoSwappedShaOrReference);
@@ -621,8 +621,8 @@ namespace Tgstation.Server.Host.Controllers
 								updateSubmodules,
 								NextProgressReporter(),
 								ct)
-								.ConfigureAwait(false);
-							await CallLoadRevInfo().ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
+								;
+							await CallLoadRevInfo(); // we've either seen origin before or what we're checking out is on origin
 						}
 						else
 							NextProgressReporter()(null, 100);
@@ -637,7 +637,7 @@ namespace Tgstation.Server.Host.Controllers
 								updateSubmodules,
 								NextProgressReporter(),
 								ct)
-								.ConfigureAwait(false);
+								;
 							await repo.Sychronize(
 								currentModel.AccessUser,
 								currentModel.AccessToken,
@@ -646,8 +646,8 @@ namespace Tgstation.Server.Host.Controllers
 								NextProgressReporter(),
 								true,
 								ct)
-								.ConfigureAwait(false);
-							await CallLoadRevInfo().ConfigureAwait(false);
+								;
+							await CallLoadRevInfo();
 
 							// repo head is on origin so force this
 							// will update the db if necessary
@@ -688,7 +688,7 @@ namespace Tgstation.Server.Host.Controllers
 									try
 									{
 										// retrieve the latest sha
-										var pr = await repo.GetTestMerge(newTestMerge, currentModel, ct).ConfigureAwait(false);
+										var pr = await repo.GetTestMerge(newTestMerge, currentModel, ct);
 
 										// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
 										newTestMerge.TargetCommitSha = pr.TargetCommitSha;
@@ -714,9 +714,7 @@ namespace Tgstation.Server.Host.Controllers
 											&& x.ActiveTestMerges.Count > 0)
 											.Include(x => x.ActiveTestMerges)
 											.ThenInclude(x => x.TestMerge)
-											.ToListAsync(cancellationToken)
-											.ConfigureAwait(false))
-									.ConfigureAwait(false);
+											.ToListAsync(cancellationToken));
 
 								// split here cause this bit has to be done locally
 								revInfoWereLookingFor = dbPull
@@ -799,7 +797,7 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							// goteem
 							Logger.LogDebug("Reusing existing SHA {0}...", revInfoWereLookingFor.CommitSha);
-							await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter(), cancellationToken).ConfigureAwait(false);
+							await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter(), cancellationToken);
 							lastRevisionInfo = revInfoWereLookingFor;
 						}
 
@@ -820,7 +818,7 @@ namespace Tgstation.Server.Host.Controllers
 									currentModel.AccessToken,
 									updateSubmodules,
 									NextProgressReporter(),
-									ct).ConfigureAwait(false);
+									ct);
 
 								if (mergeResult == null)
 									throw new JobException(
@@ -831,7 +829,7 @@ namespace Tgstation.Server.Host.Controllers
 								Models.TestMerge fullTestMerge;
 								try
 								{
-									fullTestMerge = await fullTestMergeTask.ConfigureAwait(false);
+									fullTestMerge = await fullTestMergeTask;
 								}
 								catch (Exception ex)
 								{
@@ -855,7 +853,7 @@ namespace Tgstation.Server.Host.Controllers
 								// MergedBy will be set later
 								++doneSteps;
 
-								await UpdateRevInfo(fullTestMerge).ConfigureAwait(false);
+								await UpdateRevInfo(fullTestMerge);
 							}
 						}
 					}
@@ -871,8 +869,8 @@ namespace Tgstation.Server.Host.Controllers
 							NextProgressReporter(),
 							false,
 							ct)
-							.ConfigureAwait(false);
-						await UpdateRevInfo().ConfigureAwait(false);
+							;
+						await UpdateRevInfo();
 					}
 
 					return null;
@@ -891,9 +889,9 @@ namespace Tgstation.Server.Host.Controllers
 						true,
 						NextProgressReporter(),
 						default)
-						.ConfigureAwait(false);
+						;
 					if (startReference != null && repo.Head != startSha)
-						await repo.ResetToSha(startSha, NextProgressReporter(), default).ConfigureAwait(false);
+						await repo.ResetToSha(startSha, NextProgressReporter(), default);
 					else
 						progressReporter(null, 100);
 					throw;
@@ -919,7 +917,7 @@ namespace Tgstation.Server.Host.Controllers
 						progressReporter,
 						ct),
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
@@ -951,7 +949,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.CompileJobs)
 				.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy);
 
-			var revisionInfo = await ApplyQuery(databaseContext.RevisionInformations).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var revisionInfo = await ApplyQuery(databaseContext.RevisionInformations).FirstOrDefaultAsync(cancellationToken);
 
 			// If the DB doesn't have it, check the local set
 			if (revisionInfo == default)
@@ -969,7 +967,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Instance = instance,
 					CommitSha = repoSha,
-					Timestamp = await repository.TimestampCommit(repoSha, cancellationToken).ConfigureAwait(false),
+					Timestamp = await repository.TimestampCommit(repoSha, cancellationToken),
 					CompileJobs = new List<CompileJob>(),
 					ActiveTestMerges = new List<RevInfoTestMerge>(), // non null vals for api returns
 				};
@@ -1014,7 +1012,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			// rev info stuff
 			Models.RevisionInformation revisionInfo = null;
-			var needsDbUpdate = await LoadRevisionInformation(repository, databaseContext, instance, null, x => revisionInfo = x, cancellationToken).ConfigureAwait(false);
+			var needsDbUpdate = await LoadRevisionInformation(repository, databaseContext, instance, null, x => revisionInfo = x, cancellationToken);
 			apiResponse.RevisionInformation = revisionInfo.ToApi();
 			return needsDbUpdate;
 		}

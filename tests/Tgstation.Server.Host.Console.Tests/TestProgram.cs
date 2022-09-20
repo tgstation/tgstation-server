@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Console.Tests
 			var mockServerFactory = new Mock<IWatchdogFactory>();
 			mockServerFactory.Setup(x => x.CreateWatchdog(It.IsAny<ILoggerFactory>())).Returns(mockServer.Object).Verifiable();
 			Program.WatchdogFactory = mockServerFactory.Object;
-			await Program.Main(args).ConfigureAwait(false);
+			await Program.Main(args);
 			mockServer.VerifyAll();
 			mockServerFactory.VerifyAll();
 		}

@@ -43,7 +43,7 @@ namespace Tgstation.Server.Client.Tests
 
 			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, false);
 
-			var result = await client.Read<ByondResponse>(Routes.Byond, default).ConfigureAwait(false);
+			var result = await client.Read<ByondResponse>(Routes.Byond, default);
 			Assert.AreEqual(sample.Version, result.Version);
 			Assert.AreEqual(0, result.Version.Build);
 		}
@@ -68,7 +68,7 @@ namespace Tgstation.Server.Client.Tests
 
 			var client = new ApiClient(httpClient.Object, new Uri("http://fake.com"), new ApiHeaders(new ProductHeaderValue("fake"), "fake"), null, true);
 
-			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<ByondResponse>(Routes.Byond, default)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<UnrecognizedResponseException>(() => client.Read<ByondResponse>(Routes.Byond, default));
 		}
 	}
 }

@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Core
 				.Release
 				.GetAll(updatesConfiguration.GitHubRepositoryId)
 				.WithToken(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			releases = releases.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
 

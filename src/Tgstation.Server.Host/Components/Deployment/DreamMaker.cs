@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				await databaseContextFactory.UseContext(
 					async databaseContext =>
 					{
-						averageSpan = await CalculateExpectedDeploymentTime(databaseContext, cancellationToken).ConfigureAwait(false);
+						averageSpan = await CalculateExpectedDeploymentTime(databaseContext, cancellationToken);
 
 						ddSettings = await databaseContext
 							.DreamDaemonSettings
@@ -237,7 +237,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								StartupTimeout = x.StartupTimeout,
 							})
 							.FirstOrDefaultAsync(cancellationToken)
-							.ConfigureAwait(false);
+							;
 						if (ddSettings == default)
 							throw new JobException(ErrorCode.InstanceMissingDreamDaemonSettings);
 
@@ -246,7 +246,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.FirstAsync(cancellationToken)
-							.ConfigureAwait(false);
+							;
 						if (dreamMakerSettings == default)
 							throw new JobException(ErrorCode.InstanceMissingDreamMakerSettings);
 
@@ -262,11 +262,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 								PostTestMergeComment = x.PostTestMergeComment,
 							})
 							.FirstOrDefaultAsync(cancellationToken)
-							.ConfigureAwait(false);
+							;
 						if (repositorySettings == default)
 							throw new JobException(ErrorCode.InstanceMissingRepositorySettings);
 
-						repo = await repositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+						repo = await repositoryManager.LoadRepository(cancellationToken);
 						try
 						{
 							if (repo == null)
@@ -286,14 +286,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 									.ThenInclude(x => x.TestMerge)
 									.ThenInclude(x => x.MergedBy)
 								.FirstOrDefaultAsync(cancellationToken)
-								.ConfigureAwait(false);
+								;
 
 							if (revInfo == default)
 							{
 								revInfo = new Models.RevisionInformation
 								{
 									CommitSha = repoSha,
-									Timestamp = await repo.TimestampCommit(repoSha, cancellationToken).ConfigureAwait(false),
+									Timestamp = await repo.TimestampCommit(repoSha, cancellationToken),
 									OriginCommitSha = repoSha,
 									Instance = new Models.Instance
 									{
@@ -305,7 +305,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								logger.LogInformation(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 								databaseContext.RevisionInformations.Add(revInfo);
 								databaseContext.Instances.Attach(revInfo.Instance);
-								await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+								await databaseContext.Save(cancellationToken);
 							}
 						}
 						catch
@@ -314,7 +314,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							throw;
 						}
 					})
-					.ConfigureAwait(false);
+					;
 
 				var likelyPushedTestMergeCommit =
 					repositorySettings.PushTestMergeCommits.Value
@@ -331,7 +331,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						averageSpan,
 						likelyPushedTestMergeCommit,
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 
 				var activeCompileJob = compileJobConsumer.LatestCompileJob();
 				try
@@ -355,11 +355,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 							databaseContext.CompileJobs.Add(compileJob);
 
 							// The difficulty with compile jobs is they have a two part commit
-							await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+							await databaseContext.Save(cancellationToken);
 							logger.LogTrace("Created CompileJob {0}", compileJob.Id);
 							try
 							{
-								await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);
+								await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken);
 							}
 							catch
 							{
@@ -367,18 +367,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 								databaseContext.CompileJobs.Remove(compileJob);
 
 								// DCT: Cancellation token is for job, operation must run regardless
-								await databaseContext.Save(default).ConfigureAwait(false);
+								await databaseContext.Save(default);
 								throw;
 							}
 
 							compileJob.Job = fullJob;
 							compileJob.RevisionInformation = fullRevInfo;
 						})
-						.ConfigureAwait(false);
+						;
 				}
 				catch (Exception ex)
 				{
-					await CleanupFailedCompile(compileJob, remoteDeploymentManager, ex).ConfigureAwait(false);
+					await CleanupFailedCompile(compileJob, remoteDeploymentManager, ex);
 					throw;
 				}
 
@@ -396,7 +396,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				{
 					currentChatCallback(null, compileJob.Output);
 
-					await Task.WhenAll(commentsTask, eventTask).ConfigureAwait(false);
+					await Task.WhenAll(commentsTask, eventTask);
 				}
 				catch (Exception ex)
 				{
@@ -442,7 +442,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					StartedAt = x.Job.StartedAt,
 				})
 				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			TimeSpan? averageSpan = null;
 			if (previousCompileJobs.Count != 0)
@@ -488,7 +488,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var progressTask = ProgressTask(progressReporter, estimatedDuration, progressCts.Token);
 			try
 			{
-				using var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false);
+				using var byondLock = await byond.UseExecutables(null, cancellationToken);
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
 					byondLock.Version,
@@ -511,7 +511,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repository,
 					job,
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				logger.LogTrace("Deployment will timeout at {0}", DateTimeOffset.Now + dreamMakerSettings.Timeout.Value);
 				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout.Value);
@@ -529,7 +529,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							remoteDeploymentManager,
 							apiValidateTimeout,
 							combinedTokenSource.Token)
-							.ConfigureAwait(false);
+							;
 					}
 					catch (OperationCanceledException) when (timeoutToken.IsCancellationRequested)
 					{
@@ -543,13 +543,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				// DCT: Cancellation token is for job, delaying here is fine
 				currentStage = "Running CompileCancelled event";
-				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), default).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), default);
 				throw;
 			}
 			finally
 			{
 				progressCts.Cancel();
-				await progressTask.ConfigureAwait(false);
+				await progressTask;
 			}
 		}
 
@@ -584,7 +584,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				var resolvedOutputDirectory = ioManager.ResolvePath(outputDirectory);
 				var repoOrigin = repository.Origin;
 				using (repository)
-					await repository.CopyTo(resolvedOutputDirectory, cancellationToken).ConfigureAwait(false);
+					await repository.CopyTo(resolvedOutputDirectory, cancellationToken);
 
 				// repository closed now
 
@@ -599,14 +599,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				// determine the dme
 				currentStage = "Determining .dme";
 				if (job.DmeName == null)
 				{
 					logger.LogTrace("Searching for available .dmes");
-					var foundPaths = await ioManager.GetFilesWithExtension(resolvedOutputDirectory, DmeExtension, true, cancellationToken).ConfigureAwait(false);
+					var foundPaths = await ioManager.GetFilesWithExtension(resolvedOutputDirectory, DmeExtension, true, cancellationToken);
 					var foundPath = foundPaths.FirstOrDefault();
 					if (foundPath == default)
 						throw new JobException(ErrorCode.DreamMakerNoDme);
@@ -617,7 +617,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				else
 				{
 					var targetDme = ioManager.ConcatPath(outputDirectory, String.Join('.', job.DmeName, DmeExtension));
-					var targetDmeExists = await ioManager.FileExists(targetDme, cancellationToken).ConfigureAwait(false);
+					var targetDmeExists = await ioManager.FileExists(targetDme, cancellationToken);
 					if (!targetDmeExists)
 						throw new JobException(ErrorCode.DreamMakerMissingDme);
 				}
@@ -625,7 +625,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
 
 				currentStage = "Modifying .dme";
-				await ModifyDme(job, cancellationToken).ConfigureAwait(false);
+				await ModifyDme(job, cancellationToken);
 
 				// run precompile scripts
 				currentStage = "Running PreDreamMaker event";
@@ -638,11 +638,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				// run compiler
 				currentStage = "Running DreamMaker";
-				var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
+				var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken);
 
 				// verify api
 				try
@@ -661,7 +661,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						dreamMakerSettings.ApiValidationPort.Value,
 						dreamMakerSettings.RequireDMApiValidation.Value,
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 				}
 				catch (JobException)
 				{
@@ -676,7 +676,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 						},
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 					throw;
 				}
 
@@ -689,20 +689,20 @@ namespace Tgstation.Server.Host.Components.Deployment
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				logger.LogTrace("Applying static game file symlinks...");
 				currentStage = "Symlinking GameStaticFiles";
 
 				// symlink in the static data
-				await configuration.SymlinkStaticFilesTo(resolvedOutputDirectory, cancellationToken).ConfigureAwait(false);
+				await configuration.SymlinkStaticFilesTo(resolvedOutputDirectory, cancellationToken);
 
 				logger.LogDebug("Compile complete!");
 			}
 			catch (Exception ex)
 			{
 				currentStage = "Cleaning output directory";
-				await CleanupFailedCompile(job, remoteDeploymentManager, ex).ConfigureAwait(false);
+				await CleanupFailedCompile(job, remoteDeploymentManager, ex);
 				throw;
 			}
 		}
@@ -724,7 +724,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				for (var iteration = 0; iteration < (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)
 				{
-					await Task.Delay(sleepInterval, cancellationToken).ConfigureAwait(false);
+					await Task.Delay(sleepInterval, cancellationToken);
 					progressReporter(currentStage, estimatedDuration.HasValue ? (int?)(iteration + 1) : null);
 				}
 			}
@@ -770,17 +770,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			ApiValidationStatus validationStatus;
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
-			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken).ConfigureAwait(false))
+			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
 			{
 				controller.AdjustPriority(false);
 
-				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
+				var launchResult = await controller.LaunchResult;
 
 				if (launchResult.StartupTime.HasValue)
-					await controller.Lifetime.WithToken(cancellationToken).ConfigureAwait(false);
+					await controller.Lifetime.WithToken(cancellationToken);
 
 				if (!controller.Lifetime.IsCompleted)
-					await controller.DisposeAsync().ConfigureAwait(false);
+					await controller.DisposeAsync();
 
 				validationStatus = controller.ApiValidationStatus;
 
@@ -841,11 +841,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			int exitCode;
 			using (cancellationToken.Register(() => dm.Terminate()))
-				exitCode = await dm.Lifetime.ConfigureAwait(false);
+				exitCode = await dm.Lifetime;
 			cancellationToken.ThrowIfCancellationRequested();
 
 			logger.LogDebug("DreamMaker exit code: {0}", exitCode);
-			job.Output = await dm.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
+			job.Output = await dm.GetCombinedOutput(cancellationToken);
 			currentDreamMakerOutput = job.Output;
 			logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
 			return exitCode;
@@ -865,10 +865,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			var dmeModificationsTask = configuration.CopyDMFilesTo(dmeFileName, ioManager.ResolvePath(job.DirectoryName.ToString()), cancellationToken);
 
-			var dmeBytes = await dmeReadTask.ConfigureAwait(false);
+			var dmeBytes = await dmeReadTask;
 			var dme = Encoding.UTF8.GetString(dmeBytes);
 
-			var dmeModifications = await dmeModificationsTask.ConfigureAwait(false);
+			var dmeModifications = await dmeModificationsTask;
 
 			if (dmeModifications == null || dmeModifications.TotalDmeOverwrite)
 			{
@@ -905,7 +905,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			dmeBytes = Encoding.UTF8.GetBytes(String.Join(Environment.NewLine, dmeLines));
-			await ioManager.WriteAllBytes(dmePath, dmeBytes, cancellationToken).ConfigureAwait(false);
+			await ioManager.WriteAllBytes(dmePath, dmeBytes, cancellationToken);
 		}
 
 		/// <summary>
@@ -924,7 +924,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					// DCT: None available
-					await ioManager.DeleteDirectory(jobPath, default).ConfigureAwait(false);
+					await ioManager.DeleteDirectory(jobPath, default);
 				}
 				catch (Exception e)
 				{
@@ -939,7 +939,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					job,
 					FormatExceptionForUsers(exception),
 					default))
-				.ConfigureAwait(false);
+				;
 		}
 	}
 }

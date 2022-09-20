@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Extensions
 
 			async Task<object> Wrap()
 			{
-				await task.ConfigureAwait(false);
+				await task;
 				return null;
 			}
 
@@ -43,10 +43,10 @@ namespace Tgstation.Server.Host.Extensions
 
 			var cancelTcs = new TaskCompletionSource<object>();
 			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
-				await Task.WhenAny(task, cancelTcs.Task).ConfigureAwait(false);
+				await Task.WhenAny(task, cancelTcs.Task);
 			cancellationToken.ThrowIfCancellationRequested();
 
-			return await task.ConfigureAwait(false);
+			return await task;
 		}
 
 		/// <summary>

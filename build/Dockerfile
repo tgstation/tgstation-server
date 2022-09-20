@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 
 # install node and npm
 # replace shell with bash so we can source files
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | sh
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | sh
 
 ENV NODE_VERSION 14.18.1
 
@@ -60,18 +60,21 @@ RUN dotnet publish -c Release -o /app
 WORKDIR /repo/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
 
 #needed for byond
 RUN apt-get update \
 	&& apt-get install -y \
 		gcc-multilib \
 		gdb \
-		multiarch-support \
-	&& rm -rf /var/lib/apt/lists/* \
+		curl \
+	&& curl http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/multiarch-support_2.27-3ubuntu1_amd64.deb --output multiarch-support_2.27.deb \
 	&& curl http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u12_amd64.deb --output libssl1.0.0.deb \
+	&& dpkg -i multiarch-support_2.27.deb \
 	&& dpkg -i libssl1.0.0.deb \
-	&& rm libssl1.0.0.deb
+	&& rm multiarch-support_2.27.deb \
+	&& rm libssl1.0.0.deb \
+	&& rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000
 

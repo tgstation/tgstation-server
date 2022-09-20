@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host
 			using (var setupHost = setupWizardHostBuilder.Build())
 			{
 				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices<ServerFactory>>();
-				await setupHost.RunAsync(cancellationToken).ConfigureAwait(false);
+				await setupHost.RunAsync(cancellationToken);
 
 				if (postSetupServices.GeneralConfiguration.SetupWizardMode == SetupWizardMode.Only)
 				{

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -63,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						PathToUserByondFolder,
 						CacheDirectoryName),
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 			}
 			catch (OperationCanceledException)
 			{
@@ -79,7 +80,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public abstract Task InstallByond(string path, Version version, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public Task<byte[]> DownloadVersion(Version version, CancellationToken cancellationToken)
+		public Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));

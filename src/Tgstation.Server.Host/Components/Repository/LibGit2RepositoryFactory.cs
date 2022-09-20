@@ -46,13 +46,13 @@ namespace Tgstation.Server.Host.Components.Repository
 			var repo = await Task.Factory.StartNew<LibGit2Sharp.IRepository>(
 				() =>
 				{
-					logger.LogTrace("Creating libgit2 repostory at {0}...", path);
+					logger.LogTrace("Creating libgit2 repostory at {repoPath}...", path);
 					return new LibGit2Sharp.Repository(path);
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current)
-				.ConfigureAwait(false);
+				;
 
 			return repo;
 		}
@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				try
 				{
-					logger.LogTrace("Cloning {0} into {1}...", url, path);
+					logger.LogTrace("Cloning {repoUrl} into {repoPath}...", url, path);
 					LibGit2Sharp.Repository.Clone(url.ToString(), path, cloneOptions);
 				}
 				catch (UserCancelledException ex)
@@ -88,7 +88,11 @@ namespace Tgstation.Server.Host.Components.Repository
 			var supportsUserPass = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.UsernamePassword);
 			var supportsAnonymous = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.Default);
 
-			logger.LogTrace("Credentials requested. Present: {0}. Supports anonymous: {1}. Supports user/pass: {2}", hasCreds, supportsAnonymous, supportsUserPass);
+			logger.LogTrace(
+				"Credentials requested. Present: {credentialsPresent}. Supports anonymous: {credentialsSupportAnon}. Supports user/pass: {credentialsSupportUserPass}",
+				hasCreds,
+				supportsAnonymous,
+				supportsUserPass);
 			if (supportsUserPass && hasCreds)
 				return new UsernamePasswordCredentials
 				{

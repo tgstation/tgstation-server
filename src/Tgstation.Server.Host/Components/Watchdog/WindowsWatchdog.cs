@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override async Task DisposeAndNullControllersImpl()
 		{
-			await base.DisposeAndNullControllersImpl().ConfigureAwait(false);
+			await base.DisposeAndNullControllersImpl();
 
 			// If we reach this point, we can guarantee PrepServerForLaunch will be called before starting again.
 			ActiveSwappable = null;
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 
-				await updateTask.ConfigureAwait(false);
+				await updateTask;
 			}
 			else
 				Logger.LogTrace("Nothing to do as pendingSwappable is null.");
@@ -174,7 +174,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!canSeamlesslySwap)
 			{
 				compileJobProvider.Dispose();
-				await base.HandleNewDmbAvailable(cancellationToken).ConfigureAwait(false);
+				await base.HandleNewDmbAvailable(cancellationToken);
 				return;
 			}
 
@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					Logger.LogWarning(ex, "Exception while suspending server!");
 				}
 
-				await windowsProvider.MakeActive(cancellationToken).ConfigureAwait(false);
+				await windowsProvider.MakeActive(cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogTrace("Prep for server launch. pendingSwappable is {0}available", pendingSwappable == null ? "not " : String.Empty);
 
 			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
-			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
+			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken);
 
 			pendingSwappable ??= new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
 			ActiveSwappable = pendingSwappable;
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			try
 			{
-				await InitialLink(cancellationToken).ConfigureAwait(false);
+				await InitialLink(cancellationToken);
 			}
 			catch (Exception ex)
 			{

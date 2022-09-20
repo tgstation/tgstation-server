@@ -11,9 +11,9 @@ using Remora.Discord.API.Abstractions.Gateway.Events;
 using Remora.Discord.API.Abstractions.Objects;
 using Remora.Discord.API.Abstractions.Rest;
 using Remora.Discord.API.Objects;
-using Remora.Discord.Core;
 using Remora.Discord.Gateway;
 using Remora.Discord.Gateway.Extensions;
+using Remora.Rest.Core;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
@@ -186,8 +186,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask DisposeAsync()
 		{
-			await base.DisposeAsync().ConfigureAwait(false);
-			await serviceProvider.DisposeAsync().ConfigureAwait(false);
+			await base.DisposeAsync();
+			await serviceProvider.DisposeAsync();
 
 			// this line is purely here to shutup CA2213
 			gatewayCts?.Dispose();
@@ -311,7 +311,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				if (channelId == 0)
 				{
 					var usersClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
-					var currentGuildsResponse = await usersClient.GetCurrentUserGuildsAsync(ct: cancellationToken).ConfigureAwait(false);
+					var currentGuildsResponse = await usersClient.GetCurrentUserGuildsAsync(ct: cancellationToken);
 					if (!currentGuildsResponse.IsSuccess)
 					{
 						Logger.LogWarning(
@@ -320,9 +320,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return;
 					}
 
-					var unmappedTextChannels = currentGuildsResponse
-						.Entity
-						.SelectMany(x => x.Channels.Value);
+					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
+
+					var guildsChannelsTasks = currentGuildsResponse.Entity.Select(
+						guild => guildsClient.GetGuildChannelsAsync(guild.ID.Value, cancellationToken));
+
+					await Task.WhenAll(guildsChannelsTasks);
+
+					var unmappedTextChannels = guildsChannelsTasks
+						.Select(task => task.Result)
+						.SelectMany(guildChannels => guildChannels.Entity)
+						.Where(guildChannel => guildChannel.Type == ChannelType.GuildText);
 
 					lock (mappedChannels)
 						unmappedTextChannels = unmappedTextChannels
@@ -336,13 +344,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						await Task.WhenAll(
 							unmappedTextChannels.Select(
 								x => SendToChannel(x.ID)))
-							.ConfigureAwait(false);
+							;
 					}
 
 					return;
 				}
 
-				await SendToChannel(new Snowflake(channelId)).ConfigureAwait(false);
+				await SendToChannel(new Snowflake(channelId));
 			}
 			catch (Exception e)
 			{
@@ -390,7 +398,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				"DM: Deployment in Progress...",
 				embeds: new List<IEmbed> { embed },
 				ct: cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (!messageResponse.IsSuccess)
 				Logger.LogWarning("Failed to post deploy embed to channel {0}: {1}", channelId, messageResponse.Error.Message);
@@ -448,7 +456,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						updatedMessage,
 						embeds: new List<IEmbed> { embed },
 						ct: cancellationToken)
-						.ConfigureAwait(false);
+						;
 
 					if (!createUpdatedMessageResponse.IsSuccess)
 						Logger.LogWarning(
@@ -466,7 +474,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						updatedMessage,
 						embeds: new List<IEmbed> { embed },
 						ct: cancellationToken)
-						.ConfigureAwait(false);
+						;
 
 					if (!editResponse.IsSuccess)
 					{
@@ -498,12 +506,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					messageCreateEvent.ChannelID.Value,
 					"https://youtu.be/LrNu-SuFF_o",
 					default)
-					.ConfigureAwait(false);
+					;
 				return Result.FromSuccess();
 			}
 
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
-			var channelResponse = await channelsClient.GetChannelAsync(messageCreateEvent.ChannelID, cancellationToken).ConfigureAwait(false);
+			var channelResponse = await channelsClient.GetChannelAsync(messageCreateEvent.ChannelID, cancellationToken);
 			if (!channelResponse.IsSuccess)
 			{
 				Logger.LogWarning(
@@ -542,7 +550,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (!pm)
 			{
 				var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
-				var messageGuildResponse = await guildsClient.GetGuildAsync(messageCreateEvent.GuildID.Value, false, cancellationToken).ConfigureAwait(false);
+				var messageGuildResponse = await guildsClient.GetGuildAsync(messageCreateEvent.GuildID.Value, false, cancellationToken);
 				if (messageGuildResponse.IsSuccess)
 					guildName = messageGuildResponse.Entity.Name;
 				else
@@ -613,7 +621,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				localGatewayTask = gatewayClient.RunAsync(gatewayCancellationToken);
 				try
 				{
-					await Task.WhenAny(gatewayReadyTcs.Task, localGatewayTask).ConfigureAwait(false);
+					await Task.WhenAny(gatewayReadyTcs.Task, localGatewayTask);
 
 					if (localGatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
@@ -621,7 +629,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var userClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
 
 					using var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);
-					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token).ConfigureAwait(false);
+					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token);
 					if (!currentUserResult.IsSuccess)
 					{
 						Logger.LogWarning("Unable to retrieve current user: {0}", currentUserResult.Error.Message);
@@ -640,7 +648,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				// will handle cleanup
 				// DCT: Musn't abort
-				await DisconnectImpl(default).ConfigureAwait(false);
+				await DisconnectImpl(default);
 				throw;
 			}
 		}
@@ -661,7 +669,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			localGatewayCts.Cancel();
-			var gatewayResult = await localGatewayTask.ConfigureAwait(false);
+			var gatewayResult = await localGatewayTask;
 			if (!gatewayResult.IsSuccess)
 				Logger.LogWarning("Gateway issue: {0}", gatewayResult.Error.Message);
 

@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the Dotnet 3.1 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
+You need the Dotnet 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
 
 The recommended IDE is Visual Studio 2019 which has installation options for both of these.
 
@@ -174,7 +174,7 @@ Whenever you make a change to a model schema that must be reflected in the datab
 We have a script to do this.
 
 1. Run `build/GenerateMigrations.sh NameOfMigration` from the project root.
-1. You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations`. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Models.Migrations namespace.
+1. You should now have MY/MS/SL/PG migration files generated in `/src/Tgstation.Server.Host/Models/Migrations`. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Database.Migrations namespace.
 1. Manually review what each migration does.
 1. Run the server in both configurations to ensure the migrations work.
 

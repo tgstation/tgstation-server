@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Extensions
 				var logger = GetLogger(context);
 				try
 				{
-					await next().ConfigureAwait(false);
+					await next();
 				}
 				catch (DbUpdateException e)
 				{
@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Extensions
 					}).ExecuteResultAsync(new ActionContext
 					{
 						HttpContext = context,
-					}).ConfigureAwait(false);
+					});
 				}
 			});
 		}
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Extensions
 				var logger = GetLogger(context);
 				try
 				{
-					await next().ConfigureAwait(false);
+					await next();
 				}
 				catch (OperationCanceledException ex)
 				{
@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Extensions
 				var logger = GetLogger(context);
 				try
 				{
-					await next().ConfigureAwait(false);
+					await next();
 				}
 				catch (Exception e)
 				{
@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Extensions
 					{
 						HttpContext = context,
 					})
-					.ConfigureAwait(false);
+					;
 				}
 			});
 		}
@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Extensions
 			applicationBuilder.Use(async (context, next) =>
 			{
 				context.Response.Headers.Add("X-Powered-By", assemblyInformationProvider.VersionPrefix);
-				await next().ConfigureAwait(false);
+				await next();
 			});
 		}
 

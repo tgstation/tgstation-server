@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			return Json(dreamMakerSettings.ToApi());
 		}
 
@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var compileJob = await BaseCompileJobsQuery()
 				.Where(x => x.Id == id)
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				.FirstOrDefaultAsync(cancellationToken);
 			if (compileJob == default)
 				return NotFound();
 			return Json(compileJob.ToApi());
@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Controllers
 				(core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken)
 					=> core.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 			return Accepted(job.ToApi());
 		}
 
@@ -189,7 +189,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (hostModel == null)
 				return Gone();
 
@@ -215,7 +215,7 @@ namespace Tgstation.Server.Host.Controllers
 							model.ApiValidationPort.Value,
 							true,
 							cancellationToken)
-							.ConfigureAwait(false);
+							;
 					if (verifiedPort != model.ApiValidationPort)
 						return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 
@@ -244,12 +244,12 @@ namespace Tgstation.Server.Host.Controllers
 				hostModel.Timeout = model.Timeout;
 			}
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			if ((AuthenticationContext.GetRight(RightsType.DreamMaker) & (ulong)DreamMakerRights.Read) == 0)
 				return NoContent();
 
-			return await Read(cancellationToken).ConfigureAwait(false);
+			return await Read(cancellationToken);
 		}
 
 		/// <summary>

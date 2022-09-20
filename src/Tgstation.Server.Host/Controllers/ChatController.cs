@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="api">The <see cref="Api.Models.ChatChannel"/>. </param>
 		/// <returns>A <see cref="ChatChannel"/> based on <paramref name="api"/>.</returns>
-		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new Models.ChatChannel
+		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new ()
 		{
 			DiscordChannelId = api.DiscordChannelId,
 			IrcChannel = api.IrcChannel,
@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.CountAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
@@ -115,17 +115,17 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.ChatBots.Add(dbModel);
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 			return await WithComponentInstance(
 				async instance =>
 				{
 					try
 					{
 						// try to create it
-						await instance.Chat.ChangeSettings(dbModel, cancellationToken).ConfigureAwait(false);
+						await instance.Chat.ChangeSettings(dbModel, cancellationToken);
 
 						if (dbModel.Channels.Count > 0)
-							await instance.Chat.ChangeChannels(dbModel.Id.Value, dbModel.Channels, cancellationToken).ConfigureAwait(false);
+							await instance.Chat.ChangeChannels(dbModel.Id.Value, dbModel.Channels, cancellationToken);
 					}
 					catch
 					{
@@ -133,14 +133,14 @@ namespace Tgstation.Server.Host.Controllers
 						DatabaseContext.ChatBots.Remove(dbModel);
 
 						// DCTx2: Operations must always run
-						await DatabaseContext.Save(default).ConfigureAwait(false);
-						await instance.Chat.DeleteConnection(dbModel.Id.Value, default).ConfigureAwait(false);
+						await DatabaseContext.Save(default);
+						await instance.Chat.DeleteConnection(dbModel.Id.Value, default);
 						throw;
 					}
 
 					return null;
 				})
-				.ConfigureAwait(false)
+
 				?? StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 		}
 
@@ -165,10 +165,10 @@ namespace Tgstation.Server.Host.Controllers
 							.AsQueryable()
 							.Where(x => x.Id == id)
 							.DeleteAsync(cancellationToken))
-						.ConfigureAwait(false);
+						;
 					return null;
 				})
-				.ConfigureAwait(false)
+
 				?? NoContent();
 
 		/// <summary>
@@ -225,7 +225,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id && x.InstanceId == Instance.Id)
 				.Include(x => x.Channels);
 
-			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var results = await query.FirstOrDefaultAsync(cancellationToken);
 			if (results == default)
 				return Gone();
 
@@ -268,7 +268,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id)
 				.Include(x => x.Channels);
 
-			var current = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var current = await query.FirstOrDefaultAsync(cancellationToken);
 
 			if (current == default)
 				return Gone();
@@ -327,21 +327,21 @@ namespace Tgstation.Server.Host.Controllers
 					current.Channels.Clear();
 			}
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			earlyOut = await WithComponentInstance(
 				async instance =>
 				{
 					var chat = instance.Chat;
 					if (anySettingsModified)
-						await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false); // have to rebuild the thing first
+						await chat.ChangeSettings(current, cancellationToken); // have to rebuild the thing first
 
 					if (model.Channels != null || anySettingsModified)
-						await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken).ConfigureAwait(false);
+						await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken);
 
 					return null;
 				})
-				.ConfigureAwait(false);
+				;
 			if (earlyOut != null)
 				return earlyOut;
 

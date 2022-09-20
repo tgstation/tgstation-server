@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Jobs.Tests
 
 		async Task TestJob(CancellationToken cancellationToken)
 		{
-			await currentWaitTask.ConfigureAwait(false);
+			await currentWaitTask;
 			cancelled = cancellationToken.IsCancellationRequested;
 		}
 
@@ -39,11 +39,11 @@ namespace Tgstation.Server.Host.Jobs.Tests
 				currentWaitTask = tcs.Task;
 				cts.Cancel();
 				using var handler = new JobHandler(TestJob);
-				await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => handler.Wait(cts.Token)).ConfigureAwait(false);
+				await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => handler.Wait(cts.Token));
 				handler.Start();
-				await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => handler.Wait(cts.Token)).ConfigureAwait(false);
+				await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => handler.Wait(cts.Token));
 				tcs.SetResult(null);
-				await handler.Wait(default).ConfigureAwait(false);
+				await handler.Wait(default);
 			}
 			Assert.IsFalse(cancelled);
 		}
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Jobs.Tests
 				handler.Start();
 				handler.Cancel();
 				tcs.SetResult(null);
-				await handler.Wait(default).ConfigureAwait(false);
+				await handler.Wait(default);
 			}
 			Assert.IsTrue(cancelled);
 		}

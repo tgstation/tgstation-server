@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -126,10 +126,10 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
-			var versionKey = await InstallVersion(version, customVersionStream, cancellationToken).ConfigureAwait(false);
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+			var versionKey = await InstallVersion(version, customVersionStream, cancellationToken);
+			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 			{
-				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(versionKey), cancellationToken).ConfigureAwait(false);
+				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(versionKey), cancellationToken);
 				await eventConsumer.HandleEvent(
 					EventType.ByondActiveVersionChange,
 					new List<string>
@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						versionKey,
 					},
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				// We reparse the version key because it could be changed after a custom install.
 				ActiveVersion = Version.Parse(versionKey);
@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			var versionToUse = requiredVersion ?? ActiveVersion;
 			if (versionToUse == null)
 				throw new JobException(ErrorCode.ByondNoVersionsInstalled);
-			await InstallVersion(versionToUse, null, cancellationToken).ConfigureAwait(false);
+			await InstallVersion(versionToUse, null, cancellationToken);
 
 			var versionKey = VersionKey(versionToUse, true);
 			var binPathForVersion = ioManager.ConcatPath(versionKey, BinPath);
@@ -183,8 +183,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		{
 			async Task<byte[]> GetActiveVersion()
 			{
-				var activeVersionFileExists = await ioManager.FileExists(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
-				return !activeVersionFileExists ? null : await ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+				var activeVersionFileExists = await ioManager.FileExists(ActiveVersionFileName, cancellationToken);
+				return !activeVersionFileExists ? null : await ioManager.ReadAllBytes(ActiveVersionFileName, cancellationToken);
 			}
 
 			var activeVersionBytesTask = GetActiveVersion();
@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					CfgDirectoryName);
 			await ioManager.CreateDirectory(
 				localCfgDirectory,
-				cancellationToken).ConfigureAwait(false);
+				cancellationToken);
 
 			// Delete trusted.txt so it doesn't grow too large
 			var trustedFilePath =
@@ -205,23 +205,23 @@ namespace Tgstation.Server.Host.Components.Byond
 			logger.LogTrace("Deleting trusted .dmbs file {0}", trustedFilePath);
 			await ioManager.DeleteFile(
 				trustedFilePath,
-				cancellationToken).ConfigureAwait(false);
+				cancellationToken);
 
 			var byondDirectory = ioManager.ResolvePath();
-			await ioManager.CreateDirectory(byondDirectory, cancellationToken).ConfigureAwait(false);
-			var directories = await ioManager.GetDirectories(byondDirectory, cancellationToken).ConfigureAwait(false);
+			await ioManager.CreateDirectory(byondDirectory, cancellationToken);
+			var directories = await ioManager.GetDirectories(byondDirectory, cancellationToken);
 
 			async Task ReadVersion(string path)
 			{
 				var versionFile = ioManager.ConcatPath(path, VersionFileName);
-				if (!await ioManager.FileExists(versionFile, cancellationToken).ConfigureAwait(false))
+				if (!await ioManager.FileExists(versionFile, cancellationToken))
 				{
 					logger.LogInformation("Cleaning unparsable version path: {0}", ioManager.ResolvePath(path));
-					await ioManager.DeleteDirectory(path, cancellationToken).ConfigureAwait(false); // cleanup
+					await ioManager.DeleteDirectory(path, cancellationToken); // cleanup
 					return;
 				}
 
-				var bytes = await ioManager.ReadAllBytes(versionFile, cancellationToken).ConfigureAwait(false);
+				var bytes = await ioManager.ReadAllBytes(versionFile, cancellationToken);
 				var text = Encoding.UTF8.GetString(bytes);
 				if (Version.TryParse(text, out var version))
 				{
@@ -235,12 +235,12 @@ namespace Tgstation.Server.Host.Components.Byond
 						}
 				}
 
-				await ioManager.DeleteDirectory(path, cancellationToken).ConfigureAwait(false);
+				await ioManager.DeleteDirectory(path, cancellationToken);
 			}
 
-			await Task.WhenAll(directories.Select(x => ReadVersion(x))).ConfigureAwait(false);
+			await Task.WhenAll(directories.Select(x => ReadVersion(x)));
 
-			var activeVersionBytes = await activeVersionBytesTask.ConfigureAwait(false);
+			var activeVersionBytes = await activeVersionBytesTask;
 			if (activeVersionBytes != null)
 			{
 				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
@@ -252,7 +252,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				else
 				{
 					logger.LogWarning("Failed to load saved active version {0}!", activeVersionString);
-					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken);
 				}
 			}
 		}
@@ -295,7 +295,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (installed)
 				using (cancellationToken.Register(() => ourTcs.SetCanceled()))
 				{
-					await Task.WhenAny(ourTcs.Task, inProgressTask).ConfigureAwait(false);
+					await Task.WhenAny(ourTcs.Task, inProgressTask);
 					cancellationToken.ThrowIfCancellationRequested();
 					return versionKey;
 				}
@@ -310,13 +310,13 @@ namespace Tgstation.Server.Host.Components.Byond
 			// okay up to us to install it then
 			try
 			{
-				await eventConsumer.HandleEvent(EventType.ByondInstallStart, new List<string> { versionKey }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.ByondInstallStart, new List<string> { versionKey }, cancellationToken);
 
 				var extractPath = ioManager.ResolvePath(versionKey);
 				async Task DirectoryCleanup()
 				{
-					await ioManager.DeleteDirectory(extractPath, cancellationToken).ConfigureAwait(false);
-					await ioManager.CreateDirectory(extractPath, cancellationToken).ConfigureAwait(false);
+					await ioManager.DeleteDirectory(extractPath, cancellationToken);
+					await ioManager.CreateDirectory(extractPath, cancellationToken);
 				}
 
 				var directoryCleanupTask = DirectoryCleanup();
@@ -326,8 +326,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					Stream downloadedStream = null;
 					if (customVersionStream == null)
 					{
-						var bytes = await byondInstaller.DownloadVersion(version, cancellationToken).ConfigureAwait(false);
-						downloadedStream = new MemoryStream(bytes);
+						downloadedStream = await byondInstaller.DownloadVersion(version, cancellationToken);
 						versionZipStream = downloadedStream;
 					}
 					else
@@ -335,21 +334,21 @@ namespace Tgstation.Server.Host.Components.Byond
 
 					using (downloadedStream)
 					{
-						await directoryCleanupTask.ConfigureAwait(false);
+						await directoryCleanupTask;
 						logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
-						await ioManager.ZipToDirectory(extractPath, versionZipStream, cancellationToken).ConfigureAwait(false);
+						await ioManager.ZipToDirectory(extractPath, versionZipStream, cancellationToken);
 					}
 
-					await byondInstaller.InstallByond(extractPath, version, cancellationToken).ConfigureAwait(false);
+					await byondInstaller.InstallByond(extractPath, version, cancellationToken);
 
 					// make sure to do this last because this is what tells us we have a valid version in the future
 					await ioManager.WriteAllBytes(
 						ioManager.ConcatPath(versionKey, VersionFileName),
 						Encoding.UTF8.GetBytes(versionKey),
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 				}
-				catch (WebException e)
+				catch (HttpRequestException e)
 				{
 					// since the user can easily provide non-exitent version numbers, we'll turn this into a JobException
 					throw new JobException(ErrorCode.ByondDownloadFail, e);
@@ -360,7 +359,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				}
 				catch
 				{
-					await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
+					await ioManager.DeleteDirectory(versionKey, cancellationToken);
 					throw;
 				}
 
@@ -369,7 +368,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			catch (Exception e)
 			{
 				if (!(e is OperationCanceledException))
-					await eventConsumer.HandleEvent(EventType.ByondInstallFail, new List<string> { e.Message }, cancellationToken).ConfigureAwait(false);
+					await eventConsumer.HandleEvent(EventType.ByondInstallFail, new List<string> { e.Message }, cancellationToken);
 				lock (installedVersions)
 					installedVersions.Remove(versionKey);
 				ourTcs.SetException(e);

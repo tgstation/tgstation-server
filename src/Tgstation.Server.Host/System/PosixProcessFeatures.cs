@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.System
 				throw new ArgumentNullException(nameof(outputFile));
 
 			const string GCorePath = "/usr/bin/gcore";
-			if (!await ioManager.FileExists(GCorePath, cancellationToken).ConfigureAwait(false))
+			if (!await ioManager.FileExists(GCorePath, cancellationToken))
 				throw new JobException(ErrorCode.MissingGCore);
 
 			int pid;
@@ -99,9 +99,9 @@ namespace Tgstation.Server.Host.System
 				true))
 			{
 				using (cancellationToken.Register(() => gcoreProc.Terminate()))
-					exitCode = await gcoreProc.Lifetime.ConfigureAwait(false);
+					exitCode = await gcoreProc.Lifetime;
 
-				output = await gcoreProc.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
+				output = await gcoreProc.GetCombinedOutput(cancellationToken);
 				logger.LogDebug("gcore output:{0}{1}", Environment.NewLine, output);
 			}
 
@@ -113,7 +113,7 @@ namespace Tgstation.Server.Host.System
 
 			// gcore outputs name.pid so remove the pid part
 			var generatedGCoreFile = $"{outputFile}.{pid}";
-			await ioManager.MoveFile(generatedGCoreFile, outputFile, cancellationToken).ConfigureAwait(false);
+			await ioManager.MoveFile(generatedGCoreFile, outputFile, cancellationToken);
 		}
 	}
 }

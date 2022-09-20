@@ -79,13 +79,13 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (fullDmbPath == null)
 				throw new ArgumentNullException(nameof(fullDmbPath));
 
-			using (await SemaphoreSlimContext.Lock(trustedFileSemaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(trustedFileSemaphore, cancellationToken))
 			{
 				string trustedFileText;
 
-				if (await ioManager.FileExists(trustedFilePath, cancellationToken).ConfigureAwait(false))
+				if (await ioManager.FileExists(trustedFilePath, cancellationToken))
 				{
-					var trustedFileBytes = await ioManager.ReadAllBytes(trustedFilePath, cancellationToken).ConfigureAwait(false);
+					var trustedFileBytes = await ioManager.ReadAllBytes(trustedFilePath, cancellationToken);
 					trustedFileText = Encoding.UTF8.GetString(trustedFileBytes);
 					trustedFileText = $"{trustedFileText.Trim()}{Environment.NewLine}";
 				}
@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				trustedFileText = $"{trustedFileText}{fullDmbPath}{Environment.NewLine}";
 
 				var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);
-				await ioManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken).ConfigureAwait(false);
+				await ioManager.WriteAllBytes(trustedFilePath, newTrustedFileBytes, cancellationToken);
 			}
 		}
 	}

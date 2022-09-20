@@ -111,18 +111,18 @@ namespace Tgstation.Server.Host.Controllers
 				.Users
 				.AsQueryable()
 				.CountAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (totalUsers >= generalConfiguration.UserLimit)
 				return Conflict(new ErrorMessageResponse(ErrorCode.UserLimitReached));
 
-			var dbUser = await CreateNewUserFromModel(model, cancellationToken).ConfigureAwait(false);
+			var dbUser = await CreateNewUserFromModel(model, cancellationToken);
 			if (dbUser == null)
 				return Gone();
 
 			if (model.SystemIdentifier != null)
 				try
 				{
-					using var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false);
+					using var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken);
 					if (sysIdentity == null)
 						return Gone();
 					dbUser.Name = sysIdentity.Username;
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			DatabaseContext.Users.Add(dbUser);
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			Logger.LogInformation("Created new user {0} ({1})", dbUser.Name, dbUser.Id);
 
@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Controllers
 						.ThenInclude(x => x.PermissionSet)
 					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 			if (originalUser == default)
 				return NotFound();
@@ -264,7 +264,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => x.Id == model.Group.Id)
 					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				if (originalUser.Group == default)
 					return Gone();
@@ -298,7 +298,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			originalUser.Name = model.Name ?? originalUser.Name;
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			Logger.LogInformation("Updated user {0} ({1})", originalUser.Name, originalUser.Id);
 
@@ -380,7 +380,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.Group)
 					.ThenInclude(x => x.PermissionSet)
 				.Include(x => x.PermissionSet)
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				.FirstOrDefaultAsync(cancellationToken);
 			if (user == default)
 				return NotFound();
 
@@ -407,7 +407,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => x.Id == model.Group.Id)
 					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 			else
 				permissionSet = new Models.PermissionSet
 				{

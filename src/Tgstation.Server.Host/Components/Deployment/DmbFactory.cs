@@ -124,7 +124,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
 
-			var newProvider = await FromCompileJob(job, cancellationToken).ConfigureAwait(false);
+			var newProvider = await FromCompileJob(job, cancellationToken);
 			if (newProvider == null)
 				return;
 
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				await remoteDeploymentManager.StageDeployment(
 						newProvider.CompileJob,
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 			}
 
 			lock (jobLockCounts)
@@ -180,13 +180,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.Where(x => x.Job.Instance.Id == metadata.Id)
 					.OrderByDescending(x => x.Job.StoppedAt)
 					.FirstOrDefaultAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 			})
-			.ConfigureAwait(false);
+			;
 
 			if (cj == default(CompileJob))
 				return;
-			await LoadCompileJob(cj, cancellationToken).ConfigureAwait(false);
+			await LoadCompileJob(cj, cancellationToken);
 			started = true;
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
@@ -198,7 +198,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			try
 			{
 				using (cancellationToken.Register(() => cleanupCts.Cancel()))
-					await cleanupTask.ConfigureAwait(false);
+					await cleanupTask;
 			}
 			finally
 			{
@@ -229,9 +229,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						.ThenInclude(x => x.ActiveTestMerges)
 						.ThenInclude(x => x.TestMerge)
 						.ThenInclude(x => x.MergedBy)
-					.FirstAsync(cancellationToken)
-					.ConfigureAwait(false))
-				.ConfigureAwait(false); // can't wait to see that query
+					.FirstAsync(cancellationToken)); // can't wait to see that query
 
 			if (!compileJob.Job.StoppedAt.HasValue)
 			{
@@ -261,7 +259,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						newProvider.Directory,
 						newProvider.DmbName),
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				if (!dmbExistsAtRoot)
 				{
@@ -279,7 +277,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							newProvider.DmbName),
 						cancellationToken);
 
-					if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
+					if (!(await primaryCheckTask && await secondaryCheckTask))
 					{
 						logger.LogWarning("Error loading compile job, .dmb missing!");
 						return null; // omae wa mou shinderu
@@ -331,17 +329,16 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await databaseContextFactory.UseContext(async db =>
 			{
 				jobUidsToNotErase = (await db
-					.CompileJobs
-					.AsQueryable()
-					.Where(
-						x => x.Job.Instance.Id == metadata.Id
-						&& jobIdsToSkip.Contains(x.Id.Value))
-					.Select(x => x.DirectoryName.Value)
-					.ToListAsync(cancellationToken)
-					.ConfigureAwait(false))
+						.CompileJobs
+						.AsQueryable()
+						.Where(
+							x => x.Job.Instance.Id == metadata.Id
+							&& jobIdsToSkip.Contains(x.Id.Value))
+						.Select(x => x.DirectoryName.Value)
+						.ToListAsync(cancellationToken))
 					.Select(x => x.ToString())
 					.ToList();
-			}).ConfigureAwait(false);
+			});
 
 			jobUidsToNotErase.Add(SwappableDmbProvider.LiveGameDirectory);
 
@@ -349,8 +346,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			// cleanup
 			var gameDirectory = ioManager.ResolvePath();
-			await ioManager.CreateDirectory(gameDirectory, cancellationToken).ConfigureAwait(false);
-			var directories = await ioManager.GetDirectories(gameDirectory, cancellationToken).ConfigureAwait(false);
+			await ioManager.CreateDirectory(gameDirectory, cancellationToken);
+			var directories = await ioManager.GetDirectories(gameDirectory, cancellationToken);
 			int deleting = 0;
 			var tasks = directories.Select(async x =>
 			{
@@ -361,7 +358,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					++deleting;
-					await ioManager.DeleteDirectory(x, cancellationToken).ConfigureAwait(false);
+					await ioManager.DeleteDirectory(x, cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
@@ -373,7 +370,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 			}).ToList();
 			if (deleting > 0)
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 		}
 #pragma warning restore CA1506
 
@@ -401,7 +398,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// DCT: None available
 				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
 				var otherTask = cleanupTask;
-				await Task.WhenAll(otherTask, deleteJob, deploymentJob).ConfigureAwait(false);
+				await Task.WhenAll(otherTask, deleteJob, deploymentJob);
 			}
 
 			lock (jobLockCounts)

@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Controllers
 							contentLength,
 							BufferSize,
 							cancellationToken)
-							.ConfigureAwait(false);
+							;
 					}
 					else
 					{
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Controllers
 							rangeLength,
 							BufferSize,
 							cancellationToken)
-							.ConfigureAwait(false);
+							;
 					}
 				}
 				catch (OperationCanceledException)

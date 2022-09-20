@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -28,6 +30,11 @@ namespace Tgstation.Server.Host.IO
 		/// The <see cref="TaskCreationOptions"/> used to spawn <see cref="Task"/>s for potentially long running, blocking operations.
 		/// </summary>
 		public const TaskCreationOptions BlockingTaskCreationOptions = TaskCreationOptions.None;
+
+		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DefaultIOManager"/>.
+		/// </summary>
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// Recursively empty a directory.
@@ -59,9 +66,25 @@ namespace Tgstation.Server.Host.IO
 				file.Delete();
 			}
 
-			await Task.WhenAll(tasks).ConfigureAwait(false);
+			await Task.WhenAll(tasks);
 			cancellationToken.ThrowIfCancellationRequested();
 			dir.Delete(true);
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DefaultIOManager"/> class.
+		/// </summary>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		public DefaultIOManager(IAssemblyInformationProvider assemblyInformationProvider)
+		{
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DefaultIOManager"/> class.
+		/// </summary>
+		protected DefaultIOManager()
+		{
 		}
 
 		/// <inheritdoc />
@@ -75,7 +98,7 @@ namespace Tgstation.Server.Host.IO
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
 			foreach (var directoryCopy in CopyDirectoryImpl(src, dest, ignore, cancellationToken))
-				await directoryCopy.ConfigureAwait(false);
+				await directoryCopy;
 		}
 
 		/// <inheritdoc />
@@ -104,7 +127,7 @@ namespace Tgstation.Server.Host.IO
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
 
 			// value taken from documentation
-			await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(false);
+			await srcStream.CopyToAsync(destStream, 81920, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -207,7 +230,7 @@ namespace Tgstation.Server.Host.IO
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
 			byte[] buf;
 			buf = new byte[file.Length];
-			await file.ReadAsync(buf, cancellationToken).ConfigureAwait(false);
+			await file.ReadAsync(buf, cancellationToken);
 			return buf;
 		}
 
@@ -228,7 +251,7 @@ namespace Tgstation.Server.Host.IO
 				FileShare.ReadWrite,
 				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
-			await file.WriteAsync(contents, cancellationToken).ConfigureAwait(false);
+			await file.WriteAsync(contents, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -270,27 +293,26 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
+		public async Task<MemoryStream> DownloadFile(Uri url, CancellationToken cancellationToken)
 		{
-			// DownloadDataTaskAsync can't be cancelled and is shittily written, don't use it
-			using var wc = new WebClient();
-			var tcs = new TaskCompletionSource<byte[]>();
-			wc.DownloadDataCompleted += (a, b) =>
+			using var httpClient = new HttpClient();
+			httpClient.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
+			var webRequestTask = httpClient.GetAsync(url, cancellationToken);
+			using var response = await webRequestTask;
+			response.EnsureSuccessStatusCode();
+			using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+			var memoryStream = new MemoryStream();
+			try
 			{
-				if (b.Error != null)
-					tcs.TrySetException(b.Error);
-				else if (b.Cancelled)
-					tcs.TrySetCanceled();
-				else
-					tcs.TrySetResult(b.Result);
-			};
-			wc.DownloadDataAsync(url);
-			using (cancellationToken.Register(() =>
+				await responseStream.CopyToAsync(memoryStream, cancellationToken);
+				memoryStream.Seek(0, SeekOrigin.Begin);
+				return memoryStream;
+			}
+			catch
 			{
-				wc.CancelAsync();
-				tcs.TrySetCanceled();
-			}))
-				return await tcs.Task.ConfigureAwait(false);
+				memoryStream.Dispose();
+				throw;
+			}
 		}
 
 		/// <inheritdoc />
@@ -332,7 +354,7 @@ namespace Tgstation.Server.Host.IO
 			TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public FileStream GetFileStream(string path, bool shareWrite) => new FileStream(
+		public FileStream GetFileStream(string path, bool shareWrite) => new (
 			ResolvePath(path),
 			FileMode.Open,
 			FileAccess.Read,
@@ -366,7 +388,7 @@ namespace Tgstation.Server.Host.IO
 			async Task CopyThisDirectory()
 			{
 				if (!atLeastOneSubDir)
-					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false); // save on createdir calls
+					await CreateDirectory(dest, cancellationToken); // save on createdir calls
 
 				var tasks = new List<Task>();
 				foreach (var fileInfo in dir.EnumerateFiles())
@@ -376,7 +398,7 @@ namespace Tgstation.Server.Host.IO
 					tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
 				}
 
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 			}
 
 			yield return CopyThisDirectory();

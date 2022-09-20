@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
 				WindowsHost = platformIdentifier.IsWindows,
 				SwarmServers = swarmService.GetSwarmServers(),
-				OAuthProviderInfos = await oAuthProviders.ProviderInfos(cancellationToken).ConfigureAwait(false),
+				OAuthProviderInfos = await oAuthProviders.ProviderInfos(cancellationToken),
 				UpdateInProgress = serverControl.UpdateInProgress,
 			});
 		}
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					// trust the system over the database because a user's name can change while still having the same SID
-					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
+					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken);
 				}
 				catch (NotImplementedException ex)
 				{
@@ -257,7 +257,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						externalUserId = await validator
 							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)
-							.ConfigureAwait(false);
+							;
 
 						Logger.LogTrace("External {0} UID: {1}", oAuthProvider, externalUserId);
 					}
@@ -295,7 +295,7 @@ namespace Tgstation.Server.Host.Controllers
 						Name = x.Name,
 					})
 					.ToListAsync(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				// Pick the DB user first
 				var user = users
@@ -329,7 +329,7 @@ namespace Tgstation.Server.Host.Controllers
 							};
 							DatabaseContext.Users.Attach(updatedUser);
 							updatedUser.PasswordHash = user.PasswordHash;
-							await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+							await DatabaseContext.Save(cancellationToken);
 						}
 					}
 					else if (systemIdentity.Username != user.Name)
@@ -339,7 +339,7 @@ namespace Tgstation.Server.Host.Controllers
 						DatabaseContext.Users.Attach(user);
 						user.Name = systemIdentity.Username;
 						user.CanonicalName = Models.User.CanonicalizeName(user.Name);
-						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+						await DatabaseContext.Save(cancellationToken);
 					}
 
 				// Now that the bookeeping is done, tell them to fuck off if necessary
@@ -349,7 +349,7 @@ namespace Tgstation.Server.Host.Controllers
 					return Forbid();
 				}
 
-				var token = await tokenFactory.CreateToken(user, oAuthLogin, cancellationToken).ConfigureAwait(false);
+				var token = await tokenFactory.CreateToken(user, oAuthLogin, cancellationToken);
 				if (usingSystemIdentity)
 				{
 					// expire the identity slightly after the auth token in case of lag

@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Security
 				apiHeaders.InstanceId,
 				tokenValidatedContext.SecurityToken.ValidFrom,
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 

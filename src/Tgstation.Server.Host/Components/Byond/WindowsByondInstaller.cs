@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		async Task SetNoPromptTrusted(string path, CancellationToken cancellationToken)
 		{
 			var configPath = IOManager.ConcatPath(path, ByondConfigDirectory);
-			await IOManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
+			await IOManager.CreateDirectory(configPath, cancellationToken);
 
 			var configFilePath = IOManager.ConcatPath(configPath, ByondDreamDaemonConfigFilename);
 			Logger.LogTrace("Disabling trusted prompts in {0}...", configFilePath);
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				configFilePath,
 				Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode),
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 		}
 
 		/// <summary>
@@ -120,7 +120,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task InstallDirectX(string path, CancellationToken cancellationToken)
 		{
-			using var lockContext = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false);
+			using var lockContext = await SemaphoreSlimContext.Lock(semaphore, cancellationToken);
 			if (installedDirectX)
 			{
 				Logger.LogTrace("DirectX already installed.");
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 				int exitCode;
 				using (cancellationToken.Register(() => directXInstaller.Terminate()))
-					exitCode = await directXInstaller.Lifetime.ConfigureAwait(false);
+					exitCode = await directXInstaller.Lifetime;
 				cancellationToken.ThrowIfCancellationRequested();
 
 				if (exitCode != 0)
@@ -182,13 +182,13 @@ namespace Tgstation.Server.Host.Components.Byond
 
 				int exitCode;
 				using (cancellationToken.Register(() => netshProcess.Terminate()))
-					exitCode = await netshProcess.Lifetime.ConfigureAwait(false);
+					exitCode = await netshProcess.Lifetime;
 				cancellationToken.ThrowIfCancellationRequested();
 
 				Logger.LogDebug(
 					"netsh.exe output:{0}{1}",
 					Environment.NewLine,
-					await netshProcess.GetCombinedOutput(cancellationToken).ConfigureAwait(false));
+					await netshProcess.GetCombinedOutput(cancellationToken));
 
 				if (exitCode != 0)
 					throw new JobException(ErrorCode.ByondDreamDaemonFirewallFail, new JobException($"Invalid exit code: {exitCode}"));

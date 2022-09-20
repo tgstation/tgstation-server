@@ -43,7 +43,7 @@ namespace Tgstation.Server.Tests.Instance
 				Path = "/TestDeleteDir"
 			};
 
-			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken).ConfigureAwait(false);
+			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken);
 
 			//try to delete non-empty
 			const string TestString = "Hello world!";
@@ -51,12 +51,12 @@ namespace Tgstation.Server.Tests.Instance
 			var file = await configurationClient.Write(new ConfigurationFileRequest
 			{
 				Path = TestDir.Path + "/test.txt"
-			}, uploadMs, cancellationToken).ConfigureAwait(false);
+			}, uploadMs, cancellationToken);
 
 			Assert.IsTrue(FileExists(file));
 			Assert.IsNull(file.LastReadHash);
 
-			var updatedFileTuple = await configurationClient.Read(file, cancellationToken).ConfigureAwait(false);
+			var updatedFileTuple = await configurationClient.Read(file, cancellationToken);
 			var updatedFile = updatedFileTuple.Item1;
 			Assert.IsNotNull(updatedFile.LastReadHash);
 			using (var downloadMemoryStream = new MemoryStream())
@@ -72,17 +72,17 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.AreEqual(TestString, Encoding.UTF8.GetString(downloadMemoryStream.ToArray()).Trim());
 			}
 
-			await ApiAssert.ThrowsException<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty).ConfigureAwait(false);
+			await ApiAssert.ThrowsException<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty);
 
 			file.FileTicket = null;
 			await configurationClient.Write(new ConfigurationFileRequest
 			{
 				Path = updatedFile.Path,
 				LastReadHash = updatedFile.LastReadHash
-			}, null, cancellationToken).ConfigureAwait(false);
+			}, null, cancellationToken);
 			Assert.IsFalse(FileExists(file));
 
-			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken).ConfigureAwait(false);
+			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken);
 
 			var tmp = (TestDir.Path?.StartsWith('/') ?? false) ? '.' + TestDir.Path : TestDir.Path;
 			var path = Path.Combine(instance.Path, "Configuration", tmp);
@@ -91,7 +91,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
-			await TestDeleteDirectory(cancellationToken).ConfigureAwait(false);
+			await TestDeleteDirectory(cancellationToken);
 		}
 	}
 }

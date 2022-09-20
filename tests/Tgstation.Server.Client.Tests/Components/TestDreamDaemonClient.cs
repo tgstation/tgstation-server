@@ -34,7 +34,7 @@ namespace Tgstation.Server.Client.Components.Tests
 
 			var client = new DreamDaemonClient(mockApiClient.Object, inst);
 
-			var result = await client.Start(default).ConfigureAwait(false);
+			var result = await client.Start(default);
 			Assert.AreSame(example, result);
 		}
 	}

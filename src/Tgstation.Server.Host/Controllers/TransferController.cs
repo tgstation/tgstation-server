@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Controllers
 				FileTicket = ticket,
 			};
 
-			var tuple = await fileTransferService.RetrieveDownloadStream(fileTicketResult, cancellationToken).ConfigureAwait(false);
+			var tuple = await fileTransferService.RetrieveDownloadStream(fileTicketResult, cancellationToken);
 			var stream = tuple.Item1;
 			try
 			{
@@ -124,7 +124,7 @@ namespace Tgstation.Server.Host.Controllers
 				FileTicket = ticket,
 			};
 
-			var result = await fileTransferService.SetUploadStream(fileTicketResult, Request.Body, cancellationToken).ConfigureAwait(false);
+			var result = await fileTransferService.SetUploadStream(fileTicketResult, Request.Body, cancellationToken);
 			if (result != null)
 				return result.ErrorCode == ErrorCode.ResourceNotPresent
 					? Gone()

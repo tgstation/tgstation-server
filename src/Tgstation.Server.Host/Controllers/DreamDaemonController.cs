@@ -21,6 +21,8 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
+#pragma warning disable API1001 // Action method returns a success result without a corresponding ProducesResponseType. Somehow this happens ONLY IN THIS CONTROLLER???
+
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
@@ -92,7 +94,7 @@ namespace Tgstation.Server.Host.Controllers
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core.Watchdog.Launch(innerCt),
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 				return Accepted(job.ToApi());
 			});
 
@@ -121,7 +123,7 @@ namespace Tgstation.Server.Host.Controllers
 		public Task<IActionResult> Delete(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
+				await instance.Watchdog.Terminate(false, cancellationToken);
 				return NoContent();
 			});
 
@@ -167,7 +169,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == Instance.Id)
 				.Select(x => x.DreamDaemonSettings)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (current == default)
 				return Gone();
@@ -179,7 +181,7 @@ namespace Tgstation.Server.Host.Controllers
 						model.Port.Value,
 						true,
 						cancellationToken)
-					.ConfigureAwait(false);
+					;
 				if (verifiedPort != model.Port)
 					return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 			}
@@ -224,21 +226,21 @@ namespace Tgstation.Server.Host.Controllers
 						|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler))
 						return Forbid();
 
-					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+					await DatabaseContext.Save(cancellationToken);
 
 					// run this second because current may be modified by it
-					await watchdog.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
+					await watchdog.ChangeSettings(current, cancellationToken);
 
 					if (!oldSoftRestart && model.SoftRestart == true && watchdog.Status == WatchdogStatus.Online)
-						await watchdog.Restart(true, cancellationToken).ConfigureAwait(false);
+						await watchdog.Restart(true, cancellationToken);
 					else if (!oldSoftShutdown && model.SoftShutdown == true)
-						await watchdog.Terminate(true, cancellationToken).ConfigureAwait(false);
+						await watchdog.Terminate(true, cancellationToken);
 					else if ((oldSoftRestart && model.SoftRestart == false) || (oldSoftShutdown && model.SoftShutdown == false))
-						await watchdog.ResetRebootState(cancellationToken).ConfigureAwait(false);
+						await watchdog.ResetRebootState(cancellationToken);
 
-					return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
+					return await ReadImpl(current, cancellationToken);
 				})
-				.ConfigureAwait(false);
+				;
 		}
 #pragma warning restore CA1506
 #pragma warning restore CA1502
@@ -273,7 +275,7 @@ namespace Tgstation.Server.Host.Controllers
 					job,
 					(core, paramJob, databaseContextFactory, progressReporter, ct) => core.Watchdog.Restart(false, ct),
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 				return Accepted(job.ToApi());
 			});
 
@@ -307,7 +309,7 @@ namespace Tgstation.Server.Host.Controllers
 					job,
 					(core, databaseContextFactory, paramJob, progressReporter, ct) => core.Watchdog.CreateDump(ct),
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 				return Accepted(job.ToApi());
 			});
 
@@ -333,7 +335,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Where(x => x.Id == Instance.Id)
 						.Select(x => x.DreamDaemonSettings)
 						.FirstOrDefaultAsync(cancellationToken)
-						.ConfigureAwait(false);
+						;
 					if (settings == default)
 						return Gone();
 				}

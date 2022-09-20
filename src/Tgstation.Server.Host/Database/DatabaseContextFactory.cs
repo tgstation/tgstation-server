@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Database
 				throw new ArgumentNullException(nameof(operation));
 
 			using var scope = scopeFactory.CreateScope();
-			await operation(scope.ServiceProvider.GetRequiredService<IDatabaseContext>()).ConfigureAwait(false);
+			await operation(scope.ServiceProvider.GetRequiredService<IDatabaseContext>());
 		}
 	}
 }

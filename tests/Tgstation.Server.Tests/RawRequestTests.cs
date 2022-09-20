@@ -187,7 +187,7 @@ namespace Tgstation.Server.Tests
 
 		async Task TestServerInformation(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
 		{
-			var serverInfo = await serverClient.ServerInformation(default).ConfigureAwait(false);
+			var serverInfo = await serverClient.ServerInformation(default);
 
 			Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
 			var assemblyVersion = typeof(IServer).Assembly.GetName().Version.Semver();
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Tests
 			};
 
 			var badClient = clientFactory.CreateFromToken(serverClient.Url, newToken);
-			await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Administration.Read(cancellationToken)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Administration.Read(cancellationToken));
 		}
 
 		async Task TestOAuthFails(IServerClient serverClient, CancellationToken cancellationToken)

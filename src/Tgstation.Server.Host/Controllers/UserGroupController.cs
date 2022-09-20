@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Groups
 				.AsQueryable()
 				.CountAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (totalGroups >= generalConfiguration.UserGroupLimit)
 				return Conflict(new ErrorMessageResponse(ErrorCode.UserGroupLimitReached));
 
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Controllers
 			};
 
 			DatabaseContext.Groups.Add(dbGroup);
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 			Logger.LogInformation("Created new user group {0} ({1})", dbGroup.Name, dbGroup.Id);
 
 			return Created(dbGroup.ToApi(true));
@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Users)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (currentGroup == default)
 				return Gone();
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			currentGroup.Name = model.Name ?? currentGroup.Name;
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext.Save(cancellationToken);
 
 			if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.ReadUsers))
 				return Json(new UserGroupResponse
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.Users)
 				.Include(x => x.PermissionSet)
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 			if (group == default)
 				return Gone();
 			return Json(group.ToApi(true));
@@ -221,7 +221,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.Id == id && x.Users.Count == 0)
 				.DeleteAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			if (numDeleted > 0)
 				return NoContent();
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.Id == id)
 				.AnyAsync(cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			return groupExists
 				? Conflict(new ErrorMessageResponse(ErrorCode.UserGroupNotEmpty))

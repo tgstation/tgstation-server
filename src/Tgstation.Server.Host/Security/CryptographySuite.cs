@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public byte[] GetSecureBytes(uint amount)
 		{
-			using var rng = new RNGCryptoServiceProvider();
+			using var rng = RandomNumberGenerator.Create(); // uses RNGCryptoServiceProvider under the hood https://khalidabuhakmeh.com/creating-random-numbers-with-dotnet-core
 			var byt = new byte[amount];
 			rng.GetBytes(byt);
 			return byt;

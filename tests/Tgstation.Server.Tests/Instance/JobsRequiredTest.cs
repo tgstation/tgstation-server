@@ -25,15 +25,15 @@ namespace Tgstation.Server.Tests.Instance
 			var job = originalJob;
 			do
 			{
-				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
-				job = await JobsClient.GetId(job, cancellationToken).ConfigureAwait(false);
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				job = await JobsClient.GetId(job, cancellationToken);
 				--timeout;
 			}
 			while (!job.StoppedAt.HasValue && timeout > 0);
 
 			if (!job.StoppedAt.HasValue)
 			{
-				await JobsClient.Cancel(job, cancellationToken).ConfigureAwait(false);
+				await JobsClient.Cancel(job, cancellationToken);
 				Assert.Fail($"Job ID {job.Id} \"{job.Description}\" timed out!");
 			}
 
@@ -52,15 +52,15 @@ namespace Tgstation.Server.Tests.Instance
 			var job = originalJob;
 			do
 			{
-				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
-				job = await JobsClient.GetId(job, cancellationToken).ConfigureAwait(false);
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				job = await JobsClient.GetId(job, cancellationToken);
 				--timeout;
 			}
 			while (!job.Progress.HasValue && timeout > 0);
 
 			if (job.StoppedAt.HasValue)
 			{
-				await JobsClient.Cancel(job, cancellationToken).ConfigureAwait(false);
+				await JobsClient.Cancel(job, cancellationToken);
 				Assert.Fail($"Job ID {job.Id} \"{job.Description}\" completed when we wanted it to just progress!");
 			}
 
@@ -68,7 +68,7 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.Fail(job.ExceptionDetails);
 
 			await JobsClient.Cancel(job, cancellationToken);
-			return await WaitForJob(job, timeout, false, null, cancellationToken).ConfigureAwait(false);
+			return await WaitForJob(job, timeout, false, null, cancellationToken);
 		}
 	}
 }

@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			if (ValidateInstanceOnlineStatus(instanceManager, Logger, Instance))
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+				await DatabaseContext.Save(cancellationToken);
 
 			using var instanceReferenceCheck = instanceManager.GetInstanceReference(Instance);
 			if (instanceReferenceCheck == null)
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (instanceReference == null)
 					return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));
-				return await action(instanceReference).ConfigureAwait(false);
+				return await action(instanceReference);
 			}
 		}
 	}

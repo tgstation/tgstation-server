@@ -265,7 +265,7 @@ namespace Tgstation.Server.Host.Swarm
 				return;
 			}
 
-			await AbortUpdate(cancellationToken).ConfigureAwait(false);
+			await AbortUpdate(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -291,7 +291,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					using var response = await httpClient.SendAsync(request, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
@@ -320,7 +320,7 @@ namespace Tgstation.Server.Host.Swarm
 							.Select(SendRemoteAbort));
 			}
 
-			await task.ConfigureAwait(false);
+			await task;
 		}
 
 		/// <inheritdoc />
@@ -343,13 +343,13 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var commitReadyResponse = await httpClient.SendAsync(commitReadyRequest, cancellationToken).ConfigureAwait(false);
+					using var commitReadyResponse = await httpClient.SendAsync(commitReadyRequest, cancellationToken);
 					commitReadyResponse.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
 				{
 					logger.LogWarning(ex, "Unable to send ready-commit to swarm controller!");
-					await AbortUpdate(cancellationToken).ConfigureAwait(false);
+					await AbortUpdate(cancellationToken);
 					return false;
 				}
 			}
@@ -359,7 +359,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (commitTcsTask == null)
 			{
 				logger.LogDebug("Update commit failed, no pending task completion source!");
-				await AbortUpdate(cancellationToken).ConfigureAwait(false);
+				await AbortUpdate(cancellationToken);
 				return false;
 			}
 
@@ -371,7 +371,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			var commitTask = Task.WhenAny(commitTcsTask, timeoutTask);
 
-			await commitTask.ConfigureAwait(false);
+			await commitTask;
 
 			var commitGoAhead = commitTcsTask.IsCompleted
 				&& commitTcsTask.Result
@@ -383,7 +383,7 @@ namespace Tgstation.Server.Host.Swarm
 					timeoutTask.IsCompleted
 						? " Timed out!"
 						: String.Empty);
-				await AbortUpdate(cancellationToken).ConfigureAwait(false);
+				await AbortUpdate(cancellationToken);
 				return false;
 			}
 
@@ -408,7 +408,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					// I know using the cancellationToken after this point doesn't seem very sane
 					// It's the token for Ctrl+C on server's console though, so we must respect it
-					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					using var response = await httpClient.SendAsync(request, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
@@ -424,7 +424,7 @@ namespace Tgstation.Server.Host.Swarm
 						.Where(x => !x.Controller)
 						.Select(SendRemoteCommitUpdate));
 
-			await task.ConfigureAwait(false);
+			await task;
 			return true;
 		}
 
@@ -472,12 +472,12 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				await databaseContextFactory.UseContext(
 					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken))
-					.ConfigureAwait(false);
+					;
 
 				result = SwarmRegistrationResult.Success;
 			}
 			else
-				result = await RegisterWithController(cancellationToken).ConfigureAwait(false);
+				result = await RegisterWithController(cancellationToken);
 
 			if (SwarmMode && result == SwarmRegistrationResult.Success)
 				serverHealthCheckTask = HealthCheckLoop(serverHealthCheckCancellationTokenSource.Token);
@@ -499,7 +499,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					using var response = await httpClient.SendAsync(request, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
@@ -516,7 +516,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (serverHealthCheckTask != null)
 			{
 				serverHealthCheckCancellationTokenSource.Cancel();
-				await serverHealthCheckTask.ConfigureAwait(false);
+				await serverHealthCheckTask;
 			}
 
 			if (!swarmController)
@@ -539,7 +539,7 @@ namespace Tgstation.Server.Host.Swarm
 				&& targetUpdateVersion < assemblyInformationProvider.Version)
 				await databaseContextFactory.UseContext(
 					db => databaseSeeder.Downgrade(db, targetUpdateVersion, cancellationToken))
-					.ConfigureAwait(false);
+					;
 
 			if (SwarmMode)
 			{
@@ -558,7 +558,7 @@ namespace Tgstation.Server.Host.Swarm
 						registrationIds.Clear();
 					}
 
-					await task.ConfigureAwait(false);
+					await task;
 				}
 
 				logger.LogTrace("Swarm controller shutdown");
@@ -683,7 +683,7 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				// Something fucky is happening, take no chances.
 				logger.LogDebug("Aborting update due to unforseen circumstances!");
-				await AbortUpdate(cancellationToken).ConfigureAwait(false);
+				await AbortUpdate(cancellationToken);
 				return false;
 			}
 
@@ -728,7 +728,7 @@ namespace Tgstation.Server.Host.Swarm
 				return;
 
 			logger.LogInformation("Unregistering node {0}...", nodeIdentifier);
-			await AbortUpdate(cancellationToken).ConfigureAwait(false);
+			await AbortUpdate(cancellationToken);
 			lock (swarmServers)
 			{
 				swarmServers.RemoveAll(x => x.Identifier == nodeIdentifier);
@@ -773,7 +773,7 @@ namespace Tgstation.Server.Host.Swarm
 						UpdateVersion = version,
 					});
 
-				using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
 				return response.IsSuccessStatusCode;
 			}
 
@@ -801,7 +801,7 @@ namespace Tgstation.Server.Host.Swarm
 				if (!swarmController && initiator)
 				{
 					logger.LogDebug("Forwarding update request to swarm controller...");
-					var result = await RemotePrepareUpdate(null).ConfigureAwait(false);
+					var result = await RemotePrepareUpdate(null);
 					if (result)
 						updateCommitTcs = new TaskCompletionSource<bool>();
 
@@ -815,7 +815,7 @@ namespace Tgstation.Server.Host.Swarm
 					var updateApplyResult = await serverUpdater.BeginUpdate(
 						version,
 						cancellationToken)
-						.ConfigureAwait(false);
+						;
 					if (updateApplyResult != ServerUpdateResult.Started)
 					{
 						logger.LogWarning("Failed to prepare update! Result: {0}", updateApplyResult);
@@ -840,7 +840,7 @@ namespace Tgstation.Server.Host.Swarm
 			finally
 			{
 				if (shouldAbort)
-					await AbortUpdate(cancellationToken).ConfigureAwait(false);
+					await AbortUpdate(cancellationToken);
 			}
 
 			if (!swarmController)
@@ -886,7 +886,7 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			logger.LogDebug("Distrubuted prepare failed!");
-			await AbortUpdate(cancellationToken).ConfigureAwait(false);
+			await AbortUpdate(cancellationToken);
 			return false;
 		}
 
@@ -913,7 +913,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					using var response = await httpClient.SendAsync(request, cancellationToken);
 					response.EnsureSuccessStatusCode();
 					return;
 				}
@@ -936,14 +936,14 @@ namespace Tgstation.Server.Host.Swarm
 				currentSwarmServers
 					.Where(x => !x.Controller)
 					.Select(HealthRequestForServer))
-					.ConfigureAwait(false);
+					;
 
 			lock (swarmServers)
 				if (swarmServers.Count != currentSwarmServers.Count)
 					MarkServersDirty();
 
 			if (serversDirty)
-				await SendUpdatedServerListToNodes(cancellationToken).ConfigureAwait(false);
+				await SendUpdatedServerListToNodes(cancellationToken);
 		}
 
 		/// <summary>
@@ -984,7 +984,7 @@ namespace Tgstation.Server.Host.Swarm
 						HttpMethod.Get,
 						String.Empty,
 						null);
-					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					using var response = await httpClient.SendAsync(request, cancellationToken);
 					response.EnsureSuccessStatusCode();
 					logger.LogTrace("Controller health check successful");
 					return;
@@ -999,7 +999,7 @@ namespace Tgstation.Server.Host.Swarm
 			for (var registrationAttempt = 1UL; ; ++registrationAttempt)
 			{
 				logger.LogInformation("Swarm re-registration attempt {0}...", registrationAttempt);
-				registrationResult = await RegisterWithController(cancellationToken).ConfigureAwait(false);
+				registrationResult = await RegisterWithController(cancellationToken);
 
 				if (registrationResult == SwarmRegistrationResult.Success)
 					return;
@@ -1048,7 +1048,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			try
 			{
-				using var response = await httpClient.SendAsync(registrationRequest, cancellationToken).ConfigureAwait(false);
+				using var response = await httpClient.SendAsync(registrationRequest, cancellationToken);
 				if (response.IsSuccessStatusCode)
 				{
 					logger.LogInformation("Sucessfully registered with ID {0}", requestedRegistrationId);
@@ -1111,7 +1111,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					using var response = await httpClient.SendAsync(request, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex) when (!(ex is OperationCanceledException))
@@ -1130,7 +1130,7 @@ namespace Tgstation.Server.Host.Swarm
 				currentSwarmServers
 					.Where(x => !x.Controller)
 					.Select(UpdateRequestForServer))
-				.ConfigureAwait(false);
+				;
 			serversDirty = false;
 		}
 
@@ -1235,7 +1235,7 @@ namespace Tgstation.Server.Host.Swarm
 						delayTask,
 						nextForceHealthCheckTask);
 
-					await awakeningTask.ConfigureAwait(false);
+					await awakeningTask;
 
 					if (nextForceHealthCheckTask.IsCompleted && swarmController)
 					{
@@ -1264,9 +1264,9 @@ namespace Tgstation.Server.Host.Swarm
 					try
 					{
 						if (swarmController)
-							await HealthCheckNodes(cancellationToken).ConfigureAwait(false);
+							await HealthCheckNodes(cancellationToken);
 						else
-							await HealthCheckController(cancellationToken).ConfigureAwait(false);
+							await HealthCheckController(cancellationToken);
 					}
 					catch (Exception ex) when (!(ex is OperationCanceledException))
 					{

@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.Transfer
 				else
 					toAwait = Task.CompletedTask;
 
-			await toAwait.ConfigureAwait(false);
+			await toAwait;
 		}
 
 		/// <inheritdoc />
@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Transfer
 			try
 			{
 				if (downloadProvider.FileStreamProvider != null)
-					stream = await downloadProvider.FileStreamProvider(cancellationToken).ConfigureAwait(false);
+					stream = await downloadProvider.FileStreamProvider(cancellationToken);
 				else
 					stream = ioManager.GetFileStream(downloadProvider.FilePath, downloadProvider.ShareWrite);
 			}
@@ -237,7 +237,7 @@ namespace Tgstation.Server.Host.Transfer
 				uploadTickets.Remove(ticket.FileTicket);
 			}
 
-			return await uploadProvider.Completion(stream, cancellationToken).ConfigureAwait(false);
+			return await uploadProvider.Completion(stream, cancellationToken);
 		}
 
 		/// <summary>
@@ -261,11 +261,11 @@ namespace Tgstation.Server.Host.Transfer
 				var expireAt = DateTimeOffset.UtcNow + TimeSpan.FromMinutes(TicketValidityMinutes);
 				try
 				{
-					await oldExpireTask.WithToken(disposeCts.Token).ConfigureAwait(false);
+					await oldExpireTask.WithToken(disposeCts.Token);
 
 					var now = DateTimeOffset.UtcNow;
 					if (now < expireAt)
-						await asyncDelayer.Delay(expireAt - now, disposeCts.Token).ConfigureAwait(false);
+						await asyncDelayer.Delay(expireAt - now, disposeCts.Token);
 				}
 				finally
 				{

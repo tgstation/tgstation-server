@@ -71,9 +71,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.RepositorySettings
 						.AsQueryable()
 						.Where(x => x.InstanceId == Metadata.Id)
-						.FirstAsync(cancellationToken)
-						.ConfigureAwait(false))
-				.ConfigureAwait(false);
+						.FirstAsync(cancellationToken));
 
 			var instanceAuthenticated = repositorySettings.AccessToken != null;
 			var gitHubClient = !instanceAuthenticated
@@ -108,10 +106,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 							RequiredContexts = new Collection<string>(),
 						})
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				compileJob.GitHubDeploymentId = deployment.Id;
-				Logger.LogDebug("Created deployment ID {0}", deployment.Id);
+				Logger.LogDebug("Created deployment ID {deploymentId}", deployment.Id);
 
 				await gitHubClient
 					.Repository
@@ -127,7 +125,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 							AutoInactive = false,
 						})
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				Logger.LogTrace("In-progress deployment status created");
 			}
@@ -136,10 +134,10 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				var gitHubRepo = await repositoryTask
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				compileJob.GitHubRepoId = gitHubRepo.Id;
-				Logger.LogTrace("Set GitHub ID as {0}", compileJob.GitHubRepoId);
+				Logger.LogTrace("Set GitHub ID as {gitHubRepoId}", compileJob.GitHubRepoId);
 			}
 			catch (RateLimitExceededException ex) when (!repositorySettings.CreateGitHubDeployments.Value)
 			{
@@ -213,9 +211,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 					.WithToken(cancellationToken));
 			try
 			{
-				await Task.WhenAll(tasks).ConfigureAwait(false);
+				await Task.WhenAll(tasks);
 			}
-			catch (Exception ex) when (!(ex is OperationCanceledException))
+			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
 				Logger.LogWarning(ex, "Pull requests update check failed!");
 			}
@@ -225,12 +223,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			PullRequest lastMerged = null;
 			async Task CheckRemovePR(Task<PullRequest> task)
 			{
-				var pr = await task.ConfigureAwait(false);
+				var pr = await task;
 				if (!pr.Merged)
 					return;
 
 				// We don't just assume, actually check the repo contains the merge commit.
-				if (await repository.ShaIsParent(pr.MergeCommitSha, cancellationToken).ConfigureAwait(false))
+				if (await repository.ShaIsParent(pr.MergeCommitSha, cancellationToken))
 				{
 					if (lastMerged == null || lastMerged.MergedAt < pr.MergedAt)
 						lastMerged = pr;
@@ -241,7 +239,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			}
 
 			foreach (var prTask in tasks)
-				await CheckRemovePR(prTask).ConfigureAwait(false);
+				await CheckRemovePR(prTask);
 
 			return newList;
 		}
@@ -261,7 +259,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				await gitHubClient.Issue.Comment.Create(remoteRepositoryOwner, remoteRepositoryName, testMergeNumber, comment)
 					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
+					;
 			}
 			catch (ApiException e)
 			{
@@ -326,7 +324,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return;
 			}
 
-			Logger.LogTrace("Updating deployment {0} to {1}...", compileJob.GitHubDeploymentId.Value, deploymentState);
+			Logger.LogTrace("Updating deployment {gitHubDeploymentId} to {deploymentState}...", compileJob.GitHubDeploymentId.Value, deploymentState);
 
 			string gitHubAccessToken = null;
 			await databaseContextFactory.UseContext(
@@ -336,14 +334,12 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.AsQueryable()
 						.Where(x => x.InstanceId == Metadata.Id)
 						.Select(x => x.AccessToken)
-						.FirstAsync(cancellationToken)
-						.ConfigureAwait(false))
-				.ConfigureAwait(false);
+						.FirstAsync(cancellationToken));
 
 			if (gitHubAccessToken == null)
 			{
 				Logger.LogWarning(
-					"GitHub access token disappeared during deployment, can't update to {0}!",
+					"GitHub access token disappeared during deployment, can't update to {deploymentState}!",
 					deploymentState);
 				return;
 			}
@@ -362,7 +358,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						Description = description,
 					})
 				.WithToken(cancellationToken)
-				.ConfigureAwait(false);
+				;
 		}
 	}
 }

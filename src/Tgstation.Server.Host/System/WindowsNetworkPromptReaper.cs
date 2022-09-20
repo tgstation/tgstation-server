@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.System
 		{
 			logger.LogTrace("Stopping network prompt reaper...");
 			cancellationTokenSource.Cancel();
-			await runTask.ConfigureAwait(false);
+			await runTask;
 			registeredProcesses.Clear();
 		}
 
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.System
 			{
 				while (!cancellationToken.IsCancellationRequested)
 				{
-					await asyncDelayer.Delay(TimeSpan.FromMilliseconds(RecheckDelayMs), cancellationToken).ConfigureAwait(false);
+					await asyncDelayer.Delay(TimeSpan.FromMilliseconds(RecheckDelayMs), cancellationToken);
 
 					IntPtr window;
 					int processId;

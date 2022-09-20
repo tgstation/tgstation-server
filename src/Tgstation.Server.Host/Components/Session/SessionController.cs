@@ -239,8 +239,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 			async Task<int> WrapLifetime()
 			{
-				var exitCode = await process.Lifetime.ConfigureAwait(false);
-				await postLifetimeCallback().ConfigureAwait(false);
+				var exitCode = await process.Lifetime;
+				await postLifetimeCallback();
 				return exitCode;
 			}
 
@@ -284,7 +284,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (!released)
 			{
 				// finish the async callback
-				await Lifetime.ConfigureAwait(false);
+				await Lifetime;
 			}
 		}
 
@@ -445,7 +445,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var tmpProvider = ReattachInformation.Dmb;
 			ReattachInformation.Dmb = null;
 			released = true;
-			await DisposeAsync().ConfigureAwait(false);
+			await DisposeAsync();
 			byondLock.DoNotDeleteThisSession();
 			tmpProvider.KeepAlive();
 			ReattachInformation.Dmb = tmpProvider;
@@ -488,7 +488,7 @@ namespace Tgstation.Server.Host.Components.Session
 				var topicResponse = await byondTopicSender.SendTopic(
 					new IPEndPoint(IPAddress.Loopback, targetPort),
 					commandString,
-					cancellationToken).ConfigureAwait(false);
+					cancellationToken);
 
 				var topicReturn = topicResponse.StringData;
 
@@ -542,7 +542,7 @@ namespace Tgstation.Server.Host.Components.Session
 				var commandResult = await SendCommand(
 					new TopicParameters(port),
 					cancellationToken)
-					.ConfigureAwait(false);
+					;
 
 				if (commandResult.InteropResponse?.ErrorMessage != null)
 					return false;
@@ -576,7 +576,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var result = await SendCommand(
 				new TopicParameters(newRebootState),
 				cancellationToken)
-				.ConfigureAwait(false);
+				;
 
 			return result?.InteropResponse != null && result.InteropResponse?.ErrorMessage == null;
 		}
@@ -652,11 +652,11 @@ namespace Tgstation.Server.Host.Components.Session
 				useBridgeRequestForLaunchResult ? "initial bridge request" : "process startup",
 				startupTimeout.HasValue ? $" with a timeout of {startupTimeout.Value}s" : String.Empty);
 
-			await toAwait.ConfigureAwait(false);
+			await toAwait;
 
 			var result = new LaunchResult
 			{
-				ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
+				ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime : null,
 				StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.UtcNow - startTime) : null,
 			};
 
@@ -669,7 +669,7 @@ namespace Tgstation.Server.Host.Components.Session
 						assemblyInformationProvider.Version,
 						ReattachInformation.RuntimeInformation.ServerPort),
 					reattachTopicCts.Token)
-					.ConfigureAwait(false);
+					;
 
 				if (reattachResponse != null)
 				{

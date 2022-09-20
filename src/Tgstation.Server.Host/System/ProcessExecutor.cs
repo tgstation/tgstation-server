@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.System
 		{
 			var id = -1;
 			var result = AttachExitHandler(handle, () => id);
-			await startupTask.ConfigureAwait(false);
+			await startupTask;
 			id = handle.Id;
 			return result;
 		}
@@ -181,14 +181,14 @@ namespace Tgstation.Server.Host.System
 						var stringBuilder = new StringBuilder();
 						string text;
 
-						await processStartTcs.Task.ConfigureAwait(false);
+						await processStartTcs.Task;
 
 						var pid = handle.Id;
 						var streamType = isOutputStream ? "out" : "err";
 						logger.LogTrace("Starting std{0} read for PID {1}...", streamType, pid);
 
 						var reader = readerFunc();
-						while ((text = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
+						while ((text = await reader.ReadLineAsync()) != null)
 						{
 							combinedStringBuilder.AppendLine();
 							combinedStringBuilder.Append(text);
