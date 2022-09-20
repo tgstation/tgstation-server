@@ -210,7 +210,7 @@ namespace ReleaseNotes
 						continue;
 					}
 
-					if (currentReleaseVersion.Major == version.Major && (highestReleaseVersion == null || currentReleaseVersion > highestReleaseVersion) && version != currentReleaseVersion)
+					if (currentReleaseVersion.Major > 3 && (highestReleaseVersion == null || currentReleaseVersion > highestReleaseVersion) && version != currentReleaseVersion)
 					{
 						highestReleaseVersion = currentReleaseVersion;
 						highestRelease = I;
@@ -219,7 +219,7 @@ namespace ReleaseNotes
 
 				if (highestReleaseVersion == null)
 				{
-					Console.WriteLine("Unable to determine highest release version for major version " + version.Major + "!");
+					Console.WriteLine("Unable to determine highest release version!");
 					return 6;
 				}
 
