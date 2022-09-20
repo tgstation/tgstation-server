@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
@@ -14,7 +14,7 @@
     <PackageIcon>tgs.png</PackageIcon>
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
-    <Copyright>2018</Copyright>
+    <Copyright>2018-2022</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
     <PackageReleaseNotes>See https://github.com/tgstation/tgstation-server/releases/tag/api-v$(TgsApiVersion)</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
