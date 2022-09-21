@@ -205,7 +205,7 @@ namespace Tgstation.Server.Host.Components
 			{
 				if (!instances.TryGetValue(metadata.Id.Value, out var instance))
 				{
-					logger.LogTrace("Cannot reference instance {0} as it is not online or on this node!", metadata.Id);
+					logger.LogTrace("Cannot reference instance {instanceId} as it is not online or on this node!", metadata.Id);
 					return null;
 				}
 
@@ -230,11 +230,11 @@ namespace Tgstation.Server.Host.Components
 			{
 				logger.LogError(
 					ex,
-					"Error moving instance {0}!",
+					"Error moving instance {instanceId}!",
 					instance.Id);
 				try
 				{
-					logger.LogDebug("Reverting instance {0}'s path to {1} in the DB...", instance.Id, oldPath);
+					logger.LogDebug("Reverting instance {instanceId}'s path to {oldPath} in the DB...", instance.Id, oldPath);
 
 					// DCT: Operation must always run
 					await databaseContextFactory.UseContext(db =>
@@ -252,7 +252,7 @@ namespace Tgstation.Server.Host.Components
 				{
 					logger.LogCritical(
 						innerEx,
-						"Error reverting database after failing to move instance {0}! Attempting to detach...",
+						"Error reverting database after failing to move instance {instanceId}! Attempting to detach...",
 						instance.Id);
 
 					try
@@ -288,13 +288,13 @@ namespace Tgstation.Server.Host.Components
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 
-			logger.LogInformation("Offlining instance ID {0}", metadata.Id);
+			logger.LogInformation("Offlining instance ID {instanceId}", metadata.Id);
 			InstanceContainer container;
 			lock (instances)
 			{
 				if (!instances.TryGetValue(metadata.Id.Value, out container))
 				{
-					logger.LogDebug("Not offlining removed instance {0}", metadata.Id);
+					logger.LogDebug("Not offlining removed instance {instanceId}", metadata.Id);
 					return;
 				}
 
@@ -349,7 +349,7 @@ namespace Tgstation.Server.Host.Components
 					return;
 				}
 
-			logger.LogInformation("Onlining instance ID {0} ({1}) at {2}", metadata.Id, metadata.Name, metadata.Path);
+			logger.LogInformation("Onlining instance ID {instanceId} ({instanceName}) at {instancePath}", metadata.Id, metadata.Name, metadata.Path);
 			var instance = await instanceFactory.CreateInstance(this, metadata);
 			try
 			{
@@ -362,7 +362,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				catch (Exception ex)
 				{
-					logger.LogError("Unable to commit onlined instance {0} into service, offlining!", metadata.Id);
+					logger.LogError("Unable to commit onlined instance {instanceId} into service, offlining!", metadata.Id);
 					try
 					{
 						// DCT: Must always run
@@ -388,7 +388,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			try
 			{
-				logger.LogInformation(assemblyInformationProvider.VersionString);
+				logger.LogInformation("{versionString}", assemblyInformationProvider.VersionString);
 				generalConfiguration.CheckCompatibility(logger);
 
 				CheckSystemCompatibility();
@@ -421,7 +421,7 @@ namespace Tgstation.Server.Host.Components
 						}
 						catch (Exception ex)
 						{
-							logger.LogError(ex, "Failed to online instance {0}!", metadata.Id);
+							logger.LogError(ex, "Failed to online instance {instanceId}!", metadata.Id);
 						}
 					});
 
@@ -495,7 +495,7 @@ namespace Tgstation.Server.Host.Components
 				lock (bridgeHandlers)
 					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
 					{
-						logger.LogWarning("Recieved invalid bridge request with accees identifier: {0}", parameters.AccessIdentifier);
+						logger.LogWarning("Recieved invalid bridge request with accees identifier: {accessIdentifier}", parameters.AccessIdentifier);
 						return null;
 					}
 
@@ -512,7 +512,7 @@ namespace Tgstation.Server.Host.Components
 			lock (bridgeHandlers)
 			{
 				bridgeHandlers.Add(accessIdentifier, bridgeHandler);
-				logger.LogTrace("Registered bridge handler: {0}", accessIdentifier);
+				logger.LogTrace("Registered bridge handler: {accessIdentifier}", accessIdentifier);
 			}
 
 			return new BridgeRegistration(() =>
@@ -520,7 +520,7 @@ namespace Tgstation.Server.Host.Components
 				lock (bridgeHandlers)
 				{
 					bridgeHandlers.Remove(accessIdentifier);
-					logger.LogTrace("Unregistered bridge handler: {0}", accessIdentifier);
+					logger.LogTrace("Unregistered bridge handler: {accessIdentifier}", accessIdentifier);
 				}
 			});
 		}
