@@ -62,15 +62,32 @@ namespace Tgstation.Server.Host
 					// values obtained via debugger
 					var environmentJsonConfig = builder.Sources[2];
 					var envConfig = builder.Sources[3];
-					var cmdLineConfig = builder.Sources[4];
-					var baseYmlConfig = builder.Sources[5];
-					var environmentYmlConfig = builder.Sources[6];
+
+					// CURSED
+					// https://github.com/dotnet/runtime/blob/30dc7e7aedb7aab085c7d9702afeae5bc5a43133/src/libraries/Microsoft.Extensions.Hosting/src/HostingHostBuilderExtensions.cs#L246-L249
+					IConfigurationSource cmdLineConfig, baseYmlConfig, environmentYmlConfig;
+					if (args.Length == 0)
+					{
+						cmdLineConfig = null;
+						baseYmlConfig = builder.Sources[4];
+						environmentYmlConfig = builder.Sources[5];
+					}
+					else
+					{
+						cmdLineConfig = builder.Sources[4];
+						baseYmlConfig = builder.Sources[5];
+						environmentYmlConfig = builder.Sources[6];
+					}
 
 					builder.Sources[2] = baseYmlConfig;
 					builder.Sources[3] = environmentJsonConfig;
 					builder.Sources[4] = environmentYmlConfig;
 					builder.Sources[5] = envConfig;
-					builder.Sources[6] = cmdLineConfig;
+
+					if (cmdLineConfig != null)
+					{
+						builder.Sources[6] = cmdLineConfig;
+					}
 				});
 
 			var setupWizardHostBuilder = CreateDefaultBuilder()
