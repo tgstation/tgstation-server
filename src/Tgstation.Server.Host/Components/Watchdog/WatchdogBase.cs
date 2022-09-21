@@ -1034,7 +1034,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						Logger.LogWarning(logTemplate1, actionToTake);
 						await Chat.QueueWatchdogMessage(
 							logTemplate1.Replace(
-								"actionToTake",
+								"{actionToTake}",
 								actionToTake,
 								StringComparison.Ordinal),
 							cancellationToken);
@@ -1047,7 +1047,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						Logger.LogWarning(logTemplate2, actionTaken);
 						await Chat.QueueWatchdogMessage(
 							logTemplate2.Replace(
-								"actionTaken",
+								"{actionTaken}",
 								actionTaken,
 								StringComparison.Ordinal),
 							cancellationToken);
