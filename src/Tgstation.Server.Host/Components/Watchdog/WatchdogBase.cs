@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			set
 			{
 				status = value;
-				Logger.LogTrace("Status set to {0}", status);
+				Logger.LogTrace("Status set to {status}", status);
 			}
 		}
 
@@ -319,7 +319,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (Status == WatchdogStatus.Offline)
 				throw new JobException(ErrorCode.WatchdogNotRunning);
 
-			Logger.LogTrace("Begin Restart. Graceful: {0}", graceful);
+			Logger.LogTrace("Begin Restart. Graceful: {gracefulFlag}", graceful);
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
 				if (!graceful)
@@ -401,7 +401,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (Status == WatchdogStatus.Online)
 				await Chat.QueueWatchdogMessage("Detaching...", cancellationToken);
 			else
-				Logger.LogTrace("Not sending detach chat message as status is: {0}", Status);
+				Logger.LogTrace("Not sending detach chat message as status is: {status}", Status);
 		}
 
 		/// <inheritdoc />
@@ -422,7 +422,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (session?.Lifetime.IsCompleted != false)
 				throw new JobException(ErrorCode.DreamDaemonOffline);
 
-			Logger.LogInformation("Dumping session to {0}...", dumpFileName);
+			Logger.LogInformation("Dumping session to {dumpFileName}...", dumpFileName);
 			await session.CreateDump(dumpFileName, cancellationToken);
 		}
 
@@ -732,7 +732,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						await chatTask;
 					}
 
-				Logger.LogWarning(launchException, "Failed to automatically restart the watchdog! Attempt: {0}", retryAttempts);
+				Logger.LogWarning(launchException, "Failed to automatically restart the watchdog! Attempt: {attemptNumber}", retryAttempts);
 				Status = WatchdogStatus.DelayedRestart;
 
 				var retryDelay = Math.Min(
@@ -779,7 +779,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					using (LogContext.PushProperty("Monitor", iteration))
 						try
 						{
-							Logger.LogTrace("Iteration {0} of monitor loop", iteration);
+							Logger.LogTrace("Iteration {iteration} of monitor loop", iteration);
 							nextAction = MonitorAction.Continue;
 
 							var controller = GetActiveController();
@@ -881,7 +881,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										moreActivationsToProcess = false;
 									else
 									{
-										Logger.LogTrace("Reason: {0}", activationReason);
+										Logger.LogTrace("Reason: {activationReason}", activationReason);
 										if (activationReason == MonitorActivationReason.Heartbeat)
 											nextAction = await HandleHeartbeat(
 												cancellationToken)
@@ -895,7 +895,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								}
 							}
 
-							Logger.LogTrace("Next monitor action is to {0}", nextAction);
+							Logger.LogTrace("Next monitor action is to {nextAction}", nextAction);
 
 							// Restart if requested
 							if (nextAction == MonitorAction.Restart)
@@ -914,7 +914,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							// really, this should NEVER happen
 							Logger.LogError(
 								e,
-								"Monitor crashed! Iteration: {0}",
+								"Monitor crashed! Iteration: {iteration}",
 								iteration);
 
 							var nextActionMessage = nextAction != MonitorAction.Exit
@@ -1022,7 +1022,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						Logger.LogDebug("DEFCON 4: DreamDaemon missed first heartbeat!");
 						break;
 					case 2:
-						var message2 = "DEFCON 3: DreamDaemon has missed 2 heartbeats!";
+						const string message2 = "DEFCON 3: DreamDaemon has missed 2 heartbeats!";
 						Logger.LogInformation(message2);
 						await Chat.QueueWatchdogMessage(message2, cancellationToken);
 						break;
@@ -1030,17 +1030,27 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var actionToTake = shouldShutdown
 							? "shutdown"
 							: "be restarted";
-						var message3 = $"DEFCON 2: DreamDaemon has missed 3 heartbeats! If it does not respond to the next one, the watchdog will {actionToTake}!";
-						Logger.LogWarning(message3);
-						await Chat.QueueWatchdogMessage(message3, cancellationToken);
+						const string logTemplate1 = "DEFCON 2: DreamDaemon has missed 3 heartbeats! If it does not respond to the next one, the watchdog will {actionToTake}!";
+						Logger.LogWarning(logTemplate1, actionToTake);
+						await Chat.QueueWatchdogMessage(
+							logTemplate1.Replace(
+								"actionToTake",
+								actionToTake,
+								StringComparison.Ordinal),
+							cancellationToken);
 						break;
 					case 4:
 						var actionTaken = shouldShutdown
 							? "Shutting down due to graceful termination request"
 							: "Restarting";
-						var message4 = $"DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
-						Logger.LogWarning(message4);
-						await Chat.QueueWatchdogMessage(message4, cancellationToken);
+						const string logTemplate2 = "DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
+						Logger.LogWarning(logTemplate2, actionTaken);
+						await Chat.QueueWatchdogMessage(
+							logTemplate2.Replace(
+								"actionTaken",
+								actionTaken,
+								StringComparison.Ordinal),
+							cancellationToken);
 
 						if (ActiveLaunchParameters.DumpOnHeartbeatRestart.Value)
 						{
@@ -1053,7 +1063,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						await DisposeAndNullControllers(cancellationToken);
 						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
 					default:
-						Logger.LogError("Invalid heartbeats missed count: {0}", heartbeatsMissed);
+						Logger.LogError("Invalid heartbeats missed count: {heartbeatsMissed}", heartbeatsMissed);
 						break;
 				}
 			}
