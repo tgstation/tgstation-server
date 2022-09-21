@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -138,6 +138,19 @@ namespace Tgstation.Server.Tests
 				}
 		}
 
+		public async Task RunNoArgumentsTest(CancellationToken cancellationToken)
+		{
+			Assert.IsNull(Environment.GetEnvironmentVariable("General:SetupWizardMode"));
+			Environment.SetEnvironmentVariable("General:SetupWizardMode", "Never");
+			await Application
+				.CreateDefaultServerFactory()
+				.CreateServer(
+					Array.Empty<string>(),
+					UpdatePath,
+					cancellationToken);
+			Environment.SetEnvironmentVariable("General:SetupWizardMode", null);
+		}
+
 		public async Task Run(CancellationToken cancellationToken)
 		{
 			Console.WriteLine("TEST SERVER START");
@@ -147,7 +160,7 @@ namespace Tgstation.Server.Tests
 				.CreateServer(
 					args,
 					UpdatePath,
-					default);
+					cancellationToken);
 
 			if (firstRun)
 			{

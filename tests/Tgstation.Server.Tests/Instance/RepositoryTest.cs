@@ -214,8 +214,6 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task RunPostTest(CancellationToken cancellationToken)
 		{
-
-
 			var deleting = await repositoryClient.Delete(cancellationToken);
 			Assert.IsNotNull(deleting.ActiveJob);
 
