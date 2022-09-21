@@ -217,7 +217,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				Task<ISessionController> serverLaunchTask;
 				if (!reattachInProgress)
 				{
-					Logger.LogTrace("Initializing controller with CompileJob {0}...", dmbToUse.CompileJob.Id);
+					Logger.LogTrace("Initializing controller with CompileJob {compileJobId}...", dmbToUse.CompileJob.Id);
 					await BeforeApplyDmb(dmbToUse.CompileJob, cancellationToken);
 					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken);
 
