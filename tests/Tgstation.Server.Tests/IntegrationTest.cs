@@ -200,6 +200,13 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
+		public async Task TestCreateServerWithNoArguments()
+		{
+			using var server = new TestingServer(null, false);
+			await server.RunNoArgumentsTest(default);
+		}
+
+		[TestMethod]
 		public async Task TestSwarmSynchronizationAndUpdates()
 		{
 			// cleanup existing directories
@@ -796,7 +803,7 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public async Task TestServer()
+		public async Task TestTgs()
 		{
 			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
 			if (procs.Any())
@@ -815,6 +822,8 @@ namespace Tgstation.Server.Tests
 			var cancellationToken = serverCts.Token;
 
 			TerminateAllDDs();
+
+			// main run
 			var serverTask = server.Run(cancellationToken);
 
 			try
@@ -880,6 +889,7 @@ namespace Tgstation.Server.Tests
 					blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
 					try
 					{
+						// bind test run
 						await server.Run(cancellationToken);
 						Assert.Fail("Expected server task to end with a SocketException");
 					}
@@ -894,6 +904,7 @@ namespace Tgstation.Server.Tests
 
 				var preStartupTime = DateTimeOffset.UtcNow;
 
+				// chat bot start and DD reattach test
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
@@ -937,6 +948,8 @@ namespace Tgstation.Server.Tests
 				Assert.IsTrue(serverTask.IsCompleted);
 
 				preStartupTime = DateTimeOffset.UtcNow;
+
+				// chat bot start, dd autostart, and entity delete tests
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
