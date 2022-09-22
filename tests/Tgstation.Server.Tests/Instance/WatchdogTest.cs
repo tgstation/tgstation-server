@@ -222,7 +222,7 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
 			// lock on to DD and pause it so it can't heartbeat
-			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").ToList();
+			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").Where(x => !x.HasExited).ToList();
 			if (ddProcs.Count != 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
@@ -490,7 +490,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		static bool KillDD(bool require)
 		{
-			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").ToList();
+			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").Where(x => !x.HasExited).ToList();
 			if ((require && ddProcs.Count == 0) || ddProcs.Count > 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
