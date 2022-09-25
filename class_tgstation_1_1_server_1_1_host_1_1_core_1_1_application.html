@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -458,24 +458,27 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  467</span>            <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  468</span>                logger.LogTrace(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
 <div class="line"><span class="lineno">  469</span> </div>
-<div class="line"><span class="lineno">  470</span>            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
-<div class="line"><span class="lineno">  471</span>            applicationBuilder.UseAuthentication();</div>
+<div class="line"><span class="lineno">  470</span>            <span class="comment">// Do not cache a single thing beyond this point, it&#39;s all API</span></div>
+<div class="line"><span class="lineno">  471</span>            applicationBuilder.UseDisabledClientCache();</div>
 <div class="line"><span class="lineno">  472</span> </div>
-<div class="line"><span class="lineno">  473</span>            <span class="comment">// suppress and log database exceptions</span></div>
-<div class="line"><span class="lineno">  474</span>            applicationBuilder.UseDbConflictHandling();</div>
+<div class="line"><span class="lineno">  473</span>            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
+<div class="line"><span class="lineno">  474</span>            applicationBuilder.UseAuthentication();</div>
 <div class="line"><span class="lineno">  475</span> </div>
-<div class="line"><span class="lineno">  476</span>            <span class="comment">// majority of handling is done in the controllers</span></div>
-<div class="line"><span class="lineno">  477</span>            applicationBuilder.UseMvc();</div>
+<div class="line"><span class="lineno">  476</span>            <span class="comment">// suppress and log database exceptions</span></div>
+<div class="line"><span class="lineno">  477</span>            applicationBuilder.UseDbConflictHandling();</div>
 <div class="line"><span class="lineno">  478</span> </div>
-<div class="line"><span class="lineno">  479</span>            <span class="comment">// 404 anything that gets this far</span></div>
-<div class="line"><span class="lineno">  480</span>            <span class="comment">// End of request pipeline setup</span></div>
-<div class="line"><span class="lineno">  481</span>            var masterVersionsAttribute = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>;</div>
-<div class="line"><span class="lineno">  482</span>            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {configVersion}&quot;</span>, masterVersionsAttribute.RawConfigurationVersion);</div>
-<div class="line"><span class="lineno">  483</span>            logger.LogTrace(<span class="stringliteral">&quot;DMAPI Interop version: {interopVersion}&quot;</span>, masterVersionsAttribute.RawInteropVersion);</div>
-<div class="line"><span class="lineno">  484</span>            logger.LogTrace(<span class="stringliteral">&quot;Web control panel version: {webCPVersion}&quot;</span>, masterVersionsAttribute.RawControlPanelVersion);</div>
-<div class="line"><span class="lineno">  485</span> </div>
-<div class="line"><span class="lineno">  486</span>            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting on port {httpApiPort}...&quot;</span>, serverPortProvider.HttpApiPort);</div>
-<div class="line"><span class="lineno">  487</span>        }</div>
+<div class="line"><span class="lineno">  479</span>            <span class="comment">// majority of handling is done in the controllers</span></div>
+<div class="line"><span class="lineno">  480</span>            applicationBuilder.UseMvc();</div>
+<div class="line"><span class="lineno">  481</span> </div>
+<div class="line"><span class="lineno">  482</span>            <span class="comment">// 404 anything that gets this far</span></div>
+<div class="line"><span class="lineno">  483</span>            <span class="comment">// End of request pipeline setup</span></div>
+<div class="line"><span class="lineno">  484</span>            var masterVersionsAttribute = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>;</div>
+<div class="line"><span class="lineno">  485</span>            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {configVersion}&quot;</span>, masterVersionsAttribute.RawConfigurationVersion);</div>
+<div class="line"><span class="lineno">  486</span>            logger.LogTrace(<span class="stringliteral">&quot;DMAPI Interop version: {interopVersion}&quot;</span>, masterVersionsAttribute.RawInteropVersion);</div>
+<div class="line"><span class="lineno">  487</span>            logger.LogTrace(<span class="stringliteral">&quot;Web control panel version: {webCPVersion}&quot;</span>, masterVersionsAttribute.RawControlPanelVersion);</div>
+<div class="line"><span class="lineno">  488</span> </div>
+<div class="line"><span class="lineno">  489</span>            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting on port {httpApiPort}...&quot;</span>, serverPortProvider.HttpApiPort);</div>
+<div class="line"><span class="lineno">  490</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html">Tgstation.Server.Host.Controllers.ControlPanelController</a></div><div class="ttdoc">Controller for the web control panel.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_controller_8cs_source.html#l00022">ControlPanelController.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_html_a31405e686cba6874931106edd1d3a661"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelRoute</a></div><div class="ttdeci">const string ControlPanelRoute</div><div class="ttdoc">Route to the ControlPanelController.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_controller_8cs_source.html#l00027">ControlPanelController.cs:27</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html_a93cb446fc8d8f84ea595abe709265398"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a93cb446fc8d8f84ea595abe709265398">Tgstation.Server.Host.Core.Application.tokenFactory</a></div><div class="ttdeci">ITokenFactory tokenFactory</div><div class="ttdoc">The ITokenFactory for the Application.</div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00067">Application.cs:67</a></div></div>

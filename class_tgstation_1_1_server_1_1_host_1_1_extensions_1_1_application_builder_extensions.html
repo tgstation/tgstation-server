@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -84,6 +84,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a9fb7c6b75b76c45a6102bec991a311c4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9fb7c6b75b76c45a6102bec991a311c4">UseDbConflictHandling</a> (this IApplicationBuilder applicationBuilder)</td></tr>
 <tr class="memdesc:a9fb7c6b75b76c45a6102bec991a311c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a ConflictObjectResult for DbUpdateExceptions.  <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9fb7c6b75b76c45a6102bec991a311c4">More...</a><br /></td></tr>
 <tr class="separator:a9fb7c6b75b76c45a6102bec991a311c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ef4560b17b73cbfca1f33e3540ae5e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a69ef4560b17b73cbfca1f33e3540ae5e">UseDisabledClientCache</a> (this IApplicationBuilder applicationBuilder)</td></tr>
+<tr class="memdesc:a69ef4560b17b73cbfca1f33e3540ae5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suppress any client side caching of API calls.  <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a69ef4560b17b73cbfca1f33e3540ae5e">More...</a><br /></td></tr>
+<tr class="separator:a69ef4560b17b73cbfca1f33e3540ae5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac119fdfd544f8d4e196bedaba59247ad"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#ac119fdfd544f8d4e196bedaba59247ad">UseCancelledRequestSuppression</a> (this IApplicationBuilder applicationBuilder)</td></tr>
 <tr class="memdesc:ac119fdfd544f8d4e196bedaba59247ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suppress global::System.Threading.Tasks.TaskCanceledException warnings when a user aborts a request.  <a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#ac119fdfd544f8d4e196bedaba59247ad">More...</a><br /></td></tr>
 <tr class="separator:ac119fdfd544f8d4e196bedaba59247ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -103,7 +106,7 @@ Static Private Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_extensions.html">Extensions</a> for IApplicationBuilder. </p>
 
-<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00021">21</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00023">23</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a9f539001c8a2bbac8addd3505f61a31c" name="a9f539001c8a2bbac8addd3505f61a31c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9f539001c8a2bbac8addd3505f61a31c">&#9670;&nbsp;</a></span>GetLogger()</h2>
@@ -138,7 +141,7 @@ Static Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new ILogger.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_application_builder_extensions_8cs_source.html#l00063">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseCancelledRequestSuppression()</a>, <a class="el" href="_application_builder_extensions_8cs_source.html#l00027">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseDbConflictHandling()</a>, and <a class="el" href="_application_builder_extensions_8cs_source.html#l00085">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseServerErrorHandling()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_builder_extensions_8cs_source.html#l00080">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseCancelledRequestSuppression()</a>, <a class="el" href="_application_builder_extensions_8cs_source.html#l00029">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseDbConflictHandling()</a>, and <a class="el" href="_application_builder_extensions_8cs_source.html#l00102">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseServerErrorHandling()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -185,23 +188,23 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00063">63</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   64</span>        {</div>
-<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
-<div class="line"><span class="lineno">   67</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
-<div class="line"><span class="lineno">   68</span>            {</div>
-<div class="line"><span class="lineno">   69</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
-<div class="line"><span class="lineno">   70</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   71</span>                {</div>
-<div class="line"><span class="lineno">   72</span>                    await next();</div>
-<div class="line"><span class="lineno">   73</span>                }</div>
-<div class="line"><span class="lineno">   74</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">   75</span>                {</div>
-<div class="line"><span class="lineno">   76</span>                    logger.LogDebug(ex, <span class="stringliteral">&quot;Request cancelled!&quot;</span>);</div>
-<div class="line"><span class="lineno">   77</span>                }</div>
-<div class="line"><span class="lineno">   78</span>            });</div>
-<div class="line"><span class="lineno">   79</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00080">80</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>        {</div>
+<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   83</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
+<div class="line"><span class="lineno">   84</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
+<div class="line"><span class="lineno">   85</span>            {</div>
+<div class="line"><span class="lineno">   86</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
+<div class="line"><span class="lineno">   87</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   88</span>                {</div>
+<div class="line"><span class="lineno">   89</span>                    await next();</div>
+<div class="line"><span class="lineno">   90</span>                }</div>
+<div class="line"><span class="lineno">   91</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">   92</span>                {</div>
+<div class="line"><span class="lineno">   93</span>                    logger.LogDebug(ex, <span class="stringliteral">&quot;Request cancelled!&quot;</span>);</div>
+<div class="line"><span class="lineno">   94</span>                }</div>
+<div class="line"><span class="lineno">   95</span>            });</div>
+<div class="line"><span class="lineno">   96</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions_html_a9f539001c8a2bbac8addd3505f61a31c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.GetLogger</a></div><div class="ttdeci">static ILogger GetLogger(HttpContext httpContext)</div><div class="ttdoc">Gets a ILogger from a given httpContext .</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.GetLogger()</a>.</p>
@@ -249,37 +252,37 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00027">27</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   28</span>        {</div>
-<div class="line"><span class="lineno">   29</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   30</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
-<div class="line"><span class="lineno">   31</span> </div>
-<div class="line"><span class="lineno">   32</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
-<div class="line"><span class="lineno">   33</span>            {</div>
-<div class="line"><span class="lineno">   34</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
-<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   36</span>                {</div>
-<div class="line"><span class="lineno">   37</span>                    await next();</div>
-<div class="line"><span class="lineno">   38</span>                }</div>
-<div class="line"><span class="lineno">   39</span>                <span class="keywordflow">catch</span> (DbUpdateException e)</div>
-<div class="line"><span class="lineno">   40</span>                {</div>
-<div class="line"><span class="lineno">   41</span>                    <span class="keywordflow">if</span> (e.InnerException is OperationCanceledException)</div>
-<div class="line"><span class="lineno">   42</span>                    {</div>
-<div class="line"><span class="lineno">   43</span>                        logger.LogTrace(e, <span class="stringliteral">&quot;Rethrowing DbUpdateException as OperationCanceledException&quot;</span>);</div>
-<div class="line"><span class="lineno">   44</span>                        <span class="keywordflow">throw</span> e.InnerException;</div>
-<div class="line"><span class="lineno">   45</span>                    }</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>                    logger.LogDebug(e, <span class="stringliteral">&quot;Database conflict!&quot;</span>);</div>
-<div class="line"><span class="lineno">   48</span>                    await <span class="keyword">new</span> ConflictObjectResult(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DatabaseIntegrityConflict)</div>
-<div class="line"><span class="lineno">   49</span>                    {</div>
-<div class="line"><span class="lineno">   50</span>                        AdditionalData = String.Format(CultureInfo.InvariantCulture, (e.InnerException ?? e).Message),</div>
-<div class="line"><span class="lineno">   51</span>                    }).ExecuteResultAsync(<span class="keyword">new</span> ActionContext</div>
-<div class="line"><span class="lineno">   52</span>                    {</div>
-<div class="line"><span class="lineno">   53</span>                        HttpContext = context,</div>
-<div class="line"><span class="lineno">   54</span>                    });</div>
-<div class="line"><span class="lineno">   55</span>                }</div>
-<div class="line"><span class="lineno">   56</span>            });</div>
-<div class="line"><span class="lineno">   57</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00029">29</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>        {</div>
+<div class="line"><span class="lineno">   31</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   32</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
+<div class="line"><span class="lineno">   33</span> </div>
+<div class="line"><span class="lineno">   34</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
+<div class="line"><span class="lineno">   35</span>            {</div>
+<div class="line"><span class="lineno">   36</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
+<div class="line"><span class="lineno">   37</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   38</span>                {</div>
+<div class="line"><span class="lineno">   39</span>                    await next();</div>
+<div class="line"><span class="lineno">   40</span>                }</div>
+<div class="line"><span class="lineno">   41</span>                <span class="keywordflow">catch</span> (DbUpdateException e)</div>
+<div class="line"><span class="lineno">   42</span>                {</div>
+<div class="line"><span class="lineno">   43</span>                    <span class="keywordflow">if</span> (e.InnerException is OperationCanceledException)</div>
+<div class="line"><span class="lineno">   44</span>                    {</div>
+<div class="line"><span class="lineno">   45</span>                        logger.LogTrace(e, <span class="stringliteral">&quot;Rethrowing DbUpdateException as OperationCanceledException&quot;</span>);</div>
+<div class="line"><span class="lineno">   46</span>                        <span class="keywordflow">throw</span> e.InnerException;</div>
+<div class="line"><span class="lineno">   47</span>                    }</div>
+<div class="line"><span class="lineno">   48</span> </div>
+<div class="line"><span class="lineno">   49</span>                    logger.LogDebug(e, <span class="stringliteral">&quot;Database conflict!&quot;</span>);</div>
+<div class="line"><span class="lineno">   50</span>                    await <span class="keyword">new</span> ConflictObjectResult(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DatabaseIntegrityConflict)</div>
+<div class="line"><span class="lineno">   51</span>                    {</div>
+<div class="line"><span class="lineno">   52</span>                        AdditionalData = String.Format(CultureInfo.InvariantCulture, (e.InnerException ?? e).Message),</div>
+<div class="line"><span class="lineno">   53</span>                    }).ExecuteResultAsync(<span class="keyword">new</span> ActionContext</div>
+<div class="line"><span class="lineno">   54</span>                    {</div>
+<div class="line"><span class="lineno">   55</span>                        HttpContext = context,</div>
+<div class="line"><span class="lineno">   56</span>                    });</div>
+<div class="line"><span class="lineno">   57</span>                }</div>
+<div class="line"><span class="lineno">   58</span>            });</div>
+<div class="line"><span class="lineno">   59</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_response_8cs_source.html#l00009">ErrorMessageResponse.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
 </div><!-- fragment -->
@@ -294,6 +297,51 @@ Here is the call graph for this function:</div>
 </map>
 </div>
 
+</div>
+</div>
+<a id="a69ef4560b17b73cbfca1f33e3540ae5e" name="a69ef4560b17b73cbfca1f33e3540ae5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69ef4560b17b73cbfca1f33e3540ae5e">&#9670;&nbsp;</a></span>UseDisabledClientCache()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseDisabledClientCache </td>
+          <td>(</td>
+          <td class="paramtype">this IApplicationBuilder&#160;</td>
+          <td class="paramname"><em>applicationBuilder</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Suppress any client side caching of API calls. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">applicationBuilder</td><td>The IApplicationBuilder to configure.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00065">65</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   66</span>        {</div>
+<div class="line"><span class="lineno">   67</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   68</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
+<div class="line"><span class="lineno">   69</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
+<div class="line"><span class="lineno">   70</span>            {</div>
+<div class="line"><span class="lineno">   71</span>                context.Response.Headers.Add(HeaderNames.CacheControl, <span class="keyword">new</span> StringValues(<span class="stringliteral">&quot;no-cache&quot;</span>));</div>
+<div class="line"><span class="lineno">   72</span>                await next();</div>
+<div class="line"><span class="lineno">   73</span>            });</div>
+<div class="line"><span class="lineno">   74</span>        }</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a50049ce11ec909d5e9e25d76aca3efbc" name="a50049ce11ec909d5e9e25d76aca3efbc"></a>
@@ -339,19 +387,19 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00121">121</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  122</span>        {</div>
-<div class="line"><span class="lineno">  123</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  124</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
-<div class="line"><span class="lineno">  125</span>            <span class="keywordflow">if</span> (assemblyInformationProvider == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  126</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(assemblyInformationProvider));</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
-<div class="line"><span class="lineno">  129</span>            {</div>
-<div class="line"><span class="lineno">  130</span>                context.Response.Headers.Add(<span class="stringliteral">&quot;X-Powered-By&quot;</span>, assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
-<div class="line"><span class="lineno">  131</span>                await next();</div>
-<div class="line"><span class="lineno">  132</span>            });</div>
-<div class="line"><span class="lineno">  133</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00138">138</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  139</span>        {</div>
+<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  141</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
+<div class="line"><span class="lineno">  142</span>            <span class="keywordflow">if</span> (assemblyInformationProvider == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  143</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(assemblyInformationProvider));</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
+<div class="line"><span class="lineno">  146</span>            {</div>
+<div class="line"><span class="lineno">  147</span>                context.Response.Headers.Add(<span class="stringliteral">&quot;X-Powered-By&quot;</span>, assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
+<div class="line"><span class="lineno">  148</span>                await next();</div>
+<div class="line"><span class="lineno">  149</span>            });</div>
+<div class="line"><span class="lineno">  150</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ab2a2be82555afbf6ffb5b7ae3d90b7f0"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a></div><div class="ttdeci">string VersionPrefix</div><div class="ttdoc">Prefix to VersionString.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00025">IAssemblyInformationProvider.cs:25</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00025">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a>.</p>
@@ -390,36 +438,36 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00085">85</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>        {</div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   88</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
-<div class="line"><span class="lineno">   89</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
-<div class="line"><span class="lineno">   90</span>            {</div>
-<div class="line"><span class="lineno">   91</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
-<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   93</span>                {</div>
-<div class="line"><span class="lineno">   94</span>                    await next();</div>
-<div class="line"><span class="lineno">   95</span>                }</div>
-<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">   97</span>                {</div>
-<div class="line"><span class="lineno">   98</span>                    logger.LogError(e, <span class="stringliteral">&quot;Failed request!&quot;</span>);</div>
-<div class="line"><span class="lineno">   99</span>                    await <span class="keyword">new</span> JsonResult(</div>
-<div class="line"><span class="lineno">  100</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.InternalServerError)</div>
-<div class="line"><span class="lineno">  101</span>                        {</div>
-<div class="line"><span class="lineno">  102</span>                            AdditionalData = e.ToString(),</div>
-<div class="line"><span class="lineno">  103</span>                        })</div>
-<div class="line"><span class="lineno">  104</span>                    {</div>
-<div class="line"><span class="lineno">  105</span>                        StatusCode = (int)HttpStatusCode.InternalServerError,</div>
-<div class="line"><span class="lineno">  106</span>                    }</div>
-<div class="line"><span class="lineno">  107</span>                    .ExecuteResultAsync(<span class="keyword">new</span> ActionContext</div>
-<div class="line"><span class="lineno">  108</span>                    {</div>
-<div class="line"><span class="lineno">  109</span>                        HttpContext = context,</div>
-<div class="line"><span class="lineno">  110</span>                    })</div>
-<div class="line"><span class="lineno">  111</span>                    ;</div>
+<p class="definition">Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00102">102</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>        {</div>
+<div class="line"><span class="lineno">  104</span>            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  105</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
+<div class="line"><span class="lineno">  106</span>            applicationBuilder.Use(async (context, next) =&gt;</div>
+<div class="line"><span class="lineno">  107</span>            {</div>
+<div class="line"><span class="lineno">  108</span>                var logger = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div>
+<div class="line"><span class="lineno">  109</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  110</span>                {</div>
+<div class="line"><span class="lineno">  111</span>                    await next();</div>
 <div class="line"><span class="lineno">  112</span>                }</div>
-<div class="line"><span class="lineno">  113</span>            });</div>
-<div class="line"><span class="lineno">  114</span>        }</div>
+<div class="line"><span class="lineno">  113</span>                <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">  114</span>                {</div>
+<div class="line"><span class="lineno">  115</span>                    logger.LogError(e, <span class="stringliteral">&quot;Failed request!&quot;</span>);</div>
+<div class="line"><span class="lineno">  116</span>                    await <span class="keyword">new</span> JsonResult(</div>
+<div class="line"><span class="lineno">  117</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.InternalServerError)</div>
+<div class="line"><span class="lineno">  118</span>                        {</div>
+<div class="line"><span class="lineno">  119</span>                            AdditionalData = e.ToString(),</div>
+<div class="line"><span class="lineno">  120</span>                        })</div>
+<div class="line"><span class="lineno">  121</span>                    {</div>
+<div class="line"><span class="lineno">  122</span>                        StatusCode = (int)HttpStatusCode.InternalServerError,</div>
+<div class="line"><span class="lineno">  123</span>                    }</div>
+<div class="line"><span class="lineno">  124</span>                    .ExecuteResultAsync(<span class="keyword">new</span> ActionContext</div>
+<div class="line"><span class="lineno">  125</span>                    {</div>
+<div class="line"><span class="lineno">  126</span>                        HttpContext = context,</div>
+<div class="line"><span class="lineno">  127</span>                    })</div>
+<div class="line"><span class="lineno">  128</span>                    ;</div>
+<div class="line"><span class="lineno">  129</span>                }</div>
+<div class="line"><span class="lineno">  130</span>            });</div>
+<div class="line"><span class="lineno">  131</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.GetLogger()</a>.</p>
 <div class="dynheader">
