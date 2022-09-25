@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// The canonical windows service name.
 		/// </summary>
-		public const string Name = "tgstation-server-4";
+		public const string Name = "tgstation-server";
 
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>.

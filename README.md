@@ -190,7 +190,7 @@ Note that the ratio of application installations to databases is 1:1. Do not att
 
 ### Starting
 
-For the Windows service version start the `tgstation-server-4` service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server-4 for errors.
+For the Windows service version start the `tgstation-server` service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server for errors.
 
 For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this. If on Windows, you must do this as admin to give the server permission to install the required DirectX dependency for certain 512 BYOND versions as well as create symlinks.
 
@@ -202,7 +202,7 @@ Test your server is running by visiting the local port in your browser. You shou
 
 Note that the live detach for DreamDaemon servers is only supported for updates or restarts via the API at this time. Stopping tgstation-server will TERMINATE ALL CHILD DREAMDAEMON SERVERS.
 
-For the Windows service version stop the `tgstation-server-4` service
+For the Windows service version stop the `tgstation-server` service
 
 For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process
 
