@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v1
 
     - name: Merge master into dev
       uses: robotology/gh-action-nightly-merge@v1.3.3
