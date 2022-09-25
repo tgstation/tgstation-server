@@ -8,7 +8,7 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](http://forthebadge.com)
 
-This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server, (the update will take effect on a "reboot" of the server) the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.
+This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.
 
 ### Legacy Servers
 
