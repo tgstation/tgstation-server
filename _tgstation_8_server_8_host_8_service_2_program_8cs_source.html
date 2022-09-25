@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -162,7 +162,7 @@ $(function() {
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                    {</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                        processInstaller.Account = ServiceAccount.LocalSystem;</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-4-install.log&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;/assemblypath={0}&quot;</span>, Assembly.GetEntryAssembly().Location) });</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-install.log&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;/assemblypath={0}&quot;</span>, Assembly.GetEntryAssembly().Location) });</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                        installer.Description = <span class="stringliteral">&quot;/tg/station 13 server running as a windows service&quot;</span>;</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                        installer.DisplayName = <span class="stringliteral">&quot;/tg/station server&quot;</span>;</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                        installer.DelayedAutoStart = <span class="keyword">true</span>;</div>
@@ -184,7 +184,7 @@ $(function() {
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a6868da29a3857b56bba33e5d7c623b68">Uninstall</a>)</div>
 <div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                    <span class="keyword">using</span> (var installer = <span class="keyword">new</span> ServiceInstaller())</div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                    {</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-4-uninstall.log&quot;</span>, <span class="keyword">null</span>);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-uninstall.log&quot;</span>, <span class="keyword">null</span>);</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                        installer.ServiceName = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html">ServerService</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a82a1c35bb13819cd1003592351251fc1">Name</a>;</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                        installer.Uninstall(<span class="keyword">null</span>);</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                    }</div>

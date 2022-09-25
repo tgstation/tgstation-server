@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -199,14 +199,14 @@ Database Configuration</h2>
 <p >Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations.</p>
 <h2><a class="anchor" id="autotoc_md12"></a>
 Starting</h2>
-<p >For the Windows service version start the <code>tgstation-server-4</code> service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server-4 for errors.</p>
+<p >For the Windows service version start the <code>tgstation-server</code> service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server for errors.</p>
 <p >For the console version run <code>dotnet Tgstation.Server.Host.Console.dll</code> in the installation directory. The <code>tgs.bat</code> and <code>tgs.sh</code> shell scripts are shortcuts for this. If on Windows, you must do this as admin to give the server permission to install the required DirectX dependency for certain 512 BYOND versions as well as create symlinks.</p>
 <p >For the docker version run <code>docker start &lt;your container name&gt;</code></p>
 <p >Test your server is running by visiting the local port in your browser. You should receive a 401 Unauthorized response (You may need to view the developer console). Otherwise an error page will be present.</p>
 <h2><a class="anchor" id="autotoc_md13"></a>
 Stopping</h2>
 <p >Note that the live detach for DreamDaemon servers is only supported for updates or restarts via the API at this time. Stopping tgstation-server will TERMINATE ALL CHILD DREAMDAEMON SERVERS.</p>
-<p >For the Windows service version stop the <code>tgstation-server-4</code> service</p>
+<p >For the Windows service version stop the <code>tgstation-server</code> service</p>
 <p >For the console version press <code>Ctrl+C</code> or send a SIGQUIT to the ORIGINAL dotnet process</p>
 <p >For the docker version run <code>docker stop &lt;your container name&gt;</code></p>
 <h2><a class="anchor" id="autotoc_md14"></a>

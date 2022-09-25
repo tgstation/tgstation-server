@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -268,7 +268,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  123</span>                    {</div>
 <div class="line"><span class="lineno">  124</span>                        processInstaller.Account = ServiceAccount.LocalSystem;</div>
 <div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-4-install.log&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;/assemblypath={0}&quot;</span>, Assembly.GetEntryAssembly().Location) });</div>
+<div class="line"><span class="lineno">  126</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-install.log&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;/assemblypath={0}&quot;</span>, Assembly.GetEntryAssembly().Location) });</div>
 <div class="line"><span class="lineno">  127</span>                        installer.Description = <span class="stringliteral">&quot;/tg/station 13 server running as a windows service&quot;</span>;</div>
 <div class="line"><span class="lineno">  128</span>                        installer.DisplayName = <span class="stringliteral">&quot;/tg/station server&quot;</span>;</div>
 <div class="line"><span class="lineno">  129</span>                        installer.DelayedAutoStart = <span class="keyword">true</span>;</div>
@@ -290,7 +290,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  145</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a6868da29a3857b56bba33e5d7c623b68">Uninstall</a>)</div>
 <div class="line"><span class="lineno">  146</span>                    <span class="keyword">using</span> (var installer = <span class="keyword">new</span> ServiceInstaller())</div>
 <div class="line"><span class="lineno">  147</span>                    {</div>
-<div class="line"><span class="lineno">  148</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-4-uninstall.log&quot;</span>, <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  148</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-uninstall.log&quot;</span>, <span class="keyword">null</span>);</div>
 <div class="line"><span class="lineno">  149</span>                        installer.ServiceName = ServerService.Name;</div>
 <div class="line"><span class="lineno">  150</span>                        installer.Uninstall(<span class="keyword">null</span>);</div>
 <div class="line"><span class="lineno">  151</span>                    }</div>
