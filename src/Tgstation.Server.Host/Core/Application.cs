@@ -467,6 +467,9 @@ namespace Tgstation.Server.Host.Core
 			else
 				logger.LogTrace("Web control panel disabled!");
 
+			// Do not cache a single thing beyond this point, it's all API
+			applicationBuilder.UseDisabledClientCache();
+
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
 
