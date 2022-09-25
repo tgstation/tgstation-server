@@ -607,7 +607,8 @@ namespace Tgstation.Server.Host.Controllers
 				await DatabaseContext.Save(cancellationToken);
 
 			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value &&
-				(instanceUser.ByondRights != ByondRights.None ||
+				(instanceUser.RepositoryRights != RepositoryRights.None ||
+				instanceUser.ByondRights != ByondRights.None ||
 				instanceUser.ChatBotRights != ChatBotRights.None ||
 				instanceUser.ConfigurationRights != ConfigurationRights.None ||
 				instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
