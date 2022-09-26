@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.0.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -398,7 +398,7 @@ Static Files</h3>
 <h3><a class="anchor" id="autotoc_md36"></a>
 CodeModifications</h3>
 <p >When a deployment is made by the compiler, all the contents of this folder are copied over the repository contents. Then one of two code change modes are selected based on the prescense of certain files.</p>
-<p >If <code>&lt;target dme&gt;.dm</code> is present, that .dme will be used instead of the repository's <code>.dme</code></p>
+<p >If <code>&lt;target dme&gt;.dme</code> is present, that .dme will be used instead of the repository's <code>.dme</code></p>
 <p >Otherwise the files <code>HeadInclude.dm</code> and <code>TailInclude.dm</code> are searched for and added as include lines to the top and bottom of the target <code>.dme</code> repsectively if they exist. These files can contain any valid DreamMaker code (Including <code>#include</code>ing other <code>.dm</code> files!) allowing you to modify the a repository's code on a per instance basis</p>
 <h3><a class="anchor" id="autotoc_md37"></a>
 EventScripts</h3>
