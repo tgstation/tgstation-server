@@ -975,7 +975,7 @@ namespace Tgstation.Server.Host.Setup
 		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
 		{
 			// welcome message
-			await console.WriteAsync("Welcome to tgstation-server 4!", true, cancellationToken);
+			await console.WriteAsync("Welcome to tgstation-server!", true, cancellationToken);
 			await console.WriteAsync("This wizard will help you configure your server.", true, cancellationToken);
 
 			var hostingPort = await PromptForHostingPort(cancellationToken);
