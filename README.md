@@ -438,7 +438,7 @@ This folder may be freely modified manually just beware this may cause in-progre
 
 When a deployment is made by the compiler, all the contents of this folder are copied over the repository contents. Then one of two code change modes are selected based on the prescense of certain files.
 
-If `<target dme>.dm` is present, that .dme will be used instead of the repository's `.dme`
+If `<target dme>.dme` is present, that .dme will be used instead of the repository's `.dme`
 
 Otherwise the files `HeadInclude.dm` and `TailInclude.dm` are searched for and added as include lines to the top and bottom of the target `.dme` repsectively if they exist. These files can contain any valid DreamMaker code (Including `#include`ing other `.dm` files!) allowing you to modify the a repository's code on a per instance basis
 
