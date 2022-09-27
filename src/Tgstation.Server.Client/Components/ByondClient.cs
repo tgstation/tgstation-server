@@ -38,7 +38,7 @@ namespace Tgstation.Server.Client.Components
 			=> ReadPaged<ByondResponse>(paginationSettings, Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream zipFileStream, CancellationToken cancellationToken)
+		public async Task<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream? zipFileStream, CancellationToken cancellationToken)
 		{
 			if (installRequest == null)
 				throw new ArgumentNullException(nameof(installRequest));
