@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Configuration
 	/// <summary>
 	/// Base OAuth options.
 	/// </summary>
-	abstract class OAuthConfigurationBase
+	public abstract class OAuthConfigurationBase
 	{
 		/// <summary>
 		/// The client ID.

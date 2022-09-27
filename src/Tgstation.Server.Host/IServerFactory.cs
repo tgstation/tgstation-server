@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host
 	/// <summary>
 	/// For creating <see cref="IServer"/>s.
 	/// </summary>
-	interface IServerFactory
+	public interface IServerFactory
 	{
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="IServerFactory"/>.
