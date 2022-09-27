@@ -140,11 +140,6 @@ namespace Tgstation.Server.Host.Components
 		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
 		/// The <see cref="SessionConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly SessionConfiguration sessionConfiguration;
@@ -175,7 +170,6 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
@@ -200,7 +194,6 @@ namespace Tgstation.Server.Host.Components
 			IFileTransferTicketProvider fileTransferService,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SessionConfiguration> sessionConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -225,7 +218,6 @@ namespace Tgstation.Server.Host.Components
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
 #pragma warning restore CA1502
