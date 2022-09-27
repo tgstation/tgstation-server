@@ -88,7 +88,7 @@ namespace Tgstation.Server.Client.Components
 					cancellationToken);
 
 				if (memoryStream != null)
-					await uploadStream!.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
+					await uploadStream!.CopyToAsync(memoryStream).ConfigureAwait(false);
 
 				var configFile = await configFileTask.ConfigureAwait(false);
 

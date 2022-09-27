@@ -26,6 +26,12 @@ namespace Tgstation.Server.Client
 	/// <inheritdoc />
 	sealed class ApiClient : IApiClient
 	{
+		/// <summary>
+		/// PATCH <see cref="HttpMethod"/>.
+		/// </summary>
+		/// <remarks>HOW IS THIS NOT INCLUDED IN THE FRAMEWORK??!?!?</remarks>
+		static readonly HttpMethod HttpPatch = new ("PATCH");
+
 		/// <inheritdoc />
 		public Uri Url { get; }
 
@@ -77,7 +83,7 @@ namespace Tgstation.Server.Client
 		/// Get the <see cref="JsonSerializerSettings"/> to use.
 		/// </summary>
 		/// <returns>A new <see cref="JsonSerializerSettings"/> instance.</returns>
-		static JsonSerializerSettings GetSerializerSettings() => new JsonSerializerSettings
+		static JsonSerializerSettings GetSerializerSettings() => new ()
 		{
 			ContractResolver = new CamelCasePropertyNamesContractResolver(),
 			Converters = new[] { new VersionConverter() },
@@ -171,7 +177,7 @@ namespace Tgstation.Server.Client
 		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Patch(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Patch, null, false, cancellationToken);
+		public Task Patch(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpPatch, null, false, cancellationToken);
 
 		/// <inheritdoc />
 		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, object>(route, body, HttpMethod.Post, null, false, cancellationToken);
@@ -204,7 +210,7 @@ namespace Tgstation.Server.Client
 		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Put, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Patch, instanceId, false, cancellationToken);
+		public Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpPatch, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));
@@ -314,7 +320,7 @@ namespace Tgstation.Server.Client
 				content = new StringContent(
 					JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),
 					Encoding.UTF8,
-					MediaTypeNames.Application.Json);
+					ApiHeaders.ApplicationJsonMime);
 
 			return RunRequest<TResult>(
 				route,

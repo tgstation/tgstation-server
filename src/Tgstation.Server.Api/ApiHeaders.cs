@@ -51,6 +51,11 @@ namespace Tgstation.Server.Api
 		public const string OAuthAuthenticationScheme = "OAuth";
 
 		/// <summary>
+		/// Added to <see cref="MediaTypeNames.Application"/> in netstandard2.1. Can't use because of Tgstation.Server.Migrator.
+		/// </summary>
+		public const string ApplicationJsonMime = "application/json";
+
+		/// <summary>
 		/// Get the version of the <see cref="Api"/> the caller is using.
 		/// </summary>
 		public static readonly Version Version = Version.Parse(ApiVersionAttribute.Instance.RawApiVersion);
@@ -167,9 +172,9 @@ namespace Tgstation.Server.Api
 				errorBuilder.Append(message);
 			}
 
-			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(MediaTypeNames.Application.Json);
+			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJsonMime);
 			if (!requestHeaders.Accept.Any(x => jsonAccept.IsSubsetOf(x)))
-				AddError(HeaderTypes.Accept, $"Client does not accept {MediaTypeNames.Application.Json}!");
+				AddError(HeaderTypes.Accept, $"Client does not accept {ApplicationJsonMime}!");
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || userAgentValues.Count == 0)
 				AddError(HeaderTypes.UserAgent, $"Missing {HeaderNames.UserAgent} header!");
@@ -306,7 +311,7 @@ namespace Tgstation.Server.Api
 				throw new InvalidOperationException("Specified different instance IDs in constructor and SetRequestHeaders!");
 
 			headers.Clear();
-			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJsonMime));
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
 			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString());
 			if (OAuthProvider.HasValue)
