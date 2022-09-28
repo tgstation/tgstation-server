@@ -269,11 +269,9 @@ try
 		var xSubstitution = x64 ? "64" : "86";
 		Console.WriteLine($"Running on an x{xSubstitution} system.");
 
-		var downloadUri = new Uri(x64
-			? "https://download.visualstudio.microsoft.com/download/pr/98dbe241-8b77-4be0-b130-a5fb6af8d724/27b655adce6250da42be9440abe847a2/aspnetcore-runtime-6.0.9-win-x64.exe"
-			: "https://download.visualstudio.microsoft.com/download/pr/8f583028-b802-4661-b8dd-47139b0561ce/3c0cd3bdc6051759ccae40f78982c86e/aspnetcore-runtime-6.0.9-win-x86.exe");
+		var downloadUri = new Uri("https://download.visualstudio.microsoft.com/download/pr/eaa3eab9-cc21-44b5-a4e4-af31ee73b9fa/d8ad75d525dec0a30b52adc990796b11/dotnet-hosting-6.0.9-win.exe");
 
-		var dotnetDownloadFilePath = $"aspnetcore-runtime-6.0.9-win-x{xSubstitution}.exe";
+		var dotnetDownloadFilePath = $"dotnet-hosting-6.0.9-win.exe";
 
 		Console.WriteLine($"Downloading {downloadUri} to {Path.GetFullPath(dotnetDownloadFilePath)}...");
 
