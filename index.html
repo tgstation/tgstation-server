@@ -154,6 +154,7 @@ Manual Configuration</h3>
 <li><code>General:UserLimit</code>: Maximum number of users that may be created</li>
 <li><code>General:InstanceLimit</code>: Maximum number of instances that may be created</li>
 <li><code>General:GitHubAccessToken</code>: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests</li>
+<li><code>General:SkipAddingByondFirewallException</code>: Set to <code>true</code> if you have Windows firewall disabled</li>
 <li><code>Session:HighPriorityLiveDreamDaemon</code>: Boolean controlling if live DreamDaemon instances get set to above normal priority processes.</li>
 <li><code>Session:LowPriorityDeploymentProcesses</code>: Boolean controlling if DreamMaker and API validation DreamDaemon instances get set to below normal priority processes.</li>
 <li><code>FileLogging:Directory</code>: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise</li>
@@ -165,6 +166,7 @@ Manual Configuration</h3>
 <li><code>ControlPanel:Enable</code>: Enable the javascript based control panel to be served from the server via /index.html</li>
 <li><code>ControlPanel:AllowAnyOrigin</code>: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)</li>
 <li><code>ControlPanel:AllowedOrigins</code>: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by <code>ControlPanel:AllowAnyOrigin</code></li>
+<li><code>ControlPanel:PublicPath</code>: URL from which the webpanel can be accessed, defaults to "/app/". Must be an absolute path (<a href="https://example.org/path/to/webpanel">https://example.org/path/to/webpanel</a>) or a path starting from root (/path/to/webpanel). Note that this option does not relocate the webpanel for you; you will need a reverse proxy to relocate the webpanel</li>
 <li><code>Elasticsearch</code>: tgstation-server also supports automatically ingesting its logs to ElasticSearch. You can set this up in the setup wizard, or with the following configuration: <div class="fragment"><div class="line">Elasticsearch:</div>
 <div class="line">  Enable: true</div>
 <div class="line">  Host: http://192.168.0.200:9200</div>
