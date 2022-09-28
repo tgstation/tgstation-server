@@ -527,7 +527,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var shouldNotAnswer = !pm;
 			if (shouldNotAnswer)
 				lock (mappedChannels)
-					shouldNotAnswer = !mappedChannels.Contains(messageCreateEvent.ChannelID.Value);
+					shouldNotAnswer = !mappedChannels.Contains(messageCreateEvent.ChannelID.Value) && !mappedChannels.Contains(0);
 
 			var refreshedMessage = !String.IsNullOrWhiteSpace(messageCreateEvent.Content)
 				? messageCreateEvent
