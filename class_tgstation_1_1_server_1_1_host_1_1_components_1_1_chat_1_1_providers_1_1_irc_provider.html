@@ -366,7 +366,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  111</span>            this.asyncDelayer = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a154b7cf302e0d4b39d338846a851b898">asyncDelayer</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a154b7cf302e0d4b39d338846a851b898">asyncDelayer</a>));</div>
 <div class="line"><span class="lineno">  112</span> </div>
 <div class="line"><span class="lineno">  113</span>            var builder = chatBot.CreateConnectionStringBuilder();</div>
-<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">if</span> (builder == <span class="keyword">null</span> || !builder.Valid || !(builder is <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html">IrcConnectionStringBuilder</a> ircBuilder))</div>
+<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">if</span> (builder == <span class="keyword">null</span> || !builder.Valid || builder is not <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html">IrcConnectionStringBuilder</a> ircBuilder)</div>
 <div class="line"><span class="lineno">  115</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Invalid ChatConnectionStringBuilder!&quot;</span>);</div>
 <div class="line"><span class="lineno">  116</span> </div>
 <div class="line"><span class="lineno">  117</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a5b89ca154b65b12e53b6dca3ceeb0243">address</a> = ircBuilder.Address;</div>
@@ -587,7 +587,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  333</span> </div>
 <div class="line"><span class="lineno">  334</span>                cancellationToken.ThrowIfCancellationRequested();</div>
 <div class="line"><span class="lineno">  335</span> </div>
-<div class="line"><span class="lineno">  336</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Authenticating ({0})...&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a6d496510a7558d62c26d917a51226264">passwordType</a>);</div>
+<div class="line"><span class="lineno">  336</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Authenticating ({passwordType})...&quot;</span>, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a6d496510a7558d62c26d917a51226264">passwordType</a>);</div>
 <div class="line"><span class="lineno">  337</span>                <span class="keywordflow">switch</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a6d496510a7558d62c26d917a51226264">passwordType</a>)</div>
 <div class="line"><span class="lineno">  338</span>                {</div>
 <div class="line"><span class="lineno">  339</span>                    <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b">IrcPasswordType</a>.Server:</div>
@@ -1354,7 +1354,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_irc_provider_8cs_source.html#l00259">259</a> of file <a class="el" href="_irc_provider_8cs_source.html">IrcProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  268</span>        {</div>
-<div class="line"><span class="lineno">  269</span>            var commitInsert = revisionInformation.CommitSha.Substring(0, 7);</div>
+<div class="line"><span class="lineno">  269</span>            var commitInsert = revisionInformation.CommitSha[..7];</div>
 <div class="line"><span class="lineno">  270</span>            <span class="keywordtype">string</span> remoteCommitInsert;</div>
 <div class="line"><span class="lineno">  271</span>            <span class="keywordflow">if</span> (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)</div>
 <div class="line"><span class="lineno">  272</span>            {</div>
@@ -1362,7 +1362,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  274</span>                remoteCommitInsert = String.Empty;</div>
 <div class="line"><span class="lineno">  275</span>            }</div>
 <div class="line"><span class="lineno">  276</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  277</span>                remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;. Remote commit: ^{0}&quot;</span>, revisionInformation.OriginCommitSha.Substring(0, 7));</div>
+<div class="line"><span class="lineno">  277</span>                remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;. Remote commit: ^{0}&quot;</span>, revisionInformation.OriginCommitSha[..7]);</div>
 <div class="line"><span class="lineno">  278</span> </div>
 <div class="line"><span class="lineno">  279</span>            var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0</div>
 <div class="line"><span class="lineno">  280</span>                ? String.Empty</div>
@@ -1376,7 +1376,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  288</span>                            .Select(x =&gt; x.TestMerge)</div>
 <div class="line"><span class="lineno">  289</span>                            .Select(x =&gt;</div>
 <div class="line"><span class="lineno">  290</span>                            {</div>
-<div class="line"><span class="lineno">  291</span>                                var result = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;#{0} at {1}&quot;</span>, x.Number, x.TargetCommitSha.Substring(0, 7));</div>
+<div class="line"><span class="lineno">  291</span>                                var result = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;#{0} at {1}&quot;</span>, x.Number, x.TargetCommitSha[..7]);</div>
 <div class="line"><span class="lineno">  292</span>                                if (x.Comment != null)</div>
 <div class="line"><span class="lineno">  293</span>                                    result += String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot; ({0})&quot;</span>, x.Comment);</div>
 <div class="line"><span class="lineno">  294</span>                                return result;</div>

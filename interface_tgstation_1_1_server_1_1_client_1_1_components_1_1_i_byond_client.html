@@ -95,9 +95,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a914f5239e34ff31249749f9c13009240"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_byond_response.html">ByondResponse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a914f5239e34ff31249749f9c13009240">InstalledVersions</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a914f5239e34ff31249749f9c13009240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all installed ByondInstallResponse System.Versions.  <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a914f5239e34ff31249749f9c13009240">More...</a><br /></td></tr>
 <tr class="separator:a914f5239e34ff31249749f9c13009240"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e5d0a161b461f1943f9e58890dc3c69"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_byond_install_response.html">ByondInstallResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a1e5d0a161b461f1943f9e58890dc3c69">SetActiveVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html">ByondVersionRequest</a> installRequest, <a class="el" href="class_stream.html">Stream</a> zipFileStream, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a1e5d0a161b461f1943f9e58890dc3c69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the ByondInstallResponse information.  <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a1e5d0a161b461f1943f9e58890dc3c69">More...</a><br /></td></tr>
-<tr class="separator:a1e5d0a161b461f1943f9e58890dc3c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e767125fce4c05aac45fdf2b58661df"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_byond_install_response.html">ByondInstallResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a2e767125fce4c05aac45fdf2b58661df">SetActiveVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html">ByondVersionRequest</a> installRequest, <a class="el" href="class_stream.html">Stream</a>? zipFileStream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a2e767125fce4c05aac45fdf2b58661df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the ByondInstallResponse information.  <a href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a2e767125fce4c05aac45fdf2b58661df">More...</a><br /></td></tr>
+<tr class="separator:a2e767125fce4c05aac45fdf2b58661df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >For managing the ByondInstallResponse installation. </p>
@@ -173,8 +173,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a1e5d0a161b461f1943f9e58890dc3c69" name="a1e5d0a161b461f1943f9e58890dc3c69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e5d0a161b461f1943f9e58890dc3c69">&#9670;&nbsp;</a></span>SetActiveVersion()</h2>
+<a id="a2e767125fce4c05aac45fdf2b58661df" name="a2e767125fce4c05aac45fdf2b58661df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e767125fce4c05aac45fdf2b58661df">&#9670;&nbsp;</a></span>SetActiveVersion()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,7 +188,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_stream.html">Stream</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_stream.html">Stream</a>?&#160;</td>
           <td class="paramname"><em>zipFileStream</em>, </td>
         </tr>
         <tr>
@@ -216,7 +216,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the updated ByondInstallResponse information.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a4d050f6748454d8c4f0ddf7ae595b3b8">Tgstation.Server.Client.Components.ByondClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a6f31d6fe7725559bd77fcf8290182535">Tgstation.Server.Client.Components.ByondClient</a>.</p>
 
 </div>
 </div>
