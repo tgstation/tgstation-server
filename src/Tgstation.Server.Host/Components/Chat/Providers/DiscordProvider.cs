@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
+using Remora.Discord.API.Abstractions.Gateway.Commands;
 using Remora.Discord.API.Abstractions.Gateway.Events;
 using Remora.Discord.API.Abstractions.Objects;
 using Remora.Discord.API.Abstractions.Rest;
@@ -178,6 +180,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			serviceProvider = new ServiceCollection()
 				.AddDiscordGateway(serviceProvider => botToken)
+				.Configure<DiscordGatewayClientOptions>(options => options.Intents |= GatewayIntents.MessageContents)
 				.AddSingleton<IDiscordResponders>(serviceProvider => this)
 				.AddResponder<DiscordForwardingResponder>()
 				.BuildServiceProvider();
