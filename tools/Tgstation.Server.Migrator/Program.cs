@@ -83,7 +83,7 @@ try
 		elevatedProcess.StartInfo.Verb = "runas";
 
 		elevatedProcess.Start();
-		ExitPause(0);
+		return;
 	}
 
 	Console.WriteLine("Administrative privileges confirmed.");
@@ -93,6 +93,8 @@ try
 	const string PathToCommsBinary =
 #if DEBUG
 		"../../../../../Tgstation.Server.Migrator.Comms/bin/Debug/net472/win-x86/" +
+#else
+		"Comms/" +
 #endif
 		"Tgstation.Server.Migrator.Comms.exe";
 
