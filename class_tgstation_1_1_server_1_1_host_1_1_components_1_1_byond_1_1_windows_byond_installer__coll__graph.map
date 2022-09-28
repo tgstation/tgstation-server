@@ -1,10 +1,16 @@
 <map id="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller" name="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller">
-<area shape="rect" id="node1" title="IByondInstaller for windows systems." alt="" coords="635,199,861,241"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html" title=" " alt="" coords="320,5,455,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system." alt="" coords="5,5,113,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="15,85,104,112"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="342,177,433,204"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="288,229,487,270"/>
-<area shape="rect" id="node7" title=" " alt="" coords="305,295,470,321"/>
-<area shape="rect" id="node8" title=" " alt="" coords="364,345,411,372"/>
+<area shape="rect" id="node1" title="IByondInstaller for windows systems." alt="" coords="800,229,1027,270"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html" title=" " alt="" coords="449,5,583,32"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system." alt="" coords="29,5,137,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="38,85,127,112"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="471,177,561,204"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="417,229,615,270"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,294,631,335"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,203,160,229"/>
+<area shape="rect" id="node9" title=" " alt="" coords="55,253,110,280"/>
+<area shape="rect" id="node10" title=" " alt="" coords="36,304,129,331"/>
+<area shape="rect" id="node11" title=" " alt="" coords="43,435,122,461"/>
+<area shape="rect" id="node12" title=" " alt="" coords="7,485,159,512"/>
+<area shape="rect" id="node13" title=" " alt="" coords="433,360,599,387"/>
+<area shape="rect" id="node14" title=" " alt="" coords="493,411,539,437"/>
 </map>
