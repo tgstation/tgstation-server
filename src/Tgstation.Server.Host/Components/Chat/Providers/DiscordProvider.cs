@@ -529,7 +529,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				lock (mappedChannels)
 					shouldNotAnswer = !mappedChannels.Contains(messageCreateEvent.ChannelID.Value);
 
-			var content = NormalizeMentions(messageCreateEvent.Content);
+			var refreshedMessage = !String.IsNullOrWhiteSpace(messageCreateEvent.Content)
+				? messageCreateEvent
+				: (await channelsClient.GetChannelMessageAsync(messageCreateEvent.ChannelID, messageCreateEvent.ID, cancellationToken)).Entity;
+			var content = NormalizeMentions(refreshedMessage.Content);
 			var mentionedUs = messageCreateEvent.Mentions.Any(x => x.ID == currentUserId)
 				|| (!shouldNotAnswer && content.Split(' ').First().Equals(ChatManager.CommonMention, StringComparison.OrdinalIgnoreCase));
 
