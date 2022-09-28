@@ -260,7 +260,7 @@ namespace Tgstation.Server.Host.Components
 
 				var commandFactory = new CommandFactory(assemblyInformationProvider, byond, repoManager, databaseContextFactory, metadata);
 
-				var chatManager = chatFactory.CreateChatManager(instanceIoManager, commandFactory, metadata.ChatSettings);
+				var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
 				try
 				{
 					var sessionControllerFactory = new SessionControllerFactory(

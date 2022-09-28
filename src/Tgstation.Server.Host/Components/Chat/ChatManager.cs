@@ -14,7 +14,6 @@ using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
@@ -34,11 +33,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly IProviderFactory providerFactory;
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="ChatManager"/>.
-		/// </summary>
-		readonly IIOManager ioManager;
-
-		/// <summary>
 		/// The <see cref="ICommandFactory"/> for the <see cref="ChatManager"/>.
 		/// </summary>
 		readonly ICommandFactory commandFactory;
@@ -47,11 +41,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// The <see cref="IRestartRegistration"/> for the <see cref="ChatManager"/>.
 		/// </summary>
 		readonly IRestartRegistration restartRegistration;
-
-		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="ChatManager"/>.
-		/// </summary>
-		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="ChatManager"/>.
@@ -137,21 +126,23 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Initializes a new instance of the <see cref="ChatManager"/> class.
 		/// </summary>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/>.</param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="commandFactory">The value of <see cref="commandFactory"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with.</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="initialChatBots">The <see cref="IEnumerable{T}"/> used to populate <see cref="activeChatBots"/>.</param>
-		public ChatManager(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory, ILogger<ChatManager> logger, IEnumerable<Models.ChatBot> initialChatBots)
+		public ChatManager(
+			IProviderFactory providerFactory,
+			ICommandFactory commandFactory,
+			IServerControl serverControl,
+			ILoggerFactory loggerFactory,
+			ILogger<ChatManager> logger,
+			IEnumerable<Models.ChatBot> initialChatBots)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
 			if (serverControl == null)
 				throw new ArgumentNullException(nameof(serverControl));
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			activeChatBots = initialChatBots?.ToList() ?? throw new ArgumentNullException(nameof(initialChatBots));
@@ -189,7 +180,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (newChannels == null)
 				throw new ArgumentNullException(nameof(newChannels));
 
-			logger.LogTrace("ChangeChannels {0}...", connectionId);
+			logger.LogTrace("ChangeChannels {connectionId}...", connectionId);
 			var provider = await RemoveProviderChannels(connectionId, false, cancellationToken);
 			if (provider == null)
 				return;
@@ -244,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				foreach (var newMapping in newMappings)
 				{
 					var newId = baseId++;
-					logger.LogTrace("Mapping channel {0}:{1} as {2}", newMapping.Channel.ConnectionName, newMapping.Channel.FriendlyName, newId);
+					logger.LogTrace("Mapping channel {connectionName}:{channelFriendlyName} as {newId}", newMapping.Channel.ConnectionName, newMapping.Channel.FriendlyName, newId);
 					mappedChannels.Add(newId, newMapping);
 					newMapping.Channel.RealId = newId;
 				}
@@ -366,7 +357,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (mappedChannels) // so it doesn't change while we're using it
 				wdChannels = mappedChannels.Where(x => x.Value.IsUpdatesChannel).Select(x => x.Key).ToList();
 
-			logger.LogTrace("Sending deployment message for RevisionInformation: {0}", revisionInformation.Id);
+			logger.LogTrace("Sending deployment message for RevisionInformation: {revisionInfoId}", revisionInformation.Id);
 
 			var callbacks = new List<Func<string, string, Task>>();
 
@@ -401,7 +392,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						{
 							logger.LogWarning(
 								ex,
-								"Error sending deploy message to provider {0}!",
+								"Error sending deploy message to provider {providerId}!",
 								channelMapping.ProviderId);
 						}
 					}));
@@ -510,7 +501,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>
 		async Task<IProvider> RemoveProviderChannels(long connectionId, bool removeProvider, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("RemoveProviderChannels {0}...", connectionId);
+			logger.LogTrace("RemoveProviderChannels {connectionId}...", connectionId);
 			IProvider provider;
 			lock (providers)
 			{
@@ -616,7 +607,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						lock (synchronizationLock)
 							newId = channelIdCounter++;
 						logger.LogTrace(
-							"Mapping private channel {0}:{1} as {2}",
+							"Mapping private channel {connectionName}:{channelFriendlyName} as {newId}",
 							message.User.Channel.ConnectionName,
 							message.User.FriendlyName,
 							newId);
@@ -673,7 +664,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				return;
 
 			logger.LogTrace(
-				"Start processing command: {0}. User (True provider Id): {1}",
+				"Start processing command: {message}. User (True provider Id): {profiderId}",
 				message.Content,
 				JsonConvert.SerializeObject(message.User));
 			try
@@ -866,7 +857,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task SendMessage(string message, IEnumerable<ulong> channelIds, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Chat send \"{0}\" to channels: {1}", message, String.Join(", ", channelIds));
+			logger.LogTrace("Chat send \"{message}\" to channels: {channelIdsCommaSeperated}", message, String.Join(", ", channelIds));
 
 			return Task.WhenAll(
 				channelIds.Select(x =>
