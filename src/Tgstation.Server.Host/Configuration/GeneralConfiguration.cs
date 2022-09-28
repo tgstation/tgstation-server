@@ -112,6 +112,11 @@ namespace Tgstation.Server.Host.Configuration
 		public bool HostApiDocumentation { get; set; }
 
 		/// <summary>
+		/// If the netsh.exe execution to exempt DreamDaemon from Windows firewall should be skipped.
+		/// </summary>
+		public bool SkipAddingByondFirewallException { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.
 		/// </summary>
 		public GeneralConfiguration()
@@ -133,7 +138,7 @@ namespace Tgstation.Server.Host.Configuration
 
 			if (ConfigVersion == null)
 				logger.LogCritical(
-					"No `ConfigVersion` specified, your configuration may be out of date! The current version is \"{0}\"",
+					"No `ConfigVersion` specified, your configuration may be out of date! The current version is \"{currentVersion}\"",
 					CurrentConfigVersion);
 			else if (ConfigVersion != CurrentConfigVersion)
 				if (ConfigVersion.Major != CurrentConfigVersion.Major)

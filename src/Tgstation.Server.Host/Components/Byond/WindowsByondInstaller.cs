@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -56,6 +59,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="WindowsByondInstaller"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="WindowsByondInstaller"/>.
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -69,12 +77,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Initializes a new instance of the <see cref="WindowsByondInstaller"/> class.
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
-		public WindowsByondInstaller(IProcessExecutor processExecutor, IIOManager ioManager, ILogger<WindowsByondInstaller> logger)
+		public WindowsByondInstaller(IProcessExecutor processExecutor, IIOManager ioManager, IOptions<GeneralConfiguration> generalConfigurationOptions, ILogger<WindowsByondInstaller> logger)
 			: base(ioManager, logger)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
 			PathToUserByondFolder = IOManager.ResolvePath(IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BYOND"));
 
@@ -87,10 +97,18 @@ namespace Tgstation.Server.Host.Components.Byond
 
 		/// <inheritdoc />
 		public override Task InstallByond(string path, Version version, CancellationToken cancellationToken)
-			=> Task.WhenAll(
+		{
+			var tasks = new List<Task>
+			{
 				SetNoPromptTrusted(path, cancellationToken),
 				InstallDirectX(path, cancellationToken),
-				AddDreamDaemonToFirewall(path, cancellationToken));
+			};
+
+			if (!generalConfiguration.SkipAddingByondFirewallException)
+				tasks.Add(AddDreamDaemonToFirewall(path, cancellationToken));
+
+			return Task.WhenAll(tasks);
+		}
 
 		/// <summary>
 		/// Creates the BYOND cfg file that prevents the trusted mode dialog from appearing when launching DreamDaemon.
@@ -104,7 +122,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			await IOManager.CreateDirectory(configPath, cancellationToken);
 
 			var configFilePath = IOManager.ConcatPath(configPath, ByondDreamDaemonConfigFilename);
-			Logger.LogTrace("Disabling trusted prompts in {0}...", configFilePath);
+			Logger.LogTrace("Disabling trusted prompts in {configFilePath}...", configFilePath);
 			await IOManager.WriteAllBytes(
 				configFilePath,
 				Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode),
@@ -186,7 +204,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				cancellationToken.ThrowIfCancellationRequested();
 
 				Logger.LogDebug(
-					"netsh.exe output:{0}{1}",
+					"netsh.exe output:{newLine}{output}",
 					Environment.NewLine,
 					await netshProcess.GetCombinedOutput(cancellationToken));
 
