@@ -119,6 +119,8 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
+- `General:SkipAddingByondFirewallException`: Set to false if you have Windows firewall disabled
+
 - `Session:HighPriorityLiveDreamDaemon`: Boolean controlling if live DreamDaemon instances get set to above normal priority processes.
 
 - `Session:LowPriorityDeploymentProcesses `: Boolean controlling if DreamMaker and API validation DreamDaemon instances get set to below normal priority processes.
