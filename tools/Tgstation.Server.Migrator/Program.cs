@@ -74,7 +74,7 @@ try
 	if (!IsAdministrator())
 	{
 		Console.WriteLine("Not running as admin. Elevating process...");
-		var selfExecutable = commandLine.First();
+		var selfExecutable = commandLine.First().Replace(".dll", ".exe");
 		var selfArguments = String.Join(" ", commandLineArguments) + " --skip-preamble";
 		using var elevatedProcess = new Process();
 		elevatedProcess.StartInfo.UseShellExecute = true;
