@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Configuration
 	/// <summary>
 	/// OAuth configuration options.
 	/// </summary>
-	sealed class OAuthConfiguration : OAuthConfigurationBase
+	public sealed class OAuthConfiguration : OAuthConfigurationBase
 	{
 		/// <summary>
 		/// The client redirect URL. Not used by all providers.

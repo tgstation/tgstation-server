@@ -17,17 +17,17 @@ namespace Tgstation.Server.Host.Setup
 	/// <summary>
 	/// DI root for configuring a <see cref="SetupWizard"/>.
 	/// </summary>
-	class SetupApplication
+	public class SetupApplication
 	{
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SetupApplication"/>.
 		/// </summary>
-		protected static readonly IAssemblyInformationProvider AssemblyInformationProvider = new AssemblyInformationProvider();
+		public static readonly IAssemblyInformationProvider AssemblyInformationProvider = new AssemblyInformationProvider();
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="SetupApplication"/>.
 		/// </summary>
-		protected static readonly IIOManager IOManager = new DefaultIOManager(AssemblyInformationProvider);
+		public static readonly IIOManager IOManager = new DefaultIOManager(AssemblyInformationProvider);
 
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="SetupApplication"/>.

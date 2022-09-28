@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Configuration options pertaining to elasticsearch log storage.
 	/// </summary>
-	sealed class ElasticsearchConfiguration
+	public sealed class ElasticsearchConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="ElasticsearchConfiguration"/> resides in.

@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.Core
 	/// Sets up dependency injection.
 	/// </summary>
 #pragma warning disable CA1506
-	sealed class Application : SetupApplication
+	public sealed class Application : SetupApplication
 	{
 		/// <summary>
 		/// The <see cref="IWebHostEnvironment"/> for the <see cref="Application"/>.
@@ -386,6 +386,11 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(serverControl));
 
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
+
+			if (instanceManager == null)
+				throw new ArgumentNullException(nameof(instanceManager));
+			if (serverPortProvider == null)
+				throw new ArgumentNullException(nameof(serverPortProvider));
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));

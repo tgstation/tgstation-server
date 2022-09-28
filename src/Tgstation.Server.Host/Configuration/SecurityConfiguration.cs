@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Configuration
 	/// <summary>
 	/// Configuration options pertaining to user security.
 	/// </summary>
-	sealed class SecurityConfiguration
+	public sealed class SecurityConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="SecurityConfiguration"/> resides in.

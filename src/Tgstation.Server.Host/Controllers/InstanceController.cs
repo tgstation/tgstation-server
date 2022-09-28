@@ -261,11 +261,17 @@ namespace Tgstation.Server.Host.Controllers
 				});
 			}
 
-			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
+			Logger.LogInformation(
+				"{userName} {attachedOrCreated} instance {instanceName}: {instanceId} ({instancePath})",
+				AuthenticationContext.User.Name,
+				attached ? "attached" : "created",
+				newInstance.Name,
+				newInstance.Id,
+				newInstance.Path);
 
 			var api = newInstance.ToApi();
 			api.Accessible = true; // instances are always accessible by their creator
-			return attached ? (IActionResult)Json(api) : Created(api);
+			return attached ? Json(api) : Created(api);
 		}
 
 		/// <summary>
@@ -337,9 +343,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
-#pragma warning disable CA1310 // Specify StringComparison
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1310 // Specify StringComparison
 				.Select(x => new Job
 				{
 					Id = x.Id,
@@ -451,7 +455,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (Exception e)
 			{
-				if (!(e is OperationCanceledException))
+				if (e is not OperationCanceledException)
 					Logger.LogError(e, "Error changing instance online state!");
 				originalModel.Online = originalOnline;
 				originalModel.DreamDaemonSettings.AutoStart = oldAutoStart;
@@ -497,7 +501,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			await CheckAccessible(api, cancellationToken);
-			return moving ? (IActionResult)Accepted(api) : Json(api);
+			return moving ? Accepted(api) : Json(api);
 		}
 #pragma warning restore CA1502
 
@@ -540,9 +544,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJobs = await GetBaseQuery()
 				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1310 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
 				.ToListAsync(cancellationToken)
@@ -620,9 +622,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJob = await QueryForUser()
 				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1310 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken)
 				;
@@ -764,11 +764,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><paramref name="permissionSetToModify"/> or a new <see cref="InstancePermissionSet"/> with full rights.</returns>
 		InstancePermissionSet InstanceAdminPermissionSet(InstancePermissionSet permissionSetToModify)
 		{
-			if (permissionSetToModify == null)
-				permissionSetToModify = new InstancePermissionSet()
-				{
-					PermissionSetId = AuthenticationContext.PermissionSet.Id.Value,
-				};
+			permissionSetToModify ??= new InstancePermissionSet()
+			{
+				PermissionSetId = AuthenticationContext.PermissionSet.Id.Value,
+			};
 			permissionSetToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
 			permissionSetToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
 			permissionSetToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();

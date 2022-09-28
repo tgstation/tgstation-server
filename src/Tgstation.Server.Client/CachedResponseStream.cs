@@ -31,14 +31,6 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public override async ValueTask DisposeAsync()
-		{
-			await base.DisposeAsync().ConfigureAwait(false);
-			await responseStream.DisposeAsync().ConfigureAwait(false);
-			response.Dispose();
-		}
-
-		/// <inheritdoc />
 		public override bool CanRead => responseStream.CanRead;
 
 		/// <inheritdoc />

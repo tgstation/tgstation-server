@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Setup
 	/// <summary>
 	/// Set of objects needed to configure an <see cref="Core.Application"/>.
 	/// </summary>
-	interface IPostSetupServices
+	public interface IPostSetupServices
 	{
 		/// <summary>
 		/// The <see cref="Configuration.GeneralConfiguration"/>.

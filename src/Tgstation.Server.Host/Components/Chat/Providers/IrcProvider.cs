@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			var builder = chatBot.CreateConnectionStringBuilder();
-			if (builder == null || !builder.Valid || !(builder is IrcConnectionStringBuilder ircBuilder))
+			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
 				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 
 			address = ircBuilder.Address;
@@ -248,7 +248,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 				catch (Exception e)
 				{
-					Logger.LogWarning(e, "Unable to send to channel {0}!", channelName);
+					Logger.LogWarning(e, "Unable to send to channel {channelName}!", channelName);
 				}
 			},
 			cancellationToken,
@@ -266,7 +266,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
-			var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
+			var commitInsert = revisionInformation.CommitSha[..7];
 			string remoteCommitInsert;
 			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
 			{
@@ -274,7 +274,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				remoteCommitInsert = String.Empty;
 			}
 			else
-				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
+				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha[..7]);
 
 			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0
 				? String.Empty
@@ -288,7 +288,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							.Select(x => x.TestMerge)
 							.Select(x =>
 							{
-								var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha.Substring(0, 7));
+								var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha[..7]);
 								if (x.Comment != null)
 									result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
 								return result;
@@ -333,7 +333,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				cancellationToken.ThrowIfCancellationRequested();
 
-				Logger.LogTrace("Authenticating ({0})...", passwordType);
+				Logger.LogTrace("Authenticating ({passwordType})...", passwordType);
 				switch (passwordType)
 				{
 					case IrcPasswordType.Server:
