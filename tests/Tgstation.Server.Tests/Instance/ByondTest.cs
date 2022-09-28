@@ -1,5 +1,6 @@
 ﻿using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -13,6 +14,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
@@ -87,10 +89,14 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task TestCustomInstalls(CancellationToken cancellationToken)
 		{
+			var generalConfigOptionsMock = new Mock<IOptions<GeneralConfiguration>>();
+			generalConfigOptionsMock.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+
 			var byondInstaller = new PlatformIdentifier().IsWindows
 				? (IByondInstaller)new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
 					new DefaultIOManager(new AssemblyInformationProvider()),
+					generalConfigOptionsMock.Object,
 					Mock.Of<ILogger<WindowsByondInstaller>>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),

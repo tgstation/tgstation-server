@@ -11,6 +11,7 @@ General:
   InstanceLimit: 10
   ValidInstancePaths:
   HostApiDocumentation: false
+  SkipAddingByondFirewallException: false
 Session:
   HighPriorityLiveDreamDaemon: false
   LowPriorityDeploymentProcesses: true
