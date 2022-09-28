@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.InstanceFactory.CreateInstance" name="Tgstation.Server.Host.Components.InstanceFactory.CreateInstance">
 <area shape="rect" id="node1" title="Create an IInstance." alt="" coords="5,118,232,159"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html#a2da119ff14c5553f07a8e0c3b3d43755" title="Create a IChatManager." alt="" coords="301,5,545,61"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html#a018e6e40f5996e0f47441b03e54b32b3" title="Create a IChatManager." alt="" coords="301,5,545,61"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a7776b90becee310dbf88b39c649ed4e7" title="Creates a IWatchdog." alt="" coords="280,85,567,126"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a923eeba6faee2b5573a1fa4bc37c2216" title=" " alt="" coords="310,150,537,191"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a7d75a9e231bf808aab132ec9de724ff6" title="Initializes a new instance of the Repository class." alt="" coords="310,217,537,258"/>
