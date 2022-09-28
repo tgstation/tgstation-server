@@ -339,9 +339,9 @@ try
 
 	var gitHubClient = new GitHubClient(new Octokit.ProductHeaderValue(productInfoHeaderValue.Product!.Name, productInfoHeaderValue.Product.Version));
 
-#if DEBUG
-	gitHubClient.Credentials = new Credentials("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");
-#endif
+	string? gitHubPat = Environment.GetEnvironmentVariable("TGS_MIGRATOR_GITHUB_PAT");
+	if (gitHubPat != null)
+		gitHubClient.Credentials = new Credentials(gitHubPat);
 
 	const int TgstationServerRepoId = 92952846;
 
