@@ -12,7 +12,7 @@
     <TgsInteropVersion>5.3.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.2.0</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.0</TgsContainerScriptVersion>
-    <TgsMigratorVersion>1.0.0</TgsMigratorVersion>
+    <TgsMigratorVersion>1.0.1</TgsMigratorVersion>
     <TgsNetVersion>net6.0</TgsNetVersion>
   </PropertyGroup>
 </Project>
