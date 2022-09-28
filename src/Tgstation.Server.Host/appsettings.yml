@@ -35,6 +35,7 @@ ControlPanel:
   Channel: https://tgstation.github.io/tgstation-server-webpanel/api/${Major}.${Minor}.${Patch}
   AllowAnyOrigin: false
   AllowedOrigins: []
+  PublicPath:
 Updates:
   GitHubRepositoryId: 92952846
   GitTagPrefix: tgstation-server-v

@@ -28,6 +28,11 @@ namespace Tgstation.Server.Host.Configuration
 		public string Channel { get; set; }
 
 		/// <summary>
+		/// The public path to the TGS control panel from a wider network.
+		/// </summary>
+		public string PublicPath { get; set; }
+
+		/// <summary>
 		/// Origins allowed for CORS requests.
 		/// </summary>
 		public ICollection<string> AllowedOrigins { get; set; }

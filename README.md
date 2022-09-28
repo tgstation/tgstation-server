@@ -119,7 +119,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
-- `General:SkipAddingByondFirewallException`: Set to false if you have Windows firewall disabled
+- `General:SkipAddingByondFirewallException`: Set to `true` if you have Windows firewall disabled
 
 - `Session:HighPriorityLiveDreamDaemon`: Boolean controlling if live DreamDaemon instances get set to above normal priority processes.
 
@@ -142,6 +142,8 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 - `ControlPanel:AllowAnyOrigin`: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
+
+- `ControlPanel:PublicPath`: URL from which the webpanel can be accessed, defaults to "/app/". Must be an absolute path (https://example.org/path/to/webpanel) or a path starting from root (/path/to/webpanel). Note that this option does not relocate the webpanel for you; you will need a reverse proxy to relocate the webpanel
 
 - `Elasticsearch`: tgstation-server also supports automatically ingesting its logs to ElasticSearch. You can set this up in the setup wizard, or with the following configuration:
   ```yml

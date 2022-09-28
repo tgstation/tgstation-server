@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Mime;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -25,6 +28,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// Route to the <see cref="ControlPanelController"/>.
 		/// </summary>
 		public const string ControlPanelRoute = "/app";
+
+		/// <summary>
+		/// Header for forcing channel.json to be fetched.
+		/// </summary>
+		const string FetchChannelVaryHeader = "X-Webpanel-Fetch-Channel";
 
 		/// <summary>
 		/// The <see cref="IWebHostEnvironment"/> for the <see cref="ControlPanelController"/>.
@@ -70,7 +78,26 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				FormatVersion = 1,
 				Channel = controlPanelChannel,
+				controlPanelConfiguration.PublicPath,
 			});
+		}
+
+		/// <inheritdoc />
+		public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		{
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
+
+			var newValues = new List<string> { FetchChannelVaryHeader };
+			var headers = context.HttpContext.Response.Headers;
+			if (headers.TryGetValue(HeaderNames.Vary, out var oldValues))
+				headers.Remove(HeaderNames.Vary);
+
+			newValues.AddRange(oldValues);
+
+			headers.Add(HeaderNames.Vary, new StringValues(newValues.ToArray()));
+
+			return base.OnActionExecutionAsync(context, next);
 		}
 
 		/// <summary>
@@ -80,8 +107,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>The <see cref="VirtualFileResult"/> to use.</returns>
 		[Route("{**appRoute}")]
 		[HttpGet]
-		public VirtualFileResult Get([FromRoute] string appRoute)
+		public IActionResult Get([FromRoute] string appRoute)
 		{
+			if (Request.Headers.ContainsKey(FetchChannelVaryHeader))
+				return GetChannelJson();
+
 			var fileInfo = hostEnvironment.WebRootFileProvider.GetFileInfo(appRoute);
 			if (fileInfo.Exists)
 			{
