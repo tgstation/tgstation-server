@@ -257,6 +257,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							.Select(x => new Models.RepositorySettings
 							{
 								AccessToken = x.AccessToken,
+								AccessUser = x.AccessUser,
 								ShowTestMergeCommitters = x.ShowTestMergeCommitters,
 								PushTestMergeCommits = x.PushTestMergeCommits,
 								PostTestMergeComment = x.PostTestMergeComment,
@@ -513,7 +514,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					cancellationToken)
 					;
 
-				logger.LogTrace("Deployment will timeout at {0}", DateTimeOffset.Now + dreamMakerSettings.Timeout.Value);
+				logger.LogTrace("Deployment will timeout at {timeoutTime}", DateTimeOffset.UtcNow + dreamMakerSettings.Timeout.Value);
 				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout.Value);
 				var timeoutToken = timeoutTokenSource.Token;
 				using (timeoutToken.Register(() => logger.LogWarning("Deployment timed out!")))
