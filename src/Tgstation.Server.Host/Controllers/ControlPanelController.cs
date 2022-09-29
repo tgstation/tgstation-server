@@ -61,8 +61,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="JsonResult"/> with the <see cref="ControlPanelConfiguration.Channel"/>.</returns>
 		[Route("channel.json")]
 		[HttpGet]
-		public JsonResult GetChannelJson()
+		public IActionResult GetChannelJson()
 		{
+			if (!controlPanelConfiguration.Enable)
+				return NotFound();
+
 			var controlPanelChannel = controlPanelConfiguration.Channel;
 			if (controlPanelChannel == "local")
 				controlPanelChannel = ControlPanelRoute;
@@ -109,6 +112,9 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		public IActionResult Get([FromRoute] string appRoute)
 		{
+			if (!controlPanelConfiguration.Enable)
+				return NotFound();
+
 			if (Request.Headers.ContainsKey(FetchChannelVaryHeader))
 				return GetChannelJson();
 
