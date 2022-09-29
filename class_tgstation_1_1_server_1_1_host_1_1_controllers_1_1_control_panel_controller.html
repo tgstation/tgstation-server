@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.1.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -107,9 +107,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afe70b190342c80203a8e82ab19b727dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#afe70b190342c80203a8e82ab19b727dc">ControlPanelController</a> (IWebHostEnvironment <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a125c56cecfff0096ecca0e9de82b2f8a">hostEnvironment</a>, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html">ControlPanelConfiguration</a> &gt; controlPanelConfigurationOptions)</td></tr>
 <tr class="memdesc:afe70b190342c80203a8e82ab19b727dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html" title="Controller for the web control panel.">ControlPanelController</a> class.  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#afe70b190342c80203a8e82ab19b727dc">More...</a><br /></td></tr>
 <tr class="separator:afe70b190342c80203a8e82ab19b727dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc9bb8ad8d97c36fc4b946276ca0e320"><td class="memItemLeft" align="right" valign="top">JsonResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#abc9bb8ad8d97c36fc4b946276ca0e320">GetChannelJson</a> ()</td></tr>
-<tr class="memdesc:abc9bb8ad8d97c36fc4b946276ca0e320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ControlPanelConfiguration.Channel.  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#abc9bb8ad8d97c36fc4b946276ca0e320">More...</a><br /></td></tr>
-<tr class="separator:abc9bb8ad8d97c36fc4b946276ca0e320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a034b3a0121efed62a1a368bb59bf1fac"><td class="memItemLeft" align="right" valign="top">IActionResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac">GetChannelJson</a> ()</td></tr>
+<tr class="memdesc:a034b3a0121efed62a1a368bb59bf1fac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ControlPanelConfiguration.Channel.  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac">More...</a><br /></td></tr>
+<tr class="separator:a034b3a0121efed62a1a368bb59bf1fac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a749b7adb124dd261d03485546e300503"><td class="memItemLeft" align="right" valign="top">override Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a749b7adb124dd261d03485546e300503">OnActionExecutionAsync</a> (ActionExecutingContext context, ActionExecutionDelegate next)</td></tr>
 <tr class="separator:a749b7adb124dd261d03485546e300503"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dec47edda7da4e4e43cdf36db659742"><td class="memItemLeft" align="right" valign="top">IActionResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a3dec47edda7da4e4e43cdf36db659742">Get</a> ([FromRoute] string appRoute)</td></tr>
@@ -215,51 +215,55 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The VirtualFileResult to use.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00110">110</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  111</span>        {</div>
-<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">if</span> (Request.Headers.ContainsKey(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">FetchChannelVaryHeader</a>))</div>
-<div class="line"><span class="lineno">  113</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#abc9bb8ad8d97c36fc4b946276ca0e320">GetChannelJson</a>();</div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>            var fileInfo = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a125c56cecfff0096ecca0e9de82b2f8a">hostEnvironment</a>.WebRootFileProvider.GetFileInfo(appRoute);</div>
-<div class="line"><span class="lineno">  116</span>            <span class="keywordflow">if</span> (fileInfo.Exists)</div>
-<div class="line"><span class="lineno">  117</span>            {</div>
-<div class="line"><span class="lineno">  118</span>                var contentTypeProvider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</div>
-<div class="line"><span class="lineno">  119</span>                <span class="keywordflow">if</span> (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))</div>
-<div class="line"><span class="lineno">  120</span>                    contentType = MediaTypeNames.Application.Octet;</div>
-<div class="line"><span class="lineno">  121</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contentType == MediaTypeNames.Application.Json)</div>
-<div class="line"><span class="lineno">  122</span>                    Response.Headers.Add(</div>
-<div class="line"><span class="lineno">  123</span>                        HeaderNames.CacheControl,</div>
-<div class="line"><span class="lineno">  124</span>                        <span class="keyword">new</span> StringValues(<span class="keyword">new</span>[] { <span class="stringliteral">&quot;public&quot;</span>, <span class="stringliteral">&quot;max-age=31536000&quot;</span>, <span class="stringliteral">&quot;immutable&quot;</span> }));</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>                <span class="keywordflow">return</span> File(appRoute, contentType);</div>
-<div class="line"><span class="lineno">  127</span>            }</div>
-<div class="line"><span class="lineno">  128</span> </div>
-<div class="line"><span class="lineno">  129</span>            <span class="keywordflow">return</span> File(<span class="stringliteral">&quot;index.html&quot;</span>, MediaTypeNames.Text.Html);</div>
-<div class="line"><span class="lineno">  130</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00113">113</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  114</span>        {</div>
+<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Enable</a>)</div>
+<div class="line"><span class="lineno">  116</span>                <span class="keywordflow">return</span> NotFound();</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>            <span class="keywordflow">if</span> (Request.Headers.ContainsKey(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">FetchChannelVaryHeader</a>))</div>
+<div class="line"><span class="lineno">  119</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac">GetChannelJson</a>();</div>
+<div class="line"><span class="lineno">  120</span> </div>
+<div class="line"><span class="lineno">  121</span>            var fileInfo = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a125c56cecfff0096ecca0e9de82b2f8a">hostEnvironment</a>.WebRootFileProvider.GetFileInfo(appRoute);</div>
+<div class="line"><span class="lineno">  122</span>            <span class="keywordflow">if</span> (fileInfo.Exists)</div>
+<div class="line"><span class="lineno">  123</span>            {</div>
+<div class="line"><span class="lineno">  124</span>                var contentTypeProvider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</div>
+<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">if</span> (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))</div>
+<div class="line"><span class="lineno">  126</span>                    contentType = MediaTypeNames.Application.Octet;</div>
+<div class="line"><span class="lineno">  127</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contentType == MediaTypeNames.Application.Json)</div>
+<div class="line"><span class="lineno">  128</span>                    Response.Headers.Add(</div>
+<div class="line"><span class="lineno">  129</span>                        HeaderNames.CacheControl,</div>
+<div class="line"><span class="lineno">  130</span>                        <span class="keyword">new</span> StringValues(<span class="keyword">new</span>[] { <span class="stringliteral">&quot;public&quot;</span>, <span class="stringliteral">&quot;max-age=31536000&quot;</span>, <span class="stringliteral">&quot;immutable&quot;</span> }));</div>
+<div class="line"><span class="lineno">  131</span> </div>
+<div class="line"><span class="lineno">  132</span>                <span class="keywordflow">return</span> File(appRoute, contentType);</div>
+<div class="line"><span class="lineno">  133</span>            }</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">return</span> File(<span class="stringliteral">&quot;index.html&quot;</span>, MediaTypeNames.Text.Html);</div>
+<div class="line"><span class="lineno">  136</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html_a15564859b17400f1bcc723a5fbee8121"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Enable</a></div><div class="ttdeci">bool Enable</div><div class="ttdoc">If the control panel is enabled.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00018">ControlPanelConfiguration.cs:18</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_html_a034b3a0121efed62a1a368bb59bf1fac"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson</a></div><div class="ttdeci">IActionResult GetChannelJson()</div><div class="ttdoc">Returns the ControlPanelConfiguration.Channel.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_controller_8cs_source.html#l00064">ControlPanelController.cs:64</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_html_aad08b37ff09740d94abbbda15cb1f32a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">Tgstation.Server.Host.Controllers.ControlPanelController.FetchChannelVaryHeader</a></div><div class="ttdeci">const string FetchChannelVaryHeader</div><div class="ttdoc">Header for forcing channel.json to be fetched.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_controller_8cs_source.html#l00035">ControlPanelController.cs:35</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_html_abc9bb8ad8d97c36fc4b946276ca0e320"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#abc9bb8ad8d97c36fc4b946276ca0e320">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson</a></div><div class="ttdeci">JsonResult GetChannelJson()</div><div class="ttdoc">Returns the ControlPanelConfiguration.Channel.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_controller_8cs_source.html#l00064">ControlPanelController.cs:64</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_control_panel_controller_8cs_source.html#l00035">Tgstation.Server.Host.Controllers.ControlPanelController.FetchChannelVaryHeader</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00040">Tgstation.Server.Host.Controllers.ControlPanelController.hostEnvironment</a>.</p>
+<p class="reference">References <a class="el" href="_control_panel_controller_8cs_source.html#l00045">Tgstation.Server.Host.Controllers.ControlPanelController.controlPanelConfiguration</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00018">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Enable</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00035">Tgstation.Server.Host.Controllers.ControlPanelController.FetchChannelVaryHeader</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00040">Tgstation.Server.Host.Controllers.ControlPanelController.hostEnvironment</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_a3dec47edda7da4e4e43cdf36db659742_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_a3dec47edda7da4e4e43cdf36db659742_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_a3dec47edda7da4e4e43cdf36db659742_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_a3dec47edda7da4e4e43cdf36db659742_cgraph">
 <area shape="rect" title="Handle a GET request to the control panel route. Route to static files if they exist,..." alt="" coords="5,5,221,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#abc9bb8ad8d97c36fc4b946276ca0e320" title="Returns the ControlPanelConfiguration.Channel." alt="" coords="269,5,520,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac" title="Returns the ControlPanelConfiguration.Channel." alt="" coords="269,5,520,47"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="abc9bb8ad8d97c36fc4b946276ca0e320" name="abc9bb8ad8d97c36fc4b946276ca0e320"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc9bb8ad8d97c36fc4b946276ca0e320">&#9670;&nbsp;</a></span>GetChannelJson()</h2>
+<a id="a034b3a0121efed62a1a368bb59bf1fac" name="a034b3a0121efed62a1a368bb59bf1fac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a034b3a0121efed62a1a368bb59bf1fac">&#9670;&nbsp;</a></span>GetChannelJson()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">JsonResult Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson </td>
+          <td class="memname">IActionResult Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -272,38 +276,41 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00064">64</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   65</span>        {</div>
-<div class="line"><span class="lineno">   66</span>            var controlPanelChannel = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a31996f6cfff0a0e0985e935723c07d0f">Channel</a>;</div>
-<div class="line"><span class="lineno">   67</span>            <span class="keywordflow">if</span> (controlPanelChannel == <span class="stringliteral">&quot;local&quot;</span>)</div>
-<div class="line"><span class="lineno">   68</span>                controlPanelChannel = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>;</div>
-<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(controlPanelChannel))</div>
-<div class="line"><span class="lineno">   70</span>                controlPanelChannel = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   72</span>                controlPanelChannel = controlPanelChannel</div>
-<div class="line"><span class="lineno">   73</span>                    .Replace(<span class="stringliteral">&quot;${Major}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)</div>
-<div class="line"><span class="lineno">   74</span>                    .Replace(<span class="stringliteral">&quot;${Minor}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)</div>
-<div class="line"><span class="lineno">   75</span>                    .Replace(<span class="stringliteral">&quot;${Patch}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">return</span> Json(<span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   78</span>            {</div>
-<div class="line"><span class="lineno">   79</span>                FormatVersion = 1,</div>
-<div class="line"><span class="lineno">   80</span>                Channel = controlPanelChannel,</div>
-<div class="line"><span class="lineno">   81</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a9ec1a30664353bf5348bf8f8ac22ff86">PublicPath</a>,</div>
-<div class="line"><span class="lineno">   82</span>            });</div>
-<div class="line"><span class="lineno">   83</span>        }</div>
+<div class="line"><span class="lineno">   66</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Enable</a>)</div>
+<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">return</span> NotFound();</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>            var controlPanelChannel = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a31996f6cfff0a0e0985e935723c07d0f">Channel</a>;</div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">if</span> (controlPanelChannel == <span class="stringliteral">&quot;local&quot;</span>)</div>
+<div class="line"><span class="lineno">   71</span>                controlPanelChannel = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">ControlPanelRoute</a>;</div>
+<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(controlPanelChannel))</div>
+<div class="line"><span class="lineno">   73</span>                controlPanelChannel = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   75</span>                controlPanelChannel = controlPanelChannel</div>
+<div class="line"><span class="lineno">   76</span>                    .Replace(<span class="stringliteral">&quot;${Major}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)</div>
+<div class="line"><span class="lineno">   77</span>                    .Replace(<span class="stringliteral">&quot;${Minor}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)</div>
+<div class="line"><span class="lineno">   78</span>                    .Replace(<span class="stringliteral">&quot;${Patch}&quot;</span>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">return</span> Json(<span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   81</span>            {</div>
+<div class="line"><span class="lineno">   82</span>                FormatVersion = 1,</div>
+<div class="line"><span class="lineno">   83</span>                Channel = controlPanelChannel,</div>
+<div class="line"><span class="lineno">   84</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a9ec1a30664353bf5348bf8f8ac22ff86">PublicPath</a>,</div>
+<div class="line"><span class="lineno">   85</span>            });</div>
+<div class="line"><span class="lineno">   86</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a></div><div class="ttdoc">Represents the header that must be present for every server request.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00021">ApiHeaders.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a6741a096c8700041ac2995b55078302b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Tgstation.Server.Api.ApiHeaders.Version</a></div><div class="ttdeci">static readonly Version Version</div><div class="ttdoc">Get the version of the Api the caller is using.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00061">ApiHeaders.cs:61</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html_a31996f6cfff0a0e0985e935723c07d0f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a31996f6cfff0a0e0985e935723c07d0f">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Channel</a></div><div class="ttdeci">string Channel</div><div class="ttdoc">The channel to retrieve the webpanel from. &quot;local&quot; uses the bundled version.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00028">ControlPanelConfiguration.cs:28</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html_a9ec1a30664353bf5348bf8f8ac22ff86"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a9ec1a30664353bf5348bf8f8ac22ff86">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.PublicPath</a></div><div class="ttdeci">string PublicPath</div><div class="ttdoc">The public path to the TGS control panel from a wider network.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00033">ControlPanelConfiguration.cs:33</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_html_a31405e686cba6874931106edd1d3a661"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a31405e686cba6874931106edd1d3a661">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelRoute</a></div><div class="ttdeci">const string ControlPanelRoute</div><div class="ttdoc">Route to the ControlPanelController.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_controller_8cs_source.html#l00030">ControlPanelController.cs:30</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_control_panel_configuration_8cs_source.html#l00028">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Channel</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00045">Tgstation.Server.Host.Controllers.ControlPanelController.controlPanelConfiguration</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00030">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelRoute</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00033">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.PublicPath</a>, and <a class="el" href="_api_headers_8cs_source.html#l00061">Tgstation.Server.Api.ApiHeaders.Version</a>.</p>
+<p class="reference">References <a class="el" href="_control_panel_configuration_8cs_source.html#l00028">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Channel</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00045">Tgstation.Server.Host.Controllers.ControlPanelController.controlPanelConfiguration</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00030">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelRoute</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00018">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Enable</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00033">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.PublicPath</a>, and <a class="el" href="_api_headers_8cs_source.html#l00061">Tgstation.Server.Api.ApiHeaders.Version</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00110">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_abc9bb8ad8d97c36fc4b946276ca0e320_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_abc9bb8ad8d97c36fc4b946276ca0e320_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_abc9bb8ad8d97c36fc4b946276ca0e320_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_abc9bb8ad8d97c36fc4b946276ca0e320_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_a034b3a0121efed62a1a368bb59bf1fac_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_a034b3a0121efed62a1a368bb59bf1fac_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_a034b3a0121efed62a1a368bb59bf1fac_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_a034b3a0121efed62a1a368bb59bf1fac_icgraph">
 <area shape="rect" title="Returns the ControlPanelConfiguration.Channel." alt="" coords="269,5,520,47"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a3dec47edda7da4e4e43cdf36db659742" title="Handle a GET request to the control panel route. Route to static files if they exist,..." alt="" coords="5,5,221,47"/>
 </map>
@@ -339,22 +346,22 @@ Here is the caller graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00086">86</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   87</span>        {</div>
-<div class="line"><span class="lineno">   88</span>            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   89</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>            var newValues = <span class="keyword">new</span> List&lt;string&gt; { <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">FetchChannelVaryHeader</a> };</div>
-<div class="line"><span class="lineno">   92</span>            var headers = context.HttpContext.Response.Headers;</div>
-<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">if</span> (headers.TryGetValue(HeaderNames.Vary, out var oldValues))</div>
-<div class="line"><span class="lineno">   94</span>                headers.Remove(HeaderNames.Vary);</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>            newValues.AddRange(oldValues);</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>            headers.Add(HeaderNames.Vary, <span class="keyword">new</span> StringValues(newValues.ToArray()));</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>            <span class="keywordflow">return</span> base.OnActionExecutionAsync(context, next);</div>
-<div class="line"><span class="lineno">  101</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00089">89</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   90</span>        {</div>
+<div class="line"><span class="lineno">   91</span>            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>            var newValues = <span class="keyword">new</span> List&lt;string&gt; { <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">FetchChannelVaryHeader</a> };</div>
+<div class="line"><span class="lineno">   95</span>            var headers = context.HttpContext.Response.Headers;</div>
+<div class="line"><span class="lineno">   96</span>            <span class="keywordflow">if</span> (headers.TryGetValue(HeaderNames.Vary, out var oldValues))</div>
+<div class="line"><span class="lineno">   97</span>                headers.Remove(HeaderNames.Vary);</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>            newValues.AddRange(oldValues);</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>            headers.Add(HeaderNames.Vary, <span class="keyword">new</span> StringValues(newValues.ToArray()));</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">return</span> base.OnActionExecutionAsync(context, next);</div>
+<div class="line"><span class="lineno">  104</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_control_panel_controller_8cs_source.html#l00035">Tgstation.Server.Host.Controllers.ControlPanelController.FetchChannelVaryHeader</a>.</p>
 
@@ -385,7 +392,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00045">45</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>.</p>
 
 </div>
 </div>
@@ -441,7 +448,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00035">35</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00110">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00086">Tgstation.Server.Host.Controllers.ControlPanelController.OnActionExecutionAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.ControlPanelController.OnActionExecutionAsync()</a>.</p>
 
 </div>
 </div>
@@ -469,7 +476,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00040">40</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00110">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
 
 </div>
 </div>

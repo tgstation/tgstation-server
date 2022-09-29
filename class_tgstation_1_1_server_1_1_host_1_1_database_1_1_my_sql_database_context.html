@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.1.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -424,8 +424,12 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   54</span>            options.UseMySql(</div>
 <div class="line"><span class="lineno">   55</span>                databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a>,</div>
 <div class="line"><span class="lineno">   56</span>                serverVersion,</div>
-<div class="line"><span class="lineno">   57</span>                mySqlOptions =&gt; mySqlOptions.EnableRetryOnFailure());</div>
-<div class="line"><span class="lineno">   58</span>        }</div>
+<div class="line"><span class="lineno">   57</span>                mySqlOptions =&gt;</div>
+<div class="line"><span class="lineno">   58</span>                {</div>
+<div class="line"><span class="lineno">   59</span>                    mySqlOptions.EnableRetryOnFailure();</div>
+<div class="line"><span class="lineno">   60</span>                    mySqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);</div>
+<div class="line"><span class="lineno">   61</span>                });</div>
+<div class="line"><span class="lineno">   62</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a37d2a2cb232af1fcc3a5ea4139a052e9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a37d2a2cb232af1fcc3a5ea4139a052e9">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ServerVersion</a></div><div class="ttdeci">string ServerVersion</div><div class="ttdoc">The string form of the global::System.Version of the target server.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00045">DatabaseConfiguration.cs:45</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a53a14b4a89de73b8ea223804c4aea365"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a></div><div class="ttdeci">string ConnectionString</div><div class="ttdoc">The connection string for the database.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00030">DatabaseConfiguration.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_adab83eaad53afabdb2f7b43c23ece38a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a></div><div class="ttdeci">DatabaseType DatabaseType</div><div class="ttdoc">The Configuration.DatabaseType to create.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00020">DatabaseConfiguration.cs:20</a></div></div>

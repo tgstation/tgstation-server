@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.1.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -414,7 +414,7 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   42</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DatabaseType for {nameof(SqliteDatabaseContext)}!&quot;</span>);</div>
 <div class="line"><span class="lineno">   43</span> </div>
 <div class="line"><span class="lineno">   44</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html#a3b6658b7b9a33591ec03e0ad4c24bf09">DesignTime</a> = databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#ae179f5debc33b39375973abf2d91e99d">DesignTime</a>;</div>
-<div class="line"><span class="lineno">   45</span>            options.UseSqlite(databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a>);</div>
+<div class="line"><span class="lineno">   45</span>            options.UseSqlite(databaseConfiguration.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a>, sqliteOptions =&gt; sqliteOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));</div>
 <div class="line"><span class="lineno">   46</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a53a14b4a89de73b8ea223804c4aea365"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a></div><div class="ttdeci">string ConnectionString</div><div class="ttdoc">The connection string for the database.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00030">DatabaseConfiguration.cs:30</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_adab83eaad53afabdb2f7b43c23ece38a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a></div><div class="ttdeci">DatabaseType DatabaseType</div><div class="ttdoc">The Configuration.DatabaseType to create.</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00020">DatabaseConfiguration.cs:20</a></div></div>
