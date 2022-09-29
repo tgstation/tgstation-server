@@ -259,7 +259,7 @@ namespace Tgstation.Server.Host.Controllers
 							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)
 							;
 
-						Logger.LogTrace("External {0} UID: {1}", oAuthProvider, externalUserId);
+						Logger.LogTrace("External {oAuthProvider} UID: {externalUserId}", oAuthProvider, externalUserId);
 					}
 					catch (RateLimitExceededException ex)
 					{
@@ -322,7 +322,7 @@ namespace Tgstation.Server.Host.Controllers
 							return Unauthorized();
 						if (user.PasswordHash != originalHash)
 						{
-							Logger.LogDebug("User ID {0}'s password hash needs a refresh, updating database.", user.Id);
+							Logger.LogDebug("User ID {userId}'s password hash needs a refresh, updating database.", user.Id);
 							var updatedUser = new Models.User
 							{
 								Id = user.Id,
@@ -335,7 +335,7 @@ namespace Tgstation.Server.Host.Controllers
 					else if (systemIdentity.Username != user.Name)
 					{
 						// System identity username change update
-						Logger.LogDebug("User ID {0}'s system identity needs a refresh, updating database.", user.Id);
+						Logger.LogDebug("User ID {userId}'s system identity needs a refresh, updating database.", user.Id);
 						DatabaseContext.Users.Attach(user);
 						user.Name = systemIdentity.Username;
 						user.CanonicalName = Models.User.CanonicalizeName(user.Name);
@@ -345,7 +345,7 @@ namespace Tgstation.Server.Host.Controllers
 				// Now that the bookeeping is done, tell them to fuck off if necessary
 				if (!user.Enabled.Value)
 				{
-					Logger.LogTrace("Not logging in disabled user {0}.", user.Id);
+					Logger.LogTrace("Not logging in disabled user {userId}.", user.Id);
 					return Forbid();
 				}
 
@@ -359,7 +359,7 @@ namespace Tgstation.Server.Host.Controllers
 					identityCache.CacheSystemIdentity(user, systemIdentity, identExpiry);
 				}
 
-				Logger.LogDebug("Successfully logged in user {0}!", user.Id);
+				Logger.LogDebug("Successfully logged in user {userId}!", user.Id);
 
 				return Json(token);
 			}
