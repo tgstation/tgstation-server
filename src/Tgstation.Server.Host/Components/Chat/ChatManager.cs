@@ -192,63 +192,70 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 
 			var results = await provider.MapChannels(newChannels, cancellationToken);
-			lock (activeChatBots)
+			try
 			{
-				var botToUpdate = activeChatBots.FirstOrDefault(bot => bot.Id == connectionId);
-				if (botToUpdate != null)
-					botToUpdate.Channels = newChannels
-						.Select(apiModel => new Models.ChatChannel
-						{
-							DiscordChannelId = apiModel.DiscordChannelId,
-							IrcChannel = apiModel.IrcChannel,
-							IsAdminChannel = apiModel.IsAdminChannel,
-							IsUpdatesChannel = apiModel.IsUpdatesChannel,
-							IsWatchdogChannel = apiModel.IsWatchdogChannel,
-							Tag = apiModel.Tag,
-						})
-						.ToList();
-			}
-
-			var newMappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
-			{
-				IsWatchdogChannel = x.IsWatchdogChannel == true,
-				IsUpdatesChannel = x.IsUpdatesChannel == true,
-				IsAdminChannel = x.IsAdminChannel == true,
-				ProviderChannelId = y.RealId,
-				ProviderId = connectionId,
-				Channel = y,
-			});
-
-			ulong baseId;
-			lock (synchronizationLock)
-			{
-				baseId = channelIdCounter;
-				channelIdCounter += (ulong)results.Count;
-			}
-
-			Task trackingContextUpdateTask;
-			lock (mappedChannels)
-			{
-				lock (providers)
-					if (!providers.TryGetValue(connectionId, out IProvider verify) || verify != provider) // aborted again
-						return;
-				foreach (var newMapping in newMappings)
+				lock (activeChatBots)
 				{
-					var newId = baseId++;
-					logger.LogTrace("Mapping channel {connectionName}:{channelFriendlyName} as {newId}", newMapping.Channel.ConnectionName, newMapping.Channel.FriendlyName, newId);
-					mappedChannels.Add(newId, newMapping);
-					newMapping.Channel.RealId = newId;
+					var botToUpdate = activeChatBots.FirstOrDefault(bot => bot.Id == connectionId);
+					if (botToUpdate != null)
+						botToUpdate.Channels = newChannels
+							.Select(apiModel => new Models.ChatChannel
+							{
+								DiscordChannelId = apiModel.DiscordChannelId,
+								IrcChannel = apiModel.IrcChannel,
+								IsAdminChannel = apiModel.IsAdminChannel,
+								IsUpdatesChannel = apiModel.IsUpdatesChannel,
+								IsWatchdogChannel = apiModel.IsWatchdogChannel,
+								Tag = apiModel.Tag,
+							})
+							.ToList();
 				}
 
-				lock (trackingContexts)
-					trackingContextUpdateTask = Task.WhenAll(
-						trackingContexts.Select(
-							x => x.UpdateChannels(
-								mappedChannels.Select(y => y.Value.Channel).ToList(),
-								cancellationToken)));
-			}
+				var newMappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
+				{
+					IsWatchdogChannel = x.IsWatchdogChannel == true,
+					IsUpdatesChannel = x.IsUpdatesChannel == true,
+					IsAdminChannel = x.IsAdminChannel == true,
+					ProviderChannelId = y.RealId,
+					ProviderId = connectionId,
+					Channel = y,
+				});
 
-			await trackingContextUpdateTask;
+				ulong baseId;
+				lock (synchronizationLock)
+				{
+					baseId = channelIdCounter;
+					channelIdCounter += (ulong)results.Count;
+				}
+
+				Task trackingContextUpdateTask;
+				lock (mappedChannels)
+				{
+					lock (providers)
+						if (!providers.TryGetValue(connectionId, out IProvider verify) || verify != provider) // aborted again
+							return;
+					foreach (var newMapping in newMappings)
+					{
+						var newId = baseId++;
+						logger.LogTrace("Mapping channel {connectionName}:{channelFriendlyName} as {newId}", newMapping.Channel.ConnectionName, newMapping.Channel.FriendlyName, newId);
+						mappedChannels.Add(newId, newMapping);
+						newMapping.Channel.RealId = newId;
+					}
+
+					lock (trackingContexts)
+						trackingContextUpdateTask = Task.WhenAll(
+							trackingContexts.Select(
+								x => x.UpdateChannels(
+									mappedChannels.Select(y => y.Value.Channel).ToList(),
+									cancellationToken)));
+				}
+
+				await trackingContextUpdateTask;
+			}
+			finally
+			{
+				provider.InitialMappingComplete();
+			}
 		}
 
 		/// <inheritdoc />

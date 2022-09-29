@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<ChannelRepresentation>> MapChannelsImpl(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));

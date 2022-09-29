@@ -114,7 +114,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public abstract Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken);
+		public void InitialMappingComplete() => initialConnectionTcs.TrySetResult(null);
+
+		/// <inheritdoc />
+		public async Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await MapChannelsImpl(channels, cancellationToken);
+			}
+			catch
+			{
+				initialConnectionTcs.TrySetResult(null);
+				throw;
+			}
+		}
 
 		/// <inheritdoc />
 		public async Task<Message> NextMessage(CancellationToken cancellationToken)
@@ -177,6 +191,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected abstract Task DisconnectImpl(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Implementation of <see cref="MapChannels(IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>.
+		/// </summary>
+		/// <param name="channels">The <see cref="Api.Models.ChatChannel"/>s to map.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyCollection{T}"/> of the <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
+		protected abstract Task<IReadOnlyCollection<ChannelRepresentation>> MapChannelsImpl(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Queues a <paramref name="message"/> for <see cref="NextMessage(CancellationToken)"/>.
@@ -245,21 +267,28 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							job,
 							async (core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken) =>
 							{
-								if (Connected)
+								try
 								{
-									Logger.LogTrace("Disconnecting...");
-									await DisconnectImpl(jobCancellationToken);
-								}
-								else
-									Logger.LogTrace("Already disconnected not doing disconnection attempt!");
+									if (Connected)
+									{
+										Logger.LogTrace("Disconnecting...");
+										await DisconnectImpl(jobCancellationToken);
+									}
+									else
+										Logger.LogTrace("Already disconnected not doing disconnection attempt!");
 
-								Logger.LogTrace("Connecting...");
-								await Connect(jobCancellationToken);
-								Logger.LogTrace("Connected successfully");
-								EnqueueMessage(null);
+									Logger.LogTrace("Connecting...");
+									await Connect(jobCancellationToken);
+									Logger.LogTrace("Connected successfully");
+									EnqueueMessage(null);
+								}
+								catch
+								{
+									initialConnectionTcs.TrySetResult(null);
+									throw;
+								}
 							},
-							cancellationToken)
-							;
+							cancellationToken);
 
 						// DCT: Always wait for the job to complete here
 						await jobManager.WaitForJobCompletion(job, null, cancellationToken, default);
@@ -272,10 +301,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				catch (Exception e)
 				{
 					Logger.LogError(e, "Error reconnecting!");
-				}
-				finally
-				{
-					initialConnectionTcs.TrySetResult(null);
 				}
 			}
 			while (true);

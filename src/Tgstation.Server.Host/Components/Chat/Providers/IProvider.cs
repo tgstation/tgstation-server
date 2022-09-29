@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		Task InitialConnectionJob { get; }
 
 		/// <summary>
+		/// Indicate to the provider that at least one <see cref="MapChannels(IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/> call has successfully completed.
+		/// </summary>
+		void InitialMappingComplete();
+
+		/// <summary>
 		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
