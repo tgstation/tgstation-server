@@ -538,6 +538,7 @@ namespace Tgstation.Server.Host.Controllers
 								}
 
 								testMergeToAdd.MergedBy = mergedBy;
+								testMergeToAdd.MergedAt = DateTimeOffset.UtcNow;
 
 								foreach (var activeTestMerge in previousRevInfo.ActiveTestMerges)
 									lastRevisionInfo.ActiveTestMerges.Add(activeTestMerge);
@@ -839,7 +840,6 @@ namespace Tgstation.Server.Host.Controllers
 									{
 										Author = ex.Message,
 										BodyAtMerge = ex.Message,
-										MergedAt = DateTimeOffset.UtcNow,
 										TitleAtMerge = ex.Message,
 										Comment = newTestMerge.Comment,
 										Number = newTestMerge.Number,
