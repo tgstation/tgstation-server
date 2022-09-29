@@ -34,7 +34,13 @@ namespace Tgstation.Server.Host.Database
 			if (databaseConfiguration.DatabaseType != DatabaseType.SqlServer)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(SqlServerDatabaseContext)}!");
 
-			options.UseSqlServer(databaseConfiguration.ConnectionString, x => x.EnableRetryOnFailure());
+			options.UseSqlServer(
+				databaseConfiguration.ConnectionString,
+				sqlServerOptions =>
+				{
+					sqlServerOptions.EnableRetryOnFailure();
+					sqlServerOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+				});
 		}
 	}
 }

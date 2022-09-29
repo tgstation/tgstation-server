@@ -54,7 +54,11 @@ namespace Tgstation.Server.Host.Database
 			options.UseMySql(
 				databaseConfiguration.ConnectionString,
 				serverVersion,
-				mySqlOptions => mySqlOptions.EnableRetryOnFailure());
+				mySqlOptions =>
+				{
+					mySqlOptions.EnableRetryOnFailure();
+					mySqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+				});
 		}
 	}
 }

@@ -44,6 +44,7 @@ namespace Tgstation.Server.Host.Database
 			options.UseNpgsql(databaseConfiguration.ConnectionString, options =>
 			{
 				options.EnableRetryOnFailure();
+				options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 
 				if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))
 					options.SetPostgresVersion(

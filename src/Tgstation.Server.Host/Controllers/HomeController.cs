@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (controlPanelConfiguration.Enable && !Request.Headers.TryGetValue(ApiHeaders.ApiVersionHeader, out _))
 				{
 					Logger.LogDebug("No API headers on request, redirecting to control panel...");
-					return Redirect(ControlPanelController.ControlPanelRoute);
+					return Redirect(controlPanelConfiguration.PublicPath ?? ControlPanelController.ControlPanelRoute);
 				}
 
 				try
