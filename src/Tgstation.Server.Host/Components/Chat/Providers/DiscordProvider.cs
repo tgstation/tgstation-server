@@ -534,7 +534,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var content = NormalizeMentions(messageCreateEvent.Content);
 			var mentionedUs = messageCreateEvent.Mentions.Any(x => x.ID == currentUserId)
-				|| (!shouldNotAnswer && content.Split(' ', StringSplitOptions.RemoveEmptyEntries).First().Equals(ChatManager.CommonMention, StringComparison.OrdinalIgnoreCase));
+				|| (!shouldNotAnswer && content.Split(' ').First().Equals(ChatManager.CommonMention, StringComparison.OrdinalIgnoreCase));
 
 			if (shouldNotAnswer)
 			{
