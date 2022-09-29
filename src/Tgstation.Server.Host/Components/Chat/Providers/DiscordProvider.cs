@@ -197,101 +197,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<ChannelRepresentation>> MapChannelsImpl(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
-		{
-			if (channels == null)
-				throw new ArgumentNullException(nameof(channels));
-
-			bool remapRequired = false;
-
-			async Task<ChannelRepresentation> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
-			{
-				if (!channelFromDB.DiscordChannelId.HasValue)
-					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
-
-				var channelId = channelFromDB.DiscordChannelId.Value;
-				string connectionName;
-				string friendlyName;
-				if (channelId == 0)
-				{
-					connectionName = initialUserName;
-					friendlyName = "(Unmapped accessible channels)";
-				}
-				else
-				{
-					var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
-					var discordChannelResponse = await channelsClient.GetChannelAsync(new Snowflake(channelId), cancellationToken);
-					if (!discordChannelResponse.IsSuccess)
-					{
-						Logger.LogWarning("Error retrieving discord channel {0}: {1}", channelId, discordChannelResponse.Error.Message);
-						remapRequired = true;
-						return null;
-					}
-
-					if (discordChannelResponse.Entity.Type != ChannelType.GuildText)
-					{
-						Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannelResponse.Entity.Type);
-						return null;
-					}
-
-					friendlyName = discordChannelResponse.Entity.Name.Value;
-
-					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
-					var guildsResponse = await guildsClient.GetGuildAsync(
-						discordChannelResponse.Entity.GuildID.Value,
-						false,
-						cancellationToken);
-					if (!guildsResponse.IsSuccess)
-					{
-						Logger.LogWarning(
-							"Error retrieving discord guild {0}: {1}",
-							discordChannelResponse.Entity.GuildID.Value,
-							discordChannelResponse.Error.Message);
-						remapRequired = true;
-						return null;
-					}
-
-					connectionName = guildsResponse.Entity.Name;
-				}
-
-				var channelModel = new ChannelRepresentation
-				{
-					RealId = channelId,
-					IsAdminChannel = channelFromDB.IsAdminChannel == true,
-					ConnectionName = connectionName,
-					FriendlyName = friendlyName,
-					IsPrivateChannel = false,
-					Tag = channelFromDB.Tag,
-				};
-
-				Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
-				return channelModel;
-			}
-
-			var tasks = channels
-				.Select(x => GetModelChannelFromDBChannel(x))
-				.ToList();
-
-			await Task.WhenAll(tasks);
-
-			var enumerator = tasks
-				.Select(x => x.Result)
-				.Where(x => x != null)
-				.ToList();
-
-			lock (mappedChannels)
-			{
-				mappedChannels.Clear();
-				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
-			}
-
-			if (remapRequired)
-				EnqueueMessage(null);
-
-			return enumerator;
-		}
-
-		/// <inheritdoc />
 		public override async Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken)
 		{
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
@@ -677,6 +582,101 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogWarning("Gateway issue: {0}", gatewayResult.Error.Message);
 
 			localGatewayCts.Dispose();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<IReadOnlyCollection<ChannelRepresentation>> MapChannelsImpl(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
+		{
+			if (channels == null)
+				throw new ArgumentNullException(nameof(channels));
+
+			bool remapRequired = false;
+
+			async Task<ChannelRepresentation> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
+			{
+				if (!channelFromDB.DiscordChannelId.HasValue)
+					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
+
+				var channelId = channelFromDB.DiscordChannelId.Value;
+				string connectionName;
+				string friendlyName;
+				if (channelId == 0)
+				{
+					connectionName = initialUserName;
+					friendlyName = "(Unmapped accessible channels)";
+				}
+				else
+				{
+					var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
+					var discordChannelResponse = await channelsClient.GetChannelAsync(new Snowflake(channelId), cancellationToken);
+					if (!discordChannelResponse.IsSuccess)
+					{
+						Logger.LogWarning("Error retrieving discord channel {0}: {1}", channelId, discordChannelResponse.Error.Message);
+						remapRequired = true;
+						return null;
+					}
+
+					if (discordChannelResponse.Entity.Type != ChannelType.GuildText)
+					{
+						Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannelResponse.Entity.Type);
+						return null;
+					}
+
+					friendlyName = discordChannelResponse.Entity.Name.Value;
+
+					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
+					var guildsResponse = await guildsClient.GetGuildAsync(
+						discordChannelResponse.Entity.GuildID.Value,
+						false,
+						cancellationToken);
+					if (!guildsResponse.IsSuccess)
+					{
+						Logger.LogWarning(
+							"Error retrieving discord guild {0}: {1}",
+							discordChannelResponse.Entity.GuildID.Value,
+							discordChannelResponse.Error.Message);
+						remapRequired = true;
+						return null;
+					}
+
+					connectionName = guildsResponse.Entity.Name;
+				}
+
+				var channelModel = new ChannelRepresentation
+				{
+					RealId = channelId,
+					IsAdminChannel = channelFromDB.IsAdminChannel == true,
+					ConnectionName = connectionName,
+					FriendlyName = friendlyName,
+					IsPrivateChannel = false,
+					Tag = channelFromDB.Tag,
+				};
+
+				Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
+				return channelModel;
+			}
+
+			var tasks = channels
+				.Select(x => GetModelChannelFromDBChannel(x))
+				.ToList();
+
+			await Task.WhenAll(tasks);
+
+			var enumerator = tasks
+				.Select(x => x.Result)
+				.Where(x => x != null)
+				.ToList();
+
+			lock (mappedChannels)
+			{
+				mappedChannels.Clear();
+				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
+			}
+
+			if (remapRequired)
+				EnqueueMessage(null);
+
+			return enumerator;
 		}
 	}
 	#pragma warning restore CA1506
