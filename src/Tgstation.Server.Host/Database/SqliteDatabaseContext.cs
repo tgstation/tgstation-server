@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Database
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(SqliteDatabaseContext)}!");
 
 			DesignTime = databaseConfiguration.DesignTime;
-			options.UseSqlite(databaseConfiguration.ConnectionString);
+			options.UseSqlite(databaseConfiguration.ConnectionString, sqliteOptions => sqliteOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
 		}
 
 		/// <inheritdoc />
