@@ -91,43 +91,50 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			else
 			{
 				Logger.LogTrace("Creating deployment...");
-				var deployment = await gitHubClient
-					.Repository
-					.Deployment
-					.Create(
-						remoteInformation.RemoteRepositoryOwner,
-						remoteInformation.RemoteRepositoryName,
-						new NewDeployment(compileJob.RevisionInformation.CommitSha)
-						{
-							AutoMerge = false,
-							Description = "TGS Game Deployment",
-							Environment = $"TGS: {Metadata.Name}",
-							ProductionEnvironment = true,
-							RequiredContexts = new Collection<string>(),
-						})
-					.WithToken(cancellationToken)
-					;
+				Octokit.Deployment deployment;
 
-				compileJob.GitHubDeploymentId = deployment.Id;
-				Logger.LogDebug("Created deployment ID {deploymentId}", deployment.Id);
+				try
+				{
+					deployment = await gitHubClient
+						.Repository
+						.Deployment
+						.Create(
+							remoteInformation.RemoteRepositoryOwner,
+							remoteInformation.RemoteRepositoryName,
+							new NewDeployment(compileJob.RevisionInformation.CommitSha)
+							{
+								AutoMerge = false,
+								Description = "TGS Game Deployment",
+								Environment = $"TGS: {Metadata.Name}",
+								ProductionEnvironment = true,
+								RequiredContexts = new Collection<string>(),
+							})
+						.WithToken(cancellationToken);
 
-				await gitHubClient
-					.Repository
-					.Deployment
-					.Status
-					.Create(
-						remoteInformation.RemoteRepositoryOwner,
-						remoteInformation.RemoteRepositoryName,
-						deployment.Id,
-						new NewDeploymentStatus(DeploymentState.InProgress)
-						{
-							Description = "The project is being deployed",
-							AutoInactive = false,
-						})
-					.WithToken(cancellationToken)
-					;
+					Logger.LogDebug("Created deployment ID {deploymentId}", deployment.Id);
 
-				Logger.LogTrace("In-progress deployment status created");
+					await gitHubClient
+						.Repository
+						.Deployment
+						.Status
+						.Create(
+							remoteInformation.RemoteRepositoryOwner,
+							remoteInformation.RemoteRepositoryName,
+							deployment.Id,
+							new NewDeploymentStatus(DeploymentState.InProgress)
+							{
+								Description = "The project is being deployed",
+								AutoInactive = false,
+							})
+						.WithToken(cancellationToken);
+
+					compileJob.GitHubDeploymentId = deployment.Id;
+					Logger.LogTrace("In-progress deployment status created");
+				}
+				catch (ApiException ex)
+				{
+					Logger.LogError(ex, "Unable to create deployment!");
+				}
 			}
 
 			try
