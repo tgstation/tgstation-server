@@ -717,13 +717,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task ProgressTask(JobProgressReporter progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
 		{
-			if (!estimatedDuration.HasValue)
-			{
-				progressReporter.ReportProgress(null);
-				return;
-			}
-
-			progressReporter.ReportProgress(0);
+			var noEstimate = !estimatedDuration.HasValue;
+			progressReporter.StageName = currentStage;
+			progressReporter.ReportProgress(noEstimate ? null : 0);
 
 			var sleepInterval = estimatedDuration.HasValue ? estimatedDuration.Value / 100 : TimeSpan.FromMilliseconds(250);
 
@@ -733,7 +729,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 				for (var iteration = 0; iteration < (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)
 				{
 					await Task.Delay(sleepInterval, cancellationToken);
-					progressReporter.ReportProgress(sleepInterval * (iteration + 1) / estimatedDuration.Value);
+					progressReporter.StageName = currentStage;
+					progressReporter.ReportProgress(noEstimate ? null : sleepInterval * (iteration + 1) / estimatedDuration.Value);
 				}
 			}
 			catch (OperationCanceledException)

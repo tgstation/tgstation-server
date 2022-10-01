@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// The name of the current stage.
 		/// </summary>
-		public string StageName { get; }
+		public string StageName { get; set; }
 
 		/// <summary>
 		/// The <see cref="ILogger{TCategoryName}"/> for the <see cref="JobProgressReporter"/>.
