@@ -85,7 +85,11 @@ namespace Tgstation.Server.Host.IO
 			var directory = Path.GetDirectoryName(path);
 
 			Directory.CreateDirectory(directory);
+
+			var newFile = !File.Exists(path);
+
 			cancellationToken.ThrowIfCancellationRequested();
+
 			using (var file = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
 			{
 				cancellationToken.ThrowIfCancellationRequested();
@@ -110,7 +114,7 @@ namespace Tgstation.Server.Host.IO
 					}
 
 					var originalSha1 = GetSha1(file);
-					if (originalSha1 != sha1InOut)
+					if (originalSha1 != sha1InOut && !(newFile && sha1InOut == null))
 					{
 						sha1InOut = originalSha1;
 						return false;
