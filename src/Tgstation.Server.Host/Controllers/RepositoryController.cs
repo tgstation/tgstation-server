@@ -489,16 +489,14 @@ namespace Tgstation.Server.Host.Controllers
 				var hardResettingToOriginReference = model.UpdateFromOrigin == true && model.Reference != null;
 
 				var numSteps = (model.NewTestMerges?.Count ?? 0) + (model.UpdateFromOrigin == true ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));
-				var doneSteps = 0;
+				var progressFactor = 1.0 / numSteps;
 
-				JobProgressReporter NextProgressReporter()
+				JobProgressReporter NextProgressReporter(string stage)
 				{
-					var tmpDoneSteps = doneSteps;
-					++doneSteps;
-					return (status, progress) => progressReporter(status, (progress + (100 * tmpDoneSteps)) / numSteps);
+					return progressReporter.CreateSection(stage, progressFactor);
 				}
 
-				progressReporter(null, 0);
+				progressReporter.ReportProgress(0);
 
 				// get a base line for where we are
 				Models.RevisionInformation lastRevisionInfo = null;
@@ -568,11 +566,11 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						if (!repo.Tracking)
 							throw new JobException(ErrorCode.RepoReferenceRequired);
-						await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct);
-						doneSteps = 1;
+						await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter("Fetch Origin"), ct);
+
 						if (!modelHasShaOrReference)
 						{
-							var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct);
+							var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter("Merge Origin"), ct);
 							if (!fastForward.HasValue)
 								throw new JobException(ErrorCode.RepoMergeConflict);
 							lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken);
@@ -584,14 +582,14 @@ namespace Tgstation.Server.Host.Controllers
 									currentModel.AccessToken,
 									currentModel.CommitterName,
 									currentModel.CommitterEmail,
-									NextProgressReporter(),
+									NextProgressReporter("Sychronize"),
 									true,
 									ct)
 									;
 								postUpdateSha = repo.Head;
 							}
 							else
-								NextProgressReporter()(null, 100);
+								NextProgressReporter(null).ReportProgress(1.0);
 						}
 					}
 
@@ -620,13 +618,13 @@ namespace Tgstation.Server.Host.Controllers
 								currentModel.AccessUser,
 								currentModel.AccessToken,
 								updateSubmodules,
-								NextProgressReporter(),
+								NextProgressReporter("Checkout"),
 								ct)
 								;
 							await CallLoadRevInfo(); // we've either seen origin before or what we're checking out is on origin
 						}
 						else
-							NextProgressReporter()(null, 100);
+							NextProgressReporter(null).ReportProgress(1.0);
 
 						if (hardResettingToOriginReference)
 						{
@@ -636,7 +634,7 @@ namespace Tgstation.Server.Host.Controllers
 								currentModel.AccessUser,
 								currentModel.AccessToken,
 								updateSubmodules,
-								NextProgressReporter(),
+								NextProgressReporter("Reset to Origin"),
 								ct)
 								;
 							await repo.Sychronize(
@@ -644,7 +642,7 @@ namespace Tgstation.Server.Host.Controllers
 								currentModel.AccessToken,
 								currentModel.CommitterName,
 								currentModel.CommitterEmail,
-								NextProgressReporter(),
+								NextProgressReporter("Synchronize"),
 								true,
 								ct)
 								;
@@ -798,7 +796,7 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							// goteem
 							Logger.LogDebug("Reusing existing SHA {0}...", revInfoWereLookingFor.CommitSha);
-							await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter(), cancellationToken);
+							await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter($"Reset to {revInfoWereLookingFor.CommitSha[..7]}"), cancellationToken);
 							lastRevisionInfo = revInfoWereLookingFor;
 						}
 
@@ -818,14 +816,14 @@ namespace Tgstation.Server.Host.Controllers
 									currentModel.AccessUser,
 									currentModel.AccessToken,
 									updateSubmodules,
-									NextProgressReporter(),
+									NextProgressReporter($"Test merge #{newTestMerge.Number}"),
 									ct);
 
 								if (mergeResult == null)
 									throw new JobException(
 										ErrorCode.RepoTestMergeConflict,
 										new JobException(
-											$"Test Merge #{newTestMerge.Number} at {newTestMerge.TargetCommitSha.Substring(0, 7)} conflicted!"));
+											$"Test Merge #{newTestMerge.Number} at {newTestMerge.TargetCommitSha[..7]} conflicted!"));
 
 								Models.TestMerge fullTestMerge;
 								try
@@ -834,7 +832,7 @@ namespace Tgstation.Server.Host.Controllers
 								}
 								catch (Exception ex)
 								{
-									Logger.LogWarning("Error retrieving metadata for test merge #{0}!", newTestMerge.Number);
+									Logger.LogWarning("Error retrieving metadata for test merge #{testMergeNumber}!", newTestMerge.Number);
 
 									fullTestMerge = new Models.TestMerge
 									{
@@ -850,9 +848,6 @@ namespace Tgstation.Server.Host.Controllers
 								// Ensure we're getting the full sha from git itself
 								fullTestMerge.TargetCommitSha = newTestMerge.TargetCommitSha;
 
-								// MergedBy will be set later
-								++doneSteps;
-
 								await UpdateRevInfo(fullTestMerge);
 							}
 						}
@@ -866,7 +861,7 @@ namespace Tgstation.Server.Host.Controllers
 							currentModel.AccessToken,
 							currentModel.CommitterName,
 							currentModel.CommitterEmail,
-							NextProgressReporter(),
+							NextProgressReporter("Synchronize"),
 							false,
 							ct)
 							;
@@ -877,23 +872,25 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				catch
 				{
-					doneSteps = 0;
 					numSteps = 2;
 
 					// Forget what we've done and abort
+					progressReporter.ReportProgress(0.0);
+
+					var secondStep = startReference != null && repo.Head != startSha;
+
 					// DCTx2: Cancellation token is for job, operations should always run
 					await repo.CheckoutObject(
 						startReference ?? startSha,
 						currentModel.AccessUser,
 						currentModel.AccessToken,
 						true,
-						NextProgressReporter(),
-						default)
-						;
-					if (startReference != null && repo.Head != startSha)
-						await repo.ResetToSha(startSha, NextProgressReporter(), default);
-					else
-						progressReporter(null, 100);
+						progressReporter.CreateSection($"Checkout {startReference ?? startSha[..7]}", secondStep ? 0.5 : 1.0),
+						default);
+
+					if (secondStep)
+						await repo.ResetToSha(startSha, progressReporter.CreateSection($"Hard reset to SHA {startSha[..7]}", 0.5), default);
+
 					throw;
 				}
 			}

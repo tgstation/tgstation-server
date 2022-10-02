@@ -87,13 +87,13 @@ namespace Tgstation.Server.Host.Controllers
 								cancellationToken)
 							;
 
-						return model.LastReadHash == null ? (IActionResult)Accepted(newFile) : Json(newFile);
+						return model.LastReadHash == null ? Accepted(newFile) : Json(newFile);
 					})
 					;
 			}
 			catch (IOException e)
 			{
-				Logger.LogInformation("IOException while updating file {0}: {1}", model.Path, e);
+				Logger.LogInformation(e, "IOException while updating file {path}!", model.Path);
 				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
 					AdditionalData = e.Message,
@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (IOException e)
 			{
-				Logger.LogInformation("IOException while reading file {0}: {1}", filePath, e);
+				Logger.LogInformation(e, "IOException while reading file {path}!", filePath);
 				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
 					AdditionalData = e.Message,
@@ -262,7 +262,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (IOException e)
 			{
-				Logger.LogInformation("IOException while creating directory {0}: {1}", model.Path, e);
+				Logger.LogInformation(e, "IOException while creating directory {path}!", model.Path);
 				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
 					Message = e.Message,

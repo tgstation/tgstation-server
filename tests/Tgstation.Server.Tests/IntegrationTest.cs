@@ -32,6 +32,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Instance;
 
@@ -1066,18 +1067,18 @@ namespace Tgstation.Server.Tests
 			using var testingServer = new TestingServer(null, false);
 			LibGit2Sharp.Repository.Clone("https://github.com/Cyberboss/test", testingServer.Directory);
 			var libGit2Repo = new LibGit2Sharp.Repository(testingServer.Directory);
-			using var repo = new Host.Components.Repository.Repository(
+			using var repo = new Repository(
 				libGit2Repo,
 				new LibGit2Commands(),
 				Mock.Of<Host.IO.IIOManager>(),
 				Mock.Of<IEventConsumer>(),
 				Mock.Of<ICredentialsProvider>(),
 				Mock.Of<IGitRemoteFeaturesFactory>(),
-				Mock.Of<ILogger<Host.Components.Repository.Repository>>(),
+				Mock.Of<ILogger<Repository>>(),
 				() => { });
 
 			const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
-			await repo.CheckoutObject(StartSha, null, null, true, (stage, progress) => { }, default);
+			await repo.CheckoutObject(StartSha, null, null, true, new JobProgressReporter(Mock.Of<ILogger<JobProgressReporter>>(), null, (stage, progress) => { }), default);
 			var result = await repo.ShaIsParent("2f8588a3ca0f6b027704a2a04381215619de3412", default);
 			Assert.IsTrue(result);
 			Assert.AreEqual(StartSha, repo.Head);

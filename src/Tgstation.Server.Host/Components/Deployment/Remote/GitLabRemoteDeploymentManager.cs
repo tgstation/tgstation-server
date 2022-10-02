@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				await Task.WhenAll(tasks);
 			}
-			catch (Exception ex) when (!(ex is OperationCanceledException))
+			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
 				Logger.LogWarning(ex, "Merge requests update check failed!");
 			}

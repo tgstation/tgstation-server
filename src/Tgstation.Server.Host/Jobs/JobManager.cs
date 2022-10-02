@@ -24,6 +24,11 @@ namespace Tgstation.Server.Host.Jobs
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="JobManager"/>.
+		/// </summary>
+		readonly ILoggerFactory loggerFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="JobManager"/>.
 		/// </summary>
 		readonly ILogger<JobManager> logger;
@@ -58,11 +63,17 @@ namespace Tgstation.Server.Host.Jobs
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="instanceCoreProvider">The value of <see cref="instanceCoreProvider"/>.</param>
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public JobManager(IDatabaseContextFactory databaseContextFactory, Lazy<IInstanceCoreProvider> instanceCoreProvider, ILogger<JobManager> logger)
+		public JobManager(
+			IDatabaseContextFactory databaseContextFactory,
+			Lazy<IInstanceCoreProvider> instanceCoreProvider,
+			ILoggerFactory loggerFactory,
+			ILogger<JobManager> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.instanceCoreProvider = instanceCoreProvider ?? throw new ArgumentNullException(nameof(instanceCoreProvider));
+			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			jobs = new Dictionary<long, JobHandler>();
 			activationTcs = new TaskCompletionSource<object>();
@@ -293,12 +304,12 @@ namespace Tgstation.Server.Host.Jobs
 						var oldJob = job;
 						job = new Job { Id = oldJob.Id };
 
-						void UpdateProgress(string stage, int? progress)
+						void UpdateProgress(string stage, double? progress)
 						{
 							if (progress.HasValue
-								&& (progress.Value < 0 || progress.Value > 100))
+								&& (progress.Value < 0 || progress.Value > 1))
 							{
-								var exception = new ArgumentOutOfRangeException(nameof(progress), progress, "Progress must be a value from 0-100!");
+								var exception = new ArgumentOutOfRangeException(nameof(progress), progress, "Progress must be a value from 0-1!");
 								logger.LogError(exception, "Invalid progress value!");
 								return;
 							}
@@ -307,7 +318,7 @@ namespace Tgstation.Server.Host.Jobs
 								if (jobs.TryGetValue(oldJob.Id.Value, out var handler))
 								{
 									handler.Stage = stage;
-									handler.Progress = progress;
+									handler.Progress = progress.HasValue ? (int)Math.Floor(progress.Value * 100) : null;
 								}
 						}
 
@@ -318,7 +329,10 @@ namespace Tgstation.Server.Host.Jobs
 							instanceCoreProvider.Value.GetInstance(oldJob.Instance),
 							databaseContextFactory,
 							job,
-							UpdateProgress,
+							new JobProgressReporter(
+								loggerFactory.CreateLogger<JobProgressReporter>(),
+								null,
+								UpdateProgress),
 							cancellationToken)
 							;
 

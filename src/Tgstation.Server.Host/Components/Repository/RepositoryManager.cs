@@ -135,8 +135,8 @@ namespace Tgstation.Server.Host.Components.Repository
 								OnProgress = (a) => !cancellationToken.IsCancellationRequested,
 								OnTransferProgress = (a) =>
 								{
-									var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-									progressReporter("Cloning", (int)percentage);
+									var percentage = ((double)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2);
+									progressReporter.ReportProgress(percentage);
 									return !cancellationToken.IsCancellationRequested;
 								},
 								RecurseSubmodules = recurseSubmodules,
