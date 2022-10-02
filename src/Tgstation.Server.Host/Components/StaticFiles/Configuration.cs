@@ -205,10 +205,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
-			if (configurationRelativePath == null)
-				configurationRelativePath = "/";
+			configurationRelativePath ??= "/";
 
-			List<ConfigurationFileResponse> result = new List<ConfigurationFileResponse>();
+			var result = new List<ConfigurationFileResponse>();
 
 			void ListImpl()
 			{
@@ -223,7 +222,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}
 				catch (IOException e)
 				{
-					logger.LogDebug(e, "IOException while writing {0}!", path);
+					logger.LogDebug(e, "IOException while writing {path}!", path);
 					result = null;
 					return;
 				}
@@ -376,9 +375,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					task = ioManager.GetDirectories(GameStaticFilesSubdirectory, cancellationToken);
 				var entries = await task;
 
-				await Task.WhenAll(entries.Select(async x =>
+				await Task.WhenAll(entries.Select(async file =>
 				{
-					var fileName = ioManager.GetFileName(x);
+					var fileName = ioManager.GetFileName(file);
 
 					// need to normalize
 					bool ignored;
@@ -389,19 +388,19 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 					if (ignored)
 					{
-						logger.LogTrace("Ignoring static file {0}...", fileName);
+						logger.LogTrace("Ignoring static file {fileName}...", fileName);
 						return;
 					}
 
 					var destPath = ioManager.ConcatPath(destination, fileName);
-					logger.LogTrace("Symlinking {0} to {1}...", x, destPath);
+					logger.LogTrace("Symlinking {filePath} to {destPath}...", file, destPath);
 					var fileExistsTask = ioManager.FileExists(destPath, cancellationToken);
 					if (await ioManager.DirectoryExists(destPath, cancellationToken))
 						await ioManager.DeleteDirectory(destPath, cancellationToken);
 					var fileExists = await fileExistsTask;
 					if (fileExists)
 						await ioManager.DeleteFile(destPath, cancellationToken);
-					await symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(x), ioManager.ResolvePath(destPath), cancellationToken);
+					await symlinkFactory.CreateSymbolicLink(ioManager.ResolvePath(file), ioManager.ResolvePath(destPath), cancellationToken);
 				}));
 			}
 
@@ -442,7 +441,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 								if (fileTicket == null)
 								{
-									logger.LogDebug("File upload ticket for {path} expired!", path)
+									logger.LogDebug("File upload ticket for {path} expired!", path);
 									return;
 								}
 
@@ -556,13 +555,13 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 				if (!scriptFiles.Any())
 				{
-					logger.LogTrace("No event scripts starting with \"{0}\" detected", scriptName);
+					logger.LogTrace("No event scripts starting with \"{scriptName}\" detected", scriptName);
 					return;
 				}
 
 				foreach (var scriptFile in scriptFiles)
 				{
-					logger.LogTrace("Running event script {0}...", scriptFile);
+					logger.LogTrace("Running event script {scriptFile}...", scriptFile);
 					using (var script = processExecutor.LaunchProcess(
 						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
 						resolvedScriptsDir,
@@ -588,7 +587,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						if (exitCode != 0)
 							throw new JobException($"Script {scriptFile} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
 						else
-							logger.LogDebug("Script output:{0}{1}", Environment.NewLine, scriptOutput);
+							logger.LogDebug("Script output:{newLine}{scriptOutput}", Environment.NewLine, scriptOutput);
 					}
 				}
 			}
