@@ -440,6 +440,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 									success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, cancellationToken);
 								}
 
+								if (fileTicket == null)
+								{
+									logger.LogDebug("File upload ticket for {path} expired!", path)
+									return;
+								}
+
 								using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 									if (systemIdentity == null)
 										await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
