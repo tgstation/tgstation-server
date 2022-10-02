@@ -97,7 +97,18 @@ namespace Tgstation.Server.Host.IO
 				// suppressed due to only using for consistency checks
 				using (var sha1 = SHA1.Create())
 				{
-					string GetSha1(Stream dataToHash) => dataToHash != null && dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
+					string GetSha1(Stream dataToHash)
+					{
+						if (dataToHash == null)
+							return null;
+
+						byte[] sha1Computed = dataToHash.Length != 0
+							? sha1.ComputeHash(dataToHash)
+							: sha1.ComputeHash(Array.Empty<byte>());
+
+						return String.Join(String.Empty, sha1Computed.Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+					}
+
 					var originalSha1 = GetSha1(file);
 					if (originalSha1 != sha1InOut)
 					{
