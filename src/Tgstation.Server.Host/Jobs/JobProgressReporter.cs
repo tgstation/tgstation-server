@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Jobs
 					sectionProgression = progress.Value;
 
 			if (clampedProgress.HasValue)
-				callback(StageName, (int)Math.Floor(clampedProgress.Value * 100));
+				callback(StageName, clampedProgress.Value);
 			else
 				callback(StageName, null);
 		}
