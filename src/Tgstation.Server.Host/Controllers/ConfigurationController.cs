@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 								cancellationToken)
 							;
 
-						return model.LastReadHash == null ? (IActionResult)Accepted(newFile) : Json(newFile);
+						return model.LastReadHash == null ? Accepted(newFile) : Json(newFile);
 					})
 					;
 			}
