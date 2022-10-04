@@ -71,6 +71,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly bool basedMeme;
 
 		/// <summary>
+		/// If the tgstation-server logo is shown in deployment embeds.
+		/// </summary>
+		readonly bool deploymentBranding;
+
+		/// <summary>
 		/// The <see cref="DiscordDMOutputDisplayType"/>.
 		/// </summary>
 		readonly DiscordDMOutputDisplayType outputDisplayType;
@@ -177,6 +182,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var botToken = csb.BotToken;
 			basedMeme = csb.BasedMeme;
 			outputDisplayType = csb.DMOutputDisplay;
+			deploymentBranding = csb.DeploymentBranding;
 
 			serviceProvider = new ServiceCollection()
 				.AddDiscordGateway(serviceProvider => botToken)
@@ -282,13 +288,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
 			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, gitHubOwner, gitHubRepo, localCommitPushed);
+			var author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
+			{
+				Url = "https://github.com/tgstation/tgstation-server",
+				IconUrl = "https://avatars0.githubusercontent.com/u/1363778?s=280&v=4",
+			};
 			var embed = new Embed
 			{
-				Author = new EmbedAuthor(assemblyInformationProvider.VersionPrefix)
-				{
-					Url = "https://github.com/tgstation/tgstation-server",
-					IconUrl = "https://avatars0.githubusercontent.com/u/1363778?s=280&v=4",
-				},
+				Author = deploymentBranding ? author : default,
 				Colour = Color.FromArgb(0xF1, 0xC4, 0x0F),
 				Description = "TGS has begun deploying active repository code to production.",
 				Fields = fields,

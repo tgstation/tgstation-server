@@ -25,6 +25,11 @@ namespace Tgstation.Server.Api.Models
 		public bool BasedMeme { get; set; }
 
 		/// <summary>
+		/// If the tgstation-server logo is shown in deployment embeds.
+		/// </summary>
+		public bool DeploymentBranding { get; set; }
+
+		/// <summary>
 		/// The <see cref="DiscordDMOutputDisplayType"/>.
 		/// </summary>
 		public DiscordDMOutputDisplayType DMOutputDisplay { get; set; }
@@ -47,21 +52,25 @@ namespace Tgstation.Server.Api.Models
 				throw new ArgumentNullException(nameof(connectionString));
 
 			var splits = connectionString.Split(';');
+
 			BotToken = splits.First();
+
 			if (splits.Length < 2 || !Enum.TryParse<DiscordDMOutputDisplayType>(splits[1], out var dMOutputDisplayType))
 				dMOutputDisplayType = DiscordDMOutputDisplayType.Always;
 			DMOutputDisplay = dMOutputDisplayType;
+
 			if (splits.Length > 2 && Int32.TryParse(splits[2], out Int32 basedMeme))
-			{
 				BasedMeme = Convert.ToBoolean(basedMeme);
-			}
 			else
-			{
 				BasedMeme = true; // oranges said this needs to be true by default :pensive:
-			}
+
+			if (splits.Length > 3 && Int32.TryParse(splits[3], out Int32 branding))
+				DeploymentBranding = Convert.ToBoolean(branding);
+			else
+				DeploymentBranding = true; // previous default behaviour
 		}
 
 		/// <inheritdoc />
-		public override string ToString() => $"{BotToken};{(int)DMOutputDisplay};{Convert.ToInt32(BasedMeme)}";
+		public override string ToString() => $"{BotToken};{(int)DMOutputDisplay};{Convert.ToInt32(BasedMeme)};{Convert.ToInt32(DeploymentBranding)}";
 	}
 }
