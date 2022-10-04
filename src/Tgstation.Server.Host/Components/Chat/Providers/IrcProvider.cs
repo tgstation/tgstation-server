@@ -141,6 +141,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			client.OnChannelMessage += Client_OnChannelMessage;
 			client.OnQueryMessage += Client_OnQueryMessage;
 
+			/*client.OnReadLine += (sender, e) => Logger.LogTrace("READ: {line}", e.Line);
+			client.OnWriteLine += (sender, e) => Logger.LogTrace("WRITE: {line}", e.Line);*/
+
 			channelIdMap = new Dictionary<ulong, string>();
 			queryChannelIdMap = new Dictionary<ulong, string>();
 			channelIdCounter = 1;
@@ -348,6 +351,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						await SaslAuthenticate(cancellationToken);
 						break;
 					case null:
+						client.Login(nickname, nickname, 0, nickname);
 						break;
 					default:
 						throw new InvalidOperationException($"Invalid IrcPasswordType: {passwordType.Value}");

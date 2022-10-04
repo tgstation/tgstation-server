@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.Controllers
 						}
 					}
 
-					return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);
+					return result.InstallJob != null ? Accepted(result) : Json(result);
 				})
 				;
 		}

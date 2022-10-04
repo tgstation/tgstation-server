@@ -266,23 +266,16 @@ namespace Tgstation.Server.Host.Components
 						throw new InvalidOperationException(DifferentCoreExceptionMessage);
 
 					// assume 5 steps with synchronize
-					const int ProgressSections = 7;
-					const int ProgressStep = 100 / ProgressSections;
-
 					var repositorySettingsTask = databaseContext
 						.RepositorySettings
 						.AsQueryable()
 						.Where(x => x.InstanceId == metadata.Id)
 						.FirstAsync(cancellationToken);
 
-					const int NumSteps = 3;
-					var doneSteps = 0;
-
-					JobProgressReporter NextProgressReporter()
+					const int ProgressSections = 7;
+					JobProgressReporter NextProgressReporter(string stage)
 					{
-						var tmpDoneSteps = doneSteps;
-						++doneSteps;
-						return (status, progress) => progressReporter(status, (progress + (100 * tmpDoneSteps)) / NumSteps);
+						return progressReporter.CreateSection(stage, 1.0 / ProgressSections);
 					}
 
 					using var repo = await RepositoryManager.LoadRepository(cancellationToken);
@@ -305,7 +298,7 @@ namespace Tgstation.Server.Host.Components
 					await repo.FetchOrigin(
 						repositorySettings.AccessUser,
 						repositorySettings.AccessToken,
-						NextProgressReporter(),
+						NextProgressReporter("Fetch Origin"),
 						cancellationToken)
 						;
 
@@ -371,7 +364,7 @@ namespace Tgstation.Server.Host.Components
 					var result = await repo.MergeOrigin(
 						repositorySettings.CommitterName,
 						repositorySettings.CommitterEmail,
-						NextProgressReporter(),
+						NextProgressReporter("Merge Origin"),
 						cancellationToken)
 						;
 
@@ -416,12 +409,13 @@ namespace Tgstation.Server.Host.Components
 
 					if (!preserveTestMerges)
 					{
-						logger.LogTrace("Resetting to origin...");
+						const string StageName = "Resetting to origin...";
+						logger.LogTrace(StageName);
 						await repo.ResetToOrigin(
 							repositorySettings.AccessUser,
 							repositorySettings.AccessToken,
 							repositorySettings.UpdateSubmodules.Value,
-							NextProgressReporter(),
+							NextProgressReporter(StageName),
 							cancellationToken)
 						;
 
@@ -447,7 +441,7 @@ namespace Tgstation.Server.Host.Components
 							repositorySettings.AccessToken,
 							repositorySettings.CommitterName,
 							repositorySettings.CommitterEmail,
-							NextProgressReporter(),
+							NextProgressReporter("Synchronize"),
 							shouldSyncTracked,
 							cancellationToken);
 						var currentHead = repo.Head;
@@ -466,8 +460,6 @@ namespace Tgstation.Server.Host.Components
 							await repo.ResetToSha(startSha, progressReporter, default);
 							throw;
 						}
-
-					progressReporter(null, 5 * ProgressStep);
 				});
 #pragma warning restore CA1502   // Cyclomatic complexity
 

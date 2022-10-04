@@ -64,7 +64,7 @@
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <PackageReference Include="Byond.TopicSender" Version="5.0.0" />
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
-    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />
+    <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.7" />
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="1.5.3" />
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
