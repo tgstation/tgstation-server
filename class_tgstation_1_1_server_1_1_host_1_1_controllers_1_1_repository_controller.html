@@ -655,52 +655,52 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if the <em>databaseContext</em>  was modified in a way that requires saving, <code>false</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_repository_controller_8cs_source.html#l00937">937</a> of file <a class="el" href="_repository_controller_8cs_source.html">RepositoryController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  944</span>        {</div>
-<div class="line"><span class="lineno">  945</span>            var repoSha = repository.Head;</div>
-<div class="line"><span class="lineno">  946</span> </div>
-<div class="line"><span class="lineno">  947</span>            <a class="code hl_class" href="class_i_queryable.html">IQueryable</a>&lt;Models.RevisionInformation&gt; ApplyQuery(<a class="code hl_class" href="class_i_queryable.html">IQueryable&lt;Models.RevisionInformation&gt;</a> query) =&gt; query</div>
-<div class="line"><span class="lineno">  948</span>                .Where(x =&gt; x.CommitSha == repoSha &amp;&amp; x.Instance.Id == instance.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
-<div class="line"><span class="lineno">  949</span>                .Include(x =&gt; x.CompileJobs)</div>
-<div class="line"><span class="lineno">  950</span>                .Include(x =&gt; x.ActiveTestMerges).ThenInclude(x =&gt; x.TestMerge).ThenInclude(x =&gt; x.MergedBy);</div>
-<div class="line"><span class="lineno">  951</span> </div>
-<div class="line"><span class="lineno">  952</span>            var revisionInfo = await ApplyQuery(databaseContext.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5633532d3f76127562905242d6a14e91">RevisionInformations</a>).FirstOrDefaultAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  953</span> </div>
-<div class="line"><span class="lineno">  954</span>            <span class="comment">// If the DB doesn&#39;t have it, check the local set</span></div>
-<div class="line"><span class="lineno">  955</span>            <span class="keywordflow">if</span> (revisionInfo == <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  956</span>                revisionInfo = databaseContext</div>
-<div class="line"><span class="lineno">  957</span>                    .<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5633532d3f76127562905242d6a14e91">RevisionInformations</a></div>
-<div class="line"><span class="lineno">  958</span>                    .<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#a4df4891c6457a0c2eb6e879ec912945d">Local</a></div>
-<div class="line"><span class="lineno">  959</span>                    .Where(x =&gt; x.CommitSha == repoSha &amp;&amp; x.Instance.Id == instance.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
-<div class="line"><span class="lineno">  960</span>                    .FirstOrDefault();</div>
-<div class="line"><span class="lineno">  961</span> </div>
-<div class="line"><span class="lineno">  962</span>            var needsDbUpdate = revisionInfo == <span class="keywordflow">default</span>;</div>
-<div class="line"><span class="lineno">  963</span>            <span class="keywordflow">if</span> (needsDbUpdate)</div>
-<div class="line"><span class="lineno">  964</span>            {</div>
-<div class="line"><span class="lineno">  965</span>                <span class="comment">// needs insertion</span></div>
-<div class="line"><span class="lineno">  966</span>                revisionInfo = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a></div>
-<div class="line"><span class="lineno">  967</span>                {</div>
-<div class="line"><span class="lineno">  968</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> = instance,</div>
-<div class="line"><span class="lineno">  969</span>                    CommitSha = repoSha,</div>
-<div class="line"><span class="lineno">  970</span>                    Timestamp = await repository.TimestampCommit(repoSha, cancellationToken),</div>
-<div class="line"><span class="lineno">  971</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5da7c63725727d75ca94b3b395198026acb">CompileJobs</a> = <span class="keyword">new</span> List&lt;CompileJob&gt;(),</div>
-<div class="line"><span class="lineno">  972</span>                    ActiveTestMerges = <span class="keyword">new</span> List&lt;RevInfoTestMerge&gt;(), <span class="comment">// non null vals for api returns</span></div>
-<div class="line"><span class="lineno">  973</span>                };</div>
-<div class="line"><span class="lineno">  974</span> </div>
-<div class="line"><span class="lineno">  975</span>                lock (databaseContext) <span class="comment">// cleaner this way</span></div>
-<div class="line"><span class="lineno">  976</span>                    databaseContext.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5633532d3f76127562905242d6a14e91">RevisionInformations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081">Add</a>(revisionInfo);</div>
-<div class="line"><span class="lineno">  977</span>            }</div>
-<div class="line"><span class="lineno">  978</span> </div>
-<div class="line"><span class="lineno">  979</span>            revisionInfo.OriginCommitSha ??= lastOriginCommitSha;</div>
-<div class="line"><span class="lineno">  980</span>            <span class="keywordflow">if</span> (revisionInfo.OriginCommitSha == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  981</span>            {</div>
-<div class="line"><span class="lineno">  982</span>                revisionInfo.OriginCommitSha = repoSha;</div>
-<div class="line"><span class="lineno">  983</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);</div>
-<div class="line"><span class="lineno">  984</span>            }</div>
-<div class="line"><span class="lineno">  985</span> </div>
-<div class="line"><span class="lineno">  986</span>            revInfoSink?.Invoke(revisionInfo);</div>
-<div class="line"><span class="lineno">  987</span>            <span class="keywordflow">return</span> needsDbUpdate;</div>
-<div class="line"><span class="lineno">  988</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_repository_controller_8cs_source.html#l00934">934</a> of file <a class="el" href="_repository_controller_8cs_source.html">RepositoryController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  941</span>        {</div>
+<div class="line"><span class="lineno">  942</span>            var repoSha = repository.Head;</div>
+<div class="line"><span class="lineno">  943</span> </div>
+<div class="line"><span class="lineno">  944</span>            <a class="code hl_class" href="class_i_queryable.html">IQueryable</a>&lt;Models.RevisionInformation&gt; ApplyQuery(<a class="code hl_class" href="class_i_queryable.html">IQueryable&lt;Models.RevisionInformation&gt;</a> query) =&gt; query</div>
+<div class="line"><span class="lineno">  945</span>                .Where(x =&gt; x.CommitSha == repoSha &amp;&amp; x.Instance.Id == instance.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
+<div class="line"><span class="lineno">  946</span>                .Include(x =&gt; x.CompileJobs)</div>
+<div class="line"><span class="lineno">  947</span>                .Include(x =&gt; x.ActiveTestMerges).ThenInclude(x =&gt; x.TestMerge).ThenInclude(x =&gt; x.MergedBy);</div>
+<div class="line"><span class="lineno">  948</span> </div>
+<div class="line"><span class="lineno">  949</span>            var revisionInfo = await ApplyQuery(databaseContext.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5633532d3f76127562905242d6a14e91">RevisionInformations</a>).FirstOrDefaultAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  950</span> </div>
+<div class="line"><span class="lineno">  951</span>            <span class="comment">// If the DB doesn&#39;t have it, check the local set</span></div>
+<div class="line"><span class="lineno">  952</span>            <span class="keywordflow">if</span> (revisionInfo == <span class="keywordflow">default</span>)</div>
+<div class="line"><span class="lineno">  953</span>                revisionInfo = databaseContext</div>
+<div class="line"><span class="lineno">  954</span>                    .<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5633532d3f76127562905242d6a14e91">RevisionInformations</a></div>
+<div class="line"><span class="lineno">  955</span>                    .<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#a4df4891c6457a0c2eb6e879ec912945d">Local</a></div>
+<div class="line"><span class="lineno">  956</span>                    .Where(x =&gt; x.CommitSha == repoSha &amp;&amp; x.Instance.Id == instance.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>)</div>
+<div class="line"><span class="lineno">  957</span>                    .FirstOrDefault();</div>
+<div class="line"><span class="lineno">  958</span> </div>
+<div class="line"><span class="lineno">  959</span>            var needsDbUpdate = revisionInfo == <span class="keywordflow">default</span>;</div>
+<div class="line"><span class="lineno">  960</span>            <span class="keywordflow">if</span> (needsDbUpdate)</div>
+<div class="line"><span class="lineno">  961</span>            {</div>
+<div class="line"><span class="lineno">  962</span>                <span class="comment">// needs insertion</span></div>
+<div class="line"><span class="lineno">  963</span>                revisionInfo = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a></div>
+<div class="line"><span class="lineno">  964</span>                {</div>
+<div class="line"><span class="lineno">  965</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> = instance,</div>
+<div class="line"><span class="lineno">  966</span>                    CommitSha = repoSha,</div>
+<div class="line"><span class="lineno">  967</span>                    Timestamp = await repository.TimestampCommit(repoSha, cancellationToken),</div>
+<div class="line"><span class="lineno">  968</span>                    <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5da7c63725727d75ca94b3b395198026acb">CompileJobs</a> = <span class="keyword">new</span> List&lt;CompileJob&gt;(),</div>
+<div class="line"><span class="lineno">  969</span>                    ActiveTestMerges = <span class="keyword">new</span> List&lt;RevInfoTestMerge&gt;(), <span class="comment">// non null vals for api returns</span></div>
+<div class="line"><span class="lineno">  970</span>                };</div>
+<div class="line"><span class="lineno">  971</span> </div>
+<div class="line"><span class="lineno">  972</span>                lock (databaseContext) <span class="comment">// cleaner this way</span></div>
+<div class="line"><span class="lineno">  973</span>                    databaseContext.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5633532d3f76127562905242d6a14e91">RevisionInformations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081">Add</a>(revisionInfo);</div>
+<div class="line"><span class="lineno">  974</span>            }</div>
+<div class="line"><span class="lineno">  975</span> </div>
+<div class="line"><span class="lineno">  976</span>            revisionInfo.OriginCommitSha ??= lastOriginCommitSha;</div>
+<div class="line"><span class="lineno">  977</span>            <span class="keywordflow">if</span> (revisionInfo.OriginCommitSha == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  978</span>            {</div>
+<div class="line"><span class="lineno">  979</span>                revisionInfo.OriginCommitSha = repoSha;</div>
+<div class="line"><span class="lineno">  980</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);</div>
+<div class="line"><span class="lineno">  981</span>            }</div>
+<div class="line"><span class="lineno">  982</span> </div>
+<div class="line"><span class="lineno">  983</span>            revInfoSink?.Invoke(revisionInfo);</div>
+<div class="line"><span class="lineno">  984</span>            <span class="keywordflow">return</span> needsDbUpdate;</div>
+<div class="line"><span class="lineno">  985</span>        }</div>
 <div class="ttc" id="aclass_i_queryable_html"><div class="ttname"><a href="class_i_queryable.html">IQueryable</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Tgstation.Server.Api.Models.RevisionInformation</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_revision_information_8cs_source.html#l00006">RevisionInformation.cs:7</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection_html_a4df4891c6457a0c2eb6e879ec912945d"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#a4df4891c6457a0c2eb6e879ec912945d">Tgstation.Server.Host.Database.IDatabaseCollection.Local</a></div><div class="ttdeci">IEnumerable&lt; TModel &gt; Local</div><div class="ttdoc">An IEnumerable&lt;T&gt; of TModel s prioritizing in the working set.</div><div class="ttdef"><b>Definition:</b> <a href="_i_database_collection_8cs_source.html#l00015">IDatabaseCollection.cs:15</a></div></div>
@@ -710,7 +710,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081">Tgstation.Server.Host.Database.IDatabaseCollection&lt; TModel &gt;.Add()</a>, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5da7c63725727d75ca94b3b395198026acb">Tgstation.Server.Api.Rights.CompileJobs</a>, <a class="el" href="_i_database_collection_8cs_source.html#l00015">Tgstation.Server.Host.Database.IDatabaseCollection&lt; TModel &gt;.Local</a>, <a class="el" href="_api_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, and <a class="el" href="_i_database_context_8cs_source.html#l00046">Tgstation.Server.Host.Database.IDatabaseContext.RevisionInformations</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00999">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00996">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -799,24 +799,24 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if the <em>databaseContext</em>  was modified in a way that requires saving, <code>false</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_repository_controller_8cs_source.html#l00999">999</a> of file <a class="el" href="_repository_controller_8cs_source.html">RepositoryController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1005</span>        {</div>
-<div class="line"><span class="lineno"> 1006</span>            apiResponse.RemoteGitProvider = repository.RemoteGitProvider;</div>
-<div class="line"><span class="lineno"> 1007</span>            apiResponse.RemoteRepositoryOwner = repository.RemoteRepositoryOwner;</div>
-<div class="line"><span class="lineno"> 1008</span>            apiResponse.RemoteRepositoryName = repository.RemoteRepositoryName;</div>
+<p class="definition">Definition at line <a class="el" href="_repository_controller_8cs_source.html#l00996">996</a> of file <a class="el" href="_repository_controller_8cs_source.html">RepositoryController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1002</span>        {</div>
+<div class="line"><span class="lineno"> 1003</span>            apiResponse.RemoteGitProvider = repository.RemoteGitProvider;</div>
+<div class="line"><span class="lineno"> 1004</span>            apiResponse.RemoteRepositoryOwner = repository.RemoteRepositoryOwner;</div>
+<div class="line"><span class="lineno"> 1005</span>            apiResponse.RemoteRepositoryName = repository.RemoteRepositoryName;</div>
+<div class="line"><span class="lineno"> 1006</span> </div>
+<div class="line"><span class="lineno"> 1007</span>            apiResponse.Origin = repository.Origin;</div>
+<div class="line"><span class="lineno"> 1008</span>            apiResponse.Reference = repository.Reference;</div>
 <div class="line"><span class="lineno"> 1009</span> </div>
-<div class="line"><span class="lineno"> 1010</span>            apiResponse.Origin = repository.Origin;</div>
-<div class="line"><span class="lineno"> 1011</span>            apiResponse.Reference = repository.Reference;</div>
-<div class="line"><span class="lineno"> 1012</span> </div>
-<div class="line"><span class="lineno"> 1013</span>            <span class="comment">// rev info stuff</span></div>
-<div class="line"><span class="lineno"> 1014</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInfo = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno"> 1015</span>            var needsDbUpdate = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561">LoadRevisionInformation</a>(repository, databaseContext, instance, <span class="keyword">null</span>, x =&gt; revisionInfo = x, cancellationToken);</div>
-<div class="line"><span class="lineno"> 1016</span>            apiResponse.RevisionInformation = revisionInfo.ToApi();</div>
-<div class="line"><span class="lineno"> 1017</span>            <span class="keywordflow">return</span> needsDbUpdate;</div>
-<div class="line"><span class="lineno"> 1018</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_html_a6a1a85a18136ead5c14d82bb63ab0561"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation</a></div><div class="ttdeci">async Task&lt; bool &gt; LoadRevisionInformation(Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action&lt; Models.RevisionInformation &gt; revInfoSink, CancellationToken cancellationToken)</div><div class="ttdoc">Load the RevisionInformation for the current repository  state into a given databaseContext .</div><div class="ttdef"><b>Definition:</b> <a href="_repository_controller_8cs_source.html#l00937">RepositoryController.cs:937</a></div></div>
+<div class="line"><span class="lineno"> 1010</span>            <span class="comment">// rev info stuff</span></div>
+<div class="line"><span class="lineno"> 1011</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInfo = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno"> 1012</span>            var needsDbUpdate = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561">LoadRevisionInformation</a>(repository, databaseContext, instance, <span class="keyword">null</span>, x =&gt; revisionInfo = x, cancellationToken);</div>
+<div class="line"><span class="lineno"> 1013</span>            apiResponse.RevisionInformation = revisionInfo.ToApi();</div>
+<div class="line"><span class="lineno"> 1014</span>            <span class="keywordflow">return</span> needsDbUpdate;</div>
+<div class="line"><span class="lineno"> 1015</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_html_a6a1a85a18136ead5c14d82bb63ab0561"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation</a></div><div class="ttdeci">async Task&lt; bool &gt; LoadRevisionInformation(Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action&lt; Models.RevisionInformation &gt; revInfoSink, CancellationToken cancellationToken)</div><div class="ttdoc">Load the RevisionInformation for the current repository  state into a given databaseContext .</div><div class="ttdef"><b>Definition:</b> <a href="_repository_controller_8cs_source.html#l00934">RepositoryController.cs:934</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_repository_controller_8cs_source.html#l00937">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1">Tgstation.Server.Host.Models.RevisionInformation.ToApi()</a>.</p>
+<p class="reference">References <a class="el" href="_repository_controller_8cs_source.html#l00934">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1">Tgstation.Server.Host.Models.RevisionInformation.ToApi()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00257">Tgstation.Server.Host.Controllers.RepositoryController.Read()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
 <div class="dynheader">
@@ -908,9 +908,9 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  291</span>                })</div>
 <div class="line"><span class="lineno">  292</span>                ;</div>
 <div class="line"><span class="lineno">  293</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_html_a093daf40d8629d7e65b635571abd0b15"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a093daf40d8629d7e65b635571abd0b15">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi</a></div><div class="ttdeci">async Task&lt; bool &gt; PopulateApi(RepositoryResponse apiResponse, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)</div><div class="ttdoc">Populate a given apiResponse  with the current state of a given repository .</div><div class="ttdef"><b>Definition:</b> <a href="_repository_controller_8cs_source.html#l00999">RepositoryController.cs:999</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_html_a093daf40d8629d7e65b635571abd0b15"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a093daf40d8629d7e65b635571abd0b15">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi</a></div><div class="ttdeci">async Task&lt; bool &gt; PopulateApi(RepositoryResponse apiResponse, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)</div><div class="ttdoc">Populate a given apiResponse  with the current state of a given repository .</div><div class="ttdef"><b>Definition:</b> <a href="_repository_controller_8cs_source.html#l00996">RepositoryController.cs:996</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone()</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_repository_controller_8cs_source.html#l00999">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>, <a class="el" href="_database_context_8cs_source.html#l00064">Tgstation.Server.Host.Database.DatabaseContext.RepositorySettings</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, and <a class="el" href="_instance_required_controller_8cs_source.html#l00105">Tgstation.Server.Host.Controllers.InstanceRequiredController.WithComponentInstance()</a>.</p>
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone()</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_repository_controller_8cs_source.html#l00996">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>, <a class="el" href="_database_context_8cs_source.html#l00064">Tgstation.Server.Host.Database.DatabaseContext.RepositorySettings</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, and <a class="el" href="_instance_required_controller_8cs_source.html#l00105">Tgstation.Server.Host.Controllers.InstanceRequiredController.WithComponentInstance()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1119,7 +1119,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  465</span>            async Task&lt;IActionResult&gt; RepositoryUpdateJobOhGodPleaseSomeoneRefactorThisItsTooFuckingBig(</div>
 <div class="line"><span class="lineno">  466</span>                <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">IInstanceCore</a> instance,</div>
 <div class="line"><span class="lineno">  467</span>                <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html">IDatabaseContextFactory</a> databaseContextFactory,</div>
-<div class="line"><span class="lineno">  468</span>                <a class="code hl_function" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">JobProgressReporter</a> progressReporter,</div>
+<div class="line"><span class="lineno">  468</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter,</div>
 <div class="line"><span class="lineno">  469</span>                CancellationToken ct)</div>
 <div class="line"><span class="lineno">  470</span>            {</div>
 <div class="line"><span class="lineno">  471</span>                var repoManager = instance.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#a51d56fca894257dc7c6747a152f9f1fc">RepositoryManager</a>;</div>
@@ -1143,439 +1143,436 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  489</span>                var hardResettingToOriginReference = model.UpdateFromOrigin == <span class="keyword">true</span> &amp;&amp; model.Reference != <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  490</span> </div>
 <div class="line"><span class="lineno">  491</span>                var numSteps = (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>?.Count ?? 0) + (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#a05d4416c73b044cd160f3c855786fd5b">UpdateFromOrigin</a> == <span class="keyword">true</span> ? 1 : 0) + (!modelHasShaOrReference ? 2 : (hardResettingToOriginReference ? 3 : 1));</div>
-<div class="line"><span class="lineno">  492</span>                var doneSteps = 0;</div>
+<div class="line"><span class="lineno">  492</span>                var progressFactor = 1.0 / numSteps;</div>
 <div class="line"><span class="lineno">  493</span> </div>
-<div class="line"><span class="lineno">  494</span>                <a class="code hl_function" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">JobProgressReporter</a> NextProgressReporter()</div>
+<div class="line"><span class="lineno">  494</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> NextProgressReporter(<span class="keywordtype">string</span> stage)</div>
 <div class="line"><span class="lineno">  495</span>                {</div>
-<div class="line"><span class="lineno">  496</span>                    var tmpDoneSteps = doneSteps;</div>
-<div class="line"><span class="lineno">  497</span>                    ++doneSteps;</div>
-<div class="line"><span class="lineno">  498</span>                    <span class="keywordflow">return</span> (status, progress) =&gt; progressReporter(status, (progress + (100 * tmpDoneSteps)) / numSteps);</div>
-<div class="line"><span class="lineno">  499</span>                }</div>
+<div class="line"><span class="lineno">  496</span>                    <span class="keywordflow">return</span> progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541">CreateSection</a>(stage, progressFactor);</div>
+<div class="line"><span class="lineno">  497</span>                }</div>
+<div class="line"><span class="lineno">  498</span> </div>
+<div class="line"><span class="lineno">  499</span>                progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1">ReportProgress</a>(0);</div>
 <div class="line"><span class="lineno">  500</span> </div>
-<div class="line"><span class="lineno">  501</span>                progressReporter(<span class="keyword">null</span>, 0);</div>
-<div class="line"><span class="lineno">  502</span> </div>
-<div class="line"><span class="lineno">  503</span>                <span class="comment">// get a base line for where we are</span></div>
-<div class="line"><span class="lineno">  504</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> lastRevisionInfo = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  505</span> </div>
-<div class="line"><span class="lineno">  506</span>                var attachedInstance = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Models.Instance</a></div>
-<div class="line"><span class="lineno">  507</span>                {</div>
-<div class="line"><span class="lineno">  508</span>                    Id = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
-<div class="line"><span class="lineno">  509</span>                };</div>
-<div class="line"><span class="lineno">  510</span> </div>
-<div class="line"><span class="lineno">  511</span>                Task CallLoadRevInfo(Models.TestMerge testMergeToAdd = <span class="keyword">null</span>, <span class="keywordtype">string</span> lastOriginCommitSha = <span class="keyword">null</span>) =&gt; databaseContextFactory</div>
-<div class="line"><span class="lineno">  512</span>                    .<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(</div>
-<div class="line"><span class="lineno">  513</span>                        async databaseContext =&gt;</div>
-<div class="line"><span class="lineno">  514</span>                        {</div>
-<div class="line"><span class="lineno">  515</span>                            databaseContext.Instances.Attach(attachedInstance);</div>
-<div class="line"><span class="lineno">  516</span>                            var previousRevInfo = lastRevisionInfo;</div>
-<div class="line"><span class="lineno">  517</span>                            var needsUpdate = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561">LoadRevisionInformation</a>(</div>
-<div class="line"><span class="lineno">  518</span>                                repo,</div>
-<div class="line"><span class="lineno">  519</span>                                databaseContext,</div>
-<div class="line"><span class="lineno">  520</span>                                attachedInstance,</div>
-<div class="line"><span class="lineno">  521</span>                                lastOriginCommitSha,</div>
-<div class="line"><span class="lineno">  522</span>                                x =&gt; lastRevisionInfo = x,</div>
-<div class="line"><span class="lineno">  523</span>                                ct)</div>
-<div class="line"><span class="lineno">  524</span>                                ;</div>
-<div class="line"><span class="lineno">  525</span> </div>
-<div class="line"><span class="lineno">  526</span>                            <span class="keywordflow">if</span> (testMergeToAdd != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  527</span>                            {</div>
-<div class="line"><span class="lineno">  528</span>                                <span class="comment">// rev info may have already loaded the user</span></div>
-<div class="line"><span class="lineno">  529</span>                                var mergedBy = databaseContext.Users.Local.FirstOrDefault(x =&gt; x.Id == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">  530</span>                                <span class="keywordflow">if</span> (mergedBy == <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  531</span>                                {</div>
-<div class="line"><span class="lineno">  532</span>                                    mergedBy = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a></div>
-<div class="line"><span class="lineno">  533</span>                                    {</div>
-<div class="line"><span class="lineno">  534</span>                                        Id = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
-<div class="line"><span class="lineno">  535</span>                                    };</div>
-<div class="line"><span class="lineno">  536</span> </div>
-<div class="line"><span class="lineno">  537</span>                                    databaseContext.Users.Attach(mergedBy);</div>
-<div class="line"><span class="lineno">  538</span>                                }</div>
-<div class="line"><span class="lineno">  539</span> </div>
-<div class="line"><span class="lineno">  540</span>                                testMergeToAdd.MergedBy = mergedBy;</div>
-<div class="line"><span class="lineno">  541</span>                                testMergeToAdd.MergedAt = DateTimeOffset.UtcNow;</div>
-<div class="line"><span class="lineno">  542</span> </div>
-<div class="line"><span class="lineno">  543</span>                                <span class="keywordflow">foreach</span> (var activeTestMerge <span class="keywordflow">in</span> previousRevInfo.ActiveTestMerges)</div>
-<div class="line"><span class="lineno">  544</span>                                    lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#ad87669f877669c68429d4c0b7826adf2">ActiveTestMerges</a>.Add(activeTestMerge);</div>
-<div class="line"><span class="lineno">  545</span> </div>
-<div class="line"><span class="lineno">  546</span>                                lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#ad87669f877669c68429d4c0b7826adf2">ActiveTestMerges</a>.Add(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_rev_info_test_merge.html">RevInfoTestMerge</a></div>
-<div class="line"><span class="lineno">  547</span>                                {</div>
-<div class="line"><span class="lineno">  548</span>                                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">TestMerge</a> = testMergeToAdd,</div>
-<div class="line"><span class="lineno">  549</span>                                });</div>
-<div class="line"><span class="lineno">  550</span>                                lastRevisionInfo.PrimaryTestMerge = testMergeToAdd;</div>
-<div class="line"><span class="lineno">  551</span> </div>
-<div class="line"><span class="lineno">  552</span>                                needsUpdate = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  553</span>                            }</div>
-<div class="line"><span class="lineno">  554</span> </div>
-<div class="line"><span class="lineno">  555</span>                            <span class="keywordflow">if</span> (needsUpdate)</div>
-<div class="line"><span class="lineno">  556</span>                                await databaseContext.Save(cancellationToken);</div>
-<div class="line"><span class="lineno">  557</span>                        });</div>
+<div class="line"><span class="lineno">  501</span>                <span class="comment">// get a base line for where we are</span></div>
+<div class="line"><span class="lineno">  502</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> lastRevisionInfo = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  503</span> </div>
+<div class="line"><span class="lineno">  504</span>                var attachedInstance = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Models.Instance</a></div>
+<div class="line"><span class="lineno">  505</span>                {</div>
+<div class="line"><span class="lineno">  506</span>                    Id = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
+<div class="line"><span class="lineno">  507</span>                };</div>
+<div class="line"><span class="lineno">  508</span> </div>
+<div class="line"><span class="lineno">  509</span>                Task CallLoadRevInfo(Models.TestMerge testMergeToAdd = <span class="keyword">null</span>, <span class="keywordtype">string</span> lastOriginCommitSha = <span class="keyword">null</span>) =&gt; databaseContextFactory</div>
+<div class="line"><span class="lineno">  510</span>                    .<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(</div>
+<div class="line"><span class="lineno">  511</span>                        async databaseContext =&gt;</div>
+<div class="line"><span class="lineno">  512</span>                        {</div>
+<div class="line"><span class="lineno">  513</span>                            databaseContext.Instances.Attach(attachedInstance);</div>
+<div class="line"><span class="lineno">  514</span>                            var previousRevInfo = lastRevisionInfo;</div>
+<div class="line"><span class="lineno">  515</span>                            var needsUpdate = await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561">LoadRevisionInformation</a>(</div>
+<div class="line"><span class="lineno">  516</span>                                repo,</div>
+<div class="line"><span class="lineno">  517</span>                                databaseContext,</div>
+<div class="line"><span class="lineno">  518</span>                                attachedInstance,</div>
+<div class="line"><span class="lineno">  519</span>                                lastOriginCommitSha,</div>
+<div class="line"><span class="lineno">  520</span>                                x =&gt; lastRevisionInfo = x,</div>
+<div class="line"><span class="lineno">  521</span>                                ct)</div>
+<div class="line"><span class="lineno">  522</span>                                ;</div>
+<div class="line"><span class="lineno">  523</span> </div>
+<div class="line"><span class="lineno">  524</span>                            <span class="keywordflow">if</span> (testMergeToAdd != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  525</span>                            {</div>
+<div class="line"><span class="lineno">  526</span>                                <span class="comment">// rev info may have already loaded the user</span></div>
+<div class="line"><span class="lineno">  527</span>                                var mergedBy = databaseContext.Users.Local.FirstOrDefault(x =&gt; x.Id == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">  528</span>                                <span class="keywordflow">if</span> (mergedBy == <span class="keywordflow">default</span>)</div>
+<div class="line"><span class="lineno">  529</span>                                {</div>
+<div class="line"><span class="lineno">  530</span>                                    mergedBy = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a></div>
+<div class="line"><span class="lineno">  531</span>                                    {</div>
+<div class="line"><span class="lineno">  532</span>                                        Id = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>,</div>
+<div class="line"><span class="lineno">  533</span>                                    };</div>
+<div class="line"><span class="lineno">  534</span> </div>
+<div class="line"><span class="lineno">  535</span>                                    databaseContext.Users.Attach(mergedBy);</div>
+<div class="line"><span class="lineno">  536</span>                                }</div>
+<div class="line"><span class="lineno">  537</span> </div>
+<div class="line"><span class="lineno">  538</span>                                testMergeToAdd.MergedBy = mergedBy;</div>
+<div class="line"><span class="lineno">  539</span>                                testMergeToAdd.MergedAt = DateTimeOffset.UtcNow;</div>
+<div class="line"><span class="lineno">  540</span> </div>
+<div class="line"><span class="lineno">  541</span>                                <span class="keywordflow">foreach</span> (var activeTestMerge <span class="keywordflow">in</span> previousRevInfo.ActiveTestMerges)</div>
+<div class="line"><span class="lineno">  542</span>                                    lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#ad87669f877669c68429d4c0b7826adf2">ActiveTestMerges</a>.Add(activeTestMerge);</div>
+<div class="line"><span class="lineno">  543</span> </div>
+<div class="line"><span class="lineno">  544</span>                                lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#ad87669f877669c68429d4c0b7826adf2">ActiveTestMerges</a>.Add(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_rev_info_test_merge.html">RevInfoTestMerge</a></div>
+<div class="line"><span class="lineno">  545</span>                                {</div>
+<div class="line"><span class="lineno">  546</span>                                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">TestMerge</a> = testMergeToAdd,</div>
+<div class="line"><span class="lineno">  547</span>                                });</div>
+<div class="line"><span class="lineno">  548</span>                                lastRevisionInfo.PrimaryTestMerge = testMergeToAdd;</div>
+<div class="line"><span class="lineno">  549</span> </div>
+<div class="line"><span class="lineno">  550</span>                                needsUpdate = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  551</span>                            }</div>
+<div class="line"><span class="lineno">  552</span> </div>
+<div class="line"><span class="lineno">  553</span>                            <span class="keywordflow">if</span> (needsUpdate)</div>
+<div class="line"><span class="lineno">  554</span>                                await databaseContext.Save(cancellationToken);</div>
+<div class="line"><span class="lineno">  555</span>                        });</div>
+<div class="line"><span class="lineno">  556</span> </div>
+<div class="line"><span class="lineno">  557</span>                await CallLoadRevInfo();</div>
 <div class="line"><span class="lineno">  558</span> </div>
-<div class="line"><span class="lineno">  559</span>                await CallLoadRevInfo();</div>
-<div class="line"><span class="lineno">  560</span> </div>
-<div class="line"><span class="lineno">  561</span>                <span class="comment">// apply new rev info, tracking applied test merges</span></div>
-<div class="line"><span class="lineno">  562</span>                Task UpdateRevInfo(Models.TestMerge testMergeToAdd = <span class="keyword">null</span>) =&gt; CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7239f5d0bb2d47b69a444b9ce6ecddea">OriginCommitSha</a>);</div>
-<div class="line"><span class="lineno">  563</span> </div>
-<div class="line"><span class="lineno">  564</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  565</span>                {</div>
-<div class="line"><span class="lineno">  566</span>                    <span class="comment">// fetch/pull</span></div>
-<div class="line"><span class="lineno">  567</span>                    <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#a05d4416c73b044cd160f3c855786fd5b">UpdateFromOrigin</a> == <span class="keyword">true</span>)</div>
-<div class="line"><span class="lineno">  568</span>                    {</div>
-<div class="line"><span class="lineno">  569</span>                        <span class="keywordflow">if</span> (!repo.Tracking)</div>
-<div class="line"><span class="lineno">  570</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoReferenceRequired);</div>
-<div class="line"><span class="lineno">  571</span>                        await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct);</div>
-<div class="line"><span class="lineno">  572</span>                        doneSteps = 1;</div>
-<div class="line"><span class="lineno">  573</span>                        <span class="keywordflow">if</span> (!modelHasShaOrReference)</div>
-<div class="line"><span class="lineno">  574</span>                        {</div>
-<div class="line"><span class="lineno">  575</span>                            var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct);</div>
-<div class="line"><span class="lineno">  576</span>                            <span class="keywordflow">if</span> (!fastForward.HasValue)</div>
-<div class="line"><span class="lineno">  577</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoMergeConflict);</div>
-<div class="line"><span class="lineno">  578</span>                            lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken);</div>
-<div class="line"><span class="lineno">  579</span>                            await UpdateRevInfo();</div>
-<div class="line"><span class="lineno">  580</span>                            <span class="keywordflow">if</span> (fastForward.Value)</div>
-<div class="line"><span class="lineno">  581</span>                            {</div>
-<div class="line"><span class="lineno">  582</span>                                await repo.Sychronize(</div>
-<div class="line"><span class="lineno">  583</span>                                    currentModel.AccessUser,</div>
-<div class="line"><span class="lineno">  584</span>                                    currentModel.AccessToken,</div>
-<div class="line"><span class="lineno">  585</span>                                    currentModel.CommitterName,</div>
-<div class="line"><span class="lineno">  586</span>                                    currentModel.CommitterEmail,</div>
-<div class="line"><span class="lineno">  587</span>                                    NextProgressReporter(),</div>
-<div class="line"><span class="lineno">  588</span>                                    <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  589</span>                                    ct)</div>
-<div class="line"><span class="lineno">  590</span>                                    ;</div>
-<div class="line"><span class="lineno">  591</span>                                postUpdateSha = repo.Head;</div>
-<div class="line"><span class="lineno">  592</span>                            }</div>
-<div class="line"><span class="lineno">  593</span>                            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  594</span>                                NextProgressReporter()(<span class="keyword">null</span>, 100);</div>
-<div class="line"><span class="lineno">  595</span>                        }</div>
-<div class="line"><span class="lineno">  596</span>                    }</div>
+<div class="line"><span class="lineno">  559</span>                <span class="comment">// apply new rev info, tracking applied test merges</span></div>
+<div class="line"><span class="lineno">  560</span>                Task UpdateRevInfo(Models.TestMerge testMergeToAdd = <span class="keyword">null</span>) =&gt; CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7239f5d0bb2d47b69a444b9ce6ecddea">OriginCommitSha</a>);</div>
+<div class="line"><span class="lineno">  561</span> </div>
+<div class="line"><span class="lineno">  562</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  563</span>                {</div>
+<div class="line"><span class="lineno">  564</span>                    <span class="comment">// fetch/pull</span></div>
+<div class="line"><span class="lineno">  565</span>                    <span class="keywordflow">if</span> (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#a05d4416c73b044cd160f3c855786fd5b">UpdateFromOrigin</a> == <span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">  566</span>                    {</div>
+<div class="line"><span class="lineno">  567</span>                        <span class="keywordflow">if</span> (!repo.Tracking)</div>
+<div class="line"><span class="lineno">  568</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoReferenceRequired);</div>
+<div class="line"><span class="lineno">  569</span>                        await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(<span class="stringliteral">&quot;Fetch Origin&quot;</span>), ct);</div>
+<div class="line"><span class="lineno">  570</span> </div>
+<div class="line"><span class="lineno">  571</span>                        <span class="keywordflow">if</span> (!modelHasShaOrReference)</div>
+<div class="line"><span class="lineno">  572</span>                        {</div>
+<div class="line"><span class="lineno">  573</span>                            var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(<span class="stringliteral">&quot;Merge Origin&quot;</span>), ct);</div>
+<div class="line"><span class="lineno">  574</span>                            <span class="keywordflow">if</span> (!fastForward.HasValue)</div>
+<div class="line"><span class="lineno">  575</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoMergeConflict);</div>
+<div class="line"><span class="lineno">  576</span>                            lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken);</div>
+<div class="line"><span class="lineno">  577</span>                            await UpdateRevInfo();</div>
+<div class="line"><span class="lineno">  578</span>                            <span class="keywordflow">if</span> (fastForward.Value)</div>
+<div class="line"><span class="lineno">  579</span>                            {</div>
+<div class="line"><span class="lineno">  580</span>                                await repo.Sychronize(</div>
+<div class="line"><span class="lineno">  581</span>                                    currentModel.AccessUser,</div>
+<div class="line"><span class="lineno">  582</span>                                    currentModel.AccessToken,</div>
+<div class="line"><span class="lineno">  583</span>                                    currentModel.CommitterName,</div>
+<div class="line"><span class="lineno">  584</span>                                    currentModel.CommitterEmail,</div>
+<div class="line"><span class="lineno">  585</span>                                    NextProgressReporter(<span class="stringliteral">&quot;Sychronize&quot;</span>),</div>
+<div class="line"><span class="lineno">  586</span>                                    <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  587</span>                                    ct)</div>
+<div class="line"><span class="lineno">  588</span>                                    ;</div>
+<div class="line"><span class="lineno">  589</span>                                postUpdateSha = repo.Head;</div>
+<div class="line"><span class="lineno">  590</span>                            }</div>
+<div class="line"><span class="lineno">  591</span>                            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  592</span>                                NextProgressReporter(<span class="keyword">null</span>).ReportProgress(1.0);</div>
+<div class="line"><span class="lineno">  593</span>                        }</div>
+<div class="line"><span class="lineno">  594</span>                    }</div>
+<div class="line"><span class="lineno">  595</span> </div>
+<div class="line"><span class="lineno">  596</span>                    var updateSubmodules = currentModel.UpdateSubmodules.Value;</div>
 <div class="line"><span class="lineno">  597</span> </div>
-<div class="line"><span class="lineno">  598</span>                    var updateSubmodules = currentModel.UpdateSubmodules.Value;</div>
-<div class="line"><span class="lineno">  599</span> </div>
-<div class="line"><span class="lineno">  600</span>                    <span class="comment">// checkout/hard reset</span></div>
-<div class="line"><span class="lineno">  601</span>                    <span class="keywordflow">if</span> (modelHasShaOrReference)</div>
-<div class="line"><span class="lineno">  602</span>                    {</div>
-<div class="line"><span class="lineno">  603</span>                        var validCheckoutSha =</div>
-<div class="line"><span class="lineno">  604</span>                            model.CheckoutSha != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  605</span>                            &amp;&amp; !repo.Head.StartsWith(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#ab1994d9e809d5ba7055c9b38b25d7b5b">CheckoutSha</a>, StringComparison.OrdinalIgnoreCase);</div>
-<div class="line"><span class="lineno">  606</span>                        var validCheckoutReference =</div>
-<div class="line"><span class="lineno">  607</span>                            model.Reference != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  608</span>                            &amp;&amp; !repo.Reference.Equals(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a>, StringComparison.OrdinalIgnoreCase);</div>
-<div class="line"><span class="lineno">  609</span> </div>
-<div class="line"><span class="lineno">  610</span>                        <span class="keywordflow">if</span> (validCheckoutSha || validCheckoutReference)</div>
-<div class="line"><span class="lineno">  611</span>                        {</div>
-<div class="line"><span class="lineno">  612</span>                            var committish = model.CheckoutSha ?? model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a>;</div>
-<div class="line"><span class="lineno">  613</span>                            var isSha = await repo.IsSha(committish, cancellationToken);</div>
-<div class="line"><span class="lineno">  614</span> </div>
-<div class="line"><span class="lineno">  615</span>                            <span class="keywordflow">if</span> ((isSha &amp;&amp; model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a> != <span class="keyword">null</span>) || (!isSha &amp;&amp; model.CheckoutSha != <span class="keyword">null</span>))</div>
-<div class="line"><span class="lineno">  616</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoSwappedShaOrReference);</div>
-<div class="line"><span class="lineno">  617</span> </div>
-<div class="line"><span class="lineno">  618</span>                            await repo.CheckoutObject(</div>
-<div class="line"><span class="lineno">  619</span>                                committish,</div>
-<div class="line"><span class="lineno">  620</span>                                currentModel.AccessUser,</div>
-<div class="line"><span class="lineno">  621</span>                                currentModel.AccessToken,</div>
-<div class="line"><span class="lineno">  622</span>                                updateSubmodules,</div>
-<div class="line"><span class="lineno">  623</span>                                NextProgressReporter(),</div>
-<div class="line"><span class="lineno">  624</span>                                ct)</div>
-<div class="line"><span class="lineno">  625</span>                                ;</div>
-<div class="line"><span class="lineno">  626</span>                            await CallLoadRevInfo(); <span class="comment">// we&#39;ve either seen origin before or what we&#39;re checking out is on origin</span></div>
-<div class="line"><span class="lineno">  627</span>                        }</div>
-<div class="line"><span class="lineno">  628</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  629</span>                            NextProgressReporter()(<span class="keyword">null</span>, 100);</div>
-<div class="line"><span class="lineno">  630</span> </div>
-<div class="line"><span class="lineno">  631</span>                        <span class="keywordflow">if</span> (hardResettingToOriginReference)</div>
-<div class="line"><span class="lineno">  632</span>                        {</div>
-<div class="line"><span class="lineno">  633</span>                            <span class="keywordflow">if</span> (!repo.Tracking)</div>
-<div class="line"><span class="lineno">  634</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoReferenceNotTracking);</div>
-<div class="line"><span class="lineno">  635</span>                            await repo.ResetToOrigin(</div>
-<div class="line"><span class="lineno">  636</span>                                currentModel.AccessUser,</div>
-<div class="line"><span class="lineno">  637</span>                                currentModel.AccessToken,</div>
-<div class="line"><span class="lineno">  638</span>                                updateSubmodules,</div>
-<div class="line"><span class="lineno">  639</span>                                NextProgressReporter(),</div>
-<div class="line"><span class="lineno">  640</span>                                ct)</div>
-<div class="line"><span class="lineno">  641</span>                                ;</div>
-<div class="line"><span class="lineno">  642</span>                            await repo.Sychronize(</div>
-<div class="line"><span class="lineno">  643</span>                                currentModel.AccessUser,</div>
-<div class="line"><span class="lineno">  644</span>                                currentModel.AccessToken,</div>
-<div class="line"><span class="lineno">  645</span>                                currentModel.CommitterName,</div>
-<div class="line"><span class="lineno">  646</span>                                currentModel.CommitterEmail,</div>
-<div class="line"><span class="lineno">  647</span>                                NextProgressReporter(),</div>
-<div class="line"><span class="lineno">  648</span>                                <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  649</span>                                ct)</div>
-<div class="line"><span class="lineno">  650</span>                                ;</div>
-<div class="line"><span class="lineno">  651</span>                            await CallLoadRevInfo();</div>
-<div class="line"><span class="lineno">  652</span> </div>
-<div class="line"><span class="lineno">  653</span>                            <span class="comment">// repo head is on origin so force this</span></div>
-<div class="line"><span class="lineno">  654</span>                            <span class="comment">// will update the db if necessary</span></div>
-<div class="line"><span class="lineno">  655</span>                            lastRevisionInfo.OriginCommitSha = repo.Head;</div>
-<div class="line"><span class="lineno">  656</span>                        }</div>
-<div class="line"><span class="lineno">  657</span>                    }</div>
-<div class="line"><span class="lineno">  658</span> </div>
-<div class="line"><span class="lineno">  659</span>                    <span class="comment">// test merging</span></div>
-<div class="line"><span class="lineno">  660</span>                    <span class="keywordflow">if</span> (newTestMerges)</div>
-<div class="line"><span class="lineno">  661</span>                    {</div>
-<div class="line"><span class="lineno">  662</span>                        <span class="keywordflow">if</span> (repo.RemoteGitProvider == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.Unknown)</div>
-<div class="line"><span class="lineno">  663</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoTestMergeInvalidRemote);</div>
-<div class="line"><span class="lineno">  664</span> </div>
-<div class="line"><span class="lineno">  665</span>                        <span class="comment">// bit of sanitization</span></div>
-<div class="line"><span class="lineno">  666</span>                        <span class="keywordflow">foreach</span> (var newTestMergeWithoutTargetCommitSha <span class="keywordflow">in</span> model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Where(x =&gt; String.IsNullOrWhiteSpace(x.TargetCommitSha)))</div>
-<div class="line"><span class="lineno">  667</span>                            newTestMergeWithoutTargetCommitSha.TargetCommitSha = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  668</span> </div>
-<div class="line"><span class="lineno">  669</span>                        var gitHubClient = currentModel.AccessToken != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  670</span>                            ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a646263811f3cf4b618c569685a15c90c">gitHubClientFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">CreateClient</a>(currentModel.AccessToken)</div>
-<div class="line"><span class="lineno">  671</span>                            : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a646263811f3cf4b618c569685a15c90c">gitHubClientFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">CreateClient</a>();</div>
-<div class="line"><span class="lineno">  672</span> </div>
-<div class="line"><span class="lineno">  673</span>                        var repoOwner = repo.RemoteRepositoryOwner;</div>
-<div class="line"><span class="lineno">  674</span>                        var repoName = repo.RemoteRepositoryName;</div>
-<div class="line"><span class="lineno">  675</span> </div>
-<div class="line"><span class="lineno">  676</span>                        <span class="comment">// optimization: if we&#39;ve already merged these exact same commits in this fashion before, just find the rev info for it and check it out</span></div>
-<div class="line"><span class="lineno">  677</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revInfoWereLookingFor = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  678</span>                        <span class="keywordtype">bool</span> needToApplyRemainingPrs = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  679</span>                        <span class="keywordflow">if</span> (lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7239f5d0bb2d47b69a444b9ce6ecddea">OriginCommitSha</a> == lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>)</div>
-<div class="line"><span class="lineno">  680</span>                        {</div>
-<div class="line"><span class="lineno">  681</span>                            <span class="keywordtype">bool</span> cantSearch = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  682</span>                            <span class="keywordflow">foreach</span> (var newTestMerge <span class="keywordflow">in</span> model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>)</div>
-<div class="line"><span class="lineno">  683</span>                            {</div>
-<div class="line"><span class="lineno">  684</span>                                <span class="keywordflow">if</span> (newTestMerge.TargetCommitSha != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  685</span><span class="preprocessor">#pragma warning disable CA1308 </span><span class="comment">// Normalize strings to uppercase</span></div>
-<div class="line"><span class="lineno">  686</span>                                    newTestMerge.TargetCommitSha = newTestMerge.TargetCommitSha?.ToLowerInvariant(); <span class="comment">// ala libgit2</span></div>
-<div class="line"><span class="lineno">  687</span><span class="preprocessor">#pragma warning restore CA1308 </span><span class="comment">// Normalize strings to uppercase</span></div>
-<div class="line"><span class="lineno">  688</span>                                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  689</span>                                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  690</span>                                    {</div>
-<div class="line"><span class="lineno">  691</span>                                        <span class="comment">// retrieve the latest sha</span></div>
-<div class="line"><span class="lineno">  692</span>                                        var pr = await repo.GetTestMerge(newTestMerge, currentModel, ct);</div>
-<div class="line"><span class="lineno">  693</span> </div>
-<div class="line"><span class="lineno">  694</span>                                        <span class="comment">// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it</span></div>
-<div class="line"><span class="lineno">  695</span>                                        newTestMerge.TargetCommitSha = pr.TargetCommitSha;</div>
-<div class="line"><span class="lineno">  696</span>                                    }</div>
-<div class="line"><span class="lineno">  697</span>                                    <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  698</span>                                    {</div>
-<div class="line"><span class="lineno">  699</span>                                        cantSearch = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  700</span>                                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  701</span>                                    }</div>
-<div class="line"><span class="lineno">  702</span>                            }</div>
-<div class="line"><span class="lineno">  703</span> </div>
-<div class="line"><span class="lineno">  704</span>                            <span class="keywordflow">if</span> (!cantSearch)</div>
-<div class="line"><span class="lineno">  705</span>                            {</div>
-<div class="line"><span class="lineno">  706</span>                                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">List</a>&lt;Models.RevisionInformation&gt; dbPull = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  707</span> </div>
-<div class="line"><span class="lineno">  708</span>                                await databaseContextFactory.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(</div>
-<div class="line"><span class="lineno">  709</span>                                    async databaseContext =&gt;</div>
-<div class="line"><span class="lineno">  710</span>                                        dbPull = await databaseContext.RevisionInformations</div>
-<div class="line"><span class="lineno">  711</span>                                            .AsQueryable()</div>
-<div class="line"><span class="lineno">  712</span>                                            .Where(x =&gt; x.Instance.Id == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a></div>
-<div class="line"><span class="lineno">  713</span>                                            &amp;&amp; x.OriginCommitSha == lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7239f5d0bb2d47b69a444b9ce6ecddea">OriginCommitSha</a></div>
-<div class="line"><span class="lineno">  714</span>                                            &amp;&amp; x.ActiveTestMerges.Count &lt;= model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Count</div>
-<div class="line"><span class="lineno">  715</span>                                            &amp;&amp; x.ActiveTestMerges.Count &gt; 0)</div>
-<div class="line"><span class="lineno">  716</span>                                            .Include(x =&gt; x.ActiveTestMerges)</div>
-<div class="line"><span class="lineno">  717</span>                                            .ThenInclude(x =&gt; x.TestMerge)</div>
-<div class="line"><span class="lineno">  718</span>                                            .ToListAsync(cancellationToken));</div>
-<div class="line"><span class="lineno">  719</span> </div>
-<div class="line"><span class="lineno">  720</span>                                <span class="comment">// split here cause this bit has to be done locally</span></div>
-<div class="line"><span class="lineno">  721</span>                                revInfoWereLookingFor = dbPull</div>
-<div class="line"><span class="lineno">  722</span>                                    .Where(x =&gt; x.ActiveTestMerges.Count == model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Count</div>
-<div class="line"><span class="lineno">  723</span>                                    &amp;&amp; x.ActiveTestMerges.Select(y =&gt; y.TestMerge)</div>
-<div class="line"><span class="lineno">  724</span>                                    .All(y =&gt; model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Any(z =&gt;</div>
-<div class="line"><span class="lineno">  725</span>                                    y.Number == z.Number</div>
-<div class="line"><span class="lineno">  726</span>                                    &amp;&amp; y.TargetCommitSha.StartsWith(z.TargetCommitSha, StringComparison.Ordinal)</div>
-<div class="line"><span class="lineno">  727</span>                                    &amp;&amp; (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == <span class="keyword">null</span>))))</div>
-<div class="line"><span class="lineno">  728</span>                                    .FirstOrDefault();</div>
-<div class="line"><span class="lineno">  729</span> </div>
-<div class="line"><span class="lineno">  730</span>                                <span class="keywordflow">if</span> (revInfoWereLookingFor == <span class="keywordflow">default</span> &amp;&amp; model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Count &gt; 1)</div>
-<div class="line"><span class="lineno">  731</span>                                {</div>
-<div class="line"><span class="lineno">  732</span>                                    <span class="comment">// okay try to add at least SOME prs we&#39;ve seen before</span></div>
-<div class="line"><span class="lineno">  733</span>                                    var listedNewTestMerges = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.ToList();</div>
+<div class="line"><span class="lineno">  598</span>                    <span class="comment">// checkout/hard reset</span></div>
+<div class="line"><span class="lineno">  599</span>                    <span class="keywordflow">if</span> (modelHasShaOrReference)</div>
+<div class="line"><span class="lineno">  600</span>                    {</div>
+<div class="line"><span class="lineno">  601</span>                        var validCheckoutSha =</div>
+<div class="line"><span class="lineno">  602</span>                            model.CheckoutSha != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  603</span>                            &amp;&amp; !repo.Head.StartsWith(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#ab1994d9e809d5ba7055c9b38b25d7b5b">CheckoutSha</a>, StringComparison.OrdinalIgnoreCase);</div>
+<div class="line"><span class="lineno">  604</span>                        var validCheckoutReference =</div>
+<div class="line"><span class="lineno">  605</span>                            model.Reference != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  606</span>                            &amp;&amp; !repo.Reference.Equals(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a>, StringComparison.OrdinalIgnoreCase);</div>
+<div class="line"><span class="lineno">  607</span> </div>
+<div class="line"><span class="lineno">  608</span>                        <span class="keywordflow">if</span> (validCheckoutSha || validCheckoutReference)</div>
+<div class="line"><span class="lineno">  609</span>                        {</div>
+<div class="line"><span class="lineno">  610</span>                            var committish = model.CheckoutSha ?? model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a>;</div>
+<div class="line"><span class="lineno">  611</span>                            var isSha = await repo.IsSha(committish, cancellationToken);</div>
+<div class="line"><span class="lineno">  612</span> </div>
+<div class="line"><span class="lineno">  613</span>                            <span class="keywordflow">if</span> ((isSha &amp;&amp; model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html#a5a69a7b98b90a6eff88a4f876f93a8fc">Reference</a> != <span class="keyword">null</span>) || (!isSha &amp;&amp; model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#ab1994d9e809d5ba7055c9b38b25d7b5b">CheckoutSha</a> != <span class="keyword">null</span>))</div>
+<div class="line"><span class="lineno">  614</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoSwappedShaOrReference);</div>
+<div class="line"><span class="lineno">  615</span> </div>
+<div class="line"><span class="lineno">  616</span>                            await repo.CheckoutObject(</div>
+<div class="line"><span class="lineno">  617</span>                                committish,</div>
+<div class="line"><span class="lineno">  618</span>                                currentModel.AccessUser,</div>
+<div class="line"><span class="lineno">  619</span>                                currentModel.AccessToken,</div>
+<div class="line"><span class="lineno">  620</span>                                updateSubmodules,</div>
+<div class="line"><span class="lineno">  621</span>                                NextProgressReporter(<span class="stringliteral">&quot;Checkout&quot;</span>),</div>
+<div class="line"><span class="lineno">  622</span>                                ct)</div>
+<div class="line"><span class="lineno">  623</span>                                ;</div>
+<div class="line"><span class="lineno">  624</span>                            await CallLoadRevInfo(); <span class="comment">// we&#39;ve either seen origin before or what we&#39;re checking out is on origin</span></div>
+<div class="line"><span class="lineno">  625</span>                        }</div>
+<div class="line"><span class="lineno">  626</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  627</span>                            NextProgressReporter(<span class="keyword">null</span>).ReportProgress(1.0);</div>
+<div class="line"><span class="lineno">  628</span> </div>
+<div class="line"><span class="lineno">  629</span>                        <span class="keywordflow">if</span> (hardResettingToOriginReference)</div>
+<div class="line"><span class="lineno">  630</span>                        {</div>
+<div class="line"><span class="lineno">  631</span>                            <span class="keywordflow">if</span> (!repo.Tracking)</div>
+<div class="line"><span class="lineno">  632</span>                                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoReferenceNotTracking);</div>
+<div class="line"><span class="lineno">  633</span>                            await repo.ResetToOrigin(</div>
+<div class="line"><span class="lineno">  634</span>                                currentModel.AccessUser,</div>
+<div class="line"><span class="lineno">  635</span>                                currentModel.AccessToken,</div>
+<div class="line"><span class="lineno">  636</span>                                updateSubmodules,</div>
+<div class="line"><span class="lineno">  637</span>                                NextProgressReporter(<span class="stringliteral">&quot;Reset to Origin&quot;</span>),</div>
+<div class="line"><span class="lineno">  638</span>                                ct)</div>
+<div class="line"><span class="lineno">  639</span>                                ;</div>
+<div class="line"><span class="lineno">  640</span>                            await repo.Sychronize(</div>
+<div class="line"><span class="lineno">  641</span>                                currentModel.AccessUser,</div>
+<div class="line"><span class="lineno">  642</span>                                currentModel.AccessToken,</div>
+<div class="line"><span class="lineno">  643</span>                                currentModel.CommitterName,</div>
+<div class="line"><span class="lineno">  644</span>                                currentModel.CommitterEmail,</div>
+<div class="line"><span class="lineno">  645</span>                                NextProgressReporter(<span class="stringliteral">&quot;Synchronize&quot;</span>),</div>
+<div class="line"><span class="lineno">  646</span>                                <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  647</span>                                ct)</div>
+<div class="line"><span class="lineno">  648</span>                                ;</div>
+<div class="line"><span class="lineno">  649</span>                            await CallLoadRevInfo();</div>
+<div class="line"><span class="lineno">  650</span> </div>
+<div class="line"><span class="lineno">  651</span>                            <span class="comment">// repo head is on origin so force this</span></div>
+<div class="line"><span class="lineno">  652</span>                            <span class="comment">// will update the db if necessary</span></div>
+<div class="line"><span class="lineno">  653</span>                            lastRevisionInfo.OriginCommitSha = repo.Head;</div>
+<div class="line"><span class="lineno">  654</span>                        }</div>
+<div class="line"><span class="lineno">  655</span>                    }</div>
+<div class="line"><span class="lineno">  656</span> </div>
+<div class="line"><span class="lineno">  657</span>                    <span class="comment">// test merging</span></div>
+<div class="line"><span class="lineno">  658</span>                    <span class="keywordflow">if</span> (newTestMerges)</div>
+<div class="line"><span class="lineno">  659</span>                    {</div>
+<div class="line"><span class="lineno">  660</span>                        <span class="keywordflow">if</span> (repo.RemoteGitProvider == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.Unknown)</div>
+<div class="line"><span class="lineno">  661</span>                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoTestMergeInvalidRemote);</div>
+<div class="line"><span class="lineno">  662</span> </div>
+<div class="line"><span class="lineno">  663</span>                        <span class="comment">// bit of sanitization</span></div>
+<div class="line"><span class="lineno">  664</span>                        <span class="keywordflow">foreach</span> (var newTestMergeWithoutTargetCommitSha <span class="keywordflow">in</span> model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Where(x =&gt; String.IsNullOrWhiteSpace(x.TargetCommitSha)))</div>
+<div class="line"><span class="lineno">  665</span>                            newTestMergeWithoutTargetCommitSha.TargetCommitSha = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  666</span> </div>
+<div class="line"><span class="lineno">  667</span>                        var gitHubClient = currentModel.AccessToken != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  668</span>                            ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a646263811f3cf4b618c569685a15c90c">gitHubClientFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">CreateClient</a>(currentModel.AccessToken)</div>
+<div class="line"><span class="lineno">  669</span>                            : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a646263811f3cf4b618c569685a15c90c">gitHubClientFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">CreateClient</a>();</div>
+<div class="line"><span class="lineno">  670</span> </div>
+<div class="line"><span class="lineno">  671</span>                        var repoOwner = repo.RemoteRepositoryOwner;</div>
+<div class="line"><span class="lineno">  672</span>                        var repoName = repo.RemoteRepositoryName;</div>
+<div class="line"><span class="lineno">  673</span> </div>
+<div class="line"><span class="lineno">  674</span>                        <span class="comment">// optimization: if we&#39;ve already merged these exact same commits in this fashion before, just find the rev info for it and check it out</span></div>
+<div class="line"><span class="lineno">  675</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revInfoWereLookingFor = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  676</span>                        <span class="keywordtype">bool</span> needToApplyRemainingPrs = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  677</span>                        <span class="keywordflow">if</span> (lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7239f5d0bb2d47b69a444b9ce6ecddea">OriginCommitSha</a> == lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>)</div>
+<div class="line"><span class="lineno">  678</span>                        {</div>
+<div class="line"><span class="lineno">  679</span>                            <span class="keywordtype">bool</span> cantSearch = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  680</span>                            <span class="keywordflow">foreach</span> (var newTestMerge <span class="keywordflow">in</span> model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>)</div>
+<div class="line"><span class="lineno">  681</span>                            {</div>
+<div class="line"><span class="lineno">  682</span>                                <span class="keywordflow">if</span> (newTestMerge.TargetCommitSha != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  683</span><span class="preprocessor">#pragma warning disable CA1308 </span><span class="comment">// Normalize strings to uppercase</span></div>
+<div class="line"><span class="lineno">  684</span>                                    newTestMerge.TargetCommitSha = newTestMerge.TargetCommitSha?.ToLowerInvariant(); <span class="comment">// ala libgit2</span></div>
+<div class="line"><span class="lineno">  685</span><span class="preprocessor">#pragma warning restore CA1308 </span><span class="comment">// Normalize strings to uppercase</span></div>
+<div class="line"><span class="lineno">  686</span>                                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  687</span>                                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  688</span>                                    {</div>
+<div class="line"><span class="lineno">  689</span>                                        <span class="comment">// retrieve the latest sha</span></div>
+<div class="line"><span class="lineno">  690</span>                                        var pr = await repo.GetTestMerge(newTestMerge, currentModel, ct);</div>
+<div class="line"><span class="lineno">  691</span> </div>
+<div class="line"><span class="lineno">  692</span>                                        <span class="comment">// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it</span></div>
+<div class="line"><span class="lineno">  693</span>                                        newTestMerge.TargetCommitSha = pr.TargetCommitSha;</div>
+<div class="line"><span class="lineno">  694</span>                                    }</div>
+<div class="line"><span class="lineno">  695</span>                                    <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  696</span>                                    {</div>
+<div class="line"><span class="lineno">  697</span>                                        cantSearch = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  698</span>                                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  699</span>                                    }</div>
+<div class="line"><span class="lineno">  700</span>                            }</div>
+<div class="line"><span class="lineno">  701</span> </div>
+<div class="line"><span class="lineno">  702</span>                            <span class="keywordflow">if</span> (!cantSearch)</div>
+<div class="line"><span class="lineno">  703</span>                            {</div>
+<div class="line"><span class="lineno">  704</span>                                <a class="code hl_enumvalue" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">List</a>&lt;Models.RevisionInformation&gt; dbPull = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  705</span> </div>
+<div class="line"><span class="lineno">  706</span>                                await databaseContextFactory.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">UseContext</a>(</div>
+<div class="line"><span class="lineno">  707</span>                                    async databaseContext =&gt;</div>
+<div class="line"><span class="lineno">  708</span>                                        dbPull = await databaseContext.RevisionInformations</div>
+<div class="line"><span class="lineno">  709</span>                                            .AsQueryable()</div>
+<div class="line"><span class="lineno">  710</span>                                            .Where(x =&gt; x.Instance.Id == <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a></div>
+<div class="line"><span class="lineno">  711</span>                                            &amp;&amp; x.OriginCommitSha == lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7239f5d0bb2d47b69a444b9ce6ecddea">OriginCommitSha</a></div>
+<div class="line"><span class="lineno">  712</span>                                            &amp;&amp; x.ActiveTestMerges.Count &lt;= model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Count</div>
+<div class="line"><span class="lineno">  713</span>                                            &amp;&amp; x.ActiveTestMerges.Count &gt; 0)</div>
+<div class="line"><span class="lineno">  714</span>                                            .Include(x =&gt; x.ActiveTestMerges)</div>
+<div class="line"><span class="lineno">  715</span>                                            .ThenInclude(x =&gt; x.TestMerge)</div>
+<div class="line"><span class="lineno">  716</span>                                            .ToListAsync(cancellationToken));</div>
+<div class="line"><span class="lineno">  717</span> </div>
+<div class="line"><span class="lineno">  718</span>                                <span class="comment">// split here cause this bit has to be done locally</span></div>
+<div class="line"><span class="lineno">  719</span>                                revInfoWereLookingFor = dbPull</div>
+<div class="line"><span class="lineno">  720</span>                                    .Where(x =&gt; x.ActiveTestMerges.Count == model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Count</div>
+<div class="line"><span class="lineno">  721</span>                                    &amp;&amp; x.ActiveTestMerges.Select(y =&gt; y.TestMerge)</div>
+<div class="line"><span class="lineno">  722</span>                                    .All(y =&gt; model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Any(z =&gt;</div>
+<div class="line"><span class="lineno">  723</span>                                    y.Number == z.Number</div>
+<div class="line"><span class="lineno">  724</span>                                    &amp;&amp; y.TargetCommitSha.StartsWith(z.TargetCommitSha, StringComparison.Ordinal)</div>
+<div class="line"><span class="lineno">  725</span>                                    &amp;&amp; (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == <span class="keyword">null</span>))))</div>
+<div class="line"><span class="lineno">  726</span>                                    .FirstOrDefault();</div>
+<div class="line"><span class="lineno">  727</span> </div>
+<div class="line"><span class="lineno">  728</span>                                <span class="keywordflow">if</span> (revInfoWereLookingFor == <span class="keywordflow">default</span> &amp;&amp; model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Count &gt; 1)</div>
+<div class="line"><span class="lineno">  729</span>                                {</div>
+<div class="line"><span class="lineno">  730</span>                                    <span class="comment">// okay try to add at least SOME prs we&#39;ve seen before</span></div>
+<div class="line"><span class="lineno">  731</span>                                    var listedNewTestMerges = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.ToList();</div>
+<div class="line"><span class="lineno">  732</span> </div>
+<div class="line"><span class="lineno">  733</span>                                    var appliedTestMergeIds = <span class="keyword">new</span> List&lt;long&gt;();</div>
 <div class="line"><span class="lineno">  734</span> </div>
-<div class="line"><span class="lineno">  735</span>                                    var appliedTestMergeIds = <span class="keyword">new</span> List&lt;long&gt;();</div>
-<div class="line"><span class="lineno">  736</span> </div>
-<div class="line"><span class="lineno">  737</span>                                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> lastGoodRevInfo = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  738</span>                                    <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  739</span>                                    {</div>
-<div class="line"><span class="lineno">  740</span>                                        <span class="keywordflow">foreach</span> (var newTestMergeParameters <span class="keywordflow">in</span> listedNewTestMerges)</div>
-<div class="line"><span class="lineno">  741</span>                                        {</div>
-<div class="line"><span class="lineno">  742</span>                                            revInfoWereLookingFor = dbPull</div>
-<div class="line"><span class="lineno">  743</span>                                                .Where(testRevInfo =&gt;</div>
-<div class="line"><span class="lineno">  744</span>                                                {</div>
-<div class="line"><span class="lineno">  745</span>                                                    <span class="keywordflow">if</span> (testRevInfo.PrimaryTestMerge == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  746</span>                                                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  747</span> </div>
-<div class="line"><span class="lineno">  748</span>                                                    var testMergeMatch = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Any(testTestMerge =&gt;</div>
-<div class="line"><span class="lineno">  749</span>                                                    {</div>
-<div class="line"><span class="lineno">  750</span>                                                        var numberMatch = testRevInfo.PrimaryTestMerge.Number == testTestMerge.Number;</div>
-<div class="line"><span class="lineno">  751</span>                                                        if (!numberMatch)</div>
-<div class="line"><span class="lineno">  752</span>                                                            return false;</div>
-<div class="line"><span class="lineno">  753</span> </div>
-<div class="line"><span class="lineno">  754</span>                                                        var shaMatch = testRevInfo.PrimaryTestMerge.TargetCommitSha.StartsWith(</div>
-<div class="line"><span class="lineno">  755</span>                                                            testTestMerge.TargetCommitSha,</div>
-<div class="line"><span class="lineno">  756</span>                                                            StringComparison.Ordinal);</div>
-<div class="line"><span class="lineno">  757</span>                                                        if (!shaMatch)</div>
-<div class="line"><span class="lineno">  758</span>                                                            return false;</div>
-<div class="line"><span class="lineno">  759</span> </div>
-<div class="line"><span class="lineno">  760</span>                                                        var commentMatch = testRevInfo.PrimaryTestMerge.Comment == testTestMerge.Comment;</div>
-<div class="line"><span class="lineno">  761</span>                                                        return commentMatch;</div>
-<div class="line"><span class="lineno">  762</span>                                                    });</div>
-<div class="line"><span class="lineno">  763</span> </div>
-<div class="line"><span class="lineno">  764</span>                                                    if (!testMergeMatch)</div>
-<div class="line"><span class="lineno">  765</span>                                                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  766</span> </div>
-<div class="line"><span class="lineno">  767</span>                                                    var previousTestMergesMatch = testRevInfo</div>
-<div class="line"><span class="lineno">  768</span>                                                        .ActiveTestMerges</div>
-<div class="line"><span class="lineno">  769</span>                                                        .Select(previousRevInfoTestMerge =&gt; previousRevInfoTestMerge.TestMerge)</div>
-<div class="line"><span class="lineno">  770</span>                                                        .All(previousTestMerge =&gt; appliedTestMergeIds.Contains(previousTestMerge.Id));</div>
-<div class="line"><span class="lineno">  771</span> </div>
-<div class="line"><span class="lineno">  772</span>                                                    <span class="keywordflow">return</span> previousTestMergesMatch;</div>
-<div class="line"><span class="lineno">  773</span>                                                })</div>
-<div class="line"><span class="lineno">  774</span>                                                .FirstOrDefault();</div>
-<div class="line"><span class="lineno">  775</span> </div>
-<div class="line"><span class="lineno">  776</span>                                            <span class="keywordflow">if</span> (revInfoWereLookingFor != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  777</span>                                            {</div>
-<div class="line"><span class="lineno">  778</span>                                                lastGoodRevInfo = revInfoWereLookingFor;</div>
-<div class="line"><span class="lineno">  779</span>                                                appliedTestMergeIds.Add(revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#a5883f14371465c56231dfd50b96e8e0c">PrimaryTestMerge</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_api_base.html#a943dc027c70358b13d6258fbdd047b05">Id</a>);</div>
-<div class="line"><span class="lineno">  780</span>                                                listedNewTestMerges.Remove(newTestMergeParameters);</div>
-<div class="line"><span class="lineno">  781</span>                                                <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  782</span>                                            }</div>
-<div class="line"><span class="lineno">  783</span>                                        }</div>
-<div class="line"><span class="lineno">  784</span>                                    }</div>
-<div class="line"><span class="lineno">  785</span>                                    <span class="keywordflow">while</span> (revInfoWereLookingFor != <span class="keyword">null</span> &amp;&amp; listedNewTestMerges.Count &gt; 0);</div>
-<div class="line"><span class="lineno">  786</span> </div>
-<div class="line"><span class="lineno">  787</span>                                    revInfoWereLookingFor = lastGoodRevInfo;</div>
-<div class="line"><span class="lineno">  788</span>                                    needToApplyRemainingPrs = listedNewTestMerges.Count != 0;</div>
-<div class="line"><span class="lineno">  789</span>                                    <span class="keywordflow">if</span> (needToApplyRemainingPrs)</div>
-<div class="line"><span class="lineno">  790</span>                                        model.NewTestMerges = listedNewTestMerges;</div>
-<div class="line"><span class="lineno">  791</span>                                }</div>
-<div class="line"><span class="lineno">  792</span>                                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (revInfoWereLookingFor != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  793</span>                                    needToApplyRemainingPrs = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  794</span>                            }</div>
-<div class="line"><span class="lineno">  795</span>                        }</div>
-<div class="line"><span class="lineno">  796</span> </div>
-<div class="line"><span class="lineno">  797</span>                        <span class="keywordflow">if</span> (revInfoWereLookingFor != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  798</span>                        {</div>
-<div class="line"><span class="lineno">  799</span>                            <span class="comment">// goteem</span></div>
-<div class="line"><span class="lineno">  800</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;Reusing existing SHA {0}...&quot;</span>, revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>);</div>
-<div class="line"><span class="lineno">  801</span>                            await repo.ResetToSha(revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>, NextProgressReporter(), cancellationToken);</div>
-<div class="line"><span class="lineno">  802</span>                            lastRevisionInfo = revInfoWereLookingFor;</div>
-<div class="line"><span class="lineno">  803</span>                        }</div>
-<div class="line"><span class="lineno">  804</span> </div>
-<div class="line"><span class="lineno">  805</span>                        <span class="keywordflow">if</span> (needToApplyRemainingPrs)</div>
-<div class="line"><span class="lineno">  806</span>                        {</div>
-<div class="line"><span class="lineno">  807</span>                            <span class="keywordflow">foreach</span> (var newTestMerge <span class="keywordflow">in</span> model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>)</div>
-<div class="line"><span class="lineno">  808</span>                            {</div>
-<div class="line"><span class="lineno">  809</span>                                <span class="keywordflow">if</span> (lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#ad87669f877669c68429d4c0b7826adf2">ActiveTestMerges</a>.Any(x =&gt; x.TestMerge.Number == newTestMerge.Number))</div>
-<div class="line"><span class="lineno">  810</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoDuplicateTestMerge);</div>
+<div class="line"><span class="lineno">  735</span>                                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> lastGoodRevInfo = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  736</span>                                    <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  737</span>                                    {</div>
+<div class="line"><span class="lineno">  738</span>                                        <span class="keywordflow">foreach</span> (var newTestMergeParameters <span class="keywordflow">in</span> listedNewTestMerges)</div>
+<div class="line"><span class="lineno">  739</span>                                        {</div>
+<div class="line"><span class="lineno">  740</span>                                            revInfoWereLookingFor = dbPull</div>
+<div class="line"><span class="lineno">  741</span>                                                .Where(testRevInfo =&gt;</div>
+<div class="line"><span class="lineno">  742</span>                                                {</div>
+<div class="line"><span class="lineno">  743</span>                                                    <span class="keywordflow">if</span> (testRevInfo.PrimaryTestMerge == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  744</span>                                                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  745</span> </div>
+<div class="line"><span class="lineno">  746</span>                                                    var testMergeMatch = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>.Any(testTestMerge =&gt;</div>
+<div class="line"><span class="lineno">  747</span>                                                    {</div>
+<div class="line"><span class="lineno">  748</span>                                                        var numberMatch = testRevInfo.PrimaryTestMerge.Number == testTestMerge.Number;</div>
+<div class="line"><span class="lineno">  749</span>                                                        if (!numberMatch)</div>
+<div class="line"><span class="lineno">  750</span>                                                            return false;</div>
+<div class="line"><span class="lineno">  751</span> </div>
+<div class="line"><span class="lineno">  752</span>                                                        var shaMatch = testRevInfo.PrimaryTestMerge.TargetCommitSha.StartsWith(</div>
+<div class="line"><span class="lineno">  753</span>                                                            testTestMerge.TargetCommitSha,</div>
+<div class="line"><span class="lineno">  754</span>                                                            StringComparison.Ordinal);</div>
+<div class="line"><span class="lineno">  755</span>                                                        if (!shaMatch)</div>
+<div class="line"><span class="lineno">  756</span>                                                            return false;</div>
+<div class="line"><span class="lineno">  757</span> </div>
+<div class="line"><span class="lineno">  758</span>                                                        var commentMatch = testRevInfo.PrimaryTestMerge.Comment == testTestMerge.Comment;</div>
+<div class="line"><span class="lineno">  759</span>                                                        return commentMatch;</div>
+<div class="line"><span class="lineno">  760</span>                                                    });</div>
+<div class="line"><span class="lineno">  761</span> </div>
+<div class="line"><span class="lineno">  762</span>                                                    if (!testMergeMatch)</div>
+<div class="line"><span class="lineno">  763</span>                                                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  764</span> </div>
+<div class="line"><span class="lineno">  765</span>                                                    var previousTestMergesMatch = testRevInfo</div>
+<div class="line"><span class="lineno">  766</span>                                                        .ActiveTestMerges</div>
+<div class="line"><span class="lineno">  767</span>                                                        .Select(previousRevInfoTestMerge =&gt; previousRevInfoTestMerge.TestMerge)</div>
+<div class="line"><span class="lineno">  768</span>                                                        .All(previousTestMerge =&gt; appliedTestMergeIds.Contains(previousTestMerge.Id));</div>
+<div class="line"><span class="lineno">  769</span> </div>
+<div class="line"><span class="lineno">  770</span>                                                    <span class="keywordflow">return</span> previousTestMergesMatch;</div>
+<div class="line"><span class="lineno">  771</span>                                                })</div>
+<div class="line"><span class="lineno">  772</span>                                                .FirstOrDefault();</div>
+<div class="line"><span class="lineno">  773</span> </div>
+<div class="line"><span class="lineno">  774</span>                                            <span class="keywordflow">if</span> (revInfoWereLookingFor != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  775</span>                                            {</div>
+<div class="line"><span class="lineno">  776</span>                                                lastGoodRevInfo = revInfoWereLookingFor;</div>
+<div class="line"><span class="lineno">  777</span>                                                appliedTestMergeIds.Add(revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#a5883f14371465c56231dfd50b96e8e0c">PrimaryTestMerge</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_api_base.html#a943dc027c70358b13d6258fbdd047b05">Id</a>);</div>
+<div class="line"><span class="lineno">  778</span>                                                listedNewTestMerges.Remove(newTestMergeParameters);</div>
+<div class="line"><span class="lineno">  779</span>                                                <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  780</span>                                            }</div>
+<div class="line"><span class="lineno">  781</span>                                        }</div>
+<div class="line"><span class="lineno">  782</span>                                    }</div>
+<div class="line"><span class="lineno">  783</span>                                    <span class="keywordflow">while</span> (revInfoWereLookingFor != <span class="keyword">null</span> &amp;&amp; listedNewTestMerges.Count &gt; 0);</div>
+<div class="line"><span class="lineno">  784</span> </div>
+<div class="line"><span class="lineno">  785</span>                                    revInfoWereLookingFor = lastGoodRevInfo;</div>
+<div class="line"><span class="lineno">  786</span>                                    needToApplyRemainingPrs = listedNewTestMerges.Count != 0;</div>
+<div class="line"><span class="lineno">  787</span>                                    <span class="keywordflow">if</span> (needToApplyRemainingPrs)</div>
+<div class="line"><span class="lineno">  788</span>                                        model.NewTestMerges = listedNewTestMerges;</div>
+<div class="line"><span class="lineno">  789</span>                                }</div>
+<div class="line"><span class="lineno">  790</span>                                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (revInfoWereLookingFor != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  791</span>                                    needToApplyRemainingPrs = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  792</span>                            }</div>
+<div class="line"><span class="lineno">  793</span>                        }</div>
+<div class="line"><span class="lineno">  794</span> </div>
+<div class="line"><span class="lineno">  795</span>                        <span class="keywordflow">if</span> (revInfoWereLookingFor != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  796</span>                        {</div>
+<div class="line"><span class="lineno">  797</span>                            <span class="comment">// goteem</span></div>
+<div class="line"><span class="lineno">  798</span>                            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;Reusing existing SHA {0}...&quot;</span>, revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>);</div>
+<div class="line"><span class="lineno">  799</span>                            await repo.ResetToSha(revInfoWereLookingFor.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>, NextProgressReporter($<span class="stringliteral">&quot;Reset to {revInfoWereLookingFor.CommitSha[..7]}&quot;</span>), cancellationToken);</div>
+<div class="line"><span class="lineno">  800</span>                            lastRevisionInfo = revInfoWereLookingFor;</div>
+<div class="line"><span class="lineno">  801</span>                        }</div>
+<div class="line"><span class="lineno">  802</span> </div>
+<div class="line"><span class="lineno">  803</span>                        <span class="keywordflow">if</span> (needToApplyRemainingPrs)</div>
+<div class="line"><span class="lineno">  804</span>                        {</div>
+<div class="line"><span class="lineno">  805</span>                            <span class="keywordflow">foreach</span> (var newTestMerge <span class="keywordflow">in</span> model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html#aa21734478af103aa35e4ee7d53acbe0e">NewTestMerges</a>)</div>
+<div class="line"><span class="lineno">  806</span>                            {</div>
+<div class="line"><span class="lineno">  807</span>                                <span class="keywordflow">if</span> (lastRevisionInfo.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#ad87669f877669c68429d4c0b7826adf2">ActiveTestMerges</a>.Any(x =&gt; x.TestMerge.Number == newTestMerge.Number))</div>
+<div class="line"><span class="lineno">  808</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoDuplicateTestMerge);</div>
+<div class="line"><span class="lineno">  809</span> </div>
+<div class="line"><span class="lineno">  810</span>                                var fullTestMergeTask = repo.GetTestMerge(newTestMerge, currentModel, ct);</div>
 <div class="line"><span class="lineno">  811</span> </div>
-<div class="line"><span class="lineno">  812</span>                                var fullTestMergeTask = repo.GetTestMerge(newTestMerge, currentModel, ct);</div>
-<div class="line"><span class="lineno">  813</span> </div>
-<div class="line"><span class="lineno">  814</span>                                var mergeResult = await repo.AddTestMerge(</div>
-<div class="line"><span class="lineno">  815</span>                                    newTestMerge,</div>
-<div class="line"><span class="lineno">  816</span>                                    committerName,</div>
-<div class="line"><span class="lineno">  817</span>                                    currentModel.CommitterEmail,</div>
-<div class="line"><span class="lineno">  818</span>                                    currentModel.AccessUser,</div>
-<div class="line"><span class="lineno">  819</span>                                    currentModel.AccessToken,</div>
-<div class="line"><span class="lineno">  820</span>                                    updateSubmodules,</div>
-<div class="line"><span class="lineno">  821</span>                                    NextProgressReporter(),</div>
-<div class="line"><span class="lineno">  822</span>                                    ct);</div>
-<div class="line"><span class="lineno">  823</span> </div>
-<div class="line"><span class="lineno">  824</span>                                <span class="keywordflow">if</span> (mergeResult == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  825</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
-<div class="line"><span class="lineno">  826</span>                                        <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoTestMergeConflict,</div>
-<div class="line"><span class="lineno">  827</span>                                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
-<div class="line"><span class="lineno">  828</span>                                            $<span class="stringliteral">&quot;Test Merge #{newTestMerge.Number} at {newTestMerge.TargetCommitSha.Substring(0, 7)} conflicted!&quot;</span>));</div>
-<div class="line"><span class="lineno">  829</span> </div>
-<div class="line"><span class="lineno">  830</span>                                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">Models.TestMerge</a> fullTestMerge;</div>
-<div class="line"><span class="lineno">  831</span>                                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  832</span>                                {</div>
-<div class="line"><span class="lineno">  833</span>                                    fullTestMerge = await fullTestMergeTask;</div>
-<div class="line"><span class="lineno">  834</span>                                }</div>
-<div class="line"><span class="lineno">  835</span>                                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  836</span>                                {</div>
-<div class="line"><span class="lineno">  837</span>                                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(<span class="stringliteral">&quot;Error retrieving metadata for test merge #{0}!&quot;</span>, newTestMerge.Number);</div>
-<div class="line"><span class="lineno">  838</span> </div>
-<div class="line"><span class="lineno">  839</span>                                    fullTestMerge = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">Models.TestMerge</a></div>
-<div class="line"><span class="lineno">  840</span>                                    {</div>
-<div class="line"><span class="lineno">  841</span>                                        Author = ex.Message,</div>
-<div class="line"><span class="lineno">  842</span>                                        BodyAtMerge = ex.Message,</div>
-<div class="line"><span class="lineno">  843</span>                                        TitleAtMerge = ex.Message,</div>
-<div class="line"><span class="lineno">  844</span>                                        Comment = newTestMerge.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
-<div class="line"><span class="lineno">  845</span>                                        Number = newTestMerge.Number,</div>
-<div class="line"><span class="lineno">  846</span>                                        Url = ex.Message,</div>
-<div class="line"><span class="lineno">  847</span>                                    };</div>
-<div class="line"><span class="lineno">  848</span>                                }</div>
-<div class="line"><span class="lineno">  849</span> </div>
-<div class="line"><span class="lineno">  850</span>                                <span class="comment">// Ensure we&#39;re getting the full sha from git itself</span></div>
-<div class="line"><span class="lineno">  851</span>                                fullTestMerge.TargetCommitSha = newTestMerge.TargetCommitSha;</div>
-<div class="line"><span class="lineno">  852</span> </div>
-<div class="line"><span class="lineno">  853</span>                                <span class="comment">// MergedBy will be set later</span></div>
-<div class="line"><span class="lineno">  854</span>                                ++doneSteps;</div>
+<div class="line"><span class="lineno">  812</span>                                var mergeResult = await repo.AddTestMerge(</div>
+<div class="line"><span class="lineno">  813</span>                                    newTestMerge,</div>
+<div class="line"><span class="lineno">  814</span>                                    committerName,</div>
+<div class="line"><span class="lineno">  815</span>                                    currentModel.CommitterEmail,</div>
+<div class="line"><span class="lineno">  816</span>                                    currentModel.AccessUser,</div>
+<div class="line"><span class="lineno">  817</span>                                    currentModel.AccessToken,</div>
+<div class="line"><span class="lineno">  818</span>                                    updateSubmodules,</div>
+<div class="line"><span class="lineno">  819</span>                                    NextProgressReporter($<span class="stringliteral">&quot;Test merge #{newTestMerge.Number}&quot;</span>),</div>
+<div class="line"><span class="lineno">  820</span>                                    ct);</div>
+<div class="line"><span class="lineno">  821</span> </div>
+<div class="line"><span class="lineno">  822</span>                                <span class="keywordflow">if</span> (mergeResult == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  823</span>                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
+<div class="line"><span class="lineno">  824</span>                                        <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.RepoTestMergeConflict,</div>
+<div class="line"><span class="lineno">  825</span>                                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
+<div class="line"><span class="lineno">  826</span>                                            $<span class="stringliteral">&quot;Test Merge #{newTestMerge.Number} at {newTestMerge.TargetCommitSha[..7]} conflicted!&quot;</span>));</div>
+<div class="line"><span class="lineno">  827</span> </div>
+<div class="line"><span class="lineno">  828</span>                                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">Models.TestMerge</a> fullTestMerge;</div>
+<div class="line"><span class="lineno">  829</span>                                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  830</span>                                {</div>
+<div class="line"><span class="lineno">  831</span>                                    fullTestMerge = await fullTestMergeTask;</div>
+<div class="line"><span class="lineno">  832</span>                                }</div>
+<div class="line"><span class="lineno">  833</span>                                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  834</span>                                {</div>
+<div class="line"><span class="lineno">  835</span>                                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(<span class="stringliteral">&quot;Error retrieving metadata for test merge #{testMergeNumber}!&quot;</span>, newTestMerge.Number);</div>
+<div class="line"><span class="lineno">  836</span> </div>
+<div class="line"><span class="lineno">  837</span>                                    fullTestMerge = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">Models.TestMerge</a></div>
+<div class="line"><span class="lineno">  838</span>                                    {</div>
+<div class="line"><span class="lineno">  839</span>                                        Author = ex.Message,</div>
+<div class="line"><span class="lineno">  840</span>                                        BodyAtMerge = ex.Message,</div>
+<div class="line"><span class="lineno">  841</span>                                        TitleAtMerge = ex.Message,</div>
+<div class="line"><span class="lineno">  842</span>                                        Comment = newTestMerge.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
+<div class="line"><span class="lineno">  843</span>                                        Number = newTestMerge.Number,</div>
+<div class="line"><span class="lineno">  844</span>                                        Url = ex.Message,</div>
+<div class="line"><span class="lineno">  845</span>                                    };</div>
+<div class="line"><span class="lineno">  846</span>                                }</div>
+<div class="line"><span class="lineno">  847</span> </div>
+<div class="line"><span class="lineno">  848</span>                                <span class="comment">// Ensure we&#39;re getting the full sha from git itself</span></div>
+<div class="line"><span class="lineno">  849</span>                                fullTestMerge.TargetCommitSha = newTestMerge.TargetCommitSha;</div>
+<div class="line"><span class="lineno">  850</span> </div>
+<div class="line"><span class="lineno">  851</span>                                await UpdateRevInfo(fullTestMerge);</div>
+<div class="line"><span class="lineno">  852</span>                            }</div>
+<div class="line"><span class="lineno">  853</span>                        }</div>
+<div class="line"><span class="lineno">  854</span>                    }</div>
 <div class="line"><span class="lineno">  855</span> </div>
-<div class="line"><span class="lineno">  856</span>                                await UpdateRevInfo(fullTestMerge);</div>
-<div class="line"><span class="lineno">  857</span>                            }</div>
-<div class="line"><span class="lineno">  858</span>                        }</div>
-<div class="line"><span class="lineno">  859</span>                    }</div>
-<div class="line"><span class="lineno">  860</span> </div>
-<div class="line"><span class="lineno">  861</span>                    var currentHead = repo.Head;</div>
-<div class="line"><span class="lineno">  862</span>                    <span class="keywordflow">if</span> (currentModel.PushTestMergeCommits.Value &amp;&amp; (startSha != currentHead || (postUpdateSha != <span class="keyword">null</span> &amp;&amp; postUpdateSha != currentHead)))</div>
-<div class="line"><span class="lineno">  863</span>                    {</div>
-<div class="line"><span class="lineno">  864</span>                        await repo.Sychronize(</div>
-<div class="line"><span class="lineno">  865</span>                            currentModel.AccessUser,</div>
-<div class="line"><span class="lineno">  866</span>                            currentModel.AccessToken,</div>
-<div class="line"><span class="lineno">  867</span>                            currentModel.CommitterName,</div>
-<div class="line"><span class="lineno">  868</span>                            currentModel.CommitterEmail,</div>
-<div class="line"><span class="lineno">  869</span>                            NextProgressReporter(),</div>
-<div class="line"><span class="lineno">  870</span>                            <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  871</span>                            ct)</div>
-<div class="line"><span class="lineno">  872</span>                            ;</div>
-<div class="line"><span class="lineno">  873</span>                        await UpdateRevInfo();</div>
-<div class="line"><span class="lineno">  874</span>                    }</div>
-<div class="line"><span class="lineno">  875</span> </div>
-<div class="line"><span class="lineno">  876</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  877</span>                }</div>
-<div class="line"><span class="lineno">  878</span>                <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  879</span>                {</div>
-<div class="line"><span class="lineno">  880</span>                    doneSteps = 0;</div>
-<div class="line"><span class="lineno">  881</span>                    numSteps = 2;</div>
-<div class="line"><span class="lineno">  882</span> </div>
-<div class="line"><span class="lineno">  883</span>                    <span class="comment">// Forget what we&#39;ve done and abort</span></div>
-<div class="line"><span class="lineno">  884</span>                    <span class="comment">// DCTx2: Cancellation token is for job, operations should always run</span></div>
-<div class="line"><span class="lineno">  885</span>                    await repo.CheckoutObject(</div>
-<div class="line"><span class="lineno">  886</span>                        startReference ?? startSha,</div>
-<div class="line"><span class="lineno">  887</span>                        currentModel.AccessUser,</div>
-<div class="line"><span class="lineno">  888</span>                        currentModel.AccessToken,</div>
-<div class="line"><span class="lineno">  889</span>                        <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  890</span>                        NextProgressReporter(),</div>
-<div class="line"><span class="lineno">  891</span>                        <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  892</span>                        ;</div>
-<div class="line"><span class="lineno">  893</span>                    <span class="keywordflow">if</span> (startReference != <span class="keyword">null</span> &amp;&amp; repo.Head != startSha)</div>
-<div class="line"><span class="lineno">  894</span>                        await repo.ResetToSha(startSha, NextProgressReporter(), <span class="keywordflow">default</span>);</div>
-<div class="line"><span class="lineno">  895</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  896</span>                        progressReporter(<span class="keyword">null</span>, 100);</div>
-<div class="line"><span class="lineno">  897</span>                    <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  898</span>                }</div>
-<div class="line"><span class="lineno">  899</span>            }</div>
-<div class="line"><span class="lineno">  900</span> </div>
-<div class="line"><span class="lineno">  901</span>            var job = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
-<div class="line"><span class="lineno">  902</span>            {</div>
-<div class="line"><span class="lineno">  903</span>                Description = description,</div>
-<div class="line"><span class="lineno">  904</span>                StartedBy = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>,</div>
-<div class="line"><span class="lineno">  905</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a19f89ec03ffd6f2bf5cab5214d5e6bb8">Instance</a>,</div>
-<div class="line"><span class="lineno">  906</span>                CancelRightsType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.Repository,</div>
-<div class="line"><span class="lineno">  907</span>                CancelRight = (ulong)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39">RepositoryRights</a>.CancelPendingChanges,</div>
-<div class="line"><span class="lineno">  908</span>            };</div>
-<div class="line"><span class="lineno">  909</span> </div>
-<div class="line"><span class="lineno">  910</span>            <span class="comment">// Time to access git, do it in a job</span></div>
-<div class="line"><span class="lineno">  911</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad15c0217bf9e5ce926a198191d0a04c4">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a>(</div>
-<div class="line"><span class="lineno">  912</span>                job,</div>
-<div class="line"><span class="lineno">  913</span>                (core, databaseContextFactory, paramJob, progressReporter, ct) =&gt;</div>
-<div class="line"><span class="lineno">  914</span>                    RepositoryUpdateJobOhGodPleaseSomeoneRefactorThisItsTooFuckingBig(</div>
-<div class="line"><span class="lineno">  915</span>                        core,</div>
-<div class="line"><span class="lineno">  916</span>                        databaseContextFactory,</div>
-<div class="line"><span class="lineno">  917</span>                        progressReporter,</div>
-<div class="line"><span class="lineno">  918</span>                        ct),</div>
-<div class="line"><span class="lineno">  919</span>                cancellationToken)</div>
-<div class="line"><span class="lineno">  920</span>                ;</div>
-<div class="line"><span class="lineno">  921</span> </div>
-<div class="line"><span class="lineno">  922</span>            api.ActiveJob = job.ToApi();</div>
-<div class="line"><span class="lineno">  923</span>            <span class="keywordflow">return</span> Accepted(api);</div>
-<div class="line"><span class="lineno">  924</span>        }</div>
+<div class="line"><span class="lineno">  856</span>                    var currentHead = repo.Head;</div>
+<div class="line"><span class="lineno">  857</span>                    <span class="keywordflow">if</span> (currentModel.PushTestMergeCommits.Value &amp;&amp; (startSha != currentHead || (postUpdateSha != <span class="keyword">null</span> &amp;&amp; postUpdateSha != currentHead)))</div>
+<div class="line"><span class="lineno">  858</span>                    {</div>
+<div class="line"><span class="lineno">  859</span>                        await repo.Sychronize(</div>
+<div class="line"><span class="lineno">  860</span>                            currentModel.AccessUser,</div>
+<div class="line"><span class="lineno">  861</span>                            currentModel.AccessToken,</div>
+<div class="line"><span class="lineno">  862</span>                            currentModel.CommitterName,</div>
+<div class="line"><span class="lineno">  863</span>                            currentModel.CommitterEmail,</div>
+<div class="line"><span class="lineno">  864</span>                            NextProgressReporter(<span class="stringliteral">&quot;Synchronize&quot;</span>),</div>
+<div class="line"><span class="lineno">  865</span>                            <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  866</span>                            ct)</div>
+<div class="line"><span class="lineno">  867</span>                            ;</div>
+<div class="line"><span class="lineno">  868</span>                        await UpdateRevInfo();</div>
+<div class="line"><span class="lineno">  869</span>                    }</div>
+<div class="line"><span class="lineno">  870</span> </div>
+<div class="line"><span class="lineno">  871</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  872</span>                }</div>
+<div class="line"><span class="lineno">  873</span>                <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  874</span>                {</div>
+<div class="line"><span class="lineno">  875</span>                    numSteps = 2;</div>
+<div class="line"><span class="lineno">  876</span> </div>
+<div class="line"><span class="lineno">  877</span>                    <span class="comment">// Forget what we&#39;ve done and abort</span></div>
+<div class="line"><span class="lineno">  878</span>                    progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1">ReportProgress</a>(0.0);</div>
+<div class="line"><span class="lineno">  879</span> </div>
+<div class="line"><span class="lineno">  880</span>                    var secondStep = startReference != <span class="keyword">null</span> &amp;&amp; repo.Head != startSha;</div>
+<div class="line"><span class="lineno">  881</span> </div>
+<div class="line"><span class="lineno">  882</span>                    <span class="comment">// DCTx2: Cancellation token is for job, operations should always run</span></div>
+<div class="line"><span class="lineno">  883</span>                    await repo.CheckoutObject(</div>
+<div class="line"><span class="lineno">  884</span>                        startReference ?? startSha,</div>
+<div class="line"><span class="lineno">  885</span>                        currentModel.AccessUser,</div>
+<div class="line"><span class="lineno">  886</span>                        currentModel.AccessToken,</div>
+<div class="line"><span class="lineno">  887</span>                        <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  888</span>                        progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541">CreateSection</a>($<span class="stringliteral">&quot;Checkout {startReference ?? startSha[..7]}&quot;</span>, secondStep ? 0.5 : 1.0),</div>
+<div class="line"><span class="lineno">  889</span>                        <span class="keywordflow">default</span>);</div>
+<div class="line"><span class="lineno">  890</span> </div>
+<div class="line"><span class="lineno">  891</span>                    <span class="keywordflow">if</span> (secondStep)</div>
+<div class="line"><span class="lineno">  892</span>                        await repo.ResetToSha(startSha, progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541">CreateSection</a>($<span class="stringliteral">&quot;Hard reset to SHA {startSha[..7]}&quot;</span>, 0.5), <span class="keywordflow">default</span>);</div>
+<div class="line"><span class="lineno">  893</span> </div>
+<div class="line"><span class="lineno">  894</span>                    <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  895</span>                }</div>
+<div class="line"><span class="lineno">  896</span>            }</div>
+<div class="line"><span class="lineno">  897</span> </div>
+<div class="line"><span class="lineno">  898</span>            var job = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
+<div class="line"><span class="lineno">  899</span>            {</div>
+<div class="line"><span class="lineno">  900</span>                Description = description,</div>
+<div class="line"><span class="lineno">  901</span>                StartedBy = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>,</div>
+<div class="line"><span class="lineno">  902</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a19f89ec03ffd6f2bf5cab5214d5e6bb8">Instance</a>,</div>
+<div class="line"><span class="lineno">  903</span>                CancelRightsType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.Repository,</div>
+<div class="line"><span class="lineno">  904</span>                CancelRight = (ulong)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39">RepositoryRights</a>.CancelPendingChanges,</div>
+<div class="line"><span class="lineno">  905</span>            };</div>
+<div class="line"><span class="lineno">  906</span> </div>
+<div class="line"><span class="lineno">  907</span>            <span class="comment">// Time to access git, do it in a job</span></div>
+<div class="line"><span class="lineno">  908</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad15c0217bf9e5ce926a198191d0a04c4">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a>(</div>
+<div class="line"><span class="lineno">  909</span>                job,</div>
+<div class="line"><span class="lineno">  910</span>                (core, databaseContextFactory, paramJob, progressReporter, ct) =&gt;</div>
+<div class="line"><span class="lineno">  911</span>                    RepositoryUpdateJobOhGodPleaseSomeoneRefactorThisItsTooFuckingBig(</div>
+<div class="line"><span class="lineno">  912</span>                        core,</div>
+<div class="line"><span class="lineno">  913</span>                        databaseContextFactory,</div>
+<div class="line"><span class="lineno">  914</span>                        progressReporter,</div>
+<div class="line"><span class="lineno">  915</span>                        ct),</div>
+<div class="line"><span class="lineno">  916</span>                cancellationToken)</div>
+<div class="line"><span class="lineno">  917</span>                ;</div>
+<div class="line"><span class="lineno">  918</span> </div>
+<div class="line"><span class="lineno">  919</span>            api.ActiveJob = job.ToApi();</div>
+<div class="line"><span class="lineno">  920</span>            <span class="keywordflow">return</span> Accepted(api);</div>
+<div class="line"><span class="lineno">  921</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings_html_ae28a981004bc61c95a4cdd2668d0d3e9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ae28a981004bc61c95a4cdd2668d0d3e9">Tgstation.Server.Api.Models.Internal.RepositorySettings.CommitterEmail</a></div><div class="ttdeci">string? CommitterEmail</div><div class="ttdoc">The e-mail of the committer.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_repository_settings_8cs_source.html#l00023">RepositorySettings.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information_html_a7239f5d0bb2d47b69a444b9ce6ecddea"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#a7239f5d0bb2d47b69a444b9ce6ecddea">Tgstation.Server.Api.Models.Internal.RevisionInformation.OriginCommitSha</a></div><div class="ttdeci">string? OriginCommitSha</div><div class="ttdoc">The SHA of the most recent remote commit.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00028">RevisionInformation.cs:28</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information_html_ac93d5aef3a8222c5b5ceed6df8e7b309"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">Tgstation.Server.Api.Models.Internal.RevisionInformation.CommitSha</a></div><div class="ttdeci">string? CommitSha</div><div class="ttdoc">The revision SHA.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00016">RevisionInformation.cs:16</a></div></div>
@@ -1588,6 +1585,9 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information_html_ad87669f877669c68429d4c0b7826adf2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#ad87669f877669c68429d4c0b7826adf2">Tgstation.Server.Api.Models.RevisionInformation.ActiveTestMerges</a></div><div class="ttdeci">ICollection&lt; TestMerge &gt;? ActiveTestMerges</div><div class="ttdoc">The TestMerges active in the RevisionInformation.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_revision_information_8cs_source.html#l00017">RevisionInformation.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html">Tgstation.Server.Api.Models.TestMerge</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_test_merge_8cs_source.html#l00006">TestMerge.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a556ffae15694a68aa1c78f851407eb5b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Tgstation.Server.Api.Models.TestMergeParameters.Comment</a></div><div class="ttdeci">string? Comment</div><div class="ttdoc">Optional comment about the test.</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00027">TestMergeParameters.cs:27</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">Tgstation.Server.Host.Jobs.JobProgressReporter</a></div><div class="ttdoc">Progress reporter for a Job.</div><div class="ttdef"><b>Definition:</b> <a href="_job_progress_reporter_8cs_source.html#l00012">JobProgressReporter.cs:13</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter_html_ac736a80d9d56a20711468d9b8e27e3c1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1">Tgstation.Server.Host.Jobs.JobProgressReporter.ReportProgress</a></div><div class="ttdeci">void ReportProgress(double? progress)</div><div class="ttdoc">Report progress.</div><div class="ttdef"><b>Definition:</b> <a href="_job_progress_reporter_8cs_source.html#l00053">JobProgressReporter.cs:53</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter_html_adb508e4946effa25548d2eb63c3d1541"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541">Tgstation.Server.Host.Jobs.JobProgressReporter.CreateSection</a></div><div class="ttdeci">JobProgressReporter CreateSection(string newStageName, double percentage)</div><div class="ttdoc">Create a subsection of the JobProgressReporter with its optional own stage name.</div><div class="ttdef"><b>Definition:</b> <a href="_job_progress_reporter_8cs_source.html#l00078">JobProgressReporter.cs:78</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_rev_info_test_merge_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_rev_info_test_merge.html">Tgstation.Server.Host.Models.RevInfoTestMerge</a></div><div class="ttdoc">Many to many relationship for Models.RevisionInformation and Models.TestMerge.</div><div class="ttdef"><b>Definition:</b> <a href="_rev_info_test_merge_8cs_source.html#l00008">RevInfoTestMerge.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Tgstation.Server.Host.Models.User</a></div><div class="ttdef"><b>Definition:</b> <a href="_user_8cs_source.html#l00012">User.cs:13</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">Tgstation.Server.Host.Components.IInstanceCore</a></div><div class="ttdoc">For interacting with the instance services.</div><div class="ttdef"><b>Definition:</b> <a href="_i_instance_core_8cs_source.html#l00015">IInstanceCore.cs:16</a></div></div>
@@ -1597,32 +1597,33 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory_html_ad22fce8fc51129e9da203dcef2f7ab42"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext</a></div><div class="ttdeci">Task UseContext(Func&lt; IDatabaseContext, Task &gt; operation)</div><div class="ttdoc">Run an operation  in the scope of an IDatabaseContext.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_aaff5188f30ee5c04c081684eb9672f17"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">Tgstation.Server.Api.Models.RemoteGitProvider</a></div><div class="ttdeci">RemoteGitProvider</div><div class="ttdoc">Indicates the remote git host.</div><div class="ttdef"><b>Definition:</b> <a href="_remote_git_provider_8cs_source.html#l00006">RemoteGitProvider.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.ConfigurationRights.List</a></div><div class="ttdeci">@ List</div><div class="ttdoc">User may list files if the Models.Instance allows it.</div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_html_af98afa52fc133a0ecc9c41482c069529"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">Tgstation.Server.Host.Jobs.JobProgressReporter</a></div><div class="ttdeci">delegate void JobProgressReporter(string stage, int? progress)</div><div class="ttdoc">Progress reporter for a Job.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_tgstation_8_server_8_host_2_models_2_revision_information_8cs_source.html#l00034">Tgstation.Server.Host.Models.RevisionInformation.ActiveTestMerges</a>, <a class="el" href="_test_merge_parameters_8cs_source.html#l00027">Tgstation.Server.Api.Models.TestMergeParameters.Comment</a>, <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00016">Tgstation.Server.Api.Models.Internal.RevisionInformation.CommitSha</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">Tgstation.Server.Host.Core.IGitHubClientFactory.CreateClient()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00053">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.RepositoryController.gitHubClientFactory</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone()</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_test_merge_api_base_8cs_source.html#l00014">Tgstation.Server.Api.Models.Internal.TestMergeApiBase.Id</a>, <a class="el" href="_api_controller_8cs_source.html#l00069">Tgstation.Server.Host.Controllers.ApiController.Instance</a>, <a class="el" href="_repository_controller_8cs_source.html#l00043">Tgstation.Server.Host.Controllers.RepositoryController.jobManager</a>, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">Tgstation.Server.Host.Jobs.JobProgressReporter()</a>, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>, <a class="el" href="_repository_controller_8cs_source.html#l00937">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation()</a>, <a class="el" href="_api_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00028">Tgstation.Server.Api.Models.Internal.RevisionInformation.OriginCommitSha</a>, <a class="el" href="_repository_controller_8cs_source.html#l00999">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>, <a class="el" href="_tgstation_8_server_8_host_2_models_2_revision_information_8cs_source.html#l00029">Tgstation.Server.Host.Models.RevisionInformation.PrimaryTestMerge</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">Tgstation.Server.Host.Jobs.IJobManager.RegisterOperation()</a>, <a class="el" href="_i_instance_core_8cs_source.html#l00020">Tgstation.Server.Host.Components.IInstanceCore.RepositoryManager</a>, <a class="el" href="_database_context_8cs_source.html#l00064">Tgstation.Server.Host.Database.DatabaseContext.RepositorySettings</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00013">Tgstation.Server.Host.Security.AuthenticationContext.User</a>, and <a class="el" href="_instance_required_controller_8cs_source.html#l00105">Tgstation.Server.Host.Controllers.InstanceRequiredController.WithComponentInstance()</a>.</p>
+<p class="reference">References <a class="el" href="_tgstation_8_server_8_host_2_models_2_revision_information_8cs_source.html#l00034">Tgstation.Server.Host.Models.RevisionInformation.ActiveTestMerges</a>, <a class="el" href="_test_merge_parameters_8cs_source.html#l00027">Tgstation.Server.Api.Models.TestMergeParameters.Comment</a>, <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00016">Tgstation.Server.Api.Models.Internal.RevisionInformation.CommitSha</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">Tgstation.Server.Host.Core.IGitHubClientFactory.CreateClient()</a>, <a class="el" href="_job_progress_reporter_8cs_source.html#l00078">Tgstation.Server.Host.Jobs.JobProgressReporter.CreateSection()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00053">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.RepositoryController.gitHubClientFactory</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone()</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_test_merge_api_base_8cs_source.html#l00014">Tgstation.Server.Api.Models.Internal.TestMergeApiBase.Id</a>, <a class="el" href="_api_controller_8cs_source.html#l00069">Tgstation.Server.Host.Controllers.ApiController.Instance</a>, <a class="el" href="_repository_controller_8cs_source.html#l00043">Tgstation.Server.Host.Controllers.RepositoryController.jobManager</a>, <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca4ee29ca12c7d126654bd0e5275de6135">Tgstation.Server.Api.Rights.List</a>, <a class="el" href="_repository_controller_8cs_source.html#l00934">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation()</a>, <a class="el" href="_api_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00028">Tgstation.Server.Api.Models.Internal.RevisionInformation.OriginCommitSha</a>, <a class="el" href="_repository_controller_8cs_source.html#l00996">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>, <a class="el" href="_tgstation_8_server_8_host_2_models_2_revision_information_8cs_source.html#l00029">Tgstation.Server.Host.Models.RevisionInformation.PrimaryTestMerge</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">Tgstation.Server.Host.Jobs.IJobManager.RegisterOperation()</a>, <a class="el" href="_job_progress_reporter_8cs_source.html#l00053">Tgstation.Server.Host.Jobs.JobProgressReporter.ReportProgress()</a>, <a class="el" href="_i_instance_core_8cs_source.html#l00020">Tgstation.Server.Host.Components.IInstanceCore.RepositoryManager</a>, <a class="el" href="_database_context_8cs_source.html#l00064">Tgstation.Server.Host.Database.DatabaseContext.RepositorySettings</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42">Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00013">Tgstation.Server.Host.Security.AuthenticationContext.User</a>, and <a class="el" href="_instance_required_controller_8cs_source.html#l00105">Tgstation.Server.Host.Controllers.InstanceRequiredController.WithComponentInstance()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_a9f7b3bc7b210f85dbadaa04295ae0c92_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_a9f7b3bc7b210f85dbadaa04295ae0c92_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_a9f7b3bc7b210f85dbadaa04295ae0c92_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller_a9f7b3bc7b210f85dbadaa04295ae0c92_cgraph">
-<area shape="rect" title="Perform updates to the repository." alt="" coords="5,289,221,331"/>
+<area shape="rect" title="Perform updates to the repository." alt="" coords="5,319,221,360"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="297,5,515,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType ." alt="" coords="305,71,507,112"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="298,136,514,177"/>
-<area shape="rect" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529" title="Progress reporter for a Job." alt="" coords="315,201,497,243"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561" title="Load the RevisionInformation for the current repository &#160;state into a given databaseContext ." alt="" coords="591,260,876,301"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="291,71,521,112"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType ." alt="" coords="305,136,507,177"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="298,201,514,243"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a6a1a85a18136ead5c14d82bb63ab0561" title="Load the RevisionInformation for the current repository &#160;state into a given databaseContext ." alt="" coords="591,264,876,305"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a093daf40d8629d7e65b635571abd0b15" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="298,319,514,360"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd" title="Registers a given Job and begins running it." alt="" coords="304,384,508,425"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext." alt="" coords="301,449,511,491"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="287,515,525,556"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#a9aa5378db351ad07ac7b3706ac7c6620" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,579,543,635"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="638,39,829,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="642,104,825,145"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="924,260,1133,301"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="635,325,831,367"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="931,325,1127,367"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="1181,325,1371,367"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata ." alt="" coords="604,587,863,628"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="287,449,525,491"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext." alt="" coords="301,515,511,556"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="287,580,525,621"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#a9aa5378db351ad07ac7b3706ac7c6620" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,645,543,701"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a20fd73410d8d50db3a955f7d2ca196e3" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="623,54,843,110"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance." alt="" coords="638,133,829,175"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type." alt="" coords="642,199,825,240"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="924,264,1133,305"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="635,329,831,371"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="931,329,1127,371"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="1181,329,1371,371"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata ." alt="" coords="604,652,863,693"/>
 </map>
 </div>
 

@@ -88,15 +88,15 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html">JobManager</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Progress reporter for a Job.  <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a9a7ee6bec5fdadb933ac6ee7fd1b0c93"><td class="memItemLeft" align="right" valign="top">delegate Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">IInstanceCore</a> instance, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html">IDatabaseContextFactory</a> databaseContextFactory, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">JobProgressReporter</a> progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memitem:a9a7ee6bec5fdadb933ac6ee7fd1b0c93"><td class="memItemLeft" align="right" valign="top">delegate Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">JobEntrypoint</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html">IInstanceCore</a> instance, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html">IDatabaseContextFactory</a> databaseContextFactory, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9a7ee6bec5fdadb933ac6ee7fd1b0c93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entrypoint for running a given job.  <a href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#a9a7ee6bec5fdadb933ac6ee7fd1b0c93">More...</a><br /></td></tr>
 <tr class="separator:a9a7ee6bec5fdadb933ac6ee7fd1b0c93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af98afa52fc133a0ecc9c41482c069529"><td class="memItemLeft" align="right" valign="top">delegate void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">JobProgressReporter</a> (string stage, int? progress)</td></tr>
-<tr class="memdesc:af98afa52fc133a0ecc9c41482c069529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Progress reporter for a Job.  <a href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">More...</a><br /></td></tr>
-<tr class="separator:af98afa52fc133a0ecc9c41482c069529"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a9a7ee6bec5fdadb933ac6ee7fd1b0c93" name="a9a7ee6bec5fdadb933ac6ee7fd1b0c93"></a>
@@ -126,7 +126,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529">JobProgressReporter</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a>&#160;</td>
           <td class="paramname"><em>progressReporter</em>, </td>
         </tr>
         <tr>
@@ -149,65 +149,12 @@ Functions</h2></td></tr>
     <tr><td class="paramname">instance</td><td>The IInstanceCore the job is running on. <code>null</code> only when performing an instance move operation.</td></tr>
     <tr><td class="paramname">databaseContextFactory</td><td>The IDatabaseContextFactory for the operation.</td></tr>
     <tr><td class="paramname">job</td><td>The running Job.</td></tr>
-    <tr><td class="paramname">progressReporter</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html#af98afa52fc133a0ecc9c41482c069529" title="Progress reporter for a Job.">JobProgressReporter</a> for the job.</td></tr>
+    <tr><td class="paramname">progressReporter</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html" title="Progress reporter for a Job.">JobProgressReporter</a> for the job.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-
-</div>
-</div>
-<a id="af98afa52fc133a0ecc9c41482c069529" name="af98afa52fc133a0ecc9c41482c069529"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af98afa52fc133a0ecc9c41482c069529">&#9670;&nbsp;</a></span>JobProgressReporter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">delegate void Tgstation.Server.Host.Jobs.JobProgressReporter </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>stage</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int?&#160;</td>
-          <td class="paramname"><em>progress</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Progress reporter for a Job. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">stage</td><td>A description of what the job is currently doing.</td></tr>
-    <tr><td class="paramname">progress</td><td>The progress of the job on a scale from 0-100.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af8422c62401719f452a5c70cdb1d96d1">Tgstation.Server.Host.Components.Instance.RepositoryAutoUpdateJob()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespace_tgstation_1_1_server_1_1_host_1_1_jobs_af98afa52fc133a0ecc9c41482c069529_icgraph.png" border="0" usemap="#anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_af98afa52fc133a0ecc9c41482c069529_icgraph" alt=""/></div>
-<map name="anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_af98afa52fc133a0ecc9c41482c069529_icgraph" id="anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_af98afa52fc133a0ecc9c41482c069529_icgraph">
-<area shape="rect" title="Progress reporter for a Job." alt="" coords="1104,72,1287,113"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af8422c62401719f452a5c70cdb1d96d1" title="The JobEntrypoint for updating the repository." alt="" coords="829,39,1056,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a9f7b3bc7b210f85dbadaa04295ae0c92" title="Perform updates to the repository." alt="" coords="835,104,1051,145"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes ." alt="" coords="555,39,781,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore." alt="" coords="280,39,507,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,112"/>
-</map>
-</div>
 
 </div>
 </div>

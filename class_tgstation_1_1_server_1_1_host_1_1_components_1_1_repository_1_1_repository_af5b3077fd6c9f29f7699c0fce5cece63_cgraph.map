@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.CheckoutObject" name="Tgstation.Server.Host.Components.Repository.Repository.CheckoutObject">
+<area shape="rect" id="node1" title="Checks out a given committish ." alt="" coords="5,13,248,54"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="296,13,525,54"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a20fd73410d8d50db3a955f7d2ca196e3" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="573,5,793,61"/>
+</map>
