@@ -551,7 +551,7 @@ namespace Tgstation.Server.Host.Controllers
 							}
 
 							if (needsUpdate)
-								await databaseContext.Save(cancellationToken);
+								await databaseContext.Save(ct);
 						});
 
 				await CallLoadRevInfo();
@@ -573,7 +573,7 @@ namespace Tgstation.Server.Host.Controllers
 							var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter("Merge Origin"), ct);
 							if (!fastForward.HasValue)
 								throw new JobException(ErrorCode.RepoMergeConflict);
-							lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken);
+							lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(ct);
 							await UpdateRevInfo();
 							if (fastForward.Value)
 							{
@@ -608,7 +608,7 @@ namespace Tgstation.Server.Host.Controllers
 						if (validCheckoutSha || validCheckoutReference)
 						{
 							var committish = model.CheckoutSha ?? model.Reference;
-							var isSha = await repo.IsSha(committish, cancellationToken);
+							var isSha = await repo.IsSha(committish, ct);
 
 							if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
 								throw new JobException(ErrorCode.RepoSwappedShaOrReference);
@@ -713,7 +713,7 @@ namespace Tgstation.Server.Host.Controllers
 											&& x.ActiveTestMerges.Count > 0)
 											.Include(x => x.ActiveTestMerges)
 											.ThenInclude(x => x.TestMerge)
-											.ToListAsync(cancellationToken));
+											.ToListAsync(ct));
 
 								// split here cause this bit has to be done locally
 								revInfoWereLookingFor = dbPull
@@ -796,7 +796,7 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							// goteem
 							Logger.LogDebug("Reusing existing SHA {0}...", revInfoWereLookingFor.CommitSha);
-							await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter($"Reset to {revInfoWereLookingFor.CommitSha[..7]}"), cancellationToken);
+							await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter($"Reset to {revInfoWereLookingFor.CommitSha[..7]}"), ct);
 							lastRevisionInfo = revInfoWereLookingFor;
 						}
 
@@ -913,8 +913,7 @@ namespace Tgstation.Server.Host.Controllers
 						databaseContextFactory,
 						progressReporter,
 						ct),
-				cancellationToken)
-				;
+				cancellationToken);
 
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
