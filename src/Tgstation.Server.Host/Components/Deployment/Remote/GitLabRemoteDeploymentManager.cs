@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		}
 
 		/// <inheritdoc />
-		public override async Task<IReadOnlyCollection<RevInfoTestMerge>> RemoveMergedTestMerges(
+		public override async Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
 			IRepository repository,
 			RepositorySettings repositorySettings,
 			RevisionInformation revisionInformation,
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			if (revisionInformation.ActiveTestMerges?.Any() != true)
 			{
 				Logger.LogTrace("No test merges to remove.");
-				return Array.Empty<RevInfoTestMerge>();
+				return Array.Empty<TestMerge>();
 			}
 
 			var client = repositorySettings.AccessToken != null
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				Logger.LogWarning(ex, "Merge requests update check failed!");
 			}
 
-			var newList = revisionInformation.ActiveTestMerges.ToList();
+			var newList = revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList();
 
 			MergeRequest lastMerged = null;
 			async Task CheckRemoveMR(Task<MergeRequest> task)
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						lastMerged = mergeRequest;
 					newList.Remove(
 						newList.First(
-							potential => potential.TestMerge.Number == mergeRequest.Id));
+							potential => potential.Number == mergeRequest.Id));
 				}
 			}
 
