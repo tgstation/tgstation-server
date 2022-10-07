@@ -40,11 +40,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CancellationToken cancellationToken) => Task.CompletedTask;
 
 		/// <inheritdoc />
-		public Task<IReadOnlyCollection<RevInfoTestMerge>> RemoveMergedTestMerges(
+		public Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
 			IRepository repository,
 			RepositorySettings repositorySettings,
 			RevisionInformation revisionInformation,
-			CancellationToken cancellationToken) => Task.FromResult<IReadOnlyCollection<RevInfoTestMerge>>(Array.Empty<RevInfoTestMerge>());
+			CancellationToken cancellationToken) => Task.FromResult<IReadOnlyCollection<TestMerge>>(Array.Empty<TestMerge>());
 
 		/// <inheritdoc />
 		public Task StageDeployment(CompileJob compileJob, CancellationToken cancellationToken) => Task.CompletedTask;

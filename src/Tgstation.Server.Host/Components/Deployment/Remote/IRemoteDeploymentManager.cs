@@ -85,8 +85,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
 		/// <param name="revisionInformation">The current <see cref="RevisionInformation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IReadOnlyCollection{T}"/> of <see cref="RevInfoTestMerge"/>s that should remain the new <see cref="RevisionInformation"/>.</returns>
-		Task<IReadOnlyCollection<RevInfoTestMerge>> RemoveMergedTestMerges(
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IReadOnlyCollection{T}"/> of <see cref="TestMerge"/>s that should remain the new <see cref="RevisionInformation"/>.</returns>
+		Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
 			IRepository repository,
 			RepositorySettings repositorySettings,
 			RevisionInformation revisionInformation,

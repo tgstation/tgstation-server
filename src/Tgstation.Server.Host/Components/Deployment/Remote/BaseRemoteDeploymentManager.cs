@@ -147,7 +147,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		public abstract Task MarkInactive(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task<IReadOnlyCollection<RevInfoTestMerge>> RemoveMergedTestMerges(
+		public abstract Task<IReadOnlyCollection<TestMerge>> RemoveMergedTestMerges(
 			IRepository repository,
 			RepositorySettings repositorySettings,
 			RevisionInformation revisionInformation,

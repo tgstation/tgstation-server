@@ -305,7 +305,7 @@ namespace Tgstation.Server.Host.Components
 					var hasDbChanges = false;
 					RevisionInformation currentRevInfo = null;
 					Models.Instance attachedInstance = null;
-					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<RevInfoTestMerge> updatedTestMerges)
+					async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<TestMerge> updatedTestMerges)
 					{
 						if (currentRevInfo == null)
 						{
@@ -351,8 +351,17 @@ namespace Tgstation.Server.Host.Components
 						};
 
 						if (!onOrigin)
-							currentRevInfo.ActiveTestMerges = new List<RevInfoTestMerge>(
-								updatedTestMerges ?? oldRevInfo.ActiveTestMerges);
+						{
+							var testMerges = updatedTestMerges ?? oldRevInfo.ActiveTestMerges.Select(x => x.TestMerge);
+							var revInfoTestMerges = testMerges.Select(
+								testMerge => new RevInfoTestMerge
+								{
+									TestMerge = testMerge,
+								})
+								.ToList();
+
+							currentRevInfo.ActiveTestMerges = revInfoTestMerges;
+						}
 
 						databaseContext.RevisionInformations.Add(currentRevInfo);
 						hasDbChanges = true;
@@ -381,8 +390,7 @@ namespace Tgstation.Server.Host.Components
 							repo,
 							repositorySettings,
 							currentRevInfo,
-							cancellationToken)
-						;
+							cancellationToken);
 
 						if (updatedTestMerges.Count == 0)
 						{
