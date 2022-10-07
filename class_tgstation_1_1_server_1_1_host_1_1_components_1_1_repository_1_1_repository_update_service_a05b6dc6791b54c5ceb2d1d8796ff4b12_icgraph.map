@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.LoadRevisionInformation" name="Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.LoadRevisionInformation">
+<area shape="rect" id="node1" title="Load the RevisionInformation for the current repository &#160;state into a given databaseContext ." alt="" coords="553,66,789,122"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a1c607a73fa8e88f8559e8383dc7c358c" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="279,37,495,79"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_update_service.html#a9db92c943508696dafde5978823e1375" title="The job entrypoint used by Controllers.RepositoryController to update the repository&#39;s current HEAD." alt="" coords="269,102,505,158"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad57c46f8518725528dc5df0c4020d48c" title="Get the repository&#39;s status." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a9f7b3bc7b210f85dbadaa04295ae0c92" title="Perform updates to the repository." alt="" coords="5,71,221,112"/>
+</map>
