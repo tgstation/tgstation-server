@@ -118,6 +118,32 @@ namespace Tgstation.Server.Host.Service
 				{
 					if (Uninstall)
 						return; // oh no, it's retarded...
+
+					// First check if the service already exists
+					foreach (ServiceController sc in ServiceController.GetServices())
+					{
+						if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
+						{
+							DialogResult result = MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo);
+							if (result != DialogResult.Yes)
+							{
+								Environment.Exit(1);
+								return; // is this needed after exit?
+							}
+
+							// Stop it first to give it some cleanup time
+							if (sc.Status == ServiceControllerStatus.Running)
+								sc.Stop();
+
+							// And remove it
+							using (ServiceInstaller si = new ServiceInstaller()) {
+								si.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
+								si.ServiceName = ServerService.Name;
+								si.Uninstall(null);
+							}
+						}
+					}
+
 					using (var processInstaller = new ServiceProcessInstaller())
 					using (var installer = new ServiceInstaller())
 					{
