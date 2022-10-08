@@ -263,52 +263,78 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  118</span>                {</div>
 <div class="line"><span class="lineno">  119</span>                    <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a6868da29a3857b56bba33e5d7c623b68">Uninstall</a>)</div>
 <div class="line"><span class="lineno">  120</span>                        <span class="keywordflow">return</span>; <span class="comment">// oh no, it&#39;s retarded...</span></div>
-<div class="line"><span class="lineno">  121</span>                    <span class="keyword">using</span> (var processInstaller = <span class="keyword">new</span> ServiceProcessInstaller())</div>
-<div class="line"><span class="lineno">  122</span>                    <span class="keyword">using</span> (var installer = <span class="keyword">new</span> ServiceInstaller())</div>
-<div class="line"><span class="lineno">  123</span>                    {</div>
-<div class="line"><span class="lineno">  124</span>                        processInstaller.Account = ServiceAccount.LocalSystem;</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-install.log&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;/assemblypath={0}&quot;</span>, Assembly.GetEntryAssembly().Location) });</div>
-<div class="line"><span class="lineno">  127</span>                        installer.Description = <span class="stringliteral">&quot;/tg/station 13 server running as a windows service&quot;</span>;</div>
-<div class="line"><span class="lineno">  128</span>                        installer.DisplayName = <span class="stringliteral">&quot;/tg/station server&quot;</span>;</div>
-<div class="line"><span class="lineno">  129</span>                        installer.DelayedAutoStart = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  130</span>                        installer.StartType = ServiceStartMode.Automatic;</div>
-<div class="line"><span class="lineno">  131</span>                        installer.ServicesDependedOn = <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;Tcpip&quot;</span>, <span class="stringliteral">&quot;Dhcp&quot;</span>, <span class="stringliteral">&quot;Dnscache&quot;</span> };</div>
-<div class="line"><span class="lineno">  132</span>                        installer.ServiceName = ServerService.Name;</div>
-<div class="line"><span class="lineno">  133</span>                        installer.Parent = processInstaller;</div>
-<div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span>                        var state = <span class="keyword">new</span> ListDictionary();</div>
-<div class="line"><span class="lineno">  136</span>                        installer.Install(state);</div>
-<div class="line"><span class="lineno">  137</span>                    }</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>                    <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#aaba3eb445c2c2c0f8a11d150096b7457">Configure</a>)</div>
-<div class="line"><span class="lineno">  140</span>                    {</div>
-<div class="line"><span class="lineno">  141</span>                        Console.WriteLine(<span class="stringliteral">&quot;For this first run we&#39;ll launch the console runner so you may use the setup wizard.&quot;</span>);</div>
-<div class="line"><span class="lineno">  142</span>                        Console.WriteLine(<span class="stringliteral">&quot;If it starts successfully, feel free to close it and then start the service from the Windows control panel.&quot;</span>);</div>
-<div class="line"><span class="lineno">  143</span>                    }</div>
-<div class="line"><span class="lineno">  144</span>                }</div>
-<div class="line"><span class="lineno">  145</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a6868da29a3857b56bba33e5d7c623b68">Uninstall</a>)</div>
-<div class="line"><span class="lineno">  146</span>                    <span class="keyword">using</span> (var installer = <span class="keyword">new</span> ServiceInstaller())</div>
-<div class="line"><span class="lineno">  147</span>                    {</div>
-<div class="line"><span class="lineno">  148</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-uninstall.log&quot;</span>, <span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  149</span>                        installer.ServiceName = ServerService.Name;</div>
-<div class="line"><span class="lineno">  150</span>                        installer.Uninstall(<span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  151</span>                    }</div>
-<div class="line"><span class="lineno">  152</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#aaba3eb445c2c2c0f8a11d150096b7457">Configure</a>)</div>
-<div class="line"><span class="lineno">  153</span>                    <span class="keyword">using</span> (var service = <span class="keyword">new</span> ServerService(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>, loggerFactory, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a5d7201b8cfa09c341ec68d81297aabad">Trace</a> ? LogLevel.Trace : <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a938d576ceba93bf3cb1a32ae1dcccc52">Debug</a> ? LogLevel.Debug : LogLevel.Information))</div>
-<div class="line"><span class="lineno">  154</span>                        <a class="code hl_class" href="class_service_base.html">ServiceBase</a>.Run(service);</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>                <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#aaba3eb445c2c2c0f8a11d150096b7457">Configure</a>)</div>
-<div class="line"><span class="lineno">  157</span>                {</div>
-<div class="line"><span class="lineno">  158</span><span class="preprocessor">#pragma warning disable CS0618 </span><span class="comment">// Type or member is obsolete</span></div>
-<div class="line"><span class="lineno">  159</span>                    loggerFactory.AddConsole();</div>
-<div class="line"><span class="lineno">  160</span><span class="preprocessor">#pragma warning restore CS0618 </span><span class="comment">// Type or member is obsolete</span></div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>                    <span class="comment">// DCT: None available</span></div>
-<div class="line"><span class="lineno">  163</span>                    await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914">CreateWatchdog</a>(loggerFactory).<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697">RunAsync</a>(<span class="keyword">true</span>, Array.Empty&lt;<span class="keywordtype">string</span>&gt;(), <span class="keywordflow">default</span>);</div>
-<div class="line"><span class="lineno">  164</span>                }</div>
-<div class="line"><span class="lineno">  165</span>            }</div>
-<div class="line"><span class="lineno">  166</span>        }</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>                    <span class="comment">// First check if the service already exists</span></div>
+<div class="line"><span class="lineno">  123</span>                    <span class="keywordflow">if</span> (Environment.UserInteractive)</div>
+<div class="line"><span class="lineno">  124</span>                        <span class="keywordflow">foreach</span> (ServiceController sc <span class="keywordflow">in</span> ServiceController.GetServices())</div>
+<div class="line"><span class="lineno">  125</span>                            <span class="keywordflow">if</span> (sc.ServiceName == <span class="stringliteral">&quot;tgstation-server&quot;</span> || sc.ServiceName == <span class="stringliteral">&quot;tgstation-server-4&quot;</span>)</div>
+<div class="line"><span class="lineno">  126</span>                            {</div>
+<div class="line"><span class="lineno">  127</span>                                DialogResult result = MessageBox.Show($<span class="stringliteral">&quot;You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \&quot;No\&quot; will cancel this install.&quot;</span>, <span class="stringliteral">&quot;TGS Service&quot;</span>, MessageBoxButtons.YesNo);</div>
+<div class="line"><span class="lineno">  128</span>                                <span class="keywordflow">if</span> (result != DialogResult.Yes)</div>
+<div class="line"><span class="lineno">  129</span>                                    <span class="keywordflow">return</span>; <span class="comment">// is this needed after exit?</span></div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>                                <span class="comment">// Stop it first to give it some cleanup time</span></div>
+<div class="line"><span class="lineno">  132</span>                                <span class="keywordflow">if</span> (sc.Status == ServiceControllerStatus.Running)</div>
+<div class="line"><span class="lineno">  133</span>                                {</div>
+<div class="line"><span class="lineno">  134</span>                                    sc.Stop();</div>
+<div class="line"><span class="lineno">  135</span>                                    sc.WaitForStatus(ServiceControllerStatus.Stopped);</div>
+<div class="line"><span class="lineno">  136</span>                                }</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>                                <span class="comment">// And remove it</span></div>
+<div class="line"><span class="lineno">  139</span>                                <span class="keyword">using</span> (ServiceInstaller si = <span class="keyword">new</span> ServiceInstaller())</div>
+<div class="line"><span class="lineno">  140</span>                                {</div>
+<div class="line"><span class="lineno">  141</span>                                    si.Context = <span class="keyword">new</span> InstallContext($<span class="stringliteral">&quot;old-{sc.ServiceName}-uninstall.log&quot;</span>, <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  142</span>                                    si.ServiceName = sc.ServiceName;</div>
+<div class="line"><span class="lineno">  143</span>                                    si.Uninstall(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  144</span>                                }</div>
+<div class="line"><span class="lineno">  145</span>                            }</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>                    <span class="keyword">using</span> (var processInstaller = <span class="keyword">new</span> ServiceProcessInstaller())</div>
+<div class="line"><span class="lineno">  148</span>                    <span class="keyword">using</span> (var installer = <span class="keyword">new</span> ServiceInstaller())</div>
+<div class="line"><span class="lineno">  149</span>                    {</div>
+<div class="line"><span class="lineno">  150</span>                        processInstaller.Account = ServiceAccount.LocalSystem;</div>
+<div class="line"><span class="lineno">  151</span> </div>
+<div class="line"><span class="lineno">  152</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-install.log&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;/assemblypath={0}&quot;</span>, Assembly.GetEntryAssembly().Location) });</div>
+<div class="line"><span class="lineno">  153</span>                        installer.Description = <span class="stringliteral">&quot;/tg/station 13 server running as a windows service&quot;</span>;</div>
+<div class="line"><span class="lineno">  154</span>                        installer.DisplayName = <span class="stringliteral">&quot;/tg/station server&quot;</span>;</div>
+<div class="line"><span class="lineno">  155</span>                        installer.DelayedAutoStart = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  156</span>                        installer.StartType = ServiceStartMode.Automatic;</div>
+<div class="line"><span class="lineno">  157</span>                        installer.ServicesDependedOn = <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;Tcpip&quot;</span>, <span class="stringliteral">&quot;Dhcp&quot;</span>, <span class="stringliteral">&quot;Dnscache&quot;</span> };</div>
+<div class="line"><span class="lineno">  158</span>                        installer.ServiceName = ServerService.Name;</div>
+<div class="line"><span class="lineno">  159</span>                        installer.Parent = processInstaller;</div>
+<div class="line"><span class="lineno">  160</span> </div>
+<div class="line"><span class="lineno">  161</span>                        var state = <span class="keyword">new</span> ListDictionary();</div>
+<div class="line"><span class="lineno">  162</span>                        installer.Install(state);</div>
+<div class="line"><span class="lineno">  163</span>                    }</div>
+<div class="line"><span class="lineno">  164</span> </div>
+<div class="line"><span class="lineno">  165</span>                    <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#aaba3eb445c2c2c0f8a11d150096b7457">Configure</a>)</div>
+<div class="line"><span class="lineno">  166</span>                    {</div>
+<div class="line"><span class="lineno">  167</span>                        Console.WriteLine(<span class="stringliteral">&quot;For this first run we&#39;ll launch the console runner so you may use the setup wizard.&quot;</span>);</div>
+<div class="line"><span class="lineno">  168</span>                        Console.WriteLine(<span class="stringliteral">&quot;If it starts successfully, feel free to close it and then start the service from the Windows control panel.&quot;</span>);</div>
+<div class="line"><span class="lineno">  169</span>                    }</div>
+<div class="line"><span class="lineno">  170</span>                }</div>
+<div class="line"><span class="lineno">  171</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a6868da29a3857b56bba33e5d7c623b68">Uninstall</a>)</div>
+<div class="line"><span class="lineno">  172</span>                    <span class="keyword">using</span> (var installer = <span class="keyword">new</span> ServiceInstaller())</div>
+<div class="line"><span class="lineno">  173</span>                    {</div>
+<div class="line"><span class="lineno">  174</span>                        installer.Context = <span class="keyword">new</span> InstallContext(<span class="stringliteral">&quot;tgs-uninstall.log&quot;</span>, <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  175</span>                        installer.ServiceName = ServerService.Name;</div>
+<div class="line"><span class="lineno">  176</span>                        installer.Uninstall(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  177</span>                    }</div>
+<div class="line"><span class="lineno">  178</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#aaba3eb445c2c2c0f8a11d150096b7457">Configure</a>)</div>
+<div class="line"><span class="lineno">  179</span>                    <span class="keyword">using</span> (var service = <span class="keyword">new</span> ServerService(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>, loggerFactory, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a5d7201b8cfa09c341ec68d81297aabad">Trace</a> ? LogLevel.Trace : <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a938d576ceba93bf3cb1a32ae1dcccc52">Debug</a> ? LogLevel.Debug : LogLevel.Information))</div>
+<div class="line"><span class="lineno">  180</span>                        <a class="code hl_class" href="class_service_base.html">ServiceBase</a>.Run(service);</div>
+<div class="line"><span class="lineno">  181</span> </div>
+<div class="line"><span class="lineno">  182</span>                <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#aaba3eb445c2c2c0f8a11d150096b7457">Configure</a>)</div>
+<div class="line"><span class="lineno">  183</span>                {</div>
+<div class="line"><span class="lineno">  184</span><span class="preprocessor">#pragma warning disable CS0618 </span><span class="comment">// Type or member is obsolete</span></div>
+<div class="line"><span class="lineno">  185</span>                    loggerFactory.AddConsole();</div>
+<div class="line"><span class="lineno">  186</span><span class="preprocessor">#pragma warning restore CS0618 </span><span class="comment">// Type or member is obsolete</span></div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>                    <span class="comment">// DCT: None available</span></div>
+<div class="line"><span class="lineno">  189</span>                    await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914">CreateWatchdog</a>(loggerFactory).<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697">RunAsync</a>(<span class="keyword">true</span>, Array.Empty&lt;<span class="keywordtype">string</span>&gt;(), <span class="keywordflow">default</span>);</div>
+<div class="line"><span class="lineno">  190</span>                }</div>
+<div class="line"><span class="lineno">  191</span>            }</div>
+<div class="line"><span class="lineno">  192</span>        }</div>
 <div class="ttc" id="aclass_service_base_html"><div class="ttname"><a href="class_service_base.html">ServiceBase</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_program_html_a5c942ce276ce92ca31ecbe9c88f2e982"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a5c942ce276ce92ca31ecbe9c88f2e982">Tgstation.Server.Host.Service.Program.IsAdministrator</a></div><div class="ttdeci">static bool IsAdministrator()</div><div class="ttdoc">Check if the running user is a system administrator.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00066">Program.cs:66</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_service_1_1_program_html_a5d7201b8cfa09c341ec68d81297aabad"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a5d7201b8cfa09c341ec68d81297aabad">Tgstation.Server.Host.Service.Program.Trace</a></div><div class="ttdeci">bool Trace</div><div class="ttdoc">The –trace or -t option. Enables trace logs.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_8_service_2_program_8cs_source.html#l00054">Program.cs:54</a></div></div>
