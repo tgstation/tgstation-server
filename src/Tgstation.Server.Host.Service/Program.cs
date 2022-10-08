@@ -136,7 +136,8 @@ namespace Tgstation.Server.Host.Service
 								sc.Stop();
 
 							// And remove it
-							using (ServiceInstaller si = new ServiceInstaller()) {
+							using (ServiceInstaller si = new ServiceInstaller())
+							{
 								si.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
 								si.ServiceName = ServerService.Name;
 								si.Uninstall(null);
