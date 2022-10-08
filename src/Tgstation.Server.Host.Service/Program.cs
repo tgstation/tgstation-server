@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Service
 								using (ServiceInstaller si = new ServiceInstaller())
 								{
 									si.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
-									si.ServiceName = ServerService.Name;
+									si.ServiceName = sc.ServiceName;
 									si.Uninstall(null);
 								}
 							}
