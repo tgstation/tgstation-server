@@ -120,27 +120,29 @@ namespace Tgstation.Server.Host.Service
 						return; // oh no, it's retarded...
 
 					// First check if the service already exists
-					foreach (ServiceController sc in ServiceController.GetServices())
+					if (Environment.UserInteractive)
 					{
-						if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
+						foreach (ServiceController sc in ServiceController.GetServices())
 						{
-							DialogResult result = MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo);
-							if (result != DialogResult.Yes)
+							if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
 							{
-								Environment.Exit(1);
-								return; // is this needed after exit?
-							}
+								DialogResult result = MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo);
+								if (result != DialogResult.Yes)
+								{
+									return; // is this needed after exit?
+								}
 
-							// Stop it first to give it some cleanup time
-							if (sc.Status == ServiceControllerStatus.Running)
-								sc.Stop();
+								// Stop it first to give it some cleanup time
+								if (sc.Status == ServiceControllerStatus.Running)
+									sc.Stop();
 
-							// And remove it
-							using (ServiceInstaller si = new ServiceInstaller())
-							{
-								si.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
-								si.ServiceName = ServerService.Name;
-								si.Uninstall(null);
+								// And remove it
+								using (ServiceInstaller si = new ServiceInstaller())
+								{
+									si.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
+									si.ServiceName = ServerService.Name;
+									si.Uninstall(null);
+								}
 							}
 						}
 					}
