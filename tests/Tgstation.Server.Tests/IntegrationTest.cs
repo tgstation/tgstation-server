@@ -1073,6 +1073,7 @@ namespace Tgstation.Server.Tests
 				Mock.Of<Host.IO.IIOManager>(),
 				Mock.Of<IEventConsumer>(),
 				Mock.Of<ICredentialsProvider>(),
+				Mock.Of<Host.IO.IPostWriteHandler>(),
 				Mock.Of<IGitRemoteFeaturesFactory>(),
 				Mock.Of<ILogger<Repository>>(),
 				() => { });

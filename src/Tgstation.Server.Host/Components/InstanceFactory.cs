@@ -251,6 +251,7 @@ namespace Tgstation.Server.Host.Components
 				repositoryCommands,
 				repoIoManager,
 				eventConsumer,
+				postWriteHandler,
 				gitRemoteFeaturesFactory,
 				loggerFactory.CreateLogger<Repository.Repository>(),
 				loggerFactory.CreateLogger<RepositoryManager>());
