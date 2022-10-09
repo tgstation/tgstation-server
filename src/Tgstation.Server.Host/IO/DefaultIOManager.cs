@@ -386,13 +386,12 @@ namespace Tgstation.Server.Host.IO
 			var atLeastOneSubDir = false;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
+				atLeastOneSubDir = true;
+
 				if (ignore != null && ignore.Contains(subDirectory.Name))
 					continue;
 				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, cancellationToken))
-				{
-					atLeastOneSubDir = true;
 					yield return copyTask;
-				}
 			}
 
 			async Task CopyThisDirectory()
@@ -400,24 +399,26 @@ namespace Tgstation.Server.Host.IO
 				if (!atLeastOneSubDir)
 					await CreateDirectory(dest, cancellationToken); // save on createdir calls
 
-				var tasks = new List<Task>();
+				var fileCopyTasks = new List<Task>();
 				foreach (var fileInfo in dir.EnumerateFiles())
 				{
 					if (ignore != null && ignore.Contains(fileInfo.Name))
 						return;
 
+					var sourceFile = fileInfo.FullName;
+					var destFile = Path.Combine(dest, fileInfo.Name);
+
 					async Task CopyThisFile()
 					{
-						var destFile = Path.Combine(dest, fileInfo.Name);
-						await CopyFile(fileInfo.FullName, destFile, cancellationToken);
+						await CopyFile(sourceFile, destFile, cancellationToken);
 						if (postCopyCallback != null)
-							await postCopyCallback(fileInfo.FullName, destFile);
+							await postCopyCallback(sourceFile, destFile);
 					}
 
-					tasks.Add(CopyThisFile());
+					fileCopyTasks.Add(CopyThisFile());
 				}
 
-				await Task.WhenAll(tasks);
+				await Task.WhenAll(fileCopyTasks);
 			}
 
 			yield return CopyThisDirectory();
