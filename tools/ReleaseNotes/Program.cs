@@ -1,11 +1,13 @@
-﻿using Octokit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
+using Octokit;
+using Octokit.GraphQL;
 
 namespace ReleaseNotes
 {
@@ -44,7 +46,7 @@ namespace ReleaseNotes
 
 			try
 			{
-				var client = new GitHubClient(new ProductHeaderValue("tgs_release_notes"));
+				var client = new GitHubClient(new Octokit.ProductHeaderValue("tgs_release_notes"));
 				if (!String.IsNullOrWhiteSpace(githubToken))
 				{
 					client.Credentials = new Credentials(githubToken);
@@ -444,6 +446,23 @@ namespace ReleaseNotes
 				var releaseNotes = newNotes.ToString();
 				await File.WriteAllTextAsync(OutputPath, releaseNotes).ConfigureAwait(false);
 
+				Console.WriteLine("Updating Server Release Thread...");
+				var productInformation = new Octokit.GraphQL.ProductHeaderValue("tgs_release_notes");
+				var connection = new Octokit.GraphQL.Connection(productInformation, githubToken);
+
+				var mutation = new Mutation()
+					.AddDiscussionComment(new Octokit.GraphQL.Model.AddDiscussionCommentInput
+					{
+						Body = $"[tgstation-server-v{versionString}](https://github.com/tgstation/tgstation-server/releases/tag/tgstation-server-v{versionString}) released.",
+						DiscussionId = new ID("MDEwOkRpc2N1c3Npb24zNTU5OTUx")
+					})
+					.Select(payload => new
+					{
+						payload.ClientMutationId
+					})
+					.Compile();
+
+				await connection.Run(mutation);
 
 				return 0;
 			}
