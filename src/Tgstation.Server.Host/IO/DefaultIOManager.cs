@@ -88,7 +88,12 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task CopyDirectory(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
+		public async Task CopyDirectory(
+			string src,
+			string dest,
+			IEnumerable<string> ignore,
+			Func<string, string, Task> postCopyCallback,
+			CancellationToken cancellationToken)
 		{
 			if (src == null)
 				throw new ArgumentNullException(nameof(src));
@@ -97,7 +102,7 @@ namespace Tgstation.Server.Host.IO
 
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
-			foreach (var directoryCopy in CopyDirectoryImpl(src, dest, ignore, cancellationToken))
+			foreach (var directoryCopy in CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken))
 				await directoryCopy;
 		}
 
@@ -368,9 +373,15 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="src">The source directory path.</param>
 		/// <param name="dest">The destination directory path.</param>
 		/// <param name="ignore">Files and folders to ignore at the root level.</param>
+		/// <param name="postCopyCallback">The optional callback called for each source/dest file pair post copy.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operation.</returns>
-		IEnumerable<Task> CopyDirectoryImpl(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
+		IEnumerable<Task> CopyDirectoryImpl(
+			string src,
+			string dest,
+			IEnumerable<string> ignore,
+			Func<string, string, Task> postCopyCallback,
+			CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
 			var atLeastOneSubDir = false;
@@ -378,7 +389,7 @@ namespace Tgstation.Server.Host.IO
 			{
 				if (ignore != null && ignore.Contains(subDirectory.Name))
 					continue;
-				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, cancellationToken))
+				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, cancellationToken))
 				{
 					atLeastOneSubDir = true;
 					yield return copyTask;
@@ -395,7 +406,16 @@ namespace Tgstation.Server.Host.IO
 				{
 					if (ignore != null && ignore.Contains(fileInfo.Name))
 						return;
-					tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
+
+					async Task CopyThisFile()
+					{
+						var destFile = Path.Combine(dest, fileInfo.Name);
+						await CopyFile(fileInfo.FullName, destFile, cancellationToken);
+						if (postCopyCallback != null)
+							await postCopyCallback(fileInfo.FullName, destFile);
+					}
+
+					tasks.Add(CopyThisFile());
 				}
 
 				await Task.WhenAll(tasks);

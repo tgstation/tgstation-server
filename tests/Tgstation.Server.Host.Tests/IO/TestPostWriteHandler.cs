@@ -48,11 +48,15 @@ namespace Tgstation.Server.Host.IO.Tests
 				//ensure it is now executable
 				File.WriteAllBytes(tmpFile, Encoding.UTF8.GetBytes("#!/bin/sh\n"));
 
+				Assert.IsFalse(postWriteHandler.NeedsPostWrite(tmpFile));
+
 				using (var process = Process.Start(tmpFile))
 				{
 					process.WaitForExit();
 					Assert.AreEqual(0, process.ExitCode);
 				}
+
+				Assert.IsTrue(postWriteHandler.NeedsPostWrite(tmpFile));
 
 				//run it again for the code coverage on that part where no changes are made if it's already executable
 				postWriteHandler.HandleWrite(tmpFile);
