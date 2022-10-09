@@ -180,7 +180,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
 				var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
 				var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
-				var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, cancellationToken);
+				var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, null, cancellationToken);
 
 				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask, copyTask);
 

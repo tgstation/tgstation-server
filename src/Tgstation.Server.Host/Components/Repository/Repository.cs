@@ -92,6 +92,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ICredentialsProvider credentialsProvider;
 
 		/// <summary>
+		/// The <see cref="IPostWriteHandler"/> for the <see cref="Repository"/>.
+		/// </summary>
+		readonly IPostWriteHandler postWriteHandler;
+
+		/// <summary>
 		/// The <see cref="IGitRemoteFeatures"/> for the <see cref="Repository"/>.
 		/// </summary>
 		readonly IGitRemoteFeatures gitRemoteFeatures;
@@ -119,6 +124,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="ioMananger">The value of <see cref="ioMananger"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/>.</param>
+		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/>.</param>
@@ -128,6 +134,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			IIOManager ioMananger,
 			IEventConsumer eventConsumer,
 			ICredentialsProvider credentialsProvider,
+			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> logger,
 			Action onDispose)
@@ -137,6 +144,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
+			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			if (gitRemoteFeaturesFactory == null)
 				throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 
@@ -500,7 +508,18 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
 			logger.LogTrace("Copying to {0}...", path);
-			await ioMananger.CopyDirectory(ioMananger.ResolvePath(), path, new List<string> { ".git" }, cancellationToken);
+			await ioMananger.CopyDirectory(
+				ioMananger.ResolvePath(),
+				path,
+				new List<string> { ".git" },
+				(src, dest) =>
+				{
+					if (postWriteHandler.NeedsPostWrite(src))
+						postWriteHandler.HandleWrite(dest);
+
+					return Task.CompletedTask;
+				},
+				cancellationToken);
 		}
 
 		/// <inheritdoc />

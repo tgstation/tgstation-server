@@ -26,6 +26,18 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
+		public bool NeedsPostWrite(string sourceFilePath)
+		{
+			if (sourceFilePath == null)
+				throw new ArgumentNullException(nameof(sourceFilePath));
+
+			if (Syscall.stat(sourceFilePath, out var stat) != 0)
+				throw new UnixIOException(Stdlib.GetLastError());
+
+			return stat.st_mode.HasFlag(FilePermissions.S_IXUSR);
+		}
+
+		/// <inheritdoc />
 		public void HandleWrite(string filePath)
 		{
 			if (filePath == null)

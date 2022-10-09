@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.IO.Tests
 				postWriteHandler = new PosixPostWriteHandler(Mock.Of<ILogger<PosixPostWriteHandler>>());
 
 			Assert.ThrowsException<ArgumentNullException>(() => postWriteHandler.HandleWrite(null));
+			Assert.ThrowsException<ArgumentNullException>(() => postWriteHandler.NeedsPostWrite(null));
 		}
 
 		[TestMethod]
@@ -40,12 +41,14 @@ namespace Tgstation.Server.Host.IO.Tests
 			var tmpFile = Path.GetTempFileName();
 			try
 			{
+				Assert.IsFalse(postWriteHandler.NeedsPostWrite(tmpFile));
 				postWriteHandler.HandleWrite(tmpFile);
 
 				if (isWindows)
 					return; //you do nothing
 
 				//ensure it is now executable
+				Assert.IsTrue(postWriteHandler.NeedsPostWrite(tmpFile));
 				File.WriteAllBytes(tmpFile, Encoding.UTF8.GetBytes("#!/bin/sh\n"));
 
 				using (var process = Process.Start(tmpFile))
