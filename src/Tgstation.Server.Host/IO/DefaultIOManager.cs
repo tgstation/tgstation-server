@@ -102,8 +102,7 @@ namespace Tgstation.Server.Host.IO
 
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
-			foreach (var directoryCopy in CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken))
-				await directoryCopy;
+			await Task.WhenAll(CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken));
 		}
 
 		/// <inheritdoc />
