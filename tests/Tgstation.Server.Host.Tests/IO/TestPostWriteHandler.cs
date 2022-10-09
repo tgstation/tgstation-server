@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.IO.Tests
 				postWriteHandler = new PosixPostWriteHandler(Mock.Of<ILogger<PosixPostWriteHandler>>());
 
 			Assert.ThrowsException<ArgumentNullException>(() => postWriteHandler.HandleWrite(null));
+			Assert.ThrowsException<ArgumentNullException>(() => postWriteHandler.NeedsPostWrite(null));
 		}
 
 		[TestMethod]
