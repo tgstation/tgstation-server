@@ -383,11 +383,8 @@ namespace Tgstation.Server.Host.IO
 			CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
-			var atLeastOneSubDir = false;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
-				atLeastOneSubDir = true;
-
 				if (ignore != null && ignore.Contains(subDirectory.Name))
 					continue;
 				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, cancellationToken))
@@ -396,8 +393,7 @@ namespace Tgstation.Server.Host.IO
 
 			async Task CopyThisDirectory()
 			{
-				if (!atLeastOneSubDir)
-					await CreateDirectory(dest, cancellationToken); // save on createdir calls
+				await CreateDirectory(dest, cancellationToken);
 
 				var fileCopyTasks = new List<Task>();
 				foreach (var fileInfo in dir.EnumerateFiles())
