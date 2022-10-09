@@ -34,9 +34,7 @@ namespace Tgstation.Server.Host.IO
 			if (Syscall.stat(sourceFilePath, out var stat) != 0)
 				throw new UnixIOException(Stdlib.GetLastError());
 
-			return stat.st_mode.HasFlag(FilePermissions.S_IXUSR)
-				|| stat.st_mode.HasFlag(FilePermissions.S_IXOTH)
-				|| stat.st_mode.HasFlag(FilePermissions.S_IXGRP);
+			return stat.st_mode.HasFlag(FilePermissions.S_IXUSR);
 		}
 
 		/// <inheritdoc />
@@ -49,9 +47,7 @@ namespace Tgstation.Server.Host.IO
 			if (Syscall.stat(filePath, out var stat) != 0)
 				throw new UnixIOException(Stdlib.GetLastError());
 
-			if (stat.st_mode.HasFlag(FilePermissions.S_IXUSR)
-				|| stat.st_mode.HasFlag(FilePermissions.S_IXOTH)
-				|| stat.st_mode.HasFlag(FilePermissions.S_IXGRP))
+			if (stat.st_mode.HasFlag(FilePermissions.S_IXUSR))
 			{
 				logger.LogTrace("{0} already +x", filePath);
 				return;
