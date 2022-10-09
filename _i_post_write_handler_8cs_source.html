@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -75,11 +75,14 @@ $(function() {
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>{</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">    6</a></span>    <span class="keyword">interface </span><a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">IPostWriteHandler</a></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">   12</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<span class="keywordtype">string</span> filePath);</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    }</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>}</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269">   13</a></span>        <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269">NeedsPostWrite</a>(<span class="keywordtype">string</span> sourceFilePath);</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">   19</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<span class="keywordtype">string</span> filePath);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html">Tgstation.Server.Host.IO.IPostWriteHandler</a></div><div class="ttdoc">Handles changing file modes/permissions after writing.</div><div class="ttdef"><b>Definition:</b> <a href="_i_post_write_handler_8cs_source.html#l00006">IPostWriteHandler.cs:7</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler_html_a977c03596e21a07e06d7bc3735c6884f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite</a></div><div class="ttdeci">void HandleWrite(string filePath)</div><div class="ttdoc">For handling system specific necessities after a write.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler_html_abf71900cbac377408fda23dd147a3269"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269">Tgstation.Server.Host.IO.IPostWriteHandler.NeedsPostWrite</a></div><div class="ttdeci">bool NeedsPostWrite(string sourceFilePath)</div><div class="ttdoc">Check if a given sourceFilePath  will need HandleWrite(string) called on a copy of it.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_i_o_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_i_o.html">Tgstation.Server.Host.IO</a></div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00006">Console.cs:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

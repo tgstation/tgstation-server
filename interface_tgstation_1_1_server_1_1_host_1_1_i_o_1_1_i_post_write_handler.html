@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -90,6 +90,9 @@ Inheritance diagram for Tgstation.Server.Host.IO.IPostWriteHandler:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:abf71900cbac377408fda23dd147a3269"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269">NeedsPostWrite</a> (string sourceFilePath)</td></tr>
+<tr class="memdesc:abf71900cbac377408fda23dd147a3269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given <em>sourceFilePath</em>  will need <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write.">HandleWrite(string)</a> called on a copy of it.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269">More...</a><br /></td></tr>
+<tr class="separator:abf71900cbac377408fda23dd147a3269"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a977c03596e21a07e06d7bc3735c6884f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a> (string filePath)</td></tr>
 <tr class="memdesc:a977c03596e21a07e06d7bc3735c6884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">For handling system specific necessities after a write.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">More...</a><br /></td></tr>
 <tr class="separator:a977c03596e21a07e06d7bc3735c6884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,6 +138,35 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a91ccfa2ffcfce658cf045b37de2aa153" title="Does actions necessary to get an extracted BYOND installation working." alt="" coords="5,5,255,47"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="abf71900cbac377408fda23dd147a3269" name="abf71900cbac377408fda23dd147a3269"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf71900cbac377408fda23dd147a3269">&#9670;&nbsp;</a></span>NeedsPostWrite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.IO.IPostWriteHandler.NeedsPostWrite </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>sourceFilePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a given <em>sourceFilePath</em>  will need <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write.">HandleWrite(string)</a> called on a copy of it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourceFilePath</td><td>The path of the source file to check.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write.">HandleWrite(string)</a> should be called on copies of <em>sourceFilePath</em> , <code>false</code> otherwise.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html#a92d7b2413c6ef292ec405a6b0464a013">Tgstation.Server.Host.IO.PosixPostWriteHandler</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html#a05b2ad85aec609c3eae6b426141e2078">Tgstation.Server.Host.IO.WindowsPostWriteHandler</a>.</p>
 
 </div>
 </div>

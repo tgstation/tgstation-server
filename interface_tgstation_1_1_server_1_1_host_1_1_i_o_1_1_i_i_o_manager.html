@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -105,9 +105,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af05931d02f5f5d95b87a56c0cc60d855"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">PathContainsParentAccess</a> (string path)</td></tr>
 <tr class="memdesc:af05931d02f5f5d95b87a56c0cc60d855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <em>path</em>  contains the '..' parent directory accessor.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">More...</a><br /></td></tr>
 <tr class="separator:af05931d02f5f5d95b87a56c0cc60d855"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab4ec78e2b2d66ad39642ed92a66250c"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aab4ec78e2b2d66ad39642ed92a66250c">CopyDirectory</a> (string src, string dest, IEnumerable&lt; string &gt; ignore, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aab4ec78e2b2d66ad39642ed92a66250c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aab4ec78e2b2d66ad39642ed92a66250c">More...</a><br /></td></tr>
-<tr class="separator:aab4ec78e2b2d66ad39642ed92a66250c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a706e777aa7b8ad80d4ae3e0098875cdb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a706e777aa7b8ad80d4ae3e0098875cdb">CopyDirectory</a> (string src, string dest, IEnumerable&lt; string &gt; ignore, Func&lt; string, string, Task &gt; postCopyCallback, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a706e777aa7b8ad80d4ae3e0098875cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a directory from <em>src</em>  to <em>dest</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a706e777aa7b8ad80d4ae3e0098875cdb">More...</a><br /></td></tr>
+<tr class="separator:a706e777aa7b8ad80d4ae3e0098875cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4de873180481f7afa206b6282158d62"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">FileExists</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ad4de873180481f7afa206b6282158d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that the file at <em>path</em>  exists.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">More...</a><br /></td></tr>
 <tr class="separator:ad4de873180481f7afa206b6282158d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -251,8 +251,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aab4ec78e2b2d66ad39642ed92a66250c" name="aab4ec78e2b2d66ad39642ed92a66250c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab4ec78e2b2d66ad39642ed92a66250c">&#9670;&nbsp;</a></span>CopyDirectory()</h2>
+<a id="a706e777aa7b8ad80d4ae3e0098875cdb" name="a706e777aa7b8ad80d4ae3e0098875cdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a706e777aa7b8ad80d4ae3e0098875cdb">&#9670;&nbsp;</a></span>CopyDirectory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,6 +278,12 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Func&lt; string, string, Task &gt;&#160;</td>
+          <td class="paramname"><em>postCopyCallback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em>&#160;</td>
         </tr>
@@ -295,20 +301,21 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">src</td><td>The source directory path.</td></tr>
     <tr><td class="paramname">dest</td><td>The destination directory path.</td></tr>
     <tr><td class="paramname">ignore</td><td>Files and folders to ignore at the root level.</td></tr>
+    <tr><td class="paramname">postCopyCallback</td><td>The optional callback called for each source/dest file pair post copy.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac24671c0d1ce1f6787304c5f4bcccf7c">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac9bf7e98e09d06a8d6f15dbb3efbf177">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_configuration_8cs_source.html#l00173">Tgstation.Server.Host.Components.StaticFiles.Configuration.CopyDMFilesTo()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_aab4ec78e2b2d66ad39642ed92a66250c_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_aab4ec78e2b2d66ad39642ed92a66250c_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_aab4ec78e2b2d66ad39642ed92a66250c_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_aab4ec78e2b2d66ad39642ed92a66250c_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_a706e777aa7b8ad80d4ae3e0098875cdb_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_a706e777aa7b8ad80d4ae3e0098875cdb_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_a706e777aa7b8ad80d4ae3e0098875cdb_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_a706e777aa7b8ad80d4ae3e0098875cdb_icgraph">
 <area shape="rect" title="Copies a directory from src &#160;to dest ." alt="" coords="311,5,484,47"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3bc9b1cc811f4a13c74e4cf230a3f2f4" title="Copies all files in the CodeModifications directory to destination ." alt="" coords="5,5,263,47"/>
 </map>
@@ -469,7 +476,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a1c0202582bb5f80ba212bf7cceb2bd6d">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00151">Tgstation.Server.Host.Server.ApplyUpdate()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00057">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.CleanCache()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00389">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanJob()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00318">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00102">Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00231">Tgstation.Server.Host.Components.Repository.RepositoryManager.DeleteRepository()</a>, <a class="el" href="_posix_watchdog_8cs_source.html#l00086">Tgstation.Server.Host.Components.Watchdog.PosixWatchdog.InitialLink()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00068">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive()</a>, <a class="el" href="_configuration_8cs_source.html#l00346">Tgstation.Server.Host.Components.StaticFiles.Configuration.SymlinkStaticFilesTo()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00288">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_8cs_source.html#l00151">Tgstation.Server.Host.Server.ApplyUpdate()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00057">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.CleanCache()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00389">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanJob()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00318">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00110">Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00240">Tgstation.Server.Host.Components.Repository.RepositoryManager.DeleteRepository()</a>, <a class="el" href="_posix_watchdog_8cs_source.html#l00086">Tgstation.Server.Host.Components.Watchdog.PosixWatchdog.InitialLink()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00068">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive()</a>, <a class="el" href="_configuration_8cs_source.html#l00346">Tgstation.Server.Host.Components.StaticFiles.Configuration.SymlinkStaticFilesTo()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00288">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -601,7 +608,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#afd4e1632eb6d8351a77e7d150adc8174">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_repository_manager_8cs_source.html#l00102">Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository()</a>, <a class="el" href="_posix_watchdog_8cs_source.html#l00086">Tgstation.Server.Host.Components.Watchdog.PosixWatchdog.InitialLink()</a>, <a class="el" href="_configuration_8cs_source.html#l00346">Tgstation.Server.Host.Components.StaticFiles.Configuration.SymlinkStaticFilesTo()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00288">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_manager_8cs_source.html#l00110">Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository()</a>, <a class="el" href="_posix_watchdog_8cs_source.html#l00086">Tgstation.Server.Host.Components.Watchdog.PosixWatchdog.InitialLink()</a>, <a class="el" href="_configuration_8cs_source.html#l00346">Tgstation.Server.Host.Components.StaticFiles.Configuration.SymlinkStaticFilesTo()</a>, and <a class="el" href="_setup_wizard_8cs_source.html#l00288">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1390,7 +1397,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00183">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00318">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00102">Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00411">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.CreateDump()</a>, <a class="el" href="_server_factory_8cs_source.html#l00047">Tgstation.Server.Host.ServerFactory.CreateServer()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00231">Tgstation.Server.Host.Components.Repository.RepositoryManager.DeleteRepository()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00069">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00190">Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00068">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00056">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.PosixByondInstaller()</a>, <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00021">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvingIOManager()</a>, <a class="el" href="_dream_maker_8cs_source.html#l00568">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob()</a>, <a class="el" href="_configuration_8cs_source.html#l00346">Tgstation.Server.Host.Components.StaticFiles.Configuration.SymlinkStaticFilesTo()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00288">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00083">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00183">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.AddDreamDaemonToFirewall()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00318">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00110">Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00411">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.CreateDump()</a>, <a class="el" href="_server_factory_8cs_source.html#l00047">Tgstation.Server.Host.ServerFactory.CreateServer()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00240">Tgstation.Server.Host.Components.Repository.RepositoryManager.DeleteRepository()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00069">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00198">Tgstation.Server.Host.Components.Repository.RepositoryManager.LoadRepository()</a>, <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00068">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive()</a>, <a class="el" href="_posix_byond_installer_8cs_source.html#l00056">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.PosixByondInstaller()</a>, <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00021">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvingIOManager()</a>, <a class="el" href="_dream_maker_8cs_source.html#l00568">Tgstation.Server.Host.Components.Deployment.DreamMaker.RunCompileJob()</a>, <a class="el" href="_configuration_8cs_source.html#l00346">Tgstation.Server.Host.Components.StaticFiles.Configuration.SymlinkStaticFilesTo()</a>, <a class="el" href="_setup_wizard_8cs_source.html#l00288">Tgstation.Server.Host.Setup.SetupWizard.ValidateNonExistantSqliteDBName()</a>, and <a class="el" href="_windows_byond_installer_8cs_source.html#l00083">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.WindowsByondInstaller()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

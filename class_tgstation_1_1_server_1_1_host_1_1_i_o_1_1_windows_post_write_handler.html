@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -98,9 +98,15 @@ Collaboration diagram for Tgstation.Server.Host.IO.WindowsPostWriteHandler:</div
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a05b2ad85aec609c3eae6b426141e2078"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html#a05b2ad85aec609c3eae6b426141e2078">NeedsPostWrite</a> (string sourceFilePath)</td></tr>
+<tr class="memdesc:a05b2ad85aec609c3eae6b426141e2078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given <em>sourceFilePath</em>  will need <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write.">HandleWrite(string)</a> called on a copy of it.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html#a05b2ad85aec609c3eae6b426141e2078">More...</a><br /></td></tr>
+<tr class="separator:a05b2ad85aec609c3eae6b426141e2078"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94fe62fd0f170cca8a95674408a1ede4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html#a94fe62fd0f170cca8a95674408a1ede4">HandleWrite</a> (string filePath)</td></tr>
 <tr class="memdesc:a94fe62fd0f170cca8a95674408a1ede4"><td class="mdescLeft">&#160;</td><td class="mdescRight">For handling system specific necessities after a write.   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html#a94fe62fd0f170cca8a95674408a1ede4">More...</a><br /></td></tr>
 <tr class="separator:a94fe62fd0f170cca8a95674408a1ede4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf71900cbac377408fda23dd147a3269"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269">NeedsPostWrite</a> (string sourceFilePath)</td></tr>
+<tr class="memdesc:abf71900cbac377408fda23dd147a3269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given <em>sourceFilePath</em>  will need <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write.">HandleWrite(string)</a> called on a copy of it.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269">More...</a><br /></td></tr>
+<tr class="separator:abf71900cbac377408fda23dd147a3269"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a977c03596e21a07e06d7bc3735c6884f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a> (string filePath)</td></tr>
 <tr class="memdesc:a977c03596e21a07e06d7bc3735c6884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">For handling system specific necessities after a write.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">More...</a><br /></td></tr>
 <tr class="separator:a977c03596e21a07e06d7bc3735c6884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,11 +136,41 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">Tgstation.Server.Host.IO.IPostWriteHandler</a>.</p>
 
+<p class="definition">Definition at line <a class="el" href="_windows_post_write_handler_8cs_source.html#l00020">20</a> of file <a class="el" href="_windows_post_write_handler_8cs_source.html">WindowsPostWriteHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>        {</div>
+<div class="line"><span class="lineno">   22</span>            <span class="keywordflow">if</span> (filePath == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   23</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(filePath));</div>
+<div class="line"><span class="lineno">   24</span>        }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a05b2ad85aec609c3eae6b426141e2078" name="a05b2ad85aec609c3eae6b426141e2078"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05b2ad85aec609c3eae6b426141e2078">&#9670;&nbsp;</a></span>NeedsPostWrite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.IO.WindowsPostWriteHandler.NeedsPostWrite </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>sourceFilePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a given <em>sourceFilePath</em>  will need <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write.">HandleWrite(string)</a> called on a copy of it.  </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#abf71900cbac377408fda23dd147a3269">Tgstation.Server.Host.IO.IPostWriteHandler</a>.</p>
+
 <p class="definition">Definition at line <a class="el" href="_windows_post_write_handler_8cs_source.html#l00011">11</a> of file <a class="el" href="_windows_post_write_handler_8cs_source.html">WindowsPostWriteHandler.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   12</span>        {</div>
-<div class="line"><span class="lineno">   13</span>            <span class="keywordflow">if</span> (filePath == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   14</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(filePath));</div>
-<div class="line"><span class="lineno">   15</span>        }</div>
+<div class="line"><span class="lineno">   13</span>            <span class="keywordflow">if</span> (sourceFilePath == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   14</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(sourceFilePath));</div>
+<div class="line"><span class="lineno">   15</span> </div>
+<div class="line"><span class="lineno">   16</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   17</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

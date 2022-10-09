@@ -1,17 +1,18 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository" name="Tgstation.Server.Host.Components.Repository.Repository">
-<area shape="rect" id="node1" title=" " alt="" coords="933,322,1160,363"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository." alt="" coords="542,77,629,104"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="208,27,419,53"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services." alt="" coords="472,11,699,53"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="5,27,159,53"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="268,85,359,112"/>
-<area shape="rect" id="node6" title=" " alt="" coords="558,155,613,181"/>
-<area shape="rect" id="node7" title=" " alt="" coords="536,205,635,232"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html" title="For low level interactions with a LibGit2Sharp.IRepository." alt="" coords="472,257,699,298"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="501,322,669,363"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="472,387,699,429"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers." alt="" coords="472,453,699,494"/>
-<area shape="rect" id="node13" title=" " alt="" coords="468,517,703,573"/>
-<area shape="rect" id="node14" title=" " alt="" coords="556,597,615,624"/>
-<area shape="rect" id="node15" title=" " alt="" coords="562,648,609,675"/>
+<area shape="rect" id="node1" title=" " alt="" coords="933,357,1160,398"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository." alt="" coords="542,79,629,105"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="208,28,419,55"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services." alt="" coords="472,13,699,54"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="5,28,159,55"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="268,87,359,113"/>
+<area shape="rect" id="node6" title=" " alt="" coords="558,156,613,183"/>
+<area shape="rect" id="node7" title=" " alt="" coords="536,207,635,233"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html" title="For low level interactions with a LibGit2Sharp.IRepository." alt="" coords="472,258,699,299"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="501,323,669,365"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="472,389,699,430"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers." alt="" coords="472,454,699,495"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing." alt="" coords="501,519,669,561"/>
+<area shape="rect" id="node14" title=" " alt="" coords="468,584,703,640"/>
+<area shape="rect" id="node15" title=" " alt="" coords="556,664,615,691"/>
+<area shape="rect" id="node16" title=" " alt="" coords="562,715,609,741"/>
 </map>

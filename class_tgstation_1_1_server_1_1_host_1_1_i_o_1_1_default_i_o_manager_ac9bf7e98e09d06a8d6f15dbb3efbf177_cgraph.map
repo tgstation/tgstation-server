@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectory" name="Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectory">
 <area shape="rect" id="node1" title="Copies a directory from src &#160;to dest ." alt="" coords="5,100,216,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adb0be7f9a21a594cabe8110639faf01b" title="Copies a directory from src &#160;to dest ." alt="" coords="264,71,499,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a7cdd085a1e8a747e192e2f43ea4feef0" title="Copies a directory from src &#160;to dest ." alt="" coords="264,71,499,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory." alt="" coords="813,68,1017,109"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb" title="Copy a file from src &#160;to dest ." alt="" coords="566,5,746,47"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3" title="Create a directory at path ." alt="" coords="547,71,765,112"/>

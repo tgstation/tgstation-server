@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.IO.DefaultIOManager.CopyFile" name="Tgstation.Server.Host.IO.DefaultIOManager.CopyFile">
 <area shape="rect" id="node1" title="Copy a file from src &#160;to dest ." alt="" coords="547,29,727,71"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adb0be7f9a21a594cabe8110639faf01b" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,71"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac24671c0d1ce1f6787304c5f4bcccf7c" title="Copies a directory from src &#160;to dest ." alt="" coords="5,29,216,71"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a7cdd085a1e8a747e192e2f43ea4feef0" title="Copies a directory from src &#160;to dest ." alt="" coords="264,29,499,71"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac9bf7e98e09d06a8d6f15dbb3efbf177" title="Copies a directory from src &#160;to dest ." alt="" coords="5,29,216,71"/>
 </map>
