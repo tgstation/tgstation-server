@@ -623,7 +623,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return null;
 					}
 
-					if (discordChannelResponse.Entity.Type != ChannelType.GuildText)
+					var channelType = discordChannelResponse.Entity.Type;
+					if (channelType != ChannelType.GuildText && channelType != ChannelType.GuildAnnouncement)
 					{
 						Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannelResponse.Entity.Type);
 						return null;
