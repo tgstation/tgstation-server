@@ -592,14 +592,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<ChannelRepresentation>> MapChannelsImpl(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<Tuple<Api.Models.ChatChannel, ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
 
 			bool remapRequired = false;
 
-			async Task<ChannelRepresentation> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
+			async Task<Tuple<Api.Models.ChatChannel, ChannelRepresentation>> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
 			{
 				if (!channelFromDB.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
@@ -623,7 +623,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						return null;
 					}
 
-					if (discordChannelResponse.Entity.Type != ChannelType.GuildText)
+					var channelType = discordChannelResponse.Entity.Type;
+					if (channelType != ChannelType.GuildText && channelType != ChannelType.GuildAnnouncement)
 					{
 						Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannelResponse.Entity.Type);
 						return null;
@@ -660,7 +661,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				};
 
 				Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
-				return channelModel;
+				return Tuple.Create(channelFromDB, channelModel);
 			}
 
 			var tasks = channels
@@ -677,7 +678,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			lock (mappedChannels)
 			{
 				mappedChannels.Clear();
-				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
+				mappedChannels.AddRange(enumerator.Select(x => x.Item2.RealId));
 			}
 
 			if (remapRequired)
