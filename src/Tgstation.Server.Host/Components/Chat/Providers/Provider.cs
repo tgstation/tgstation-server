@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public void InitialMappingComplete() => initialConnectionTcs.TrySetResult(null);
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
+		public async Task<IReadOnlyCollection<Tuple<Api.Models.ChatChannel, ChannelRepresentation>>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -197,8 +197,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="channels">The <see cref="Api.Models.ChatChannel"/>s to map.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyCollection{T}"/> of the <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
-		protected abstract Task<IReadOnlyCollection<ChannelRepresentation>> MapChannelsImpl(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyCollection{T}"/> of the <see cref="Api.Models.ChatChannel"/>'s <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
+		protected abstract Task<IReadOnlyCollection<Tuple<Api.Models.ChatChannel, ChannelRepresentation>>> MapChannelsImpl(
+			IEnumerable<Api.Models.ChatChannel> channels,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Queues a <paramref name="message"/> for <see cref="NextMessage(CancellationToken)"/>.

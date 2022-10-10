@@ -211,14 +211,14 @@ namespace Tgstation.Server.Host.Components.Chat
 							.ToList();
 				}
 
-				var newMappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
+				var newMappings = results.Select(tuple => new ChannelMapping
 				{
-					IsWatchdogChannel = x.IsWatchdogChannel == true,
-					IsUpdatesChannel = x.IsUpdatesChannel == true,
-					IsAdminChannel = x.IsAdminChannel == true,
-					ProviderChannelId = y.RealId,
+					IsWatchdogChannel = tuple.Item1.IsWatchdogChannel == true,
+					IsUpdatesChannel = tuple.Item1.IsUpdatesChannel == true,
+					IsAdminChannel = tuple.Item1.IsAdminChannel == true,
+					ProviderChannelId = tuple.Item2.RealId,
 					ProviderId = connectionId,
-					Channel = y,
+					Channel = tuple.Item2,
 				});
 
 				ulong baseId;
