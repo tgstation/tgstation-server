@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -111,9 +111,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae24ff61d2fb16b41675498d0d95b67d8"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ae24ff61d2fb16b41675498d0d95b67d8">Disconnect</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae24ff61d2fb16b41675498d0d95b67d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gracefully disconnects the provider. Permanently stops the reconnection timer.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ae24ff61d2fb16b41675498d0d95b67d8">More...</a><br /></td></tr>
 <tr class="separator:ae24ff61d2fb16b41675498d0d95b67d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a910cb36835894a42d5b22e2c216a749b"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyCollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html">ChannelRepresentation</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a910cb36835894a42d5b22e2c216a749b">MapChannels</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a> &gt; channels, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a910cb36835894a42d5b22e2c216a749b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel.">ChannelRepresentation</a>s for given <em>channels</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a910cb36835894a42d5b22e2c216a749b">More...</a><br /></td></tr>
-<tr class="separator:a910cb36835894a42d5b22e2c216a749b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b4052a457dba7366f7c25c9aaf5a8f5"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyCollection&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html">ChannelRepresentation</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a0b4052a457dba7366f7c25c9aaf5a8f5">MapChannels</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a> &gt; channels, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0b4052a457dba7366f7c25c9aaf5a8f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel.">ChannelRepresentation</a>s for given <em>channels</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a0b4052a457dba7366f7c25c9aaf5a8f5">More...</a><br /></td></tr>
+<tr class="separator:a0b4052a457dba7366f7c25c9aaf5a8f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0b951bd26aed974f63c3e11971eb009"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ad0b951bd26aed974f63c3e11971eb009">SendMessage</a> (ulong channelId, string message, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ad0b951bd26aed974f63c3e11971eb009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service.">IProvider</a>.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ad0b951bd26aed974f63c3e11971eb009">More...</a><br /></td></tr>
 <tr class="separator:ad0b951bd26aed974f63c3e11971eb009"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -194,14 +194,14 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a910cb36835894a42d5b22e2c216a749b" name="a910cb36835894a42d5b22e2c216a749b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a910cb36835894a42d5b22e2c216a749b">&#9670;&nbsp;</a></span>MapChannels()</h2>
+<a id="a0b4052a457dba7366f7c25c9aaf5a8f5" name="a0b4052a457dba7366f7c25c9aaf5a8f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b4052a457dba7366f7c25c9aaf5a8f5">&#9670;&nbsp;</a></span>MapChannels()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; IReadOnlyCollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html">ChannelRepresentation</a> &gt; &gt; Tgstation.Server.Host.Components.Chat.Providers.IProvider.MapChannels </td>
+          <td class="memname">Task&lt; IReadOnlyCollection&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html">ChannelRepresentation</a> &gt; &gt; &gt; Tgstation.Server.Host.Components.Chat.Providers.IProvider.MapChannels </td>
           <td>(</td>
           <td class="paramtype">IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a> &gt;&#160;</td>
           <td class="paramname"><em>channels</em>, </td>
@@ -228,9 +228,9 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyCollection&lt;T&gt; of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel.">ChannelRepresentation</a>s representing <em>channels</em> .</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a IReadOnlyCollection&lt;T&gt; of the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel.">Api.Models.ChatChannel</a>'s <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel.">ChannelRepresentation</a>s representing <em>channels</em> .</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9c71a2f81c46a7b89f61c848d5731b44">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a7f00f7b1fc16ce2429cef4e8f1fd4c3d">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
 </div>
 </div>

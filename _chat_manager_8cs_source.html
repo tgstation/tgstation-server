@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -212,14 +212,14 @@ $(function() {
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>                            .ToList();</div>
 <div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                }</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>                var newMappings = Enumerable.Zip(newChannels, results, (x, y) =&gt; <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html">ChannelMapping</a></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>                var newMappings = results.Select(tuple =&gt; <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html">ChannelMapping</a></div>
 <div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>                {</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                    IsWatchdogChannel = x.IsWatchdogChannel == <span class="keyword">true</span>,</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                    IsUpdatesChannel = x.IsUpdatesChannel == <span class="keyword">true</span>,</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                    IsAdminChannel = x.IsAdminChannel == <span class="keyword">true</span>,</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                    ProviderChannelId = y.RealId,</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                    IsWatchdogChannel = tuple.Item1.IsWatchdogChannel == <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                    IsUpdatesChannel = tuple.Item1.IsUpdatesChannel == <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                    IsAdminChannel = tuple.Item1.IsAdminChannel == <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                    ProviderChannelId = tuple.Item2.RealId,</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                    ProviderId = connectionId,</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>                    Channel = y,</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>                    Channel = tuple.Item2,</div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>                });</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                ulong baseId;</div>
