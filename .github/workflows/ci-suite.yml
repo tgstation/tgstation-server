@@ -723,7 +723,7 @@ jobs:
           &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
       - name: Generate Release Notes
-        run: dotnet run -c Release -p tools/ReleaseNotes ${{ env.TGS_VERSION }}
+        run: dotnet run -c Release --project tools/ReleaseNotes ${{ env.TGS_VERSION }}
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
