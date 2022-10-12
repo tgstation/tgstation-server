@@ -358,7 +358,7 @@ Private Attributes</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#aaa5c800b8dc532cb596ebd075e14e48e">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a6329a704d61a9d05333408279b044d50">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00248">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00251">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -456,7 +456,7 @@ Here is the call graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae4da9b25c89c74b4e2d70fdfb7f8c894">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ab7dc167a715c37ce3487b14e682a6b46">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00104">Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect()</a>, and <a class="el" href="_provider_8cs_source.html#l00248">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00104">Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect()</a>, and <a class="el" href="_provider_8cs_source.html#l00251">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -565,7 +565,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, <a class="el" href="_provider_8cs_source.html#l00039">Tgstation.Server.Host.Components.Chat.Providers.Provider.messageQueue</a>, and <a class="el" href="_provider_8cs_source.html#l00054">Tgstation.Server.Host.Components.Chat.Providers.Provider.nextMessage</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_irc_provider_8cs_source.html#l00456">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.HandleMessage()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00595">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl()</a>, <a class="el" href="_provider_8cs_source.html#l00248">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00407">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_irc_provider_8cs_source.html#l00456">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.HandleMessage()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00596">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl()</a>, <a class="el" href="_provider_8cs_source.html#l00251">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00408">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -808,68 +808,68 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_provider_8cs_source.html#l00248">248</a> of file <a class="el" href="_provider_8cs_source.html">Provider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  249</span>        {</div>
-<div class="line"><span class="lineno">  250</span>            <span class="keywordflow">do</span></div>
-<div class="line"><span class="lineno">  251</span>            {</div>
-<div class="line"><span class="lineno">  252</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  253</span>                {</div>
-<div class="line"><span class="lineno">  254</span>                    <span class="keywordflow">if</span> (!connectNow)</div>
-<div class="line"><span class="lineno">  255</span>                        await Task.Delay(TimeSpan.FromMinutes(reconnectInterval), cancellationToken);</div>
-<div class="line"><span class="lineno">  256</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  257</span>                        connectNow = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  258</span>                    <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afab0213888c139dbb1786d7f5c0d8680">Connected</a>)</div>
-<div class="line"><span class="lineno">  259</span>                    {</div>
-<div class="line"><span class="lineno">  260</span>                        var job = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
-<div class="line"><span class="lineno">  261</span>                        {</div>
-<div class="line"><span class="lineno">  262</span>                            Description = $<span class="stringliteral">&quot;Reconnect chat bot: {ChatBot.Name}&quot;</span>,</div>
-<div class="line"><span class="lineno">  263</span>                            CancelRight = (ulong)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a>.WriteEnabled,</div>
-<div class="line"><span class="lineno">  264</span>                            CancelRightsType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.ChatBots,</div>
-<div class="line"><span class="lineno">  265</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a> = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html#ae5433d8739dbd431a207684fb9b4d37d">Instance</a>,</div>
-<div class="line"><span class="lineno">  266</span>                        };</div>
-<div class="line"><span class="lineno">  267</span> </div>
-<div class="line"><span class="lineno">  268</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aa36ffb34c69e4a990830e49f97b7c142">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a>(</div>
-<div class="line"><span class="lineno">  269</span>                            job,</div>
-<div class="line"><span class="lineno">  270</span>                            async (core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken) =&gt;</div>
-<div class="line"><span class="lineno">  271</span>                            {</div>
-<div class="line"><span class="lineno">  272</span>                                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  273</span>                                {</div>
-<div class="line"><span class="lineno">  274</span>                                    <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afab0213888c139dbb1786d7f5c0d8680">Connected</a>)</div>
-<div class="line"><span class="lineno">  275</span>                                    {</div>
-<div class="line"><span class="lineno">  276</span>                                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Disconnecting...&quot;</span>);</div>
-<div class="line"><span class="lineno">  277</span>                                        await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a627edd03f216fa53e443b1901cf5599c">DisconnectImpl</a>(jobCancellationToken);</div>
-<div class="line"><span class="lineno">  278</span>                                    }</div>
-<div class="line"><span class="lineno">  279</span>                                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  280</span>                                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Already disconnected not doing disconnection attempt!&quot;</span>);</div>
-<div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  282</span>                                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Connecting...&quot;</span>);</div>
-<div class="line"><span class="lineno">  283</span>                                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a96305dc74c77224130e4067f19b59407">Connect</a>(jobCancellationToken);</div>
-<div class="line"><span class="lineno">  284</span>                                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Connected successfully&quot;</span>);</div>
-<div class="line"><span class="lineno">  285</span>                                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(<span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  286</span>                                }</div>
-<div class="line"><span class="lineno">  287</span>                                <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  288</span>                                {</div>
-<div class="line"><span class="lineno">  289</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9d0ff2a1c0d3cc6ad32e99f3c8debc2b">initialConnectionTcs</a>.TrySetResult(<span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  290</span>                                    <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  291</span>                                }</div>
-<div class="line"><span class="lineno">  292</span>                            },</div>
-<div class="line"><span class="lineno">  293</span>                            cancellationToken);</div>
-<div class="line"><span class="lineno">  294</span> </div>
-<div class="line"><span class="lineno">  295</span>                        <span class="comment">// DCT: Always wait for the job to complete here</span></div>
-<div class="line"><span class="lineno">  296</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aa36ffb34c69e4a990830e49f97b7c142">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(job, <span class="keyword">null</span>, cancellationToken, <span class="keywordflow">default</span>);</div>
-<div class="line"><span class="lineno">  297</span>                    }</div>
-<div class="line"><span class="lineno">  298</span>                }</div>
-<div class="line"><span class="lineno">  299</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno">  300</span>                {</div>
-<div class="line"><span class="lineno">  301</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  302</span>                }</div>
-<div class="line"><span class="lineno">  303</span>                <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">  304</span>                {</div>
-<div class="line"><span class="lineno">  305</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogError(e, <span class="stringliteral">&quot;Error reconnecting!&quot;</span>);</div>
-<div class="line"><span class="lineno">  306</span>                }</div>
-<div class="line"><span class="lineno">  307</span>            }</div>
-<div class="line"><span class="lineno">  308</span>            <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  309</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_provider_8cs_source.html#l00251">251</a> of file <a class="el" href="_provider_8cs_source.html">Provider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  252</span>        {</div>
+<div class="line"><span class="lineno">  253</span>            <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">  254</span>            {</div>
+<div class="line"><span class="lineno">  255</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  256</span>                {</div>
+<div class="line"><span class="lineno">  257</span>                    <span class="keywordflow">if</span> (!connectNow)</div>
+<div class="line"><span class="lineno">  258</span>                        await Task.Delay(TimeSpan.FromMinutes(reconnectInterval), cancellationToken);</div>
+<div class="line"><span class="lineno">  259</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  260</span>                        connectNow = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  261</span>                    <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afab0213888c139dbb1786d7f5c0d8680">Connected</a>)</div>
+<div class="line"><span class="lineno">  262</span>                    {</div>
+<div class="line"><span class="lineno">  263</span>                        var job = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
+<div class="line"><span class="lineno">  264</span>                        {</div>
+<div class="line"><span class="lineno">  265</span>                            Description = $<span class="stringliteral">&quot;Reconnect chat bot: {ChatBot.Name}&quot;</span>,</div>
+<div class="line"><span class="lineno">  266</span>                            CancelRight = (ulong)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a>.WriteEnabled,</div>
+<div class="line"><span class="lineno">  267</span>                            CancelRightsType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.ChatBots,</div>
+<div class="line"><span class="lineno">  268</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a> = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html#ae5433d8739dbd431a207684fb9b4d37d">Instance</a>,</div>
+<div class="line"><span class="lineno">  269</span>                        };</div>
+<div class="line"><span class="lineno">  270</span> </div>
+<div class="line"><span class="lineno">  271</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aa36ffb34c69e4a990830e49f97b7c142">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a>(</div>
+<div class="line"><span class="lineno">  272</span>                            job,</div>
+<div class="line"><span class="lineno">  273</span>                            async (core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken) =&gt;</div>
+<div class="line"><span class="lineno">  274</span>                            {</div>
+<div class="line"><span class="lineno">  275</span>                                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  276</span>                                {</div>
+<div class="line"><span class="lineno">  277</span>                                    <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afab0213888c139dbb1786d7f5c0d8680">Connected</a>)</div>
+<div class="line"><span class="lineno">  278</span>                                    {</div>
+<div class="line"><span class="lineno">  279</span>                                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Disconnecting...&quot;</span>);</div>
+<div class="line"><span class="lineno">  280</span>                                        await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a627edd03f216fa53e443b1901cf5599c">DisconnectImpl</a>(jobCancellationToken);</div>
+<div class="line"><span class="lineno">  281</span>                                    }</div>
+<div class="line"><span class="lineno">  282</span>                                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  283</span>                                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Already disconnected not doing disconnection attempt!&quot;</span>);</div>
+<div class="line"><span class="lineno">  284</span> </div>
+<div class="line"><span class="lineno">  285</span>                                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Connecting...&quot;</span>);</div>
+<div class="line"><span class="lineno">  286</span>                                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a96305dc74c77224130e4067f19b59407">Connect</a>(jobCancellationToken);</div>
+<div class="line"><span class="lineno">  287</span>                                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Connected successfully&quot;</span>);</div>
+<div class="line"><span class="lineno">  288</span>                                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  289</span>                                }</div>
+<div class="line"><span class="lineno">  290</span>                                <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  291</span>                                {</div>
+<div class="line"><span class="lineno">  292</span>                                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9d0ff2a1c0d3cc6ad32e99f3c8debc2b">initialConnectionTcs</a>.TrySetResult(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  293</span>                                    <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  294</span>                                }</div>
+<div class="line"><span class="lineno">  295</span>                            },</div>
+<div class="line"><span class="lineno">  296</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">  297</span> </div>
+<div class="line"><span class="lineno">  298</span>                        <span class="comment">// DCT: Always wait for the job to complete here</span></div>
+<div class="line"><span class="lineno">  299</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aa36ffb34c69e4a990830e49f97b7c142">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(job, <span class="keyword">null</span>, cancellationToken, <span class="keywordflow">default</span>);</div>
+<div class="line"><span class="lineno">  300</span>                    }</div>
+<div class="line"><span class="lineno">  301</span>                }</div>
+<div class="line"><span class="lineno">  302</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno">  303</span>                {</div>
+<div class="line"><span class="lineno">  304</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  305</span>                }</div>
+<div class="line"><span class="lineno">  306</span>                <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">  307</span>                {</div>
+<div class="line"><span class="lineno">  308</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogError(e, <span class="stringliteral">&quot;Error reconnecting!&quot;</span>);</div>
+<div class="line"><span class="lineno">  309</span>                }</div>
+<div class="line"><span class="lineno">  310</span>            }</div>
+<div class="line"><span class="lineno">  311</span>            <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  312</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_a96305dc74c77224130e4067f19b59407"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a96305dc74c77224130e4067f19b59407">Tgstation.Server.Host.Components.Chat.Providers.Provider.Connect</a></div><div class="ttdeci">abstract Task Connect(CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to connect the Provider.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_ac45c189505744c6f1012461193fca877"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage</a></div><div class="ttdeci">void EnqueueMessage(Message message)</div><div class="ttdoc">Queues a message  for NextMessage(CancellationToken).</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00209">Provider.cs:209</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot_html_ae5433d8739dbd431a207684fb9b4d37d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html#ae5433d8739dbd431a207684fb9b4d37d">Tgstation.Server.Host.Models.ChatBot.Instance</a></div><div class="ttdeci">Instance Instance</div><div class="ttdoc">The parent Models.Instance.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_8cs_source.html#l00026">ChatBot.cs:26</a></div></div>
@@ -1079,9 +1079,9 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  165</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_a9f6a1589b22e35e4e494ea4df0bf2446"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectCts</a></div><div class="ttdeci">CancellationTokenSource reconnectCts</div><div class="ttdoc">CancellationTokenSource for reconnectTask.</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00064">Provider.cs:64</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_abcd5569a84d1d67a6b891b7bf7f5c6df"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#abcd5569a84d1d67a6b891b7bf7f5c6df">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTask</a></div><div class="ttdeci">Task reconnectTask</div><div class="ttdoc">The auto reconnect Task.</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00059">Provider.cs:59</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_ac6502da810ca16f52bed5505c7807746"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop</a></div><div class="ttdeci">async Task ReconnectionLoop(uint reconnectInterval, bool connectNow, CancellationToken cancellationToken)</div><div class="ttdoc">Creates a Task that will attempt to reconnect the Provider every reconnectInterval  minutes.</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00248">Provider.cs:248</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_ac6502da810ca16f52bed5505c7807746"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop</a></div><div class="ttdeci">async Task ReconnectionLoop(uint reconnectInterval, bool connectNow, CancellationToken cancellationToken)</div><div class="ttdoc">Creates a Task that will attempt to reconnect the Provider every reconnectInterval  minutes.</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00251">Provider.cs:251</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_provider_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectCts</a>, <a class="el" href="_provider_8cs_source.html#l00248">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, <a class="el" href="_provider_8cs_source.html#l00059">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTask</a>, <a class="el" href="_provider_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTaskLock</a>, and <a class="el" href="_provider_8cs_source.html#l00225">Tgstation.Server.Host.Components.Chat.Providers.Provider.StopReconnectionTimer()</a>.</p>
+<p class="reference">References <a class="el" href="_provider_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectCts</a>, <a class="el" href="_provider_8cs_source.html#l00251">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, <a class="el" href="_provider_8cs_source.html#l00059">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTask</a>, <a class="el" href="_provider_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTaskLock</a>, and <a class="el" href="_provider_8cs_source.html#l00225">Tgstation.Server.Host.Components.Chat.Providers.Provider.StopReconnectionTimer()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1128,21 +1128,24 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_provider_8cs_source.html#l00225">225</a> of file <a class="el" href="_provider_8cs_source.html">Provider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  226</span>        {</div>
-<div class="line"><span class="lineno">  227</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac3f1219e16c1c8e9e32a07697d3affde">reconnectTaskLock</a>)</div>
-<div class="line"><span class="lineno">  228</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">reconnectCts</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  229</span>                {</div>
-<div class="line"><span class="lineno">  230</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">reconnectCts</a>.Cancel();</div>
-<div class="line"><span class="lineno">  231</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">reconnectCts</a>.Dispose();</div>
-<div class="line"><span class="lineno">  232</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">reconnectCts</a> = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  233</span>                    Task <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#abcd5569a84d1d67a6b891b7bf7f5c6df">reconnectTask</a> = this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#abcd5569a84d1d67a6b891b7bf7f5c6df">reconnectTask</a>;</div>
-<div class="line"><span class="lineno">  234</span>                    this.reconnectTask = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  235</span>                    <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#abcd5569a84d1d67a6b891b7bf7f5c6df">reconnectTask</a>;</div>
-<div class="line"><span class="lineno">  236</span>                }</div>
-<div class="line"><span class="lineno">  237</span> </div>
-<div class="line"><span class="lineno">  238</span>            <span class="keywordflow">return</span> Task.CompletedTask;</div>
-<div class="line"><span class="lineno">  239</span>        }</div>
+<div class="line"><span class="lineno">  227</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;StopReconnectionTimer&quot;</span>);</div>
+<div class="line"><span class="lineno">  228</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac3f1219e16c1c8e9e32a07697d3affde">reconnectTaskLock</a>)</div>
+<div class="line"><span class="lineno">  229</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">reconnectCts</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  230</span>                {</div>
+<div class="line"><span class="lineno">  231</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">reconnectCts</a>.Cancel();</div>
+<div class="line"><span class="lineno">  232</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">reconnectCts</a>.Dispose();</div>
+<div class="line"><span class="lineno">  233</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a9f6a1589b22e35e4e494ea4df0bf2446">reconnectCts</a> = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  234</span>                    Task <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#abcd5569a84d1d67a6b891b7bf7f5c6df">reconnectTask</a> = this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#abcd5569a84d1d67a6b891b7bf7f5c6df">reconnectTask</a>;</div>
+<div class="line"><span class="lineno">  235</span>                    this.reconnectTask = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  236</span>                    <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#abcd5569a84d1d67a6b891b7bf7f5c6df">reconnectTask</a>;</div>
+<div class="line"><span class="lineno">  237</span>                }</div>
+<div class="line"><span class="lineno">  238</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  239</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Timer wasn&#39;t running&quot;</span>);</div>
+<div class="line"><span class="lineno">  240</span> </div>
+<div class="line"><span class="lineno">  241</span>            <span class="keywordflow">return</span> Task.CompletedTask;</div>
+<div class="line"><span class="lineno">  242</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_provider_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectCts</a>, <a class="el" href="_provider_8cs_source.html#l00059">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTask</a>, and <a class="el" href="_provider_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTaskLock</a>.</p>
+<p class="reference">References <a class="el" href="_provider_8cs_source.html#l00029">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, <a class="el" href="_provider_8cs_source.html#l00064">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectCts</a>, <a class="el" href="_provider_8cs_source.html#l00059">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTask</a>, and <a class="el" href="_provider_8cs_source.html#l00049">Tgstation.Server.Host.Components.Chat.Providers.Provider.reconnectTaskLock</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00104">Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect()</a>, <a class="el" href="_provider_8cs_source.html#l00096">Tgstation.Server.Host.Components.Chat.Providers.Provider.DisposeAsync()</a>, and <a class="el" href="_provider_8cs_source.html#l00151">Tgstation.Server.Host.Components.Chat.Providers.Provider.SetReconnectInterval()</a>.</p>
 <div class="dynheader">
@@ -1184,7 +1187,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_provider_8cs_source.html#l00044">44</a> of file <a class="el" href="_provider_8cs_source.html">Provider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00120">Tgstation.Server.Host.Components.Chat.Providers.Provider.MapChannels()</a>, <a class="el" href="_provider_8cs_source.html#l00072">Tgstation.Server.Host.Components.Chat.Providers.Provider.Provider()</a>, and <a class="el" href="_provider_8cs_source.html#l00248">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00120">Tgstation.Server.Host.Components.Chat.Providers.Provider.MapChannels()</a>, <a class="el" href="_provider_8cs_source.html#l00072">Tgstation.Server.Host.Components.Chat.Providers.Provider.Provider()</a>, and <a class="el" href="_provider_8cs_source.html#l00251">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
 
 </div>
 </div>
@@ -1212,7 +1215,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_provider_8cs_source.html#l00034">34</a> of file <a class="el" href="_provider_8cs_source.html">Provider.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00072">Tgstation.Server.Host.Components.Chat.Providers.Provider.Provider()</a>, and <a class="el" href="_provider_8cs_source.html#l00248">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00072">Tgstation.Server.Host.Components.Chat.Providers.Provider.Provider()</a>, and <a class="el" href="_provider_8cs_source.html#l00251">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
 
 </div>
 </div>
@@ -1440,7 +1443,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_provider_8cs_source.html#l00087">87</a> of file <a class="el" href="_provider_8cs_source.html">Provider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   87</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00104">Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect()</a>, and <a class="el" href="_provider_8cs_source.html#l00248">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_provider_8cs_source.html#l00104">Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect()</a>, and <a class="el" href="_provider_8cs_source.html#l00251">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>.</p>
 
 </div>
 </div>
@@ -1528,7 +1531,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_provider_8cs_source.html#l00029">29</a> of file <a class="el" href="_provider_8cs_source.html">Provider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00514">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00325">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Connect()</a>, <a class="el" href="_provider_8cs_source.html#l00104">Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00572">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00419">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.DisconnectImpl()</a>, <a class="el" href="_provider_8cs_source.html#l00096">Tgstation.Server.Host.Components.Chat.Providers.Provider.DisposeAsync()</a>, <a class="el" href="_provider_8cs_source.html#l00209">Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00625">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.HardDisconnect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00595">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af74b65e6c05dba2490bb2fb62bdb7f40">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.NonBlockingListen()</a>, <a class="el" href="_provider_8cs_source.html#l00072">Tgstation.Server.Host.Components.Chat.Providers.Provider.Provider()</a>, <a class="el" href="_provider_8cs_source.html#l00248">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00407">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00555">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SaslAuthenticate()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00206">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a8bfdc6f40539bde1282c4c8c002ce7e0">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SendMessage()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00278">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendUpdateMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00515">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connect()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00325">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Connect()</a>, <a class="el" href="_provider_8cs_source.html#l00104">Tgstation.Server.Host.Components.Chat.Providers.Provider.Disconnect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00573">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisconnectImpl()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00419">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.DisconnectImpl()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00196">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DisposeAsync()</a>, <a class="el" href="_provider_8cs_source.html#l00096">Tgstation.Server.Host.Components.Chat.Providers.Provider.DisposeAsync()</a>, <a class="el" href="_provider_8cs_source.html#l00209">Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00625">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.HardDisconnect()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00596">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af74b65e6c05dba2490bb2fb62bdb7f40">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.NonBlockingListen()</a>, <a class="el" href="_provider_8cs_source.html#l00072">Tgstation.Server.Host.Components.Chat.Providers.Provider.Provider()</a>, <a class="el" href="_provider_8cs_source.html#l00251">Tgstation.Server.Host.Components.Chat.Providers.Provider.ReconnectionLoop()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00408">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>, <a class="el" href="_irc_provider_8cs_source.html#l00555">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SaslAuthenticate()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00207">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a8bfdc6f40539bde1282c4c8c002ce7e0">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SendMessage()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00279">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendUpdateMessage()</a>, and <a class="el" href="_provider_8cs_source.html#l00225">Tgstation.Server.Host.Components.Chat.Providers.Provider.StopReconnectionTimer()</a>.</p>
 
 </div>
 </div>
