@@ -197,8 +197,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			await base.DisposeAsync();
 			await serviceProvider.DisposeAsync();
+			Logger.LogTrace("ServiceProvider disposed");
 
-			// this line is purely here to shutup CA2213
+			// this line is purely here to shutup CA2213. It should always be null
 			gatewayCts?.Dispose();
 		}
 

@@ -224,6 +224,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task StopReconnectionTimer()
 		{
+			Logger.LogTrace("StopReconnectionTimer");
 			lock (reconnectTaskLock)
 				if (reconnectCts != null)
 				{
@@ -234,6 +235,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					this.reconnectTask = null;
 					return reconnectTask;
 				}
+				else
+					Logger.LogTrace("Timer wasn't running");
 
 			return Task.CompletedTask;
 		}
