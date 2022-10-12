@@ -470,6 +470,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task DeleteConnection(long connectionId, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("DeleteConnection {connectionId}", connectionId);
 			var provider = await RemoveProviderChannels(connectionId, true, cancellationToken);
 			if (provider != null)
 				try
@@ -480,6 +481,8 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					await provider.DisposeAsync();
 				}
+			else
+				logger.LogTrace("DeleteConnection: ID {connectionId} doesn't exist!", connectionId);
 		}
 
 		/// <inheritdoc />
