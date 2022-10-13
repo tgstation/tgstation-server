@@ -905,7 +905,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  336</span>                    <span class="keywordflow">if</span> (anySettingsModified)</div>
 <div class="line"><span class="lineno">  337</span>                        await chat.ChangeSettings(current, cancellationToken); <span class="comment">// have to rebuild the thing first</span></div>
 <div class="line"><span class="lineno">  338</span> </div>
-<div class="line"><span class="lineno">  339</span>                    if (model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a9e6391aa99ab09fadc17d8a4599c827b">Channels</a> != <span class="keyword">null</span> || anySettingsModified)</div>
+<div class="line"><span class="lineno">  339</span>                    if ((model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a9e6391aa99ab09fadc17d8a4599c827b">Channels</a> != <span class="keyword">null</span> || anySettingsModified) &amp;&amp; current.Enabled.Value)</div>
 <div class="line"><span class="lineno">  340</span>                        await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken);</div>
 <div class="line"><span class="lineno">  341</span> </div>
 <div class="line"><span class="lineno">  342</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>

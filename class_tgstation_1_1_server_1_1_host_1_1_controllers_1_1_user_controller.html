@@ -1084,7 +1084,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  309</span>            var canReadBack = AuthenticationContext.User.Id == originalUser.Id</div>
 <div class="line"><span class="lineno">  310</span>                || callerAdministrationRights.HasFlag(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.ReadUsers);</div>
 <div class="line"><span class="lineno">  311</span>            <span class="keywordflow">return</span> canReadBack</div>
-<div class="line"><span class="lineno">  312</span>                ? (IActionResult)Json(originalUser.ToApi())</div>
+<div class="line"><span class="lineno">  312</span>                ? Json(originalUser.ToApi())</div>
 <div class="line"><span class="lineno">  313</span>                : NoContent();</div>
 <div class="line"><span class="lineno">  314</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_default_credentials_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_default_credentials.html">Tgstation.Server.Api.DefaultCredentials</a></div><div class="ttdoc">Represents initial credentials used by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_default_credentials_8cs_source.html#l00006">DefaultCredentials.cs:7</a></div></div>

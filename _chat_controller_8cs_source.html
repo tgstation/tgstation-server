@@ -355,7 +355,7 @@ $(function() {
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                    <span class="keywordflow">if</span> (anySettingsModified)</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>                        await chat.ChangeSettings(current, cancellationToken); <span class="comment">// have to rebuild the thing first</span></div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                    if (model.Channels != <span class="keyword">null</span> || anySettingsModified)</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                    if ((model.Channels != <span class="keyword">null</span> || anySettingsModified) &amp;&amp; current.Enabled.Value)</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                        await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken);</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
