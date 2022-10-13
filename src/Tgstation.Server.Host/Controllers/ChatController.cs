@@ -336,7 +336,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (anySettingsModified)
 						await chat.ChangeSettings(current, cancellationToken); // have to rebuild the thing first
 
-					if (model.Channels != null || anySettingsModified)
+					if ((model.Channels != null || anySettingsModified) && current.Enabled.Value)
 						await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken);
 
 					return null;
