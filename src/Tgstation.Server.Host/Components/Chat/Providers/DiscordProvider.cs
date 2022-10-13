@@ -106,6 +106,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		string initialUserName;
 
 		/// <summary>
+		/// If <see cref="serviceProvider"/> is being disposed.
+		/// </summary>
+		bool disposing;
+
+		/// <summary>
 		/// Normalize a discord mention string.
 		/// </summary>
 		/// <param name="fromDiscord">The mention <see cref="string"/> provided by the Discord library.</param>
@@ -195,12 +200,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async ValueTask DisposeAsync()
 		{
+			lock (serviceProvider)
+			{
+				// serviceProvider can recursively dispose us
+				if (disposing)
+					return;
+				disposing = true;
+			}
+
 			await base.DisposeAsync();
 			await serviceProvider.DisposeAsync();
 			Logger.LogTrace("ServiceProvider disposed");
 
 			// this line is purely here to shutup CA2213. It should always be null
 			gatewayCts?.Dispose();
+
+			disposing = false;
 		}
 
 		/// <inheritdoc />
@@ -598,7 +613,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
 
-			bool remapRequired = false;
+			var remapRequired = false;
 
 			async Task<Tuple<Api.Models.ChatChannel, ChannelRepresentation>> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
 			{
