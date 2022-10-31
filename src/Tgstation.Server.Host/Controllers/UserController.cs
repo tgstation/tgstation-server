@@ -110,8 +110,7 @@ namespace Tgstation.Server.Host.Controllers
 			var totalUsers = await DatabaseContext
 				.Users
 				.AsQueryable()
-				.CountAsync(cancellationToken)
-				;
+				.CountAsync(cancellationToken);
 			if (totalUsers >= generalConfiguration.UserLimit)
 				return Conflict(new ErrorMessageResponse(ErrorCode.UserLimitReached));
 
