@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.IRemoteDeploymentManager.ApplyDeployment" name="Tgstation.Server.Host.Components.Deployment.Remote.IRemoteDeploymentManager.ApplyDeployment">
 <area shape="rect" id="node1" title="Stage a given compileJob &#39;s deployment." alt="" coords="693,31,952,87"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1582efdefef65cd7587e76a7bae09a4e" title="To be called before a given newCompileJob &#160;goes live." alt="" coords="375,39,645,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae9d14546506ad8fb19b5eb70b3d426bb" title="To be called before a given newCompileJob &#160;goes live." alt="" coords="375,39,645,80"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afcdeb4376d24326a76bc920fe6974b35" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,5,327,47"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="41,71,291,112"/>
 </map>
