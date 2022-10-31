@@ -661,18 +661,26 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="newCompileJob">The new <see cref="Models.CompileJob"/> being applied.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected Task BeforeApplyDmb(Models.CompileJob newCompileJob, CancellationToken cancellationToken)
+		protected async Task BeforeApplyDmb(Models.CompileJob newCompileJob, CancellationToken cancellationToken)
 		{
 			if (newCompileJob.Id == ActiveCompileJob?.Id)
 			{
 				Logger.LogTrace("Same compile job, not sending deployment event");
-				return Task.CompletedTask;
+				return;
 			}
 
 			var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
 				metadata,
 				newCompileJob);
-			return remoteDeploymentManager.ApplyDeployment(newCompileJob, ActiveCompileJob, cancellationToken);
+
+			try
+			{
+				await remoteDeploymentManager.ApplyDeployment(newCompileJob, ActiveCompileJob, cancellationToken);
+			}
+			catch (Exception ex)
+			{
+				Logger.LogWarning(ex, "Failed to apply remote deployment!");
+			}
 		}
 
 		/// <summary>
