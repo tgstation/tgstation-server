@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Client.CachedResponseStream.CachedResponseStream" name="Tgstation.Server.Client.CachedResponseStream.CachedResponseStream">
-<area shape="rect" id="node1" title="Initializes a new instance of the CachedResponseStream class." alt="" coords="464,29,735,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a01d1f0c4c21b7fc6ca7919f0aba80606" title="Asyncronously creates a new CachedResponseStream." alt="" coords="209,37,416,78"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a0a4629336675141115dc91d5ab6f211a" title="Main request method." alt="" coords="5,29,161,85"/>
-</map>

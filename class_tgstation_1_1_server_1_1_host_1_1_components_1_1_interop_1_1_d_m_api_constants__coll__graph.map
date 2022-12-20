@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Interop.DMApiConstants" name="Tgstation.Server.Host.Components.Interop.DMApiConstants">
-<area shape="rect" id="node1" title="Constants used for communication with the DMAPI." alt="" coords="85,153,311,195"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,13,60,39"/>
-<area shape="rect" id="node3" title=" " alt="" coords="122,13,274,39"/>
-<area shape="rect" id="node4" title=" " alt="" coords="298,5,487,47"/>
+<area shape="rect" id="node1" title="Constants used for communication with the DMAPI." alt="" coords="85,152,311,192"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,13,60,38"/>
+<area shape="rect" id="node3" title=" " alt="" coords="122,13,274,38"/>
+<area shape="rect" id="node4" title=" " alt="" coords="298,5,487,45"/>
 </map>

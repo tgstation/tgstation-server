@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility" name="Tgstation.Server.Host.Configuration.GeneralConfiguration.CheckCompatibility">
-<area shape="rect" id="node1" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="280,5,536,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9f739bf99678bc5adb51f0b402b531af" title=" " alt="" coords="5,5,232,47"/>
+<area shape="rect" id="node1" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="280,5,536,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9f739bf99678bc5adb51f0b402b531af" title=" " alt="" coords="5,5,232,45"/>
 </map>

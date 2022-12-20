@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.HeadersIssue" name="Tgstation.Server.Host.Controllers.ApiController.HeadersIssue">
-<area shape="rect" id="node1" title="Response for missing/Invalid headers." alt="" coords="529,71,745,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a67855ece28f07fcb4c4a67e06500d8d3" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="251,5,467,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a2b30ee2c813739c640cb86cf8b39dd5e" title="Main page of the Application." alt="" coords="251,71,467,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae6314cf236db98c1e453639df84e8242" title=" " alt="" coords="236,136,481,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a050adcf275d869f1db4760d553fadb6e" title=" " alt="" coords="5,5,188,47"/>
+<area shape="rect" id="node1" title="Response for missing/Invalid headers." alt="" coords="529,69,745,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a67855ece28f07fcb4c4a67e06500d8d3" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="251,5,467,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a2b30ee2c813739c640cb86cf8b39dd5e" title="Main page of the Application." alt="" coords="251,69,467,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae6314cf236db98c1e453639df84e8242" title=" " alt="" coords="236,133,481,173"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a050adcf275d869f1db4760d553fadb6e" title=" " alt="" coords="5,5,188,45"/>
 </map>

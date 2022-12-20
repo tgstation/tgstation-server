@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.System.IProcess.GetCombinedOutput" name="Tgstation.Server.Host.System.IProcess.GetCombinedOutput">
-<area shape="rect" id="node1" title="Get the stderr and stdout output of the IProcess." alt="" coords="643,5,841,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance." alt="" coords="304,5,595,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="5,5,256,47"/>
+<area shape="rect" id="node1" title="Get the stderr and stdout output of the IProcess." alt="" coords="643,5,841,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="304,5,595,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,5,256,45"/>
 </map>

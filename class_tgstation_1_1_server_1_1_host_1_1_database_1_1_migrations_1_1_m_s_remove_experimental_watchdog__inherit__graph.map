@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MSRemoveExperimentalWatchdog" name="Tgstation.Server.Host.Database.Migrations.MSRemoveExperimentalWatchdog">
-<area shape="rect" id="node1" title="Removes the WatchdogReattachInformations table, SecondaryPort column, and renames the primary port co..." alt="" coords="5,80,291,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="111,5,185,32"/>
+<area shape="rect" id="node1" title="Removes the WatchdogReattachInformations table, SecondaryPort column, and renames the primary port co..." alt="" coords="5,79,291,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="111,5,185,31"/>
 </map>

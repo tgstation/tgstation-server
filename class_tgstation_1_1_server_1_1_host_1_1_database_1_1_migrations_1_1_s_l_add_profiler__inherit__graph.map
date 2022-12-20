@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.SLAddProfiler" name="Tgstation.Server.Host.Database.Migrations.SLAddProfiler">
-<area shape="rect" id="node1" title="Adds the option to start the profiler with DreamDaemon for SQLite." alt="" coords="5,80,215,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,32"/>
+<area shape="rect" id="node1" title="Adds the option to start the profiler with DreamDaemon for SQLite." alt="" coords="5,79,215,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,31"/>
 </map>

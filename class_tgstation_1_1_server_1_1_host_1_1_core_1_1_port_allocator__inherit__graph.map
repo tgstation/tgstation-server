@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Core.PortAllocator" name="Tgstation.Server.Host.Core.PortAllocator">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,187,121"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="45,5,147,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,79,187,119"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="45,5,147,31"/>
 </map>

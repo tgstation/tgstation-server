@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,77,297,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="345,5,609,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1" title="Normalize a discord mention string." alt="" coords="346,70,609,126"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd" title="Send a message to the IProvider." alt="" coords="360,150,595,206"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,77,297,117"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="345,5,609,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1" title="Normalize a discord mention string." alt="" coords="346,70,609,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd" title="Send a message to the IProvider. A Task representing the running operation." alt="" coords="360,149,595,203"/>
 </map>

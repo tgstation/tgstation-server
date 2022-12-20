@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Api.Models.Internal.RepositorySettings" name="Tgstation.Server.Api.Models.Internal.RepositorySettings">
-<area shape="rect" id="node1" title="Represents configurable settings for a git repository." alt="" coords="5,104,192,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html" title="Base class for repository models." alt="" coords="245,71,431,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html" title=" " alt="" coords="240,136,436,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html" title="Represents a request to clone the repository." alt="" coords="486,5,706,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html" title="Represents a request to change the repository." alt="" coords="484,71,708,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_repository_response.html" title="Represents a git repository." alt="" coords="495,136,697,177"/>
+<area shape="rect" id="node1" title="Represents configurable settings for a git repository." alt="" coords="5,101,192,141"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_api_base.html" title="Base class for repository models." alt="" coords="245,69,431,109"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html" title=" " alt="" coords="240,133,436,173"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_create_request.html" title="Represents a request to clone the repository." alt="" coords="486,5,706,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_repository_update_request.html" title="Represents a request to change the repository." alt="" coords="484,69,708,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_repository_response.html" title="Represents a git repository." alt="" coords="495,133,697,173"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Client.ServerClientFactory.CreateWithNewToken" name="Tgstation.Server.Client.ServerClientFactory.CreateWithNewToken">
-<area shape="rect" id="node1" title="Creates a IServerClient from a login operation." alt="" coords="297,31,500,87"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#ac6b3d4fa0296c5683978385873acf3fc" title="Create a IServerClient using a password login." alt="" coords="8,5,247,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#acf31334390ab2823fa7999f33eaee17e" title="Create a IServerClient using am OAuth login." alt="" coords="5,71,249,112"/>
+<area shape="rect" id="node1" title="Creates a IServerClient from a login operation." alt="" coords="297,30,500,85"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#ac6b3d4fa0296c5683978385873acf3fc" title="Create a IServerClient using a password login. A Task&lt;TResult&gt; resulting in a new IServerClient." alt="" coords="8,5,247,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#acf31334390ab2823fa7999f33eaee17e" title="Create a IServerClient using am OAuth login. A Task&lt;TResult&gt; resulting in a new IServerClient." alt="" coords="5,69,249,109"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Api.Models.Response.ConfigurationFileResponse" name="Tgstation.Server.Api.Models.Response.ConfigurationFileResponse">
-<area shape="rect" id="node1" title="Response when reading configuration files." alt="" coords="33,80,270,121"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html" title="Response for when file transfers are necessary." alt="" coords="5,5,143,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file..." alt="" coords="167,5,290,32"/>
+<area shape="rect" id="node1" title="Response when reading configuration files." alt="" coords="33,79,270,119"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html" title="Response for when file transfers are necessary." alt="" coords="5,5,143,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_i_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file..." alt="" coords="167,5,290,31"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.SLAddDeploymentTimeout" name="Tgstation.Server.Host.Database.Migrations.SLAddDeploymentTimeout">
-<area shape="rect" id="node1" title="Adds the DreamMakerSettings Timeout column for SQLite." alt="" coords="5,80,245,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="88,5,163,32"/>
+<area shape="rect" id="node1" title="Adds the DreamMakerSettings Timeout column for SQLite." alt="" coords="5,79,245,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="88,5,163,31"/>
 </map>

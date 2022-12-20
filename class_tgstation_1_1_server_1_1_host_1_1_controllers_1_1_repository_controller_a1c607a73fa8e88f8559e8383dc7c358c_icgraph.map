@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi" name="Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi">
-<area shape="rect" id="node1" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,39,485,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad57c46f8518725528dc5df0c4020d48c" title="Get the repository&#39;s status." alt="" coords="5,5,221,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a9f7b3bc7b210f85dbadaa04295ae0c92" title="Perform updates to the repository." alt="" coords="5,71,221,112"/>
+<area shape="rect" id="node1" title="Populate a given apiResponse &#160;with the current state of a given repository ." alt="" coords="269,37,485,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#ad57c46f8518725528dc5df0c4020d48c" title="Get the repository&#39;s status." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a9f7b3bc7b210f85dbadaa04295ae0c92" title="Perform updates to the repository." alt="" coords="5,69,221,109"/>
 </map>

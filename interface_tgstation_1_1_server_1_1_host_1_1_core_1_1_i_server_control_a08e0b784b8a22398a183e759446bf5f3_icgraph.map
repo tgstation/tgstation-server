@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Core.IServerControl.ApplyUpdate" name="Tgstation.Server.Host.Core.IServerControl.ApplyUpdate">
-<area shape="rect" id="node1" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="276,5,459,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a07a3f42eb176bad4755b004b8866ac36" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="5,5,228,47"/>
+<area shape="rect" id="node1" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="276,5,459,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a07a3f42eb176bad4755b004b8866ac36" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,5,228,45"/>
 </map>

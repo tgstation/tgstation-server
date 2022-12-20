@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController" name="Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController">
-<area shape="rect" id="node1" title="Attempt to register the node with the controller." alt="" coords="5,5,244,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="292,5,536,47"/>
+<area shape="rect" id="node1" title="Attempt to register the node with the controller." alt="" coords="5,5,244,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="292,5,536,45"/>
 </map>

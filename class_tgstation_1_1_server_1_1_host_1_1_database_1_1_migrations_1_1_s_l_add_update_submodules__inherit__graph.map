@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.SLAddUpdateSubmodules" name="Tgstation.Server.Host.Database.Migrations.SLAddUpdateSubmodules">
-<area shape="rect" id="node1" title="Adds the UpdateSubmodules repository setting for SQLite." alt="" coords="5,80,244,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="87,5,162,32"/>
+<area shape="rect" id="node1" title="Adds the UpdateSubmodules repository setting for SQLite." alt="" coords="5,79,244,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="87,5,162,31"/>
 </map>

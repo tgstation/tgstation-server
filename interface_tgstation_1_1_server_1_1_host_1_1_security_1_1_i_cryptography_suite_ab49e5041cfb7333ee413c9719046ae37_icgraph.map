@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Security.ICryptographySuite.GetSecureString" name="Tgstation.Server.Host.Security.ICryptographySuite.GetSecureString">
-<area shape="rect" id="node1" title="Generates a 40&#45;length secure ascii string." alt="" coords="643,104,873,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a87e03bae08e8188b59d773dcd1999cde" title="Creates a new FileTicketResponse." alt="" coords="343,71,555,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance." alt="" coords="304,136,595,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ad8baa2421efb63c1528f9614352739c3" title="Create a FileTicketResponse for a download." alt="" coords="14,5,247,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a1d9409881589d4f6c6069e49abced217" title="Create a IFileUploadTicket." alt="" coords="22,71,239,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="5,136,256,177"/>
+<area shape="rect" id="node1" title="Generates a 40&#45;length secure ascii string." alt="" coords="643,101,873,141"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a87e03bae08e8188b59d773dcd1999cde" title="Creates a new FileTicketResponse." alt="" coords="343,69,555,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="304,133,595,173"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ad8baa2421efb63c1528f9614352739c3" title="Create a FileTicketResponse for a download. A new FileTicketResponse for a download." alt="" coords="14,5,247,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a1d9409881589d4f6c6069e49abced217" title="Create a IFileUploadTicket. A new IFileUploadTicket." alt="" coords="22,69,239,109"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,133,256,173"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl" name="Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl">
-<area shape="rect" id="node1" title="Implementation of Read(CancellationToken)." alt="" coords="269,5,491,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#adccc5ff512f7d207073879eea97b151c" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node1" title="Implementation of Read(CancellationToken)." alt="" coords="269,5,491,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#adccc5ff512f7d207073879eea97b151c" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,5,221,45"/>
 </map>

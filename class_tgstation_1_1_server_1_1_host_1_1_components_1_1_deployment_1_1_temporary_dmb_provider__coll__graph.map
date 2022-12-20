@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.TemporaryDmbProvider" name="Tgstation.Server.Host.Components.Deployment.TemporaryDmbProvider">
-<area shape="rect" id="node1" title="Temporary IDmbProvider." alt="" coords="5,155,235,196"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="69,80,171,107"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="75,5,165,32"/>
+<area shape="rect" id="node1" title="Temporary IDmbProvider." alt="" coords="5,152,235,192"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="69,79,171,104"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="75,5,165,31"/>
 </map>

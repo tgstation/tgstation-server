@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Design.SqliteDesignTimeDbContextFactory" name="Tgstation.Server.Host.Database.Design.SqliteDesignTimeDbContextFactory">
-<area shape="rect" id="node1" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts." alt="" coords="5,95,276,136"/>
-<area shape="rect" id="node2" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="41,5,240,47"/>
+<area shape="rect" id="node1" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts." alt="" coords="5,93,276,133"/>
+<area shape="rect" id="node2" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="41,5,240,45"/>
 </map>

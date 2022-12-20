@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Api.Models.DiscordConnectionStringBuilder" name="Tgstation.Server.Api.Models.DiscordConnectionStringBuilder">
-<area shape="rect" id="node1" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="5,80,211,121"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="14,5,202,32"/>
+<area shape="rect" id="node1" title="ChatConnectionStringBuilder for ChatProvider.Discord." alt="" coords="5,79,211,119"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBotSettings.ConnectionStrings." alt="" coords="14,5,202,31"/>
 </map>

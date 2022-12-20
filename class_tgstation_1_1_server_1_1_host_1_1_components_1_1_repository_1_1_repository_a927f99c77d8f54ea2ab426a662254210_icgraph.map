@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.TransferProgressHandler" name="Tgstation.Server.Host.Components.Repository.Repository.TransferProgressHandler">
-<area shape="rect" id="node1" title="Generate a LibGit2Sharp.Handlers.TransferProgressHandler from a given progressReporter &#160;and cancellat..." alt="" coords="288,5,539,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af117049855c67b16a13b856e22528dd6" title="Attempt to merge the revision specified by a given set of testMergeParameters &#160;into HEAD." alt="" coords="5,13,240,54"/>
+<area shape="rect" id="node1" title="Generate a LibGit2Sharp.Handlers.TransferProgressHandler from a given progressReporter &#160;and cancellat..." alt="" coords="288,5,539,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af117049855c67b16a13b856e22528dd6" title="Attempt to merge the revision specified by a given set of testMergeParameters &#160;into HEAD...." alt="" coords="5,13,240,53"/>
 </map>

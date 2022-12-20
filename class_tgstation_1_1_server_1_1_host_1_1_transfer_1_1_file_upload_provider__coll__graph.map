@@ -1,10 +1,10 @@
 <map id="Tgstation.Server.Host.Transfer.FileUploadProvider" name="Tgstation.Server.Host.Transfer.FileUploadProvider">
-<area shape="rect" id="node1" title=" " alt="" coords="549,141,752,182"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="194,5,318,32"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="5,5,96,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="171,56,341,83"/>
-<area shape="rect" id="node5" title=" " alt="" coords="152,107,360,149"/>
-<area shape="rect" id="node6" title=" " alt="" coords="177,173,335,214"/>
-<area shape="rect" id="node7" title=" " alt="" coords="233,239,279,265"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html" title="Represents an error message returned by the server." alt="" coords="145,290,367,331"/>
+<area shape="rect" id="node1" title=" " alt="" coords="549,137,752,177"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="194,5,318,31"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="5,5,96,31"/>
+<area shape="rect" id="node4" title=" " alt="" coords="171,55,341,80"/>
+<area shape="rect" id="node5" title=" " alt="" coords="152,105,360,145"/>
+<area shape="rect" id="node6" title=" " alt="" coords="177,169,335,209"/>
+<area shape="rect" id="node7" title=" " alt="" coords="233,233,279,259"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html" title="Represents an error message returned by the server." alt="" coords="145,283,367,323"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Client.ServerClientFactory" name="Tgstation.Server.Client.ServerClientFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="368,57,524,98"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html" title="Factory for creating IServerClients." alt="" coords="32,5,172,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html" title="For creating IApiClients." alt="" coords="24,57,180,98"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,123,199,149"/>
+<area shape="rect" id="node1" title=" " alt="" coords="368,55,524,95"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html" title="Factory for creating IServerClients." alt="" coords="32,5,172,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html" title="For creating IApiClients." alt="" coords="24,55,180,95"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,120,199,145"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Models.User.CreateUserResponse" name="Tgstation.Server.Host.Models.User.CreateUserResponse">
-<area shape="rect" id="node1" title="Generate a UserResponse from this." alt="" coords="5,64,201,105"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="253,5,442,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="493,93,689,135"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc" title="Convert the UserGroup to it&#39;s API form." alt="" coords="249,123,445,164"/>
+<area shape="rect" id="node1" title="Generate a UserResponse from this." alt="" coords="5,63,201,103"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html#a9f75360b06ae3468b43b68c48a2bccc2" title="Create a copy of the UserName." alt="" coords="253,5,442,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="493,92,689,132"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc" title="Convert the UserGroup to it&#39;s API form." alt="" coords="249,120,445,160"/>
 </map>

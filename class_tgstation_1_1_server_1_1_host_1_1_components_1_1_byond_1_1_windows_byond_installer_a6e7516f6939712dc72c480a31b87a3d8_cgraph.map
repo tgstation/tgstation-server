@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.AddDreamDaemonToFirewall" name="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.AddDreamDaemonToFirewall">
-<area shape="rect" id="node1" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="5,63,265,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="339,5,507,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#ac496c8c47a22086a1cbb882c1c0d391c" title="Launch a IProcess." alt="" coords="313,71,532,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="339,136,507,177"/>
+<area shape="rect" id="node1" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="5,62,265,117"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="339,5,507,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#ac496c8c47a22086a1cbb882c1c0d391c" title="Launch a IProcess." alt="" coords="313,69,532,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="339,133,507,173"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.InstanceRenamed" name="Tgstation.Server.Host.Components.Session.SessionController.InstanceRenamed">
-<area shape="rect" id="node1" title="Called when the owning Instance is renamed." alt="" coords="5,5,288,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a742966929d20fd55dbc53167f940fc3f" title="Sends a command to DreamDaemon through /world/Topic()." alt="" coords="336,5,603,47"/>
+<area shape="rect" id="node1" title="Called when the owning Instance is renamed. A Task representing the running operation." alt="" coords="5,5,288,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a742966929d20fd55dbc53167f940fc3f" title="Sends a command to DreamDaemon through /world/Topic(). A Task&lt;TResult&gt; resulting in the TopicResponse..." alt="" coords="336,5,603,45"/>
 </map>

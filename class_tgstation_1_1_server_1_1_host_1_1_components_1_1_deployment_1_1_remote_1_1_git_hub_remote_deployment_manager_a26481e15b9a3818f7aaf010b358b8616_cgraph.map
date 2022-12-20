@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.StartDeployment" name="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.StartDeployment">
-<area shape="rect" id="node1" title="Start a deployment for a given compileJob ." alt="" coords="5,31,300,87"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="359,5,576,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="348,71,587,112"/>
+<area shape="rect" id="node1" title="Start a deployment for a given compileJob . A Task representing the running operation." alt="" coords="5,30,300,85"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="359,5,576,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="348,69,587,109"/>
 </map>

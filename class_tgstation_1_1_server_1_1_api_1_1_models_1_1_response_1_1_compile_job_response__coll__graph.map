@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Api.Models.Response.CompileJobResponse" name="Tgstation.Server.Api.Models.Response.CompileJobResponse">
-<area shape="rect" id="node1" title=" " alt="" coords="5,155,215,196"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a deployment run." alt="" coords="41,80,179,107"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="77,5,143,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,152,215,192"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a deployment run." alt="" coords="41,79,179,104"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="77,5,143,31"/>
 </map>

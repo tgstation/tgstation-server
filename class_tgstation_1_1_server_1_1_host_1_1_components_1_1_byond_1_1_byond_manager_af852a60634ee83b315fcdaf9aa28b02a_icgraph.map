@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Byond.ByondManager.VersionKey" name="Tgstation.Server.Host.Components.Byond.ByondManager.VersionKey">
-<area shape="rect" id="node1" title="Converts a BYOND version &#160;to a string." alt="" coords="292,5,519,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a028fd720f53dc4227179818d23df4470" title="Change the active BYOND version." alt="" coords="5,5,244,47"/>
+<area shape="rect" id="node1" title="Converts a BYOND version &#160;to a string." alt="" coords="292,5,519,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a028fd720f53dc4227179818d23df4470" title="Change the active BYOND version. A Task representing the running operation." alt="" coords="5,5,244,45"/>
 </map>

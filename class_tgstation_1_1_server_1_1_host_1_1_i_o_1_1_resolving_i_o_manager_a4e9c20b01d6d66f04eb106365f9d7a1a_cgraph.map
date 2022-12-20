@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.IO.ResolvingIOManager.ResolvingIOManager" name="Tgstation.Server.Host.IO.ResolvingIOManager.ResolvingIOManager">
-<area shape="rect" id="node1" title="Initializes a new instance of the ResolvingIOManager class." alt="" coords="5,39,272,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path." alt="" coords="320,5,519,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="335,71,503,112"/>
+<area shape="rect" id="node1" title="Initializes a new instance of the ResolvingIOManager class." alt="" coords="5,37,272,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path. The combined path." alt="" coords="320,5,519,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="335,69,503,109"/>
 </map>

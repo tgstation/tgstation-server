@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Api.Models.Internal.UserGroup" name="Tgstation.Server.Api.Models.Internal.UserGroup">
-<area shape="rect" id="node1" title="Represents a group of users." alt="" coords="263,39,449,80"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_update_request.html" title="Request to update a user group." alt="" coords="497,5,724,47"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_group_response.html" title=" " alt="" coords="509,71,713,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="119,46,215,73"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,46,71,73"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_create_request.html" title="Request to create a user group." alt="" coords="772,5,995,47"/>
+<area shape="rect" id="node1" title="Represents a group of users." alt="" coords="263,37,449,77"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_update_request.html" title="Request to update a user group." alt="" coords="497,5,724,45"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_user_group_response.html" title=" " alt="" coords="509,69,713,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="119,45,215,70"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,45,71,70"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_create_request.html" title="Request to create a user group." alt="" coords="772,5,995,45"/>
 </map>

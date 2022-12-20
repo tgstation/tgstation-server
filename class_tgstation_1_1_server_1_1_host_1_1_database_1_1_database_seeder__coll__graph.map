@@ -1,15 +1,15 @@
 <map id="Tgstation.Server.Host.Database.DatabaseSeeder" name="Tgstation.Server.Host.Database.DatabaseSeeder">
-<area shape="rect" id="node1" title=" " alt="" coords="844,187,1053,229"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially setting up a database." alt="" coords="471,5,594,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="432,57,633,98"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="433,122,632,163"/>
-<area shape="rect" id="node5" title=" " alt="" coords="401,187,664,229"/>
-<area shape="rect" id="node6" title=" " alt="" coords="403,253,662,294"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="418,403,647,445"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,377,160,404"/>
-<area shape="rect" id="node9" title=" " alt="" coords="55,316,110,343"/>
-<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html" title="Configuration options for the Database.DatabaseContext." alt="" coords="418,318,647,359"/>
-<area shape="rect" id="node10" title=" " alt="" coords="36,479,129,505"/>
-<area shape="rect" id="node11" title=" " alt="" coords="43,609,122,636"/>
-<area shape="rect" id="node12" title=" " alt="" coords="7,428,159,455"/>
+<area shape="rect" id="node1" title=" " alt="" coords="844,183,1053,223"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially setting up a database." alt="" coords="471,5,594,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="432,55,633,95"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="433,119,632,159"/>
+<area shape="rect" id="node5" title=" " alt="" coords="401,183,664,223"/>
+<area shape="rect" id="node6" title=" " alt="" coords="403,247,662,287"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="418,397,647,437"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,372,160,397"/>
+<area shape="rect" id="node9" title=" " alt="" coords="55,311,110,336"/>
+<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html" title="Configuration options for the Database.DatabaseContext." alt="" coords="418,311,647,351"/>
+<area shape="rect" id="node10" title=" " alt="" coords="36,471,129,496"/>
+<area shape="rect" id="node11" title=" " alt="" coords="43,601,122,627"/>
+<area shape="rect" id="node12" title=" " alt="" coords="7,421,159,447"/>
 </map>

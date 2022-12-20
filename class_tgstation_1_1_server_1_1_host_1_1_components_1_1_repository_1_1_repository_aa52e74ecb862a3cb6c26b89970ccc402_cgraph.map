@@ -1,6 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository.GeneratePushOptions" name="Tgstation.Server.Host.Components.Repository.Repository.GeneratePushOptions">
-<area shape="rect" id="node1" title="Generate a standard set of PushOptions." alt="" coords="5,46,284,87"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="336,13,565,54"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="332,78,569,119"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#a20fd73410d8d50db3a955f7d2ca196e3" title="Initializes a new instance of the JobProgressReporter class." alt="" coords="617,5,837,61"/>
+<area shape="rect" id="node1" title="Generate a standard set of PushOptions." alt="" coords="5,35,284,75"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541" title="Create a subsection of the JobProgressReporter with its optional own stage name." alt="" coords="332,5,561,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1" title="Report progress." alt="" coords="609,35,847,75"/>
 </map>

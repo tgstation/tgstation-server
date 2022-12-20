@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Controllers.DreamMakerController.Read" name="Tgstation.Server.Host.Controllers.DreamMakerController.Read">
-<area shape="rect" id="node1" title="Read current deployment settings." alt="" coords="269,5,485,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#ae6f69ed9626e6e36e8d65b84f2b9c1d3" title="Update deployment settings." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node1" title="Read current deployment settings." alt="" coords="269,5,485,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#ae6f69ed9626e6e36e8d65b84f2b9c1d3" title="Update deployment settings." alt="" coords="5,5,221,45"/>
 </map>

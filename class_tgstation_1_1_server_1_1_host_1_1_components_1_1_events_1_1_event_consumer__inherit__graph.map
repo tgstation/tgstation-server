@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Events.EventConsumer" name="Tgstation.Server.Host.Components.Events.EventConsumer">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,232,121"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="59,5,178,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,79,232,119"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="59,5,178,31"/>
 </map>

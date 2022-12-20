@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MSAddDeploymentColumns" name="Tgstation.Server.Host.Database.Migrations.MSAddDeploymentColumns">
-<area shape="rect" id="node1" title="Adds columns for GitHub deployments for MSSQL." alt="" coords="5,80,252,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="91,5,166,32"/>
+<area shape="rect" id="node1" title="Adds columns for GitHub deployments for MSSQL." alt="" coords="5,79,252,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="91,5,166,31"/>
 </map>

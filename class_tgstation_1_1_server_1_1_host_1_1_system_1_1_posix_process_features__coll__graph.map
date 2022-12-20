@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.System.PosixProcessFeatures" name="Tgstation.Server.Host.System.PosixProcessFeatures">
-<area shape="rect" id="node1" title=" " alt="" coords="475,90,673,131"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes." alt="" coords="70,5,195,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,57,260,98"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="49,122,217,163"/>
-<area shape="rect" id="node5" title=" " alt="" coords="22,187,243,243"/>
+<area shape="rect" id="node1" title=" " alt="" coords="475,87,673,127"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes." alt="" coords="70,5,195,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,55,260,95"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="49,119,217,159"/>
+<area shape="rect" id="node5" title=" " alt="" coords="22,184,243,239"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.SLAddDreamDaemonVisibility" name="Tgstation.Server.Host.Database.Migrations.SLAddDreamDaemonVisibility">
-<area shape="rect" id="node1" title="Add DreamDaemon visibilty for SQLite." alt="" coords="5,80,264,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="97,5,172,32"/>
+<area shape="rect" id="node1" title="Add DreamDaemon visibilty for SQLite." alt="" coords="5,79,264,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="97,5,172,31"/>
 </map>

@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Repository.Repository" name="Tgstation.Server.Host.Components.Repository.Repository">
-<area shape="rect" id="node1" title=" " alt="" coords="84,229,311,271"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository." alt="" coords="154,155,241,181"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="5,80,216,107"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="34,5,187,32"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="240,80,331,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="84,225,311,265"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository." alt="" coords="154,152,241,177"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="5,79,216,104"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="34,5,187,31"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="240,79,331,104"/>
 </map>

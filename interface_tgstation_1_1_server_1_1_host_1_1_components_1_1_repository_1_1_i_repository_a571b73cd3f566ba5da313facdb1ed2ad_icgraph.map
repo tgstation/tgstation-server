@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Repository.IRepository.ShaIsParent" name="Tgstation.Server.Host.Components.Repository.IRepository.ShaIsParent">
-<area shape="rect" id="node1" title="Check if a given sha &#160;is a parent of the current Head." alt="" coords="348,53,575,94"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a888d0aa5da698622e9e7bc92ce581922" title="Get the updated list of TestMerges for an origin merge." alt="" coords="5,5,300,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_lab_remote_deployment_manager.html#aea8011d2230b18d0e98a9ab70f4a6f02" title="Get the updated list of TestMerges for an origin merge." alt="" coords="6,85,299,141"/>
+<area shape="rect" id="node1" title="Check if a given sha &#160;is a parent of the current Head." alt="" coords="348,53,575,93"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a888d0aa5da698622e9e7bc92ce581922" title="Get the updated list of TestMerges for an origin merge. A Task&lt;TResult&gt; resulting in the IReadOnlyCol..." alt="" coords="5,5,300,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_lab_remote_deployment_manager.html#aea8011d2230b18d0e98a9ab70f4a6f02" title="Get the updated list of TestMerges for an origin merge. A Task&lt;TResult&gt; resulting in the IReadOnlyCol..." alt="" coords="6,84,299,139"/>
 </map>

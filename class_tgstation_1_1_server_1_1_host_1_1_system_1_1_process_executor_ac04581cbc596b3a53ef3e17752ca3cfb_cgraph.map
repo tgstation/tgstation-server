@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.GetCurrentProcess" name="Tgstation.Server.Host.System.ProcessExecutor.GetCurrentProcess">
-<area shape="rect" id="node1" title="Get a IProcess representing the running executable." alt="" coords="5,13,240,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877" title="Create a IProcess given an existing handle ." alt="" coords="288,5,524,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a" title="Attach an asychronous exit handler to a given process handle ." alt="" coords="572,13,799,54"/>
+<area shape="rect" id="node1" title="Get a IProcess representing the running executable. The current IProcess." alt="" coords="5,13,240,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ab8ce5d8354aea3fec89a1d7687acb877" title="Create a IProcess given an existing handle ." alt="" coords="288,5,524,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a" title="Attach an asychronous exit handler to a given process handle ." alt="" coords="572,13,799,53"/>
 </map>

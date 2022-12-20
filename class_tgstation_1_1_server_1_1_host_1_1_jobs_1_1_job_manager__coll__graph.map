@@ -1,13 +1,13 @@
 <map id="Tgstation.Server.Host.Jobs.JobManager" name="Tgstation.Server.Host.Jobs.JobManager">
-<area shape="rect" id="node1" title=" " alt="" coords="568,225,751,266"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="223,5,320,32"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,32"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="226,56,317,83"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="167,107,376,149"/>
-<area shape="rect" id="node6" title=" " alt="" coords="191,173,351,200"/>
-<area shape="rect" id="node7" title=" " alt="" coords="168,225,375,266"/>
-<area shape="rect" id="node8" title=" " alt="" coords="189,290,354,331"/>
-<area shape="rect" id="node9" title=" " alt="" coords="175,355,368,411"/>
-<area shape="rect" id="node10" title=" " alt="" coords="193,434,350,475"/>
-<area shape="rect" id="node11" title=" " alt="" coords="217,500,325,527"/>
+<area shape="rect" id="node1" title=" " alt="" coords="568,219,751,259"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="223,5,320,31"/>
+<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="226,55,317,80"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="167,105,376,145"/>
+<area shape="rect" id="node6" title=" " alt="" coords="191,169,351,195"/>
+<area shape="rect" id="node7" title=" " alt="" coords="168,219,375,259"/>
+<area shape="rect" id="node8" title=" " alt="" coords="189,283,354,323"/>
+<area shape="rect" id="node9" title=" " alt="" coords="175,348,368,403"/>
+<area shape="rect" id="node10" title=" " alt="" coords="193,427,350,467"/>
+<area shape="rect" id="node11" title=" " alt="" coords="217,493,325,519"/>
 </map>

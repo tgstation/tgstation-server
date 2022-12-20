@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Transfer.FileTransferService.QueueExpiry" name="Tgstation.Server.Host.Transfer.FileTransferService.QueueExpiry">
-<area shape="rect" id="node1" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="5,5,216,47"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="264,5,445,47"/>
+<area shape="rect" id="node1" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="5,5,216,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="264,5,445,45"/>
 </map>

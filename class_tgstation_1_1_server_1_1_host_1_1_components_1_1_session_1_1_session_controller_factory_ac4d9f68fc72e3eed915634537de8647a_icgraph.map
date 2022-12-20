@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.Reattach" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.Reattach">
-<area shape="rect" id="node1" title="Create a ISessionController from an existing DreamDaemon instance." alt="" coords="304,5,576,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="5,5,256,47"/>
+<area shape="rect" id="node1" title="Create a ISessionController from an existing DreamDaemon instance. A Task&lt;TResult&gt; resulting in a new..." alt="" coords="304,5,576,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,5,256,45"/>
 </map>

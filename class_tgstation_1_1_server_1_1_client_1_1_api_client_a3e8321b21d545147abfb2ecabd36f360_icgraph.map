@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Client.ApiClient.Download" name="Tgstation.Server.Client.ApiClient.Download">
-<area shape="rect" id="node1" title="Downloads a file Stream for a given ticket ." alt="" coords="292,39,448,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aaab30c17119dbaa73ff6c0475a3b8ad6" title="Download a given logFile ." alt="" coords="33,5,217,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#add4dfb81b1774b0d7d6e1ab6ff0ae46f" title="Read a file ." alt="" coords="5,71,244,112"/>
+<area shape="rect" id="node1" title="Downloads a file Stream for a given ticket . A Task&lt;TResult&gt; resulting in the downloaded Stream." alt="" coords="292,37,448,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aaab30c17119dbaa73ff6c0475a3b8ad6" title="Download a given logFile . A Task&lt;TResult&gt; resulting a Tuple&lt;T1, T2&gt; containing the downloaded LogFil..." alt="" coords="33,5,217,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#add4dfb81b1774b0d7d6e1ab6ff0ae46f" title="Read a file . A Task resulting in a Tuple&lt;T1, T2&gt; containing the ConfigurationFileResponse and downlo..." alt="" coords="5,69,244,109"/>
 </map>

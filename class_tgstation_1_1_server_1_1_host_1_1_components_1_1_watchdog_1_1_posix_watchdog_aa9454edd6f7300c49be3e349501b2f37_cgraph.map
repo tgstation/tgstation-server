@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.PosixWatchdog.InitController" name="Tgstation.Server.Host.Components.Watchdog.PosixWatchdog.InitController">
-<area shape="rect" id="node1" title="Starts all ISessionControllers." alt="" coords="5,104,255,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="303,71,607,112"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37" title="Moves a directory at source &#160;to destination ." alt="" coords="367,136,543,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c" title="Create a symbolic link." alt="" coords="655,5,889,47"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="681,71,863,112"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="688,136,856,177"/>
+<area shape="rect" id="node1" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,101,255,141"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="303,69,607,109"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37" title="Moves a directory at source &#160;to destination ." alt="" coords="367,133,543,173"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c" title="Create a symbolic link." alt="" coords="655,5,889,45"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="681,69,863,109"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="688,133,856,173"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand.Invoke" name="Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand.Invoke">
-<area shape="rect" id="node1" title="Invoke the ICommand." alt="" coords="5,5,277,47"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a998518f9e2bebaffcf575021a07f35c5" title="Attempt to load the IRepository from the default location." alt="" coords="325,5,620,47"/>
+<area shape="rect" id="node1" title="Invoke the ICommand. A Task&lt;TResult&gt; resulting in a string to send to the invoker." alt="" coords="5,5,277,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html#a998518f9e2bebaffcf575021a07f35c5" title="Attempt to load the IRepository from the default location." alt="" coords="325,5,620,45"/>
 </map>

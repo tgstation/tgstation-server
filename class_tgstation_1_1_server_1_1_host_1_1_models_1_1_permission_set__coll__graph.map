@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Models.PermissionSet" name="Tgstation.Server.Host.Models.PermissionSet">
-<area shape="rect" id="node1" title=" " alt="" coords="5,155,201,196"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html" title="Represents a set of server permissions." alt="" coords="13,80,193,107"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="71,5,136,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,152,201,192"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html" title="Represents a set of server permissions." alt="" coords="13,79,193,104"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="71,5,136,31"/>
 </map>

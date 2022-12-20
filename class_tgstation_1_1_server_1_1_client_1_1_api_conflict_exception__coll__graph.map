@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Client.ApiConflictException" name="Tgstation.Server.Client.ApiConflictException">
-<area shape="rect" id="node1" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present...." alt="" coords="5,229,161,271"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_exception.html" title="API related Exceptions." alt="" coords="35,155,132,181"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="28,80,139,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="44,5,123,32"/>
+<area shape="rect" id="node1" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present...." alt="" coords="5,225,161,265"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_exception.html" title="API related Exceptions." alt="" coords="35,152,132,177"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients." alt="" coords="28,79,139,104"/>
+<area shape="rect" id="node4" title=" " alt="" coords="44,5,123,31"/>
 </map>

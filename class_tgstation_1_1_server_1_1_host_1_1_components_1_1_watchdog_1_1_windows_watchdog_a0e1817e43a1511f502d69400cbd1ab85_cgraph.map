@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.WindowsWatchdog" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.WindowsWatchdog">
-<area shape="rect" id="node1" title="Initializes a new instance of the WindowsWatchdog class." alt="" coords="5,13,313,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6f69db8c3ceae298404f5d8d5a7312b3" title=" " alt="" coords="361,13,619,54"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2f8ea066a8ae2408f1c86f828d7974f8" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="667,5,933,61"/>
+<area shape="rect" id="node1" title="Initializes a new instance of the WindowsWatchdog class." alt="" coords="5,13,313,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6f69db8c3ceae298404f5d8d5a7312b3" title=" " alt="" coords="361,13,619,53"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2f8ea066a8ae2408f1c86f828d7974f8" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="667,5,933,60"/>
 </map>

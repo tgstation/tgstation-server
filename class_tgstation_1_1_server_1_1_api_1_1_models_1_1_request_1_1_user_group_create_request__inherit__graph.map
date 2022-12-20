@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Api.Models.Request.UserGroupCreateRequest" name="Tgstation.Server.Api.Models.Request.UserGroupCreateRequest">
-<area shape="rect" id="node1" title="Request to create a user group." alt="" coords="5,304,228,345"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_update_request.html" title="Request to update a user group." alt="" coords="29,229,204,256"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="74,155,159,181"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="69,80,165,107"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="84,5,149,32"/>
+<area shape="rect" id="node1" title="Request to create a user group." alt="" coords="5,299,228,339"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_group_update_request.html" title="Request to update a user group." alt="" coords="29,225,204,251"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of users." alt="" coords="74,152,159,177"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="69,79,165,104"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="84,5,149,31"/>
 </map>

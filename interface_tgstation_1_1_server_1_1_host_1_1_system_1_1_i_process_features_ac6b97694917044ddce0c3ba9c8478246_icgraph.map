@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.System.IProcessFeatures.SuspendProcess" name="Tgstation.Server.Host.System.IProcessFeatures.SuspendProcess">
-<area shape="rect" id="node1" title="Suspend a given process ." alt="" coords="252,5,479,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a639ecf20dfbbd73e72f4b181d0b89243" title="Suspends the process." alt="" coords="5,5,204,47"/>
+<area shape="rect" id="node1" title="Suspend a given process ." alt="" coords="252,5,479,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a639ecf20dfbbd73e72f4b181d0b89243" title="Suspends the process." alt="" coords="5,5,204,45"/>
 </map>

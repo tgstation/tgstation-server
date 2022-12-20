@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.System.IProcessExecutor.GetProcessByName" name="Tgstation.Server.Host.System.IProcessExecutor.GetProcessByName">
-<area shape="rect" id="node1" title="Get a IProcess with a given name ." alt="" coords="948,13,1195,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3937a00c1b51549531faec1248595cf0" title="Make sure the BYOND pager is not running." alt="" coords="643,5,900,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance." alt="" coords="304,13,595,54"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers." alt="" coords="5,13,256,54"/>
+<area shape="rect" id="node1" title="Get a IProcess with a given name ." alt="" coords="948,13,1195,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a3937a00c1b51549531faec1248595cf0" title="Make sure the BYOND pager is not running." alt="" coords="643,5,900,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="304,13,595,53"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Models.UserGroup.ToApi" name="Tgstation.Server.Host.Models.UserGroup.ToApi">
-<area shape="rect" id="node1" title="Convert the UserGroup to it&#39;s API form." alt="" coords="5,5,201,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="249,5,445,47"/>
+<area shape="rect" id="node1" title="Convert the UserGroup to it&#39;s API form." alt="" coords="5,5,201,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="249,5,445,45"/>
 </map>

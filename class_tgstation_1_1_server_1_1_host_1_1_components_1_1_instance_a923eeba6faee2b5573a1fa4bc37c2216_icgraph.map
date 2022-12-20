@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Instance.DisposeAsync" name="Tgstation.Server.Host.Components.Instance.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="280,5,507,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf28ce0a3f52d47f8e5200e48ef6ee4d" title="Create an IInstance." alt="" coords="5,5,232,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="280,5,507,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf28ce0a3f52d47f8e5200e48ef6ee4d" title="Create an IInstance. A Task&lt;TResult&gt; resulting in a new IInstance." alt="" coords="5,5,232,45"/>
 </map>

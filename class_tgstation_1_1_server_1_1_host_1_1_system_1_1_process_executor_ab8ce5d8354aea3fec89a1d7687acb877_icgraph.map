@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle" name="Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle">
-<area shape="rect" id="node1" title="Create a IProcess given an existing handle ." alt="" coords="296,63,532,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04581cbc596b3a53ef3e17752ca3cfb" title="Get a IProcess representing the running executable." alt="" coords="9,5,244,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#afc62b43888624c6f6098bbddabc08b33" title="Get a IProcess by id ." alt="" coords="27,71,226,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a09b2d58bfe8a6053bfc369b143211bfd" title="Get a IProcess with a given name ." alt="" coords="5,136,248,177"/>
+<area shape="rect" id="node1" title="Create a IProcess given an existing handle ." alt="" coords="296,62,532,117"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04581cbc596b3a53ef3e17752ca3cfb" title="Get a IProcess representing the running executable. The current IProcess." alt="" coords="9,5,244,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#afc62b43888624c6f6098bbddabc08b33" title="Get a IProcess by id . The IProcess represented by id &#160;on success, null on failure." alt="" coords="27,69,226,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a09b2d58bfe8a6053bfc369b143211bfd" title="Get a IProcess with a given name . The IProcess represented by name &#160;on success, null on failure." alt="" coords="5,133,248,173"/>
 </map>

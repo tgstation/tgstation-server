@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.SwarmController.AbortUpdate" name="Tgstation.Server.Host.Controllers.SwarmController.AbortUpdate">
-<area shape="rect" id="node1" title="Update abort endpoint." alt="" coords="5,39,221,80"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a8aa73fdd6c4f5a735629d90cae70f0cb" title="Remotely abort an uncommitted update." alt="" coords="269,5,520,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="276,71,513,112"/>
+<area shape="rect" id="node1" title="Update abort endpoint." alt="" coords="5,37,221,77"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a8aa73fdd6c4f5a735629d90cae70f0cb" title="Remotely abort an uncommitted update." alt="" coords="269,5,520,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f" title="Check that the RequestRegistrationId is valid." alt="" coords="276,69,513,109"/>
 </map>

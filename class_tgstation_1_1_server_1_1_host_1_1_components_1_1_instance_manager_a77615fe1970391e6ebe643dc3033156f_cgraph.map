@@ -1,6 +1,5 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.OfflineInstance" name="Tgstation.Server.Host.Components.InstanceManager.OfflineInstance">
-<area shape="rect" id="node1" title=" " alt="" coords="5,46,232,87"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e" title="Asyncronously locks a semaphore ." alt="" coords="304,13,495,54"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,78,519,119"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Initializes a new instance of the SemaphoreSlimContext class." alt="" coords="567,5,820,61"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,37,232,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e" title="Asyncronously locks a semaphore ." alt="" coords="304,5,495,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="280,69,519,109"/>
 </map>

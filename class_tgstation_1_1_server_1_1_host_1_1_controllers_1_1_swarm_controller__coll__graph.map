@@ -1,10 +1,10 @@
 <map id="Tgstation.Server.Host.Controllers.SwarmController" name="Tgstation.Server.Host.Controllers.SwarmController">
-<area shape="rect" id="node1" title="For swarm server communication." alt="" coords="689,122,905,163"/>
-<area shape="rect" id="node2" href="$class_controller.html" title=" " alt="" coords="297,5,375,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="239,57,433,98"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="237,122,435,163"/>
-<area shape="rect" id="node5" title=" " alt="" coords="203,187,469,229"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="221,253,451,294"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,235,107,261"/>
-<area shape="rect" id="node8" title=" " alt="" coords="29,285,83,312"/>
+<area shape="rect" id="node1" title="For swarm server communication." alt="" coords="689,119,905,159"/>
+<area shape="rect" id="node2" href="$class_controller.html" title=" " alt="" coords="297,5,375,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="239,55,433,95"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="237,119,435,159"/>
+<area shape="rect" id="node5" title=" " alt="" coords="203,183,469,223"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="221,247,451,287"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,229,107,255"/>
+<area shape="rect" id="node8" title=" " alt="" coords="29,279,83,304"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch" name="Tgstation.Server.Host.System.ProcessExecutor.AttachExitHandlerBeforeLaunch">
-<area shape="rect" id="node1" title="Wrapper for AttachExitHandler(global::System.Diagnostics.Process, Func&lt;int&gt;) to safely provide the pr..." alt="" coords="5,5,232,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a" title="Attach an asychronous exit handler to a given process handle ." alt="" coords="280,13,507,54"/>
+<area shape="rect" id="node1" title="Wrapper for AttachExitHandler(global::System.Diagnostics.Process, Func&lt;int&gt;) to safely provide the pr..." alt="" coords="5,5,232,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a00f347706a8767c2ae974f6f3a9f0c7a" title="Attach an asychronous exit handler to a given process handle ." alt="" coords="280,13,507,53"/>
 </map>

@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.ProviderFactory" name="Tgstation.Server.Host.Components.Chat.Providers.ProviderFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="585,122,812,163"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders." alt="" coords="207,5,325,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="167,57,365,98"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="175,122,357,163"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="175,187,357,229"/>
-<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="5,195,117,221"/>
-<area shape="rect" id="node7" title=" " alt="" coords="186,253,346,280"/>
+<area shape="rect" id="node1" title=" " alt="" coords="585,119,812,159"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders." alt="" coords="207,5,325,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="167,55,365,95"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="175,119,357,159"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="175,183,357,223"/>
+<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="5,191,117,216"/>
+<area shape="rect" id="node7" title=" " alt="" coords="186,248,346,273"/>
 </map>

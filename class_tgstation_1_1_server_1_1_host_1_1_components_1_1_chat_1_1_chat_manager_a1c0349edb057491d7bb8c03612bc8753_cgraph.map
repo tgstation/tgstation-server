@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager.ChatManager" name="Tgstation.Server.Host.Components.Chat.ChatManager.ChatManager">
-<area shape="rect" id="node1" title="Initializes a new instance of the ChatManager class." alt="" coords="5,5,232,47"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a35728d66030addfd5551351b8c6db942" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="280,5,497,47"/>
+<area shape="rect" id="node1" title="Initializes a new instance of the ChatManager class." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a35728d66030addfd5551351b8c6db942" title="Register a given handler &#160;to run before stopping the server for a restart." alt="" coords="280,5,497,45"/>
 </map>

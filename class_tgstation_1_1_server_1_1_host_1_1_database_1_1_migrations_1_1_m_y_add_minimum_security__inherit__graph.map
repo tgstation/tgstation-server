@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYAddMinimumSecurity" name="Tgstation.Server.Host.Database.Migrations.MYAddMinimumSecurity">
-<area shape="rect" id="node1" title="Add the Api.Models.Internal.CompileJob.MinimumSecurityLevel and Api.Models.Internal...." alt="" coords="5,80,233,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="82,5,157,32"/>
+<area shape="rect" id="node1" title="Add the Api.Models.Internal.CompileJob.MinimumSecurityLevel and Api.Models.Internal...." alt="" coords="5,79,233,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="82,5,157,31"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Security.ISystemIdentityFactory.GetCurrent" name="Tgstation.Server.Host.Security.ISystemIdentityFactory.GetCurrent">
-<area shape="rect" id="node1" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="608,5,829,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system identity." alt="" coords="280,5,560,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9f739bf99678bc5adb51f0b402b531af" title=" " alt="" coords="5,5,232,47"/>
+<area shape="rect" id="node1" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="608,5,829,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system identity." alt="" coords="280,5,560,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9f739bf99678bc5adb51f0b402b531af" title=" " alt="" coords="5,5,232,45"/>
 </map>

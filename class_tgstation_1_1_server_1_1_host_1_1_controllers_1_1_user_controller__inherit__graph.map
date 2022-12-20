@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.UserController" name="Tgstation.Server.Host.Controllers.UserController">
-<area shape="rect" id="node1" title="ApiController for managing Users." alt="" coords="5,155,221,196"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="65,80,161,107"/>
-<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="75,5,152,32"/>
+<area shape="rect" id="node1" title="ApiController for managing Users." alt="" coords="5,152,221,192"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="65,79,161,104"/>
+<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="75,5,152,31"/>
 </map>

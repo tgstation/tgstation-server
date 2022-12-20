@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.PGAddDreamDaemonVisibility" name="Tgstation.Server.Host.Database.Migrations.PGAddDreamDaemonVisibility">
-<area shape="rect" id="node1" title="Add DreamDaemon visibilty for PostgresSQL." alt="" coords="5,80,267,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="99,5,173,32"/>
+<area shape="rect" id="node1" title="Add DreamDaemon visibilty for PostgresSQL." alt="" coords="5,79,267,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="99,5,173,31"/>
 </map>

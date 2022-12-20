@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.BridgeController" name="Tgstation.Server.Host.Controllers.BridgeController">
-<area shape="rect" id="node1" title="Controller for recieving DMAPI requests from DreamDaemon." alt="" coords="432,78,648,119"/>
-<area shape="rect" id="node2" href="$class_controller.html" title=" " alt="" coords="98,5,175,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="113,56,160,83"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="23,107,250,149"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,173,268,214"/>
+<area shape="rect" id="node1" title="Controller for recieving DMAPI requests from DreamDaemon." alt="" coords="432,77,648,117"/>
+<area shape="rect" id="node2" href="$class_controller.html" title=" " alt="" coords="98,5,175,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="113,55,160,80"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="23,105,250,145"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,169,268,209"/>
 </map>

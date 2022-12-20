@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MYTonsOfValidation" name="Tgstation.Server.Host.Database.Migrations.MYTonsOfValidation">
-<area shape="rect" id="node1" title="Reduces column sizes and fixes some broken indexes for MYSQL." alt="" coords="5,80,215,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,32"/>
+<area shape="rect" id="node1" title="Reduces column sizes and fixes some broken indexes for MYSQL." alt="" coords="5,79,215,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,31"/>
 </map>

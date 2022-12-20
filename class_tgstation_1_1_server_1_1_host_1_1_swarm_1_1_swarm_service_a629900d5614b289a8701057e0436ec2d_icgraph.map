@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckLoop" name="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckLoop">
-<area shape="rect" id="node1" title="Timed loop for calling HealthCheckNodes(CancellationToken)." alt="" coords="248,5,463,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a7bfada81d104ada9e245818921c91bad" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="5,5,200,47"/>
+<area shape="rect" id="node1" title="Timed loop for calling HealthCheckNodes(CancellationToken)." alt="" coords="248,5,463,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a7bfada81d104ada9e245818921c91bad" title="Attempt to register with the swarm controller if not one, sets up the database otherwise...." alt="" coords="5,5,200,45"/>
 </map>

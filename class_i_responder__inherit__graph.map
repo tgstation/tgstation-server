@@ -1,7 +1,7 @@
 <map id="IResponder" name="IResponder">
-<area shape="rect" id="node1" title=" " alt="" coords="5,60,93,87"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,5,368,61"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,85,368,141"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_forwarding_responder.html" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="416,17,696,58"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="443,86,669,127"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,60,93,85"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,5,368,60"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="141,84,368,139"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_forwarding_responder.html" title="An IResponder&lt;TGatewayEvent&gt; that forwards to another targetResponder." alt="" coords="416,17,696,57"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="443,85,669,125"/>
 </map>

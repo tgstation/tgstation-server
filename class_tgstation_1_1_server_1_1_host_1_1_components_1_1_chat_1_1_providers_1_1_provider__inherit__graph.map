@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.Provider" name="Tgstation.Server.Host.Components.Chat.Providers.Provider">
-<area shape="rect" id="node1" title=" " alt="" coords="303,39,529,80"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="577,5,804,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat." alt="" coords="577,71,804,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="180,46,255,73"/>
-<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,46,132,73"/>
+<area shape="rect" id="node1" title=" " alt="" coords="303,37,529,77"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app." alt="" coords="577,5,804,45"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat." alt="" coords="577,69,804,109"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="180,45,255,70"/>
+<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="5,45,132,70"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Security.ICryptographySuite.GetSecureBytes" name="Tgstation.Server.Host.Security.ICryptographySuite.GetSecureBytes">
-<area shape="rect" id="node1" title="Generates a secure set of bytes." alt="" coords="255,5,484,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a3fd0782fa495e68c15cc28367fed9373" title="Initializes a new instance of the TokenFactory class." alt="" coords="5,5,207,47"/>
+<area shape="rect" id="node1" title="Generates a secure set of bytes." alt="" coords="255,5,484,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a3fd0782fa495e68c15cc28367fed9373" title="Initializes a new instance of the TokenFactory class." alt="" coords="5,5,207,45"/>
 </map>

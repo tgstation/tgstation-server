@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Api.Rights.RightsHelper.RoleName" name="Tgstation.Server.Api.Rights.RightsHelper.RoleName">
-<area shape="rect" id="node1" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="300,5,483,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#a68b33948ac77f08ab2dc17209ce78314" title="Setup the global::System.Security.Claims.Claims for a given tokenValidatedContext ." alt="" coords="5,5,252,47"/>
+<area shape="rect" id="node1" title="Gets the role claim name used for a given rightsType &#160;and right ." alt="" coords="300,5,483,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#a68b33948ac77f08ab2dc17209ce78314" title="Setup the global::System.Security.Claims.Claims for a given tokenValidatedContext ...." alt="" coords="5,5,252,45"/>
 </map>

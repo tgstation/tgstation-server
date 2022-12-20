@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute" name="Tgstation.Server.Host.Controllers.TgsAuthorizeAttribute">
-<area shape="rect" id="node1" title="Helper for using the AuthorizeAttribute with the Api.Rights system." alt="" coords="5,80,221,121"/>
-<area shape="rect" id="node2" href="$class_authorize_attribute.html" title=" " alt="" coords="51,5,176,32"/>
+<area shape="rect" id="node1" title="Helper for using the AuthorizeAttribute with the Api.Rights system." alt="" coords="5,79,221,119"/>
+<area shape="rect" id="node2" href="$class_authorize_attribute.html" title=" " alt="" coords="51,5,176,31"/>
 </map>

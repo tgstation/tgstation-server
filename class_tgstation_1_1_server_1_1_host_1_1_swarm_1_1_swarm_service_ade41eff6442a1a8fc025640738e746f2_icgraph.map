@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController" name="Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController">
-<area shape="rect" id="node1" title="Attempt to register the node with the controller." alt="" coords="799,35,1037,76"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a1e94a2fdb30e0bdb0e2f18f334b4c909" title="Ping the swarm controller to see that it is still running. If need be, reregister." alt="" coords="511,5,751,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a7bfada81d104ada9e245818921c91bad" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="5,35,200,76"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a629900d5614b289a8701057e0436ec2d" title="Timed loop for calling HealthCheckNodes(CancellationToken)." alt="" coords="248,5,463,47"/>
+<area shape="rect" id="node1" title="Attempt to register the node with the controller." alt="" coords="799,35,1037,75"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a1e94a2fdb30e0bdb0e2f18f334b4c909" title="Ping the swarm controller to see that it is still running. If need be, reregister." alt="" coords="511,5,751,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a7bfada81d104ada9e245818921c91bad" title="Attempt to register with the swarm controller if not one, sets up the database otherwise...." alt="" coords="5,35,200,75"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a629900d5614b289a8701057e0436ec2d" title="Timed loop for calling HealthCheckNodes(CancellationToken)." alt="" coords="248,5,463,45"/>
 </map>

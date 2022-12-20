@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Security.ISystemIdentity" name="Tgstation.Server.Host.Security.ISystemIdentity">
-<area shape="rect" id="node1" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform." alt="" coords="144,39,345,80"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html" title="ISystemIdentity for POSIX systems." alt="" coords="393,5,595,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html" title="ISystemIdentity for windows systems." alt="" coords="393,71,595,112"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,46,96,73"/>
+<area shape="rect" id="node1" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform." alt="" coords="144,37,345,77"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html" title="ISystemIdentity for POSIX systems." alt="" coords="393,5,595,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html" title="ISystemIdentity for windows systems." alt="" coords="393,69,595,109"/>
+<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,45,96,70"/>
 </map>

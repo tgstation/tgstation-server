@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.TransferController.Download" name="Tgstation.Server.Host.Controllers.TransferController.Download">
-<area shape="rect" id="node1" title="Downloads a file with a given ticket ." alt="" coords="5,77,221,119"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="278,5,494,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ae44c956ead10daf025106539319e91cb" title="Gets the the Stream for a given ticket &#160;associated with a pending download." alt="" coords="269,70,503,126"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="278,149,494,191"/>
+<area shape="rect" id="node1" title="Downloads a file with a given ticket ." alt="" coords="5,77,221,117"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="278,5,494,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ae44c956ead10daf025106539319e91cb" title="Gets the the Stream for a given ticket &#160;associated with a pending download." alt="" coords="269,70,503,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="278,149,494,189"/>
 </map>

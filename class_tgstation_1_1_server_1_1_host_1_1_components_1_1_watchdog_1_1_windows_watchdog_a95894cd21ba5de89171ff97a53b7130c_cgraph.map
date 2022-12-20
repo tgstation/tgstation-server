@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.InitialLink" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.InitialLink">
-<area shape="rect" id="node1" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="5,71,259,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="307,71,611,112"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c" title="Create a symbolic link." alt="" coords="659,5,893,47"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="685,71,867,112"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="692,136,860,177"/>
+<area shape="rect" id="node1" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="5,69,259,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="307,69,611,109"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c" title="Create a symbolic link." alt="" coords="659,5,893,45"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="685,69,867,109"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="692,133,860,173"/>
 </map>

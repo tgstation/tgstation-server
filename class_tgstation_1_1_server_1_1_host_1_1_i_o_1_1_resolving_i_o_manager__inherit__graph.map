@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.IO.ResolvingIOManager" name="Tgstation.Server.Host.IO.ResolvingIOManager">
-<area shape="rect" id="node1" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that." alt="" coords="5,155,173,196"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="26,80,153,107"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="44,5,135,32"/>
+<area shape="rect" id="node1" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that." alt="" coords="5,152,173,192"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory." alt="" coords="26,79,153,104"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="44,5,135,31"/>
 </map>

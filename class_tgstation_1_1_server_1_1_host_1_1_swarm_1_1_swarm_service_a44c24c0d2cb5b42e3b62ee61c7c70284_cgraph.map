@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.RemoteCommitRecieved" name="Tgstation.Server.Host.Swarm.SwarmService.RemoteCommitRecieved">
-<area shape="rect" id="node1" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="5,41,260,83"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465" title="Abort an uncommitted update." alt="" coords="321,5,515,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac2e22cae1e96264b6ae4f0d41bca4b70" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="308,70,528,126"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="576,5,820,47"/>
+<area shape="rect" id="node1" title="Notify the controller that the node with the given registrationId &#160;is ready to commit or notify the n..." alt="" coords="5,41,260,81"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465" title="Abort an uncommitted update. A Task representing the running operation." alt="" coords="321,5,515,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac2e22cae1e96264b6ae4f0d41bca4b70" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="308,70,528,125"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="576,5,820,45"/>
 </map>

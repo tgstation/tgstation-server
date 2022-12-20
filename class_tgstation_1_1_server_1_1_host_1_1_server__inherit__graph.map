@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Server" name="Tgstation.Server.Host.Server">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,195,107"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server.html" title="Represents the host." alt="" coords="13,5,77,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="102,5,207,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,79,195,104"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server.html" title="Represents the host." alt="" coords="13,5,77,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="102,5,207,31"/>
 </map>

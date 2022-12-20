@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.CleanupFailedCompile" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.CleanupFailedCompile">
-<area shape="rect" id="node1" title="Cleans up a failed compile job ." alt="" coords="5,5,257,61"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a48026829d47a7fb1265e5a01791eacc6" title="Fail a deployment for a given compileJob ." alt="" coords="305,5,564,61"/>
+<area shape="rect" id="node1" title="Cleans up a failed compile job ." alt="" coords="5,5,257,60"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a48026829d47a7fb1265e5a01791eacc6" title="Fail a deployment for a given compileJob ." alt="" coords="305,5,564,60"/>
 </map>

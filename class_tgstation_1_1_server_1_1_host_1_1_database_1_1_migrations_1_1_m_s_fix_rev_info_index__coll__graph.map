@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MSFixRevInfoIndex" name="Tgstation.Server.Host.Database.Migrations.MSFixRevInfoIndex">
-<area shape="rect" id="node1" title="Make commit shas non&#45;unique per Instance for MSSQL." alt="" coords="5,80,215,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,32"/>
+<area shape="rect" id="node1" title="Make commit shas non&#45;unique per Instance for MSSQL." alt="" coords="5,79,215,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,31"/>
 </map>

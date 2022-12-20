@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManagerFactory" name="Tgstation.Server.Host.Components.Chat.ChatManagerFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="373,78,600,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html" title="For creating IChatManagers." alt="" coords="45,5,192,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="39,56,199,83"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders." alt="" coords="5,107,232,149"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="28,173,209,214"/>
+<area shape="rect" id="node1" title=" " alt="" coords="373,77,600,117"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html" title="For creating IChatManagers." alt="" coords="45,5,192,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="39,55,199,80"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders." alt="" coords="5,105,232,145"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="28,169,209,209"/>
 </map>

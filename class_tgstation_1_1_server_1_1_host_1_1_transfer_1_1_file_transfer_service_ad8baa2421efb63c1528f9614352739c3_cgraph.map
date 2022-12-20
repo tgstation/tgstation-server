@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Transfer.FileTransferService.CreateDownload" name="Tgstation.Server.Host.Transfer.FileTransferService.CreateDownload">
-<area shape="rect" id="node1" title="Create a FileTicketResponse for a download." alt="" coords="5,39,239,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a87e03bae08e8188b59d773dcd1999cde" title="Creates a new FileTicketResponse." alt="" coords="287,5,499,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab436e58d73b02b895c76ad21caf7d145" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="287,71,498,112"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ab49e5041cfb7333ee413c9719046ae37" title="Generates a 40&#45;length secure ascii string." alt="" coords="547,5,777,47"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="571,71,753,112"/>
+<area shape="rect" id="node1" title="Create a FileTicketResponse for a download. A new FileTicketResponse for a download." alt="" coords="5,37,239,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a87e03bae08e8188b59d773dcd1999cde" title="Creates a new FileTicketResponse." alt="" coords="287,5,499,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab436e58d73b02b895c76ad21caf7d145" title="Queue an expireAction &#160;to run after TicketValidityMinutes." alt="" coords="287,69,498,109"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ab49e5041cfb7333ee413c9719046ae37" title="Generates a 40&#45;length secure ascii string." alt="" coords="547,5,777,45"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="571,69,753,109"/>
 </map>

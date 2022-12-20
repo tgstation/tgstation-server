@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Instance" name="Tgstation.Server.Host.Components.Instance">
-<area shape="rect" id="node1" title=" " alt="" coords="200,229,427,271"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="275,155,351,181"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="130,80,233,107"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,5,184,32"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="208,5,331,32"/>
-<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="257,80,369,107"/>
-<area shape="rect" id="node7" href="$class_i_async_disposable.html" title=" " alt="" coords="394,80,521,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="200,225,427,265"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="275,152,351,177"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="130,79,233,104"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,5,184,31"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="208,5,331,31"/>
+<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="257,79,369,104"/>
+<area shape="rect" id="node7" href="$class_i_async_disposable.html" title=" " alt="" coords="394,79,521,104"/>
 </map>

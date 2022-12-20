@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SaslAuthenticate" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.SaslAuthenticate">
-<area shape="rect" id="node1" title="Run SASL authentication on client." alt="" coords="5,39,280,80"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="381,5,562,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af74b65e6c05dba2490bb2fb62bdb7f40" title="Perform a non&#45;blocking IrcConnection.Listen(bool)." alt="" coords="328,71,615,112"/>
+<area shape="rect" id="node1" title="Run SASL authentication on client." alt="" coords="5,37,280,77"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="381,5,562,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af74b65e6c05dba2490bb2fb62bdb7f40" title="Perform a non&#45;blocking IrcConnection.Listen(bool)." alt="" coords="328,69,615,109"/>
 </map>

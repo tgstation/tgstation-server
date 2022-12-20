@@ -1,20 +1,20 @@
 <map id="Tgstation.Server.Host.Components.Instance" name="Tgstation.Server.Host.Components.Instance">
-<area shape="rect" id="node1" title=" " alt="" coords="921,362,1148,403"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="501,52,577,79"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="245,5,348,32"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,119,184,145"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="425,173,652,214"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="33,5,156,32"/>
-<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="241,115,353,141"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="447,107,630,149"/>
-<area shape="rect" id="node7" href="$class_i_async_disposable.html" title=" " alt="" coords="233,56,360,83"/>
-<area shape="rect" id="node8" title=" " alt="" coords="511,239,566,265"/>
-<area shape="rect" id="node10" href="$class_i_disposable.html" title=" " alt="" coords="251,232,342,259"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="425,290,652,331"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="409,355,668,411"/>
-<area shape="rect" id="node14" title=" " alt="" coords="423,434,654,475"/>
-<area shape="rect" id="node15" title=" " alt="" coords="518,500,559,527"/>
-<area shape="rect" id="node16" title=" " alt="" coords="485,551,593,577"/>
-<area shape="rect" id="node17" title=" " alt="" coords="513,601,564,628"/>
-<area shape="rect" id="node18" title=" " alt="" coords="453,652,624,679"/>
+<area shape="rect" id="node1" title=" " alt="" coords="921,361,1148,401"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="501,55,577,80"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="245,5,348,31"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,117,184,143"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="425,174,652,214"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="33,5,156,31"/>
+<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="241,117,353,143"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="447,110,630,150"/>
+<area shape="rect" id="node7" href="$class_i_async_disposable.html" title=" " alt="" coords="233,55,360,80"/>
+<area shape="rect" id="node8" title=" " alt="" coords="511,239,566,264"/>
+<area shape="rect" id="node10" href="$class_i_disposable.html" title=" " alt="" coords="251,235,342,260"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="425,289,652,329"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="409,353,668,408"/>
+<area shape="rect" id="node14" title=" " alt="" coords="423,433,654,473"/>
+<area shape="rect" id="node15" title=" " alt="" coords="518,497,559,523"/>
+<area shape="rect" id="node16" title=" " alt="" coords="485,547,593,572"/>
+<area shape="rect" id="node17" title=" " alt="" coords="513,596,564,621"/>
+<area shape="rect" id="node18" title=" " alt="" coords="453,645,624,671"/>
 </map>

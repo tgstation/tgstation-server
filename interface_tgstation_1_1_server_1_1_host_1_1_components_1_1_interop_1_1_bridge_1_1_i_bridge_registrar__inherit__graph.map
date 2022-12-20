@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Interop.Bridge.IBridgeRegistrar" name="Tgstation.Server.Host.Components.Interop.Bridge.IBridgeRegistrar">
-<area shape="rect" id="node1" title="Registers IBridgeHandlers." alt="" coords="5,5,232,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title=" " alt="" coords="5,95,232,136"/>
+<area shape="rect" id="node1" title="Registers IBridgeHandlers." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title=" " alt="" coords="5,93,232,133"/>
 </map>
