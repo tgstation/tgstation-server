@@ -1,5 +1,5 @@
 [Unit]
-Description=TGS Server
+Description=tgstation-server
 After=network.target
 
 [Service]
