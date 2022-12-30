@@ -37,7 +37,8 @@ If using the console version, run ./tgs.bat in the root of the installation dire
 
 #### Linux (Native)
 
-It is recommended to run TGS using a systemd script. An example script is provided in the base directory, and assumes that TGS is installed under /opt/tgs
+An example systemd script is provided in the base directory, which assumes that TGS is installed under `/opt/tgs`
+If you are experiencing issues using systemd to host TGS and have confirmed all requisites are installed, consider using the docker setup seen below.
 
 The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
 
