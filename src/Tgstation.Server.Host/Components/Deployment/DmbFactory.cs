@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
@@ -54,6 +55,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ILogger<DmbFactory> logger;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for <see cref="DmbFactory"/>.
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>.
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -95,18 +101,21 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DmbFactory(
 			IDatabaseContextFactory databaseContextFactory,
 			IIOManager ioManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<DmbFactory> logger,
+			IEventConsumer eventConsumer,
 			Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			cleanupTask = Task.CompletedTask;
@@ -358,6 +367,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					++deleting;
+					await eventConsumer.HandleEvent(EventType.DeploymentCleanedUp, new List<string> { x }, cancellationToken);
 					await ioManager.DeleteDirectory(x, cancellationToken);
 				}
 				catch (OperationCanceledException)
