@@ -1,6 +1,7 @@
 [Unit]
 Description=tgstation-server
 After=network.target
+After=mariadb.target
 
 [Service]
 ExecStart=bash /opt/tgs/tgs.sh
