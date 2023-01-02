@@ -173,7 +173,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoService
 
     - name: Run Unit Tests
-      run: sudo dotnet test --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults tgstation-server.sln
+      run: sudo dotnet test -v diagnostic --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
