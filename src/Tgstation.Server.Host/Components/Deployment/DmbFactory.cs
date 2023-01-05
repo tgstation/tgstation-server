@@ -100,22 +100,22 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
-		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DmbFactory(
 			IDatabaseContextFactory databaseContextFactory,
 			IIOManager ioManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
-			ILogger<DmbFactory> logger,
 			IEventConsumer eventConsumer,
+			ILogger<DmbFactory> logger,
 			Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			cleanupTask = Task.CompletedTask;
@@ -367,7 +367,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					++deleting;
-					await eventConsumer.HandleEvent(EventType.DeploymentCleanedUp, new List<string> { x }, cancellationToken);
+					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { x }, cancellationToken);
 					await ioManager.DeleteDirectory(x, cancellationToken);
 				}
 				catch (OperationCanceledException)
@@ -400,6 +400,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			async Task HandleCleanup()
 			{
+				// This needs to happen first
+				await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { job.DirectoryName.ToString() }, cleanupCts.Token);
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
 				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
 					metadata,

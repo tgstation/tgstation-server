@@ -159,7 +159,7 @@
 		/// <summary>
 		/// Whenever a deployment folder is deleted from disk. Parameters: Game directory path
 		/// </summary>
-		[EventScript("DeploymentCleanedUp")]
-		DeploymentCleanedUp,
+		[EventScript("DeploymentCleanup")]
+		DeploymentCleanup,
 	}
 }
