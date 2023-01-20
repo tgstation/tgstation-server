@@ -271,6 +271,8 @@ namespace Tgstation.Server.Host.Setup
 						}
 					}
 				}
+
+				await testConnection.CloseAsync();
 			}
 
 			if (isSqliteDB && !dbExists)
