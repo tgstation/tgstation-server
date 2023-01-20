@@ -429,7 +429,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="directory">The directory to cleanup.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for this <see cref="Task"/>.</param>
-		/// <returns>The deletion task</returns>
+		/// <returns>The deletion task.</returns>
 		async Task DeleteCompileJobContent(string directory, CancellationToken cancellationToken)
 		{
 			// Then call the cleanup event, waiting here first
