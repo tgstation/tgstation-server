@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IDictionary<long, int> jobLockCounts;
 
 		/// <summary>
-		/// <see cref="Task"/> representing calls to <see cref="CleanJob(CompileJob)"/>.
+		/// <see cref="Task"/> representing calls to <see cref="CleanRegisteredCompileJob(CompileJob)"/>.
 		/// </summary>
 		Task cleanupTask;
 
@@ -254,7 +254,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			void CleanupAction()
 			{
 				if (providerSubmitted)
-					CleanJob(compileJob);
+					CleanRegisteredCompileJob(compileJob);
 			}
 
 			var newProvider = new DmbProvider(compileJob, ioManager, CleanupAction);
@@ -367,8 +367,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					++deleting;
-					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { x }, cancellationToken);
-					await ioManager.DeleteDirectory(x, cancellationToken);
+					await DeleteCompileJobContent(x, cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
@@ -396,21 +395,19 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Delete the <see cref="Api.Models.Internal.CompileJob.DirectoryName"/> of <paramref name="job"/>.
 		/// </summary>
 		/// <param name="job">The <see cref="CompileJob"/> to clean.</param>
-		void CleanJob(CompileJob job)
+		void CleanRegisteredCompileJob(CompileJob job)
 		{
 			async Task HandleCleanup()
 			{
-				// This needs to happen first
-				await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { job.DirectoryName.ToString() }, cleanupCts.Token);
-				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
-				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
-					metadata,
-					job);
+				// First kill the GitHub deployment
+				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(metadata, job);
 
 				// DCT: None available
 				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
+
+				var deleteTask = DeleteCompileJobContent(job.DirectoryName.ToString(), cleanupCts.Token);
 				var otherTask = cleanupTask;
-				await Task.WhenAll(otherTask, deleteJob, deploymentJob);
+				await Task.WhenAll(otherTask, deleteTask, deploymentJob);
 			}
 
 			lock (jobLockCounts)
@@ -425,6 +422,19 @@ namespace Tgstation.Server.Host.Components.Deployment
 					var decremented = --jobLockCounts[job.Id.Value];
 					logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
 				}
+		}
+
+		/// <summary>
+		/// Handles cleaning the resources of a <see cref="CompileJob"/>.
+		/// </summary>
+		/// <param name="directory">The directory to cleanup.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for this <see cref="Task"/>.</param>
+		/// <returns>The deletion task</returns>
+		async Task DeleteCompileJobContent(string directory, CancellationToken cancellationToken)
+		{
+			// Then call the cleanup event, waiting here first
+			await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { directory }, cancellationToken);
+			await ioManager.DeleteDirectory(directory, cancellationToken);
 		}
 	}
 }
