@@ -42,11 +42,13 @@ namespace Tgstation.Server.Host.Models
 		public Api.Models.ChatChannel ToApi(ChatProvider chatProvider) => new Api.Models.ChatChannel
 		{
 			ChannelData = chatProvider == ChatProvider.Discord ? DiscordChannelId.ToString() : IrcChannel,
+#pragma warning disable CS0618
+			IrcChannel = IrcChannel,
 			DiscordChannelId = DiscordChannelId,
+#pragma warning restore CS0618
 			IsAdminChannel = IsAdminChannel,
 			IsWatchdogChannel = IsWatchdogChannel,
 			IsUpdatesChannel = IsUpdatesChannel,
-			IrcChannel = IrcChannel,
 			Tag = Tag,
 		};
 	}

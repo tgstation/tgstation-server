@@ -82,7 +82,9 @@ namespace Tgstation.Server.Tests.Instance
 						IsWatchdogChannel = true,
 						Tag = "butt2",
 						ChannelData = channelId,
+#pragma warning disable CS0618
 						IrcChannel = "should_not_be_this!!!JHF*WW(#*(*$&(#*@))("
+#pragma warning restore CS0618
 					}
 				}
 			}, cancellationToken);
@@ -94,9 +96,11 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(true, updatedBot.Channels.First().IsUpdatesChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);
 			Assert.AreEqual("butt2", updatedBot.Channels.First().Tag);
+#pragma warning disable CS0618
 			Assert.AreEqual(channelId, updatedBot.Channels.First().IrcChannel);
-			Assert.AreEqual(channelId, updatedBot.Channels.First().ChannelData);
 			Assert.IsNull(updatedBot.Channels.First().DiscordChannelId);
+#pragma warning restore CS0618
+			Assert.AreEqual(channelId, updatedBot.Channels.First().ChannelData);
 		}
 
 		async Task RunDiscord(CancellationToken cancellationToken)
@@ -153,7 +157,9 @@ namespace Tgstation.Server.Tests.Instance
 						IsWatchdogChannel = true,
 						Tag = "butt",
 						ChannelData = channelId.ToString(),
+#pragma warning disable CS0618
 						DiscordChannelId = 1234,
+#pragma warning restore CS0618
 					}
 				}
 			}, cancellationToken);
@@ -165,9 +171,11 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(true, updatedBot.Channels.First().IsUpdatesChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);
 			Assert.AreEqual("butt", updatedBot.Channels.First().Tag);
+#pragma warning disable CS0618
 			Assert.AreEqual(channelId, updatedBot.Channels.First().DiscordChannelId);
-			Assert.AreEqual(channelId.ToString(), updatedBot.Channels.First().ChannelData);
 			Assert.IsNull(updatedBot.Channels.First().IrcChannel);
+#pragma warning restore CS0618
+			Assert.AreEqual(channelId.ToString(), updatedBot.Channels.First().ChannelData);
 		}
 
 		public async Task RunPostTest(CancellationToken cancellationToken)
@@ -208,7 +216,7 @@ namespace Tgstation.Server.Tests.Instance
 					IsUpdatesChannel = false,
 					IsWatchdogChannel = true,
 					Tag = "butt",
-					DiscordChannelId = discordBotReq.Channels.First().DiscordChannelId
+					ChannelData = discordBotReq.Channels.First().ChannelData
 				});
 
 			await ApiAssert.ThrowsException<ApiConflictException>(() => chatClient.Update(discordBotReq, cancellationToken), ErrorCode.ChatBotMaxChannels);

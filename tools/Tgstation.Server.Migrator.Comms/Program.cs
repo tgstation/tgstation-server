@@ -204,12 +204,8 @@ static class Program
 						IsWatchdogChannel = providerInfo.WatchdogChannels.Any(x => NormalizeChannelId(x) == channelIdentifier),
 						IsAdminChannel = providerInfo.AdminChannels.Any(x => NormalizeChannelId(x) == channelIdentifier),
 						IsUpdatesChannel = providerInfo.DevChannels.Any(x => NormalizeChannelId(x) == channelIdentifier),
+						ChannelData = channelIdentifier,
 					};
-
-					if (isDiscordProvider)
-						newChatChannel.DiscordChannelId = ulong.Parse(channelIdentifier);
-					else
-						newChatChannel.IrcChannel = channelIdentifier;
 
 					createRequest.Channels.Add(newChatChannel);
 				}

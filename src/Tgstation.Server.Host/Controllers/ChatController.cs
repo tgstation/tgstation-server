@@ -64,8 +64,10 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var result = new Models.ChatChannel
 			{
+#pragma warning disable CS0618
 				DiscordChannelId = api.DiscordChannelId,
 				IrcChannel = api.IrcChannel,
+#pragma warning restore CS0618
 				IsAdminChannel = api.IsAdminChannel ?? false,
 				IsWatchdogChannel = api.IsWatchdogChannel ?? false,
 				IsUpdatesChannel = api.IsUpdatesChannel ?? false,
