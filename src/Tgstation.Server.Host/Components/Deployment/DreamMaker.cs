@@ -929,6 +929,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					// DCT: None available
+					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, default);
 					await ioManager.DeleteDirectory(jobPath, default);
 				}
 				catch (Exception e)
