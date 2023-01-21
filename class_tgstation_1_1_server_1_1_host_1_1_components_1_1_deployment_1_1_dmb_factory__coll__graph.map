@@ -1,19 +1,20 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory" name="Tgstation.Server.Host.Components.Deployment.DmbFactory">
-<area shape="rect" id="node1" title="Standard IDmbFactory." alt="" coords="745,393,972,433"/>
+<area shape="rect" id="node1" title="Standard IDmbFactory." alt="" coords="745,429,972,469"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders." alt="" coords="315,64,411,89"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,7,184,32"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs." alt="" coords="303,5,423,31"/>
 <area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="39,64,151,89"/>
 <area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="49,121,140,147"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="249,114,476,154"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="249,114,476,154"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="258,178,467,218"/>
 <area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="279,242,447,282"/>
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="233,307,492,361"/>
 <area shape="rect" id="node10" title=" " alt="" coords="242,385,483,440"/>
-<area shape="rect" id="node11" title=" " alt="" coords="342,464,383,489"/>
-<area shape="rect" id="node12" title=" " alt="" coords="277,513,448,539"/>
-<area shape="rect" id="node13" title=" " alt="" coords="295,563,430,603"/>
-<area shape="rect" id="node14" title=" " alt="" coords="337,628,388,653"/>
-<area shape="rect" id="node15" title=" " alt="" coords="284,678,441,718"/>
-<area shape="rect" id="node17" title=" " alt="" coords="339,743,386,768"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="249,465,476,505"/>
+<area shape="rect" id="node12" title=" " alt="" coords="342,529,383,555"/>
+<area shape="rect" id="node13" title=" " alt="" coords="277,579,448,604"/>
+<area shape="rect" id="node14" title=" " alt="" coords="295,629,430,669"/>
+<area shape="rect" id="node15" title=" " alt="" coords="337,693,388,719"/>
+<area shape="rect" id="node16" title=" " alt="" coords="284,743,441,783"/>
+<area shape="rect" id="node18" title=" " alt="" coords="339,808,386,833"/>
 </map>
