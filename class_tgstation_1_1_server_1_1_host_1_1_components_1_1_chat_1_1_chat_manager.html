@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -138,18 +138,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1c0349edb057491d7bb8c03612bc8753"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0bd122a06d9a590adc983b3aedc7417"><td class="memItemLeft" align="right" valign="top">async ValueTask&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ac0bd122a06d9a590adc983b3aedc7417">DisposeAsync</a> ()</td></tr>
 <tr class="separator:ac0bd122a06d9a590adc983b3aedc7417"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29ba2842fd3cf2c5532acc07966eb1a9"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9">ChangeChannels</a> (long connectionId, IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a> &gt; newChannels, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a29ba2842fd3cf2c5532acc07966eb1a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change chat channels. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:aee67a4cb60d68f67214958ec996805cc"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aee67a4cb60d68f67214958ec996805cc">ChangeChannels</a> (long connectionId, IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Models.ChatChannel</a> &gt; newChannels, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aee67a4cb60d68f67214958ec996805cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change chat channels. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">connectionId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">Api.Models.EntityId.Id</a> of the connection.</td></tr>
-    <tr><td class="paramname">newChannels</td><td>An IEnumerable&lt;T&gt; of the new list of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel.">Api.Models.ChatChannel</a>s.</td></tr>
+    <tr><td class="paramname">newChannels</td><td>An IEnumerable&lt;T&gt; of the new list of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Models.ChatChannel</a>s.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9">More...</a><br /></td></tr>
-<tr class="separator:a29ba2842fd3cf2c5532acc07966eb1a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aee67a4cb60d68f67214958ec996805cc">More...</a><br /></td></tr>
+<tr class="separator:aee67a4cb60d68f67214958ec996805cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0821ad5d467ff2ea9216eadd33273104"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0821ad5d467ff2ea9216eadd33273104">ChangeSettings</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Models.ChatBot</a> newSettings, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0821ad5d467ff2ea9216eadd33273104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change chat settings. If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">Api.Models.EntityId.Id</a> is not currently in use, a new connection will be made instead. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -246,9 +246,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1593d7d3f8d4b3efe3412d6c96f6e411"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1593d7d3f8d4b3efe3412d6c96f6e411">DeleteConnection</a> (long connectionId, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a1593d7d3f8d4b3efe3412d6c96f6e411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnects and deletes a given connection.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1593d7d3f8d4b3efe3412d6c96f6e411">More...</a><br /></td></tr>
 <tr class="separator:a1593d7d3f8d4b3efe3412d6c96f6e411"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9ba3beba537518b1f68ca31ae9dea25"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ab9ba3beba537518b1f68ca31ae9dea25">ChangeChannels</a> (long connectionId, IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a> &gt; newChannels, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab9ba3beba537518b1f68ca31ae9dea25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change chat channels.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ab9ba3beba537518b1f68ca31ae9dea25">More...</a><br /></td></tr>
-<tr class="separator:ab9ba3beba537518b1f68ca31ae9dea25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11efc4eb7654a0d67648f398c9adf694"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a11efc4eb7654a0d67648f398c9adf694">ChangeChannels</a> (long connectionId, IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Models.ChatChannel</a> &gt; newChannels, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a11efc4eb7654a0d67648f398c9adf694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change chat channels.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a11efc4eb7654a0d67648f398c9adf694">More...</a><br /></td></tr>
+<tr class="separator:a11efc4eb7654a0d67648f398c9adf694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8211cd2105b12cfe4233e999698ed9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ac8211cd2105b12cfe4233e999698ed9b">QueueMessage</a> (string message, IEnumerable&lt; ulong &gt; channelIds)</td></tr>
 <tr class="memdesc:ac8211cd2105b12cfe4233e999698ed9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue a chat <em>message</em>  to a given set of <em>channelIds</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ac8211cd2105b12cfe4233e999698ed9b">More...</a><br /></td></tr>
 <tr class="separator:ac8211cd2105b12cfe4233e999698ed9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -334,7 +334,7 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a1ac2daf67a09f128290588a5181c88ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for various lock statements throughout this <code>class</code>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a1ac2daf67a09f128290588a5181c88ba">More...</a><br /></td></tr>
 <tr class="separator:a1ac2daf67a09f128290588a5181c88ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32ce1266bccc40aebf2f9c284ed6e69a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html">ICustomCommandHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a32ce1266bccc40aebf2f9c284ed6e69a">customCommandHandler</a></td></tr>
-<tr class="memdesc:a32ce1266bccc40aebf2f9c284ed6e69a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext.">ICustomCommandHandler</a> for the ChangeChannels(long, IEnumerable&lt;Api.Models.ChatChannel&gt;, CancellationToken).   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a32ce1266bccc40aebf2f9c284ed6e69a">More...</a><br /></td></tr>
+<tr class="memdesc:a32ce1266bccc40aebf2f9c284ed6e69a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext.">ICustomCommandHandler</a> for the ChangeChannels(long, IEnumerable&lt;Models.ChatChannel&gt;, CancellationToken).   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a32ce1266bccc40aebf2f9c284ed6e69a">More...</a><br /></td></tr>
 <tr class="separator:a32ce1266bccc40aebf2f9c284ed6e69a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada23a21c30710b64e7c9ee85e82e32d4"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">chatHandler</a></td></tr>
 <tr class="memdesc:ada23a21c30710b64e7c9ee85e82e32d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task that monitors incoming chat messages.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">More...</a><br /></td></tr>
@@ -542,8 +542,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a29ba2842fd3cf2c5532acc07966eb1a9" name="a29ba2842fd3cf2c5532acc07966eb1a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29ba2842fd3cf2c5532acc07966eb1a9">&#9670;&#160;</a></span>ChangeChannels()</h2>
+<a id="aee67a4cb60d68f67214958ec996805cc" name="aee67a4cb60d68f67214958ec996805cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee67a4cb60d68f67214958ec996805cc">&#9670;&#160;</a></span>ChangeChannels()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -557,7 +557,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a> &gt;&#160;</td>
+          <td class="paramtype">IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Models.ChatChannel</a> &gt;&#160;</td>
           <td class="paramname"><em>newChannels</em>, </td>
         </tr>
         <tr>
@@ -577,7 +577,7 @@ Here is the caller graph for this function:</div>
 <p>Change chat channels. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">connectionId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">Api.Models.EntityId.Id</a> of the connection.</td></tr>
-    <tr><td class="paramname">newChannels</td><td>An IEnumerable&lt;T&gt; of the new list of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel.">Api.Models.ChatChannel</a>s.</td></tr>
+    <tr><td class="paramname">newChannels</td><td>An IEnumerable&lt;T&gt; of the new list of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Models.ChatChannel</a>s.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -585,7 +585,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ab9ba3beba537518b1f68ca31ae9dea25">Tgstation.Server.Host.Components.Chat.IChatManager</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a11efc4eb7654a0d67648f398c9adf694">Tgstation.Server.Host.Components.Chat.IChatManager</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00178">178</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  179</span>        {</div>
@@ -676,8 +676,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_a29ba2842fd3cf2c5532acc07966eb1a9_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_a29ba2842fd3cf2c5532acc07966eb1a9_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_a29ba2842fd3cf2c5532acc07966eb1a9_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_a29ba2842fd3cf2c5532acc07966eb1a9_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_aee67a4cb60d68f67214958ec996805cc_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_aee67a4cb60d68f67214958ec996805cc_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_aee67a4cb60d68f67214958ec996805cc_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_aee67a4cb60d68f67214958ec996805cc_cgraph">
 <area shape="rect" title="Change chat channels. A Task representing the running operation." alt="" coords="5,5,236,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#af235956bb2332f8a772864a984822264" title="Remove a IProvider from mappedChannels optionally removing the provider itself from providers and upd..." alt="" coords="284,5,567,45"/>
 </map>
@@ -844,7 +844,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  458</span> </div>
 <div class="line"><span class="lineno">  459</span>            <span class="keywordflow">return</span> context;</div>
 <div class="line"><span class="lineno">  460</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a32ce1266bccc40aebf2f9c284ed6e69a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a32ce1266bccc40aebf2f9c284ed6e69a">Tgstation.Server.Host.Components.Chat.ChatManager.customCommandHandler</a></div><div class="ttdeci">ICustomCommandHandler customCommandHandler</div><div class="ttdoc">The ICustomCommandHandler for the ChangeChannels(long, IEnumerable&lt;Api.Models.ChatChannel&gt;,...</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00093">ChatManager.cs:93</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a32ce1266bccc40aebf2f9c284ed6e69a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a32ce1266bccc40aebf2f9c284ed6e69a">Tgstation.Server.Host.Components.Chat.ChatManager.customCommandHandler</a></div><div class="ttdeci">ICustomCommandHandler customCommandHandler</div><div class="ttdoc">The ICustomCommandHandler for the ChangeChannels(long, IEnumerable&lt;Models.ChatChannel&gt;,...</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00093">ChatManager.cs:93</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1783,7 +1783,7 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00554">554</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  555</span>        {</div>
 <div class="line"><span class="lineno">  556</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">logger</a>.LogTrace(<span class="stringliteral">&quot;Remapping channels for provider reconnection...&quot;</span>);</div>
-<div class="line"><span class="lineno">  557</span>            IEnumerable&lt;Api.Models.ChatChannel&gt; channelsToMap;</div>
+<div class="line"><span class="lineno">  557</span>            IEnumerable&lt;Models.ChatChannel&gt; channelsToMap;</div>
 <div class="line"><span class="lineno">  558</span>            <span class="keywordtype">long</span> providerId;</div>
 <div class="line"><span class="lineno">  559</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>)</div>
 <div class="line"><span class="lineno">  560</span>                providerId = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">providers</a>.Where(x =&gt; x.Value == provider).Select(x =&gt; x.Key).First();</div>
@@ -1792,9 +1792,9 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  563</span>                channelsToMap = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a3ca52a2da0df3c6f05614dc8e87a4ec0">activeChatBots</a>.FirstOrDefault(x =&gt; x.Id == providerId)?.Channels;</div>
 <div class="line"><span class="lineno">  564</span> </div>
 <div class="line"><span class="lineno">  565</span>            <span class="keywordflow">if</span> (channelsToMap?.Any() ?? <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  566</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9">ChangeChannels</a>(providerId, channelsToMap, cancellationToken);</div>
+<div class="line"><span class="lineno">  566</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aee67a4cb60d68f67214958ec996805cc">ChangeChannels</a>(providerId, channelsToMap, cancellationToken);</div>
 <div class="line"><span class="lineno">  567</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a29ba2842fd3cf2c5532acc07966eb1a9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9">Tgstation.Server.Host.Components.Chat.ChatManager.ChangeChannels</a></div><div class="ttdeci">async Task ChangeChannels(long connectionId, IEnumerable&lt; Api.Models.ChatChannel &gt; newChannels, CancellationToken cancellationToken)</div><div class="ttdoc">Change chat channels. A Task representing the running operation.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00178">ChatManager.cs:178</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_aee67a4cb60d68f67214958ec996805cc"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aee67a4cb60d68f67214958ec996805cc">Tgstation.Server.Host.Components.Chat.ChatManager.ChangeChannels</a></div><div class="ttdeci">async Task ChangeChannels(long connectionId, IEnumerable&lt; Models.ChatChannel &gt; newChannels, CancellationToken cancellationToken)</div><div class="ttdoc">Change chat channels. A Task representing the running operation.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00178">ChatManager.cs:178</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1892,7 +1892,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_af235956bb2332f8a772864a984822264_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_af235956bb2332f8a772864a984822264_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_af235956bb2332f8a772864a984822264_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_af235956bb2332f8a772864a984822264_icgraph">
 <area shape="rect" title="Remove a IProvider from mappedChannels optionally removing the provider itself from providers and upd..." alt="" coords="284,5,567,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9" title="Change chat channels. A Task representing the running operation." alt="" coords="5,5,236,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aee67a4cb60d68f67214958ec996805cc" title="Change chat channels. A Task representing the running operation." alt="" coords="5,5,236,45"/>
 </map>
 </div>
 
@@ -2261,7 +2261,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext.">ICustomCommandHandler</a> for the ChangeChannels(long, IEnumerable&lt;Api.Models.ChatChannel&gt;, CancellationToken).  </p>
+<p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext.">ICustomCommandHandler</a> for the ChangeChannels(long, IEnumerable&lt;Models.ChatChannel&gt;, CancellationToken).  </p>
 
 <p class="definition">Definition at line <a class="el" href="_chat_manager_8cs_source.html#l00093">93</a> of file <a class="el" href="_chat_manager_8cs_source.html">ChatManager.cs</a>.</p>
 

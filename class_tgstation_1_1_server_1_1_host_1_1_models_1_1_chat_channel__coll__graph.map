@@ -1,5 +1,4 @@
 <map id="Tgstation.Server.Host.Models.ChatChannel" name="Tgstation.Server.Host.Models.ChatChannel">
-<area shape="rect" id="node1" title=" " alt="" coords="91,93,287,133"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel." alt="" coords="5,13,175,38"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="199,5,376,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,79,201,119"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_channel_base.html" title="Base chat channel class." alt="" coords="40,5,167,31"/>
 </map>

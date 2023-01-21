@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.2.4</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -94,8 +94,8 @@ $(function() {
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <span class="keywordflow">return</span> Provider.Value <span class="keywordflow">switch</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            {</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                ChatProvider.Discord =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a9e6391aa99ab09fadc17d8a4599c827b">Channels</a>?.Select(x =&gt; x.DiscordChannelId.HasValue &amp;&amp; x.IrcChannel == <span class="keyword">null</span>).All(x =&gt; x) ?? <span class="keyword">true</span>,</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                ChatProvider.Irc =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a9e6391aa99ab09fadc17d8a4599c827b">Channels</a>?.Select(x =&gt; !x.DiscordChannelId.HasValue &amp;&amp; x.IrcChannel != <span class="keyword">null</span>).All(x =&gt; x) ?? <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                ChatProvider.Discord =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a9e6391aa99ab09fadc17d8a4599c827b">Channels</a>?.Select(x =&gt; (x.DiscordChannelId.HasValue || ulong.TryParse(x.ChannelData, out _)) &amp;&amp; x.IrcChannel == <span class="keyword">null</span>).All(x =&gt; x) ?? <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                ChatProvider.Irc =&gt; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a9e6391aa99ab09fadc17d8a4599c827b">Channels</a>?.Select(x =&gt; !x.DiscordChannelId.HasValue &amp;&amp; (x.IrcChannel != <span class="keyword">null</span> || x.ChannelData != <span class="keyword">null</span>)).All(x =&gt; x) ?? <span class="keyword">true</span>,</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Invalid provider type!&quot;</span>),</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            };</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        }</div>
