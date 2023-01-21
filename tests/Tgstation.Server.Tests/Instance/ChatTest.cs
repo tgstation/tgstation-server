@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -81,7 +81,8 @@ namespace Tgstation.Server.Tests.Instance
 						IsUpdatesChannel = true,
 						IsWatchdogChannel = true,
 						Tag = "butt2",
-						IrcChannel = channelId
+						ChannelData = channelId,
+						IrcChannel = "should_not_be_this!!!JHF*WW(#*(*$&(#*@))("
 					}
 				}
 			}, cancellationToken);
@@ -94,6 +95,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);
 			Assert.AreEqual("butt2", updatedBot.Channels.First().Tag);
 			Assert.AreEqual(channelId, updatedBot.Channels.First().IrcChannel);
+			Assert.AreEqual(channelId, updatedBot.Channels.First().ChannelData);
 			Assert.IsNull(updatedBot.Channels.First().DiscordChannelId);
 		}
 
@@ -138,17 +140,6 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(true, updatedBot.Enabled);
 
 			var channelId = UInt64.Parse(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL"));
-			firstBot.Channels = new List<ChatChannel>
-			{
-				new ChatChannel
-				{
-					IsAdminChannel = true,
-					IsUpdatesChannel = true,
-					IsWatchdogChannel = true,
-					Tag = "butt",
-					DiscordChannelId = channelId
-				}
-			};
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
@@ -161,7 +152,8 @@ namespace Tgstation.Server.Tests.Instance
 						IsUpdatesChannel = true,
 						IsWatchdogChannel = true,
 						Tag = "butt",
-						DiscordChannelId = channelId
+						ChannelData = channelId.ToString(),
+						DiscordChannelId = 1234,
 					}
 				}
 			}, cancellationToken);
@@ -174,6 +166,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);
 			Assert.AreEqual("butt", updatedBot.Channels.First().Tag);
 			Assert.AreEqual(channelId, updatedBot.Channels.First().DiscordChannelId);
+			Assert.AreEqual(channelId.ToString(), updatedBot.Channels.First().ChannelData);
 			Assert.IsNull(updatedBot.Channels.First().IrcChannel);
 		}
 

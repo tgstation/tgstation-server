@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public ChatBotResponse ToApi() => new ChatBotResponse
 		{
-			Channels = Channels.Select(x => x.ToApi()).ToList(),
+			Channels = Channels.Select(x => x.ToApi(Provider.Value)).ToList(),
 			ConnectionString = ConnectionString,
 			Enabled = Enabled,
 			Provider = Provider,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -57,16 +58,37 @@ namespace Tgstation.Server.Host.Controllers
 		/// Converts <paramref name="api"/> to a <see cref="ChatChannel"/>.
 		/// </summary>
 		/// <param name="api">The <see cref="Api.Models.ChatChannel"/>. </param>
+		/// <param name="chatProvider">The channel's <see cref="ChatProvider"/>.</param>
 		/// <returns>A <see cref="ChatChannel"/> based on <paramref name="api"/>.</returns>
-		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api) => new ()
+		static Models.ChatChannel ConvertApiChatChannel(Api.Models.ChatChannel api, ChatProvider chatProvider)
 		{
-			DiscordChannelId = api.DiscordChannelId,
-			IrcChannel = api.IrcChannel,
-			IsAdminChannel = api.IsAdminChannel ?? false,
-			IsWatchdogChannel = api.IsWatchdogChannel ?? false,
-			IsUpdatesChannel = api.IsUpdatesChannel ?? false,
-			Tag = api.Tag,
-		};
+			var result = new Models.ChatChannel
+			{
+				DiscordChannelId = api.DiscordChannelId,
+				IrcChannel = api.IrcChannel,
+				IsAdminChannel = api.IsAdminChannel ?? false,
+				IsWatchdogChannel = api.IsWatchdogChannel ?? false,
+				IsUpdatesChannel = api.IsUpdatesChannel ?? false,
+				Tag = api.Tag,
+			};
+
+			if (api.ChannelData != null)
+			{
+				switch (chatProvider)
+				{
+					case ChatProvider.Discord:
+						result.DiscordChannelId = ulong.Parse(api.ChannelData, CultureInfo.InvariantCulture);
+						break;
+					case ChatProvider.Irc:
+						result.IrcChannel = api.ChannelData;
+						break;
+					default:
+						throw new InvalidOperationException($"Invalid chat provider: {chatProvider}");
+				}
+			}
+
+			return result;
+		}
 
 		/// <summary>
 		/// Create a new chat bot <paramref name="model"/>.
@@ -106,7 +128,7 @@ namespace Tgstation.Server.Host.Controllers
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
 				Enabled = model.Enabled,
-				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
+				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x, model.Provider.Value)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
 				InstanceId = Instance.Id.Value,
 				Provider = model.Provider,
 				ReconnectionInterval = model.ReconnectionInterval,
@@ -319,7 +341,7 @@ namespace Tgstation.Server.Host.Controllers
 				DatabaseContext.ChatChannels.RemoveRange(current.Channels);
 				if (hasChannels)
 				{
-					var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x)).ToList();
+					var dbChannels = model.Channels.Select(x => ConvertApiChatChannel(x, model.Provider ?? current.Provider.Value)).ToList();
 					DatabaseContext.ChatChannels.AddRange(dbChannels);
 					current.Channels = dbChannels;
 				}
