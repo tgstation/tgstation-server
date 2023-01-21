@@ -433,7 +433,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		async Task DeleteCompileJobContent(string directory, CancellationToken cancellationToken)
 		{
 			// Then call the cleanup event, waiting here first
-			await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { directory }, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { ioManager.ResolvePath(directory) }, cancellationToken);
 			await ioManager.DeleteDirectory(directory, cancellationToken);
 		}
 	}
