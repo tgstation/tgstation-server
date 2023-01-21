@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly object synchronizationLock;
 
 		/// <summary>
-		/// The <see cref="ICustomCommandHandler"/> for the <see cref="ChangeChannels(long, IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>.
+		/// The <see cref="ICustomCommandHandler"/> for the <see cref="ChangeChannels(long, IEnumerable{Models.ChatChannel}, CancellationToken)"/>.
 		/// </summary>
 		ICustomCommandHandler customCommandHandler;
 
@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeChannels(long connectionId, IEnumerable<Api.Models.ChatChannel> newChannels, CancellationToken cancellationToken)
+		public async Task ChangeChannels(long connectionId, IEnumerable<Models.ChatChannel> newChannels, CancellationToken cancellationToken)
 		{
 			if (newChannels == null)
 				throw new ArgumentNullException(nameof(newChannels));
@@ -554,7 +554,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		async Task RemapProvider(IProvider provider, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Remapping channels for provider reconnection...");
-			IEnumerable<Api.Models.ChatChannel> channelsToMap;
+			IEnumerable<Models.ChatChannel> channelsToMap;
 			long providerId;
 			lock (providers)
 				providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();

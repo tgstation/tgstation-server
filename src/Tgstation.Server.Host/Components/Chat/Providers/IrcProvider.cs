@@ -252,8 +252,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override Task<IReadOnlyCollection<Tuple<ChatChannel, ChannelRepresentation>>> MapChannelsImpl(
-			IEnumerable<ChatChannel> channels,
+		protected override Task<IReadOnlyCollection<Tuple<Models.ChatChannel, ChannelRepresentation>>> MapChannelsImpl(
+			IEnumerable<Models.ChatChannel> channels,
 			CancellationToken cancellationToken)
 			=> Task.Factory.StartNew(
 				() =>
@@ -285,10 +285,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							else
 								client.RfcJoin(channelToJoin);
 
-						return (IReadOnlyCollection<Tuple<ChatChannel, ChannelRepresentation>>)channels
-							.Select(apiChannel =>
+						return (IReadOnlyCollection<Tuple<Models.ChatChannel, ChannelRepresentation>>)channels
+							.Select(dbChannel =>
 							{
-								var channelName = apiChannel.GetIrcChannelName();
+								var channelName = dbChannel.GetIrcChannelName();
 								ulong? id = null;
 								if (!channelIdMap.Any(y =>
 								{
@@ -303,15 +303,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								}
 
 								return Tuple.Create(
-									apiChannel,
+									dbChannel,
 									new ChannelRepresentation
 									{
 										RealId = id.Value,
-										IsAdminChannel = apiChannel.IsAdminChannel == true,
+										IsAdminChannel = dbChannel.IsAdminChannel == true,
 										ConnectionName = address,
 										FriendlyName = channelIdMap[id.Value],
 										IsPrivateChannel = false,
-										Tag = apiChannel.Tag,
+										Tag = dbChannel.Tag,
 									});
 							})
 							.ToList();
