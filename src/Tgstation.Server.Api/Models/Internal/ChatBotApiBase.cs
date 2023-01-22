@@ -22,8 +22,8 @@ namespace Tgstation.Server.Api.Models.Internal
 				return true;
 			return Provider.Value switch
 			{
-				ChatProvider.Discord => Channels?.Select(x => x.DiscordChannelId.HasValue && x.IrcChannel == null).All(x => x) ?? true,
-				ChatProvider.Irc => Channels?.Select(x => !x.DiscordChannelId.HasValue && x.IrcChannel != null).All(x => x) ?? true,
+				ChatProvider.Discord => Channels?.Select(x => (x.DiscordChannelId.HasValue || ulong.TryParse(x.ChannelData, out _)) && x.IrcChannel == null).All(x => x) ?? true,
+				ChatProvider.Irc => Channels?.Select(x => !x.DiscordChannelId.HasValue && (x.IrcChannel != null || x.ChannelData != null)).All(x => x) ?? true,
 				_ => throw new InvalidOperationException("Invalid provider type!"),
 			};
 		}

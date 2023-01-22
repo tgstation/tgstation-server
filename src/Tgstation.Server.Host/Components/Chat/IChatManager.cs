@@ -40,10 +40,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Change chat channels.
 		/// </summary>
 		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the connection.</param>
-		/// <param name="newChannels">An <see cref="IEnumerable{T}"/> of the new list of <see cref="Api.Models.ChatChannel"/>s.</param>
+		/// <param name="newChannels">An <see cref="IEnumerable{T}"/> of the new list of <see cref="Models.ChatChannel"/>s.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task ChangeChannels(long connectionId, IEnumerable<Api.Models.ChatChannel> newChannels, CancellationToken cancellationToken);
+		Task ChangeChannels(long connectionId, IEnumerable<Models.ChatChannel> newChannels, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Queue a chat <paramref name="message"/> to a given set of <paramref name="channelIds"/>.

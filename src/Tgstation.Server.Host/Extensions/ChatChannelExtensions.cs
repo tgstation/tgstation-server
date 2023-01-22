@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Extensions
 {

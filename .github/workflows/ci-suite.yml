@@ -51,8 +51,8 @@ jobs:
   dmapi-build:
     name: Build DMAPI
     env:
-      BYOND_MAJOR: 513
-      BYOND_MINOR: 1536
+      BYOND_MAJOR: 515
+      BYOND_MINOR: 1592
     runs-on: ubuntu-latest
     steps:
     - name: Install x86 libc Dependencies

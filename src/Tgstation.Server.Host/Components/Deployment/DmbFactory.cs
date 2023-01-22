@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
@@ -54,6 +55,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ILogger<DmbFactory> logger;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for <see cref="DmbFactory"/>.
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>.
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -69,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IDictionary<long, int> jobLockCounts;
 
 		/// <summary>
-		/// <see cref="Task"/> representing calls to <see cref="CleanJob(CompileJob)"/>.
+		/// <see cref="Task"/> representing calls to <see cref="CleanRegisteredCompileJob(CompileJob)"/>.
 		/// </summary>
 		Task cleanupTask;
 
@@ -94,18 +100,21 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DmbFactory(
 			IDatabaseContextFactory databaseContextFactory,
 			IIOManager ioManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IEventConsumer eventConsumer,
 			ILogger<DmbFactory> logger,
 			Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
@@ -245,7 +254,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			void CleanupAction()
 			{
 				if (providerSubmitted)
-					CleanJob(compileJob);
+					CleanRegisteredCompileJob(compileJob);
 			}
 
 			var newProvider = new DmbProvider(compileJob, ioManager, CleanupAction);
@@ -358,7 +367,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					++deleting;
-					await ioManager.DeleteDirectory(x, cancellationToken);
+					await DeleteCompileJobContent(x, cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
@@ -386,19 +395,19 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Delete the <see cref="Api.Models.Internal.CompileJob.DirectoryName"/> of <paramref name="job"/>.
 		/// </summary>
 		/// <param name="job">The <see cref="CompileJob"/> to clean.</param>
-		void CleanJob(CompileJob job)
+		void CleanRegisteredCompileJob(CompileJob job)
 		{
 			async Task HandleCleanup()
 			{
-				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
-				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
-					metadata,
-					job);
+				// First kill the GitHub deployment
+				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(metadata, job);
 
 				// DCT: None available
 				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
+
+				var deleteTask = DeleteCompileJobContent(job.DirectoryName.ToString(), cleanupCts.Token);
 				var otherTask = cleanupTask;
-				await Task.WhenAll(otherTask, deleteJob, deploymentJob);
+				await Task.WhenAll(otherTask, deleteTask, deploymentJob);
 			}
 
 			lock (jobLockCounts)
@@ -413,6 +422,19 @@ namespace Tgstation.Server.Host.Components.Deployment
 					var decremented = --jobLockCounts[job.Id.Value];
 					logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
 				}
+		}
+
+		/// <summary>
+		/// Handles cleaning the resources of a <see cref="CompileJob"/>.
+		/// </summary>
+		/// <param name="directory">The directory to cleanup.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for this <see cref="Task"/>.</param>
+		/// <returns>The deletion <see cref="Task"/>.</returns>
+		async Task DeleteCompileJobContent(string directory, CancellationToken cancellationToken)
+		{
+			// Then call the cleanup event, waiting here first
+			await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { ioManager.ResolvePath(directory) }, cancellationToken);
+			await ioManager.DeleteDirectory(directory, cancellationToken);
 		}
 	}
 }

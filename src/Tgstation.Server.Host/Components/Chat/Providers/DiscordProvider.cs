@@ -608,14 +608,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<Tuple<Api.Models.ChatChannel, ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<Tuple<Models.ChatChannel, ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
 
 			var remapRequired = false;
 
-			async Task<Tuple<Api.Models.ChatChannel, ChannelRepresentation>> GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
+			async Task<Tuple<Models.ChatChannel, ChannelRepresentation>> GetModelChannelFromDBChannel(Models.ChatChannel channelFromDB)
 			{
 				if (!channelFromDB.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");

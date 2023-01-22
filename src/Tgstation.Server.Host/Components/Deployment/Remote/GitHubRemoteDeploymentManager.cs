@@ -283,7 +283,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			string remoteRepositoryName,
 			bool updated) => String.Format(
 			CultureInfo.InvariantCulture,
-			"#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}{8}",
+			"#### Test Merge {4}{0}{0}<details><summary>Details</summary>{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}{8}{0}</details>",
 			Environment.NewLine,
 			repositorySettings.ShowTestMergeCommitters.Value
 				? String.Format(
