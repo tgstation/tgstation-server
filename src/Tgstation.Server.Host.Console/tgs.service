@@ -1,0 +1,11 @@
+[Unit]
+Description=tgstation-server
+After=network.target
+After=mariadb.target
+
+[Service]
+ExecStart=/bin/bash /opt/tgs/tgs.sh
+Restart=Always
+
+[Install]
+WantedBy=multi-user.target

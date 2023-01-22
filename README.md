@@ -37,7 +37,8 @@ If using the console version, run ./tgs.bat in the root of the installation dire
 
 #### Linux (Native)
 
-We recommend using Docker for Linux installations, see below. The content of this parent section may be skipped if you choose to do so.
+An example systemd script is provided in the base directory, which assumes that TGS is installed under `/opt/tgs`
+If you are experiencing issues using systemd to host TGS and have confirmed all requisites are installed, consider using the docker setup seen below.
 
 The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
 
@@ -53,7 +54,7 @@ Note that tgstation-server has only ever been tested on Linux via it's [docker e
 
 #### Docker (Linux)
 
-tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile -t <your tag name>` in the repository root.
+tgstation-server supports running in a docker container although it is only recommended if you are having issues running it natively. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile -t <your tag name>` in the repository root.
 
 To create a container run
 ```sh
