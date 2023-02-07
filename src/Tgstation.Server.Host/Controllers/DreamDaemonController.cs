@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
@@ -130,7 +131,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Update watchdog settings to be applied at next server reboot.
 		/// </summary>
-		/// <param name="model">The updated <see cref="DreamDaemonResponse"/> settings.</param>
+		/// <param name="model">The <see cref="DreamDaemonRequest"/> with updated settings.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Settings applied successfully.</response>
@@ -154,7 +155,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<IActionResult> Update([FromBody] DreamDaemonResponse model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] DreamDaemonRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
