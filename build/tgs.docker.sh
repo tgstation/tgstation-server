@@ -1,17 +1,20 @@
 #!/bin/sh
 
-SCRIPT_VERSION="1.2.0"
+SCRIPT_VERSION="1.2.1"
 
-echo "tgstation-server 4 container startup script v$SCRIPT_VERSION"
+echo "tgstation-server container startup script v$SCRIPT_VERSION"
 echo "PWD: $PWD"
 
 PROD_CONFIG=/config_data/appsettings.Production.yml
 HOST_CONFIG=/app/appsettings.Production.yml
 
 if [ ! -f $PROD_CONFIG ]; then
+	if [ -z "${General__SetupWizardMode}" ]; then
+		export General__SetupWizardMode=Only
+	fi
+
 	echo "$PROD_CONFIG not detected! Creating empty and running setup wizard..."
 	# Important, config reloading doesn't work with symlinks
-	export General__SetupWizardMode=Only
 	echo "{}" > $PROD_CONFIG
 fi
 
