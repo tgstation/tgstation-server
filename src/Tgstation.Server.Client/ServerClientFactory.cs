@@ -56,7 +56,7 @@ namespace Tgstation.Server.Client
 				loginHeaders,
 				requestLoggers,
 				timeout,
-				false,
+				attemptLoginRefresh,
 				cancellationToken);
 		}
 
