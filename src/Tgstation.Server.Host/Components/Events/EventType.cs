@@ -133,7 +133,7 @@
 		WorldReboot,
 
 		/// <summary>
-		/// Watchdog event when TgsInitializationsComplete() is called. No parameters.
+		/// Watchdog event when DM code calls TgsInitializationsComplete(). No parameters.
 		/// </summary>
 		[EventScript("WorldPrime")]
 		WorldPrime,
