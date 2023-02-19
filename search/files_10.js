@@ -4,7 +4,7 @@ var searchData=
   ['paginatedclient_2ecs_1',['PaginatedClient.cs',['../_paginated_client_8cs.html',1,'']]],
   ['paginatedresponse_2ecs_2',['PaginatedResponse.cs',['../_paginated_response_8cs.html',1,'']]],
   ['paginationsettings_2ecs_3',['PaginationSettings.cs',['../_pagination_settings_8cs.html',1,'']]],
-  ['permissionset_2ecs_4',['PermissionSet.cs',['../_tgstation_8_server_8_api_2_models_2_permission_set_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_permission_set_8cs.html',1,'(Global Namespace)']]],
+  ['permissionset_2ecs_4',['PermissionSet.cs',['../_tgstation_8_server_8_host_2_models_2_permission_set_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_permission_set_8cs.html',1,'(Global Namespace)']]],
   ['platformidentifier_2ecs_5',['PlatformIdentifier.cs',['../_platform_identifier_8cs.html',1,'']]],
   ['portallocator_2ecs_6',['PortAllocator.cs',['../_port_allocator_8cs.html',1,'']]],
   ['posixbyondinstaller_2ecs_7',['PosixByondInstaller.cs',['../_posix_byond_installer_8cs.html',1,'']]],
