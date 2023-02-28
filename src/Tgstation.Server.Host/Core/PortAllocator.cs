@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public async Task<ushort?> GetAvailablePort(ushort basePort, bool checkOne, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Port allocation >= {0} requested...", basePort);
+			logger.LogTrace("Port allocation >= {basePort} requested...", basePort);
 
 			var ddPorts = await databaseContext
 				.DreamDaemonSettings
@@ -101,16 +101,25 @@ namespace Tgstation.Server.Host.Core
 						continue;
 					}
 
-					logger.LogInformation("Allocated port {0}", port);
+					logger.LogInformation("Allocated port {port}", port);
 					return port;
 				}
 
-				logger.LogWarning("Unable to allocate port >= {0}!", basePort);
+				logger.LogWarning("Unable to allocate port >= {basePort}!", basePort);
 				return null;
 			}
 			finally
 			{
-				logger.LogDebug(new AggregateException(exceptions), "Failed to allocate ports {0}-{1}!", basePort, port - 1);
+				if (port != basePort)
+				{
+					logger.LogDebug(
+						exceptions.Count == 1
+							? exceptions.First()
+							: new AggregateException(exceptions),
+						"Failed to allocate ports {basePort}-{lastCheckedPort}!",
+						basePort,
+						port - 1);
+				}
 			}
 		}
 	}
