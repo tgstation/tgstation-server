@@ -101,7 +101,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="action">A <see cref="Func{T, TResult}"/> accepting the <see cref="IInstance"/> and returning a <see cref="Task{TResult}"/> with the <see cref="IActionResult"/>.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> that should be returned.</returns>
-		/// <remarks>The context of <paramref name="action"/> should be as small as possinle so as to avoid race conditions.</remarks>
+		/// <remarks>The context of <paramref name="action"/> should be as small as possible so as to avoid race conditions.</remarks>
 		protected async Task<IActionResult> WithComponentInstance(Func<IInstanceCore, Task<IActionResult>> action)
 		{
 			if (action == null)
