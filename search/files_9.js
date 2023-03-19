@@ -72,7 +72,7 @@ var searchData=
   ['ilibgit2commands_2ecs_69',['ILibGit2Commands.cs',['../_i_lib_git2_commands_8cs.html',1,'']]],
   ['ilibgit2repositoryfactory_2ecs_70',['ILibGit2RepositoryFactory.cs',['../_i_lib_git2_repository_factory_8cs.html',1,'']]],
   ['inetworkpromptreaper_2ecs_71',['INetworkPromptReaper.cs',['../_i_network_prompt_reaper_8cs.html',1,'']]],
-  ['instance_2ecs_72',['Instance.cs',['../_tgstation_8_server_8_api_2_models_2_instance_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_components_2_instance_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_instance_8cs.html',1,'(Global Namespace)']]],
+  ['instance_2ecs_72',['Instance.cs',['../_tgstation_8_server_8_host_2_components_2_instance_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_api_2_models_2_instance_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_instance_8cs.html',1,'(Global Namespace)']]],
   ['instanceclient_2ecs_73',['InstanceClient.cs',['../_instance_client_8cs.html',1,'']]],
   ['instancecontainer_2ecs_74',['InstanceContainer.cs',['../_instance_container_8cs.html',1,'']]],
   ['instancecontroller_2ecs_75',['InstanceController.cs',['../_instance_controller_8cs.html',1,'']]],
@@ -138,6 +138,6 @@ var searchData=
   ['itopicclientfactory_2ecs_135',['ITopicClientFactory.cs',['../_i_topic_client_factory_8cs.html',1,'']]],
   ['iusergroupsclient_2ecs_136',['IUserGroupsClient.cs',['../_i_user_groups_client_8cs.html',1,'']]],
   ['iusersclient_2ecs_137',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
-  ['iwatchdog_2ecs_138',['IWatchdog.cs',['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)']]],
-  ['iwatchdogfactory_2ecs_139',['IWatchdogFactory.cs',['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)']]]
+  ['iwatchdog_2ecs_138',['IWatchdog.cs',['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)']]],
+  ['iwatchdogfactory_2ecs_139',['IWatchdogFactory.cs',['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)']]]
 ];
