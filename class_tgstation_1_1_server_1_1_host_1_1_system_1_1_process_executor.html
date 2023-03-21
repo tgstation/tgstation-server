@@ -647,7 +647,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_process_executor_8cs_source.html#l00251">251</a> of file <a class="el" href="_process_executor_8cs_source.html">ProcessExecutor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  252</span>        {</div>
-<div class="line"><span class="lineno">  253</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;GetProcessByName: {0}...&quot;</span>, name ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(name)));</div>
+<div class="line"><span class="lineno">  253</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;GetProcessByName: {processName}...&quot;</span>, name ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(name)));</div>
 <div class="line"><span class="lineno">  254</span>            var procs = global::System.Diagnostics.Process.GetProcessesByName(name);</div>
 <div class="line"><span class="lineno">  255</span>            global::System.Diagnostics.Process handle = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  256</span>            <span class="keywordflow">foreach</span> (var proc <span class="keywordflow">in</span> procs)</div>
@@ -655,7 +655,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  258</span>                    handle = proc;</div>
 <div class="line"><span class="lineno">  259</span>                <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  260</span>                {</div>
-<div class="line"><span class="lineno">  261</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Disposing extra found PID: {0}...&quot;</span>, proc.Id);</div>
+<div class="line"><span class="lineno">  261</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#abbe8126c6fb5bff2bab522eef5f9d5c5">logger</a>.LogTrace(<span class="stringliteral">&quot;Disposing extra found PID: {pid}...&quot;</span>, proc.Id);</div>
 <div class="line"><span class="lineno">  262</span>                    proc.Dispose();</div>
 <div class="line"><span class="lineno">  263</span>                }</div>
 <div class="line"><span class="lineno">  264</span> </div>
