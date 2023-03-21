@@ -70,7 +70,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
 
-			logger.LogDebug("Saving reattach information: {0}...", reattachInformation);
+			logger.LogDebug("Saving reattach information: {info}...", reattachInformation);
 
 			await ClearImpl(db, false, cancellationToken);
 
@@ -94,6 +94,33 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			Models.ReattachInformation result = null;
 			TimeSpan? topicTimeout = null;
+
+			async Task KillProcess(Models.ReattachInformation reattachInfo)
+			{
+				try
+				{
+					using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
+					if (process != null)
+					{
+						if (reattachInfo == result)
+						{
+							logger.LogWarning("Killing PID {pid} associated with CompileJob-less reattach information...", reattachInfo.ProcessId);
+						}
+						else
+						{
+							logger.LogWarning("Killing PID {pid} associated with extra reattach information...", reattachInfo.ProcessId);
+						}
+
+						process.Terminate();
+						await process.Lifetime;
+					}
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(ex, "Failed to kill process!");
+				}
+			}
+
 			await databaseContextFactory.UseContext(async (db) =>
 			{
 				var dbReattachInfos = await db
@@ -131,19 +158,10 @@ namespace Tgstation.Server.Host.Components.Session
 						continue;
 					}
 
-					logger.LogWarning("Killing PID {0} associated with extra reattach information...", reattachInfo.ProcessId);
-					try
-					{
-						using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
-						process.Terminate();
-						await process.Lifetime;
-					}
-					catch (Exception ex)
-					{
-						logger.LogWarning(ex, "Failed to kill process!");
-					}
+					await KillProcess(reattachInfo);
 
 					db.ReattachInformations.Remove(reattachInfo);
+					logger.LogTrace("Deleting ReattachInformation {id}...", reattachInfo.Id);
 				}
 
 				await db.Save(cancellationToken);
@@ -159,6 +177,17 @@ namespace Tgstation.Server.Host.Components.Session
 			if (dmb == null)
 			{
 				logger.LogError("Unable to reattach! Could not load .dmb!");
+				await KillProcess(result);
+
+				await databaseContextFactory.UseContext(async db =>
+				{
+					logger.LogTrace("Deleting ReattachInformation {id}...", result.Id);
+					await db
+						.ReattachInformations
+						.AsQueryable()
+						.Where(x => x.Id == result.Id)
+						.DeleteAsync(cancellationToken);
+				});
 				return null;
 			}
 
@@ -167,7 +196,7 @@ namespace Tgstation.Server.Host.Components.Session
 				dmb,
 				topicTimeout.Value);
 
-			logger.LogDebug("Reattach information loaded: {0}", info);
+			logger.LogDebug("Reattach information loaded: {info}", info);
 
 			return info;
 		}

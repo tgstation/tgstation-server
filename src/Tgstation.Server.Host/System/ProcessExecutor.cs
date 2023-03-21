@@ -250,7 +250,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public IProcess GetProcessByName(string name)
 		{
-			logger.LogTrace("GetProcessByName: {0}...", name ?? throw new ArgumentNullException(nameof(name)));
+			logger.LogTrace("GetProcessByName: {processName}...", name ?? throw new ArgumentNullException(nameof(name)));
 			var procs = global::System.Diagnostics.Process.GetProcessesByName(name);
 			global::System.Diagnostics.Process handle = null;
 			foreach (var proc in procs)
@@ -258,7 +258,7 @@ namespace Tgstation.Server.Host.System
 					handle = proc;
 				else
 				{
-					logger.LogTrace("Disposing extra found PID: {0}...", proc.Id);
+					logger.LogTrace("Disposing extra found PID: {pid}...", proc.Id);
 					proc.Dispose();
 				}
 
