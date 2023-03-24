@@ -719,18 +719,40 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			var noEstimate = !estimatedDuration.HasValue;
 			progressReporter.StageName = currentStage;
-			progressReporter.ReportProgress(noEstimate ? null : 0);
+			double? lastReport = noEstimate ? null : 0;
+			progressReporter.ReportProgress(lastReport);
 
-			var sleepInterval = estimatedDuration.HasValue ? estimatedDuration.Value / 100 : TimeSpan.FromMilliseconds(250);
+			var minimumSleepInterval = TimeSpan.FromMilliseconds(250);
+			var sleepInterval = estimatedDuration.HasValue ? estimatedDuration.Value / 100 : minimumSleepInterval;
 
-			logger.LogDebug("Compile is expected to take: {0}", estimatedDuration);
+			if (estimatedDuration.HasValue)
+			{
+				logger.LogDebug("Compile is expected to take: {0}", estimatedDuration);
+			}
+			else
+			{
+				logger.LogTrace("No metric to estimate compile time.");
+			}
+
 			try
 			{
 				for (var iteration = 0; iteration < (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)
 				{
-					await Task.Delay(sleepInterval, cancellationToken);
+					var nextInterval = DateTimeOffset.Now + sleepInterval;
+					do
+					{
+						var remainingSleepThisInterval = nextInterval - DateTimeOffset.Now;
+						var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? remainingSleepThisInterval : minimumSleepInterval;
+
+						await Task.Delay(nextSleepSpan, cancellationToken);
+						progressReporter.StageName = currentStage;
+						progressReporter.ReportProgress(lastReport);
+					}
+					while (DateTimeOffset.Now < nextInterval);
+
 					progressReporter.StageName = currentStage;
-					progressReporter.ReportProgress(noEstimate ? null : sleepInterval * (iteration + 1) / estimatedDuration.Value);
+					lastReport = noEstimate ? null : sleepInterval * (iteration + 1) / estimatedDuration.Value;
+					progressReporter.ReportProgress(lastReport);
 				}
 			}
 			catch (OperationCanceledException)
