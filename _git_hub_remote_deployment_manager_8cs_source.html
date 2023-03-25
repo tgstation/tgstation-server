@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.3.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.3.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -361,7 +361,7 @@ $(function() {
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            compileJob.RevisionInformation.OriginCommitSha,</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>            compileJob.RevisionInformation.CommitSha,</div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>            compileJob.GitHubDeploymentId.HasValue</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                ? $<span class="stringliteral">&quot;{Environment.NewLine}[GitHub Deployments](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A%20{Metadata.Name})&quot;</span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                ? $<span class="stringliteral">&quot;{Environment.NewLine}[GitHub Deployments](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A+{Metadata.Name.Replace(&quot;</span> <span class="stringliteral">&quot;, &quot;</span>+<span class="stringliteral">&quot;, StringComparison.Ordinal)})&quot;</span></div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                : String.Empty);</div>
 <div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span> </div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#adaea11a171cc57f9edc02c7c3b942d77">  319</a></span>        async Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#adaea11a171cc57f9edc02c7c3b942d77">UpdateDeployment</a>(</div>
