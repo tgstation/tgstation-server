@@ -33,6 +33,11 @@ namespace Tgstation.Server.Host.Service
 		readonly LogLevel minimumLogLevel;
 
 		/// <summary>
+		/// The <see cref="ILoggerFactory"/> used by the service.
+		/// </summary>
+		ILoggerFactory loggerFactory;
+
+		/// <summary>
 		/// The <see cref="Task"/> that represents the running service.
 		/// </summary>
 		Task watchdogTask;
@@ -57,6 +62,7 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		protected override void Dispose(bool disposing)
 		{
+			loggerFactory?.Dispose();
 			cancellationTokenSource?.Dispose();
 			base.Dispose(disposing);
 		}
@@ -64,13 +70,16 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		protected override void OnStart(string[] args)
 		{
-			var loggerFactory = LoggerFactory.Create(builder => builder.AddEventLog(new EventLogSettings
+			if (loggerFactory == null)
 			{
-				LogName = EventLog.Log,
-				MachineName = EventLog.MachineName,
-				SourceName = EventLog.Source,
-				Filter = (message, logLevel) => logLevel >= minimumLogLevel,
-			}));
+				loggerFactory = LoggerFactory.Create(builder => builder.AddEventLog(new EventLogSettings
+				{
+					LogName = EventLog.Log,
+					MachineName = EventLog.MachineName,
+					SourceName = EventLog.Source,
+					Filter = (message, logLevel) => logLevel >= minimumLogLevel,
+				}));
+			}
 
 			var watchdog = watchdogFactory.CreateWatchdog(loggerFactory);
 
