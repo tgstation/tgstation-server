@@ -417,7 +417,6 @@ try
 			});
 		installer.Description = "/tg/station 13 server running as a windows service";
 		installer.DisplayName = "/tg/station server";
-		installer.DelayedAutoStart = true;
 		installer.StartType = ServiceStartMode.Automatic;
 		installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
 		installer.ServiceName = "tgstation-server";
