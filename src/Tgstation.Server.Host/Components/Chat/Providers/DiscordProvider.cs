@@ -219,14 +219,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken)
+		public override async Task SendMessage(Message replyTo, string message, ulong channelId, CancellationToken cancellationToken)
 		{
+			Optional<IMessageReference> replyToReference = default;
+			if (replyTo != null && replyTo is DiscordMessage discordMessage)
+			{
+				replyToReference = discordMessage.MessageReference;
+			}
+
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 			async Task SendToChannel(Snowflake channelId)
 			{
 				var result = await channelsClient.CreateMessageAsync(
 					channelId,
 					message,
+					messageReference: replyToReference,
 					ct: cancellationToken);
 
 				if (!result.IsSuccess)
@@ -273,8 +280,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Logger.LogTrace("Dispatching to {0} unmapped channels...", unmappedTextChannels.Count());
 						await Task.WhenAll(
 							unmappedTextChannels.Select(
-								x => SendToChannel(x.ID)))
-							;
+								x => SendToChannel(x.ID)));
 					}
 
 					return;
@@ -430,14 +436,25 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				|| messageCreateEvent.Author.ID == currentUserId)
 				return Result.FromSuccess();
 
+			var messageReference = new MessageReference
+			{
+				ChannelID = messageCreateEvent.ChannelID,
+				GuildID = messageCreateEvent.GuildID,
+				MessageID = messageCreateEvent.ID,
+				FailIfNotExists = false,
+			};
+
 			if (basedMeme && messageCreateEvent.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
 			{
 				// DCT: None available
 				await SendMessage(
-					messageCreateEvent.ChannelID.Value,
+					new DiscordMessage
+					{
+						MessageReference = messageReference,
+					},
 					"https://youtu.be/LrNu-SuFF_o",
-					default)
-					;
+					messageCreateEvent.ChannelID.Value,
+					default);
 				return Result.FromSuccess();
 			}
 
@@ -491,8 +508,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						messageCreateEvent.ID);
 			}
 
-			var result = new Message
+			var result = new DiscordMessage
 			{
+				MessageReference = messageReference,
 				Content = content,
 				User = new ChatUser
 				{

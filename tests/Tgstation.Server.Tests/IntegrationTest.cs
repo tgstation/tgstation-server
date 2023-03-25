@@ -152,7 +152,7 @@ namespace Tgstation.Server.Tests
 						Assert.AreEqual(1, serverInformation.SwarmServers.Count);
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, "http://localhost:5011");
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:5011"));
 						Assert.IsTrue(controller.Controller);
 					}
 
@@ -270,17 +270,17 @@ namespace Tgstation.Server.Tests
 
 						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
 						Assert.IsNotNull(node1);
-						Assert.AreEqual(node1.Address, "http://localhost:5012");
+						Assert.AreEqual(node1.Address, new Uri("http://localhost:5012"));
 						Assert.IsFalse(node1.Controller);
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
-						Assert.AreEqual(node2.Address, "http://localhost:5013");
+						Assert.AreEqual(node2.Address, new Uri("http://localhost:5013"));
 						Assert.IsFalse(node2.Controller);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, "http://localhost:5011");
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:5011"));
 						Assert.IsTrue(controller.Controller);
 					}
 
@@ -483,17 +483,17 @@ namespace Tgstation.Server.Tests
 
 						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
 						Assert.IsNotNull(node1);
-						Assert.AreEqual(node1.Address, "http://localhost:5012");
+						Assert.AreEqual(node1.Address, new Uri("http://localhost:5012"));
 						Assert.IsFalse(node1.Controller);
 
 						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
 						Assert.IsNotNull(node2);
-						Assert.AreEqual(node2.Address, "http://localhost:5013");
+						Assert.AreEqual(node2.Address, new Uri("http://localhost:5013"));
 						Assert.IsFalse(node2.Controller);
 
 						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
 						Assert.IsNotNull(controller);
-						Assert.AreEqual(controller.Address, "http://localhost:5011");
+						Assert.AreEqual(controller.Address, new Uri("http://localhost:5011"));
 						Assert.IsTrue(controller.Controller);
 					}
 

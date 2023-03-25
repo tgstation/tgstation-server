@@ -75,7 +75,6 @@ namespace ReleaseNotes
 				Task<Milestone> milestoneTask = null;
 				var milestoneTaskLock = new object();
 				var releaseDictionary = new Dictionary<string, List<Tuple<string, int, string>>>(StringComparer.OrdinalIgnoreCase);
-				var authorizedUsers = new Dictionary<long, Task<bool>>();
 
 				bool postControlPanelMessage = false;
 
@@ -111,44 +110,13 @@ namespace ReleaseNotes
 					// if (!fullPR.Merged)
 					//return;
 
-					async Task BuildNotesFromComment(string comment, User user)
+					void BuildNotesFromComment(string comment, User user)
 					{
 						if (comment == null)
 							return;
 
-						async Task CommitNotes(string component, List<string> notes)
+						void CommitNotes(string component, List<string> notes)
 						{
-							Task<bool> authTask;
-							TaskCompletionSource<bool> ourTcs = null;
-							lock (authorizedUsers)
-							{
-								if (!authorizedUsers.TryGetValue(user.Id, out authTask))
-								{
-									ourTcs = new TaskCompletionSource<bool>();
-									authTask = ourTcs.Task;
-									authorizedUsers.Add(user.Id, authTask);
-								}
-							}
-
-							if (ourTcs != null)
-								try
-								{
-									//check if the user has access
-									var perm = String.IsNullOrWhiteSpace(githubToken)
-										? PermissionLevel.Write
-										: (await client.Repository.Collaborator.ReviewPermission(RepoOwner, RepoName, user.Login).ConfigureAwait(false)).Permission;
-									ourTcs.SetResult(perm == PermissionLevel.Write || perm == PermissionLevel.Admin);
-								}
-								catch
-								{
-									ourTcs.SetResult(false);
-									throw;
-								}
-
-							var authorized = await authTask.ConfigureAwait(false);
-							if (!authorized)
-								return;
-
 							lock (releaseDictionary)
 							{
 								foreach (var I in notes)
@@ -180,7 +148,7 @@ namespace ReleaseNotes
 							}
 							if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal))
 							{
-								await CommitNotes(targetComponent, notes);
+								CommitNotes(targetComponent, notes);
 								targetComponent = null;
 								notes.Clear();
 								continue;
@@ -193,7 +161,9 @@ namespace ReleaseNotes
 					}
 
 					var comments = await client.Issue.Comment.GetAllForIssue(RepoOwner, RepoName, fullPR.Number).ConfigureAwait(false);
-					await Task.WhenAll(BuildNotesFromComment(fullPR.Body, fullPR.User), Task.WhenAll(comments.Select(x => BuildNotesFromComment(x.Body, x.User)))).ConfigureAwait(false);
+					BuildNotesFromComment(fullPR.Body, fullPR.User);
+					foreach(var x in comments)
+						BuildNotesFromComment(x.Body, x.User);
 				}
 
 				var tasks = new List<Task>();
