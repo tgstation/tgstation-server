@@ -303,7 +303,8 @@ namespace Tgstation.Server.Host.Controllers
 			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
 			try
 			{
-				await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), cancellationToken);
+				if (await ioManager.DirectoryExists(originalModel.Path, cancellationToken))
+					await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), cancellationToken);
 			}
 			catch (OperationCanceledException)
 			{

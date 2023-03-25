@@ -305,7 +305,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			compileJob.RevisionInformation.OriginCommitSha,
 			compileJob.RevisionInformation.CommitSha,
 			compileJob.GitHubDeploymentId.HasValue
-				? $"{Environment.NewLine}[GitHub Deployments](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A%20{Metadata.Name})"
+				? $"{Environment.NewLine}[GitHub Deployments](https://github.com/{remoteRepositoryOwner}/{remoteRepositoryName}/deployments/activity_log?environment=TGS%3A+{Metadata.Name.Replace(" ", "+", StringComparison.Ordinal)})"
 				: String.Empty);
 
 		/// <summary>
