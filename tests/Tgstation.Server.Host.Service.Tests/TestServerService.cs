@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -19,11 +19,9 @@ namespace Tgstation.Server.Host.Service.Tests
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null, default));
-			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null, default));
-			var mockLoggerFactory = new LoggerFactory();
-			new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default).Dispose();
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, default));
+			var mockLoggingBuilder = Mock.Of<ILoggingBuilder>();
+			new ServerService(mockLoggingBuilder, default).Dispose();
 		}
 
 		[TestMethod]
@@ -37,18 +35,16 @@ namespace Tgstation.Server.Host.Service.Tests
 			var args = Array.Empty<string>();
 			CancellationToken cancellationToken;
 			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
-			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			var mockLoggerFactory = new LoggerFactory();
-			mockWatchdogFactory.Setup(x => x.CreateWatchdog(mockLoggerFactory)).Returns(mockWatchdog.Object).Verifiable();
+			var mockLoggerFactory = Mock.Of<ILoggingBuilder>();
 
-			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default))
+			using (var service = new ServerService(mockLoggerFactory, default))
 			{
+				Assert.ThrowsException<InvalidOperationException>(() => onStart.Invoke(service, new object[] { args }));
+				service.SetupWatchdog(mockWatchdog.Object);
 				onStart.Invoke(service, new object[] { args });
 				onStop.Invoke(service, Array.Empty<object>());
 				mockWatchdog.VerifyAll();
 			}
-
-			mockWatchdogFactory.VerifyAll();
 		}
 	}
 }

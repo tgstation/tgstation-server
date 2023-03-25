@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>.
 		/// </summary>
-		readonly IWatchdog watchdog;
+		IWatchdog watchdog;
 
 		/// <summary>
 		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/> of <see cref="watchdog"/>.
@@ -40,28 +40,39 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerService"/> class.
 		/// </summary>
-		/// <param name="watchdogFactory">The <see cref="IWatchdogFactory"/> to create <see cref="watchdog"/> with.</param>
-		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for <paramref name="watchdogFactory"/>.</param>
+		/// <param name="loggingBuilder">The <see cref="ILoggingBuilder"/> to configure.</param>
 		/// <param name="minumumLogLevel">The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to record in the event log.</param>
-		public ServerService(IWatchdogFactory watchdogFactory, ILoggerFactory loggerFactory, LogLevel minumumLogLevel)
+		public ServerService(ILoggingBuilder loggingBuilder, LogLevel minumumLogLevel)
 		{
-			if (watchdogFactory == null)
-				throw new ArgumentNullException(nameof(watchdogFactory));
-			if (loggerFactory == null)
-				throw new ArgumentNullException(nameof(loggerFactory));
+			if (loggingBuilder == null)
+				throw new ArgumentNullException(nameof(loggingBuilder));
 
-#pragma warning disable CS0618 // Type or member is obsolete
-			loggerFactory.AddEventLog(new EventLogSettings
+			loggingBuilder.AddEventLog(new EventLogSettings
 			{
 				LogName = EventLog.Log,
 				MachineName = EventLog.MachineName,
 				SourceName = EventLog.Source,
 				Filter = (message, logLevel) => logLevel >= minumumLogLevel,
 			});
-#pragma warning restore CS0618 // Type or member is obsolete
 
 			ServiceName = Name;
-			watchdog = watchdogFactory.CreateWatchdog(loggerFactory);
+		}
+
+		/// <summary>
+		/// Setup the <see cref="IWatchdog"/> for the service.
+		/// </summary>
+		/// <param name="watchdog">The value of <see cref="watchdog"/>.</param>
+		public void SetupWatchdog(IWatchdog watchdog)
+		{
+			if (watchdog == null)
+#pragma warning disable IDE0016 // Use 'throw' expression
+				throw new ArgumentNullException(nameof(watchdog));
+#pragma warning restore IDE0016 // Use 'throw' expression
+
+			if (this.watchdog != null)
+				throw new InvalidOperationException("SetupWatchdog called twice!");
+
+			this.watchdog = watchdog;
 		}
 
 		/// <inheritdoc />
@@ -74,6 +85,9 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		protected override void OnStart(string[] args)
 		{
+			if (watchdog == null)
+				throw new InvalidOperationException("Cannot start without watchdog!");
+
 			cancellationTokenSource?.Dispose();
 			cancellationTokenSource = new CancellationTokenSource();
 			watchdogTask = RunWatchdog(args, cancellationTokenSource.Token);
