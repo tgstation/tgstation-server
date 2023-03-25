@@ -25,10 +25,15 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>.
 		/// </summary>
-		IWatchdog watchdog;
+		readonly IWatchdogFactory watchdogFactory;
 
 		/// <summary>
-		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/> of <see cref="watchdog"/>.
+		/// The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> for the <see cref="EventLog"/>.
+		/// </summary>
+		readonly LogLevel minimumLogLevel;
+
+		/// <summary>
+		/// The <see cref="Task"/> that represents the running service.
 		/// </summary>
 		Task watchdogTask;
 
@@ -40,39 +45,13 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerService"/> class.
 		/// </summary>
-		/// <param name="loggingBuilder">The <see cref="ILoggingBuilder"/> to configure.</param>
-		/// <param name="minumumLogLevel">The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to record in the event log.</param>
-		public ServerService(ILoggingBuilder loggingBuilder, LogLevel minumumLogLevel)
+		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/>.</param>
+		/// <param name="minimumLogLevel">The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to record in the event log.</param>
+		public ServerService(IWatchdogFactory watchdogFactory, LogLevel minimumLogLevel)
 		{
-			if (loggingBuilder == null)
-				throw new ArgumentNullException(nameof(loggingBuilder));
-
-			loggingBuilder.AddEventLog(new EventLogSettings
-			{
-				LogName = EventLog.Log,
-				MachineName = EventLog.MachineName,
-				SourceName = EventLog.Source,
-				Filter = (message, logLevel) => logLevel >= minumumLogLevel,
-			});
-
+			this.watchdogFactory = watchdogFactory ?? throw new ArgumentNullException(nameof(watchdogFactory));
+			this.minimumLogLevel = minimumLogLevel;
 			ServiceName = Name;
-		}
-
-		/// <summary>
-		/// Setup the <see cref="IWatchdog"/> for the service.
-		/// </summary>
-		/// <param name="watchdog">The value of <see cref="watchdog"/>.</param>
-		public void SetupWatchdog(IWatchdog watchdog)
-		{
-			if (watchdog == null)
-#pragma warning disable IDE0016 // Use 'throw' expression
-				throw new ArgumentNullException(nameof(watchdog));
-#pragma warning restore IDE0016 // Use 'throw' expression
-
-			if (this.watchdog != null)
-				throw new InvalidOperationException("SetupWatchdog called twice!");
-
-			this.watchdog = watchdog;
 		}
 
 		/// <inheritdoc />
@@ -85,12 +64,20 @@ namespace Tgstation.Server.Host.Service
 		/// <inheritdoc />
 		protected override void OnStart(string[] args)
 		{
-			if (watchdog == null)
-				throw new InvalidOperationException("Cannot start without watchdog!");
+			var loggerFactory = LoggerFactory.Create(builder => builder.AddEventLog(new EventLogSettings
+			{
+				LogName = EventLog.Log,
+				MachineName = EventLog.MachineName,
+				SourceName = EventLog.Source,
+				Filter = (message, logLevel) => logLevel >= minimumLogLevel,
+			}));
+
+			var watchdog = watchdogFactory.CreateWatchdog(loggerFactory);
 
 			cancellationTokenSource?.Dispose();
 			cancellationTokenSource = new CancellationTokenSource();
-			watchdogTask = RunWatchdog(args, cancellationTokenSource.Token);
+
+			watchdogTask = RunWatchdog(watchdog, args, cancellationTokenSource.Token);
 		}
 
 		/// <inheritdoc />
@@ -101,12 +88,13 @@ namespace Tgstation.Server.Host.Service
 		}
 
 		/// <summary>
-		/// Executes the <see cref="watchdog"/>, stopping the service if it exits.
+		/// Executes the <paramref name="watchdog"/>, stopping the service if it exits.
 		/// </summary>
-		/// <param name="args">The arguments for the <see cref="watchdog"/>.</param>
+		/// <param name="watchdog">The <see cref="IWatchdog"/> to run.</param>
+		/// <param name="args">The arguments for the <paramref name="watchdog"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task RunWatchdog(string[] args, CancellationToken cancellationToken)
+		async Task RunWatchdog(IWatchdog watchdog, string[] args, CancellationToken cancellationToken)
 		{
 			await watchdog.RunAsync(false, args, cancellationTokenSource.Token);
 

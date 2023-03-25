@@ -20,8 +20,8 @@ namespace Tgstation.Server.Host.Service.Tests
 		public void TestConstructionAndDisposal()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, default));
-			var mockLoggingBuilder = Mock.Of<ILoggingBuilder>();
-			new ServerService(mockLoggingBuilder, default).Dispose();
+			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
+			new ServerService(mockWatchdogFactory.Object, default).Dispose();
 		}
 
 		[TestMethod]
@@ -35,16 +35,17 @@ namespace Tgstation.Server.Host.Service.Tests
 			var args = Array.Empty<string>();
 			CancellationToken cancellationToken;
 			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
-			var mockLoggerFactory = Mock.Of<ILoggingBuilder>();
+			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
+			mockWatchdogFactory.Setup(x => x.CreateWatchdog(It.IsNotNull<ILoggerFactory>())).Returns(mockWatchdog.Object).Verifiable();
 
-			using (var service = new ServerService(mockLoggerFactory, default))
+			using (var service = new ServerService(mockWatchdogFactory.Object, default))
 			{
-				Assert.ThrowsException<InvalidOperationException>(() => onStart.Invoke(service, new object[] { args }));
-				service.SetupWatchdog(mockWatchdog.Object);
 				onStart.Invoke(service, new object[] { args });
 				onStop.Invoke(service, Array.Empty<object>());
 				mockWatchdog.VerifyAll();
 			}
+
+			mockWatchdogFactory.VerifyAll();
 		}
 	}
 }
