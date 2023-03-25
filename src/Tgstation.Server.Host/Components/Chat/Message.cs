@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Represents a message recieved by a <see cref="IProvider"/>.
 	/// </summary>
-	sealed class Message
+	class Message
 	{
 		/// <summary>
 		/// The text of the message.

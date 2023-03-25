@@ -329,7 +329,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (channelIds == null)
 				throw new ArgumentNullException(nameof(channelIds));
 
-			var task = SendMessage(message, channelIds, handlerCts.Token);
+			var task = SendMessage(channelIds, null, message, handlerCts.Token);
 			AddMessageTask(task);
 		}
 
@@ -499,7 +499,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					.Select(x => x.Key)
 					.ToList();
 
-			return SendMessage(message, wdChannels, cancellationToken);
+			return SendMessage(wdChannels, null, message, cancellationToken);
 		}
 
 		/// <summary>
@@ -641,11 +641,12 @@ namespace Tgstation.Server.Host.Components.Chat
 						providerId,
 						message.User.Channel.RealId);
 					await SendMessage(
-						"Processing error, check logs!",
 						new List<ulong>
 						{
 							message.User.Channel.RealId,
 						},
+						null,
+						"Processing error, check logs!",
 						cancellationToken)
 						;
 					return;
@@ -685,7 +686,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (splits.Count == 0)
 				{
 					// just a mention
-					await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken);
+					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, "Hi!", cancellationToken);
 					return;
 				}
 
@@ -731,7 +732,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							helpText = UnknownCommandMessage;
 					}
 
-					await SendMessage(helpText, new List<ulong> { message.User.Channel.RealId }, cancellationToken);
+					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, helpText, cancellationToken);
 					return;
 				}
 
@@ -739,19 +740,19 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				if (commandHandler == default)
 				{
-					await SendMessage(UnknownCommandMessage, new List<ulong> { message.User.Channel.RealId }, cancellationToken);
+					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, UnknownCommandMessage, cancellationToken);
 					return;
 				}
 
 				if (commandHandler.AdminOnly && !message.User.Channel.IsAdminChannel)
 				{
-					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken);
+					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, "Use this command in an admin channel!", cancellationToken);
 					return;
 				}
 
 				var result = await commandHandler.Invoke(arguments, message.User, cancellationToken);
 				if (result != null)
-					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken);
+					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, result, cancellationToken);
 			}
 			catch (OperationCanceledException ex)
 			{
@@ -763,8 +764,9 @@ namespace Tgstation.Server.Host.Components.Chat
 				// error bc custom commands should reply about why it failed
 				logger.LogError(e, "Error processing chat command");
 				await SendMessage(
-					"TGS: Internal error processing command! Check server logs!",
 					new List<ulong> { message.User.Channel.RealId },
+					message,
+					"TGS: Internal error processing command! Check server logs!",
 					cancellationToken)
 					;
 			}
@@ -861,11 +863,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Asynchronously send a given <paramref name="message"/> to a set of <paramref name="channelIds"/>.
 		/// </summary>
-		/// <param name="message">The message to send.</param>
 		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to.</param>
+		/// <param name="replyTo">The <see cref="Message"/> to reply to.</param>
+		/// <param name="message">The message to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task SendMessage(string message, IEnumerable<ulong> channelIds, CancellationToken cancellationToken)
+		Task SendMessage(IEnumerable<ulong> channelIds, Message replyTo, string message, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Chat send \"{message}\" to channels: {channelIdsCommaSeperated}", message, String.Join(", ", channelIds));
 
@@ -880,7 +883,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					lock (providers)
 						if (!providers.TryGetValue(channelMapping.ProviderId, out provider))
 							return Task.CompletedTask;
-					return provider.SendMessage(channelMapping.ProviderChannelId, message, cancellationToken);
+					return provider.SendMessage(replyTo, message, channelMapping.ProviderChannelId, cancellationToken);
 				}));
 		}
 
