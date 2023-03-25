@@ -1,5 +1,6 @@
 <map id="Tgstation.Server.Host.Service.ServerService.OnStart" name="Tgstation.Server.Host.Service.ServerService.OnStart">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,204,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a5ce97a95847cecf3650ae60f0f62d836" title="Executes the watchdog, stopping the service if it exits." alt="" coords="252,5,451,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697" title="Run the IWatchdog." alt="" coords="499,5,711,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,37,204,77"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#a4610f9c60c131dab81a56aa23abdfbb8" title="Create a IWatchdog." alt="" coords="252,5,479,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a63313991bba1e6d1037bc635ddd4d4d8" title="Executes the watchdog , stopping the service if it exits." alt="" coords="266,69,465,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697" title="Run the IWatchdog." alt="" coords="527,69,739,109"/>
 </map>

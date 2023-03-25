@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.3.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -95,40 +95,36 @@ $(function() {
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keyword">internal</span> <span class="keyword">static</span> async Task Main(<span class="keywordtype">string</span>[] args)</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        {</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keyword">using </span>var loggerFactory = <span class="keyword">new</span> LoggerFactory();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keyword">using </span>var loggerFactory = LoggerFactory.Create(builder =&gt; builder.AddConsole());</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            var arguments = <span class="keyword">new</span> List&lt;string&gt;(args);</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            var trace = arguments.Remove(<span class="stringliteral">&quot;--trace-host-watchdog&quot;</span>);</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            var debug = arguments.Remove(<span class="stringliteral">&quot;--debug-host-watchdog&quot;</span>);</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#pragma warning disable CS0618 </span><span class="comment">// Type or member is obsolete</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            loggerFactory.AddConsole();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#pragma warning restore CS0618 </span><span class="comment">// Type or member is obsolete</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="keywordflow">if</span> (trace &amp;&amp; debug)</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                loggerFactory.CreateLogger(nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_program.html">Program</a>)).LogCritical(<span class="stringliteral">&quot;Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!&quot;</span>);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keyword">using </span>var cts = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <span class="keywordtype">void</span> AppDomainHandler(<span class="keywordtype">object</span> a, EventArgs b) =&gt; cts.Cancel();</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                System.Console.CancelKeyPress += (a, b) =&gt;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                {</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                    b.Cancel = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                    cts.Cancel();</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                };</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914">CreateWatchdog</a>(loggerFactory).<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697">RunAsync</a>(<span class="keyword">false</span>, arguments.ToArray(), cts.Token);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keywordflow">if</span> (trace &amp;&amp; debug)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                loggerFactory.CreateLogger(nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_program.html">Program</a>)).LogCritical(<span class="stringliteral">&quot;Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!&quot;</span>);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <span class="keyword">using </span>var cts = <span class="keyword">new</span> CancellationTokenSource();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="keywordtype">void</span> AppDomainHandler(<span class="keywordtype">object</span> a, EventArgs b) =&gt; cts.Cancel();</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                System.Console.CancelKeyPress += (a, b) =&gt;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                    b.Cancel = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                    cts.Cancel();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                };</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914">CreateWatchdog</a>(loggerFactory).<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697">RunAsync</a>(<span class="keyword">false</span>, arguments.ToArray(), cts.Token);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            }</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            }</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        }</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_console_1_1_program_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_program.html">Tgstation.Server.Host.Console.Program</a></div><div class="ttdoc">Contains the entrypoint for the application.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_8_console_2_program_8cs_source.html#l00015">Program.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html">Tgstation.Server.Host.Watchdog.WatchdogFactory</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_8_watchdog_2_watchdog_factory_8cs_source.html#l00008">WatchdogFactory.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory_html_ae25446ee2a7bb19d9208695d18621914"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914">Tgstation.Server.Host.Watchdog.WatchdogFactory.CreateWatchdog</a></div><div class="ttdeci">IWatchdog CreateWatchdog(ILoggerFactory loggerFactory)</div><div class="ttdoc">Create a IWatchdog. A new IWatchdog.</div></div>

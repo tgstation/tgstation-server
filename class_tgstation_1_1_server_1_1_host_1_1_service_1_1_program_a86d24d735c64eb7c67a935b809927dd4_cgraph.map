@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Service.Program.OnExecuteAsync" name="Tgstation.Server.Host.Service.Program.OnExecuteAsync">
-<area shape="rect" id="node1" title="Command line handler, always runs." alt="" coords="5,69,204,109"/>
+<area shape="rect" id="node1" title="Command line handler, always runs." alt="" coords="5,101,204,141"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914" title="Create a IWatchdog. A new IWatchdog." alt="" coords="252,5,475,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a5c942ce276ce92ca31ecbe9c88f2e982" title="Check if the running user is a system administrator." alt="" coords="264,69,463,109"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697" title="Run the IWatchdog." alt="" coords="257,133,469,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#ae25637d5f1e273ad93fe3ea34ba6a6c2" title="Attempt to install the TGS Service." alt="" coords="264,197,463,237"/>
 </map>

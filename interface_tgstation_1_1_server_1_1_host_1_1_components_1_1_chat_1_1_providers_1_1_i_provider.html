@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.3.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -121,9 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5f2369e94bdd3b0860f15d571f8f151c"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyCollection&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">ChatChannel</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html">ChannelRepresentation</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a5f2369e94bdd3b0860f15d571f8f151c">MapChannels</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">ChatChannel</a> &gt; channels, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a5f2369e94bdd3b0860f15d571f8f151c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel.">ChannelRepresentation</a>s for given <em>channels</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a5f2369e94bdd3b0860f15d571f8f151c">More...</a><br /></td></tr>
 <tr class="separator:a5f2369e94bdd3b0860f15d571f8f151c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0b951bd26aed974f63c3e11971eb009"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ad0b951bd26aed974f63c3e11971eb009">SendMessage</a> (ulong channelId, string message, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad0b951bd26aed974f63c3e11971eb009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service.">IProvider</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ad0b951bd26aed974f63c3e11971eb009">More...</a><br /></td></tr>
-<tr class="separator:ad0b951bd26aed974f63c3e11971eb009"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5cd60fbafc701058cf0ecbd0c8724c5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#aa5cd60fbafc701058cf0ecbd0c8724c5">SendMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Message</a> replyTo, string message, ulong channelId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aa5cd60fbafc701058cf0ecbd0c8724c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service.">IProvider</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#aa5cd60fbafc701058cf0ecbd0c8724c5">More...</a><br /></td></tr>
+<tr class="separator:aa5cd60fbafc701058cf0ecbd0c8724c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a8f13abd1df7147c47d6d1a8e4577b9e6">SetReconnectInterval</a> (uint reconnectInterval, bool connectNow)</td></tr>
 <tr class="memdesc:a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the interval at which the provider starts jobs to try to reconnect.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a8f13abd1df7147c47d6d1a8e4577b9e6">More...</a><br /></td></tr>
 <tr class="separator:a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -271,8 +271,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="ad0b951bd26aed974f63c3e11971eb009" name="ad0b951bd26aed974f63c3e11971eb009"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0b951bd26aed974f63c3e11971eb009">&#9670;&#160;</a></span>SendMessage()</h2>
+<a id="aa5cd60fbafc701058cf0ecbd0c8724c5" name="aa5cd60fbafc701058cf0ecbd0c8724c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5cd60fbafc701058cf0ecbd0c8724c5">&#9670;&#160;</a></span>SendMessage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -280,14 +280,20 @@ Properties</h2></td></tr>
         <tr>
           <td class="memname">Task Tgstation.Server.Host.Components.Chat.Providers.IProvider.SendMessage </td>
           <td>(</td>
-          <td class="paramtype">ulong&#160;</td>
-          <td class="paramname"><em>channelId</em>, </td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Message</a>&#160;</td>
+          <td class="paramname"><em>replyTo</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ulong&#160;</td>
+          <td class="paramname"><em>channelId</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -306,15 +312,16 @@ Properties</h2></td></tr>
 <p>Send a message to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service.">IProvider</a>.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">channelId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48" title="The Providers.IProvider channel Id.">ChannelRepresentation.RealId</a> to send to.</td></tr>
+    <tr><td class="paramname">replyTo</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html" title="Represents a message recieved by a IProvider.">Message</a> to reply to.</td></tr>
     <tr><td class="paramname">message</td><td>The message contents.</td></tr>
+    <tr><td class="paramname">channelId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48" title="The Providers.IProvider channel Id.">ChannelRepresentation.RealId</a> to send to.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a8bfdc6f40539bde1282c4c8c002ce7e0">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a89fe4a51bf3659db42995a39cc607285">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a314200283e13f9a26dc528602ac82624">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a09b4db84247f22c48676ac7d87d49598">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a38df86f2b585482484ce5b1c2f8ff22a">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
 </div>
 </div>
