@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public override Task SendMessage(Message replyTo, string message, ulong channelId, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				// IRC doesn't allow newlines
@@ -230,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							})));
 
 			await SendMessage(
-				channelId,
+				null,
 				String.Format(
 					CultureInfo.InvariantCulture,
 					"DM: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
@@ -243,11 +243,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					estimatedCompletionTime.HasValue
 						? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
 						: String.Empty),
+				channelId,
 				cancellationToken);
 
 			return (errorMessage, dreamMakerOutput) => SendMessage(
-				channelId,
+				null,
 				$"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+				channelId,
 				cancellationToken);
 		}
 

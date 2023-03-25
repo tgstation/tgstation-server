@@ -6,6 +6,7 @@ using Elastic.CommonSchema.Serilog;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Sinks.Elasticsearch;
@@ -82,10 +83,10 @@ namespace Tgstation.Server.Host.Extensions
 					.WriteTo
 					.Async(sinkConfiguration =>
 					{
-						sinkConfiguration.Console(
-							outputTemplate: "[{Timestamp:HH:mm:ss}] {Level:w3}: {SourceContext:l} "
+						var template = "[{Timestamp:HH:mm:ss}] {Level:w3}: {SourceContext:l} "
 								+ SerilogContextTemplate
-								+ "|IR:{InstanceReference}){NewLine}    {Message:lj}{NewLine}{Exception}");
+								+ "|IR:{InstanceReference}){NewLine}    {Message:lj}{NewLine}{Exception}";
+						sinkConfiguration.Console(outputTemplate: template, formatProvider: CultureInfo.InvariantCulture);
 						sinkConfigurationAction?.Invoke(sinkConfiguration);
 					});
 

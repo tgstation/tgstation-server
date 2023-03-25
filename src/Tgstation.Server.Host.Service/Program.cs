@@ -78,6 +78,54 @@ namespace Tgstation.Server.Host.Service
 		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
 
 		/// <summary>
+		/// Attempt to install the TGS Service.
+		/// </summary>
+		static void RunServiceInstall()
+		{
+			// First check if the service already exists
+			if (Environment.UserInteractive)
+				foreach (ServiceController sc in ServiceController.GetServices())
+					if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
+					{
+						DialogResult result = MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo);
+						if (result != DialogResult.Yes)
+							return; // is this needed after exit?
+
+						// Stop it first to give it some cleanup time
+						if (sc.Status == ServiceControllerStatus.Running)
+						{
+							sc.Stop();
+							sc.WaitForStatus(ServiceControllerStatus.Stopped);
+						}
+
+						// And remove it
+						using (ServiceInstaller si = new ServiceInstaller())
+						{
+							si.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
+							si.ServiceName = sc.ServiceName;
+							si.Uninstall(null);
+						}
+					}
+
+			using (var processInstaller = new ServiceProcessInstaller())
+			using (var installer = new ServiceInstaller())
+			{
+				processInstaller.Account = ServiceAccount.LocalSystem;
+
+				installer.Context = new InstallContext("tgs-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
+				installer.Description = "/tg/station 13 server running as a windows service";
+				installer.DisplayName = "/tg/station server";
+				installer.StartType = ServiceStartMode.Automatic;
+				installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
+				installer.ServiceName = ServerService.Name;
+				installer.Parent = processInstaller;
+
+				var state = new ListDictionary();
+				installer.Install(state);
+			}
+		}
+
+		/// <summary>
 		/// Command line handler, always runs.
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
@@ -112,81 +160,36 @@ namespace Tgstation.Server.Host.Service
 				}
 			}
 
-			using (var loggerFactory = new LoggerFactory())
+			if (Install)
 			{
-				if (Install)
-				{
-					if (Uninstall)
-						return; // oh no, it's retarded...
+				if (Uninstall)
+					return; // oh no, it's retarded...
 
-					// First check if the service already exists
-					if (Environment.UserInteractive)
-						foreach (ServiceController sc in ServiceController.GetServices())
-							if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
-							{
-								DialogResult result = MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo);
-								if (result != DialogResult.Yes)
-									return; // is this needed after exit?
-
-								// Stop it first to give it some cleanup time
-								if (sc.Status == ServiceControllerStatus.Running)
-								{
-									sc.Stop();
-									sc.WaitForStatus(ServiceControllerStatus.Stopped);
-								}
-
-								// And remove it
-								using (ServiceInstaller si = new ServiceInstaller())
-								{
-									si.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
-									si.ServiceName = sc.ServiceName;
-									si.Uninstall(null);
-								}
-							}
-
-					using (var processInstaller = new ServiceProcessInstaller())
-					using (var installer = new ServiceInstaller())
-					{
-						processInstaller.Account = ServiceAccount.LocalSystem;
-
-						installer.Context = new InstallContext("tgs-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
-						installer.Description = "/tg/station 13 server running as a windows service";
-						installer.DisplayName = "/tg/station server";
-						installer.StartType = ServiceStartMode.Automatic;
-						installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-						installer.ServiceName = ServerService.Name;
-						installer.Parent = processInstaller;
-
-						var state = new ListDictionary();
-						installer.Install(state);
-					}
-
-					if (Configure)
-					{
-						Console.WriteLine("For this first run we'll launch the console runner so you may use the setup wizard.");
-						Console.WriteLine("If it starts successfully, feel free to close it and then start the service from the Windows control panel.");
-					}
-				}
-				else if (Uninstall)
-					using (var installer = new ServiceInstaller())
-					{
-						installer.Context = new InstallContext("tgs-uninstall.log", null);
-						installer.ServiceName = ServerService.Name;
-						installer.Uninstall(null);
-					}
-				else if (!Configure)
-					using (var service = new ServerService(WatchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information))
-						ServiceBase.Run(service);
+				RunServiceInstall();
 
 				if (Configure)
 				{
-#pragma warning disable CS0618 // Type or member is obsolete
-					loggerFactory.AddConsole();
-#pragma warning restore CS0618 // Type or member is obsolete
-
-					// DCT: None available
-					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default);
+					Console.WriteLine("For this first run we'll launch the console runner so you may use the setup wizard.");
+					Console.WriteLine("If it starts successfully, feel free to close it and then start the service from the Windows control panel.");
 				}
+			}
+			else if (Uninstall)
+				using (var installer = new ServiceInstaller())
+				{
+					installer.Context = new InstallContext("tgs-uninstall.log", null);
+					installer.ServiceName = ServerService.Name;
+					installer.Uninstall(null);
+				}
+			else if (!Configure)
+			{
+				using (var service = new ServerService(WatchdogFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information))
+					ServiceBase.Run(service);
+			}
+
+			if (Configure)
+			{
+				using (var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole()))
+					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default); // DCT: None available
 			}
 		}
 	}
