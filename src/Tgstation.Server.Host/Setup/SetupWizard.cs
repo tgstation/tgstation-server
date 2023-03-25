@@ -276,9 +276,12 @@ namespace Tgstation.Server.Host.Setup
 			}
 
 			if (isSqliteDB && !dbExists)
-				await Task.WhenAll(
-					console.WriteAsync("Deleting test database file...", true, cancellationToken),
-					ioManager.DeleteFile(databaseName, cancellationToken));
+			{
+				await console.WriteAsync("Deleting test database file...", true, cancellationToken);
+				if (platformIdentifier.IsWindows)
+					SqliteConnection.ClearAllPools();
+				await ioManager.DeleteFile(databaseName, cancellationToken);
+			}
 		}
 
 		/// <summary>
