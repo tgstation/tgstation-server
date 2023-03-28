@@ -10,7 +10,6 @@
 	var/list/intercepted_message_queue
 
 	var/list/custom_commands
-	var/list/warned_deprecated_command_runs
 
 	var/list/test_merges
 	var/datum/tgs_revision_information/revision
@@ -299,7 +298,8 @@
 	RequireInitialBridgeResponse()
 	return revision
 
-/datum/tgs_api/v5/proc/UpgradeDeprecatedChatMessage(datum/tgs_message_content/message, senderName)
+// Common proc b/c it's used by the V3/V4 APIs
+/datum/tgs_api/proc/UpgradeDeprecatedChatMessage(datum/tgs_message_content/message)
 	if(!istext(message))
 		return message
 
