@@ -33,12 +33,13 @@
 	response.embed.url = "https://github.com/tgstation/tgstation-server"
 	response.embed.fields = list()
 	var/datum/tgs_chat_embed/field/field = new("field1","value1")
-	fields += field
+	field.is_inline = TRUE
+	response.embed.fields += field
 	field = new("field2","value2")
 	field.is_inline = TRUE
-	fields += field
+	response.embed.fields += field
 	field = new("field3","value3")
-	fields += field
+	response.embed.fields += field
 	response.embed.footer = new /datum/tgs_chat_embed/footer("Footer text")
 	world.TgsChatBroadcast(response)
 	world.TgsInitializationComplete()
@@ -98,10 +99,11 @@
 	response.embed.url = "https://github.com/tgstation/tgstation-server"
 	response.embed.fields = list()
 	var/datum/tgs_chat_embed/field/field = new("field1","value1")
-	fields += field
+	response.embed.fields += field
 	field = new("field2","value2")
 	field.is_inline = TRUE
-	fields += field
+	response.embed.fields += field
 	field = new("field3","value3")
-	fields += field
+	field.is_inline = TRUE
+	response.embed.fields += field
 	response.embed.footer = new /datum/tgs_chat_embed/footer("Footer text")
