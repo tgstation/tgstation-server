@@ -32,7 +32,8 @@
 	if(sc)
 		var/datum/tgs_message_content/response = sc.Run(u, params)
 		response = UpgradeDeprecatedCommandResponse(response, command)
-
+		
+		var/list/topic_response = list()
 		topic_response[DMAPI5_TOPIC_RESPONSE_COMMAND_RESPONSE_MESSAGE] = response?.text
 		topic_response[DMAPI5_TOPIC_RESPONSE_COMMAND_RESPONSE] = response?._interop_serialize()
 		return json_encode(topic_response)
@@ -49,7 +50,6 @@
 
 		return new /datum/tgs_message_content(response)
 
-	var/list/topic_response = list()
 	if(!istype(response))
 		TGS_ERROR_LOG("Custom chat command \"[command]\" should return a [/datum/tgs_message_content]! Got: \"[response]\"")
 		return null

@@ -256,7 +256,7 @@
 /datum/tgs_api/v4/Revision()
 	return cached_revision
 
-/datum/tgs_api/v4/ChatBroadcast(message, list/channels)
+/datum/tgs_api/v4/ChatBroadcast(datum/tgs_message_content/message, list/channels)
 	var/list/ids
 	if(length(channels))
 		ids = list()
@@ -270,7 +270,7 @@
 	else
 		Export(TGS4_COMM_CHAT, message)
 
-/datum/tgs_api/v4/ChatTargetedBroadcast(message, admin_only)
+/datum/tgs_api/v4/ChatTargetedBroadcast(datum/tgs_message_content/message, admin_only)
 	var/list/channels = list()
 	for(var/I in ChatChannelInfo())
 		var/datum/tgs_chat_channel/channel = I
@@ -283,7 +283,7 @@
 	else
 		Export(TGS4_COMM_CHAT, message)
 
-/datum/tgs_api/v4/ChatPrivateMessage(message, datum/tgs_chat_user/user)
+/datum/tgs_api/v4/ChatPrivateMessage(datum/tgs_message_content/message, datum/tgs_chat_user/user)
 	message = UpgradeDeprecatedChatMessage(message)
 	message = list("message" = message.text, "channelIds" = list(user.channel.id))
 	if(intercepted_message_queue)
