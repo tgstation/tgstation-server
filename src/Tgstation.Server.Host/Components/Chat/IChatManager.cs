@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Interop;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
@@ -48,9 +49,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Queue a chat <paramref name="message"/> to a given set of <paramref name="channelIds"/>.
 		/// </summary>
-		/// <param name="message">The message being sent.</param>
+		/// <param name="message">The <see cref="MessageContent"/> being sent.</param>
 		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to.</param>
-		void QueueMessage(string message, IEnumerable<ulong> channelIds);
+		void QueueMessage(MessageContent message, IEnumerable<ulong> channelIds);
 
 		/// <summary>
 		/// Queue a chat <paramref name="message"/> to configured watchdog channels.

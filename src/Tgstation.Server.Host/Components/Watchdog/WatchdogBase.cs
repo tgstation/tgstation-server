@@ -468,7 +468,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (result?.InteropResponse?.ChatResponses != null)
 				foreach (var response in result.InteropResponse.ChatResponses)
 					Chat.QueueMessage(
-						response.Text,
+						response,
 						response.ChannelIds
 							.Select(channelIdString =>
 							{

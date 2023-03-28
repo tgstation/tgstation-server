@@ -323,7 +323,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public void QueueMessage(string message, IEnumerable<ulong> channelIds)
+		public void QueueMessage(MessageContent message, IEnumerable<ulong> channelIds)
 		{
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
@@ -333,10 +333,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			var task = SendMessage(
 				channelIds,
 				null,
-				new MessageContent
-				{
-					Text = message,
-				},
+				message,
 				handlerCts.Token);
 			AddMessageTask(task);
 		}
@@ -356,7 +353,12 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (mappedChannels)
 				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 
-			QueueMessage(message, wdChannels);
+			QueueMessage(
+				new MessageContent
+				{
+					Text = message
+				},
+				wdChannels);
 		}
 
 		/// <inheritdoc />
