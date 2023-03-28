@@ -245,7 +245,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Logger.LogWarning(
 						"Failed to send to channel {0}: {1}",
 						channelId,
-						result.Error.Message);
+						result.Error);
 			}
 
 			try
