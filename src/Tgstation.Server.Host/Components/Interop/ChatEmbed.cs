@@ -20,7 +20,9 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The URL of the embed.
 		/// </summary>
+#pragma warning disable CA1056 // Uri properties should not be strings
 		public string Url { get; set; }
+#pragma warning restore CA1056 // Uri properties should not be strings
 
 		/// <summary>
 		/// The ISO 8601 timestamp of the embed.
