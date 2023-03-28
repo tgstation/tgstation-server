@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
@@ -65,17 +67,23 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <inheritdoc />
 		// TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
+		public async Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			IEnumerable<Models.TestMerge> results = null;
+			IGitRemoteInformation remoteInformation = null;
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
 			{
 				string head;
 				using (var repo = await repositoryManager.LoadRepository(cancellationToken))
 				{
 					if (repo == null)
-						return "Repository unavailable!";
+						return new MessageContent
+						{
+							Text = "Repository unavailable!",
+						};
+
 					head = repo.Head;
+					remoteInformation = repo;
 				}
 
 				await databaseContextFactory.UseContext(
@@ -95,16 +103,39 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			else
 			{
 				if (watchdog.Status == WatchdogStatus.Offline)
-					return "Server offline!";
+					return new MessageContent
+					{
+						Text = "Server offline!",
+					};
 				results = watchdog.ActiveCompileJob?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? new List<Models.TestMerge>();
 			}
 
-			return !results.Any()
-				? "None!"
-				: String.Join(
-					", ",
-					results.Select(
-						x => $"#{x.Number} at {x.TargetCommitSha[..7]}"));
+			string remoteDomain = remoteInformation.RemoteGitProvider == RemoteGitProvider.GitHub ? "github" : "gitlab";
+
+			return new MessageContent
+			{
+				Text = !results.Any()
+					? "None!"
+					: String.Join(
+						", ",
+						results.Select(
+							x => $"#{x.Number} at {x.TargetCommitSha[..7]}")),
+				Embed = results.Any() && remoteInformation.RemoteGitProvider != RemoteGitProvider.Unknown
+					? new ChatEmbed
+					{
+						Title = "Test Merges",
+						Colour = "#3FB950",
+						Description = "Live Test Merges",
+						Fields = results.Select(
+							testMerge => new ChatEmbedField
+							{
+								Name = $"#{testMerge.Number}",
+								Value = $"[{testMerge.TitleAtMerge}]({testMerge.Url}) by _[@{testMerge.Author}](https://{remoteDomain}.com/{testMerge.Author})_{Environment.NewLine}Commit: [{testMerge.TargetCommitSha.Substring(0, 7)}](https://{remoteDomain}.com/{remoteInformation.RemoteRepositoryOwner}/{remoteInformation.RemoteRepositoryName}/commit/{testMerge.TargetCommitSha}){(String.IsNullOrWhiteSpace(testMerge.Comment) ? String.Empty : $"{Environment.NewLine}_**{testMerge.Comment}**_")}",
+							})
+							.ToList(),
+					}
+					: null,
+			};
 		}
 #pragma warning restore CA1506
 	}

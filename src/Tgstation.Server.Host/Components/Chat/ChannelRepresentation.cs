@@ -51,5 +51,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// For user use.
 		/// </summary>
 		public string Tag { get; set; }
+
+		/// <summary>
+		/// If this channel supports embeds.
+		/// </summary>
+		public bool EmbedsSupported { get; set; }
 	}
 }

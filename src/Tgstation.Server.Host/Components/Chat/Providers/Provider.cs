@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -165,7 +166,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public abstract Task SendMessage(Message replyTo, string message, ulong channelId, CancellationToken cancellationToken);
+		public abstract Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public abstract Task<Func<string, string, Task>> SendUpdateMessage(

@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Components.Interop;
+
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
@@ -29,7 +31,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <param name="arguments">The text after <see cref="Name"/> with leading whitespace trimmed.</param>
 		/// <param name="user">The <see cref="ChatUser"/> who invoked the command.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="string"/> to send to the invoker.</returns>
-		Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="MessageContent"/> to send to the invoker.</returns>
+		Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken);
 	}
 }

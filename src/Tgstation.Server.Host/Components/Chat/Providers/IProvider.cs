@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
@@ -64,11 +65,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Send a message to the <see cref="IProvider"/>.
 		/// </summary>
 		/// <param name="replyTo">The <see cref="Message"/> to reply to.</param>
-		/// <param name="message">The message contents.</param>
+		/// <param name="message">The <see cref="MessageContent"/>.</param>
 		/// <param name="channelId">The <see cref="ChannelRepresentation.RealId"/> to send to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task SendMessage(Message replyTo, string message, ulong channelId, CancellationToken cancellationToken);
+		Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Set the interval at which the provider starts jobs to try to reconnect.

@@ -14,6 +14,7 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
@@ -266,12 +267,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<string> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
+		public async Task<MessageContent> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
 				if (Status == WatchdogStatus.Offline)
-					return "TGS: Server offline!";
+					return new MessageContent
+					{
+						Text = "TGS: Server offline!",
+					};
 
 				var commandObject = new ChatCommand(sender, commandName, arguments);
 
@@ -281,13 +285,29 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var commandResult = await activeServer.SendCommand(command, cancellationToken);
 
 				if (commandResult == null)
-					return "TGS: Bad topic exchange!";
+					return new MessageContent
+					{
+						Text = "TGS: Bad topic exchange!",
+					};
 
 				if (commandResult.InteropResponse == null)
-					return "TGS: Bad topic response!";
+					return new MessageContent
+					{
+						Text = "TGS: Bad topic response!",
+					};
 
-				return commandResult.InteropResponse.CommandResponseMessage ??
-					"TGS: Command processed but no DMAPI response returned!";
+				var commandResponse = new MessageContent
+				{
+					Text = commandResult.InteropResponse.CommandResponse?.Text ?? commandResult.InteropResponse.CommandResponseMessage,
+					Embed = commandResult.InteropResponse.CommandResponse?.Embed,
+				};
+
+				if (commandResponse.Text == null && commandResponse.Embed == null)
+				{
+					commandResponse.Text = "TGS: Command processed but no DMAPI response returned!";
+				}
+
+				return commandResponse;
 			}
 		}
 

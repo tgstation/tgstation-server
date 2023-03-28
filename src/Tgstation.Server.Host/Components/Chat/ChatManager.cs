@@ -12,6 +12,7 @@ using Serilog.Context;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 
@@ -329,7 +330,14 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (channelIds == null)
 				throw new ArgumentNullException(nameof(channelIds));
 
-			var task = SendMessage(channelIds, null, message, handlerCts.Token);
+			var task = SendMessage(
+				channelIds,
+				null,
+				new MessageContent
+				{
+					Text = message,
+				},
+				handlerCts.Token);
 			AddMessageTask(task);
 		}
 
@@ -499,7 +507,14 @@ namespace Tgstation.Server.Host.Components.Chat
 					.Select(x => x.Key)
 					.ToList();
 
-			return SendMessage(wdChannels, null, message, cancellationToken);
+			return SendMessage(
+				wdChannels,
+				null,
+				new MessageContent
+				{
+					Text = message,
+				},
+				cancellationToken);
 		}
 
 		/// <summary>
@@ -646,7 +661,10 @@ namespace Tgstation.Server.Host.Components.Chat
 							message.User.Channel.RealId,
 						},
 						null,
-						"Processing error, check logs!",
+						new MessageContent
+						{
+							Text = "TGS: Processing error, check logs!",
+						},
 						cancellationToken)
 						;
 					return;
@@ -686,7 +704,17 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (splits.Count == 0)
 				{
 					// just a mention
-					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, "Hi!", cancellationToken);
+					await SendMessage(
+						new List<ulong>
+						{
+							message.User.Channel.RealId,
+						},
+						message,
+						new MessageContent
+						{
+							Text = "Hi!",
+						},
+						cancellationToken);
 					return;
 				}
 
@@ -732,7 +760,14 @@ namespace Tgstation.Server.Host.Components.Chat
 							helpText = UnknownCommandMessage;
 					}
 
-					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, helpText, cancellationToken);
+					await SendMessage(
+						new List<ulong> { message.User.Channel.RealId },
+						message,
+						new MessageContent
+						{
+							Text = helpText,
+						},
+						cancellationToken);
 					return;
 				}
 
@@ -740,13 +775,27 @@ namespace Tgstation.Server.Host.Components.Chat
 
 				if (commandHandler == default)
 				{
-					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, UnknownCommandMessage, cancellationToken);
+					await SendMessage(
+						new List<ulong> { message.User.Channel.RealId },
+						message,
+						new MessageContent
+						{
+							Text = UnknownCommandMessage,
+						},
+						cancellationToken);
 					return;
 				}
 
 				if (commandHandler.AdminOnly && !message.User.Channel.IsAdminChannel)
 				{
-					await SendMessage(new List<ulong> { message.User.Channel.RealId }, message, "Use this command in an admin channel!", cancellationToken);
+					await SendMessage(
+						new List<ulong> { message.User.Channel.RealId },
+						message,
+						new MessageContent
+						{
+							Text = "Use this command in an admin channel!",
+						},
+						cancellationToken);
 					return;
 				}
 
@@ -766,7 +815,10 @@ namespace Tgstation.Server.Host.Components.Chat
 				await SendMessage(
 					new List<ulong> { message.User.Channel.RealId },
 					message,
-					"TGS: Internal error processing command! Check server logs!",
+					new MessageContent
+					{
+						Text = "TGS: Internal error processing command! Check server logs!",
+					},
 					cancellationToken)
 					;
 			}
@@ -865,12 +917,16 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to.</param>
 		/// <param name="replyTo">The <see cref="Message"/> to reply to.</param>
-		/// <param name="message">The message to send.</param>
+		/// <param name="message">The <see cref="MessageContent"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task SendMessage(IEnumerable<ulong> channelIds, Message replyTo, string message, CancellationToken cancellationToken)
+		Task SendMessage(IEnumerable<ulong> channelIds, Message replyTo, MessageContent message, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Chat send \"{message}\" to channels: {channelIdsCommaSeperated}", message, String.Join(", ", channelIds));
+			logger.LogTrace(
+				"Chat send \"{message}\"{embed} to channels: {channelIdsCommaSeperated}",
+				message.Text,
+				message.Embed != null ? " (with embed)" : String.Empty,
+				String.Join(", ", channelIds));
 
 			return Task.WhenAll(
 				channelIds.Select(x =>

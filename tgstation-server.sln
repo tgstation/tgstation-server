@@ -68,7 +68,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tgs", "tgs", "{F7765A4B-021
 		src\DMAPI\tgs\includes.dm = src\DMAPI\tgs\includes.dm
 		src\DMAPI\tgs\LICENSE = src\DMAPI\tgs\LICENSE
 		src\DMAPI\tgs\README.md = src\DMAPI\tgs\README.md
-		src\DMAPI\tgs.dm = src\DMAPI\tgs.dm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{DCCBA9DA-47BA-4C70-823B-E99A3ACA0377}"
@@ -137,10 +136,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v5", "v5", "{FAEAD3B5-2EAB-
 	ProjectSection(SolutionItems) = preProject
 		src\DMAPI\tgs\v5\api.dm = src\DMAPI\tgs\v5\api.dm
 		src\DMAPI\tgs\v5\commands.dm = src\DMAPI\tgs\v5\commands.dm
-		src\DMAPI\tgs\v5\interop_version.dm = src\DMAPI\tgs\v5\interop_version.dm
 		src\DMAPI\tgs\v5\README.md = src\DMAPI\tgs\v5\README.md
+		src\DMAPI\tgs\v5\serializers.dm = src\DMAPI\tgs\v5\serializers.dm
 		src\DMAPI\tgs\v5\undefs.dm = src\DMAPI\tgs\v5\undefs.dm
 		src\DMAPI\tgs\v5\_defines.dm = src\DMAPI\tgs\v5\_defines.dm
+		src\DMAPI\tgs\v5\__interop_version.dm = src\DMAPI\tgs\v5\__interop_version.dm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LongRunning", "LongRunning", "{EB1DDE8C-CA6F-4BE3-947B-597CA8EABEA5}"
@@ -185,12 +185,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Tests.Signals", "tests\Tgstation.Server.Host.Tests.Signals\Tgstation.Server.Host.Tests.Signals.csproj", "{5813CC33-B16C-485D-A74D-20204DDF6542}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Migrator", "tools\Tgstation.Server.Migrator\Tgstation.Server.Migrator.csproj", "{CE499888-B22B-457C-891E-0EA9DC317228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Migrator", "tools\Tgstation.Server.Migrator\Tgstation.Server.Migrator.csproj", "{CE499888-B22B-457C-891E-0EA9DC317228}"
 	ProjectSection(ProjectDependencies) = postProject
 		{07ED0FD5-E46B-4841-931D-BA2B673E16B2} = {07ED0FD5-E46B-4841-931D-BA2B673E16B2}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Migrator.Comms", "tools\Tgstation.Server.Migrator.Comms\Tgstation.Server.Migrator.Comms.csproj", "{07ED0FD5-E46B-4841-931D-BA2B673E16B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Migrator.Comms", "tools\Tgstation.Server.Migrator.Comms\Tgstation.Server.Migrator.Comms.csproj", "{07ED0FD5-E46B-4841-931D-BA2B673E16B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

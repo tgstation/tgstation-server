@@ -22,7 +22,26 @@
 /proc/Run()
 	sleep(60)
 	world.TgsChatBroadcast("World Initialized")
-	// world.TgsInitializationComplete()
+	var/datum/tgs_message_content/response = new("Embed support test1")
+	response.embed = new()
+	response.embed.description = "desc"
+	response.embed.title = "title"
+	response.embed.colour = "#00FF00"
+	response.embed.author = new /datum/tgs_chat_embed/provider/author("Dominion")
+	response.embed.author.url = "https://github.com/Cyberboss"
+	response.embed.timestamp = time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")
+	response.embed.url = "https://github.com/tgstation/tgstation-server"
+	response.embed.fields = list()
+	var/datum/tgs_chat_embed/field/field = new("field1","value1")
+	fields += field
+	field = new("field2","value2")
+	field.is_inline = TRUE
+	fields += field
+	field = new("field3","value3")
+	fields += field
+	response.embed.footer = new /datum/tgs_chat_embed/footer("Footer text")
+	world.TgsChatBroadcast(response)
+	world.TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)
 	log << "Topic: [T]"
@@ -62,3 +81,27 @@
 	sleep(30)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
+	
+/datum/tgs_chat_command/echo
+	name = "echo"
+	help_text = "echos input parameters"
+
+/datum/tgs_chat_command/echo/Run(datum/tgs_chat_user/sender, params)
+	var/datum/tgs_message_content/response = new("Embed support test2")
+	response.embed = new()
+	response.embed.description = "desc"
+	response.embed.title = "title"
+	response.embed.colour = "#0000FF"
+	response.embed.author = new /datum/tgs_chat_embed/provider/author("Dominion")
+	response.embed.author.url = "https://github.com/Cyberboss"
+	response.embed.timestamp = time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")
+	response.embed.url = "https://github.com/tgstation/tgstation-server"
+	response.embed.fields = list()
+	var/datum/tgs_chat_embed/field/field = new("field1","value1")
+	fields += field
+	field = new("field2","value2")
+	field.is_inline = TRUE
+	fields += field
+	field = new("field3","value3")
+	fields += field
+	response.embed.footer = new /datum/tgs_chat_embed/footer("Footer text")
