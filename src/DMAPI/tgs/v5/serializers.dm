@@ -1,5 +1,5 @@
 /datum/tgs_message_content/proc/_interop_serialize()
-	return list("text" = text, "embed" = embed._interop_serialize())
+	return list("text" = text, "embed" = embed?._interop_serialize())
 
 /datum/tgs_chat_embed/proc/_interop_serialize()
 	CRASH("Base /proc/interop_serialize called on [type]!")
