@@ -87,7 +87,7 @@
 	name = "embeds_test"
 	help_text = "dumps an embed"
 
-/datum/tgs_chat_command/echo/Run(datum/tgs_chat_user/sender, params)
+/datum/tgs_chat_command/embeds_test/Run(datum/tgs_chat_user/sender, params)
 	var/datum/tgs_message_content/response = new("Embed support test2")
 	response.embed = new()
 	response.embed.description = "desc"
