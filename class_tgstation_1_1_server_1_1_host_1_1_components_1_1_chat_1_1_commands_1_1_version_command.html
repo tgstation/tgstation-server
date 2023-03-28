@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -111,8 +111,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aac843c7ae2125089ba16ccf1e35a0a0d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#aac843c7ae2125089ba16ccf1e35a0a0d">VersionCommand</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a2804521ce43e4dae665f0dfe31afa8c6">assemblyInformationProvider</a>)</td></tr>
 <tr class="memdesc:aac843c7ae2125089ba16ccf1e35a0a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html" title="ICommand to return the IAssemblyInformationProvider.VersionString.">VersionCommand</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#aac843c7ae2125089ba16ccf1e35a0a0d">More...</a><br /></td></tr>
 <tr class="separator:aac843c7ae2125089ba16ccf1e35a0a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf3191c4ddd561ac4b453f191ef5807a"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#abf3191c4ddd561ac4b453f191ef5807a">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:abf3191c4ddd561ac4b453f191ef5807a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a5ce525dc8afe5121e8b39088ccdd6b04"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a5ce525dc8afe5121e8b39088ccdd6b04">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a5ce525dc8afe5121e8b39088ccdd6b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">arguments</td><td>The text after <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#aa9cbbf23975efc1dde048ee43a6e1d4b" title="The text to invoke the command. May not be &quot;?&quot; or &quot;help&quot; (case-insensitive).">Name</a> with leading whitespace trimmed.</td></tr>
     <tr><td class="paramname">user</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html" title="Represents a tgs_chat_user datum.">ChatUser</a> who invoked the command.</td></tr>
@@ -120,12 +120,12 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a string to send to the invoker.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#abf3191c4ddd561ac4b453f191ef5807a">More...</a><br /></td></tr>
-<tr class="separator:abf3191c4ddd561ac4b453f191ef5807a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04c66c0358e0fea7404608b6cefa9f75"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a04c66c0358e0fea7404608b6cefa9f75">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a04c66c0358e0fea7404608b6cefa9f75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a04c66c0358e0fea7404608b6cefa9f75">More...</a><br /></td></tr>
-<tr class="separator:a04c66c0358e0fea7404608b6cefa9f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a5ce525dc8afe5121e8b39088ccdd6b04">More...</a><br /></td></tr>
+<tr class="separator:a5ce525dc8afe5121e8b39088ccdd6b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a496f239620a204de7043218771fd55d4"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a496f239620a204de7043218771fd55d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">More...</a><br /></td></tr>
+<tr class="separator:a496f239620a204de7043218771fd55d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -158,7 +158,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a> to return the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#abd6db0f6e1ea9273baeacaa66ae81fa3" title="A more verbose version of Version.">IAssemblyInformationProvider.VersionString</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00012">12</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00013">13</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aac843c7ae2125089ba16ccf1e35a0a0d" name="aac843c7ae2125089ba16ccf1e35a0a0d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aac843c7ae2125089ba16ccf1e35a0a0d">&#9670;&#160;</a></span>VersionCommand()</h2>
@@ -184,25 +184,25 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00032">32</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>        {</div>
-<div class="line"><span class="lineno">   34</span>            this.assemblyInformationProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a2804521ce43e4dae665f0dfe31afa8c6">assemblyInformationProvider</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a2804521ce43e4dae665f0dfe31afa8c6">assemblyInformationProvider</a>));</div>
-<div class="line"><span class="lineno">   35</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command_html_a2804521ce43e4dae665f0dfe31afa8c6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a2804521ce43e4dae665f0dfe31afa8c6">Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the VersionCommand.</div><div class="ttdef"><b>Definition:</b> <a href="_version_command_8cs_source.html#l00026">VersionCommand.cs:26</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00033">33</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
+<div class="line"><span class="lineno">   35</span>            this.assemblyInformationProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a2804521ce43e4dae665f0dfe31afa8c6">assemblyInformationProvider</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a2804521ce43e4dae665f0dfe31afa8c6">assemblyInformationProvider</a>));</div>
+<div class="line"><span class="lineno">   36</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command_html_a2804521ce43e4dae665f0dfe31afa8c6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a2804521ce43e4dae665f0dfe31afa8c6">Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the VersionCommand.</div><div class="ttdef"><b>Definition:</b> <a href="_version_command_8cs_source.html#l00027">VersionCommand.cs:27</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_version_command_8cs_source.html#l00026">Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.assemblyInformationProvider</a>.</p>
+<p class="reference">References <a class="el" href="_version_command_8cs_source.html#l00027">Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.assemblyInformationProvider</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="abf3191c4ddd561ac4b453f191ef5807a" name="abf3191c4ddd561ac4b453f191ef5807a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf3191c4ddd561ac4b453f191ef5807a">&#9670;&#160;</a></span>Invoke()</h2>
+<a id="a5ce525dc8afe5121e8b39088ccdd6b04" name="a5ce525dc8afe5121e8b39088ccdd6b04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ce525dc8afe5121e8b39088ccdd6b04">&#9670;&#160;</a></span>Invoke()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; string &gt; Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.Invoke </td>
+          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt; Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.Invoke </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>arguments</em>, </td>
@@ -235,10 +235,12 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a string to send to the invoker.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a04c66c0358e0fea7404608b6cefa9f75">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
+
+<p class="reference">References <a class="el" href="_version_command_8cs_source.html#l00027">Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.assemblyInformationProvider</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00030">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionString</a>.</p>
 
 </div>
 </div>
@@ -265,9 +267,9 @@ Private Attributes</h2></td></tr>
 
 <p>The IAssemblyInformationProvider for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html" title="ICommand to return the IAssemblyInformationProvider.VersionString.">VersionCommand</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00026">26</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00027">27</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_version_command_8cs_source.html#l00032">Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.VersionCommand()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html#a5ce525dc8afe5121e8b39088ccdd6b04">Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.Invoke()</a>, and <a class="el" href="_version_command_8cs_source.html#l00033">Tgstation.Server.Host.Components.Chat.Commands.VersionCommand.VersionCommand()</a>.</p>
 
 </div>
 </div>
@@ -296,7 +298,7 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a0872d9ed0ba21f3decc6d5303001fc8e">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00021">21</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00022">22</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
 
 </div>
 </div>
@@ -324,7 +326,7 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#ab8687d89e8f4b08d6221c1fd51ab8ca0">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00018">18</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00019">19</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
 
 </div>
 </div>
@@ -352,7 +354,7 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#aa9cbbf23975efc1dde048ee43a6e1d4b">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00015">15</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_version_command_8cs_source.html#l00016">16</a> of file <a class="el" href="_version_command_8cs_source.html">VersionCommand.cs</a>.</p>
 
 </div>
 </div>

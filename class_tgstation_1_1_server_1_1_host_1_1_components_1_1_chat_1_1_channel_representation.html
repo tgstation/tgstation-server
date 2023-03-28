@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -108,6 +108,9 @@ Properties</h2></td></tr>
 <tr class="memitem:ad04f3c37655b30075bcba04db915a184"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ad04f3c37655b30075bcba04db915a184">Tag</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ad04f3c37655b30075bcba04db915a184"><td class="mdescLeft">&#160;</td><td class="mdescRight">For user use.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ad04f3c37655b30075bcba04db915a184">More...</a><br /></td></tr>
 <tr class="separator:ad04f3c37655b30075bcba04db915a184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f8bd380a38c8e441ed1d6d1861bd20"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ae5f8bd380a38c8e441ed1d6d1861bd20">EmbedsSupported</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ae5f8bd380a38c8e441ed1d6d1861bd20"><td class="mdescLeft">&#160;</td><td class="mdescRight">If this channel supports embeds.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ae5f8bd380a38c8e441ed1d6d1861bd20">More...</a><br /></td></tr>
+<tr class="separator:ae5f8bd380a38c8e441ed1d6d1861bd20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Represents a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service.">Providers.IProvider</a> channel.  </p>
@@ -140,8 +143,35 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_channel_representation_8cs_source.html#l00038">38</a> of file <a class="el" href="_channel_representation_8cs_source.html">ChannelRepresentation.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   38</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00577">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00594">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
+</div>
+</div>
+<a id="ae5f8bd380a38c8e441ed1d6d1861bd20" name="ae5f8bd380a38c8e441ed1d6d1861bd20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5f8bd380a38c8e441ed1d6d1861bd20">&#9670;&#160;</a></span>EmbedsSupported</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Components.Chat.ChannelRepresentation.EmbedsSupported</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If this channel supports embeds.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_channel_representation_8cs_source.html#l00058">58</a> of file <a class="el" href="_channel_representation_8cs_source.html">ChannelRepresentation.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a8e131ca82dfe8f7a86adac27ff1f5ab8" name="a8e131ca82dfe8f7a86adac27ff1f5ab8"></a>
@@ -223,7 +253,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_channel_representation_8cs_source.html#l00043">43</a> of file <a class="el" href="_channel_representation_8cs_source.html">ChannelRepresentation.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   43</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00577">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00594">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
 </div>
 </div>
@@ -252,7 +282,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_channel_representation_8cs_source.html#l00048">48</a> of file <a class="el" href="_channel_representation_8cs_source.html">ChannelRepresentation.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   48</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00577">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00594">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
 </div>
 </div>
@@ -286,7 +316,7 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   28</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation_html_aa98bc0db3a17f868cc589ba91dc4c105"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#aa98bc0db3a17f868cc589ba91dc4c105">Tgstation.Server.Host.Components.Chat.ChannelRepresentation.Id</a></div><div class="ttdeci">string Id</div><div class="ttdoc">Backing field for RealId. Represented as a string to avoid BYOND percision loss.</div><div class="ttdef"><b>Definition:</b> <a href="_channel_representation_8cs_source.html#l00017">ChannelRepresentation.cs:17</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00577">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00594">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
 </div>
 </div>
@@ -315,7 +345,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_channel_representation_8cs_source.html#l00053">53</a> of file <a class="el" href="_channel_representation_8cs_source.html">ChannelRepresentation.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   53</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00629">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00638">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl()</a>.</p>
 
 </div>
 </div>

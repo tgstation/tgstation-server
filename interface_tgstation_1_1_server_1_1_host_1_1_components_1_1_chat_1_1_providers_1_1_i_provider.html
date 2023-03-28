@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -121,9 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5f2369e94bdd3b0860f15d571f8f151c"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyCollection&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">ChatChannel</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html">ChannelRepresentation</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a5f2369e94bdd3b0860f15d571f8f151c">MapChannels</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">ChatChannel</a> &gt; channels, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a5f2369e94bdd3b0860f15d571f8f151c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel.">ChannelRepresentation</a>s for given <em>channels</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a5f2369e94bdd3b0860f15d571f8f151c">More...</a><br /></td></tr>
 <tr class="separator:a5f2369e94bdd3b0860f15d571f8f151c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5cd60fbafc701058cf0ecbd0c8724c5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#aa5cd60fbafc701058cf0ecbd0c8724c5">SendMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Message</a> replyTo, string message, ulong channelId, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa5cd60fbafc701058cf0ecbd0c8724c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service.">IProvider</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#aa5cd60fbafc701058cf0ecbd0c8724c5">More...</a><br /></td></tr>
-<tr class="separator:aa5cd60fbafc701058cf0ecbd0c8724c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acffa4545e390b390d8f70a4017f386a6"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#acffa4545e390b390d8f70a4017f386a6">SendMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Message</a> replyTo, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> message, ulong channelId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:acffa4545e390b390d8f70a4017f386a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service.">IProvider</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#acffa4545e390b390d8f70a4017f386a6">More...</a><br /></td></tr>
+<tr class="separator:acffa4545e390b390d8f70a4017f386a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a8f13abd1df7147c47d6d1a8e4577b9e6">SetReconnectInterval</a> (uint reconnectInterval, bool connectNow)</td></tr>
 <tr class="memdesc:a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the interval at which the provider starts jobs to try to reconnect.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a8f13abd1df7147c47d6d1a8e4577b9e6">More...</a><br /></td></tr>
 <tr class="separator:a8f13abd1df7147c47d6d1a8e4577b9e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,7 +149,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >For interacting with a chat service.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ae24ff61d2fb16b41675498d0d95b67d8" name="ae24ff61d2fb16b41675498d0d95b67d8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae24ff61d2fb16b41675498d0d95b67d8">&#9670;&#160;</a></span>Disconnect()</h2>
@@ -271,8 +271,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="aa5cd60fbafc701058cf0ecbd0c8724c5" name="aa5cd60fbafc701058cf0ecbd0c8724c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5cd60fbafc701058cf0ecbd0c8724c5">&#9670;&#160;</a></span>SendMessage()</h2>
+<a id="acffa4545e390b390d8f70a4017f386a6" name="acffa4545e390b390d8f70a4017f386a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acffa4545e390b390d8f70a4017f386a6">&#9670;&#160;</a></span>SendMessage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,7 +286,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a>&#160;</td>
           <td class="paramname"><em>message</em>, </td>
         </tr>
         <tr>
@@ -313,7 +313,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">replyTo</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html" title="Represents a message recieved by a IProvider.">Message</a> to reply to.</td></tr>
-    <tr><td class="paramname">message</td><td>The message contents.</td></tr>
+    <tr><td class="paramname">message</td><td>The MessageContent.</td></tr>
     <tr><td class="paramname">channelId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48" title="The Providers.IProvider channel Id.">ChannelRepresentation.RealId</a> to send to.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -321,7 +321,7 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a314200283e13f9a26dc528602ac82624">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a09b4db84247f22c48676ac7d87d49598">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a38df86f2b585482484ce5b1c2f8ff22a">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#af4a17b4a63612dfafbd1d48f73ad1ee5">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af51fc0690adb01667e00f261ae40d5c8">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a8bfb93cc63e31af62a2513e4541d6162">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
 </div>
 </div>
@@ -472,10 +472,10 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#af40c0ea392de9986a4705d403674f61c">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a2724c59c69f5edcb6ccd6549a6ce71d6">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a3a3ca6a84bbd0adac5990f8d07601f49">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00028">28</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   28</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00029">29</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00577">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00594">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
 </div>
 </div>
@@ -503,10 +503,10 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac2744da20824177724b971eb20a6d5a0">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#aa22564e0346747e2c00dfcab7a48141c">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afab0213888c139dbb1786d7f5c0d8680">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00019">19</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00577">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00594">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
 </div>
 </div>
@@ -534,8 +534,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a12ea0f5bc6f3379005d924a42bd905d9">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00023">23</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00024">24</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   24</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -563,8 +563,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a8f4348efc454ce044b78b979c84bd926">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00033">33</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_provider_8cs_source.html#l00034">34</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

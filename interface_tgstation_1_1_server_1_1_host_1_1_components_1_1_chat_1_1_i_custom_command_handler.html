@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -99,23 +99,23 @@ Inheritance diagram for Tgstation.Server.Host.Components.Chat.ICustomCommandHand
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a70ad02e50d142d4700bf372875860774"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a70ad02e50d142d4700bf372875860774">HandleChatCommand</a> (string commandName, string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> sender, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a70ad02e50d142d4700bf372875860774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a chat command.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a70ad02e50d142d4700bf372875860774">More...</a><br /></td></tr>
-<tr class="separator:a70ad02e50d142d4700bf372875860774"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87fbee2ac435bb743c6eddd3dbe23c6b"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a87fbee2ac435bb743c6eddd3dbe23c6b">HandleChatCommand</a> (string commandName, string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> sender, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a87fbee2ac435bb743c6eddd3dbe23c6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a chat command.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a87fbee2ac435bb743c6eddd3dbe23c6b">More...</a><br /></td></tr>
+<tr class="separator:a87fbee2ac435bb743c6eddd3dbe23c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Handles <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">Commands.ICommand</a>s that map to those defined in a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files.">IChatTrackingContext</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_custom_command_handler_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_custom_command_handler_8cs_source.html">ICustomCommandHandler.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_custom_command_handler_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_custom_command_handler_8cs_source.html">ICustomCommandHandler.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a70ad02e50d142d4700bf372875860774" name="a70ad02e50d142d4700bf372875860774"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70ad02e50d142d4700bf372875860774">&#9670;&#160;</a></span>HandleChatCommand()</h2>
+<a id="a87fbee2ac435bb743c6eddd3dbe23c6b" name="a87fbee2ac435bb743c6eddd3dbe23c6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87fbee2ac435bb743c6eddd3dbe23c6b">&#9670;&#160;</a></span>HandleChatCommand()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; string &gt; Tgstation.Server.Host.Components.Chat.ICustomCommandHandler.HandleChatCommand </td>
+          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt; Tgstation.Server.Host.Components.Chat.ICustomCommandHandler.HandleChatCommand </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>commandName</em>, </td>
@@ -156,18 +156,18 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the response text to send back.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the MessageContent text to send back.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#afd81003b2e6d64f3f8240a61d44f112e">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a75d69d7ce07458b0d83124a1315c1c37">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_custom_command_8cs_source.html#l00038">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_custom_command_8cs_source.html#l00040">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a70ad02e50d142d4700bf372875860774_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a70ad02e50d142d4700bf372875860774_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a70ad02e50d142d4700bf372875860774_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a70ad02e50d142d4700bf372875860774_icgraph">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a87fbee2ac435bb743c6eddd3dbe23c6b_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a87fbee2ac435bb743c6eddd3dbe23c6b_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a87fbee2ac435bb743c6eddd3dbe23c6b_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a87fbee2ac435bb743c6eddd3dbe23c6b_icgraph">
 <area shape="rect" title="Handle a chat command." alt="" coords="320,5,596,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a21167b4edcc96f850967c80af7700aca" title="Invoke the ICommand. A Task&lt;TResult&gt; resulting in a string to send to the invoker." alt="" coords="5,13,272,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#ae63e112fef73a3536d9da6a9a629060c" title="Invoke the ICommand. A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker." alt="" coords="5,13,272,53"/>
 </map>
 </div>
 

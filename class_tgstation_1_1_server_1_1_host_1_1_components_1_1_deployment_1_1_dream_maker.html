@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -1410,17 +1410,17 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  738</span>            {</div>
 <div class="line"><span class="lineno">  739</span>                <span class="keywordflow">for</span> (var iteration = 0; iteration &lt; (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)</div>
 <div class="line"><span class="lineno">  740</span>                {</div>
-<div class="line"><span class="lineno">  741</span>                    var nextInterval = DateTimeOffset.Now + sleepInterval;</div>
+<div class="line"><span class="lineno">  741</span>                    var nextInterval = DateTimeOffset.UtcNow + sleepInterval;</div>
 <div class="line"><span class="lineno">  742</span>                    <span class="keywordflow">do</span></div>
 <div class="line"><span class="lineno">  743</span>                    {</div>
-<div class="line"><span class="lineno">  744</span>                        var remainingSleepThisInterval = nextInterval - DateTimeOffset.Now;</div>
+<div class="line"><span class="lineno">  744</span>                        var remainingSleepThisInterval = nextInterval - DateTimeOffset.UtcNow;</div>
 <div class="line"><span class="lineno">  745</span>                        var nextSleepSpan = remainingSleepThisInterval &lt; minimumSleepInterval ? remainingSleepThisInterval : minimumSleepInterval;</div>
 <div class="line"><span class="lineno">  746</span> </div>
 <div class="line"><span class="lineno">  747</span>                        await Task.Delay(nextSleepSpan, cancellationToken);</div>
 <div class="line"><span class="lineno">  748</span>                        progressReporter.StageName = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a>;</div>
 <div class="line"><span class="lineno">  749</span>                        progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1">ReportProgress</a>(lastReport);</div>
 <div class="line"><span class="lineno">  750</span>                    }</div>
-<div class="line"><span class="lineno">  751</span>                    <span class="keywordflow">while</span> (DateTimeOffset.Now &lt; nextInterval);</div>
+<div class="line"><span class="lineno">  751</span>                    <span class="keywordflow">while</span> (DateTimeOffset.UtcNow &lt; nextInterval);</div>
 <div class="line"><span class="lineno">  752</span> </div>
 <div class="line"><span class="lineno">  753</span>                    progressReporter.StageName = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad3a2d4ecaf8499cb7f8d5486ca8c32ec">currentStage</a>;</div>
 <div class="line"><span class="lineno">  754</span>                    lastReport = noEstimate ? null : sleepInterval * (iteration + 1) / estimatedDuration.Value;</div>

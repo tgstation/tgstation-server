@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage">
+<area shape="rect" id="node1" title="Send a message to the IProvider. A Task representing the running operation." alt="" coords="5,5,240,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#acb7a2fd7f33039ab041c83beca2b85f0" title="Convert a ChatEmbed to an IEmbed parameters." alt="" coords="288,13,579,53"/>
+</map>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -111,8 +111,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a593d81a97b0b00221c098a3c04049800"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a593d81a97b0b00221c098a3c04049800">SetHandler</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html">ICustomCommandHandler</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a>)</td></tr>
 <tr class="memdesc:a593d81a97b0b00221c098a3c04049800"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a new <em>handler</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a593d81a97b0b00221c098a3c04049800">More...</a><br /></td></tr>
 <tr class="separator:a593d81a97b0b00221c098a3c04049800"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21167b4edcc96f850967c80af7700aca"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a21167b4edcc96f850967c80af7700aca">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a21167b4edcc96f850967c80af7700aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ae63e112fef73a3536d9da6a9a629060c"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#ae63e112fef73a3536d9da6a9a629060c">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae63e112fef73a3536d9da6a9a629060c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">arguments</td><td>The text after <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#aa9cbbf23975efc1dde048ee43a6e1d4b" title="The text to invoke the command. May not be &quot;?&quot; or &quot;help&quot; (case-insensitive).">Name</a> with leading whitespace trimmed.</td></tr>
     <tr><td class="paramname">user</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html" title="Represents a tgs_chat_user datum.">ChatUser</a> who invoked the command.</td></tr>
@@ -120,12 +120,12 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a string to send to the invoker.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a21167b4edcc96f850967c80af7700aca">More...</a><br /></td></tr>
-<tr class="separator:a21167b4edcc96f850967c80af7700aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04c66c0358e0fea7404608b6cefa9f75"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a04c66c0358e0fea7404608b6cefa9f75">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a04c66c0358e0fea7404608b6cefa9f75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a04c66c0358e0fea7404608b6cefa9f75">More...</a><br /></td></tr>
-<tr class="separator:a04c66c0358e0fea7404608b6cefa9f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#ae63e112fef73a3536d9da6a9a629060c">More...</a><br /></td></tr>
+<tr class="separator:ae63e112fef73a3536d9da6a9a629060c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a496f239620a204de7043218771fd55d4"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">Invoke</a> (string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> user, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a496f239620a204de7043218771fd55d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots.">ICommand</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">More...</a><br /></td></tr>
+<tr class="separator:a496f239620a204de7043218771fd55d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -158,16 +158,16 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Represents a command made from DM code.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00010">10</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00012">12</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a21167b4edcc96f850967c80af7700aca" name="a21167b4edcc96f850967c80af7700aca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21167b4edcc96f850967c80af7700aca">&#9670;&#160;</a></span>Invoke()</h2>
+<a id="ae63e112fef73a3536d9da6a9a629060c" name="ae63e112fef73a3536d9da6a9a629060c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae63e112fef73a3536d9da6a9a629060c">&#9670;&#160;</a></span>Invoke()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; string &gt; Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke </td>
+          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt; Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>arguments</em>, </td>
@@ -200,29 +200,29 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a string to send to the invoker.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a04c66c0358e0fea7404608b6cefa9f75">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a496f239620a204de7043218771fd55d4">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00038">38</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   39</span>        {</div>
-<div class="line"><span class="lineno">   40</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   41</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;SetHandler() has not been called!&quot;</span>);</div>
-<div class="line"><span class="lineno">   42</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a70ad02e50d142d4700bf372875860774">HandleChatCommand</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a639265f4892f69fac25fa32d7413fe75">Name</a>, arguments, user, cancellationToken);</div>
-<div class="line"><span class="lineno">   43</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_html_a429c52adf7d0b06ee91bb7b1e77cfe35"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.handler</a></div><div class="ttdeci">ICustomCommandHandler handler</div><div class="ttdoc">The ICustomCommandHandler for the CustomCommand.</div><div class="ttdef"><b>Definition:</b> <a href="_custom_command_8cs_source.html#l00024">CustomCommand.cs:24</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_html_a639265f4892f69fac25fa32d7413fe75"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a639265f4892f69fac25fa32d7413fe75">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Name</a></div><div class="ttdeci">string Name</div><div class="ttdoc">The text to invoke the command. May not be &quot;?&quot; or &quot;help&quot; (case-insensitive).</div><div class="ttdef"><b>Definition:</b> <a href="_custom_command_8cs_source.html#l00013">CustomCommand.cs:13</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_html_a70ad02e50d142d4700bf372875860774"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a70ad02e50d142d4700bf372875860774">Tgstation.Server.Host.Components.Chat.ICustomCommandHandler.HandleChatCommand</a></div><div class="ttdeci">Task&lt; string &gt; HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)</div><div class="ttdoc">Handle a chat command.</div></div>
+<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00040">40</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>        {</div>
+<div class="line"><span class="lineno">   42</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   43</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;SetHandler() has not been called!&quot;</span>);</div>
+<div class="line"><span class="lineno">   44</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a87fbee2ac435bb743c6eddd3dbe23c6b">HandleChatCommand</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a639265f4892f69fac25fa32d7413fe75">Name</a>, arguments, user, cancellationToken);</div>
+<div class="line"><span class="lineno">   45</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_html_a429c52adf7d0b06ee91bb7b1e77cfe35"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.handler</a></div><div class="ttdeci">ICustomCommandHandler handler</div><div class="ttdoc">The ICustomCommandHandler for the CustomCommand.</div><div class="ttdef"><b>Definition:</b> <a href="_custom_command_8cs_source.html#l00026">CustomCommand.cs:26</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_html_a639265f4892f69fac25fa32d7413fe75"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a639265f4892f69fac25fa32d7413fe75">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Name</a></div><div class="ttdeci">string Name</div><div class="ttdoc">The text to invoke the command. May not be &quot;?&quot; or &quot;help&quot; (case-insensitive).</div><div class="ttdef"><b>Definition:</b> <a href="_custom_command_8cs_source.html#l00015">CustomCommand.cs:15</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_html_a87fbee2ac435bb743c6eddd3dbe23c6b"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a87fbee2ac435bb743c6eddd3dbe23c6b">Tgstation.Server.Host.Components.Chat.ICustomCommandHandler.HandleChatCommand</a></div><div class="ttdeci">Task&lt; MessageContent &gt; HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)</div><div class="ttdoc">Handle a chat command.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a70ad02e50d142d4700bf372875860774">Tgstation.Server.Host.Components.Chat.ICustomCommandHandler.HandleChatCommand()</a>, <a class="el" href="_custom_command_8cs_source.html#l00024">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.handler</a>, and <a class="el" href="_custom_command_8cs_source.html#l00013">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Name</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a87fbee2ac435bb743c6eddd3dbe23c6b">Tgstation.Server.Host.Components.Chat.ICustomCommandHandler.HandleChatCommand()</a>, <a class="el" href="_custom_command_8cs_source.html#l00026">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.handler</a>, and <a class="el" href="_custom_command_8cs_source.html#l00015">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Name</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_a21167b4edcc96f850967c80af7700aca_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_a21167b4edcc96f850967c80af7700aca_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_a21167b4edcc96f850967c80af7700aca_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_a21167b4edcc96f850967c80af7700aca_cgraph">
-<area shape="rect" title="Invoke the ICommand. A Task&lt;TResult&gt; resulting in a string to send to the invoker." alt="" coords="5,13,272,53"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a70ad02e50d142d4700bf372875860774" title="Handle a chat command." alt="" coords="320,5,596,60"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_ae63e112fef73a3536d9da6a9a629060c_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_ae63e112fef73a3536d9da6a9a629060c_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_ae63e112fef73a3536d9da6a9a629060c_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_ae63e112fef73a3536d9da6a9a629060c_cgraph">
+<area shape="rect" title="Invoke the ICommand. A Task&lt;TResult&gt; resulting in a MessageContent to send to the invoker." alt="" coords="5,13,272,53"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a87fbee2ac435bb743c6eddd3dbe23c6b" title="Handle a chat command." alt="" coords="320,5,596,60"/>
 </map>
 </div>
 
@@ -252,14 +252,14 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00030">30</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   31</span>        {</div>
-<div class="line"><span class="lineno">   32</span>            <span class="keywordflow">if</span> (this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   33</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;SetHandler() already called!&quot;</span>);</div>
-<div class="line"><span class="lineno">   34</span>            this.handler = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a>));</div>
-<div class="line"><span class="lineno">   35</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00032">32</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>        {</div>
+<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">if</span> (this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;SetHandler() already called!&quot;</span>);</div>
+<div class="line"><span class="lineno">   36</span>            this.handler = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35">handler</a>));</div>
+<div class="line"><span class="lineno">   37</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_custom_command_8cs_source.html#l00024">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.handler</a>.</p>
+<p class="reference">References <a class="el" href="_custom_command_8cs_source.html#l00026">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.handler</a>.</p>
 
 </div>
 </div>
@@ -286,9 +286,9 @@ Here is the call graph for this function:</div>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext.">ICustomCommandHandler</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html" title="Represents a command made from DM code.">CustomCommand</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00024">24</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00026">26</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_custom_command_8cs_source.html#l00038">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke()</a>, and <a class="el" href="_custom_command_8cs_source.html#l00030">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.SetHandler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_custom_command_8cs_source.html#l00040">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke()</a>, and <a class="el" href="_custom_command_8cs_source.html#l00032">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.SetHandler()</a>.</p>
 
 </div>
 </div>
@@ -317,8 +317,8 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#a0872d9ed0ba21f3decc6d5303001fc8e">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00019">19</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00021">21</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -346,8 +346,8 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#ab8687d89e8f4b08d6221c1fd51ab8ca0">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00016">16</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00018">18</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -375,10 +375,10 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html#aa9cbbf23975efc1dde048ee43a6e1d4b">Tgstation.Server.Host.Components.Chat.Commands.ICommand</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00013">13</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   13</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_custom_command_8cs_source.html#l00015">15</a> of file <a class="el" href="_custom_command_8cs_source.html">CustomCommand.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_custom_command_8cs_source.html#l00038">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_custom_command_8cs_source.html#l00040">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke()</a>.</p>
 
 </div>
 </div>

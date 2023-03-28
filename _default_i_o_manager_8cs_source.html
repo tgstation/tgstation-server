@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.4.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -424,21 +424,23 @@ $(function() {
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span> </div>
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                    async Task CopyThisFile()</div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>                    {</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                        await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb">CopyFile</a>(sourceFile, destFile, cancellationToken);</div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                        <span class="keywordflow">if</span> (postCopyCallback != <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>                            await postCopyCallback(sourceFile, destFile);</div>
-<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>                    }</div>
-<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span> </div>
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>                    fileCopyTasks.Add(CopyThisFile());</div>
-<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>                }</div>
-<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span> </div>
-<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>                await Task.WhenAll(fileCopyTasks);</div>
-<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>            }</div>
-<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span> </div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>            yield <span class="keywordflow">return</span> CopyThisDirectory();</div>
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>        }</div>
-<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>    }</div>
-<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>}</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                        <span class="comment">// Grab all tasks before firing</span></div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                        await Task.Yield();</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>                        await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb">CopyFile</a>(sourceFile, destFile, cancellationToken);</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>                        <span class="keywordflow">if</span> (postCopyCallback != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>                            await postCopyCallback(sourceFile, destFile);</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>                    }</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span> </div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>                    fileCopyTasks.Add(CopyThisFile());</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>                }</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span> </div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>                await Task.WhenAll(fileCopyTasks);</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>            }</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span> </div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>            yield <span class="keywordflow">return</span> CopyThisDirectory();</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>        }</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    }</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>}</div>
 <div class="ttc" id="aclass_stream_html"><div class="ttname"><a href="class_stream.html">Stream</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">Tgstation.Server.Host.IO.DefaultIOManager</a></div><div class="ttdoc">IIOManager that resolves paths to Environment.CurrentDirectory.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00017">DefaultIOManager.cs:18</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a0993ba74977645647b910649a311cd97"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a0993ba74977645647b910649a311cd97">Tgstation.Server.Host.IO.DefaultIOManager.DefaultIOManager</a></div><div class="ttdeci">DefaultIOManager(IAssemblyInformationProvider assemblyInformationProvider)</div><div class="ttdoc">Initializes a new instance of the DefaultIOManager class.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00078">DefaultIOManager.cs:78</a></div></div>
