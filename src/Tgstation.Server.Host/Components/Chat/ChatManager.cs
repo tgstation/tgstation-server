@@ -356,7 +356,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			QueueMessage(
 				new MessageContent
 				{
-					Text = message
+					Text = message,
 				},
 				wdChannels);
 		}
