@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ using Remora.Rest.Core;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -219,7 +221,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task SendMessage(Message replyTo, string message, ulong channelId, CancellationToken cancellationToken)
+		public override async Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
 			Optional<IMessageReference> replyToReference = default;
 			if (replyTo != null && replyTo is DiscordMessage discordMessage)
@@ -227,12 +229,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				replyToReference = discordMessage.MessageReference;
 			}
 
+			var embeds = ConvertEmbed(message.Embed);
+
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 			async Task SendToChannel(Snowflake channelId)
 			{
 				var result = await channelsClient.CreateMessageAsync(
 					channelId,
-					message,
+					message.Text,
+					embeds: embeds,
 					messageReference: replyToReference,
 					ct: cancellationToken);
 
@@ -240,7 +245,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Logger.LogWarning(
 						"Failed to send to channel {0}: {1}",
 						channelId,
-						result.Error.Message);
+						result.Error);
 			}
 
 			try
@@ -452,7 +457,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					{
 						MessageReference = messageReference,
 					},
-					"https://youtu.be/LrNu-SuFF_o",
+					new MessageContent
+					{
+						Text = "https://youtu.be/LrNu-SuFF_o",
+					},
 					messageCreateEvent.ChannelID.Value,
 					default);
 				return Result.FromSuccess();
@@ -521,6 +529,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						IsPrivateChannel = pm,
 						ConnectionName = pm ? messageCreateEvent.Author.Username : guildName,
 						FriendlyName = channelResponse.Entity.Name.Value,
+						EmbedsSupported = true,
 
 						// isAdmin and Tag populated by manager
 					},
@@ -692,6 +701,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					FriendlyName = friendlyName,
 					IsPrivateChannel = false,
 					Tag = channelFromDB.Tag,
+					EmbedsSupported = true,
 				};
 
 				Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
@@ -720,6 +730,180 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			return enumerator;
 		}
+
+		/// <summary>
+		/// Convert a <see cref="ChatEmbed"/> to an <see cref="IEmbed"/> parameters.
+		/// </summary>
+		/// <param name="embed">The <see cref="ChatEmbed"/> to convert.</param>
+		/// <returns>The parameter for sending a single <see cref="IEmbed"/>.</returns>
+		#pragma warning disable CA1502
+		private Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed embed)
+		{
+			if (embed == null)
+				return default;
+
+			List<string> embedErrors = new List<string>();
+			Optional<Color> colour = default;
+			if (embed.Colour != null)
+				if (Int32.TryParse(embed.Colour.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var argb))
+					colour = Color.FromArgb(argb);
+				else
+					embedErrors.Add(
+						String.Format(
+							CultureInfo.InvariantCulture,
+							"Invalid embed colour: {0}",
+							embed.Colour));
+
+			if (embed.Author != null && String.IsNullOrWhiteSpace(embed.Author.Name))
+			{
+				embedErrors.Add("Null or whitespace embed author name!");
+				embed.Author = null;
+			}
+
+			List<IEmbedField> fields = null;
+			if (embed.Fields != null)
+			{
+				fields = new List<IEmbedField>();
+				var i = -1;
+				foreach (var field in embed.Fields)
+				{
+					++i;
+					var invalid = false;
+					if (String.IsNullOrWhiteSpace(field.Name))
+					{
+						embedErrors.Add(
+							String.Format(
+								CultureInfo.InvariantCulture,
+								"Null or whitespace field author at index {0}!",
+								i));
+						invalid = true;
+					}
+
+					if (String.IsNullOrWhiteSpace(field.Value))
+					{
+						embedErrors.Add(
+							String.Format(
+								CultureInfo.InvariantCulture,
+								"Null or whitespace field author at index {0}!",
+								i));
+						invalid = true;
+					}
+
+					if (invalid)
+						continue;
+
+					fields.Add(new EmbedField(field.Name, field.Value)
+					{
+						IsInline = field.IsInline ?? default(Optional<bool>),
+					});
+				}
+			}
+
+			if (embed.Footer != null && String.IsNullOrWhiteSpace(embed.Footer.Text))
+			{
+				embedErrors.Add("Null or whitespace embed footer text!");
+				embed.Footer = null;
+			}
+
+			if (embed.Image != null && String.IsNullOrWhiteSpace(embed.Image.Url))
+			{
+				embedErrors.Add("Null or whitespace embed image url!");
+				embed.Image = null;
+			}
+
+			if (embed.Thumbnail != null && String.IsNullOrWhiteSpace(embed.Thumbnail.Url))
+			{
+				embedErrors.Add("Null or whitespace embed thumbnail url!");
+				embed.Thumbnail = null;
+			}
+
+			Optional<DateTimeOffset> timestampOptional = default;
+			if (embed.Timestamp != null)
+				if (DateTimeOffset.TryParse(embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp))
+					timestampOptional = timestamp.ToUniversalTime();
+				else
+					embedErrors.Add(
+						String.Format(
+							CultureInfo.InvariantCulture,
+							"Invalid embed timestamp: {0}",
+							embed.Timestamp));
+
+			var discordEmbed = new Embed
+			{
+				Author = embed.Author != null
+					? new EmbedAuthor(embed.Author.Name)
+					{
+						IconUrl = embed.Author.IconUrl ?? default(Optional<string>),
+						ProxyIconUrl = embed.Author.ProxyIconUrl ?? default(Optional<string>),
+						Url = embed.Author.Url ?? default(Optional<string>),
+					}
+					: default(Optional<IEmbedAuthor>),
+				Colour = colour,
+				Description = embed.Description ?? default(Optional<string>),
+				Fields = fields ?? default(Optional<IReadOnlyList<IEmbedField>>),
+				Footer = embed.Footer != null
+					? new EmbedFooter(embed.Footer.Text)
+					{
+						IconUrl = embed.Footer.IconUrl ?? default(Optional<string>),
+						ProxyIconUrl = embed.Footer.ProxyIconUrl ?? default(Optional<string>),
+					}
+					: default,
+				Image = embed.Image != null
+					? new EmbedImage(embed.Image.Url)
+					{
+						Width = embed.Image.Width ?? default(Optional<int>),
+						Height = embed.Image.Height ?? default(Optional<int>),
+						ProxyUrl = embed.Image.ProxyUrl ?? default(Optional<string>),
+					}
+					: default(Optional<IEmbedImage>),
+				Provider = embed.Provider != null
+					? new EmbedProvider
+					{
+						Name = embed.Provider.Name ?? default(Optional<string>),
+						Url = embed.Provider.Url ?? default(Optional<string>),
+					}
+					: default(Optional<IEmbedProvider>),
+				Thumbnail = embed.Thumbnail != null
+					? new EmbedThumbnail(embed.Thumbnail.Url)
+					{
+						Width = embed.Thumbnail.Width ?? default(Optional<int>),
+						Height = embed.Thumbnail.Height ?? default(Optional<int>),
+						ProxyUrl = embed.Thumbnail.ProxyUrl ?? default(Optional<string>),
+					}
+					: default(Optional<IEmbedThumbnail>),
+				Timestamp = timestampOptional,
+				Title = embed.Title ?? default(Optional<string>),
+				Url = embed.Url ?? default(Optional<string>),
+				Video = embed.Video != null
+					? new EmbedVideo
+					{
+						Url = embed.Video.Url ?? default(Optional<string>),
+						Width = embed.Video.Width ?? default(Optional<int>),
+						Height = embed.Video.Height ?? default(Optional<int>),
+						ProxyUrl = embed.Video.ProxyUrl ?? default(Optional<string>),
+					}
+					: default(Optional<IEmbedVideo>),
+			};
+
+			var result = new List<IEmbed> { discordEmbed };
+
+			if (embedErrors.Count > 0)
+			{
+				var joinedErrors = String.Join(Environment.NewLine, embedErrors);
+				Logger.LogError("Embed description contains errors:{newLine}{issues}", Environment.NewLine, joinedErrors);
+				result.Add(new Embed
+				{
+					Title = "TGS Embed Errors",
+					Description = joinedErrors,
+					Colour = Color.Red,
+					Footer = new EmbedFooter("Please report this to your codebase's maintainers."),
+					Timestamp = DateTimeOffset.UtcNow,
+				});
+			}
+
+			return result;
+		}
+		#pragma warning restore CA1502
 	}
-	#pragma warning restore CA1506
+#pragma warning restore CA1506
 }

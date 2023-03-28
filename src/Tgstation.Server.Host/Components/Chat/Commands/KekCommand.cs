@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Components.Interop;
+
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
@@ -23,6 +25,9 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public bool AdminOnly => false;
 
 		/// <inheritdoc />
-		public Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken) => Task.FromResult(Kek);
+		public Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken) => Task.FromResult(new MessageContent
+		{
+			Text = Kek,
+		});
 	}
 }

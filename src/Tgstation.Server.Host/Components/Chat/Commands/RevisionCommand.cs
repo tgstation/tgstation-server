@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 
@@ -46,24 +47,33 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public async Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
+		public async Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			string result;
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
 				using (var repo = await repositoryManager.LoadRepository(cancellationToken))
 				{
 					if (repo == null)
-						return "Repository unavailable!";
+						return new MessageContent
+						{
+							Text = "Repository unavailable!",
+						};
 					result = repo.Head;
 				}
 			else
 			{
 				if (watchdog.Status == WatchdogStatus.Offline)
-					return "Server offline!";
+					return new MessageContent
+					{
+						Text = "Server offline!",
+					};
 				result = watchdog.ActiveCompileJob?.RevisionInformation.OriginCommitSha;
 			}
 
-			return String.Format(CultureInfo.InvariantCulture, "^{0}", result);
+			return new MessageContent
+			{
+				Text = String.Format(CultureInfo.InvariantCulture, "^{0}", result),
+			};
 		}
 	}
 }

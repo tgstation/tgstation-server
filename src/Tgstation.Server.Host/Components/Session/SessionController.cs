@@ -321,7 +321,7 @@ namespace Tgstation.Server.Host.Components.Session
 							return Error("Missing message field in chatMessage!");
 
 						chat.QueueMessage(
-							parameters.ChatMessage.Text,
+							parameters.ChatMessage,
 							parameters.ChatMessage.ChannelIds.Select(UInt64.Parse));
 						break;
 					case BridgeCommandType.Prime:

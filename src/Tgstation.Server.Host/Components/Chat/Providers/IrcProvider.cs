@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 using Meebey.SmartIrc4net;
 using Microsoft.Extensions.Logging;
 
+using Newtonsoft.Json;
+
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -159,12 +162,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override Task SendMessage(Message replyTo, string message, ulong channelId, CancellationToken cancellationToken) => Task.Factory.StartNew(
+		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
 				// IRC doesn't allow newlines
-				message = String.Concat(
-					message
+				// Explicitly ignore embeds
+				var messageText = message.Text;
+				if (messageText == null)
+					messageText = $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
+
+				messageText = String.Concat(
+					messageText
 						.Where(x => x != '\r')
 						.Select(x => x == '\n' ? '|' : x));
 
@@ -179,7 +187,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					sendType = SendType.Message;
 				try
 				{
-					client.SendMessage(sendType, channelName, message);
+					client.SendMessage(sendType, channelName, messageText);
 				}
 				catch (Exception e)
 				{
@@ -231,24 +239,30 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			await SendMessage(
 				null,
-				String.Format(
-					CultureInfo.InvariantCulture,
-					"DM: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
-					commitInsert,
-					testmergeInsert,
-					remoteCommitInsert,
-					byondVersion.Build > 0
-						? byondVersion.ToString()
-						: $"{byondVersion.Major}.{byondVersion.Minor}",
-					estimatedCompletionTime.HasValue
-						? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
-						: String.Empty),
+				new MessageContent
+				{
+					Text = String.Format(
+						CultureInfo.InvariantCulture,
+						"DM: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
+						commitInsert,
+						testmergeInsert,
+						remoteCommitInsert,
+						byondVersion.Build > 0
+							? byondVersion.ToString()
+							: $"{byondVersion.Major}.{byondVersion.Minor}",
+						estimatedCompletionTime.HasValue
+							? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
+							: String.Empty),
+				},
 				channelId,
 				cancellationToken);
 
 			return (errorMessage, dreamMakerOutput) => SendMessage(
 				null,
-				$"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+				new MessageContent
+				{
+					Text = $"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+				},
 				channelId,
 				cancellationToken);
 		}
@@ -314,6 +328,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 										FriendlyName = channelIdMap[id.Value],
 										IsPrivateChannel = false,
 										Tag = dbChannel.Tag,
+										EmbedsSupported = false,
 									});
 							})
 							.ToList();
@@ -501,6 +516,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
 						RealId = channelId,
 						IsPrivateChannel = isPrivate,
+						EmbedsSupported = false,
 
 						// isAdmin and Tag populated by manager
 					},

@@ -406,6 +406,8 @@ namespace Tgstation.Server.Host.IO
 
 					async Task CopyThisFile()
 					{
+						// Grab all tasks before firing
+						await Task.Yield();
 						await CopyFile(sourceFile, destFile, cancellationToken);
 						if (postCopyCallback != null)
 							await postCopyCallback(sourceFile, destFile);

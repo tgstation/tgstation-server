@@ -738,17 +738,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				for (var iteration = 0; iteration < (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)
 				{
-					var nextInterval = DateTimeOffset.Now + sleepInterval;
+					var nextInterval = DateTimeOffset.UtcNow + sleepInterval;
 					do
 					{
-						var remainingSleepThisInterval = nextInterval - DateTimeOffset.Now;
+						var remainingSleepThisInterval = nextInterval - DateTimeOffset.UtcNow;
 						var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? remainingSleepThisInterval : minimumSleepInterval;
 
 						await Task.Delay(nextSleepSpan, cancellationToken);
 						progressReporter.StageName = currentStage;
 						progressReporter.ReportProgress(lastReport);
 					}
-					while (DateTimeOffset.Now < nextInterval);
+					while (DateTimeOffset.UtcNow < nextInterval);
 
 					progressReporter.StageName = currentStage;
 					lastReport = noEstimate ? null : sleepInterval * (iteration + 1) / estimatedDuration.Value;

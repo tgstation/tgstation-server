@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Components.Interop;
+
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
@@ -15,7 +17,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="arguments">Everything typed after <paramref name="commandName"/> minus leading spaces.</param>
 		/// <param name="sender">The sending <see cref="ChatUser"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the response text to send back.</returns>
-		Task<string> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="MessageContent"/> text to send back.</returns>
+		Task<MessageContent> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken);
 	}
 }

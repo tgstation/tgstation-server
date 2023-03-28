@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Commands
@@ -35,6 +36,9 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken) => Task.FromResult(assemblyInformationProvider.VersionString);
+		public Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken) => Task.FromResult(new MessageContent
+		{
+			Text = assemblyInformationProvider.VersionString,
+		});
 	}
 }

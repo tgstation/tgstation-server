@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
@@ -65,7 +66,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <inheritdoc />
 		// TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
+		public async Task<MessageContent> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			IEnumerable<Models.TestMerge> results = null;
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))
@@ -74,7 +75,11 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				using (var repo = await repositoryManager.LoadRepository(cancellationToken))
 				{
 					if (repo == null)
-						return "Repository unavailable!";
+						return new MessageContent
+						{
+							Text = "Repository unavailable!",
+						};
+
 					head = repo.Head;
 				}
 
@@ -95,16 +100,22 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			else
 			{
 				if (watchdog.Status == WatchdogStatus.Offline)
-					return "Server offline!";
+					return new MessageContent
+					{
+						Text = "Server offline!",
+					};
 				results = watchdog.ActiveCompileJob?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? new List<Models.TestMerge>();
 			}
 
-			return !results.Any()
-				? "None!"
-				: String.Join(
-					", ",
-					results.Select(
-						x => $"#{x.Number} at {x.TargetCommitSha[..7]}"));
+			return new MessageContent
+			{
+				Text = !results.Any()
+					? "None!"
+					: String.Join(
+						", ",
+						results.Select(
+							x => $"#{x.Number} at {x.TargetCommitSha[..7]}")),
+			};
 		}
 #pragma warning restore CA1506
 	}

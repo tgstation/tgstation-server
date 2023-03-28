@@ -10,9 +10,14 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 	sealed class TopicResponse : DMApiResponse
 	{
 		/// <summary>
-		/// The text to reply with as the result of a <see cref="TopicCommandType.ChatCommand"/> request, if any.
+		/// The text to reply with as the result of a <see cref="TopicCommandType.ChatCommand"/> request, if any. Deprecated circa Interop 5.4.0.
 		/// </summary>
 		public string CommandResponseMessage { get; set; }
+
+		/// <summary>
+		/// The <see cref="ChatMessage"/> response from a <see cref="ChatCommand"/>. Added in Interop 5.4.0.
+		/// </summary>
+		public ChatMessage CommandResponse { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatMessage"/>s to send as the result of a <see cref="TopicCommandType.EventNotification"/> request, if any.
