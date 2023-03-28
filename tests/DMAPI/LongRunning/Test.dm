@@ -83,9 +83,9 @@
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
 	
-/datum/tgs_chat_command/echo
-	name = "echo"
-	help_text = "echos input parameters"
+/datum/tgs_chat_command/embeds_test
+	name = "embeds_test"
+	help_text = "dumps an embed"
 
 /datum/tgs_chat_command/echo/Run(datum/tgs_chat_user/sender, params)
 	var/datum/tgs_message_content/response = new("Embed support test2")
@@ -107,3 +107,4 @@
 	field.is_inline = TRUE
 	response.embed.fields += field
 	response.embed.footer = new /datum/tgs_chat_embed/footer("Footer text")
+	return response
