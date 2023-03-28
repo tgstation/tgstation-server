@@ -736,6 +736,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="embed">The <see cref="ChatEmbed"/> to convert.</param>
 		/// <returns>The parameter for sending a single <see cref="IEmbed"/>.</returns>
+		#pragma warning disable CA1502
 		private Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed embed)
 		{
 			if (embed == null)
@@ -902,6 +903,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			return result;
 		}
+		#pragma warning restore CA1502
 	}
-	#pragma warning restore CA1506
+#pragma warning restore CA1506
 }

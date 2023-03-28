@@ -13,11 +13,13 @@
 		/// <summary>
 		/// Gets the URL of the footer icon. Only supports http(s) and attachments.
 		/// </summary>
+#pragma warning disable CA1056 // Uri properties should not be strings
 		public string IconUrl { get; set; }
 
 		/// <summary>
 		/// Gets the proxied icon URL.
 		/// </summary>
 		public string ProxyIconUrl { get; set; }
+#pragma warning restore CA1056 // Uri properties should not be strings
 	}
 }
