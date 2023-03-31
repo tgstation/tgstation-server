@@ -65,9 +65,9 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 
 			const string FakePath = "fake";
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(null, null, default));
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(FakePath, null, default));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(new Version(123,252345), null, default));
 
-			await installer.InstallByond(FakePath, new Version(511, 1385), default);
+			await installer.InstallByond(new Version(511, 1385), FakePath, default);
 
 			mockPostWriteHandler.Verify(x => x.HandleWrite(It.IsAny<string>()), Times.Exactly(4));
 		}

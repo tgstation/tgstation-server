@@ -25,6 +25,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		string DreamMakerPath { get; }
 
 		/// <summary>
+		/// If <see cref="DreamDaemonPath"/> supports being run as a command-line application.
+		/// </summary>
+		bool SupportsCli { get; }
+
+		/// <summary>
 		/// Call if, during a detach, this version should not be deleted.
 		/// </summary>
 		void DoNotDeleteThisSession();

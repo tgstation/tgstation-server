@@ -20,6 +20,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public string DreamMakerPath { get; }
 
+		/// <inheritdoc />
+		public bool SupportsCli { get; }
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ByondExecutableLock"/>.
 		/// </summary>
@@ -44,13 +47,15 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="dreamDaemonPath">The value of <see cref="DreamDaemonPath"/>.</param>
 		/// <param name="dreamMakerPath">The value of <see cref="DreamMakerPath"/>.</param>
 		/// <param name="trustedFilePath">The value of <see cref="trustedFilePath"/>.</param>
+		/// <param name="supportsCli">The value of <see cref="SupportsCli"/>.</param>
 		public ByondExecutableLock(
 			IIOManager ioManager,
 			SemaphoreSlim trustedFileSemaphore,
 			Version version,
 			string dreamDaemonPath,
 			string dreamMakerPath,
-			string trustedFilePath)
+			string trustedFilePath,
+			bool supportsCli)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.trustedFileSemaphore = trustedFileSemaphore ?? throw new ArgumentNullException(nameof(trustedFileSemaphore));
@@ -58,6 +63,8 @@ namespace Tgstation.Server.Host.Components.Byond
 			DreamDaemonPath = dreamDaemonPath ?? throw new ArgumentNullException(nameof(dreamDaemonPath));
 			DreamMakerPath = dreamMakerPath ?? throw new ArgumentNullException(nameof(dreamMakerPath));
 			this.trustedFilePath = trustedFilePath ?? throw new ArgumentNullException(nameof(trustedFilePath));
+
+			SupportsCli = supportsCli;
 		}
 
 		// at one point in design, byond versions were to delete themselves if they weren't the active version

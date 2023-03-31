@@ -166,7 +166,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				ioManager.ResolvePath(
 					ioManager.ConcatPath(
 						binPathForVersion,
-						byondInstaller.DreamDaemonName)),
+						byondInstaller.GetDreamDaemonName(versionToUse, out var supportsCli))),
 				ioManager.ResolvePath(
 					ioManager.ConcatPath(
 						binPathForVersion,
@@ -175,7 +175,8 @@ namespace Tgstation.Server.Host.Components.Byond
 					ioManager.ConcatPath(
 						byondInstaller.PathToUserByondFolder,
 						CfgDirectoryName,
-						TrustedDmbFileName)));
+						TrustedDmbFileName)),
+				supportsCli);
 		}
 
 		/// <inheritdoc />
@@ -211,6 +212,8 @@ namespace Tgstation.Server.Host.Components.Byond
 			await ioManager.CreateDirectory(byondDirectory, cancellationToken);
 			var directories = await ioManager.GetDirectories(byondDirectory, cancellationToken);
 
+			var installedVersionPaths = new Dictionary<string, Version>();
+
 			async Task ReadVersion(string path)
 			{
 				var versionFile = ioManager.ConcatPath(path, VersionFileName);
@@ -231,6 +234,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						{
 							logger.LogDebug("Adding detected BYOND version {0}...", key);
 							installedVersions.Add(key, Task.CompletedTask);
+							installedVersionPaths.Add(ioManager.ResolvePath(key), version);
 							return;
 						}
 				}
@@ -238,7 +242,10 @@ namespace Tgstation.Server.Host.Components.Byond
 				await ioManager.DeleteDirectory(path, cancellationToken);
 			}
 
-			await Task.WhenAll(directories.Select(x => ReadVersion(x)));
+			await Task.WhenAll(directories.Select(ReadVersion));
+
+			logger.LogTrace("Upgrading BYOND installations...");
+			await Task.WhenAll(installedVersionPaths.Select(kvp => byondInstaller.UpgradeInstallation(kvp.Value, kvp.Key, cancellationToken)));
 
 			var activeVersionBytes = await activeVersionBytesTask;
 			if (activeVersionBytes != null)
@@ -339,7 +346,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						await ioManager.ZipToDirectory(extractPath, versionZipStream, cancellationToken);
 					}
 
-					await byondInstaller.InstallByond(extractPath, version, cancellationToken);
+					await byondInstaller.InstallByond(version, extractPath, cancellationToken);
 
 					// make sure to do this last because this is what tells us we have a valid version in the future
 					await ioManager.WriteAllBytes(

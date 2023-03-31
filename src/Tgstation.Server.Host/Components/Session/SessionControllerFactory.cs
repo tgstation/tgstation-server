@@ -282,22 +282,21 @@ namespace Tgstation.Server.Host.Components.Session
 					Guid? logFileGuid = null;
 					var arguments = String.Format(
 						CultureInfo.InvariantCulture,
-						"{0} -port {1} -ports 1-65535 {2}-close -verbose -logself -{3} -{4}{5}{6} -params \"{7}\"",
+						"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6} -params \"{7}\"",
 						dmbProvider.DmbName,
 						launchParameters.Port.Value,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 						SecurityWord(launchParameters.SecurityLevel.Value),
 						VisibilityWord(launchParameters.Visibility.Value),
-						platformIdentifier.IsWindows
-							? $" -log {logFileGuid = Guid.NewGuid()}"
-							: String.Empty, // Just use stdout on linux
+						!byondLock.SupportsCli
+							? $" -logself -log {logFileGuid = Guid.NewGuid()}"
+							: !platformIdentifier.IsWindows // Just use stdout on if CLI is supported
+								? " -logself"
+								: String.Empty, // Windows doesn't output anything to dd.exe if -logself is set?
 						launchParameters.StartProfiler.Value
 							? " -profile"
 							: String.Empty,
 						parameters);
-
-					// See https://github.com/tgstation/tgstation-server/issues/719
-					var noShellExecute = !platformIdentifier.IsWindows;
 
 					if (!apiValidate && dmbProvider.CompileJob.DMApiVersion == null)
 						logger.LogDebug("Session will have no DMAPI support!");
@@ -307,14 +306,15 @@ namespace Tgstation.Server.Host.Components.Session
 						byondLock.DreamDaemonPath,
 						dmbProvider.Directory,
 						arguments,
-						noShellExecute,
-						noShellExecute,
-						noShellExecute: noShellExecute);
+						byondLock.SupportsCli,
+						byondLock.SupportsCli,
+						byondLock.SupportsCli);
 
+					var cliSupported = byondLock.SupportsCli;
 					async Task<string> GetDDOutput()
 					{
 						// DCT x2: None available
-						if (!platformIdentifier.IsWindows)
+						if (cliSupported)
 							return await process.GetCombinedOutput(default);
 
 						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileGuid.ToString());

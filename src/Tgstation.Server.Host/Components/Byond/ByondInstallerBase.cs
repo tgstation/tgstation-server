@@ -19,9 +19,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string CacheDirectoryName = "cache";
 
 		/// <inheritdoc />
-		public abstract string DreamDaemonName { get; }
-
-		/// <inheritdoc />
 		public abstract string DreamMakerName { get; }
 
 		/// <inheritdoc />
@@ -54,6 +51,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
+		public abstract string GetDreamDaemonName(Version version, out bool supportsCli);
+
+		/// <inheritdoc />
 		public async Task CleanCache(CancellationToken cancellationToken)
 		{
 			try
@@ -77,7 +77,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public abstract Task InstallByond(string path, Version version, CancellationToken cancellationToken);
+		public abstract Task InstallByond(Version version, string path, CancellationToken cancellationToken);
+
+		/// <inheritdoc />
+		public abstract Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
