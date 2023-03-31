@@ -112,7 +112,7 @@ namespace Tgstation.Server.Host.System
 					}
 					catch (Exception ex)
 					{
-						logger.LogDebug(ex, "Error on WaitForInputIdle()!");
+						logger.LogTrace(ex, "WaitForInputIdle() failed, this is normal.");
 					}
 				},
 				default, // DCT: None available

@@ -31,9 +31,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string ShellScriptExtension = ".sh";
 
 		/// <inheritdoc />
-		public override string DreamDaemonName => DreamDaemonExecutableName + ShellScriptExtension;
-
-		/// <inheritdoc />
 		public override string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
 
 		/// <inheritdoc />
@@ -66,12 +63,22 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override Task InstallByond(string path, Version version, CancellationToken cancellationToken)
+		public override string GetDreamDaemonName(Version version, out bool supportsCli)
 		{
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
+
+			supportsCli = true;
+			return DreamDaemonExecutableName + ShellScriptExtension;
+		}
+
+		/// <inheritdoc />
+		public override Task InstallByond(Version version, string path, CancellationToken cancellationToken)
+		{
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
 
 			// write the scripts for running the ting
 			// need to add $ORIGIN to LD_LIBRARY_PATH
@@ -89,12 +96,29 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var basePath = IOManager.ConcatPath(path, ByondManager.BinPath);
 
-			var task = Task.WhenAll(WriteAndMakeExecutable(IOManager.ConcatPath(basePath, DreamDaemonName), dreamDaemonScript), WriteAndMakeExecutable(IOManager.ConcatPath(basePath, DreamMakerName), dreamMakerScript));
+			var task = Task.WhenAll(
+				WriteAndMakeExecutable(
+					IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out var _)),
+					dreamDaemonScript),
+				WriteAndMakeExecutable(
+					IOManager.ConcatPath(basePath, DreamMakerName),
+					dreamMakerScript));
 
 			postWriteHandler.HandleWrite(IOManager.ConcatPath(basePath, DreamDaemonExecutableName));
 			postWriteHandler.HandleWrite(IOManager.ConcatPath(basePath, DreamMakerExecutableName));
 
 			return task;
+		}
+
+		/// <inheritdoc />
+		public override Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
+		{
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+
+			return Task.CompletedTask;
 		}
 	}
 }

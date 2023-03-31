@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -102,6 +101,8 @@ namespace Tgstation.Server.Tests.Instance
 					Mock.Of<IPostWriteHandler>(),
 					new DefaultIOManager(new AssemblyInformationProvider()),
 					Mock.Of<ILogger<PosixByondInstaller>>());
+
+			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;
 
 			// get the bytes for stable
 			using var stableBytesMs = await byondInstaller.DownloadVersion(TestVersion, cancellationToken);

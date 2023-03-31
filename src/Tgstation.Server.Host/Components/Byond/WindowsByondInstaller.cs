@@ -41,8 +41,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		const string ByondDXDir = "byond/directx";
 
-		/// <inheritdoc />
-		public override string DreamDaemonName => "dreamdaemon.exe";
+		/// <summary>
+		/// The file TGS uses to determine if dd.exe has been firewalled.
+		/// </summary>
+		const string TgsFirewalledDDFile = "TGSFirewalledDD";
 
 		/// <inheritdoc />
 		public override string DreamMakerName => "dm.exe";
@@ -96,7 +98,17 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override Task InstallByond(string path, Version version, CancellationToken cancellationToken)
+		public override string GetDreamDaemonName(Version version, out bool supportsCli)
+		{
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+
+			supportsCli = version.Major >= 515 && version.Minor >= 1598;
+			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
+		}
+
+		/// <inheritdoc />
+		public override Task InstallByond(Version version, string path, CancellationToken cancellationToken)
 		{
 			var tasks = new List<Task>
 			{
@@ -105,9 +117,31 @@ namespace Tgstation.Server.Host.Components.Byond
 			};
 
 			if (!generalConfiguration.SkipAddingByondFirewallException)
-				tasks.Add(AddDreamDaemonToFirewall(path, cancellationToken));
+				tasks.Add(AddDreamDaemonToFirewall(version, path, cancellationToken));
 
 			return Task.WhenAll(tasks);
+		}
+
+		/// <inheritdoc />
+		public override async Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
+		{
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+
+			if (generalConfiguration.SkipAddingByondFirewallException)
+				return;
+
+			GetDreamDaemonName(version, out var usesDDExe);
+			if (!usesDDExe)
+				return;
+
+			if (await IOManager.FileExists(IOManager.ConcatPath(path, TgsFirewalledDDFile), cancellationToken))
+				return;
+
+			Logger.LogInformation("BYOND Version {version} needs dd.exe added to firewall", version);
+			await AddDreamDaemonToFirewall(version, path, cancellationToken);
 		}
 
 		/// <summary>
@@ -177,17 +211,21 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// Attempt to add the DreamDaemon executable as an exception to the Windows firewall.
 		/// </summary>
+		/// <param name="version">The BYOND <see cref="Version"/>.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task AddDreamDaemonToFirewall(string path, CancellationToken cancellationToken)
+		async Task AddDreamDaemonToFirewall(Version version, string path, CancellationToken cancellationToken)
 		{
+			var dreamDaemonName = GetDreamDaemonName(version, out var supportsCli);
+
 			var dreamDaemonPath = IOManager.ResolvePath(
 				IOManager.ConcatPath(
 					path,
 					ByondManager.BinPath,
-					DreamDaemonName));
+					dreamDaemonName));
 
+			Logger.LogInformation("Adding Windows Firewall exception for {path}...", dreamDaemonPath);
 			try
 			{
 				using var netshProcess = processExecutor.LaunchProcess(
@@ -210,6 +248,12 @@ namespace Tgstation.Server.Host.Components.Byond
 
 				if (exitCode != 0)
 					throw new JobException(ErrorCode.ByondDreamDaemonFirewallFail, new JobException($"Invalid exit code: {exitCode}"));
+
+				if (supportsCli)
+					await IOManager.WriteAllBytes(
+						IOManager.ConcatPath(path, TgsFirewalledDDFile),
+						Array.Empty<byte>(),
+						cancellationToken);
 			}
 			catch (Exception ex)
 			{
