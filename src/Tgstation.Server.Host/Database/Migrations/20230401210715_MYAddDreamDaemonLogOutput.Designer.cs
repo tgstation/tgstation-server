@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
-	[Migration("20230331220938_MYAddDreamDaemonLogOutput")]
+	[Migration("20230401210715_MYAddDreamDaemonLogOutput")]
 	partial class MYAddDreamDaemonLogOutput
 	{
 		/// <inheritdoc />
@@ -34,7 +34,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<string>("ConnectionString")
 					.IsRequired()
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ConnectionString"), "utf8mb4");
 
 				b.Property<bool?>("Enabled")
 					.HasColumnType("tinyint(1)");
@@ -78,6 +80,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(100)
 					.HasColumnType("varchar(100)");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("IrcChannel"), "utf8mb4");
+
 				b.Property<bool?>("IsAdminChannel")
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
@@ -92,7 +96,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("Tag")
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Tag"), "utf8mb4");
 
 				b.HasKey("Id");
 
@@ -115,6 +121,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("longtext");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ByondVersion"), "utf8mb4");
+
 				b.Property<int?>("DMApiMajorVersion")
 					.HasColumnType("int");
 
@@ -132,6 +140,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("longtext");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("DmeName"), "utf8mb4");
+
 				b.Property<int?>("GitHubDeploymentId")
 					.HasColumnType("int");
 
@@ -148,8 +158,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("longtext");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Output"), "utf8mb4");
+
 				b.Property<string>("RepositoryOrigin")
 					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("RepositoryOrigin"), "utf8mb4");
 
 				b.Property<long>("RevisionInformationId")
 					.HasColumnType("bigint");
@@ -175,7 +189,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<string>("AdditionalParameters")
 					.IsRequired()
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AdditionalParameters"), "utf8mb4");
 
 				b.Property<bool?>("AllowWebClient")
 					.IsRequired()
@@ -248,7 +264,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("ProjectName")
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ProjectName"), "utf8mb4");
 
 				b.Property<bool?>("RequireDMApiValidation")
 					.IsRequired()
@@ -288,6 +306,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(100)
 					.HasColumnType("varchar(100)");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
+
 				b.Property<bool?>("Online")
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
@@ -296,8 +316,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("varchar(255)");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Path"), "utf8mb4");
+
 				b.Property<string>("SwarmIdentifer")
 					.HasColumnType("varchar(255)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("SwarmIdentifer"), "utf8mb4");
 
 				b.HasKey("Id");
 
@@ -373,11 +397,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("longtext");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Description"), "utf8mb4");
+
 				b.Property<uint?>("ErrorCode")
 					.HasColumnType("int unsigned");
 
 				b.Property<string>("ExceptionDetails")
 					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ExceptionDetails"), "utf8mb4");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
@@ -413,6 +441,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasMaxLength(100)
 					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("ExternalUserId"), "utf8mb4");
 
 				b.Property<int>("Provider")
 					.HasColumnType("int");
@@ -469,6 +499,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("longtext");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AccessIdentifier"), "utf8mb4");
+
 				b.Property<long>("CompileJobId")
 					.HasColumnType("bigint");
 
@@ -502,11 +534,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("AccessToken")
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AccessToken"), "utf8mb4");
 
 				b.Property<string>("AccessUser")
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("AccessUser"), "utf8mb4");
 
 				b.Property<bool?>("AutoUpdatesKeepTestMerges")
 					.IsRequired()
@@ -519,12 +555,16 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<string>("CommitterEmail")
 					.IsRequired()
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CommitterEmail"), "utf8mb4");
 
 				b.Property<string>("CommitterName")
 					.IsRequired()
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CommitterName"), "utf8mb4");
 
 				b.Property<bool?>("CreateGitHubDeployments")
 					.IsRequired()
@@ -589,6 +629,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(40)
 					.HasColumnType("varchar(40)");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CommitSha"), "utf8mb4");
+
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
@@ -596,6 +638,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasMaxLength(40)
 					.HasColumnType("varchar(40)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("OriginCommitSha"), "utf8mb4");
 
 				b.Property<DateTimeOffset>("Timestamp")
 					.HasColumnType("datetime(6)");
@@ -618,13 +662,19 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("longtext");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Author"), "utf8mb4");
+
 				b.Property<string>("BodyAtMerge")
 					.IsRequired()
 					.HasColumnType("longtext");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("BodyAtMerge"), "utf8mb4");
+
 				b.Property<string>("Comment")
 					.HasMaxLength(10000)
-					.HasColumnType("varchar(10000)");
+					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Comment"), "utf8mb4");
 
 				b.Property<DateTimeOffset>("MergedAt")
 					.HasColumnType("datetime(6)");
@@ -644,13 +694,19 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(40)
 					.HasColumnType("varchar(40)");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("TargetCommitSha"), "utf8mb4");
+
 				b.Property<string>("TitleAtMerge")
 					.IsRequired()
 					.HasColumnType("longtext");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("TitleAtMerge"), "utf8mb4");
+
 				b.Property<string>("Url")
 					.IsRequired()
 					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Url"), "utf8mb4");
 
 				b.HasKey("Id");
 
@@ -672,6 +728,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasMaxLength(100)
 					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("CanonicalName"), "utf8mb4");
 
 				b.Property<DateTimeOffset?>("CreatedAt")
 					.IsRequired()
@@ -695,12 +753,18 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasMaxLength(100)
 					.HasColumnType("varchar(100)");
 
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
+
 				b.Property<string>("PasswordHash")
 					.HasColumnType("longtext");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("PasswordHash"), "utf8mb4");
 
 				b.Property<string>("SystemIdentifier")
 					.HasMaxLength(100)
 					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("SystemIdentifier"), "utf8mb4");
 
 				b.HasKey("Id");
 
@@ -727,6 +791,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasMaxLength(100)
 					.HasColumnType("varchar(100)");
+
+				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("Name"), "utf8mb4");
 
 				b.HasKey("Id");
 

@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Adds the DreamDaemon LogOutput column for MYSQL. Also corrects string column annotations.
+	/// Adds the DreamDaemon LogOutput column for MYSQL.
 	/// </summary>
+	/// <remarks>Note the version upgrade of Pomelo caused some freakyness. The down migrations should be harmless here.</remarks>
 	public partial class MYAddDreamDaemonLogOutput : Migration
 	{
 		/// <inheritdoc />
@@ -17,125 +18,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 			if (migrationBuilder == null)
 				throw new ArgumentNullException(nameof(migrationBuilder));
 
-			migrationBuilder.AlterColumn<string>(
-				name: "Comment",
-				table: "TestMerges",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: true,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000,
-				oldNullable: true)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
-
-			migrationBuilder.AlterColumn<string>(
-				name: "CommitterName",
-				table: "RepositorySettings",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: false,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
-
-			migrationBuilder.AlterColumn<string>(
-				name: "CommitterEmail",
-				table: "RepositorySettings",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: false,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
-
-			migrationBuilder.AlterColumn<string>(
-				name: "AccessUser",
-				table: "RepositorySettings",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: true,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000,
-				oldNullable: true)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
-
-			migrationBuilder.AlterColumn<string>(
-				name: "AccessToken",
-				table: "RepositorySettings",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: true,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000,
-				oldNullable: true)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
-
-			migrationBuilder.AlterColumn<string>(
-				name: "ProjectName",
-				table: "DreamMakerSettings",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: true,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000,
-				oldNullable: true)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
-
-			migrationBuilder.AlterColumn<string>(
-				name: "AdditionalParameters",
-				table: "DreamDaemonSettings",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: false,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
-
 			migrationBuilder.AddColumn<bool>(
 				name: "LogOutput",
 				table: "DreamDaemonSettings",
 				type: "tinyint(1)",
 				nullable: false,
 				defaultValue: false);
-
-			migrationBuilder.AlterColumn<string>(
-				name: "Tag",
-				table: "ChatChannels",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: true,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000,
-				oldNullable: true)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
-
-			migrationBuilder.AlterColumn<string>(
-				name: "ConnectionString",
-				table: "ChatBots",
-				type: "varchar(10000)",
-				maxLength: 10000,
-				nullable: false,
-				oldClrType: typeof(string),
-				oldType: "longtext CHARACTER SET utf8mb4",
-				oldMaxLength: 10000)
-				.Annotation("MySql:CharSet", "utf8mb4")
-				.OldAnnotation("MySql:CharSet", "utf8mb4");
 		}
 
 		/// <inheritdoc />
@@ -186,7 +74,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: true,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000,
 				oldNullable: true)
 				.Annotation("MySql:CharSet", "utf8mb4")
@@ -219,7 +107,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: false,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000)
 				.Annotation("MySql:CharSet", "utf8mb4")
 				.OldAnnotation("MySql:CharSet", "utf8mb4");
@@ -231,7 +119,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: false,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000)
 				.Annotation("MySql:CharSet", "utf8mb4")
 				.OldAnnotation("MySql:CharSet", "utf8mb4");
@@ -243,7 +131,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: true,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000,
 				oldNullable: true)
 				.Annotation("MySql:CharSet", "utf8mb4")
@@ -256,7 +144,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: true,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000,
 				oldNullable: true)
 				.Annotation("MySql:CharSet", "utf8mb4")
@@ -300,7 +188,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: true,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000,
 				oldNullable: true)
 				.Annotation("MySql:CharSet", "utf8mb4")
@@ -313,7 +201,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: false,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000)
 				.Annotation("MySql:CharSet", "utf8mb4")
 				.OldAnnotation("MySql:CharSet", "utf8mb4");
@@ -366,7 +254,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: true,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000,
 				oldNullable: true)
 				.Annotation("MySql:CharSet", "utf8mb4")
@@ -379,7 +267,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				maxLength: 10000,
 				nullable: false,
 				oldClrType: typeof(string),
-				oldType: "varchar(10000)",
+				oldType: "longtext",
 				oldMaxLength: 10000)
 				.Annotation("MySql:CharSet", "utf8mb4")
 				.OldAnnotation("MySql:CharSet", "utf8mb4");
