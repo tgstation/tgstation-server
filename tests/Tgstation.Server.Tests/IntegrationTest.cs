@@ -754,6 +754,7 @@ namespace Tgstation.Server.Tests
 					TopicRequestTimeout = 1000,
 					AdditionalParameters = String.Empty,
 					StartProfiler =	false,
+					LogOutput = true,
 				},
 				DreamMakerSettings = new Host.Models.DreamMakerSettings
 				{
