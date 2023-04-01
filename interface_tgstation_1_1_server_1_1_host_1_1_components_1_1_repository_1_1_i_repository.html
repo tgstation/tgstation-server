@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a147ed9c31b79e8bc07aff42bcaa423d4"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a147ed9c31b79e8bc07aff42bcaa423d4">CheckoutObject</a> (string committish, string username, string password, bool updateSubmodules, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a147ed9c31b79e8bc07aff42bcaa423d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks out a given <em>committish</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a147ed9c31b79e8bc07aff42bcaa423d4">More...</a><br /></td></tr>
 <tr class="separator:a147ed9c31b79e8bc07aff42bcaa423d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cdc6704ba279226842c1b59d7dd604f"><td class="memItemLeft" align="right" valign="top">Task&lt; bool?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a6cdc6704ba279226842c1b59d7dd604f">AddTestMerge</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> testMergeParameters, string committerName, string committerEmail, string username, string password, bool updateSubmodules, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a6cdc6704ba279226842c1b59d7dd604f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to merge the revision specified by a given set of <em>testMergeParameters</em>  into HEAD.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a6cdc6704ba279226842c1b59d7dd604f">More...</a><br /></td></tr>
-<tr class="separator:a6cdc6704ba279226842c1b59d7dd604f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace243ccc1e4cb2d2b29599dd4bb6e23f"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_test_merge_result.html">TestMergeResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ace243ccc1e4cb2d2b29599dd4bb6e23f">AddTestMerge</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> testMergeParameters, string committerName, string committerEmail, string username, string password, bool updateSubmodules, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ace243ccc1e4cb2d2b29599dd4bb6e23f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to merge the revision specified by a given set of <em>testMergeParameters</em>  into HEAD.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ace243ccc1e4cb2d2b29599dd4bb6e23f">More...</a><br /></td></tr>
+<tr class="separator:ace243ccc1e4cb2d2b29599dd4bb6e23f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf6da056f8004747a606007462862b40"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#adf6da056f8004747a606007462862b40">FetchOrigin</a> (string username, string password, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:adf6da056f8004747a606007462862b40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch commits from the origin repository.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#adf6da056f8004747a606007462862b40">More...</a><br /></td></tr>
 <tr class="separator:adf6da056f8004747a606007462862b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,14 +182,14 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6cdc6704ba279226842c1b59d7dd604f" name="a6cdc6704ba279226842c1b59d7dd604f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cdc6704ba279226842c1b59d7dd604f">&#9670;&#160;</a></span>AddTestMerge()</h2>
+<a id="ace243ccc1e4cb2d2b29599dd4bb6e23f" name="ace243ccc1e4cb2d2b29599dd4bb6e23f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace243ccc1e4cb2d2b29599dd4bb6e23f">&#9670;&#160;</a></span>AddTestMerge()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; bool?&gt; Tgstation.Server.Host.Components.Repository.IRepository.AddTestMerge </td>
+          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_test_merge_result.html">TestMergeResult</a> &gt; Tgstation.Server.Host.Components.Repository.IRepository.AddTestMerge </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a>&#160;</td>
           <td class="paramname"><em>testMergeParameters</em>, </td>
@@ -258,9 +258,9 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a Nullable&lt;T&gt; bool representing the merge result that is <code>true</code> after a fast forward or up to date, <code>false</code> on a non-fast-forward, <code>null</code> on a conflict.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_test_merge_result.html" title="Represents the result of a repository test merge attempt.">TestMergeResult</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af117049855c67b16a13b856e22528dd6">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afac7ebd07187ff4cf58369061ed277ce">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
 </div>
 </div>
@@ -840,7 +840,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afddb26df13f1cb4d921af4a673c5b997">Tgstation.Server.Host.Components.Repository.Repository</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00192">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, and <a class="el" href="_repository_update_service_8cs_source.html#l00081">Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.LoadRevisionInformation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_maker_8cs_source.html#l00192">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, and <a class="el" href="_repository_update_service_8cs_source.html#l00083">Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.LoadRevisionInformation()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -890,7 +890,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_i_repository_8cs_source.html#l00023">23</a> of file <a class="el" href="_i_repository_8cs_source.html">IRepository.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00175">Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge()</a>, <a class="el" href="_dream_maker_8cs_source.html#l00192">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, and <a class="el" href="_repository_update_service_8cs_source.html#l00081">Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.LoadRevisionInformation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_8cs_source.html#l00175">Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge()</a>, <a class="el" href="_dream_maker_8cs_source.html#l00192">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad41825d3c6d0fd7e8634bab867eb6f19">Tgstation.Server.Host.Components.Repository.Repository.GetOriginSha()</a>, <a class="el" href="_repository_update_service_8cs_source.html#l00083">Tgstation.Server.Host.Components.Repository.RepositoryUpdateService.LoadRevisionInformation()</a>, <a class="el" href="_repository_8cs_source.html#l00556">Tgstation.Server.Host.Components.Repository.Repository.MergeOrigin()</a>, and <a class="el" href="_repository_8cs_source.html#l00463">Tgstation.Server.Host.Components.Repository.Repository.ResetToOrigin()</a>.</p>
 
 </div>
 </div>

@@ -392,7 +392,10 @@ Chat Bots</h3>
 <p >TGS supports creating infinite chat bots for notifying staff or players of things like code deployments and uptime in. Currently the following providers are supported</p>
 <ul>
 <li>Internet Relay Chat (IRC)</li>
-<li>Discord</li>
+<li>Discord<ul>
+<li>NOTE: Bot MUST have Message Content Intent enabled</li>
+</ul>
+</li>
 </ul>
 <p >More can be added by providing a new implementation of the <a href="src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs">IProvider</a> interface</p>
 <p >Bots have a set of built-in commands that can be triggered via <code>!tgs</code>, mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the <code>/datum/tgs_chat_command</code> type (See <code>tgs.dm</code> for details). Invocation for custom commands can be restricted to certain channels.</p>

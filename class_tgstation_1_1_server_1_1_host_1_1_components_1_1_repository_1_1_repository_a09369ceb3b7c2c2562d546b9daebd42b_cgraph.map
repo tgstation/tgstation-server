@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.CopyTo" name="Tgstation.Server.Host.Components.Repository.Repository.CopyTo">
+<area shape="rect" id="node1" title="Copies the current working directory to a given path . A Task representing the running operation." alt="" coords="5,37,232,77"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a706e777aa7b8ad80d4ae3e0098875cdb" title="Copies a directory from src &#160;to dest ." alt="" coords="280,5,453,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="283,69,451,109"/>
+</map>

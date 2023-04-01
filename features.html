@@ -89,7 +89,7 @@ New since TGS3 (Rewrite)</h1>
 </li>
 <li>Proper Long Running Operation Support: Server actions take a long time, from a git pull to a DreamMaker compile. TGS now internally allows for them to be run in parallel with each other and provides an audit record via the database. This is an improvement over the old system where connections had to be held open for the duration of operations.</li>
 <li>Database Backend: TGS requires an SQL database to operate. This allows for much better concurrency and is just overall much cleaner than the old single json file storage blob per instance.<ul>
-<li>Limitation: There is a one-to-one relationship with a TGS server and a database. <b>DO NOT SHARE TGS DATABASES</b>.</li>
+<li>Limitation: There is a one-to-one relationship with a TGS server and a database. <b>DO NOT SHARE TGS DATABASES OUTSIDE OF SWARM MODE</b>.</li>
 </ul>
 </li>
 <li>Linux/Docker Support: TGS is Linux and docker compatible. (Note this does not mean that rust-g and BSQL work out of the box, they must be compiled using event scripts like PreCompile.sh).<ul>
@@ -115,13 +115,12 @@ New since TGS3 (Rewrite)</h1>
 <li>Safe/Ultrasafe Security Support: Thanks to the new DMAPI, the ultrasafe and safe security levels may be used without running into BYOND's limitations. But no one really cares...</li>
 <li>Private/Invisible visibility Support: Stored per instance.</li>
 <li>Self Upgrading: To upgrade TGS3 you needed to download and run the installer. This was pretty seamless, but it's now even better in versions &gt;=4 as the command to upgrade can be given straight to the API. At that point the server will handle downloading the update, detaching running DreamDaemon instances, restarting with the new version, and reattaching to them. Easier than ever patch delivery.</li>
+<li>Multi-server co-operation: TGS installed on multiple machines can share the same database by using Swarm Mode. This mode keeps TGS and account details in sync on all machines.</li>
+<li>OAuth 2.0 Support: Integrate with your favorite 3rd party authentication providers</li>
 <li><em>Gasp</em> TESTING: TGS currently has over 60% code coverage in automated unit and full stack integration tests. I aim to have that number ever increasing to prevent trivial mistakes. Big improvement over V3 which had... literally none...</li>
 </ul>
 <p >Along with these features, nearly every single V3 feature has been included and possibly improved in some fashion. This includes stuff like Windows accounts for logins, and using ACLs for static file handling. The following exceptions exist but are planned for future updates:</p><ul>
 <li>Process memory/CPU diagnostic data is not generated: <a href="https://github.com/tgstation/tgstation-server/issues/611">https://github.com/tgstation/tgstation-server/issues/611</a></li>
-<li>Process dumps may not be created: <a href="https://github.com/tgstation/tgstation-server/issues/612">https://github.com/tgstation/tgstation-server/issues/612</a></li>
-<li>The DMAPI is required in DreamMaker code: <a href="https://github.com/tgstation/tgstation-server/issues/934">https://github.com/tgstation/tgstation-server/issues/934</a></li>
-<li>The option to "Initialize Game Directories" is no longer present, but a variant is still performed every deployment for smoother error handling.</li>
 <li>Direct server announcements are no longer present but may be readded upon request.</li>
 </ul>
 <h1><a class="anchor" id="features_list"></a>
@@ -129,11 +128,32 @@ Comprehensive Feature List</h1>
 <p >tgstation-server is a BYOND server managment suite. It includes all the following features</p>
 <ul>
 <li>Standalone server with OpenAPI 3.0 defined HTTP REST API</li>
+<li>Web based client included</li>
 <li>Secure user authentication, management, and permissions system</li>
 <li>Support for using Windows accounts as logins</li>
-<li>Long running operation support via the jobs subsystem</li>
-<li>Logging system with configurable levels of verbosity</li>
+<li>OAuth 2.0 support with several providers<ul>
+<li>InvisionCommunity</li>
+<li>/tg/ Forums</li>
+<li>Discord</li>
+<li>GitHub</li>
+<li>Keycloak</li>
+</ul>
+</li>
+<li>Long running operation support via the jobs subsystem with error handling and stage reporting</li>
+<li>Logging system with configurable levels of verbosity<ul>
+<li>Logs can be downloaded via the API</li>
+<li>Supports Elasticsearch ingesting</li>
+</ul>
+</li>
 <li>Able to self update with user input</li>
+<li>Swarm system to coordinate servers across systems</li>
+<li>Database backend supporting several providers<ul>
+<li>Microsoft SQL Server</li>
+<li>MySQL/MariaDB</li>
+<li>PostgresSQL</li>
+<li>SQLite</li>
+</ul>
+</li>
 <li>Instances: Managing multiple sets of the below features seperately on the same machine<ul>
 <li>Git repository managment<ul>
 <li>Cloning</li>
@@ -152,12 +172,15 @@ Comprehensive Feature List</h1>
 </li>
 <li>Supporting any amount of installed versions</li>
 <li>Cleaning the BYOND cache</li>
+<li>Uploading a custom version .zip</li>
 </ul>
 </li>
 <li>Code Deployment<ul>
 <li>Compiles git code with DreamMaker and the active BYOND version</li>
 <li>Validates interop with the compiled binary</li>
 <li>Can be scheduled to pull the repository and build on a given interval</li>
+<li>Test merge commenting support for GitHub and GitLab</li>
+<li>GitHub Deployment Environments support</li>
 </ul>
 </li>
 <li>The Watchdog, a DreamDaemon uptime monitor<ul>
@@ -168,15 +191,21 @@ Comprehensive Feature List</h1>
 <li>Automatically handles Windows prompts related to trusted mode</li>
 <li>TGS restarts/updates do not interrupt the DreamDaemon process</li>
 <li>Raises process priority of DreamDaemon for increased performance</li>
+<li>Support for logging DreamDaemon output</li>
+<li>Support for the <code>-profile</code> command line option</li>
+<li>Safe session recovery from TGS crashes</li>
 </ul>
 </li>
 <li>Chat System<ul>
 <li>Support multiple chat bots per instance. Current providers:<ul>
 <li>Discord<ul>
-<li>Supports rich embeds when deployments occur</li>
+<li>Supports rich embeds created from DM code and when deployments occur</li>
 </ul>
 </li>
-<li>IRC</li>
+<li>IRC<ul>
+<li>Supports several authentication types</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>Bots come out of the box with some basic commands like showing the server revision</li>
@@ -197,6 +226,7 @@ Comprehensive Feature List</h1>
 <li>Provides API for implementing chat bot commands in DM code</li>
 <li>Gives the ability to restart the DreamDaemon process from DM code</li>
 <li>Functions with all 3 DreamDaemon security levels</li>
+<li>Provides notifications of TGS side events</li>
 <li>Allows specifying the .dmb's minimum required security level </li>
 </ul>
 </li>
