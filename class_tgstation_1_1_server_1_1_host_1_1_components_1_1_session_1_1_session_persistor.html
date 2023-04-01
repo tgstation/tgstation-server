@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -468,7 +468,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   99</span>            {</div>
 <div class="line"><span class="lineno">  100</span>                <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">  101</span>                {</div>
-<div class="line"><span class="lineno">  102</span>                    <span class="keyword">using </span>var process = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">processExecutor</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3">GetProcess</a>(reattachInfo.ProcessId);</div>
+<div class="line"><span class="lineno">  102</span>                    await <span class="keyword">using </span>var process = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e099a9da77ecb396147ac6c4e85f4f0">processExecutor</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3">GetProcess</a>(reattachInfo.ProcessId);</div>
 <div class="line"><span class="lineno">  103</span>                    <span class="keywordflow">if</span> (process != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  104</span>                    {</div>
 <div class="line"><span class="lineno">  105</span>                        <span class="keywordflow">if</span> (reattachInfo == result)</div>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallDirectX" name="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallDirectX">
 <area shape="rect" id="node1" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="324,5,559,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a89436c16bb220487bf376cc456ee753e" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="5,13,276,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a2a38db71313d0a37018e16b39f123083" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="5,13,276,53"/>
 </map>

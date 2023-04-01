@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.IO.IIOManager.CreateAsyncWriteStream" name="Tgstation.Server.Host.IO.IIOManager.CreateAsyncWriteStream">
+<area shape="rect" id="node1" title="Creates a FileStream for writing." alt="" coords="543,5,781,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a5922088172f7f06623d4b09680fe8cdb" title="Consume the stdout/stderr streams into a Task." alt="" coords="268,5,495,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ad7d22bf621f10ecdcfbc54a83349980b" title="Launch a IProcess. A Task resulting in the new IProcess." alt="" coords="5,5,220,45"/>
+</map>

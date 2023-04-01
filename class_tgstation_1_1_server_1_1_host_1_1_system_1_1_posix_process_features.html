@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -310,31 +310,30 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   90</span> </div>
 <div class="line"><span class="lineno">   91</span>            <span class="keywordtype">string</span> output;</div>
 <div class="line"><span class="lineno">   92</span>            <span class="keywordtype">int</span> exitCode;</div>
-<div class="line"><span class="lineno">   93</span>            <span class="keyword">using</span> (var gcoreProc = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a3a2559612f724db16314713f64da1d2f">lazyLoadedProcessExecutor</a>.Value.LaunchProcess(</div>
+<div class="line"><span class="lineno">   93</span>            await <span class="keyword">using</span> (var gcoreProc = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a3a2559612f724db16314713f64da1d2f">lazyLoadedProcessExecutor</a>.Value.LaunchProcess(</div>
 <div class="line"><span class="lineno">   94</span>                GCorePath,</div>
 <div class="line"><span class="lineno">   95</span>                Environment.CurrentDirectory,</div>
 <div class="line"><span class="lineno">   96</span>                $<span class="stringliteral">&quot;-o {outputFile} {process.Id}&quot;</span>,</div>
-<div class="line"><span class="lineno">   97</span>                <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">   98</span>                <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">   99</span>                <span class="keyword">true</span>))</div>
-<div class="line"><span class="lineno">  100</span>            {</div>
-<div class="line"><span class="lineno">  101</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; gcoreProc.Terminate()))</div>
-<div class="line"><span class="lineno">  102</span>                    exitCode = await gcoreProc.Lifetime;</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>                output = await gcoreProc.GetCombinedOutput(cancellationToken);</div>
-<div class="line"><span class="lineno">  105</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogDebug(<span class="stringliteral">&quot;gcore output:{0}{1}&quot;</span>, Environment.NewLine, output);</div>
-<div class="line"><span class="lineno">  106</span>            }</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>            <span class="keywordflow">if</span> (exitCode != 0)</div>
-<div class="line"><span class="lineno">  109</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
-<div class="line"><span class="lineno">  110</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GCoreFailure,</div>
-<div class="line"><span class="lineno">  111</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
-<div class="line"><span class="lineno">  112</span>                        $<span class="stringliteral">&quot;Exit Code: {exitCode}{Environment.NewLine}Output:{Environment.NewLine}{output}&quot;</span>));</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span>            <span class="comment">// gcore outputs name.pid so remove the pid part</span></div>
-<div class="line"><span class="lineno">  115</span>            var generatedGCoreFile = $<span class="stringliteral">&quot;{outputFile}.{pid}&quot;</span>;</div>
-<div class="line"><span class="lineno">  116</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">MoveFile</a>(generatedGCoreFile, outputFile, cancellationToken);</div>
-<div class="line"><span class="lineno">  117</span>        }</div>
+<div class="line"><span class="lineno">   97</span>                readStandardHandles: <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">   98</span>                noShellExecute: <span class="keyword">true</span>))</div>
+<div class="line"><span class="lineno">   99</span>            {</div>
+<div class="line"><span class="lineno">  100</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; gcoreProc.Terminate()))</div>
+<div class="line"><span class="lineno">  101</span>                    exitCode = await gcoreProc.Lifetime;</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>                output = await gcoreProc.GetCombinedOutput(cancellationToken);</div>
+<div class="line"><span class="lineno">  104</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#ad86bb907f2d4419d609e89b8802dc73b">logger</a>.LogDebug(<span class="stringliteral">&quot;gcore output:{0}{1}&quot;</span>, Environment.NewLine, output);</div>
+<div class="line"><span class="lineno">  105</span>            }</div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span>            <span class="keywordflow">if</span> (exitCode != 0)</div>
+<div class="line"><span class="lineno">  108</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
+<div class="line"><span class="lineno">  109</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GCoreFailure,</div>
+<div class="line"><span class="lineno">  110</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>(</div>
+<div class="line"><span class="lineno">  111</span>                        $<span class="stringliteral">&quot;Exit Code: {exitCode}{Environment.NewLine}Output:{Environment.NewLine}{output}&quot;</span>));</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>            <span class="comment">// gcore outputs name.pid so remove the pid part</span></div>
+<div class="line"><span class="lineno">  114</span>            var generatedGCoreFile = $<span class="stringliteral">&quot;{outputFile}.{pid}&quot;</span>;</div>
+<div class="line"><span class="lineno">  115</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1de594c25d7d9e7e5d159675b2c03873">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">MoveFile</a>(generatedGCoreFile, outputFile, cancellationToken);</div>
+<div class="line"><span class="lineno">  116</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">Tgstation.Server.Host.Jobs.JobException</a></div><div class="ttdoc">Operation exceptions thrown from the context of a Models.Job.</div><div class="ttdef"><b>Definition:</b> <a href="_job_exception_8cs_source.html#l00010">JobException.cs:11</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a2dff052035f4d3d0c689d0e89d8deecd"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a2dff052035f4d3d0c689d0e89d8deecd">Tgstation.Server.Host.IO.IIOManager.MoveFile</a></div><div class="ttdeci">Task MoveFile(string source, string destination, CancellationToken cancellationToken)</div><div class="ttdoc">Moves a file at source  to destination .</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_ad4de873180481f7afa206b6282158d62"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62">Tgstation.Server.Host.IO.IIOManager.FileExists</a></div><div class="ttdeci">Task&lt; bool &gt; FileExists(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Check that the file at path  exists.</div></div>

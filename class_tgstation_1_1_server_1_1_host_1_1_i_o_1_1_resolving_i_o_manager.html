@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -324,6 +324,16 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adfa411bbedf8ffc430cb9fcf0a6e6fe4">More...</a><br /></td></tr>
 <tr class="separator:adfa411bbedf8ffc430cb9fcf0a6e6fe4 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a850fc216fb02b1d4e3378e21301ef6f7 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memItemLeft" align="right" valign="top">FileStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a850fc216fb02b1d4e3378e21301ef6f7">CreateAsyncWriteStream</a> (string path)</td></tr>
+<tr class="memdesc:a850fc216fb02b1d4e3378e21301ef6f7 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a FileStream for writing. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path of the file to write, will be truncated.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The open FileStream.</dd></dl>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a850fc216fb02b1d4e3378e21301ef6f7">More...</a><br /></td></tr>
+<tr class="separator:a850fc216fb02b1d4e3378e21301ef6f7 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b82f87c65c67e19ff2f23d1fc2d85e3 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a3b82f87c65c67e19ff2f23d1fc2d85e3">GetDirectories</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a3b82f87c65c67e19ff2f23d1fc2d85e3 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns directory names in a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -434,6 +444,9 @@ This function is sychronous.  <a href="class_tgstation_1_1_server_1_1_host_1_1_i
 <tr class="memitem:a0749e071c50bd39000bb7db1d02fc2e3"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">GetFiles</a> (string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a0749e071c50bd39000bb7db1d02fc2e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns file names in a given <em>path</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0749e071c50bd39000bb7db1d02fc2e3">More...</a><br /></td></tr>
 <tr class="separator:a0749e071c50bd39000bb7db1d02fc2e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20aa2458312f1e83f5b9c7981cc70433"><td class="memItemLeft" align="right" valign="top">FileStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a20aa2458312f1e83f5b9c7981cc70433">CreateAsyncWriteStream</a> (string path)</td></tr>
+<tr class="memdesc:a20aa2458312f1e83f5b9c7981cc70433"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a FileStream for writing.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a20aa2458312f1e83f5b9c7981cc70433">More...</a><br /></td></tr>
+<tr class="separator:a20aa2458312f1e83f5b9c7981cc70433"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3e7a63cedbe826cfd27f1a2a411103e"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e">WriteAllBytes</a> (string path, byte[] contents, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:af3e7a63cedbe826cfd27f1a2a411103e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes some <em>contents</em>  to a file at <em>path</em>  overwriting previous content.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e">More...</a><br /></td></tr>
 <tr class="separator:af3e7a63cedbe826cfd27f1a2a411103e"><td class="memSeparator" colspan="2">&#160;</td></tr>

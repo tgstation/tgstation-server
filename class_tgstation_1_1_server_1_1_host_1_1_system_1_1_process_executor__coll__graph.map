@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.System.ProcessExecutor" name="Tgstation.Server.Host.System.ProcessExecutor">
-<area shape="rect" id="node1" title=" " alt="" coords="405,87,604,127"/>
+<area shape="rect" id="node1" title=" " alt="" coords="405,119,604,159"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="69,5,193,31"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes." alt="" coords="31,55,230,95"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,119,256,159"/>
-<area shape="rect" id="node5" title=" " alt="" coords="76,184,185,209"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="47,119,215,159"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,183,256,223"/>
+<area shape="rect" id="node6" title=" " alt="" coords="76,248,185,273"/>
 </map>

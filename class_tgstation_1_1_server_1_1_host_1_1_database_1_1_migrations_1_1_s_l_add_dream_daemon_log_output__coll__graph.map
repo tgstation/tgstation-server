@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.SLAddDreamDaemonLogOutput" name="Tgstation.Server.Host.Database.Migrations.SLAddDreamDaemonLogOutput">
+<area shape="rect" id="node1" title="Adds the DreamDaemon LogOutput column for SQLite." alt="" coords="5,79,277,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="104,5,179,31"/>
+</map>

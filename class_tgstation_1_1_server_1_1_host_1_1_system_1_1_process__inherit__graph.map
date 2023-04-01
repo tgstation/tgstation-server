@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.System.Process" name="Tgstation.Server.Host.System.Process">
-<area shape="rect" id="node1" title=" " alt="" coords="18,152,217,192"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="80,79,155,104"/>
+<area shape="rect" id="node1" title=" " alt="" coords="27,152,226,192"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="89,79,164,104"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="5,5,109,31"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="133,5,224,31"/>
+<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="134,5,261,31"/>
 </map>

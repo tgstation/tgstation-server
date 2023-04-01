@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.5.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -90,10 +90,10 @@ Inheritance diagram for Tgstation.Server.Host.System.IProcess:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_system_8_i_process_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_system_8_i_process_inherit__map" id="a_tgstation_8_server_8_host_8_system_8_i_process_inherit__map">
-<area shape="rect" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="18,79,217,119"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="18,167,217,207"/>
+<area shape="rect" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="27,79,226,119"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="27,167,226,207"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="5,5,109,31"/>
-<area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="133,5,224,31"/>
+<area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="134,5,261,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -101,20 +101,14 @@ Collaboration diagram for Tgstation.Server.Host.System.IProcess:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_system_8_i_process_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_system_8_i_process_coll__map" id="a_tgstation_8_server_8_host_8_system_8_i_process_coll__map">
-<area shape="rect" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="18,79,217,119"/>
+<area shape="rect" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="27,79,226,119"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="5,5,109,31"/>
-<area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="133,5,224,31"/>
+<area shape="rect" href="class_i_async_disposable.html" title=" " alt="" coords="134,5,261,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3a77180a58d7fc26d66ad4edf5824b87"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a3a77180a58d7fc26d66ad4edf5824b87">GetErrorOutput</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a3a77180a58d7fc26d66ad4edf5824b87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the stderr output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a3a77180a58d7fc26d66ad4edf5824b87">More...</a><br /></td></tr>
-<tr class="separator:a3a77180a58d7fc26d66ad4edf5824b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9de972ffe19ec131c31f34f15570ec73"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a9de972ffe19ec131c31f34f15570ec73">GetStandardOutput</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a9de972ffe19ec131c31f34f15570ec73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the stdout output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a9de972ffe19ec131c31f34f15570ec73">More...</a><br /></td></tr>
-<tr class="separator:a9de972ffe19ec131c31f34f15570ec73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33f72c10d0fc4a9a0d2590d508aec853"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a33f72c10d0fc4a9a0d2590d508aec853">GetCombinedOutput</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a33f72c10d0fc4a9a0d2590d508aec853"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the stderr and stdout output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a33f72c10d0fc4a9a0d2590d508aec853">More...</a><br /></td></tr>
 <tr class="separator:a33f72c10d0fc4a9a0d2590d508aec853"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,48 +175,20 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the stderr and stdout output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ac66f87db333037c285de26fc6b6e10fd">Tgstation.Server.Host.System.Process</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a4a0ba919002a93e731f964d12dc67042">Tgstation.Server.Host.System.Process</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00219">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00554">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LogDDOutput()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_a33f72c10d0fc4a9a0d2590d508aec853_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_a33f72c10d0fc4a9a0d2590d508aec853_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_a33f72c10d0fc4a9a0d2590d508aec853_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_a33f72c10d0fc4a9a0d2590d508aec853_icgraph">
-<area shape="rect" title="Get the stderr and stdout output of the IProcess." alt="" coords="643,5,841,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="304,5,595,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,5,256,45"/>
+<area shape="rect" title="Get the stderr and stdout output of the IProcess." alt="" coords="933,13,1132,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a11433df2f5ef1444929e43de9d674aef" title="Attempts to log DreamDaemon output." alt="" coords="643,5,885,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="304,13,595,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
 </map>
 </div>
-
-</div>
-</div>
-<a id="a3a77180a58d7fc26d66ad4edf5824b87" name="a3a77180a58d7fc26d66ad4edf5824b87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a77180a58d7fc26d66ad4edf5824b87">&#9670;&#160;</a></span>GetErrorOutput()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt; string &gt; Tgstation.Server.Host.System.IProcess.GetErrorOutput </td>
-          <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the stderr output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.  </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the stderr output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a736d1f3fd51c64de26a2645375bad22f">Tgstation.Server.Host.System.Process</a>.</p>
 
 </div>
 </div>
@@ -253,7 +219,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a70b4788b8a02130ef82973ed83cd966b">Tgstation.Server.Host.System.Process</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00546">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CheckPagerIsNotRunning()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00621">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CheckPagerIsNotRunning()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -265,35 +231,6 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,13,256,53"/>
 </map>
 </div>
-
-</div>
-</div>
-<a id="a9de972ffe19ec131c31f34f15570ec73" name="a9de972ffe19ec131c31f34f15570ec73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9de972ffe19ec131c31f34f15570ec73">&#9670;&#160;</a></span>GetStandardOutput()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt; string &gt; Tgstation.Server.Host.System.IProcess.GetStandardOutput </td>
-          <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the stdout output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.  </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the stdout output of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process.">IProcess</a>.</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a83b3b0382cfa477c8c8073e5ca6a9482">Tgstation.Server.Host.System.Process</a>.</p>
 
 </div>
 </div>
@@ -360,7 +297,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_i_process_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_process_8cs_source.html">IProcess.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00276">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00131">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_process_executor_8cs_source.html#l00330">Tgstation.Server.Host.System.ProcessExecutor.CreateFromExistingHandle()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00131">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.GetDreamDaemonName" name="Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.GetDreamDaemonName">
+<area shape="rect" id="node1" title="Get the file name of the DreamDaemon executable. The file name of the DreamDaemon executable." alt="" coords="632,39,891,93"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ad69f18d7b1280ac57a7340dcd552d110" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="324,5,584,60"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#aed52998c731a2e4d43d7bea0f5f0d4fe" title="Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS...." alt="" coords="17,71,265,125"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a2a38db71313d0a37018e16b39f123083" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="5,6,276,46"/>
+</map>

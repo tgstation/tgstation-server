@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.Reattach" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.Reattach">
 <area shape="rect" id="node1" title="Create a ISessionController from an existing DreamDaemon instance. A Task&lt;TResult&gt; resulting in a new..." alt="" coords="5,213,277,253"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#ac92d774409feabbf6720ba7e090846f0" title="Create RuntimeInformation." alt="" coords="341,5,600,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a20e52b0cee26143e397b61647320ce3d" title="Create RuntimeInformation." alt="" coords="341,5,600,60"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html#a950569e357f1d6e51722d4894792c555" title="Create a ITopicClient." alt="" coords="325,85,616,125"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe" title="Start tracking Commands.CustomCommands and ChannelRepresentations." alt="" coords="337,149,605,189"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3" title="Get a IProcess by id ." alt="" coords="371,213,570,253"/>

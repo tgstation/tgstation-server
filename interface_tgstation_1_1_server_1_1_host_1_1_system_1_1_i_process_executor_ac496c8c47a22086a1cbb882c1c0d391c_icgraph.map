@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.System.IProcessExecutor.LaunchProcess" name="Tgstation.Server.Host.System.IProcessExecutor.LaunchProcess">
-<area shape="rect" id="node1" title="Launch a IProcess." alt="" coords="663,91,881,131"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a6e7516f6939712dc72c480a31b87a3d8" title="Attempt to add the DreamDaemon executable as an exception to the Windows firewall." alt="" coords="339,5,599,60"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ace687a0a8ab8b2c11dfa48715dc83c87" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="352,84,587,139"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="324,163,615,203"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a89436c16bb220487bf376cc456ee753e" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="5,53,276,93"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="15,163,266,203"/>
-</map>

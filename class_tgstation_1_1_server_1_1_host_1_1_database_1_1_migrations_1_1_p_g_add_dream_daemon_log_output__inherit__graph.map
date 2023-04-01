@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.PGAddDreamDaemonLogOutput" name="Tgstation.Server.Host.Database.Migrations.PGAddDreamDaemonLogOutput">
+<area shape="rect" id="node1" title="Adds the DreamDaemon LogOutput column for PostgresSQL." alt="" coords="5,79,280,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="105,5,180,31"/>
+</map>
