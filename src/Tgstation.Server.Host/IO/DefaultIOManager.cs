@@ -46,6 +46,8 @@ namespace Tgstation.Server.Host.IO
 		{
 			var tasks = new List<Task>();
 
+			await Task.Yield();
+
 			// check if we are a symbolic link
 			if (!dir.Attributes.HasFlag(FileAttributes.Directory) || dir.Attributes.HasFlag(FileAttributes.ReparsePoint))
 			{
@@ -102,7 +104,14 @@ namespace Tgstation.Server.Host.IO
 
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
-			await Task.WhenAll(CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken));
+
+			var allTasks = CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken);
+
+			// Special tactics, increase the size of the ThreadPool until we have a 10-1 file-thread ratio.
+			var allFileTasks = allTasks.Skip(1);
+
+			var unityTask = Task.WhenAll(allFileTasks);
+			await unityTask.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -115,23 +124,25 @@ namespace Tgstation.Server.Host.IO
 				throw new ArgumentNullException(nameof(src));
 			if (dest == null)
 				throw new ArgumentNullException(nameof(dest));
+
+			// 0 size buffers prevents unnecessary buffering, async mode just uses the copy buffers See https://github.com/dotnet/runtime/blob/ad8031c813bae48d529ed6d265a2441c4b41fe7b/src/libraries/System.Private.CoreLib/src/System/IO/Strategies/FileStreamHelpers.Windows.cs#L163-L169
 			using var srcStream = new FileStream(
 				ResolvePath(src),
 				FileMode.Open,
 				FileAccess.Read,
 				FileShare.Read | FileShare.Delete,
-				DefaultBufferSize,
+				0,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
 			using var destStream = new FileStream(
 				ResolvePath(dest),
 				FileMode.Create,
 				FileAccess.Write,
-				FileShare.ReadWrite | FileShare.Delete,
-				DefaultBufferSize,
+				FileShare.Read | FileShare.Delete,
+				0,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
 
 			// value taken from documentation
-			await srcStream.CopyToAsync(destStream, 81920, cancellationToken);
+			await srcStream.CopyToAsync(destStream, DefaultBufferSize, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -259,7 +270,7 @@ namespace Tgstation.Server.Host.IO
 				path,
 				FileMode.Create,
 				FileAccess.Write,
-				FileShare.Read,
+				FileShare.Read | FileShare.Delete,
 				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
 		}
@@ -380,7 +391,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="ignore">Files and folders to ignore at the root level.</param>
 		/// <param name="postCopyCallback">The optional callback called for each source/dest file pair post copy.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operation.</returns>
+		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operations. The first <see cref="Task"/> returned is always the necessary call to <see cref="CreateDirectory(string, CancellationToken)"/>.</returns>
 		IEnumerable<Task> CopyDirectoryImpl(
 			string src,
 			string dest,
@@ -389,43 +400,53 @@ namespace Tgstation.Server.Host.IO
 			CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
+			Task subdirCreationTask = null;
 			foreach (var subDirectory in dir.EnumerateDirectories())
 			{
 				if (ignore != null && ignore.Contains(subDirectory.Name))
 					continue;
+
+				var checkingSubdirCreationTask = true;
 				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, cancellationToken))
-					yield return copyTask;
+				{
+					if (subdirCreationTask == null)
+					{
+						subdirCreationTask = copyTask;
+						yield return subdirCreationTask;
+					}
+					else if (!checkingSubdirCreationTask)
+						yield return copyTask;
+
+					checkingSubdirCreationTask = false;
+				}
 			}
 
-			async Task CopyThisDirectory()
+			foreach (var fileInfo in dir.EnumerateFiles())
 			{
-				await CreateDirectory(dest, cancellationToken);
-
-				var fileCopyTasks = new List<Task>();
-				foreach (var fileInfo in dir.EnumerateFiles())
+				if (subdirCreationTask == null)
 				{
-					if (ignore != null && ignore.Contains(fileInfo.Name))
-						return;
-
-					var sourceFile = fileInfo.FullName;
-					var destFile = Path.Combine(dest, fileInfo.Name);
-
-					async Task CopyThisFile()
-					{
-						// Grab all tasks before firing
-						await Task.Yield();
-						await CopyFile(sourceFile, destFile, cancellationToken);
-						if (postCopyCallback != null)
-							await postCopyCallback(sourceFile, destFile);
-					}
-
-					fileCopyTasks.Add(CopyThisFile());
+					subdirCreationTask = CreateDirectory(dest, cancellationToken);
+					yield return subdirCreationTask;
 				}
 
-				await Task.WhenAll(fileCopyTasks);
-			}
+				if (ignore != null && ignore.Contains(fileInfo.Name))
+					continue;
 
-			yield return CopyThisDirectory();
+				var sourceFile = fileInfo.FullName;
+				var destFile = ConcatPath(dest, fileInfo.Name);
+
+				async Task CopyThisFile()
+				{
+					// Grab all tasks before firing
+					await subdirCreationTask;
+					await Task.Yield();
+					await CopyFile(sourceFile, destFile, cancellationToken);
+					if (postCopyCallback != null)
+						await postCopyCallback(sourceFile, destFile);
+				}
+
+				yield return CopyThisFile();
+			}
 		}
 	}
 }
