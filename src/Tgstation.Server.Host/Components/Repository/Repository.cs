@@ -172,7 +172,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<bool?> AddTestMerge(
+		public async Task<TestMergeResult> AddTestMerge(
 			TestMergeParameters testMergeParameters,
 			string committerName,
 			string committerEmail,
@@ -225,6 +225,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var progressFactor = 1.0 / (updateSubmodules ? 3 : 2);
 
 			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.UtcNow);
+			List<string> conflictedPaths = null;
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -279,7 +280,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						result = libGitRepo.Merge(testMergeParameters.TargetCommitSha, sig, new MergeOptions
 						{
 							CommitOnSuccess = commitMessage == null,
-							FailOnConflict = true,
+							FailOnConflict = false, // Needed to get conflicting files
 							FastForwardStrategy = FastForwardStrategy.NoFastForward,
 							SkipReuc = true,
 							OnCheckoutProgress = CheckoutProgressHandler(
@@ -295,6 +296,12 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					if (result.Status == MergeStatus.Conflicts)
 					{
+						var repoStatus = libGitRepo.RetrieveStatus();
+						conflictedPaths = new List<string>();
+						foreach (var file in repoStatus)
+							if (file.State == FileStatus.Conflicted)
+								conflictedPaths.Add(file.FilePath);
+
 						var revertTo = originalCommit.CanonicalName ?? originalCommit.Tip.Sha;
 						logger.LogDebug("Merge conflict, aborting and reverting to {0}", revertTo);
 						progressReporter.ReportProgress(0);
@@ -306,23 +313,29 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current)
-				;
+				TaskScheduler.Current);
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
+				var arguments = new List<string>
+				{
+					originalCommit.Tip.Sha,
+					testMergeParameters.TargetCommitSha,
+					originalCommit.FriendlyName ?? UnknownReference,
+					testMergeBranchName,
+				};
+
+				arguments.AddRange(conflictedPaths);
+
 				await eventConsumer.HandleEvent(
 					EventType.RepoMergeConflict,
-					new List<string>
-					{
-						originalCommit.Tip.Sha,
-						testMergeParameters.TargetCommitSha,
-						originalCommit.FriendlyName ?? UnknownReference,
-						testMergeBranchName,
-					},
-					cancellationToken)
-					;
-				return null;
+					arguments,
+					cancellationToken);
+				return new TestMergeResult
+				{
+					Status = result.Status,
+					ConflictingFiles = conflictedPaths,
+				};
 			}
 
 			if (result.Status != MergeStatus.UpToDate)
@@ -356,10 +369,12 @@ namespace Tgstation.Server.Host.Components.Repository
 					testMergeParameters.TargetCommitSha,
 					testMergeParameters.Comment,
 				},
-				cancellationToken)
-				;
+				cancellationToken);
 
-			return result.Status != MergeStatus.NonFastForward;
+			return new TestMergeResult
+			{
+				Status = result.Status,
+			};
 		}
 #pragma warning restore CA1506
 

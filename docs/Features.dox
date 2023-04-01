@@ -10,7 +10,7 @@
     - Limitation: Users can be disabled but not deleted.
 - Proper Long Running Operation Support: Server actions take a long time, from a git pull to a DreamMaker compile. TGS now internally allows for them to be run in parallel with each other and provides an audit record via the database. This is an improvement over the old system where connections had to be held open for the duration of operations.
 - Database Backend: TGS requires an SQL database to operate. This allows for much better concurrency and is just overall much cleaner than the old single json file storage blob per instance.
-	- Limitation: There is a one-to-one relationship with a TGS server and a database. **DO NOT SHARE TGS DATABASES**.
+	- Limitation: There is a one-to-one relationship with a TGS server and a database. **DO NOT SHARE TGS DATABASES OUTSIDE OF SWARM MODE**.
 - Linux/Docker Support: TGS is Linux and docker compatible. (Note this does not mean that rust-g and BSQL work out of the box, they must be compiled using event scripts like PreCompile.sh).
 	- Limitation: TGS has a dependency on the native library libgit2 which is known to cause issues on Linux. The binaries distributed with TGS are kept up to date with the upstream repository, but out of the box Linux support can't be assured in every environment. Docker is guaranteed to always work, however. See the repository for the distributed binary here: https://github.com/libgit2/libgit2sharp.nativebinaries.
 	- Limitation: System based logins are not supported on Linux. https://github.com/tgstation/tgstation-server/issues/709
@@ -30,13 +30,12 @@
 - Safe/Ultrasafe Security Support: Thanks to the new DMAPI, the ultrasafe and safe security levels may be used without running into BYOND's limitations. But no one really cares...
 - Private/Invisible visibility Support: Stored per instance.
 - Self Upgrading: To upgrade TGS3 you needed to download and run the installer. This was pretty seamless, but it's now even better in versions >=4 as the command to upgrade can be given straight to the API. At that point the server will handle downloading the update, detaching running DreamDaemon instances, restarting with the new version, and reattaching to them. Easier than ever patch delivery.
+- Multi-server co-operation: TGS installed on multiple machines can share the same database by using Swarm Mode. This mode keeps TGS and account details in sync on all machines.
+- OAuth 2.0 Support: Integrate with your favorite 3rd party authentication providers
 - *Gasp* TESTING: TGS currently has over 60% code coverage in automated unit and full stack integration tests. I aim to have that number ever increasing to prevent trivial mistakes. Big improvement over V3 which had... literally none...
 
 Along with these features, nearly every single V3 feature has been included and possibly improved in some fashion. This includes stuff like Windows accounts for logins, and using ACLs for static file handling. The following exceptions exist but are planned for future updates:
 - Process memory/CPU diagnostic data is not generated: https://github.com/tgstation/tgstation-server/issues/611
-- Process dumps may not be created: https://github.com/tgstation/tgstation-server/issues/612
-- The DMAPI is required in DreamMaker code: https://github.com/tgstation/tgstation-server/issues/934
-- The option to "Initialize Game Directories" is no longer present, but a variant is still performed every deployment for smoother error handling.
 - Direct server announcements are no longer present but may be readded upon request.
 
 @section features_list Comprehensive Feature List
@@ -44,11 +43,26 @@ Along with these features, nearly every single V3 feature has been included and 
 tgstation-server is a BYOND server managment suite. It includes all the following features
 
 - Standalone server with OpenAPI 3.0 defined HTTP REST API
+- Web based client included
 - Secure user authentication, management, and permissions system
 - Support for using Windows accounts as logins
-- Long running operation support via the jobs subsystem
+- OAuth 2.0 support with several providers
+	- InvisionCommunity
+	- /tg/ Forums
+	- Discord
+	- GitHub
+	- Keycloak
+- Long running operation support via the jobs subsystem with error handling and stage reporting
 - Logging system with configurable levels of verbosity
+	- Logs can be downloaded via the API
+	- Supports Elasticsearch ingesting
 - Able to self update with user input
+- Swarm system to coordinate servers across systems
+- Database backend supporting several providers
+	- Microsoft SQL Server
+	- MySQL/MariaDB
+	- PostgresSQL
+	- SQLite
 - Instances: Managing multiple sets of the below features seperately on the same machine
 	- Git repository managment
 		- Cloning
@@ -63,10 +77,13 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 			- Includes DirectX installation on Windows and proper handling of POSIX shared libraries
 		- Supporting any amount of installed versions
 		- Cleaning the BYOND cache
+		- Uploading a custom version .zip
 	- Code Deployment
 		- Compiles git code with DreamMaker and the active BYOND version
 		- Validates interop with the compiled binary
 		- Can be scheduled to pull the repository and build on a given interval
+		- Test merge commenting support for GitHub and GitLab
+		- GitHub Deployment Environments support
 	- The Watchdog, a DreamDaemon uptime monitor
 		- Automatically restarts the server when crashed until told to stop
 		- "Heartbeat" system for checking DreamDaemon isn't hung
@@ -75,11 +92,15 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 		- Automatically handles Windows prompts related to trusted mode
 		- TGS restarts/updates do not interrupt the DreamDaemon process
 		- Raises process priority of DreamDaemon for increased performance
+		- Support for logging DreamDaemon output
+		- Support for the `-profile` command line option
+		- Safe session recovery from TGS crashes
 	- Chat System
 		- Support multiple chat bots per instance. Current providers:
 			- Discord
-				- Supports rich embeds when deployments occur
+				- Supports rich embeds created from DM code and when deployments occur
 			- IRC
+				- Supports several authentication types
 		- Bots come out of the box with some basic commands like showing the server revision
 		- Support different chat channel types & tags for use in DM code
 	- Configuration system
@@ -94,5 +115,6 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 		- Provides API for implementing chat bot commands in DM code
 		- Gives the ability to restart the DreamDaemon process from DM code
 		- Functions with all 3 DreamDaemon security levels
+		- Provides notifications of TGS side events
 		- Allows specifying the .dmb's minimum required security level
 */

@@ -422,6 +422,7 @@ TGS supports creating infinite chat bots for notifying staff or players of thing
 
 - Internet Relay Chat (IRC)
 - Discord
+  - NOTE: Bot MUST have Message Content Intent enabled
 
 More can be added by providing a new implementation of the [IProvider](src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs) interface
 
