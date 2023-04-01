@@ -44,10 +44,6 @@ namespace Tgstation.Server.Host.IO
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		static async Task NormalizeAndDelete(DirectoryInfo dir, CancellationToken cancellationToken)
 		{
-			var tasks = new List<Task>();
-
-			await Task.Yield();
-
 			// check if we are a symbolic link
 			if (!dir.Attributes.HasFlag(FileAttributes.Directory) || dir.Attributes.HasFlag(FileAttributes.ReparsePoint))
 			{
@@ -55,6 +51,9 @@ namespace Tgstation.Server.Host.IO
 				return;
 			}
 
+			await Task.Yield();
+
+			var tasks = new List<Task>();
 			foreach (var subDir in dir.EnumerateDirectories())
 			{
 				cancellationToken.ThrowIfCancellationRequested();
