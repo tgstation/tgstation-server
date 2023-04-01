@@ -102,5 +102,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartProfiler"/>
 		/// </summary>
 		SetProfiler = 131072,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.LogOutput"/>
+		/// </summary>
+		SetLogOutput = 262144,
 	}
 }

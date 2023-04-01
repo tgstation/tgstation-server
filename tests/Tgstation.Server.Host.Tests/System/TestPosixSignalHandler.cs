@@ -59,14 +59,15 @@ namespace Tgstation.Server.Host.System.Tests
 					new Lazy<IProcessExecutor>(() => processExecutor),
 					new DefaultIOManager(new AssemblyInformationProvider()),
 					loggerFactory.CreateLogger<PosixProcessFeatures>()),
+				Mock.Of<IIOManager>(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),
 				loggerFactory);
-			using var subProc = processExecutor
+			await using var subProc = await processExecutor
 				.LaunchProcess(
 					"dotnet",
 					pathToSignalTestApp,
 					$"run -c {CurrentConfig} --no-build",
-					true,
+					null,
 					true,
 					true);
 

@@ -247,15 +247,21 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
+			using var file = CreateAsyncWriteStream(path);
+			await file.WriteAsync(contents, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public FileStream CreateAsyncWriteStream(string path)
+		{
 			path = ResolvePath(path);
-			using var file = new FileStream(
+			return new FileStream(
 				path,
 				FileMode.Create,
 				FileAccess.Write,
-				FileShare.ReadWrite,
+				FileShare.Read,
 				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
-			await file.WriteAsync(contents, cancellationToken);
 		}
 
 		/// <inheritdoc />

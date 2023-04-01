@@ -85,6 +85,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string? AdditionalParameters { get; set; }
 
 		/// <summary>
+		/// If process output/error text should be logged.
+		/// </summary>
+		[Required]
+		[ResponseOptions]
+		public bool? LogOutput { get; set; }
+
+		/// <summary>
 		/// Check if we match a given set of <paramref name="otherParameters"/>. <see cref="StartupTimeout"/> is excluded.
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against.</param>
@@ -100,7 +107,8 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& Port == otherParameters.Port
 				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout
 				&& AdditionalParameters == otherParameters.AdditionalParameters
-				&& StartProfiler == otherParameters.StartProfiler; // We intentionally don't check StartupTimeout, heartbeat seconds, or heartbeat dump as they don't matter in terms of the watchdog
+				&& StartProfiler == otherParameters.StartProfiler
+				&& LogOutput == otherParameters.LogOutput; // We intentionally don't check StartupTimeout, heartbeat seconds, or heartbeat dump as they don't matter in terms of the watchdog
 		}
 	}
 }

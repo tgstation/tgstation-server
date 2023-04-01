@@ -187,7 +187,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			try
 			{
 				// noShellExecute because we aren't doing runas shennanigans
-				using var directXInstaller = processExecutor.LaunchProcess(
+				await using var directXInstaller = await processExecutor.LaunchProcess(
 					IOManager.ConcatPath(rbdx, "DXSETUP.exe"),
 					rbdx,
 					"/silent",
@@ -228,13 +228,12 @@ namespace Tgstation.Server.Host.Components.Byond
 			Logger.LogInformation("Adding Windows Firewall exception for {path}...", dreamDaemonPath);
 			try
 			{
-				using var netshProcess = processExecutor.LaunchProcess(
+				await using var netshProcess = await processExecutor.LaunchProcess(
 					"netsh.exe",
 					IOManager.ResolvePath(),
 					$"advfirewall firewall add rule name=\"TGS DreamDaemon\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow",
-					true,
-					true,
-					true);
+					readStandardHandles: true,
+					noShellExecute: true);
 
 				int exitCode;
 				using (cancellationToken.Register(() => netshProcess.Terminate()))

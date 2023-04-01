@@ -562,7 +562,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				foreach (var scriptFile in scriptFiles)
 				{
 					logger.LogTrace("Running event script {scriptFile}...", scriptFile);
-					using (var script = processExecutor.LaunchProcess(
+					await using (var script = await processExecutor.LaunchProcess(
 						ioManager.ConcatPath(resolvedScriptsDir, scriptFile),
 						resolvedScriptsDir,
 						String.Join(
@@ -576,9 +576,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 								return $"\"{arg}\"";
 							})),
-						true,
-						true,
-						true))
+						readStandardHandles: true,
+						noShellExecute: true))
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
 						var exitCode = await script.Lifetime;

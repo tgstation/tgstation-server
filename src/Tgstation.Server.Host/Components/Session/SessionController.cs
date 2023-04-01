@@ -275,7 +275,7 @@ namespace Tgstation.Server.Host.Components.Session
 				byondLock.Dispose();
 			}
 
-			process.Dispose();
+			await process.DisposeAsync();
 			bridgeRegistration?.Dispose();
 			ReattachInformation.Dmb?.Dispose(); // will be null when released
 			chatTrackingContext.Dispose();
@@ -656,8 +656,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 			var result = new LaunchResult
 			{
-				ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime : null,
-				StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.UtcNow - startTime) : null,
+				ExitCode = process.Lifetime.IsCompleted ? await process.Lifetime : null,
+				StartupTime = startupTask.IsCompleted ? (DateTimeOffset.UtcNow - startTime) : null,
 			};
 
 			logger.LogTrace("Launch result: {0}", result);

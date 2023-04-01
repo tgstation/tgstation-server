@@ -32,6 +32,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Instance;
@@ -627,7 +628,7 @@ namespace Tgstation.Server.Tests
 			{
 				try
 				{
-					Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
+					System.Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
 					return await clientFactory.CreateFromLogin(
 						url,
 						DefaultCredentials.AdminUserName,
@@ -856,7 +857,7 @@ namespace Tgstation.Server.Tests
 						}
 						catch (Exception ex)
 						{
-							Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
+							System.Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
 							serverCts.Cancel();
 							throw;
 						}
@@ -991,12 +992,12 @@ namespace Tgstation.Server.Tests
 			}
 			catch (ApiException ex)
 			{
-				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
+				System.Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
 				throw;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
+				System.Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
 				throw;
 			}
 			finally
@@ -1048,17 +1049,17 @@ namespace Tgstation.Server.Tests
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
 				Mock.Of<IProcessFeatures>(),
+				Mock.Of<IIOManager>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));
 
-			using var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", String.Empty, true, true, true);
+			await using var process = await processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", String.Empty, null, true, true);
 			using var cts = new CancellationTokenSource();
 			cts.CancelAfter(3000);
 			var exitCode = await process.Lifetime.WithToken(cts.Token);
 
 			Assert.AreEqual(0, exitCode);
-			Assert.AreEqual(String.Empty, (await process.GetErrorOutput(default)).Trim());
-			Assert.AreEqual("Hello World!", (await process.GetStandardOutput(default)).Trim());
+			Assert.AreEqual("Hello World!", (await process.GetCombinedOutput(default)).Trim());
 		}
 
 		[TestMethod]

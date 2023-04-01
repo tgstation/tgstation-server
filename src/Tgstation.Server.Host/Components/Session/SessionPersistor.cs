@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				try
 				{
-					using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
+					await using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
 					if (process != null)
 					{
 						if (reattachInfo == result)

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32.SafeHandles;
 
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System
@@ -40,44 +38,37 @@ namespace Tgstation.Server.Host.System
 		readonly global::System.Diagnostics.Process handle;
 
 		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> used to shutdown the <see cref="readTask"/>.
+		/// </summary>
+		readonly CancellationTokenSource readerCts;
+
+		/// <summary>
 		/// The <see cref="global::System.Diagnostics.Process.SafeHandle"/>.
 		/// </summary>
 		/// <remarks>We keep this to prevent .NET from closing the real handle too soon. See https://stackoverflow.com/a/47656845</remarks>
 		readonly SafeProcessHandle safeHandle;
 
 		/// <summary>
-		/// The <see cref="Task{TResult}"/> resulting in the process' standard output text.
+		/// The <see cref="Task{TResult}"/> resulting in the process' standard output/error text.
 		/// </summary>
-		readonly Task<string> standardOutputTask;
-
-		/// <summary>
-		/// The <see cref="Task{TResult}"/> resulting in the process' standard error text.
-		/// </summary>
-		readonly Task<string> standardErrorTask;
-
-		/// <summary>
-		/// The <see cref="Task{TResult}"/> resulting in the process' unified standard output and standard error text.
-		/// </summary>
-		readonly StringBuilder combinedStringBuilder;
+		readonly Task<string> readTask;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Process"/> class.
 		/// </summary>
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
 		/// <param name="handle">The value of <see cref="handle"/>.</param>
+		/// <param name="readerCts">The value of <see cref="readerCts"/>.</param>
 		/// <param name="lifetime">The value of <see cref="Lifetime"/>.</param>
-		/// <param name="standardOutputTask">The value of <see cref="standardOutputTask"/>.</param>
-		/// <param name="standardErrorTask">The value of <see cref="standardErrorTask"/>.</param>
-		/// <param name="combinedStringBuilder">The value of <see cref="combinedStringBuilder"/>.</param>
+		/// <param name="readTask">The value of <see cref="readTask"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created.</param>
 		public Process(
 			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
+			CancellationTokenSource readerCts,
 			Task<int> lifetime,
-			Task<string> standardOutputTask,
-			Task<string> standardErrorTask,
-			StringBuilder combinedStringBuilder,
+			Task<string> readTask,
 			ILogger<Process> logger,
 			bool preExisting)
 		{
@@ -87,11 +78,11 @@ namespace Tgstation.Server.Host.System
 			safeHandle = handle.SafeHandle;
 			Id = handle.Id;
 
+			this.readerCts = readerCts;
+
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 
-			this.standardOutputTask = standardOutputTask;
-			this.standardErrorTask = standardErrorTask;
-			this.combinedStringBuilder = combinedStringBuilder;
+			this.readTask = readTask;
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -123,42 +114,23 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
+			readerCts?.Cancel();
+			readerCts?.Dispose();
+			if (readTask != null)
+				await readTask;
+
 			safeHandle.Dispose();
 			handle.Dispose();
 		}
 
 		/// <inheritdoc />
-		public async Task<string> GetCombinedOutput(CancellationToken cancellationToken)
+		public Task<string> GetCombinedOutput(CancellationToken cancellationToken)
 		{
-			if (combinedStringBuilder == null)
+			if (readTask == null)
 				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
-			await Task.WhenAll(
-				GetStandardOutput(cancellationToken),
-				GetErrorOutput(cancellationToken))
-				;
-			return combinedStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
-		}
-
-		/// <inheritdoc />
-		public async Task<string> GetErrorOutput(CancellationToken cancellationToken)
-		{
-			if (standardErrorTask == null)
-				throw new InvalidOperationException("Error stream reading was not enabled!");
-			if (!standardErrorTask.IsCompleted)
-				logger.LogTrace("Waiting for PID {0} to close error stream...", Id);
-			return await standardErrorTask.WithToken(cancellationToken);
-		}
-
-		/// <inheritdoc />
-		public async Task<string> GetStandardOutput(CancellationToken cancellationToken)
-		{
-			if (standardOutputTask == null)
-				throw new InvalidOperationException("Output stream reading was not enabled!");
-			if (!standardOutputTask.IsCompleted)
-				logger.LogTrace("Waiting for PID {0} to close output stream...", Id);
-			return await standardOutputTask.WithToken(cancellationToken);
+			return readTask;
 		}
 
 		/// <inheritdoc />
