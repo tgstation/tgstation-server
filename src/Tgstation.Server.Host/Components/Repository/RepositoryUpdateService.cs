@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using LibGit2Sharp;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -499,11 +501,11 @@ namespace Tgstation.Server.Host.Components.Repository
 								NextProgressReporter($"Test merge #{newTestMerge.Number}"),
 								cancellationToken);
 
-							if (mergeResult == null)
+							if (mergeResult.Status == MergeStatus.Conflicts)
 								throw new JobException(
 									ErrorCode.RepoTestMergeConflict,
 									new JobException(
-										$"Test Merge #{newTestMerge.Number} at {newTestMerge.TargetCommitSha[..7]} conflicted!"));
+										$"Test Merge #{newTestMerge.Number} at {newTestMerge.TargetCommitSha[..7]} conflicted! Conflicting files:{Environment.NewLine}{String.Join(Environment.NewLine, mergeResult.ConflictingFiles.Select(file => $"\t- /{file}"))}"));
 
 							Models.TestMerge fullTestMerge;
 							try

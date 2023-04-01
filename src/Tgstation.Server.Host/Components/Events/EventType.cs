@@ -85,7 +85,7 @@
 		InstanceAutoUpdateStart,
 
 		/// <summary>
-		/// Parameters: Base sha, target sha, base reference, target reference
+		/// Parameters: Base sha, target sha, base reference, target reference, all conflicting files
 		/// </summary>
 		[EventScript("RepoMergeConflict")]
 		RepoMergeConflict,

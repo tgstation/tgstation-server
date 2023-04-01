@@ -69,8 +69,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="updateSubmodules">If a submodule update should be attempted after the merge.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a non-fast-forward, <see langword="null"/> on a conflict.</returns>
-		Task<bool?> AddTestMerge(
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="TestMergeResult"/>.</returns>
+		Task<TestMergeResult> AddTestMerge(
 			TestMergeParameters testMergeParameters,
 			string committerName,
 			string committerEmail,
