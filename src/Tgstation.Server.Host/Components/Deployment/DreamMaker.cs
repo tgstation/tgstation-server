@@ -760,8 +760,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 					progressReporter.ReportProgress(lastReport);
 				}
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
+				logger.LogTrace(ex, "ProgressTask aborted.");
 			}
 		}
 
