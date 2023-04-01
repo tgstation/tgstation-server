@@ -752,6 +752,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 						}
 						while (DateTimeOffset.UtcNow < nextInterval);
 					}
+					else
+						await Task.Delay(minimumSleepInterval, cancellationToken);
 
 					progressReporter.StageName = currentStage;
 					lastReport = estimatedDuration.HasValue ? sleepInterval * (iteration + 1) / estimatedDuration.Value : null;
