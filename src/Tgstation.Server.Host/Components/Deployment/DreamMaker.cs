@@ -718,9 +718,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task ProgressTask(JobProgressReporter progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
 		{
-			var noEstimate = !estimatedDuration.HasValue;
 			progressReporter.StageName = currentStage;
-			double? lastReport = noEstimate ? null : 0;
+			double? lastReport = estimatedDuration.HasValue ? 0 : null;
 			progressReporter.ReportProgress(lastReport);
 
 			var minimumSleepInterval = TimeSpan.FromMilliseconds(250);
@@ -739,20 +738,23 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				for (var iteration = 0; iteration < (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)
 				{
-					var nextInterval = DateTimeOffset.UtcNow + sleepInterval;
-					do
+					if (estimatedDuration.HasValue)
 					{
-						var remainingSleepThisInterval = nextInterval - DateTimeOffset.UtcNow;
-						var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? remainingSleepThisInterval : minimumSleepInterval;
+						var nextInterval = DateTimeOffset.UtcNow + sleepInterval;
+						do
+						{
+							var remainingSleepThisInterval = nextInterval - DateTimeOffset.UtcNow;
+							var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? remainingSleepThisInterval : minimumSleepInterval;
 
-						await Task.Delay(nextSleepSpan, cancellationToken);
-						progressReporter.StageName = currentStage;
-						progressReporter.ReportProgress(lastReport);
+							await Task.Delay(nextSleepSpan, cancellationToken);
+							progressReporter.StageName = currentStage;
+							progressReporter.ReportProgress(lastReport);
+						}
+						while (DateTimeOffset.UtcNow < nextInterval);
 					}
-					while (DateTimeOffset.UtcNow < nextInterval);
 
 					progressReporter.StageName = currentStage;
-					lastReport = noEstimate ? null : sleepInterval * (iteration + 1) / estimatedDuration.Value;
+					lastReport = estimatedDuration.HasValue ? sleepInterval * (iteration + 1) / estimatedDuration.Value : null;
 					progressReporter.ReportProgress(lastReport);
 				}
 			}
