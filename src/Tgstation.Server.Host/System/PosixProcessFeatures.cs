@@ -90,13 +90,12 @@ namespace Tgstation.Server.Host.System
 
 			string output;
 			int exitCode;
-			using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
+			await using (var gcoreProc = await lazyLoadedProcessExecutor.Value.LaunchProcess(
 				GCorePath,
 				Environment.CurrentDirectory,
 				$"-o {outputFile} {process.Id}",
-				true,
-				true,
-				true))
+				readStandardHandles: true,
+				noShellExecute: true))
 			{
 				using (cancellationToken.Register(() => gcoreProc.Terminate()))
 					exitCode = await gcoreProc.Lifetime;

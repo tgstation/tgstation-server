@@ -3,12 +3,12 @@
   <!-- Integration tests will ensure they match across the board -->
   <Import Project="ControlPanelVersion.props" />
   <PropertyGroup>
-    <TgsCoreVersion>5.6.0</TgsCoreVersion>
+    <TgsCoreVersion>5.7.0</TgsCoreVersion>
     <TgsConfigVersion>4.4.0</TgsConfigVersion>
-    <TgsApiVersion>9.8.1</TgsApiVersion>
-    <TgsApiLibraryVersion>10.2.0</TgsApiLibraryVersion>
-    <TgsClientVersion>11.2.1</TgsClientVersion>
-    <TgsDmapiVersion>6.1.0</TgsDmapiVersion>
+    <TgsApiVersion>9.9.0</TgsApiVersion>
+    <TgsApiLibraryVersion>10.3.0</TgsApiLibraryVersion>
+    <TgsClientVersion>11.3.0</TgsClientVersion>
+    <TgsDmapiVersion>6.2.0</TgsDmapiVersion>
     <TgsInteropVersion>5.4.0</TgsInteropVersion>
     <TgsHostWatchdogVersion>1.2.1</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>

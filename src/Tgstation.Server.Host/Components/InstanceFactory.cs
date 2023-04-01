@@ -271,6 +271,7 @@ namespace Tgstation.Server.Host.Components
 						cryptographySuite,
 						assemblyInformationProvider,
 						gameIoManager,
+						diagnosticsIOManager,
 						chatManager,
 						networkPromptReaper,
 						platformIdentifier,
@@ -308,10 +309,11 @@ namespace Tgstation.Server.Host.Components
 							remoteDeploymentManagerFactory,
 							metadata,
 							metadata.DreamDaemonSettings);
-						eventConsumer.SetWatchdog(watchdog);
-						commandFactory.SetWatchdog(watchdog);
 						try
 						{
+							eventConsumer.SetWatchdog(watchdog);
+							commandFactory.SetWatchdog(watchdog);
+
 							Instance instance = null;
 							var dreamMaker = new DreamMaker(
 								byond,

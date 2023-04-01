@@ -112,8 +112,7 @@ namespace Tgstation.Server.Host
 					{
 						if (b.FullPath == updatePath && File.Exists(b.FullPath))
 						{
-							if (logger != null)
-								logger.LogInformation("Host watchdog appears to be requesting server termination!");
+							logger?.LogInformation("Host watchdog appears to be requesting server termination!");
 							cancellationTokenSource.Cancel();
 						}
 					};
@@ -134,8 +133,7 @@ namespace Tgstation.Server.Host
 				}
 				catch (OperationCanceledException ex)
 				{
-					if (logger != null)
-						logger.LogDebug(ex, "Server run cancelled!");
+					logger?.LogDebug(ex, "Server run cancelled!");
 				}
 				catch (Exception ex)
 				{

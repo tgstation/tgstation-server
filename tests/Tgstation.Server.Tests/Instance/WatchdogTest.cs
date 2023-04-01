@@ -230,11 +230,12 @@ namespace Tgstation.Server.Tests.Instance
 			IProcessExecutor executor = null;
 			executor = new ProcessExecutor(
 				RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-					? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
+					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
+				Mock.Of<IIOManager>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));
-			using var ourProcessHandler = executor
+			await using var ourProcessHandler = executor
 				.GetProcess(ddProc.Id);
 
 			// Ensure it's responding to heartbeats

@@ -235,6 +235,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							.Select(x => new Models.DreamDaemonSettings
 							{
 								StartupTimeout = x.StartupTimeout,
+								LogOutput = x.LogOutput,
 							})
 							.FirstOrDefaultAsync(cancellationToken)
 							;
@@ -325,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					compileJob = await Compile(
 						revInfo,
 						dreamMakerSettings,
-						ddSettings.StartupTimeout.Value,
+						ddSettings,
 						repo,
 						remoteDeploymentManager,
 						progressReporter,
@@ -462,7 +463,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="RevisionInformation"/>.</param>
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/>.</param>
-		/// <param name="apiValidateTimeout">The API validation timeout.</param>
+		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
 		/// <param name="repository">The <see cref="IRepository"/>.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/>.</param>
 		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> to report progress of the operation.</param>
@@ -473,7 +474,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		async Task<Models.CompileJob> Compile(
 			Models.RevisionInformation revisionInformation,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
-			uint apiValidateTimeout,
+			DreamDaemonLaunchParameters launchParameters,
 			IRepository repository,
 			IRemoteDeploymentManager remoteDeploymentManager,
 			JobProgressReporter progressReporter,
@@ -525,10 +526,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 						await RunCompileJob(
 							job,
 							dreamMakerSettings,
+							launchParameters,
 							byondLock,
 							repository,
 							remoteDeploymentManager,
-							apiValidateTimeout,
 							combinedTokenSource.Token)
 							;
 					}
@@ -559,19 +560,19 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="job">The <see cref="CompileJob"/> to run and populate.</param>
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/> to use.</param>
+		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> to use.</param>
 		/// <param name="byondLock">The <see cref="IByondExecutableLock"/> to use.</param>
 		/// <param name="repository">The <see cref="IRepository"/> to use.</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> to use.</param>
-		/// <param name="apiValidateTimeout">The timeout for validating the DMAPI.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task RunCompileJob(
 			Models.CompileJob job,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
+			DreamDaemonLaunchParameters launchParameters,
 			IByondExecutableLock byondLock,
 			IRepository repository,
 			IRemoteDeploymentManager remoteDeploymentManager,
-			uint apiValidateTimeout,
 			CancellationToken cancellationToken)
 		{
 			var outputDirectory = job.DirectoryName.ToString();
@@ -655,14 +656,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 					currentStage = "Validating DMAPI";
 					await VerifyApi(
-						apiValidateTimeout,
+						launchParameters.StartupTimeout.Value,
 						dreamMakerSettings.ApiValidationSecurityLevel.Value,
 						job,
 						byondLock,
 						dreamMakerSettings.ApiValidationPort.Value,
 						dreamMakerSettings.RequireDMApiValidation.Value,
-						cancellationToken)
-						;
+						launchParameters.LogOutput.Value,
+						cancellationToken);
 				}
 				catch (JobException)
 				{
@@ -717,9 +718,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task ProgressTask(JobProgressReporter progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
 		{
-			var noEstimate = !estimatedDuration.HasValue;
 			progressReporter.StageName = currentStage;
-			double? lastReport = noEstimate ? null : 0;
+			double? lastReport = estimatedDuration.HasValue ? 0 : null;
 			progressReporter.ReportProgress(lastReport);
 
 			var minimumSleepInterval = TimeSpan.FromMilliseconds(250);
@@ -738,25 +738,31 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				for (var iteration = 0; iteration < (estimatedDuration.HasValue ? 99 : Int32.MaxValue); ++iteration)
 				{
-					var nextInterval = DateTimeOffset.UtcNow + sleepInterval;
-					do
+					if (estimatedDuration.HasValue)
 					{
-						var remainingSleepThisInterval = nextInterval - DateTimeOffset.UtcNow;
-						var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? remainingSleepThisInterval : minimumSleepInterval;
+						var nextInterval = DateTimeOffset.UtcNow + sleepInterval;
+						do
+						{
+							var remainingSleepThisInterval = nextInterval - DateTimeOffset.UtcNow;
+							var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? remainingSleepThisInterval : minimumSleepInterval;
 
-						await Task.Delay(nextSleepSpan, cancellationToken);
-						progressReporter.StageName = currentStage;
-						progressReporter.ReportProgress(lastReport);
+							await Task.Delay(nextSleepSpan, cancellationToken);
+							progressReporter.StageName = currentStage;
+							progressReporter.ReportProgress(lastReport);
+						}
+						while (DateTimeOffset.UtcNow < nextInterval);
 					}
-					while (DateTimeOffset.UtcNow < nextInterval);
+					else
+						await Task.Delay(minimumSleepInterval, cancellationToken);
 
 					progressReporter.StageName = currentStage;
-					lastReport = noEstimate ? null : sleepInterval * (iteration + 1) / estimatedDuration.Value;
+					lastReport = estimatedDuration.HasValue ? sleepInterval * (iteration + 1) / estimatedDuration.Value : null;
 					progressReporter.ReportProgress(lastReport);
 				}
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
+				logger.LogTrace(ex, "ProgressTask aborted.");
 			}
 		}
 
@@ -769,6 +775,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/>.</param>
 		/// <param name="portToUse">The port to use for API validation.</param>
 		/// <param name="requireValidate">If the API validation is required to complete the deployment.</param>
+		/// <param name="logOutput">If output should be logged to the DreamDaemon Diagnostics folder.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task VerifyApi(
@@ -778,6 +785,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IByondExecutableLock byondLock,
 			ushort portToUse,
 			bool requireValidate,
+			bool logOutput,
 			CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Verifying {0}DMAPI...", requireValidate ? "required " : String.Empty);
@@ -791,6 +799,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				TopicRequestTimeout = 0, // not used
 				HeartbeatSeconds = 0, // not used
 				StartProfiler = false,
+				LogOutput = logOutput,
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
@@ -854,14 +863,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			using var dm = processExecutor.LaunchProcess(
+			await using var dm = await processExecutor.LaunchProcess(
 				dreamMakerPath,
 				ioManager.ResolvePath(
 					job.DirectoryName.ToString()),
 				$"-clean {job.DmeName}.{DmeExtension}",
-				true,
-				true,
-				true);
+				readStandardHandles: true,
+				noShellExecute: true);
 
 			if (sessionConfiguration.LowPriorityDeploymentProcesses)
 				dm.AdjustPriority(false);

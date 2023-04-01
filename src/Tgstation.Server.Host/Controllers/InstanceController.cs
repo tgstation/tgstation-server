@@ -725,6 +725,7 @@ namespace Tgstation.Server.Host.Controllers
 					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout,
 					AdditionalParameters = String.Empty,
 					StartProfiler = false,
+					LogOutput = false,
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{

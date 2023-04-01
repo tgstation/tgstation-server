@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Byond.TopicSender;
+
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
@@ -30,6 +32,11 @@ namespace Tgstation.Server.Host.Components.Session
 	/// <inheritdoc />
 	sealed class SessionControllerFactory : ISessionControllerFactory
 	{
+		/// <summary>
+		/// Path in Diagnostics folder to DreamDaemon logs.
+		/// </summary>
+		const string DreamDaemonLogsPath = "DreamDaemonLogs";
+
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="SessionControllerFactory"/>.
 		/// </summary>
@@ -56,9 +63,14 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="SessionControllerFactory"/>.
+		/// The <see cref="IIOManager"/> for the Game directory.
 		/// </summary>
-		readonly IIOManager ioManager;
+		readonly IIOManager gameIOManager;
+
+		/// <summary>
+		/// The <see cref="IIOManager"/> for the Diagnostics directory.
+		/// </summary>
+		readonly IIOManager diagnosticsIOManager;
 
 		/// <summary>
 		/// The <see cref="IChatManager"/> for the <see cref="SessionControllerFactory"/>.
@@ -168,7 +180,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="instance">The value of <see cref="instance"/>.</param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="gameIOManager">The value of <see cref="gameIOManager"/>.</param>
+		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
 		/// <param name="chat">The value of <see cref="chat"/>.</param>
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
@@ -184,7 +197,8 @@ namespace Tgstation.Server.Host.Components.Session
 			ITopicClientFactory topicClientFactory,
 			ICryptographySuite cryptographySuite,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			IIOManager ioManager,
+			IIOManager gameIOManager,
+			IIOManager diagnosticsIOManager,
 			IChatManager chat,
 			INetworkPromptReaper networkPromptReaper,
 			IPlatformIdentifier platformIdentifier,
@@ -201,7 +215,8 @@ namespace Tgstation.Server.Host.Components.Session
 			this.topicClientFactory = topicClientFactory ?? throw new ArgumentNullException(nameof(topicClientFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.gameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
+			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -215,7 +230,6 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<ISessionController> LaunchNew(
 			IDmbProvider dmbProvider,
 			IByondExecutableLock currentByondLock,
@@ -248,125 +262,65 @@ namespace Tgstation.Server.Host.Components.Session
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
 			}
 
-			var chatTrackingContext = chat.CreateTrackingContext();
+			// get the byond lock
+			var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken);
 			try
 			{
-				// get the byond lock
-				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken);
+				logger.LogDebug(
+					"Launching session with CompileJob {compileJobId}...",
+					dmbProvider.CompileJob.Id);
+
+				if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
+					await byondLock.TrustDmbPath(gameIOManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken);
+
+				PortBindTest(launchParameters.Port.Value);
+				await CheckPagerIsNotRunning(cancellationToken);
+
+				string outputFilePath = null;
+				if (launchParameters.LogOutput.Value)
+				{
+					await diagnosticsIOManager.CreateDirectory(DreamDaemonLogsPath, cancellationToken);
+					var now = DateTimeOffset.UtcNow;
+					outputFilePath = diagnosticsIOManager.ResolvePath(
+						diagnosticsIOManager.ConcatPath(
+							DreamDaemonLogsPath,
+							$"dd-utc-{DateTimeOffset.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss", CultureInfo.InvariantCulture)}{(apiValidate ? "-dmapi" : String.Empty)}.log"));
+
+					logger.LogInformation("Logging DreamDaemon output to {path}...", outputFilePath);
+				}
+				else if (!byondLock.SupportsCli)
+					outputFilePath = gameIOManager.ConcatPath(dmbProvider.Directory, $"{Guid.NewGuid()}.dd.log");
+
+				var accessIdentifier = cryptographySuite.GetSecureString();
+
+				var byondTopicSender = topicClientFactory.CreateTopicClient(
+					TimeSpan.FromMilliseconds(
+						launchParameters.TopicRequestTimeout.Value));
+
+				if (!apiValidate && dmbProvider.CompileJob.DMApiVersion == null)
+					logger.LogDebug("Session will have no DMAPI support!");
+
+				// launch dd
+				var process = await CreateDreamDaemonProcess(
+					dmbProvider,
+					byondTopicSender,
+					byondLock,
+					launchParameters,
+					accessIdentifier,
+					outputFilePath,
+					apiValidate,
+					cancellationToken);
+
 				try
 				{
-					logger.LogDebug(
-						"Launching session with CompileJob {0}...",
-						dmbProvider.CompileJob.Id);
-
-					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
-						await byondLock.TrustDmbPath(ioManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken);
-
-					PortBindTest(launchParameters.Port.Value);
-					await CheckPagerIsNotRunning(cancellationToken);
-
-					var accessIdentifier = cryptographySuite.GetSecureString();
-
-					var byondTopicSender = topicClientFactory.CreateTopicClient(
-						TimeSpan.FromMilliseconds(
-							launchParameters.TopicRequestTimeout.Value));
-
-					// set command line options
-					// more sanitization here cause it uses the same scheme
-					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.InteropVersion.Semver().ToString())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={byondTopicSender.SanitizeString(accessIdentifier)}";
-
-					if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
-						parameters = $"{parameters}&{launchParameters.AdditionalParameters}";
-
-					// important to run on all ports to allow port changing
-					Guid? logFileGuid = null;
-					var arguments = String.Format(
-						CultureInfo.InvariantCulture,
-						"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6} -params \"{7}\"",
-						dmbProvider.DmbName,
-						launchParameters.Port.Value,
-						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
-						SecurityWord(launchParameters.SecurityLevel.Value),
-						VisibilityWord(launchParameters.Visibility.Value),
-						!byondLock.SupportsCli
-							? $" -logself -log {logFileGuid = Guid.NewGuid()}"
-							: !platformIdentifier.IsWindows // Just use stdout on if CLI is supported
-								? " -logself"
-								: String.Empty, // Windows doesn't output anything to dd.exe if -logself is set?
-						launchParameters.StartProfiler.Value
-							? " -profile"
-							: String.Empty,
-						parameters);
-
-					if (!apiValidate && dmbProvider.CompileJob.DMApiVersion == null)
-						logger.LogDebug("Session will have no DMAPI support!");
-
-					// launch dd
-					var process = processExecutor.LaunchProcess(
-						byondLock.DreamDaemonPath,
-						dmbProvider.Directory,
-						arguments,
-						byondLock.SupportsCli,
-						byondLock.SupportsCli,
-						byondLock.SupportsCli);
-
-					var cliSupported = byondLock.SupportsCli;
-					async Task<string> GetDDOutput()
-					{
-						// DCT x2: None available
-						if (cliSupported)
-							return await process.GetCombinedOutput(default);
-
-						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileGuid.ToString());
-						try
-						{
-							var dreamDaemonLogBytes = await ioManager.ReadAllBytes(
-								logFilePath,
-								default)
-								;
-
-							return Encoding.UTF8.GetString(dreamDaemonLogBytes);
-						}
-						finally
-						{
-							try
-							{
-								// DCT: No token available
-								await ioManager.DeleteFile(logFilePath, default);
-							}
-							catch (Exception ex)
-							{
-								logger.LogWarning(ex, "Failed to delete DreamDaemon log file {0}!", logFilePath);
-							}
-						}
-					}
-
-					// Log DD output
-					async Task PostLifetime()
-					{
-						try
-						{
-							var ddOutput = await GetDDOutput();
-							logger.LogTrace(
-								"DreamDaemon Output:{0}{1}",
-								Environment.NewLine,
-								ddOutput);
-						}
-						catch (Exception ex)
-						{
-							logger.LogWarning(ex, "Error reading DreamDaemon output!");
-						}
-					}
+					var chatTrackingContext = chat.CreateTrackingContext();
 
 					try
 					{
-						networkPromptReaper.RegisterProcess(process);
-
 						var runtimeInformation = CreateRuntimeInformation(
 							dmbProvider,
 							chatTrackingContext,
-							launchParameters.SecurityLevel.Value,
-							launchParameters.Visibility.Value,
+							launchParameters,
 							apiValidate);
 
 						var reattachInformation = new ReattachInformation(
@@ -387,56 +341,38 @@ namespace Tgstation.Server.Host.Components.Session
 							chat,
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
-							PostLifetime,
+							() => !launchParameters.LogOutput.Value
+								? LogDDOutput(process, outputFilePath, byondLock.SupportsCli, default) // DCT: None available
+								: Task.CompletedTask,
 							launchParameters.StartupTimeout,
 							false,
 							apiValidate);
-
-						if (apiValidate)
-						{
-							if (sessionConfiguration.HighPriorityLiveDreamDaemon)
-								process.AdjustPriority(true);
-						}
-						else if (sessionConfiguration.LowPriorityDeploymentProcesses)
-							process.AdjustPriority(false);
-
-						// If this isnt a staging DD (From a Deployment), fire off an event
-						if (!apiValidate)
-							await eventConsumer.HandleEvent(
-								EventType.DreamDaemonLaunch,
-								new List<string>
-								{
-									process.Id.ToString(CultureInfo.InvariantCulture),
-								},
-								cancellationToken)
-								;
 
 						return sessionController;
 					}
 					catch
 					{
-						using (process)
-						{
-							process.Terminate();
-							await process.Lifetime;
-							throw;
-						}
+						chatTrackingContext.Dispose();
+						throw;
 					}
 				}
 				catch
 				{
-					if (currentByondLock == null)
-						byondLock.Dispose();
-					throw;
+					await using (process)
+					{
+						process.Terminate();
+						await process.Lifetime;
+						throw;
+					}
 				}
 			}
 			catch
 			{
-				chatTrackingContext.Dispose();
+				if (currentByondLock == null)
+					byondLock.Dispose();
 				throw;
 			}
 		}
-#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		public async Task<ISessionController> Reattach(
@@ -448,29 +384,29 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Begin session reattach...");
 			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);
-			var chatTrackingContext = chat.CreateTrackingContext();
+			var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken);
+
 			try
 			{
-				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken);
+				logger.LogDebug(
+					"Attaching to session PID: {0}, CompileJob: {1}...",
+					reattachInformation.ProcessId,
+					reattachInformation.Dmb.CompileJob.Id);
+
+				var process = processExecutor.GetProcess(reattachInformation.ProcessId);
+				if (process == null)
+					return null;
 
 				try
 				{
-					logger.LogDebug(
-						"Attaching to session PID: {0}, CompileJob: {1}...",
-						reattachInformation.ProcessId,
-						reattachInformation.Dmb.CompileJob.Id);
+					networkPromptReaper.RegisterProcess(process);
 
-					var process = processExecutor.GetProcess(reattachInformation.ProcessId);
-					if (process == null)
-						return null;
-
+					var chatTrackingContext = chat.CreateTrackingContext();
 					try
 					{
-						networkPromptReaper.RegisterProcess(process);
 						var runtimeInformation = CreateRuntimeInformation(
 							reattachInformation.Dmb,
 							chatTrackingContext,
-							null,
 							null,
 							false);
 						reattachInformation.SetRuntimeInformation(runtimeInformation);
@@ -497,19 +433,160 @@ namespace Tgstation.Server.Host.Components.Session
 
 						return controller;
 					}
-					finally
+					catch
 					{
-						process?.Dispose();
+						chatTrackingContext.Dispose();
+						throw;
 					}
 				}
-				finally
+				catch
 				{
-					byondLock?.Dispose();
+					await process.DisposeAsync();
+					throw;
 				}
 			}
-			finally
+			catch
 			{
-				chatTrackingContext?.Dispose();
+				byondLock.Dispose();
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Creates the DreamDaemon <see cref="IProcess"/>.
+		/// </summary>
+		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
+		/// <param name="byondTopicSender">The <see cref="ITopicClient"/> to use for sanitization.</param>
+		/// <param name="byondLock">The <see cref="IByondExecutableLock"/>.</param>
+		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/>.</param>
+		/// <param name="accessIdentifier">The secure string to use for the session.</param>
+		/// <param name="logFilePath">The path to log DreamDaemon output to.</param>
+		/// <param name="apiValidate">If we are only validating the DMAPI then exiting.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the DreamDaemon <see cref="IProcess"/>.</returns>
+		async Task<IProcess> CreateDreamDaemonProcess(
+			IDmbProvider dmbProvider,
+			ITopicClient byondTopicSender,
+			IByondExecutableLock byondLock,
+			DreamDaemonLaunchParameters launchParameters,
+			string accessIdentifier,
+			string logFilePath,
+			bool apiValidate,
+			CancellationToken cancellationToken)
+		{
+			// set command line options
+			// more sanitization here cause it uses the same scheme
+			var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.InteropVersion.Semver().ToString())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={byondTopicSender.SanitizeString(accessIdentifier)}";
+
+			if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
+				parameters = $"{parameters}&{launchParameters.AdditionalParameters}";
+
+			// important to run on all ports to allow port changing
+			var arguments = String.Format(
+				CultureInfo.InvariantCulture,
+				"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6} -params \"{7}\"",
+				dmbProvider.DmbName,
+				launchParameters.Port.Value,
+				launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
+				SecurityWord(launchParameters.SecurityLevel.Value),
+				VisibilityWord(launchParameters.Visibility.Value),
+				!byondLock.SupportsCli
+					? $" -logself -log {logFilePath}"
+					: !platformIdentifier.IsWindows // Just use stdout on if CLI is supported
+						? " -logself"
+						: String.Empty, // Windows doesn't output anything to dd.exe if -logself is set?
+				launchParameters.StartProfiler.Value
+					? " -profile"
+					: String.Empty,
+				parameters);
+
+			var process = await processExecutor.LaunchProcess(
+				byondLock.DreamDaemonPath,
+				dmbProvider.Directory,
+				arguments,
+				logFilePath,
+				byondLock.SupportsCli,
+				true);
+
+			try
+			{
+				if (apiValidate)
+				{
+					if (sessionConfiguration.HighPriorityLiveDreamDaemon)
+						process.AdjustPriority(true);
+				}
+				else if (sessionConfiguration.LowPriorityDeploymentProcesses)
+					process.AdjustPriority(false);
+
+				networkPromptReaper.RegisterProcess(process);
+
+				// If this isnt a staging DD (From a Deployment), fire off an event
+				if (!apiValidate)
+					await eventConsumer.HandleEvent(
+						EventType.DreamDaemonLaunch,
+						new List<string>
+						{
+									process.Id.ToString(CultureInfo.InvariantCulture),
+						},
+						cancellationToken);
+
+				return process;
+			}
+			catch
+			{
+				await using (process)
+				{
+					process.Terminate();
+					await process.Lifetime;
+					throw;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Attempts to log DreamDaemon output.
+		/// </summary>
+		/// <param name="process">The DreamDaemon <see cref="IProcess"/>.</param>
+		/// <param name="outputFilePath">The path to the DreamDaemon log file. Will be deleted.</param>
+		/// <param name="cliSupported">If DreamDaemon was launched with CLI capabilities.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task LogDDOutput(IProcess process, string outputFilePath, bool cliSupported, CancellationToken cancellationToken)
+		{
+			try
+			{
+				string ddOutput;
+				if (cliSupported)
+					ddOutput = await process.GetCombinedOutput(cancellationToken);
+				else
+					try
+					{
+						var dreamDaemonLogBytes = await gameIOManager.ReadAllBytes(
+							outputFilePath,
+							cancellationToken);
+
+						ddOutput = Encoding.UTF8.GetString(dreamDaemonLogBytes);
+					}
+					finally
+					{
+						try
+						{
+							await gameIOManager.DeleteFile(outputFilePath, cancellationToken);
+						}
+						catch (Exception ex)
+						{
+							logger.LogWarning(ex, "Failed to delete DreamDaemon log file {outputFilePath}!", outputFilePath);
+						}
+					}
+
+				logger.LogTrace(
+					"DreamDaemon Output:{newLine}{output}",
+					Environment.NewLine,
+					ddOutput);
+			}
+			catch (Exception ex)
+			{
+				logger.LogWarning(ex, "Error reading DreamDaemon output!");
 			}
 		}
 
@@ -518,23 +595,21 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
 		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/>.</param>
-		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level if any.</param>
-		/// <param name="visibility">The <see cref="DreamDaemonVisibility"/> if any.</param>
+		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> if any.</param>
 		/// <param name="apiValidateOnly">The value of <see cref="RuntimeInformation.ApiValidateOnly"/>.</param>
 		/// <returns>A new <see cref="RuntimeInformation"/> class.</returns>
 		RuntimeInformation CreateRuntimeInformation(
 			IDmbProvider dmbProvider,
 			IChatTrackingContext chatTrackingContext,
-			DreamDaemonSecurity? securityLevel,
-			DreamDaemonVisibility? visibility,
+			DreamDaemonLaunchParameters launchParameters,
 			bool apiValidateOnly)
 			=> new RuntimeInformation(
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,
 				instance.Name,
-				securityLevel,
-				visibility,
+				launchParameters?.SecurityLevel,
+				launchParameters?.Visibility,
 				serverPortProvider.HttpApiPort,
 				apiValidateOnly);
 
@@ -548,12 +623,12 @@ namespace Tgstation.Server.Host.Components.Session
 			if (!platformIdentifier.IsWindows)
 				return;
 
-			using var otherProcess = processExecutor.GetProcessByName("byond");
+			await using var otherProcess = processExecutor.GetProcessByName("byond");
 			if (otherProcess == null)
 				return;
 
 			var otherUsernameTask = otherProcess.GetExecutingUsername(cancellationToken);
-			using var ourProcess = processExecutor.GetCurrentProcess();
+			await using var ourProcess = processExecutor.GetCurrentProcess();
 			var ourUserName = await ourProcess.GetExecutingUsername(cancellationToken);
 			var otherUserName = await otherUsernameTask;
 

@@ -379,22 +379,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddProfiler);
+		internal static readonly Type MSLatestMigration = typeof(MSAddDreamDaemonLogOutput);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddProfiler);
+		internal static readonly Type MYLatestMigration = typeof(MYAddDreamDaemonLogOutput);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddProfiler);
+		internal static readonly Type PGLatestMigration = typeof(PGAddDreamDaemonLogOutput);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddProfiler);
+		internal static readonly Type SLLatestMigration = typeof(SLAddDreamDaemonLogOutput);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -425,6 +425,15 @@ namespace Tgstation.Server.Host.Database
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
+			if (targetVersion < new Version(5, 7, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddProfiler),
+					DatabaseType.PostgresSql => nameof(PGAddProfiler),
+					DatabaseType.SqlServer => nameof(MSAddProfiler),
+					DatabaseType.Sqlite => nameof(SLAddProfiler),
+					_ => BadDatabaseType(),
+				};
 			if (targetVersion < new Version(4, 19, 0))
 				targetMigration = currentDatabaseType switch
 				{
