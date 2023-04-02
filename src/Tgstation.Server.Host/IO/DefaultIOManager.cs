@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.IO
 			return Task.Factory.StartNew(
 				() => NormalizeAndDelete(di, cancellationToken),
 				cancellationToken,
-				TaskCreationOptions.LongRunning,
+				BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 		}
 
