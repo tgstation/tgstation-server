@@ -41,9 +41,10 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="dir"><see cref="DirectoryInfo"/> of the directory to empty.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		static async Task NormalizeAndDelete(DirectoryInfo dir, CancellationToken cancellationToken)
+		static void NormalizeAndDelete(DirectoryInfo dir, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
+
 			// check if we are a symbolic link
 			if (!dir.Attributes.HasFlag(FileAttributes.Directory) || dir.Attributes.HasFlag(FileAttributes.ReparsePoint))
 			{
@@ -51,14 +52,8 @@ namespace Tgstation.Server.Host.IO
 				return;
 			}
 
-			await Task.Yield();
-
-			var tasks = new List<Task>();
 			foreach (var subDir in dir.EnumerateDirectories())
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-				tasks.Add(NormalizeAndDelete(subDir, cancellationToken));
-			}
+				NormalizeAndDelete(subDir, cancellationToken);
 
 			foreach (var file in dir.EnumerateFiles())
 			{
@@ -67,7 +62,6 @@ namespace Tgstation.Server.Host.IO
 				file.Delete();
 			}
 
-			await Task.WhenAll(tasks);
 			cancellationToken.ThrowIfCancellationRequested();
 			dir.Delete(true);
 		}
@@ -158,7 +152,7 @@ namespace Tgstation.Server.Host.IO
 			return Task.Factory.StartNew(
 				() => NormalizeAndDelete(di, cancellationToken),
 				cancellationToken,
-				BlockingTaskCreationOptions,
+				TaskCreationOptions.LongRunning,
 				TaskScheduler.Current);
 		}
 
