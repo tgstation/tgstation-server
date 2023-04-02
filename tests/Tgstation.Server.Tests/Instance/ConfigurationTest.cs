@@ -87,6 +87,14 @@ namespace Tgstation.Server.Tests.Instance
 			var tmp = (TestDir.Path?.StartsWith('/') ?? false) ? '.' + TestDir.Path : TestDir.Path;
 			var path = Path.Combine(instance.Path, "Configuration", tmp);
 			Assert.IsFalse(Directory.Exists(path));
+
+			// leave a directory there to test the deployment process
+			var staticDir = new ConfigurationFileRequest
+			{
+				Path = "/GameStaticFiles/data"
+			};
+
+			await configurationClient.CreateDirectory(staticDir, cancellationToken);
 		}
 
 		public async Task Run(CancellationToken cancellationToken)
