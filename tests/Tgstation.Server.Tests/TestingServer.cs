@@ -126,6 +126,7 @@ namespace Tgstation.Server.Tests
 
 		public void Dispose()
 		{
+			return;
 			for (int i = 0; i < 5; ++i)
 				try
 				{

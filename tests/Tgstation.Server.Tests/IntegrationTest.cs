@@ -26,6 +26,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
+using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
@@ -952,12 +953,8 @@ namespace Tgstation.Server.Tests
 
 				preStartupTime = DateTimeOffset.UtcNow;
 
-				// chat bot start, dd autostart, and entity delete tests
-				serverTask = server.Run(cancellationToken);
-				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				async Task WaitForInitialJobs(IInstanceClient instanceClient)
 				{
-					var instanceClient = adminClient.Instances.CreateClient(instance);
-
 					var jobs = await instanceClient.Jobs.ListActive(null, cancellationToken);
 					if (!jobs.Any())
 					{
@@ -970,19 +967,70 @@ namespace Tgstation.Server.Tests
 						jobs = getTasks
 							.Select(x => x.Result)
 							.Where(x => x.StartedAt.Value > preStartupTime)
-							.ToList();
+						.ToList();
 					}
 
 					var jrt = new JobsRequiredTest(instanceClient.Jobs);
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
-						await jrt.WaitForJob(job, 140, job.Description.Contains("Reconnect chat bot") ? (bool?)null : (bool?)false, null, cancellationToken);
+						await jrt.WaitForJob(job, 140, job.Description.Contains("Reconnect chat bot") ? null : false, null, cancellationToken);
 					}
+				}
+
+				// chat bot start, dd autostart, and reboot with different initial job test
+				preStartupTime = DateTimeOffset.UtcNow;
+				serverTask = server.Run(cancellationToken);
+				long expectedCompileJobId;
+				DreamDaemonResponse currentDD;
+				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				{
+					var instanceClient = adminClient.Instances.CreateClient(instance);
+					await WaitForInitialJobs(instanceClient);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+
+					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
+					var wdt = new WatchdogTest(instanceClient);
+					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
+
+					currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(currentDD.StagedCompileJob.Job.Id, compileJob.Id);
+
+					await wdt.TellWorldToReboot(cancellationToken);
+					expectedCompileJobId = compileJob.Id.Value;
+
+					currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(currentDD.ActiveCompileJob.Job.Id, expectedCompileJobId);
+					expectedCompileJobId = currentDD.ActiveCompileJob.Id.Value;
+
+					compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
+					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
+
+					currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(currentDD.StagedCompileJob.Job.Id, compileJob.Id);
+
+					await adminClient.Administration.Restart(cancellationToken);
+				}
+
+				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
+				Assert.IsTrue(serverTask.IsCompleted);
+
+				// post/entity deletion tests
+				serverTask = server.Run(cancellationToken);
+				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				{
+					var instanceClient = adminClient.Instances.CreateClient(instance);
+					await WaitForInitialJobs(instanceClient);
+
+					await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
+					var lastStaged = currentDD.StagedCompileJob;
+					currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(currentDD.ActiveCompileJob.Id, expectedCompileJobId);
+					Assert.AreEqual(currentDD.StagedCompileJob?.Id, lastStaged.Id);
 
 					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);

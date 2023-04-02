@@ -40,7 +40,7 @@ namespace Tgstation.Server.Tests.Instance
 			// Increase startup timeout, disable heartbeats
 			var initialSettings = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
-				StartupTimeout = 60,
+				StartupTimeout = 10,
 				HeartbeatSeconds = 0,
 				Port = IntegrationTest.DDPort
 			}, cancellationToken);
@@ -502,7 +502,7 @@ namespace Tgstation.Server.Tests.Instance
 			return ddProc != null;
 		}
 
-		async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
+		public async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
