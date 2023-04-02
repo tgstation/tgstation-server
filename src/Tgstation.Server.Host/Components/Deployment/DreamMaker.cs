@@ -744,7 +744,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						do
 						{
 							var remainingSleepThisInterval = nextInterval - DateTimeOffset.UtcNow;
-							var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? remainingSleepThisInterval : minimumSleepInterval;
+							var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? minimumSleepInterval : remainingSleepThisInterval;
 
 							await Task.Delay(nextSleepSpan, cancellationToken);
 							progressReporter.StageName = currentStage;
@@ -763,6 +763,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 			catch (OperationCanceledException ex)
 			{
 				logger.LogTrace(ex, "ProgressTask aborted.");
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "ProgressTask crashed!");
 			}
 		}
 
