@@ -335,19 +335,24 @@ namespace Tgstation.Server.Host.Components.Deployment
 			List<string> jobUidsToNotErase = null;
 
 			// find the uids of locked directories
-			await databaseContextFactory.UseContext(async db =>
+			if (jobIdsToSkip.Any())
 			{
-				jobUidsToNotErase = (await db
-						.CompileJobs
-						.AsQueryable()
-						.Where(
-							x => x.Job.Instance.Id == metadata.Id
-							&& jobIdsToSkip.Contains(x.Id.Value))
-						.Select(x => x.DirectoryName.Value)
-						.ToListAsync(cancellationToken))
-					.Select(x => x.ToString())
-					.ToList();
-			});
+				await databaseContextFactory.UseContext(async db =>
+				{
+					jobUidsToNotErase = (await db
+							.CompileJobs
+							.AsQueryable()
+							.Where(
+								x => x.Job.Instance.Id == metadata.Id
+								&& jobIdsToSkip.Contains(x.Id.Value))
+							.Select(x => x.DirectoryName.Value)
+							.ToListAsync(cancellationToken))
+						.Select(x => x.ToString())
+						.ToList();
+				});
+			}
+			else
+				jobUidsToNotErase = new List<string>();
 
 			jobUidsToNotErase.Add(SwappableDmbProvider.LiveGameDirectory);
 
