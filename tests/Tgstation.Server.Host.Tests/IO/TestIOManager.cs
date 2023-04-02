@@ -32,6 +32,22 @@ namespace Tgstation.Server.Host.IO.Tests
 		}
 
 		[TestMethod]
+		public async Task TestFileExists()
+		{
+			var tempPath = Path.GetTempFileName();
+			try
+			{
+				Assert.IsTrue(await ioManager.FileExists(tempPath, default));
+			}
+			finally
+			{
+				File.Delete(tempPath);
+			}
+
+			Assert.IsFalse(await ioManager.FileExists(tempPath, default));
+		}
+
+		[TestMethod]
 		public async Task TestDirectoryExists()
 		{
 			var tempPath = Path.GetTempFileName();
