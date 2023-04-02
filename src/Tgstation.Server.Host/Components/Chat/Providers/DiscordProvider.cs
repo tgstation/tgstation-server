@@ -661,7 +661,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var discordChannelResponse = await channelsClient.GetChannelAsync(new Snowflake(channelId), cancellationToken);
 					if (!discordChannelResponse.IsSuccess)
 					{
-						Logger.LogWarning("Error retrieving discord channel {0}: {1}", channelId, discordChannelResponse.Error.Message);
+						Logger.LogWarning(
+							"Error retrieving discord channel {0}: {1} Inner: {2}",
+							channelId,
+							discordChannelResponse.Error.Message,
+							discordChannelResponse.Inner?.Error?.Message);
 						remapRequired = true;
 						return null;
 					}
