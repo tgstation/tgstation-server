@@ -538,7 +538,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Check we have a valid system identity.
 		/// </summary>
-		private void CheckSystemCompatibility()
+		void CheckSystemCompatibility()
 		{
 			using (var systemIdentity = systemIdentityFactory.GetCurrent())
 			{

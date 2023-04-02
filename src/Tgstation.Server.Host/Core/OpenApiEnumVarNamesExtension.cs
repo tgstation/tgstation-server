@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Core
 		/// Initializes a new instance of the <see cref="OpenApiEnumVarNamesExtension"/> class.
 		/// </summary>
 		/// <param name="enumType">The value of <see cref="enumType"/>,.</param>
-		private OpenApiEnumVarNamesExtension(Type enumType)
+		OpenApiEnumVarNamesExtension(Type enumType)
 		{
 			this.enumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
 		}

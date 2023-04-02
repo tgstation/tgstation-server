@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="jobResponse">The <see cref="JobResponse"/> to augment.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		private Task AddJobProgressResponseTransformer(JobResponse jobResponse)
+		Task AddJobProgressResponseTransformer(JobResponse jobResponse)
 		{
 			jobManager.SetJobProgress(jobResponse);
 			return Task.CompletedTask;
