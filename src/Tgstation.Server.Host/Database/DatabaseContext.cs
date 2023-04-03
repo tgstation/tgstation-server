@@ -379,22 +379,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddDreamDaemonLogOutput);
+		internal static readonly Type MSLatestMigration = typeof(MSAddReattachInfoInitialCompileJob);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddDreamDaemonLogOutput);
+		internal static readonly Type MYLatestMigration = typeof(MYAddReattachInfoInitialCompileJob);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddDreamDaemonLogOutput);
+		internal static readonly Type PGLatestMigration = typeof(PGAddReattachInfoInitialCompileJob);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddDreamDaemonLogOutput);
+		internal static readonly Type SLLatestMigration = typeof(SLAddReattachInfoInitialCompileJob);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -425,6 +425,15 @@ namespace Tgstation.Server.Host.Database
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
+			if (targetVersion < new Version(5, 7, 3))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddDreamDaemonLogOutput),
+					DatabaseType.PostgresSql => nameof(PGAddDreamDaemonLogOutput),
+					DatabaseType.SqlServer => nameof(MSAddDreamDaemonLogOutput),
+					DatabaseType.Sqlite => nameof(SLAddDreamDaemonLogOutput),
+					_ => BadDatabaseType(),
+				};
 			if (targetVersion < new Version(5, 7, 0))
 				targetMigration = currentDatabaseType switch
 				{
