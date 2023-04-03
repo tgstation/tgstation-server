@@ -270,22 +270,18 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Disposing...");
 			if (!released)
-			{
 				process.Terminate();
-				byondLock.Dispose();
-			}
 
 			await process.DisposeAsync();
+			byondLock.Dispose();
 			bridgeRegistration?.Dispose();
-			ReattachInformation.Dmb?.Dispose(); // will be null when released
+			ReattachInformation.Dmb.Dispose();
+			ReattachInformation.InitialDmb?.Dispose();
 			chatTrackingContext.Dispose();
 			reattachTopicCts.Dispose();
 
 			if (!released)
-			{
-				// finish the async callback
-				await Lifetime;
-			}
+				await Lifetime; // finish the async callback
 		}
 
 		/// <inheritdoc />
@@ -441,14 +437,11 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			CheckDisposed();
 
-			// we still don't want to dispose the dmb yet, even though we're keeping it alive
-			var tmpProvider = ReattachInformation.Dmb;
-			ReattachInformation.Dmb = null;
+			ReattachInformation.Dmb.KeepAlive();
+			ReattachInformation.InitialDmb?.KeepAlive();
+			byondLock.DoNotDeleteThisSession();
 			released = true;
 			await DisposeAsync();
-			byondLock.DoNotDeleteThisSession();
-			tmpProvider.KeepAlive();
-			ReattachInformation.Dmb = tmpProvider;
 		}
 
 		/// <inheritdoc />

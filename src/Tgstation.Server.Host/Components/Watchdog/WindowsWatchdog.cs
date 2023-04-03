@@ -42,11 +42,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		SwappableDmbProvider pendingSwappable;
 
 		/// <summary>
-		/// The <see cref="IDmbProvider"/> the <see cref="WindowsWatchdog"/> was started with.
-		/// </summary>
-		IDmbProvider startupDmbProvider;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsWatchdog"/> class.
 		/// </summary>
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
@@ -120,9 +115,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ActiveSwappable = null;
 			pendingSwappable?.Dispose();
 			pendingSwappable = null;
-
-			startupDmbProvider?.Dispose();
-			startupDmbProvider = null;
 		}
 
 		/// <inheritdoc />
@@ -136,6 +128,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 
+				await SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
 				await updateTask;
 			}
 			else
@@ -218,18 +211,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (ActiveSwappable != null)
 				throw new InvalidOperationException("Expected activeSwappable to be null!");
-			if (startupDmbProvider != null)
-				throw new InvalidOperationException("Expected startupDmbProvider to be null!");
+			if (pendingSwappable != null)
+				throw new InvalidOperationException("Expected pendingSwappable to be null!");
 
-			Logger.LogTrace("Prep for server launch. pendingSwappable is {0}available", pendingSwappable == null ? "not " : String.Empty);
+			Logger.LogTrace("Prep for server launch");
 
-			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
-			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken);
-
-			pendingSwappable ??= new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
-			ActiveSwappable = pendingSwappable;
-			pendingSwappable = null;
-
+			ActiveSwappable = new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
 			try
 			{
 				await InitialLink(cancellationToken);
@@ -243,6 +230,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			return ActiveSwappable;
+		}
+
+		/// <summary>
+		/// Set the <see cref="ReattachInformation.InitialDmb"/> for the <see cref="BasicWatchdog.Server"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected virtual async Task ApplyInitialDmb(CancellationToken cancellationToken)
+		{
+			Server.ReattachInformation.InitialDmb = await DmbFactory.FromCompileJob(Server.CompileJob, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task SessionStartupPersist(CancellationToken cancellationToken)
+		{
+			await ApplyInitialDmb(cancellationToken);
+			await base.SessionStartupPersist(cancellationToken);
 		}
 
 		/// <summary>

@@ -468,6 +468,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long>("CompileJobId")
 					.HasColumnType("INTEGER");
 
+				b.Property<long?>("InitialCompileJobId")
+					.HasColumnType("INTEGER");
+
 				b.Property<int>("LaunchSecurityLevel")
 					.HasColumnType("INTEGER");
 
@@ -486,6 +489,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.HasKey("Id");
 
 				b.HasIndex("CompileJobId");
+
+				b.HasIndex("InitialCompileJobId");
 
 				b.ToTable("ReattachInformations");
 			});
@@ -874,7 +879,13 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.OnDelete(DeleteBehavior.Cascade)
 					.IsRequired();
 
+				b.HasOne("Tgstation.Server.Host.Models.CompileJob", "InitialCompileJob")
+					.WithMany()
+					.HasForeignKey("InitialCompileJobId");
+
 				b.Navigation("CompileJob");
+
+				b.Navigation("InitialCompileJob");
 			});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>

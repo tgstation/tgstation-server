@@ -416,17 +416,20 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			lock (jobLockCounts)
-				if (!jobLockCounts.TryGetValue(job.Id.Value, out var currentVal) || currentVal == 1)
-				{
-					jobLockCounts.Remove(job.Id.Value);
-					logger.LogDebug("Cleaning lock-free compile job {0} => {1}", job.Id, job.DirectoryName);
-					cleanupTask = HandleCleanup();
-				}
+				if (jobLockCounts.TryGetValue(job.Id.Value, out var currentVal))
+					if (currentVal == 1)
+					{
+						jobLockCounts.Remove(job.Id.Value);
+						logger.LogDebug("Cleaning lock-free compile job {0} => {1}", job.Id, job.DirectoryName);
+						cleanupTask = HandleCleanup();
+					}
+					else
+					{
+						var decremented = --jobLockCounts[job.Id.Value];
+						logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
+					}
 				else
-				{
-					var decremented = --jobLockCounts[job.Id.Value];
-					logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
-				}
+					logger.LogError("Extra Dispose of DmbProvider for CompileJob {compileJobId}!", job.Id);
 		}
 
 		/// <summary>
