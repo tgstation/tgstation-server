@@ -99,7 +99,8 @@
 
 /datum/tgs_api/v5/proc/TopicResponse(error_message = null)
 	var/list/response = list()
-	response[DMAPI5_RESPONSE_ERROR_MESSAGE] = error_message
+	if(error_message)
+		response[DMAPI5_RESPONSE_ERROR_MESSAGE] = error_message
 
 	return json_encode(response)
 
