@@ -1,9 +1,14 @@
 /world/New()
+	text2file("SUCCESS", "test_success.txt")
 	log << "About to call TgsNew()"
 	sleep_offline = FALSE
 	TgsNew(minimum_required_security_level = TGS_SECURITY_SAFE)
 	log << "About to call StartAsync()"
 	StartAsync()
+
+/world/Error(exception)
+	fdel("test_success.txt")
+	text2file("Runtime Error: [exception]", "test_fail_reason.txt")
 
 /proc/StartAsync()
 	set waitfor = FALSE

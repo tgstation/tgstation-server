@@ -2,7 +2,12 @@
 	sleep_offline = FALSE
 	loop_checks = FALSE
 
+/world/Error(exception)
+	fdel("test_success.txt")
+	text2file("Runtime Error: [exception]", "test_fail_reason.txt")
+
 /world/New()
+	text2file("SUCCESS", "test_success.txt")
 	log << "Initial value of sleep_offline: [sleep_offline]"
 	sleep_offline = FALSE
 
