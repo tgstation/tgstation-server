@@ -771,6 +771,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
+		/// Check for a new <see cref="IDmbProvider"/>.
+		/// </summary>
+		/// <param name="currentCompileJob">The session's current <see cref="CompileJob"/>.</param>
+		/// <returns>A <see cref="Task"/> that completes if and when a newer <see cref="CompileJob"/> is available.</returns>
+		Task InitialCheckDmbUpdated(CompileJob currentCompileJob)
+		{
+			var factoryTask = DmbFactory.OnNewerDmb;
+
+			var latestCompileJob = DmbFactory.LatestCompileJob();
+			if (latestCompileJob == null)
+				return factoryTask;
+
+			if (latestCompileJob.Id != currentCompileJob.Id)
+			{
+				Logger.LogDebug("Found new CompileJob without waiting");
+				return Task.CompletedTask;
+			}
+
+			return factoryTask;
+		}
+
+		/// <summary>
 		/// The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -792,6 +814,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					activeLaunchParametersChanged = null,
 					newDmbAvailable = null;
 				ISessionController lastController = null;
+				var ranInitialDmbCheck = false;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty("Monitor", iteration))
 						try
@@ -803,19 +826,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							void UpdateMonitoredTasks()
 							{
-								static void TryUpdateTask(ref Task oldTask, Task newTask)
+								static void TryUpdateTask(ref Task oldTask, Func<Task> newTaskFactory)
 								{
 									if (oldTask?.IsCompleted == true)
 										return;
 
-									oldTask = newTask;
+									oldTask = newTaskFactory();
 								}
 
 								if (lastController == controller)
 								{
-									TryUpdateTask(ref activeServerLifetime, controller.Lifetime);
-									TryUpdateTask(ref activeServerReboot, controller.OnReboot);
-									TryUpdateTask(ref serverPrimed, controller.OnPrime);
+									TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
+									TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
+									TryUpdateTask(ref serverPrimed, () => controller.OnPrime);
 								}
 								else
 								{
@@ -825,8 +848,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									lastController = controller;
 								}
 
-								TryUpdateTask(ref activeLaunchParametersChanged, ActiveParametersUpdated.Task);
-								TryUpdateTask(ref newDmbAvailable, DmbFactory.OnNewerDmb);
+								TryUpdateTask(ref activeLaunchParametersChanged, () => ActiveParametersUpdated.Task);
+								TryUpdateTask(
+									ref newDmbAvailable,
+									() =>
+									{
+										var result = ranInitialDmbCheck
+											? DmbFactory.OnNewerDmb
+											: InitialCheckDmbUpdated(controller.CompileJob);
+										ranInitialDmbCheck = true;
+										return result;
+									});
 							}
 
 							UpdateMonitoredTasks();
