@@ -307,6 +307,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					commandResponse.Text = "TGS: Command processed but no DMAPI response returned!";
 				}
 
+				HandleChatResponses(commandResult);
+
 				return commandResponse;
 			}
 		}
@@ -465,20 +467,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				cancellationToken)
 				;
 
-			if (result?.InteropResponse?.ChatResponses != null)
-				foreach (var response in result.InteropResponse.ChatResponses)
-					Chat.QueueMessage(
-						response,
-						response.ChannelIds
-							.Select(channelIdString =>
-							{
-								if (UInt64.TryParse(channelIdString, out var channelId))
-									return (ulong?)channelId;
-
-								return null;
-							})
-							.Where(nullableChannelId => nullableChannelId.HasValue)
-							.Select(nullableChannelId => nullableChannelId.Value));
+			HandleChatResponses(result);
 		}
 
 		/// <summary>
@@ -1099,6 +1088,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				heartbeatsMissed = 0;
 
 			return MonitorAction.Continue;
+		}
+
+		/// <summary>
+		/// Handle any <see cref="TopicResponse.ChatResponses"/> in a given topic <paramref name="result"/>.
+		/// </summary>
+		/// <param name="result">The <see cref="CombinedTopicResponse"/>.</param>
+		void HandleChatResponses(CombinedTopicResponse result)
+		{
+			if (result?.InteropResponse?.ChatResponses != null)
+				foreach (var response in result.InteropResponse.ChatResponses)
+					Chat.QueueMessage(
+						response,
+						response.ChannelIds
+							.Select(channelIdString =>
+							{
+								if (UInt64.TryParse(channelIdString, out var channelId))
+									return (ulong?)channelId;
+								else
+									Logger.LogWarning("Could not parse chat response channel ID: {channelID}", channelIdString);
+
+								return null;
+							})
+							.Where(nullableChannelId => nullableChannelId.HasValue)
+							.Select(nullableChannelId => nullableChannelId.Value));
 		}
 	}
 }

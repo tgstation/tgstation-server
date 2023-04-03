@@ -129,9 +129,12 @@
 
 	switch(command)
 		if(DMAPI5_TOPIC_COMMAND_CHAT_COMMAND)
+			intercepted_message_queue = list()
 			var/result = HandleCustomCommand(topic_parameters[DMAPI5_TOPIC_PARAMETER_CHAT_COMMAND])
 			if(!result)
 				result = TopicResponse("Error running chat command!")
+			result[DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES] = intercepted_message_queue
+			intercepted_message_queue = null
 			return result
 		if(DMAPI5_TOPIC_COMMAND_EVENT_NOTIFICATION)
 			intercepted_message_queue = list()
