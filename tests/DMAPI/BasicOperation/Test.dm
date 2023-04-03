@@ -19,7 +19,7 @@
 	sleep(50)
 	world.TgsTargetedChatBroadcast("Sample admin-only message", TRUE)
 
-	var/list/world_params = params2list(world.params)
+	var/list/world_params = world.params
 	if(!("test" in world_params) || world_params["test"] != "bababooey")
 		text2file("Expected parameter test=bababooey but did not receive", "test_fail_reason.txt")
 
