@@ -298,7 +298,7 @@ namespace Tgstation.Server.Host.Database
 			else
 				logger.LogDebug("No migrations to apply");
 
-			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken)) == 0;
+			wasEmpty |= !await Users.AsQueryable().AnyAsync(cancellationToken);
 
 			return wasEmpty;
 		}
