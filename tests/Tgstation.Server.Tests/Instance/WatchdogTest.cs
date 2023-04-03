@@ -98,7 +98,7 @@ namespace Tgstation.Server.Tests.Instance
 				killTaskStarted.SetResult(null);
 				while (!jobTcs.Task.IsCompleted)
 					KillDD(false);
-			});
+			}, cancellationToken);
 
 			JobResponse job;
 			try
@@ -243,7 +243,7 @@ namespace Tgstation.Server.Tests.Instance
 				.GetProcess(ddProc.Id);
 
 			// Ensure it's responding to heartbeats
-			await Task.WhenAny(Task.Delay(20000), ourProcessHandler.Lifetime);
+			await Task.WhenAny(Task.Delay(20000, cancellationToken), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
 
 			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
@@ -253,7 +253,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			ourProcessHandler.Suspend();
 
-			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(1)));
+			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 
 			var timeout = 20;
 			do
