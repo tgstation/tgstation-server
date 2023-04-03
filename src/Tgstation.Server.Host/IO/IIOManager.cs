@@ -102,11 +102,11 @@ namespace Tgstation.Server.Host.IO
 		Task<IReadOnlyList<string>> GetFiles(string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Creates a <see cref="FileStream"/> for writing.
+		/// Creates an asynchronous <see cref="FileStream"/> for sequential writing.
 		/// </summary>
 		/// <param name="path">The path of the file to write, will be truncated.</param>
 		/// <returns>The open <see cref="FileStream"/>.</returns>
-		FileStream CreateAsyncWriteStream(string path);
+		FileStream CreateAsyncSequentialWriteStream(string path);
 
 		/// <summary>
 		/// Writes some <paramref name="contents"/> to a file at <paramref name="path"/> overwriting previous content.

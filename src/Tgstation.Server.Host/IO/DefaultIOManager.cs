@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task CopyDirectory(
+		public Task CopyDirectory(
 			string src,
 			string dest,
 			IEnumerable<string> ignore,
@@ -98,13 +98,7 @@ namespace Tgstation.Server.Host.IO
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
 
-			var allTasks = CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken);
-
-			// Special tactics, increase the size of the ThreadPool until we have a 10-1 file-thread ratio.
-			var allFileTasks = allTasks.Skip(1);
-
-			var unityTask = Task.WhenAll(allFileTasks);
-			await unityTask.ConfigureAwait(false);
+			return Task.WhenAll(CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken));
 		}
 
 		/// <inheritdoc />
@@ -118,24 +112,18 @@ namespace Tgstation.Server.Host.IO
 			if (dest == null)
 				throw new ArgumentNullException(nameof(dest));
 
-			// 0 size buffers prevents unnecessary buffering, async mode just uses the copy buffers See https://github.com/dotnet/runtime/blob/ad8031c813bae48d529ed6d265a2441c4b41fe7b/src/libraries/System.Private.CoreLib/src/System/IO/Strategies/FileStreamHelpers.Windows.cs#L163-L169
+			// tested to hell and back, these are the optimal buffer sizes
 			using var srcStream = new FileStream(
 				ResolvePath(src),
 				FileMode.Open,
 				FileAccess.Read,
 				FileShare.Read | FileShare.Delete,
-				0,
+				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
-			using var destStream = new FileStream(
-				ResolvePath(dest),
-				FileMode.Create,
-				FileAccess.Write,
-				FileShare.Read | FileShare.Delete,
-				0,
-				FileOptions.Asynchronous | FileOptions.SequentialScan);
+			using var destStream = CreateAsyncSequentialWriteStream(dest);
 
 			// value taken from documentation
-			await srcStream.CopyToAsync(destStream, DefaultBufferSize, cancellationToken);
+			await srcStream.CopyToAsync(destStream, 81920, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -251,12 +239,12 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
-			using var file = CreateAsyncWriteStream(path);
+			using var file = CreateAsyncSequentialWriteStream(path);
 			await file.WriteAsync(contents, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public FileStream CreateAsyncWriteStream(string path)
+		public FileStream CreateAsyncSequentialWriteStream(string path)
 		{
 			path = ResolvePath(path);
 			return new FileStream(
@@ -430,9 +418,7 @@ namespace Tgstation.Server.Host.IO
 
 				async Task CopyThisFile()
 				{
-					// Grab all tasks before firing
 					await subdirCreationTask;
-					await Task.Yield();
 					await CopyFile(sourceFile, destFile, cancellationToken);
 					if (postCopyCallback != null)
 						await postCopyCallback(sourceFile, destFile);

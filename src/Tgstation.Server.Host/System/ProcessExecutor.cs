@@ -292,7 +292,7 @@ namespace Tgstation.Server.Host.System
 				return line;
 			}
 
-			using var fileStream = fileRedirect != null ? ioManager.CreateAsyncWriteStream(fileRedirect) : null;
+			using var fileStream = fileRedirect != null ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
 			using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
 
 			string text;
