@@ -74,7 +74,7 @@
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
-	world.TgsChatBroadcast("Recieved event: [json_encode(args)]")
+	world.TgsChatBroadcast("Recieved event: `[json_encode(args)]`")
 
 /world/Export(url)
 	log << "Export: [url]"
