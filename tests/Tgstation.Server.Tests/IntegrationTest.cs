@@ -983,7 +983,7 @@ namespace Tgstation.Server.Tests
 				// chat bot start, dd autostart, and reboot with different initial job test
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken);
-				long expectedCompileJobId;
+				long expectedCompileJobId, expectedStaged;
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
@@ -1000,20 +1000,14 @@ namespace Tgstation.Server.Tests
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(dd.StagedCompileJob.Job.Id, compileJob.Id);
 
-					await wdt.TellWorldToReboot(cancellationToken);
 					expectedCompileJobId = compileJob.Id.Value;
+					dd = await wdt.TellWorldToReboot(cancellationToken);
 
-					bool first = true;
-					do
+					while (dd.Status.Value == WatchdogStatus.Restoring)
 					{
-						if (first)
-							first = false;
-						else
-							await Task.Delay(TimeSpan.FromSeconds(1));
-
+						await Task.Delay(TimeSpan.FromSeconds(1));
 						dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					}
-					while (dd.Status.Value == WatchdogStatus.Restoring);
 
 					Assert.AreEqual(dd.ActiveCompileJob.Job.Id, expectedCompileJobId);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -1024,6 +1018,10 @@ namespace Tgstation.Server.Tests
 					{
 						AutoStart = false,
 					}, cancellationToken);
+
+					compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
+					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
+					expectedStaged = compileJob.Id.Value;
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
@@ -1041,6 +1039,12 @@ namespace Tgstation.Server.Tests
 					var currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(expectedCompileJobId, currentDD.ActiveCompileJob.Id.Value);
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
+					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
+
+					var wdt = new WatchdogTest(instanceClient);
+					currentDD = await wdt.TellWorldToReboot(cancellationToken);
+					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
+					Assert.IsNull(currentDD.StagedCompileJob);
 
 					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);
