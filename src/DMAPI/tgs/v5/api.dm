@@ -101,8 +101,8 @@
 	var/list/response = list()
 	if(error_message)
 		response[DMAPI5_RESPONSE_ERROR_MESSAGE] = error_message
-
-	return json_encode(response)
+		return json_encode(response)
+	return "{}"
 
 /datum/tgs_api/v5/OnTopic(T)
 	RequireInitialBridgeResponse()
