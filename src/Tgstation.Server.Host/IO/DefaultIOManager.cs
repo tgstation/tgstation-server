@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.IO
@@ -83,7 +84,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public Task CopyDirectory(
+		public async Task CopyDirectory(
 			string src,
 			string dest,
 			IEnumerable<string> ignore,
@@ -98,7 +99,8 @@ namespace Tgstation.Server.Host.IO
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
 
-			return Task.WhenAll(CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken));
+			using var semaphore = new SemaphoreSlim(100 * Environment.ProcessorCount);
+			await Task.WhenAll(CopyDirectoryImpl(src, dest, ignore, postCopyCallback, semaphore, cancellationToken));
 		}
 
 		/// <inheritdoc />
@@ -371,6 +373,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="dest">The destination directory path.</param>
 		/// <param name="ignore">Files and folders to ignore at the root level.</param>
 		/// <param name="postCopyCallback">The optional callback called for each source/dest file pair post copy.</param>
+		/// <param name="semaphore"><see cref="SemaphoreSlim"/> used to limit degree of parallelism.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operations. The first <see cref="Task"/> returned is always the necessary call to <see cref="CreateDirectory(string, CancellationToken)"/>.</returns>
 		IEnumerable<Task> CopyDirectoryImpl(
@@ -378,6 +381,7 @@ namespace Tgstation.Server.Host.IO
 			string dest,
 			IEnumerable<string> ignore,
 			Func<string, string, Task> postCopyCallback,
+			SemaphoreSlim semaphore,
 			CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
@@ -388,7 +392,7 @@ namespace Tgstation.Server.Host.IO
 					continue;
 
 				var checkingSubdirCreationTask = true;
-				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, cancellationToken))
+				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, semaphore, cancellationToken))
 				{
 					if (subdirCreationTask == null)
 					{
@@ -419,6 +423,7 @@ namespace Tgstation.Server.Host.IO
 				async Task CopyThisFile()
 				{
 					await subdirCreationTask;
+					using var lockContext = await SemaphoreSlimContext.Lock(semaphore, cancellationToken);
 					await CopyFile(sourceFile, destFile, cancellationToken);
 					if (postCopyCallback != null)
 						await postCopyCallback(sourceFile, destFile);
