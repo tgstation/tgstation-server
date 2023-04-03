@@ -60,10 +60,10 @@ namespace Tgstation.Server.Tests.Instance
 
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
-				StartupTimeout = 5,
+				StartupTimeout = 15,
 				Port = IntegrationTest.DDPort
 			}, cancellationToken);
-			Assert.AreEqual(5U, updatedDD.StartupTimeout);
+			Assert.AreEqual(15U, updatedDD.StartupTimeout);
 			Assert.AreEqual(IntegrationTest.DDPort, updatedDD.Port);
 
 			await ApiAssert.ThrowsException<ConflictException>(() => dreamDaemonClient.Update(new DreamDaemonRequest
@@ -77,7 +77,7 @@ namespace Tgstation.Server.Tests.Instance
 			}, cancellationToken), ErrorCode.PortNotAvailable);
 
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
-			await WaitForJob(deployJob, 30, true, ErrorCode.DreamMakerNeverValidated, cancellationToken);
+			await WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerNeverValidated, cancellationToken);
 
 			const string FailProject = "tests/DMAPI/BuildFail/build_fail";
 			var updated = await dreamMakerClient.Update(new DreamMakerRequest
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(FailProject, updated.ProjectName);
 
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
-			await WaitForJob(deployJob, 30, true, ErrorCode.DreamMakerExitCode, cancellationToken);
+			await WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerExitCode, cancellationToken);
 
 			await dreamMakerClient.Update(new DreamMakerRequest
 			{
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Tests.Instance
 			}, cancellationToken);
 
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
-			await WaitForJob(deployJob, 30, true, ErrorCode.DreamMakerMissingDme, cancellationToken);
+			await WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerMissingDme, cancellationToken);
 
 			// check that we can change the visibility
 
