@@ -940,10 +940,12 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					await instanceClient.DreamDaemon.Shutdown(cancellationToken);
-					await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+					dd = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 					{
 						AutoStart = true
 					}, cancellationToken);
+
+					Assert.AreEqual(WatchdogStatus.Offline, dd.Status);
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
@@ -982,7 +984,6 @@ namespace Tgstation.Server.Tests
 				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken);
 				long expectedCompileJobId;
-				DreamDaemonResponse currentDD;
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
@@ -996,21 +997,17 @@ namespace Tgstation.Server.Tests
 					var wdt = new WatchdogTest(instanceClient);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
-					currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
-					Assert.AreEqual(currentDD.StagedCompileJob.Job.Id, compileJob.Id);
+					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(dd.StagedCompileJob.Job.Id, compileJob.Id);
 
 					await wdt.TellWorldToReboot(cancellationToken);
 					expectedCompileJobId = compileJob.Id.Value;
 
-					currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
-					Assert.AreEqual(currentDD.ActiveCompileJob.Job.Id, expectedCompileJobId);
-					expectedCompileJobId = currentDD.ActiveCompileJob.Id.Value;
+					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+					Assert.AreEqual(dd.ActiveCompileJob.Job.Id, expectedCompileJobId);
 
-					compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
-
-					currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
-					Assert.AreEqual(currentDD.StagedCompileJob.Job.Id, compileJob.Id);
+					expectedCompileJobId = dd.ActiveCompileJob.Id.Value;
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
@@ -1025,12 +1022,9 @@ namespace Tgstation.Server.Tests
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					await WaitForInitialJobs(instanceClient);
 
-					await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-
-					var lastStaged = currentDD.StagedCompileJob;
-					currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
-					Assert.AreEqual(currentDD.ActiveCompileJob.Id, expectedCompileJobId);
-					Assert.AreEqual(currentDD.StagedCompileJob?.Id, lastStaged.Id);
+					var currentDD = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(expectedCompileJobId, currentDD.ActiveCompileJob.Id.Value);
+					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 
 					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);

@@ -531,10 +531,10 @@ namespace Tgstation.Server.Tests.Instance
 
 					do
 					{
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-						daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+						await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
+						daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
 					}
-					while (initialCompileJob.Id == daemonStatus.ActiveCompileJob.Id && !tempToken.IsCancellationRequested);
+					while (initialCompileJob.Id == daemonStatus.ActiveCompileJob.Id);
 				}
 			}
 			catch (OperationCanceledException)
