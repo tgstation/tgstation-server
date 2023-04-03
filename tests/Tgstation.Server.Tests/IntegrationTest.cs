@@ -1003,11 +1003,27 @@ namespace Tgstation.Server.Tests
 					await wdt.TellWorldToReboot(cancellationToken);
 					expectedCompileJobId = compileJob.Id.Value;
 
-					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
-					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+					bool first = true;
+					do
+					{
+						if (first)
+							first = false;
+						else
+							await Task.Delay(TimeSpan.FromSeconds(1));
+
+						dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+					}
+					while (dd.Status.Value == WatchdogStatus.Restoring);
+
 					Assert.AreEqual(dd.ActiveCompileJob.Job.Id, expectedCompileJobId);
+					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					expectedCompileJobId = dd.ActiveCompileJob.Id.Value;
+
+					await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+					{
+						AutoStart = false,
+					}, cancellationToken);
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
