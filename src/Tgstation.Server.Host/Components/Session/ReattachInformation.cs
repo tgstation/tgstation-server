@@ -18,6 +18,11 @@ namespace Tgstation.Server.Host.Components.Session
 		public IDmbProvider Dmb { get; set; }
 
 		/// <summary>
+		/// The <see cref="IDmbProvider"/> initially used to launch DreamDaemon. Should be a different <see cref="IDmbProvider"/> than <see cref="Dmb"/>. Should not be set if persisting the initial <see cref="CompileJob"/> isn't necessary.
+		/// </summary>
+		public IDmbProvider InitialDmb { get; set; }
+
+		/// <summary>
 		/// The <see cref="Interop.Bridge.RuntimeInformation"/> for the DMAPI.
 		/// </summary>
 		public RuntimeInformation RuntimeInformation { get; private set; }
@@ -37,13 +42,16 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="copy">The <see cref="Models.ReattachInformation"/> to copy values from.</param>
 		/// <param name="dmb">The value of <see cref="Dmb"/>.</param>
+		/// <param name="initialDmb">The value of <see cref="InitialDmb"/>.</param>
 		/// <param name="topicRequestTimeout">The value of <see cref="TopicRequestTimeout"/>.</param>
 		public ReattachInformation(
 			Models.ReattachInformation copy,
 			IDmbProvider dmb,
+			IDmbProvider initialDmb,
 			TimeSpan topicRequestTimeout) : base(copy)
 		{
 			Dmb = dmb ?? throw new ArgumentNullException(nameof(dmb));
+			InitialDmb = initialDmb;
 			TopicRequestTimeout = topicRequestTimeout;
 
 			runtimeInformationLock = new object();

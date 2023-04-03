@@ -83,6 +83,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		protected override Task ApplyInitialDmb(CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <inheritdoc />
 		protected override async Task InitialLink(CancellationToken cancellationToken)
 		{
 			// The logic to check for an active live directory is in SwappableDmbProvider, so we just do it again here for safety
@@ -107,6 +110,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override async Task InitController(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
+			var suspended = false;
 			try
 			{
 				await base.InitController(chatTask, reattachInfo, cancellationToken);
@@ -120,6 +124,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						Logger.LogTrace("Unhardlinking compile job...");
 						Server?.Suspend();
+						suspended = true;
 						var hardLink = hardLinkedDmb.Directory;
 						var originalPosition = hardLinkedDmb.CompileJob.DirectoryName.ToString();
 						await GameIOManager.MoveDirectory(
@@ -149,7 +154,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			Logger.LogTrace("Symlinking compile job...");
 			await ActiveSwappable.MakeActive(cancellationToken);
-			Server.Resume();
+			if (suspended)
+				Server.Resume();
 		}
 	}
 }

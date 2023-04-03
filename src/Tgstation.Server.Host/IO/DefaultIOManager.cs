@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.IO
@@ -98,13 +99,8 @@ namespace Tgstation.Server.Host.IO
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
 
-			var allTasks = CopyDirectoryImpl(src, dest, ignore, postCopyCallback, cancellationToken);
-
-			// Special tactics, increase the size of the ThreadPool until we have a 10-1 file-thread ratio.
-			var allFileTasks = allTasks.Skip(1);
-
-			var unityTask = Task.WhenAll(allFileTasks);
-			await unityTask.ConfigureAwait(false);
+			using var semaphore = new SemaphoreSlim(100 * Environment.ProcessorCount);
+			await Task.WhenAll(CopyDirectoryImpl(src, dest, ignore, postCopyCallback, semaphore, cancellationToken));
 		}
 
 		/// <inheritdoc />
@@ -118,24 +114,18 @@ namespace Tgstation.Server.Host.IO
 			if (dest == null)
 				throw new ArgumentNullException(nameof(dest));
 
-			// 0 size buffers prevents unnecessary buffering, async mode just uses the copy buffers See https://github.com/dotnet/runtime/blob/ad8031c813bae48d529ed6d265a2441c4b41fe7b/src/libraries/System.Private.CoreLib/src/System/IO/Strategies/FileStreamHelpers.Windows.cs#L163-L169
+			// tested to hell and back, these are the optimal buffer sizes
 			using var srcStream = new FileStream(
 				ResolvePath(src),
 				FileMode.Open,
 				FileAccess.Read,
 				FileShare.Read | FileShare.Delete,
-				0,
+				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
-			using var destStream = new FileStream(
-				ResolvePath(dest),
-				FileMode.Create,
-				FileAccess.Write,
-				FileShare.Read | FileShare.Delete,
-				0,
-				FileOptions.Asynchronous | FileOptions.SequentialScan);
+			using var destStream = CreateAsyncSequentialWriteStream(dest);
 
 			// value taken from documentation
-			await srcStream.CopyToAsync(destStream, DefaultBufferSize, cancellationToken);
+			await srcStream.CopyToAsync(destStream, 81920, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -251,12 +241,12 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
-			using var file = CreateAsyncWriteStream(path);
+			using var file = CreateAsyncSequentialWriteStream(path);
 			await file.WriteAsync(contents, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public FileStream CreateAsyncWriteStream(string path)
+		public FileStream CreateAsyncSequentialWriteStream(string path)
 		{
 			path = ResolvePath(path);
 			return new FileStream(
@@ -383,6 +373,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="dest">The destination directory path.</param>
 		/// <param name="ignore">Files and folders to ignore at the root level.</param>
 		/// <param name="postCopyCallback">The optional callback called for each source/dest file pair post copy.</param>
+		/// <param name="semaphore"><see cref="SemaphoreSlim"/> used to limit degree of parallelism.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operations. The first <see cref="Task"/> returned is always the necessary call to <see cref="CreateDirectory(string, CancellationToken)"/>.</returns>
 		IEnumerable<Task> CopyDirectoryImpl(
@@ -390,6 +381,7 @@ namespace Tgstation.Server.Host.IO
 			string dest,
 			IEnumerable<string> ignore,
 			Func<string, string, Task> postCopyCallback,
+			SemaphoreSlim semaphore,
 			CancellationToken cancellationToken)
 		{
 			var dir = new DirectoryInfo(src);
@@ -400,7 +392,7 @@ namespace Tgstation.Server.Host.IO
 					continue;
 
 				var checkingSubdirCreationTask = true;
-				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, cancellationToken))
+				foreach (var copyTask in CopyDirectoryImpl(subDirectory.FullName, Path.Combine(dest, subDirectory.Name), null, postCopyCallback, semaphore, cancellationToken))
 				{
 					if (subdirCreationTask == null)
 					{
@@ -430,9 +422,8 @@ namespace Tgstation.Server.Host.IO
 
 				async Task CopyThisFile()
 				{
-					// Grab all tasks before firing
 					await subdirCreationTask;
-					await Task.Yield();
+					using var lockContext = await SemaphoreSlimContext.Lock(semaphore, cancellationToken);
 					await CopyFile(sourceFile, destFile, cancellationToken);
 					if (postCopyCallback != null)
 						await postCopyCallback(sourceFile, destFile);

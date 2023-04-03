@@ -679,7 +679,11 @@ namespace Tgstation.Server.Host.Components.Chat
 				message.User.Channel.IsAdminChannel = mappingChannelRepresentation.IsAdminChannel;
 			}
 
-			var splits = new List<string>(message.Content.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries));
+			var trimmedMessage = message.Content.Trim();
+			if (trimmedMessage.Length == 0)
+				return;
+
+			var splits = new List<string>(trimmedMessage.Split(' ', StringSplitOptions.RemoveEmptyEntries));
 			var address = splits[0];
 			if (address.Length > 1 && (address.Last() == ':' || address.Last() == ','))
 				address = address[0..^1];

@@ -249,7 +249,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				// Server.AdjustPriority(true);
 				if (!reattachInProgress)
-					await SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
+					await SessionStartupPersist(cancellationToken);
 
 				await CheckLaunchResult(Server, "Server", cancellationToken);
 
@@ -271,6 +271,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				throw;
 			}
+		}
+
+		/// <summary>
+		/// Called to save the current <see cref="Server"/> into the <see cref="WatchdogBase.SessionPersistor"/> when initially launched.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected virtual Task SessionStartupPersist(CancellationToken cancellationToken)
+		{
+			return SessionPersistor.Save(Server.ReattachInformation, cancellationToken);
 		}
 
 		/// <summary>

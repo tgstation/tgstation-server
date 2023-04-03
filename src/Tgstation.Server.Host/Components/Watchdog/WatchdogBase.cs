@@ -307,6 +307,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					commandResponse.Text = "TGS: Command processed but no DMAPI response returned!";
 				}
 
+				HandleChatResponses(commandResult);
+
 				return commandResponse;
 			}
 		}
@@ -465,20 +467,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				cancellationToken)
 				;
 
-			if (result?.InteropResponse?.ChatResponses != null)
-				foreach (var response in result.InteropResponse.ChatResponses)
-					Chat.QueueMessage(
-						response,
-						response.ChannelIds
-							.Select(channelIdString =>
-							{
-								if (UInt64.TryParse(channelIdString, out var channelId))
-									return (ulong?)channelId;
-
-								return null;
-							})
-							.Where(nullableChannelId => nullableChannelId.HasValue)
-							.Select(nullableChannelId => nullableChannelId.Value));
+			HandleChatResponses(result);
 		}
 
 		/// <summary>
@@ -727,7 +716,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		private async Task MonitorRestart(CancellationToken cancellationToken)
+		async Task MonitorRestart(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Monitor restart!");
 
@@ -782,6 +771,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
+		/// Check for a new <see cref="IDmbProvider"/>.
+		/// </summary>
+		/// <param name="currentCompileJob">The session's current <see cref="CompileJob"/>.</param>
+		/// <returns>A <see cref="Task"/> that completes if and when a newer <see cref="CompileJob"/> is available.</returns>
+		Task InitialCheckDmbUpdated(CompileJob currentCompileJob)
+		{
+			var factoryTask = DmbFactory.OnNewerDmb;
+
+			var latestCompileJob = DmbFactory.LatestCompileJob();
+			if (latestCompileJob == null)
+				return factoryTask;
+
+			if (latestCompileJob.Id != currentCompileJob.Id)
+			{
+				Logger.LogDebug("Found new CompileJob without waiting");
+				return Task.CompletedTask;
+			}
+
+			return factoryTask;
+		}
+
+		/// <summary>
 		/// The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -803,6 +814,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					activeLaunchParametersChanged = null,
 					newDmbAvailable = null;
 				ISessionController lastController = null;
+				var ranInitialDmbCheck = false;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty("Monitor", iteration))
 						try
@@ -814,19 +826,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							void UpdateMonitoredTasks()
 							{
-								static void TryUpdateTask(ref Task oldTask, Task newTask)
+								static void TryUpdateTask(ref Task oldTask, Func<Task> newTaskFactory)
 								{
 									if (oldTask?.IsCompleted == true)
 										return;
 
-									oldTask = newTask;
+									oldTask = newTaskFactory();
 								}
 
 								if (lastController == controller)
 								{
-									TryUpdateTask(ref activeServerLifetime, controller.Lifetime);
-									TryUpdateTask(ref activeServerReboot, controller.OnReboot);
-									TryUpdateTask(ref serverPrimed, controller.OnPrime);
+									TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
+									TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
+									TryUpdateTask(ref serverPrimed, () => controller.OnPrime);
 								}
 								else
 								{
@@ -836,8 +848,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									lastController = controller;
 								}
 
-								TryUpdateTask(ref activeLaunchParametersChanged, ActiveParametersUpdated.Task);
-								TryUpdateTask(ref newDmbAvailable, DmbFactory.OnNewerDmb);
+								TryUpdateTask(ref activeLaunchParametersChanged, () => ActiveParametersUpdated.Task);
+								TryUpdateTask(
+									ref newDmbAvailable,
+									() =>
+									{
+										var result = ranInitialDmbCheck
+											? DmbFactory.OnNewerDmb
+											: InitialCheckDmbUpdated(controller.CompileJob);
+										ranInitialDmbCheck = true;
+										return result;
+									});
 							}
 
 							UpdateMonitoredTasks();
@@ -1099,6 +1120,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				heartbeatsMissed = 0;
 
 			return MonitorAction.Continue;
+		}
+
+		/// <summary>
+		/// Handle any <see cref="TopicResponse.ChatResponses"/> in a given topic <paramref name="result"/>.
+		/// </summary>
+		/// <param name="result">The <see cref="CombinedTopicResponse"/>.</param>
+		void HandleChatResponses(CombinedTopicResponse result)
+		{
+			if (result?.InteropResponse?.ChatResponses != null)
+				foreach (var response in result.InteropResponse.ChatResponses)
+					Chat.QueueMessage(
+						response,
+						response.ChannelIds
+							.Select(channelIdString =>
+							{
+								if (UInt64.TryParse(channelIdString, out var channelId))
+									return (ulong?)channelId;
+								else
+									Logger.LogWarning("Could not parse chat response channel ID: {channelID}", channelIdString);
+
+								return null;
+							})
+							.Where(nullableChannelId => nullableChannelId.HasValue)
+							.Select(nullableChannelId => nullableChannelId.Value));
 		}
 	}
 }

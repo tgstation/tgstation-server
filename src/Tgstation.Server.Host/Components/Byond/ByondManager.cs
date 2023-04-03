@@ -255,7 +255,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				lock (installedVersions)
 					hasRequestedActiveVersion = installedVersions.ContainsKey(activeVersionString);
 				if (hasRequestedActiveVersion && Version.TryParse(activeVersionString, out var activeVersion))
-					ActiveVersion = activeVersion.Semver();
+					ActiveVersion = activeVersion;
 				else
 				{
 					logger.LogWarning("Failed to load saved active version {0}!", activeVersionString);

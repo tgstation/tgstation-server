@@ -13,7 +13,7 @@
 		/// <summary>
 		/// The default value for <see cref="HighPriorityLiveDreamDaemon"/>.
 		/// </summary>
-		private const bool DefaultHighPriorityLiveDreamDaemon = true;
+		const bool DefaultHighPriorityLiveDreamDaemon = true;
 
 		/// <summary>
 		/// If the public DreamDaemon instances are set to be above normal priority processes.

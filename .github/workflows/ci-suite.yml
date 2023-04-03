@@ -631,7 +631,7 @@ jobs:
         with:
           tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
           release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
-          body: The TGS DMAPI
+          body: The TGS DMAPI \#tgs-dmapi-release
           commitish: ${{ github.event.head_commit.id }}
 
       - name: Upload DMAPI Artifact

@@ -22,5 +22,15 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="CompileJob"/>.
 		/// </summary>
 		public long CompileJobId { get; set; }
+
+		/// <summary>
+		/// The <see cref="Models.CompileJob"/> the server was initially launched with in the case of Windows.
+		/// </summary>
+		public CompileJob InitialCompileJob { get; set; }
+
+		/// <summary>
+		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="InitialCompileJob"/>.
+		/// </summary>
+		public long? InitialCompileJobId { get; set; }
 	}
 }

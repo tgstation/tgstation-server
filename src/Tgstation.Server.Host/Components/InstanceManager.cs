@@ -461,14 +461,27 @@ namespace Tgstation.Server.Host.Components
 				logger.LogDebug("Stopping instance manager...");
 				var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
 				await jobManager.StopAsync(cancellationToken);
-				await Task.WhenAll(instances.Select(x => x.Value.Instance.StopAsync(cancellationToken)));
+
+				async Task OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
+				{
+					try
+					{
+						await instance.StopAsync(cancellationToken);
+					}
+					catch (Exception ex)
+					{
+						logger.LogError(ex, "Instance shutdown exception!");
+					}
+				}
+
+				await Task.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
 				await instanceFactoryStopTask;
 
 				await swarmService.Shutdown(cancellationToken);
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, "Instance manager stop exception!");
+				logger.LogCritical(ex, "Instance manager stop exception!");
 			}
 		}
 
@@ -538,7 +551,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Check we have a valid system identity.
 		/// </summary>
-		private void CheckSystemCompatibility()
+		void CheckSystemCompatibility()
 		{
 			using (var systemIdentity = systemIdentityFactory.GetCurrent())
 			{

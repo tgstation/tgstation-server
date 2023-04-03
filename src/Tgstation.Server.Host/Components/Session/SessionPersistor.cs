@@ -78,6 +78,7 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				AccessIdentifier = reattachInformation.AccessIdentifier,
 				CompileJobId = reattachInformation.Dmb.CompileJob.Id.Value,
+				InitialCompileJobId = reattachInformation.InitialDmb?.CompileJob.Id.Value,
 				Port = reattachInformation.Port,
 				ProcessId = reattachInformation.ProcessId,
 				RebootState = reattachInformation.RebootState,
@@ -128,6 +129,7 @@ namespace Tgstation.Server.Host.Components.Session
 					.AsQueryable()
 					.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id)
 					.Include(x => x.CompileJob)
+					.Include(x => x.InitialCompileJob)
 					.ToListAsync(cancellationToken);
 				result = dbReattachInfos.FirstOrDefault();
 				if (result == default)
@@ -191,9 +193,19 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
+			IDmbProvider initialDmb = null;
+			if (result.InitialCompileJob != null)
+			{
+				logger.LogTrace("Loading initial compile job...");
+				initialDmb = await dmbFactory.FromCompileJob(result.InitialCompileJob, cancellationToken);
+			}
+
+			logger.LogTrace("Retrieved ReattachInformation");
+
 			var info = new ReattachInformation(
 				result,
 				dmb,
+				initialDmb,
 				topicTimeout.Value);
 
 			logger.LogDebug("Reattach information loaded: {info}", info);
