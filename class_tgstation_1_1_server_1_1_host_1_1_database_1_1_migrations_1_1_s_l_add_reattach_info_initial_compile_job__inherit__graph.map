@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.SLAddReattachInfoInitialCompileJob" name="Tgstation.Server.Host.Database.Migrations.SLAddReattachInfoInitialCompileJob">
+<area shape="rect" id="node1" title="Adds the InitialCompileJobId to the ReattachInformations table for SQLite." alt="" coords="5,79,236,133"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="83,5,158,31"/>
+</map>

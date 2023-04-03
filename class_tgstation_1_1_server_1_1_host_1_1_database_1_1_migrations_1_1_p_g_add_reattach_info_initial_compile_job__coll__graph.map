@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.PGAddReattachInfoInitialCompileJob" name="Tgstation.Server.Host.Database.Migrations.PGAddReattachInfoInitialCompileJob">
+<area shape="rect" id="node1" title="Adds the InitialCompileJobId to the ReattachInformations table for PostgresSQL." alt="" coords="5,79,237,133"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="84,5,159,31"/>
+</map>

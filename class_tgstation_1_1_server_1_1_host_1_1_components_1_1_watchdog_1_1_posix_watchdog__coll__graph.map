@@ -1,31 +1,31 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.PosixWatchdog" name="Tgstation.Server.Host.Components.Watchdog.PosixWatchdog">
-<area shape="rect" id="node1" title="A variant of the WindowsWatchdog that works on POSIX systems." alt="" coords="1659,33,1885,73"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of symlinks to swap out ch..." alt="" coords="1476,123,1609,149"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="1142,311,1255,337"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="751,614,862,639"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="269,637,353,662"/>
-<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="13,503,125,529"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="219,424,402,464"/>
-<area shape="rect" id="node7" href="$class_i_async_disposable.html" title=" " alt="" coords="5,637,132,662"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="9,686,128,711"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="7,587,130,613"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="223,686,398,711"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="254,735,367,761"/>
-<area shape="rect" id="node12" title=" " alt="" coords="290,785,331,810"/>
-<area shape="rect" id="node13" title=" " alt="" coords="228,834,393,859"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="197,884,424,924"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="220,356,401,396"/>
-<area shape="rect" id="node17" href="$class_i_disposable.html" title=" " alt="" coords="23,73,114,98"/>
-<area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="516,73,617,98"/>
-<area shape="rect" id="node29" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="693,5,920,45"/>
-<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="227,185,395,225"/>
-<area shape="rect" id="node26" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="1083,116,1315,156"/>
-<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="181,949,440,1003"/>
-<area shape="rect" id="node20" title=" " alt="" coords="287,305,334,330"/>
-<area shape="rect" id="node21" title=" " alt="" coords="225,1027,396,1053"/>
-<area shape="rect" id="node22" title=" " alt="" coords="285,489,336,514"/>
-<area shape="rect" id="node23" title=" " alt="" coords="251,538,370,563"/>
-<area shape="rect" id="node24" title=" " alt="" coords="291,587,330,613"/>
-<area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links." alt="" coords="723,236,891,276"/>
-<area shape="rect" id="node28" title=" " alt="" coords="779,123,834,149"/>
+<area shape="rect" id="node1" title="A variant of the WindowsWatchdog that works on POSIX systems." alt="" coords="1409,1068,1636,1108"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of symlinks to swap out ch..." alt="" coords="1227,889,1360,914"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="1064,798,1177,823"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="754,454,865,479"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="269,283,353,309"/>
+<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="13,390,125,415"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="219,481,402,521"/>
+<area shape="rect" id="node7" href="$class_i_async_disposable.html" title=" " alt="" coords="5,333,132,358"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="9,234,128,259"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="7,283,130,309"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="223,610,398,635"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="254,659,367,685"/>
+<area shape="rect" id="node12" title=" " alt="" coords="290,709,331,734"/>
+<area shape="rect" id="node13" title=" " alt="" coords="228,41,393,66"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="197,91,424,131"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="220,545,401,585"/>
+<area shape="rect" id="node17" href="$class_i_disposable.html" title=" " alt="" coords="23,1015,114,1041"/>
+<area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="260,1015,361,1041"/>
+<area shape="rect" id="node29" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs." alt="" coords="197,1065,424,1105"/>
+<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="227,817,395,857"/>
+<area shape="rect" id="node26" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="693,929,925,969"/>
+<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="181,205,440,259"/>
+<area shape="rect" id="node20" title=" " alt="" coords="287,761,334,786"/>
+<area shape="rect" id="node21" title=" " alt="" coords="225,382,396,407"/>
+<area shape="rect" id="node22" title=" " alt="" coords="285,431,336,457"/>
+<area shape="rect" id="node23" title=" " alt="" coords="251,155,370,181"/>
+<area shape="rect" id="node24" title=" " alt="" coords="291,333,330,358"/>
+<area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links." alt="" coords="227,895,395,935"/>
+<area shape="rect" id="node28" title=" " alt="" coords="283,966,338,991"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatResponses" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatResponses">
+<area shape="rect" id="node1" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="355,37,661,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a75d69d7ce07458b0d83124a1315c1c37" title="Handle a chat command. A Task&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,5,307,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1b043f3ab25e84bc675dd5455cbf3f52" title="Handle a given eventType . A Task representing the running operation." alt="" coords="32,69,280,109"/>
+</map>

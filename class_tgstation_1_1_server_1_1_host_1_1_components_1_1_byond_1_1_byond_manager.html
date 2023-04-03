@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -701,7 +701,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  255</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a0811c130dd3533e163b38d32a17a8394">installedVersions</a>)</div>
 <div class="line"><span class="lineno">  256</span>                    hasRequestedActiveVersion = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a0811c130dd3533e163b38d32a17a8394">installedVersions</a>.ContainsKey(activeVersionString);</div>
 <div class="line"><span class="lineno">  257</span>                <span class="keywordflow">if</span> (hasRequestedActiveVersion &amp;&amp; Version.TryParse(activeVersionString, out var activeVersion))</div>
-<div class="line"><span class="lineno">  258</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a3e62e619b7e50c3b9c990952d7a426be">ActiveVersion</a> = activeVersion.Semver();</div>
+<div class="line"><span class="lineno">  258</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a3e62e619b7e50c3b9c990952d7a426be">ActiveVersion</a> = activeVersion;</div>
 <div class="line"><span class="lineno">  259</span>                <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  260</span>                {</div>
 <div class="line"><span class="lineno">  261</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a25f231d9dcbd28c75f9665fb7f0b5e80">logger</a>.LogWarning(<span class="stringliteral">&quot;Failed to load saved active version {0}!&quot;</span>, activeVersionString);</div>

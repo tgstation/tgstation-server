@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -421,15 +421,17 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a6df490e4067fe694af10379fb56a7a25">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00450">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00292">Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l01129">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatResponses()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00288">Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeRequest()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_af9226f864c0c82403eab7ac5f8e43002_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_af9226f864c0c82403eab7ac5f8e43002_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_af9226f864c0c82403eab7ac5f8e43002_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_af9226f864c0c82403eab7ac5f8e43002_icgraph">
-<area shape="rect" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="316,41,543,81"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1b043f3ab25e84bc675dd5455cbf3f52" title="Handle a given eventType . A Task representing the running operation." alt="" coords="13,5,261,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a3d2409bf4c6bce84a6127e7f83129fbf" title="Handle a set of bridge parameters . A Task&lt;TResult&gt; resulting in the BridgeResponse for the request o..." alt="" coords="5,70,268,125"/>
+<area shape="rect" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="709,73,936,113"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a9687f794e99ad045b994acddb1b554f8" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="355,37,661,77"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a3d2409bf4c6bce84a6127e7f83129fbf" title="Handle a set of bridge parameters . A Task&lt;TResult&gt; resulting in the BridgeResponse for the request o..." alt="" coords="377,102,639,157"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a75d69d7ce07458b0d83124a1315c1c37" title="Handle a chat command. A Task&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="5,5,307,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1b043f3ab25e84bc675dd5455cbf3f52" title="Handle a given eventType . A Task representing the running operation." alt="" coords="32,69,280,109"/>
 </map>
 </div>
 
@@ -473,7 +475,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4a3051f36861a7cf6ebff6215e39163f">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l01038">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00106">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00293">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00403">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleRestart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00502">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.LaunchNoLock()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00790">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00730">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00628">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ReattachFailure()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00337">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Restart()</a>, and <a class="el" href="_watchdog_base_8cs_source.html#l00997">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l01059">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00106">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00303">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00405">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleRestart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00491">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.LaunchNoLock()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00801">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00719">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00617">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ReattachFailure()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00339">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Restart()</a>, and <a class="el" href="_watchdog_base_8cs_source.html#l01018">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

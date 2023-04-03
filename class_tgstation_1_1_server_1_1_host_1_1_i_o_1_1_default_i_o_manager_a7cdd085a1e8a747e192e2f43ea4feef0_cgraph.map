@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl" name="Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl">
-<area shape="rect" id="node1" title="Copies a directory from src &#160;to dest ." alt="" coords="5,69,240,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path. The combined path." alt="" coords="298,5,497,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb" title="Copy a file from src &#160;to dest . A Task representing the running operation." alt="" coords="307,69,487,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3" title="Create a directory at path . A Task representing the running operation." alt="" coords="288,133,507,173"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory. The full path of the current working directo..." alt="" coords="555,69,759,109"/>
-</map>

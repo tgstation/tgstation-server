@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -282,7 +282,7 @@ $(function() {
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>                lock (installedVersions)</div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>                    hasRequestedActiveVersion = installedVersions.ContainsKey(activeVersionString);</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>                <span class="keywordflow">if</span> (hasRequestedActiveVersion &amp;&amp; Version.TryParse(activeVersionString, out var activeVersion))</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>                    ActiveVersion = activeVersion.Semver();</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>                    ActiveVersion = activeVersion;</div>
 <div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>                <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>                {</div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>                    logger.LogWarning(<span class="stringliteral">&quot;Failed to load saved active version {0}!&quot;</span>, activeVersionString);</div>
