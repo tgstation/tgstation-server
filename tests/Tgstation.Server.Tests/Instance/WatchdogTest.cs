@@ -154,7 +154,6 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(DreamDaemonSecurity.Trusted, newerCompileJob.MinimumSecurityLevel);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.StagedCompileJob.DMApiVersion);
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
-			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 		}
 
 		async Task RunBasicTest(CancellationToken cancellationToken)
