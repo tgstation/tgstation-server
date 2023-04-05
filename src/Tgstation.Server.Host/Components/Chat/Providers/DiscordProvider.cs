@@ -662,7 +662,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!discordChannelResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Error retrieving discord channel {0}: {1} Inner: {2}",
+							"Error retrieving discord channel {channelId}: {error} Inner: {innerError}",
 							channelId,
 							discordChannelResponse.Error.Message,
 							discordChannelResponse.Inner?.Error?.Message);
@@ -673,23 +673,25 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var channelType = discordChannelResponse.Entity.Type;
 					if (channelType != ChannelType.GuildText && channelType != ChannelType.GuildAnnouncement)
 					{
-						Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannelResponse.Entity.Type);
+						Logger.LogWarning("Cound not map channel {channelId}! Incorrect type: {channelType}", channelId, discordChannelResponse.Entity.Type);
 						return null;
 					}
 
 					friendlyName = discordChannelResponse.Entity.Name.Value;
+					var guildId = discordChannelResponse.Entity.GuildID.Value;
 
 					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
 					var guildsResponse = await guildsClient.GetGuildAsync(
-						discordChannelResponse.Entity.GuildID.Value,
+						guildId,
 						false,
 						cancellationToken);
 					if (!guildsResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Error retrieving discord guild {0}: {1}",
-							discordChannelResponse.Entity.GuildID.Value,
-							discordChannelResponse.Error.Message);
+							"Error retrieving discord guild {guildID}: {error} Inner: {innerError}",
+							guildId,
+							guildsResponse.Error.Message,
+							guildsResponse.Inner?.Error?.Message);
 						remapRequired = true;
 						return null;
 					}
