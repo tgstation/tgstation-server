@@ -16,5 +16,10 @@ namespace Tgstation.Server.Host.Configuration
 		/// The authentication server URL. Not used by all providers.
 		/// </summary>
 		public Uri RedirectUrl { get; set; }
+
+		/// <summary>
+		/// User information URL override. Not supported by the <see cref="Api.Models.OAuthProvider.GitHub"/> provider.
+		/// </summary>
+		public Uri UserInformationUrlOverride { get; set; }
 	}
 }
