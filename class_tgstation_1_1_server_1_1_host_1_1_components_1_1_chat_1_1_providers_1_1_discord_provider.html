@@ -748,172 +748,172 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The parameter for sending a single IEmbed.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00744">744</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  745</span>        {</div>
-<div class="line"><span class="lineno">  746</span>            <span class="keywordflow">if</span> (embed == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  747</span>                <span class="keywordflow">return</span> <span class="keywordflow">default</span>;</div>
-<div class="line"><span class="lineno">  748</span> </div>
-<div class="line"><span class="lineno">  749</span>            List&lt;string&gt; embedErrors = <span class="keyword">new</span> List&lt;string&gt;();</div>
-<div class="line"><span class="lineno">  750</span>            Optional&lt;Color&gt; colour = <span class="keywordflow">default</span>;</div>
-<div class="line"><span class="lineno">  751</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ac1dc32e2f97bbf3bec5cf94f2d23a6ab">Colour</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  752</span>                <span class="keywordflow">if</span> (Int32.TryParse(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ac1dc32e2f97bbf3bec5cf94f2d23a6ab">Colour</a>.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var argb))</div>
-<div class="line"><span class="lineno">  753</span>                    colour = Color.FromArgb(argb);</div>
-<div class="line"><span class="lineno">  754</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  755</span>                    embedErrors.Add(</div>
-<div class="line"><span class="lineno">  756</span>                        String.Format(</div>
-<div class="line"><span class="lineno">  757</span>                            CultureInfo.InvariantCulture,</div>
-<div class="line"><span class="lineno">  758</span>                            <span class="stringliteral">&quot;Invalid embed colour: {0}&quot;</span>,</div>
-<div class="line"><span class="lineno">  759</span>                            embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ac1dc32e2f97bbf3bec5cf94f2d23a6ab">Colour</a>));</div>
-<div class="line"><span class="lineno">  760</span> </div>
-<div class="line"><span class="lineno">  761</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aed31634a7fec58a34f6dc11d14899a4f">Author</a> != <span class="keyword">null</span> &amp;&amp; String.IsNullOrWhiteSpace(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aed31634a7fec58a34f6dc11d14899a4f">Author</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_provider.html#a3f50b63bf7127580f30831ce5828ed7d">Name</a>))</div>
-<div class="line"><span class="lineno">  762</span>            {</div>
-<div class="line"><span class="lineno">  763</span>                embedErrors.Add(<span class="stringliteral">&quot;Null or whitespace embed author name!&quot;</span>);</div>
-<div class="line"><span class="lineno">  764</span>                embed.Author = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  765</span>            }</div>
-<div class="line"><span class="lineno">  766</span> </div>
-<div class="line"><span class="lineno">  767</span>            List&lt;IEmbedField&gt; fields = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  768</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aa9bc9b9154ce964c0ad222a676e9d4fe">Fields</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  769</span>            {</div>
-<div class="line"><span class="lineno">  770</span>                fields = <span class="keyword">new</span> List&lt;IEmbedField&gt;();</div>
-<div class="line"><span class="lineno">  771</span>                var i = -1;</div>
-<div class="line"><span class="lineno">  772</span>                <span class="keywordflow">foreach</span> (var field <span class="keywordflow">in</span> embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aa9bc9b9154ce964c0ad222a676e9d4fe">Fields</a>)</div>
-<div class="line"><span class="lineno">  773</span>                {</div>
-<div class="line"><span class="lineno">  774</span>                    ++i;</div>
-<div class="line"><span class="lineno">  775</span>                    var invalid = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  776</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(field.Name))</div>
-<div class="line"><span class="lineno">  777</span>                    {</div>
-<div class="line"><span class="lineno">  778</span>                        embedErrors.Add(</div>
-<div class="line"><span class="lineno">  779</span>                            String.Format(</div>
-<div class="line"><span class="lineno">  780</span>                                CultureInfo.InvariantCulture,</div>
-<div class="line"><span class="lineno">  781</span>                                <span class="stringliteral">&quot;Null or whitespace field author at index {0}!&quot;</span>,</div>
-<div class="line"><span class="lineno">  782</span>                                i));</div>
-<div class="line"><span class="lineno">  783</span>                        invalid = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  784</span>                    }</div>
-<div class="line"><span class="lineno">  785</span> </div>
-<div class="line"><span class="lineno">  786</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(field.Value))</div>
-<div class="line"><span class="lineno">  787</span>                    {</div>
-<div class="line"><span class="lineno">  788</span>                        embedErrors.Add(</div>
-<div class="line"><span class="lineno">  789</span>                            String.Format(</div>
-<div class="line"><span class="lineno">  790</span>                                CultureInfo.InvariantCulture,</div>
-<div class="line"><span class="lineno">  791</span>                                <span class="stringliteral">&quot;Null or whitespace field author at index {0}!&quot;</span>,</div>
-<div class="line"><span class="lineno">  792</span>                                i));</div>
-<div class="line"><span class="lineno">  793</span>                        invalid = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  794</span>                    }</div>
-<div class="line"><span class="lineno">  795</span> </div>
-<div class="line"><span class="lineno">  796</span>                    <span class="keywordflow">if</span> (invalid)</div>
-<div class="line"><span class="lineno">  797</span>                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  798</span> </div>
-<div class="line"><span class="lineno">  799</span>                    fields.Add(<span class="keyword">new</span> EmbedField(field.Name, field.Value)</div>
-<div class="line"><span class="lineno">  800</span>                    {</div>
-<div class="line"><span class="lineno">  801</span>                        IsInline = field.IsInline ?? default(Optional&lt;bool&gt;),</div>
-<div class="line"><span class="lineno">  802</span>                    });</div>
-<div class="line"><span class="lineno">  803</span>                }</div>
-<div class="line"><span class="lineno">  804</span>            }</div>
-<div class="line"><span class="lineno">  805</span> </div>
-<div class="line"><span class="lineno">  806</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aae5734cac6559662e08b929578dd1ce1">Footer</a> != <span class="keyword">null</span> &amp;&amp; String.IsNullOrWhiteSpace(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aae5734cac6559662e08b929578dd1ce1">Footer</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_footer.html#adc207935aa3debc2eb19fc986791a90a">Text</a>))</div>
-<div class="line"><span class="lineno">  807</span>            {</div>
-<div class="line"><span class="lineno">  808</span>                embedErrors.Add(<span class="stringliteral">&quot;Null or whitespace embed footer text!&quot;</span>);</div>
-<div class="line"><span class="lineno">  809</span>                embed.Footer = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  810</span>            }</div>
-<div class="line"><span class="lineno">  811</span> </div>
-<div class="line"><span class="lineno">  812</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a6c59721d839108e863af49145aca8db9">Image</a> != <span class="keyword">null</span> &amp;&amp; String.IsNullOrWhiteSpace(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a6c59721d839108e863af49145aca8db9">Image</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_media.html#ad4594ff9deeade634cb5ddf1d57b1557">Url</a>))</div>
-<div class="line"><span class="lineno">  813</span>            {</div>
-<div class="line"><span class="lineno">  814</span>                embedErrors.Add(<span class="stringliteral">&quot;Null or whitespace embed image url!&quot;</span>);</div>
-<div class="line"><span class="lineno">  815</span>                embed.Image = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  816</span>            }</div>
-<div class="line"><span class="lineno">  817</span> </div>
-<div class="line"><span class="lineno">  818</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a8e836bff6c7dd6b9470745dd0d62fd8c">Thumbnail</a> != <span class="keyword">null</span> &amp;&amp; String.IsNullOrWhiteSpace(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a8e836bff6c7dd6b9470745dd0d62fd8c">Thumbnail</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_media.html#ad4594ff9deeade634cb5ddf1d57b1557">Url</a>))</div>
-<div class="line"><span class="lineno">  819</span>            {</div>
-<div class="line"><span class="lineno">  820</span>                embedErrors.Add(<span class="stringliteral">&quot;Null or whitespace embed thumbnail url!&quot;</span>);</div>
-<div class="line"><span class="lineno">  821</span>                embed.Thumbnail = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  822</span>            }</div>
-<div class="line"><span class="lineno">  823</span> </div>
-<div class="line"><span class="lineno">  824</span>            Optional&lt;DateTimeOffset&gt; timestampOptional = <span class="keywordflow">default</span>;</div>
-<div class="line"><span class="lineno">  825</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ab0df7991bef17f3398fbcca8b9de2afd">Timestamp</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  826</span>                <span class="keywordflow">if</span> (DateTimeOffset.TryParse(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ab0df7991bef17f3398fbcca8b9de2afd">Timestamp</a>, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp))</div>
-<div class="line"><span class="lineno">  827</span>                    timestampOptional = timestamp.ToUniversalTime();</div>
-<div class="line"><span class="lineno">  828</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  829</span>                    embedErrors.Add(</div>
-<div class="line"><span class="lineno">  830</span>                        String.Format(</div>
-<div class="line"><span class="lineno">  831</span>                            CultureInfo.InvariantCulture,</div>
-<div class="line"><span class="lineno">  832</span>                            <span class="stringliteral">&quot;Invalid embed timestamp: {0}&quot;</span>,</div>
-<div class="line"><span class="lineno">  833</span>                            embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ab0df7991bef17f3398fbcca8b9de2afd">Timestamp</a>));</div>
-<div class="line"><span class="lineno">  834</span> </div>
-<div class="line"><span class="lineno">  835</span>            var discordEmbed = <span class="keyword">new</span> Embed</div>
-<div class="line"><span class="lineno">  836</span>            {</div>
-<div class="line"><span class="lineno">  837</span>                Author = embed.Author != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  838</span>                    ? <span class="keyword">new</span> EmbedAuthor(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aed31634a7fec58a34f6dc11d14899a4f">Author</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_provider.html#a3f50b63bf7127580f30831ce5828ed7d">Name</a>)</div>
-<div class="line"><span class="lineno">  839</span>                    {</div>
-<div class="line"><span class="lineno">  840</span>                        IconUrl = embed.Author.IconUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  841</span>                        ProxyIconUrl = embed.Author.ProxyIconUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  842</span>                        Url = embed.Author.Url ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  843</span>                    }</div>
-<div class="line"><span class="lineno">  844</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedAuthor&gt;),</div>
-<div class="line"><span class="lineno">  845</span>                Colour = colour,</div>
-<div class="line"><span class="lineno">  846</span>                Description = embed.Description ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  847</span>                Fields = fields ?? <span class="keywordflow">default</span>(Optional&lt;IReadOnlyList&lt;IEmbedField&gt;&gt;),</div>
-<div class="line"><span class="lineno">  848</span>                Footer = embed.Footer != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  849</span>                    ? <span class="keyword">new</span> EmbedFooter(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aae5734cac6559662e08b929578dd1ce1">Footer</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_footer.html#adc207935aa3debc2eb19fc986791a90a">Text</a>)</div>
-<div class="line"><span class="lineno">  850</span>                    {</div>
-<div class="line"><span class="lineno">  851</span>                        IconUrl = embed.Footer.IconUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  852</span>                        ProxyIconUrl = embed.Footer.ProxyIconUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  853</span>                    }</div>
-<div class="line"><span class="lineno">  854</span>                    : <span class="keywordflow">default</span>,</div>
-<div class="line"><span class="lineno">  855</span>                Image = embed.Image != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  856</span>                    ? <span class="keyword">new</span> EmbedImage(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a6c59721d839108e863af49145aca8db9">Image</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_media.html#ad4594ff9deeade634cb5ddf1d57b1557">Url</a>)</div>
-<div class="line"><span class="lineno">  857</span>                    {</div>
-<div class="line"><span class="lineno">  858</span>                        Width = embed.Image.Width ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
-<div class="line"><span class="lineno">  859</span>                        Height = embed.Image.Height ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
-<div class="line"><span class="lineno">  860</span>                        ProxyUrl = embed.Image.ProxyUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  861</span>                    }</div>
-<div class="line"><span class="lineno">  862</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedImage&gt;),</div>
-<div class="line"><span class="lineno">  863</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ad53cc84796c5c7ef5d27b41367ac9ec5">Provider</a> = embed.Provider != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  864</span>                    ? <span class="keyword">new</span> EmbedProvider</div>
-<div class="line"><span class="lineno">  865</span>                    {</div>
-<div class="line"><span class="lineno">  866</span>                        Name = embed.Provider.Name ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  867</span>                        Url = embed.Provider.Url ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  868</span>                    }</div>
-<div class="line"><span class="lineno">  869</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedProvider&gt;),</div>
-<div class="line"><span class="lineno">  870</span>                Thumbnail = embed.Thumbnail != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  871</span>                    ? <span class="keyword">new</span> EmbedThumbnail(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a8e836bff6c7dd6b9470745dd0d62fd8c">Thumbnail</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_media.html#ad4594ff9deeade634cb5ddf1d57b1557">Url</a>)</div>
-<div class="line"><span class="lineno">  872</span>                    {</div>
-<div class="line"><span class="lineno">  873</span>                        Width = embed.Thumbnail.Width ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
-<div class="line"><span class="lineno">  874</span>                        Height = embed.Thumbnail.Height ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
-<div class="line"><span class="lineno">  875</span>                        ProxyUrl = embed.Thumbnail.ProxyUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  876</span>                    }</div>
-<div class="line"><span class="lineno">  877</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedThumbnail&gt;),</div>
-<div class="line"><span class="lineno">  878</span>                Timestamp = timestampOptional,</div>
-<div class="line"><span class="lineno">  879</span>                Title = embed.Title ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  880</span>                Url = embed.Url ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  881</span>                Video = embed.Video != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  882</span>                    ? <span class="keyword">new</span> EmbedVideo</div>
-<div class="line"><span class="lineno">  883</span>                    {</div>
-<div class="line"><span class="lineno">  884</span>                        Url = embed.Video.Url ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  885</span>                        Width = embed.Video.Width ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
-<div class="line"><span class="lineno">  886</span>                        Height = embed.Video.Height ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
-<div class="line"><span class="lineno">  887</span>                        ProxyUrl = embed.Video.ProxyUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
-<div class="line"><span class="lineno">  888</span>                    }</div>
-<div class="line"><span class="lineno">  889</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedVideo&gt;),</div>
-<div class="line"><span class="lineno">  890</span>            };</div>
-<div class="line"><span class="lineno">  891</span> </div>
-<div class="line"><span class="lineno">  892</span>            var result = <span class="keyword">new</span> List&lt;IEmbed&gt; { discordEmbed };</div>
+<p class="definition">Definition at line <a class="el" href="_discord_provider_8cs_source.html#l00746">746</a> of file <a class="el" href="_discord_provider_8cs_source.html">DiscordProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  747</span>        {</div>
+<div class="line"><span class="lineno">  748</span>            <span class="keywordflow">if</span> (embed == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  749</span>                <span class="keywordflow">return</span> <span class="keywordflow">default</span>;</div>
+<div class="line"><span class="lineno">  750</span> </div>
+<div class="line"><span class="lineno">  751</span>            List&lt;string&gt; embedErrors = <span class="keyword">new</span> List&lt;string&gt;();</div>
+<div class="line"><span class="lineno">  752</span>            Optional&lt;Color&gt; colour = <span class="keywordflow">default</span>;</div>
+<div class="line"><span class="lineno">  753</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ac1dc32e2f97bbf3bec5cf94f2d23a6ab">Colour</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  754</span>                <span class="keywordflow">if</span> (Int32.TryParse(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ac1dc32e2f97bbf3bec5cf94f2d23a6ab">Colour</a>.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var argb))</div>
+<div class="line"><span class="lineno">  755</span>                    colour = Color.FromArgb(argb);</div>
+<div class="line"><span class="lineno">  756</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  757</span>                    embedErrors.Add(</div>
+<div class="line"><span class="lineno">  758</span>                        String.Format(</div>
+<div class="line"><span class="lineno">  759</span>                            CultureInfo.InvariantCulture,</div>
+<div class="line"><span class="lineno">  760</span>                            <span class="stringliteral">&quot;Invalid embed colour: {0}&quot;</span>,</div>
+<div class="line"><span class="lineno">  761</span>                            embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ac1dc32e2f97bbf3bec5cf94f2d23a6ab">Colour</a>));</div>
+<div class="line"><span class="lineno">  762</span> </div>
+<div class="line"><span class="lineno">  763</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aed31634a7fec58a34f6dc11d14899a4f">Author</a> != <span class="keyword">null</span> &amp;&amp; String.IsNullOrWhiteSpace(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aed31634a7fec58a34f6dc11d14899a4f">Author</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_provider.html#a3f50b63bf7127580f30831ce5828ed7d">Name</a>))</div>
+<div class="line"><span class="lineno">  764</span>            {</div>
+<div class="line"><span class="lineno">  765</span>                embedErrors.Add(<span class="stringliteral">&quot;Null or whitespace embed author name!&quot;</span>);</div>
+<div class="line"><span class="lineno">  766</span>                embed.Author = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  767</span>            }</div>
+<div class="line"><span class="lineno">  768</span> </div>
+<div class="line"><span class="lineno">  769</span>            List&lt;IEmbedField&gt; fields = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  770</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aa9bc9b9154ce964c0ad222a676e9d4fe">Fields</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  771</span>            {</div>
+<div class="line"><span class="lineno">  772</span>                fields = <span class="keyword">new</span> List&lt;IEmbedField&gt;();</div>
+<div class="line"><span class="lineno">  773</span>                var i = -1;</div>
+<div class="line"><span class="lineno">  774</span>                <span class="keywordflow">foreach</span> (var field <span class="keywordflow">in</span> embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aa9bc9b9154ce964c0ad222a676e9d4fe">Fields</a>)</div>
+<div class="line"><span class="lineno">  775</span>                {</div>
+<div class="line"><span class="lineno">  776</span>                    ++i;</div>
+<div class="line"><span class="lineno">  777</span>                    var invalid = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  778</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(field.Name))</div>
+<div class="line"><span class="lineno">  779</span>                    {</div>
+<div class="line"><span class="lineno">  780</span>                        embedErrors.Add(</div>
+<div class="line"><span class="lineno">  781</span>                            String.Format(</div>
+<div class="line"><span class="lineno">  782</span>                                CultureInfo.InvariantCulture,</div>
+<div class="line"><span class="lineno">  783</span>                                <span class="stringliteral">&quot;Null or whitespace field author at index {0}!&quot;</span>,</div>
+<div class="line"><span class="lineno">  784</span>                                i));</div>
+<div class="line"><span class="lineno">  785</span>                        invalid = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  786</span>                    }</div>
+<div class="line"><span class="lineno">  787</span> </div>
+<div class="line"><span class="lineno">  788</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(field.Value))</div>
+<div class="line"><span class="lineno">  789</span>                    {</div>
+<div class="line"><span class="lineno">  790</span>                        embedErrors.Add(</div>
+<div class="line"><span class="lineno">  791</span>                            String.Format(</div>
+<div class="line"><span class="lineno">  792</span>                                CultureInfo.InvariantCulture,</div>
+<div class="line"><span class="lineno">  793</span>                                <span class="stringliteral">&quot;Null or whitespace field author at index {0}!&quot;</span>,</div>
+<div class="line"><span class="lineno">  794</span>                                i));</div>
+<div class="line"><span class="lineno">  795</span>                        invalid = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  796</span>                    }</div>
+<div class="line"><span class="lineno">  797</span> </div>
+<div class="line"><span class="lineno">  798</span>                    <span class="keywordflow">if</span> (invalid)</div>
+<div class="line"><span class="lineno">  799</span>                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  800</span> </div>
+<div class="line"><span class="lineno">  801</span>                    fields.Add(<span class="keyword">new</span> EmbedField(field.Name, field.Value)</div>
+<div class="line"><span class="lineno">  802</span>                    {</div>
+<div class="line"><span class="lineno">  803</span>                        IsInline = field.IsInline ?? default(Optional&lt;bool&gt;),</div>
+<div class="line"><span class="lineno">  804</span>                    });</div>
+<div class="line"><span class="lineno">  805</span>                }</div>
+<div class="line"><span class="lineno">  806</span>            }</div>
+<div class="line"><span class="lineno">  807</span> </div>
+<div class="line"><span class="lineno">  808</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aae5734cac6559662e08b929578dd1ce1">Footer</a> != <span class="keyword">null</span> &amp;&amp; String.IsNullOrWhiteSpace(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aae5734cac6559662e08b929578dd1ce1">Footer</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_footer.html#adc207935aa3debc2eb19fc986791a90a">Text</a>))</div>
+<div class="line"><span class="lineno">  809</span>            {</div>
+<div class="line"><span class="lineno">  810</span>                embedErrors.Add(<span class="stringliteral">&quot;Null or whitespace embed footer text!&quot;</span>);</div>
+<div class="line"><span class="lineno">  811</span>                embed.Footer = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  812</span>            }</div>
+<div class="line"><span class="lineno">  813</span> </div>
+<div class="line"><span class="lineno">  814</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a6c59721d839108e863af49145aca8db9">Image</a> != <span class="keyword">null</span> &amp;&amp; String.IsNullOrWhiteSpace(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a6c59721d839108e863af49145aca8db9">Image</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_media.html#ad4594ff9deeade634cb5ddf1d57b1557">Url</a>))</div>
+<div class="line"><span class="lineno">  815</span>            {</div>
+<div class="line"><span class="lineno">  816</span>                embedErrors.Add(<span class="stringliteral">&quot;Null or whitespace embed image url!&quot;</span>);</div>
+<div class="line"><span class="lineno">  817</span>                embed.Image = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  818</span>            }</div>
+<div class="line"><span class="lineno">  819</span> </div>
+<div class="line"><span class="lineno">  820</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a8e836bff6c7dd6b9470745dd0d62fd8c">Thumbnail</a> != <span class="keyword">null</span> &amp;&amp; String.IsNullOrWhiteSpace(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a8e836bff6c7dd6b9470745dd0d62fd8c">Thumbnail</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_media.html#ad4594ff9deeade634cb5ddf1d57b1557">Url</a>))</div>
+<div class="line"><span class="lineno">  821</span>            {</div>
+<div class="line"><span class="lineno">  822</span>                embedErrors.Add(<span class="stringliteral">&quot;Null or whitespace embed thumbnail url!&quot;</span>);</div>
+<div class="line"><span class="lineno">  823</span>                embed.Thumbnail = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  824</span>            }</div>
+<div class="line"><span class="lineno">  825</span> </div>
+<div class="line"><span class="lineno">  826</span>            Optional&lt;DateTimeOffset&gt; timestampOptional = <span class="keywordflow">default</span>;</div>
+<div class="line"><span class="lineno">  827</span>            <span class="keywordflow">if</span> (embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ab0df7991bef17f3398fbcca8b9de2afd">Timestamp</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  828</span>                <span class="keywordflow">if</span> (DateTimeOffset.TryParse(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ab0df7991bef17f3398fbcca8b9de2afd">Timestamp</a>, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp))</div>
+<div class="line"><span class="lineno">  829</span>                    timestampOptional = timestamp.ToUniversalTime();</div>
+<div class="line"><span class="lineno">  830</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  831</span>                    embedErrors.Add(</div>
+<div class="line"><span class="lineno">  832</span>                        String.Format(</div>
+<div class="line"><span class="lineno">  833</span>                            CultureInfo.InvariantCulture,</div>
+<div class="line"><span class="lineno">  834</span>                            <span class="stringliteral">&quot;Invalid embed timestamp: {0}&quot;</span>,</div>
+<div class="line"><span class="lineno">  835</span>                            embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#ab0df7991bef17f3398fbcca8b9de2afd">Timestamp</a>));</div>
+<div class="line"><span class="lineno">  836</span> </div>
+<div class="line"><span class="lineno">  837</span>            var discordEmbed = <span class="keyword">new</span> Embed</div>
+<div class="line"><span class="lineno">  838</span>            {</div>
+<div class="line"><span class="lineno">  839</span>                Author = embed.Author != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  840</span>                    ? <span class="keyword">new</span> EmbedAuthor(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aed31634a7fec58a34f6dc11d14899a4f">Author</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_provider.html#a3f50b63bf7127580f30831ce5828ed7d">Name</a>)</div>
+<div class="line"><span class="lineno">  841</span>                    {</div>
+<div class="line"><span class="lineno">  842</span>                        IconUrl = embed.Author.IconUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  843</span>                        ProxyIconUrl = embed.Author.ProxyIconUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  844</span>                        Url = embed.Author.Url ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  845</span>                    }</div>
+<div class="line"><span class="lineno">  846</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedAuthor&gt;),</div>
+<div class="line"><span class="lineno">  847</span>                Colour = colour,</div>
+<div class="line"><span class="lineno">  848</span>                Description = embed.Description ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  849</span>                Fields = fields ?? <span class="keywordflow">default</span>(Optional&lt;IReadOnlyList&lt;IEmbedField&gt;&gt;),</div>
+<div class="line"><span class="lineno">  850</span>                Footer = embed.Footer != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  851</span>                    ? <span class="keyword">new</span> EmbedFooter(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aae5734cac6559662e08b929578dd1ce1">Footer</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_footer.html#adc207935aa3debc2eb19fc986791a90a">Text</a>)</div>
+<div class="line"><span class="lineno">  852</span>                    {</div>
+<div class="line"><span class="lineno">  853</span>                        IconUrl = embed.Footer.IconUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  854</span>                        ProxyIconUrl = embed.Footer.ProxyIconUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  855</span>                    }</div>
+<div class="line"><span class="lineno">  856</span>                    : <span class="keywordflow">default</span>,</div>
+<div class="line"><span class="lineno">  857</span>                Image = embed.Image != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  858</span>                    ? <span class="keyword">new</span> EmbedImage(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a6c59721d839108e863af49145aca8db9">Image</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_media.html#ad4594ff9deeade634cb5ddf1d57b1557">Url</a>)</div>
+<div class="line"><span class="lineno">  859</span>                    {</div>
+<div class="line"><span class="lineno">  860</span>                        Width = embed.Image.Width ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
+<div class="line"><span class="lineno">  861</span>                        Height = embed.Image.Height ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
+<div class="line"><span class="lineno">  862</span>                        ProxyUrl = embed.Image.ProxyUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  863</span>                    }</div>
+<div class="line"><span class="lineno">  864</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedImage&gt;),</div>
+<div class="line"><span class="lineno">  865</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ad53cc84796c5c7ef5d27b41367ac9ec5">Provider</a> = embed.Provider != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  866</span>                    ? <span class="keyword">new</span> EmbedProvider</div>
+<div class="line"><span class="lineno">  867</span>                    {</div>
+<div class="line"><span class="lineno">  868</span>                        Name = embed.Provider.Name ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  869</span>                        Url = embed.Provider.Url ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  870</span>                    }</div>
+<div class="line"><span class="lineno">  871</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedProvider&gt;),</div>
+<div class="line"><span class="lineno">  872</span>                Thumbnail = embed.Thumbnail != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  873</span>                    ? <span class="keyword">new</span> EmbedThumbnail(embed.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a8e836bff6c7dd6b9470745dd0d62fd8c">Thumbnail</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_media.html#ad4594ff9deeade634cb5ddf1d57b1557">Url</a>)</div>
+<div class="line"><span class="lineno">  874</span>                    {</div>
+<div class="line"><span class="lineno">  875</span>                        Width = embed.Thumbnail.Width ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
+<div class="line"><span class="lineno">  876</span>                        Height = embed.Thumbnail.Height ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
+<div class="line"><span class="lineno">  877</span>                        ProxyUrl = embed.Thumbnail.ProxyUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  878</span>                    }</div>
+<div class="line"><span class="lineno">  879</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedThumbnail&gt;),</div>
+<div class="line"><span class="lineno">  880</span>                Timestamp = timestampOptional,</div>
+<div class="line"><span class="lineno">  881</span>                Title = embed.Title ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  882</span>                Url = embed.Url ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  883</span>                Video = embed.Video != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">  884</span>                    ? <span class="keyword">new</span> EmbedVideo</div>
+<div class="line"><span class="lineno">  885</span>                    {</div>
+<div class="line"><span class="lineno">  886</span>                        Url = embed.Video.Url ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  887</span>                        Width = embed.Video.Width ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
+<div class="line"><span class="lineno">  888</span>                        Height = embed.Video.Height ?? <span class="keywordflow">default</span>(Optional&lt;int&gt;),</div>
+<div class="line"><span class="lineno">  889</span>                        ProxyUrl = embed.Video.ProxyUrl ?? <span class="keywordflow">default</span>(Optional&lt;string&gt;),</div>
+<div class="line"><span class="lineno">  890</span>                    }</div>
+<div class="line"><span class="lineno">  891</span>                    : <span class="keywordflow">default</span>(Optional&lt;IEmbedVideo&gt;),</div>
+<div class="line"><span class="lineno">  892</span>            };</div>
 <div class="line"><span class="lineno">  893</span> </div>
-<div class="line"><span class="lineno">  894</span>            <span class="keywordflow">if</span> (embedErrors.Count &gt; 0)</div>
-<div class="line"><span class="lineno">  895</span>            {</div>
-<div class="line"><span class="lineno">  896</span>                var joinedErrors = String.Join(Environment.NewLine, embedErrors);</div>
-<div class="line"><span class="lineno">  897</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogError(<span class="stringliteral">&quot;Embed description contains errors:{newLine}{issues}&quot;</span>, Environment.NewLine, joinedErrors);</div>
-<div class="line"><span class="lineno">  898</span>                result.Add(<span class="keyword">new</span> Embed</div>
-<div class="line"><span class="lineno">  899</span>                {</div>
-<div class="line"><span class="lineno">  900</span>                    Title = <span class="stringliteral">&quot;TGS Embed Errors&quot;</span>,</div>
-<div class="line"><span class="lineno">  901</span>                    Description = joinedErrors,</div>
-<div class="line"><span class="lineno">  902</span>                    Colour = Color.Red,</div>
-<div class="line"><span class="lineno">  903</span>                    Footer = <span class="keyword">new</span> EmbedFooter(<span class="stringliteral">&quot;Please report this to your codebase&#39;s maintainers.&quot;</span>),</div>
-<div class="line"><span class="lineno">  904</span>                    Timestamp = DateTimeOffset.UtcNow,</div>
-<div class="line"><span class="lineno">  905</span>                });</div>
-<div class="line"><span class="lineno">  906</span>            }</div>
-<div class="line"><span class="lineno">  907</span> </div>
-<div class="line"><span class="lineno">  908</span>            <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  909</span>        }</div>
+<div class="line"><span class="lineno">  894</span>            var result = <span class="keyword">new</span> List&lt;IEmbed&gt; { discordEmbed };</div>
+<div class="line"><span class="lineno">  895</span> </div>
+<div class="line"><span class="lineno">  896</span>            <span class="keywordflow">if</span> (embedErrors.Count &gt; 0)</div>
+<div class="line"><span class="lineno">  897</span>            {</div>
+<div class="line"><span class="lineno">  898</span>                var joinedErrors = String.Join(Environment.NewLine, embedErrors);</div>
+<div class="line"><span class="lineno">  899</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogError(<span class="stringliteral">&quot;Embed description contains errors:{newLine}{issues}&quot;</span>, Environment.NewLine, joinedErrors);</div>
+<div class="line"><span class="lineno">  900</span>                result.Add(<span class="keyword">new</span> Embed</div>
+<div class="line"><span class="lineno">  901</span>                {</div>
+<div class="line"><span class="lineno">  902</span>                    Title = <span class="stringliteral">&quot;TGS Embed Errors&quot;</span>,</div>
+<div class="line"><span class="lineno">  903</span>                    Description = joinedErrors,</div>
+<div class="line"><span class="lineno">  904</span>                    Colour = Color.Red,</div>
+<div class="line"><span class="lineno">  905</span>                    Footer = <span class="keyword">new</span> EmbedFooter(<span class="stringliteral">&quot;Please report this to your codebase&#39;s maintainers.&quot;</span>),</div>
+<div class="line"><span class="lineno">  906</span>                    Timestamp = DateTimeOffset.UtcNow,</div>
+<div class="line"><span class="lineno">  907</span>                });</div>
+<div class="line"><span class="lineno">  908</span>            }</div>
+<div class="line"><span class="lineno">  909</span> </div>
+<div class="line"><span class="lineno">  910</span>            <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  911</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_ad53cc84796c5c7ef5d27b41367ac9ec5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ad53cc84796c5c7ef5d27b41367ac9ec5">Tgstation.Server.Host.Components.Chat.Providers.Provider.Provider</a></div><div class="ttdeci">Provider(IJobManager jobManager, ILogger&lt; Provider &gt; logger, ChatBot chatBot)</div><div class="ttdoc">Initializes a new instance of the Provider class.</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00073">Provider.cs:73</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_footer_html_adc207935aa3debc2eb19fc986791a90a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_footer.html#adc207935aa3debc2eb19fc986791a90a">Tgstation.Server.Host.Components.Interop.ChatEmbedFooter.Text</a></div><div class="ttdeci">string Text</div><div class="ttdoc">Gets the text of the footer.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_embed_footer_8cs_source.html#l00011">ChatEmbedFooter.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed_html_a6c59721d839108e863af49145aca8db9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a6c59721d839108e863af49145aca8db9">Tgstation.Server.Host.Components.Interop.ChatEmbed.Image</a></div><div class="ttdeci">ChatEmbedMedia Image</div><div class="ttdoc">The ChatEmbedMedia for an image.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_embed_8cs_source.html#l00045">ChatEmbed.cs:45</a></div></div>
@@ -1129,7 +1129,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  662</span>                    <span class="keywordflow">if</span> (!discordChannelResponse.IsSuccess)</div>
 <div class="line"><span class="lineno">  663</span>                    {</div>
 <div class="line"><span class="lineno">  664</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(</div>
-<div class="line"><span class="lineno">  665</span>                            <span class="stringliteral">&quot;Error retrieving discord channel {0}: {1} Inner: {2}&quot;</span>,</div>
+<div class="line"><span class="lineno">  665</span>                            <span class="stringliteral">&quot;Error retrieving discord channel {channelId}: {error} Inner: {innerError}&quot;</span>,</div>
 <div class="line"><span class="lineno">  666</span>                            channelId,</div>
 <div class="line"><span class="lineno">  667</span>                            discordChannelResponse.Error.Message,</div>
 <div class="line"><span class="lineno">  668</span>                            discordChannelResponse.Inner?.Error?.Message);</div>
@@ -1140,67 +1140,69 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  673</span>                    var channelType = discordChannelResponse.Entity.Type;</div>
 <div class="line"><span class="lineno">  674</span>                    <span class="keywordflow">if</span> (channelType != ChannelType.GuildText &amp;&amp; channelType != ChannelType.GuildAnnouncement)</div>
 <div class="line"><span class="lineno">  675</span>                    {</div>
-<div class="line"><span class="lineno">  676</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(<span class="stringliteral">&quot;Cound not map channel {0}! Incorrect type: {1}&quot;</span>, channelId, discordChannelResponse.Entity.Type);</div>
+<div class="line"><span class="lineno">  676</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(<span class="stringliteral">&quot;Cound not map channel {channelId}! Incorrect type: {channelType}&quot;</span>, channelId, discordChannelResponse.Entity.Type);</div>
 <div class="line"><span class="lineno">  677</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  678</span>                    }</div>
 <div class="line"><span class="lineno">  679</span> </div>
 <div class="line"><span class="lineno">  680</span>                    friendlyName = discordChannelResponse.Entity.Name.Value;</div>
-<div class="line"><span class="lineno">  681</span> </div>
-<div class="line"><span class="lineno">  682</span>                    var guildsClient = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;IDiscordRestGuildAPI&gt;();</div>
-<div class="line"><span class="lineno">  683</span>                    var guildsResponse = await guildsClient.GetGuildAsync(</div>
-<div class="line"><span class="lineno">  684</span>                        discordChannelResponse.Entity.GuildID.Value,</div>
-<div class="line"><span class="lineno">  685</span>                        <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  686</span>                        cancellationToken);</div>
-<div class="line"><span class="lineno">  687</span>                    <span class="keywordflow">if</span> (!guildsResponse.IsSuccess)</div>
-<div class="line"><span class="lineno">  688</span>                    {</div>
-<div class="line"><span class="lineno">  689</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(</div>
-<div class="line"><span class="lineno">  690</span>                            <span class="stringliteral">&quot;Error retrieving discord guild {0}: {1}&quot;</span>,</div>
-<div class="line"><span class="lineno">  691</span>                            discordChannelResponse.Entity.GuildID.Value,</div>
-<div class="line"><span class="lineno">  692</span>                            discordChannelResponse.Error.Message);</div>
-<div class="line"><span class="lineno">  693</span>                        remapRequired = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  694</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  695</span>                    }</div>
-<div class="line"><span class="lineno">  696</span> </div>
-<div class="line"><span class="lineno">  697</span>                    connectionName = guildsResponse.Entity.Name;</div>
-<div class="line"><span class="lineno">  698</span>                }</div>
-<div class="line"><span class="lineno">  699</span> </div>
-<div class="line"><span class="lineno">  700</span>                var channelModel = <span class="keyword">new</span> ChannelRepresentation</div>
-<div class="line"><span class="lineno">  701</span>                {</div>
-<div class="line"><span class="lineno">  702</span>                    RealId = channelId,</div>
-<div class="line"><span class="lineno">  703</span>                    IsAdminChannel = channelFromDB.IsAdminChannel == <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  704</span>                    ConnectionName = connectionName,</div>
-<div class="line"><span class="lineno">  705</span>                    FriendlyName = friendlyName,</div>
-<div class="line"><span class="lineno">  706</span>                    IsPrivateChannel = <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  707</span>                    Tag = channelFromDB.Tag,</div>
-<div class="line"><span class="lineno">  708</span>                    EmbedsSupported = <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  709</span>                };</div>
-<div class="line"><span class="lineno">  710</span> </div>
-<div class="line"><span class="lineno">  711</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Mapped channel {0}: {1}&quot;</span>, channelModel.RealId, channelModel.FriendlyName);</div>
-<div class="line"><span class="lineno">  712</span>                <span class="keywordflow">return</span> Tuple.Create(channelFromDB, channelModel);</div>
-<div class="line"><span class="lineno">  713</span>            }</div>
-<div class="line"><span class="lineno">  714</span> </div>
-<div class="line"><span class="lineno">  715</span>            var tasks = channels</div>
-<div class="line"><span class="lineno">  716</span>                .Select(x =&gt; GetModelChannelFromDBChannel(x))</div>
-<div class="line"><span class="lineno">  717</span>                .ToList();</div>
-<div class="line"><span class="lineno">  718</span> </div>
-<div class="line"><span class="lineno">  719</span>            await Task.WhenAll(tasks);</div>
+<div class="line"><span class="lineno">  681</span>                    var guildId = discordChannelResponse.Entity.GuildID.Value;</div>
+<div class="line"><span class="lineno">  682</span> </div>
+<div class="line"><span class="lineno">  683</span>                    var guildsClient = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae7dd055bf64dcff2228ae66fdcff7e92">serviceProvider</a>.GetRequiredService&lt;IDiscordRestGuildAPI&gt;();</div>
+<div class="line"><span class="lineno">  684</span>                    var guildsResponse = await guildsClient.GetGuildAsync(</div>
+<div class="line"><span class="lineno">  685</span>                        guildId,</div>
+<div class="line"><span class="lineno">  686</span>                        <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  687</span>                        cancellationToken);</div>
+<div class="line"><span class="lineno">  688</span>                    <span class="keywordflow">if</span> (!guildsResponse.IsSuccess)</div>
+<div class="line"><span class="lineno">  689</span>                    {</div>
+<div class="line"><span class="lineno">  690</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(</div>
+<div class="line"><span class="lineno">  691</span>                            <span class="stringliteral">&quot;Error retrieving discord guild {guildID}: {error} Inner: {innerError}&quot;</span>,</div>
+<div class="line"><span class="lineno">  692</span>                            guildId,</div>
+<div class="line"><span class="lineno">  693</span>                            guildsResponse.Error.Message,</div>
+<div class="line"><span class="lineno">  694</span>                            guildsResponse.Inner?.Error?.Message);</div>
+<div class="line"><span class="lineno">  695</span>                        remapRequired = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  696</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  697</span>                    }</div>
+<div class="line"><span class="lineno">  698</span> </div>
+<div class="line"><span class="lineno">  699</span>                    connectionName = guildsResponse.Entity.Name;</div>
+<div class="line"><span class="lineno">  700</span>                }</div>
+<div class="line"><span class="lineno">  701</span> </div>
+<div class="line"><span class="lineno">  702</span>                var channelModel = <span class="keyword">new</span> ChannelRepresentation</div>
+<div class="line"><span class="lineno">  703</span>                {</div>
+<div class="line"><span class="lineno">  704</span>                    RealId = channelId,</div>
+<div class="line"><span class="lineno">  705</span>                    IsAdminChannel = channelFromDB.IsAdminChannel == <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  706</span>                    ConnectionName = connectionName,</div>
+<div class="line"><span class="lineno">  707</span>                    FriendlyName = friendlyName,</div>
+<div class="line"><span class="lineno">  708</span>                    IsPrivateChannel = <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  709</span>                    Tag = channelFromDB.Tag,</div>
+<div class="line"><span class="lineno">  710</span>                    EmbedsSupported = <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  711</span>                };</div>
+<div class="line"><span class="lineno">  712</span> </div>
+<div class="line"><span class="lineno">  713</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogTrace(<span class="stringliteral">&quot;Mapped channel {0}: {1}&quot;</span>, channelModel.RealId, channelModel.FriendlyName);</div>
+<div class="line"><span class="lineno">  714</span>                <span class="keywordflow">return</span> Tuple.Create(channelFromDB, channelModel);</div>
+<div class="line"><span class="lineno">  715</span>            }</div>
+<div class="line"><span class="lineno">  716</span> </div>
+<div class="line"><span class="lineno">  717</span>            var tasks = channels</div>
+<div class="line"><span class="lineno">  718</span>                .Select(x =&gt; GetModelChannelFromDBChannel(x))</div>
+<div class="line"><span class="lineno">  719</span>                .ToList();</div>
 <div class="line"><span class="lineno">  720</span> </div>
-<div class="line"><span class="lineno">  721</span>            var enumerator = tasks</div>
-<div class="line"><span class="lineno">  722</span>                .Select(x =&gt; x.Result)</div>
-<div class="line"><span class="lineno">  723</span>                .Where(x =&gt; x != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  724</span>                .ToList();</div>
-<div class="line"><span class="lineno">  725</span> </div>
-<div class="line"><span class="lineno">  726</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>)</div>
-<div class="line"><span class="lineno">  727</span>            {</div>
-<div class="line"><span class="lineno">  728</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>.Clear();</div>
-<div class="line"><span class="lineno">  729</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>.AddRange(enumerator.Select(x =&gt; x.Item2.RealId));</div>
-<div class="line"><span class="lineno">  730</span>            }</div>
-<div class="line"><span class="lineno">  731</span> </div>
-<div class="line"><span class="lineno">  732</span>            <span class="keywordflow">if</span> (remapRequired)</div>
-<div class="line"><span class="lineno">  733</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(<span class="keyword">null</span>);</div>
-<div class="line"><span class="lineno">  734</span> </div>
-<div class="line"><span class="lineno">  735</span>            <span class="keywordflow">return</span> enumerator;</div>
-<div class="line"><span class="lineno">  736</span>        }</div>
+<div class="line"><span class="lineno">  721</span>            await Task.WhenAll(tasks);</div>
+<div class="line"><span class="lineno">  722</span> </div>
+<div class="line"><span class="lineno">  723</span>            var enumerator = tasks</div>
+<div class="line"><span class="lineno">  724</span>                .Select(x =&gt; x.Result)</div>
+<div class="line"><span class="lineno">  725</span>                .Where(x =&gt; x != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  726</span>                .ToList();</div>
+<div class="line"><span class="lineno">  727</span> </div>
+<div class="line"><span class="lineno">  728</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>)</div>
+<div class="line"><span class="lineno">  729</span>            {</div>
+<div class="line"><span class="lineno">  730</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>.Clear();</div>
+<div class="line"><span class="lineno">  731</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">mappedChannels</a>.AddRange(enumerator.Select(x =&gt; x.Item2.RealId));</div>
+<div class="line"><span class="lineno">  732</span>            }</div>
+<div class="line"><span class="lineno">  733</span> </div>
+<div class="line"><span class="lineno">  734</span>            <span class="keywordflow">if</span> (remapRequired)</div>
+<div class="line"><span class="lineno">  735</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  736</span> </div>
+<div class="line"><span class="lineno">  737</span>            <span class="keywordflow">return</span> enumerator;</div>
+<div class="line"><span class="lineno">  738</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_ac45c189505744c6f1012461193fca877"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage</a></div><div class="ttdeci">void EnqueueMessage(Message message)</div><div class="ttdoc">Queues a message  for NextMessage(CancellationToken).</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00210">Provider.cs:210</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_provider_8cs_source.html#l00210">Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage()</a>, <a class="el" href="_discord_provider_8cs_source.html#l00108">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.initialUserName</a>, <a class="el" href="_provider_8cs_source.html#l00030">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, <a class="el" href="_discord_provider_8cs_source.html#l00063">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.mappedChannels</a>, <a class="el" href="_discord_provider_8cs_source.html#l00058">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.serviceProvider</a>, and <a class="el" href="_channel_representation_8cs_source.html#l00053">Tgstation.Server.Host.Components.Chat.ChannelRepresentation.Tag</a>.</p>
@@ -1603,11 +1605,11 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  300</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(e, <span class="stringliteral">&quot;Error sending discord message!&quot;</span>);</div>
 <div class="line"><span class="lineno">  301</span>            }</div>
 <div class="line"><span class="lineno">  302</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_acb7a2fd7f33039ab041c83beca2b85f0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#acb7a2fd7f33039ab041c83beca2b85f0">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.ConvertEmbed</a></div><div class="ttdeci">Optional&lt; IReadOnlyList&lt; IEmbed &gt; &gt; ConvertEmbed(ChatEmbed embed)</div><div class="ttdoc">Convert a ChatEmbed to an IEmbed parameters.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00744">DiscordProvider.cs:744</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_acb7a2fd7f33039ab041c83beca2b85f0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#acb7a2fd7f33039ab041c83beca2b85f0">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.ConvertEmbed</a></div><div class="ttdeci">Optional&lt; IReadOnlyList&lt; IEmbed &gt; &gt; ConvertEmbed(ChatEmbed embed)</div><div class="ttdoc">Convert a ChatEmbed to an IEmbed parameters.</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00746">DiscordProvider.cs:746</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content_html_a4a3e59ac62b7e273e35d5ee5bf6d658f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html#a4a3e59ac62b7e273e35d5ee5bf6d658f">Tgstation.Server.Host.Components.Interop.MessageContent.Embed</a></div><div class="ttdeci">ChatEmbed Embed</div><div class="ttdoc">The ChatEmbed.</div><div class="ttdef"><b>Definition:</b> <a href="_message_content_8cs_source.html#l00016">MessageContent.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content_html_afc1d8f1a06bc8ce61a1d86b168ee123f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html#afc1d8f1a06bc8ce61a1d86b168ee123f">Tgstation.Server.Host.Components.Interop.MessageContent.Text</a></div><div class="ttdeci">string Text</div><div class="ttdoc">The message string.</div><div class="ttdef"><b>Definition:</b> <a href="_message_content_8cs_source.html#l00011">MessageContent.cs:11</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00744">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.ConvertEmbed()</a>, <a class="el" href="_message_content_8cs_source.html#l00016">Tgstation.Server.Host.Components.Interop.MessageContent.Embed</a>, <a class="el" href="_provider_8cs_source.html#l00030">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, <a class="el" href="_discord_provider_8cs_source.html#l00063">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.mappedChannels</a>, <a class="el" href="_discord_provider_8cs_source.html#l00058">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.serviceProvider</a>, and <a class="el" href="_message_content_8cs_source.html#l00011">Tgstation.Server.Host.Components.Interop.MessageContent.Text</a>.</p>
+<p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00746">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.ConvertEmbed()</a>, <a class="el" href="_message_content_8cs_source.html#l00016">Tgstation.Server.Host.Components.Interop.MessageContent.Embed</a>, <a class="el" href="_provider_8cs_source.html#l00030">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, <a class="el" href="_discord_provider_8cs_source.html#l00063">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.mappedChannels</a>, <a class="el" href="_discord_provider_8cs_source.html#l00058">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.serviceProvider</a>, and <a class="el" href="_message_content_8cs_source.html#l00011">Tgstation.Server.Host.Components.Interop.MessageContent.Text</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00434">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync()</a>.</p>
 <div class="dynheader">
