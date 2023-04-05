@@ -121,7 +121,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 				}
 
 				Logger.LogTrace("Getting user details...");
-				using var userInformationRequest = new HttpRequestMessage(HttpMethod.Get, UserInformationUrl);
+
+				var userInfoUrl = OAuthConfiguration?.UserInformationUrlOverride ?? UserInformationUrl;
+				using var userInformationRequest = new HttpRequestMessage(HttpMethod.Get, userInfoUrl);
 				userInformationRequest.Headers.Authorization = new AuthenticationHeaderValue(
 					ApiHeaders.BearerAuthenticationScheme,
 					accessToken);
