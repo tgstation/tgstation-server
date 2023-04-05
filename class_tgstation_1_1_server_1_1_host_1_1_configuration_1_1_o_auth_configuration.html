@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.8.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -111,6 +111,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a190020783f9579e242789876fc01225f"><td class="memItemLeft" align="right" valign="top">Uri&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html#a190020783f9579e242789876fc01225f">RedirectUrl</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a190020783f9579e242789876fc01225f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The authentication server URL. Not used by all providers.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html#a190020783f9579e242789876fc01225f">More...</a><br /></td></tr>
 <tr class="separator:a190020783f9579e242789876fc01225f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a386bd20cac84377a3bdfd7d079e87854"><td class="memItemLeft" align="right" valign="top">Uri&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html#a386bd20cac84377a3bdfd7d079e87854">UserInformationUrlOverride</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a386bd20cac84377a3bdfd7d079e87854"><td class="mdescLeft">&#160;</td><td class="mdescRight">User information URL override. Not supported by the Api.Models.OAuthProvider.GitHub provider.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html#a386bd20cac84377a3bdfd7d079e87854">More...</a><br /></td></tr>
+<tr class="separator:a386bd20cac84377a3bdfd7d079e87854"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html">Tgstation.Server.Host.Configuration.OAuthConfigurationBase</a></td></tr>
 <tr class="memitem:aed7d1c71c0efa649353f7cbf62ac57ec inherit properties_class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#aed7d1c71c0efa649353f7cbf62ac57ec">ClientId</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aed7d1c71c0efa649353f7cbf62ac57ec inherit properties_class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">The client ID.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html#aed7d1c71c0efa649353f7cbf62ac57ec">More...</a><br /></td></tr>
@@ -189,6 +192,35 @@ Additional Inherited Members</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   13</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#ab34ac46dc6a147096f6f122e562ac69c">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.GetProviderInfo()</a>.</p>
+
+</div>
+</div>
+<a id="a386bd20cac84377a3bdfd7d079e87854" name="a386bd20cac84377a3bdfd7d079e87854"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a386bd20cac84377a3bdfd7d079e87854">&#9670;&#160;</a></span>UserInformationUrlOverride</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Uri Tgstation.Server.Host.Configuration.OAuthConfiguration.UserInformationUrlOverride</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>User information URL override. Not supported by the Api.Models.OAuthProvider.GitHub provider.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_o_auth_configuration_8cs_source.html#l00023">23</a> of file <a class="el" href="_o_auth_configuration_8cs_source.html">OAuthConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00091">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>.</p>
 
 </div>
 </div>

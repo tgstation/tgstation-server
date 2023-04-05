@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.7.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.8.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -299,21 +299,21 @@ Private Attributes</h2></td></tr>
 <p>Create a new configured HttpClient.  </p>
 <dl class="section return"><dt>Returns</dt><dd>A new configured HttpClient.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00182">182</a> of file <a class="el" href="_generic_o_auth_validator_8cs_source.html">GenericOAuthValidator.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  183</span>        {</div>
-<div class="line"><span class="lineno">  184</span>            var httpClient = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a66791e9e92893ff9cafb9fb7cfe19742">httpClientFactory</a>.CreateClient();</div>
-<div class="line"><span class="lineno">  185</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  186</span>            {</div>
-<div class="line"><span class="lineno">  187</span>                httpClient.DefaultRequestHeaders.Accept.Add(<span class="keyword">new</span> MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));</div>
-<div class="line"><span class="lineno">  188</span>                httpClient.DefaultRequestHeaders.UserAgent.Add(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a5c7c9e564730e25f8c8cee32faed7840">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">ProductInfoHeaderValue</a>);</div>
-<div class="line"><span class="lineno">  189</span>                <span class="keywordflow">return</span> httpClient;</div>
-<div class="line"><span class="lineno">  190</span>            }</div>
-<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  192</span>            {</div>
-<div class="line"><span class="lineno">  193</span>                httpClient.Dispose();</div>
-<div class="line"><span class="lineno">  194</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  195</span>            }</div>
-<div class="line"><span class="lineno">  196</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00184">184</a> of file <a class="el" href="_generic_o_auth_validator_8cs_source.html">GenericOAuthValidator.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  185</span>        {</div>
+<div class="line"><span class="lineno">  186</span>            var httpClient = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a66791e9e92893ff9cafb9fb7cfe19742">httpClientFactory</a>.CreateClient();</div>
+<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  188</span>            {</div>
+<div class="line"><span class="lineno">  189</span>                httpClient.DefaultRequestHeaders.Accept.Add(<span class="keyword">new</span> MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));</div>
+<div class="line"><span class="lineno">  190</span>                httpClient.DefaultRequestHeaders.UserAgent.Add(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a5c7c9e564730e25f8c8cee32faed7840">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">ProductInfoHeaderValue</a>);</div>
+<div class="line"><span class="lineno">  191</span>                <span class="keywordflow">return</span> httpClient;</div>
+<div class="line"><span class="lineno">  192</span>            }</div>
+<div class="line"><span class="lineno">  193</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  194</span>            {</div>
+<div class="line"><span class="lineno">  195</span>                httpClient.Dispose();</div>
+<div class="line"><span class="lineno">  196</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  197</span>            }</div>
+<div class="line"><span class="lineno">  198</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ac576ee50be1f68ebbaeaa959fa304aa8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">Tgstation.Server.Host.System.IAssemblyInformationProvider.ProductInfoHeaderValue</a></div><div class="ttdeci">ProductInfoHeaderValue ProductInfoHeaderValue</div><div class="ttdoc">The ProductInfoHeaderValue for the assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00040">IAssemblyInformationProvider.cs:40</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00057">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.assemblyInformationProvider</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00052">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.httpClientFactory</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00040">Tgstation.Server.Host.System.IAssemblyInformationProvider.ProductInfoHeaderValue</a>.</p>
@@ -616,40 +616,43 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  121</span>                }</div>
 <div class="line"><span class="lineno">  122</span> </div>
 <div class="line"><span class="lineno">  123</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a69be9d71809003e4c7ad236a3072b170">Logger</a>.LogTrace(<span class="stringliteral">&quot;Getting user details...&quot;</span>);</div>
-<div class="line"><span class="lineno">  124</span>                <span class="keyword">using </span>var userInformationRequest = <span class="keyword">new</span> HttpRequestMessage(HttpMethod.Get, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a723b2112da14f3f245c78bd626339bd4">UserInformationUrl</a>);</div>
-<div class="line"><span class="lineno">  125</span>                userInformationRequest.Headers.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(</div>
-<div class="line"><span class="lineno">  126</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>,</div>
-<div class="line"><span class="lineno">  127</span>                    accessToken);</div>
-<div class="line"><span class="lineno">  128</span> </div>
-<div class="line"><span class="lineno">  129</span>                var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken);</div>
-<div class="line"><span class="lineno">  130</span>                userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync();</div>
-<div class="line"><span class="lineno">  131</span>                userInformationResponse.EnsureSuccessStatusCode();</div>
-<div class="line"><span class="lineno">  132</span> </div>
-<div class="line"><span class="lineno">  133</span>                var userInformationJson = JObject.Parse(userInformationPayload);</div>
+<div class="line"><span class="lineno">  124</span> </div>
+<div class="line"><span class="lineno">  125</span>                var userInfoUrl = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html">OAuthConfiguration</a>?.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html#a386bd20cac84377a3bdfd7d079e87854">UserInformationUrlOverride</a> ?? <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a723b2112da14f3f245c78bd626339bd4">UserInformationUrl</a>;</div>
+<div class="line"><span class="lineno">  126</span>                <span class="keyword">using </span>var userInformationRequest = <span class="keyword">new</span> HttpRequestMessage(HttpMethod.Get, userInfoUrl);</div>
+<div class="line"><span class="lineno">  127</span>                userInformationRequest.Headers.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(</div>
+<div class="line"><span class="lineno">  128</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>,</div>
+<div class="line"><span class="lineno">  129</span>                    accessToken);</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>                var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken);</div>
+<div class="line"><span class="lineno">  132</span>                userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync();</div>
+<div class="line"><span class="lineno">  133</span>                userInformationResponse.EnsureSuccessStatusCode();</div>
 <div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a9a6766ae5983746a97b04f9592b6f330">DecodeUserInformationPayload</a>(userInformationJson);</div>
-<div class="line"><span class="lineno">  136</span>            }</div>
-<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  138</span>            {</div>
-<div class="line"><span class="lineno">  139</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a69be9d71809003e4c7ad236a3072b170">Logger</a>.LogWarning(</div>
-<div class="line"><span class="lineno">  140</span>                    ex,</div>
-<div class="line"><span class="lineno">  141</span>                    <span class="stringliteral">&quot;Error while completing OAuth handshake! Payload:{newLine}{responsePayload}&quot;</span>,</div>
-<div class="line"><span class="lineno">  142</span>                    Environment.NewLine,</div>
-<div class="line"><span class="lineno">  143</span>                    userInformationPayload ?? tokenResponsePayload);</div>
-<div class="line"><span class="lineno">  144</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  145</span>            }</div>
-<div class="line"><span class="lineno">  146</span>        }</div>
+<div class="line"><span class="lineno">  135</span>                var userInformationJson = JObject.Parse(userInformationPayload);</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a9a6766ae5983746a97b04f9592b6f330">DecodeUserInformationPayload</a>(userInformationJson);</div>
+<div class="line"><span class="lineno">  138</span>            }</div>
+<div class="line"><span class="lineno">  139</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  140</span>            {</div>
+<div class="line"><span class="lineno">  141</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a69be9d71809003e4c7ad236a3072b170">Logger</a>.LogWarning(</div>
+<div class="line"><span class="lineno">  142</span>                    ex,</div>
+<div class="line"><span class="lineno">  143</span>                    <span class="stringliteral">&quot;Error while completing OAuth handshake! Payload:{newLine}{responsePayload}&quot;</span>,</div>
+<div class="line"><span class="lineno">  144</span>                    Environment.NewLine,</div>
+<div class="line"><span class="lineno">  145</span>                    userInformationPayload ?? tokenResponsePayload);</div>
+<div class="line"><span class="lineno">  146</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  147</span>            }</div>
+<div class="line"><span class="lineno">  148</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a></div><div class="ttdoc">Represents the header that must be present for every server request.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00021">ApiHeaders.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_aa8e108c1ba26a8d57578f2d3b23ea394"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a></div><div class="ttdeci">const string BearerAuthenticationScheme</div><div class="ttdoc">The JWT authentication header scheme.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00041">ApiHeaders.cs:41</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_html_a386bd20cac84377a3bdfd7d079e87854"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html#a386bd20cac84377a3bdfd7d079e87854">Tgstation.Server.Host.Configuration.OAuthConfiguration.UserInformationUrlOverride</a></div><div class="ttdeci">Uri UserInformationUrlOverride</div><div class="ttdoc">User information URL override. Not supported by the Api.Models.OAuthProvider.GitHub provider.</div><div class="ttdef"><b>Definition:</b> <a href="_o_auth_configuration_8cs_source.html#l00023">OAuthConfiguration.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator_html_a2a56ab728ee760bcca4af7eea14d2c76"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a2a56ab728ee760bcca4af7eea14d2c76">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateTokenRequest</a></div><div class="ttdeci">abstract OAuthTokenRequest CreateTokenRequest(string code)</div><div class="ttdoc">Create the OAuthTokenRequest for a given code .</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator_html_a684640fff1cba4c7c9637cae8c577833"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a684640fff1cba4c7c9637cae8c577833">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient</a></div><div class="ttdeci">HttpClient CreateHttpClient()</div><div class="ttdoc">Create a new configured HttpClient.</div><div class="ttdef"><b>Definition:</b> <a href="_generic_o_auth_validator_8cs_source.html#l00182">GenericOAuthValidator.cs:182</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator_html_a684640fff1cba4c7c9637cae8c577833"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a684640fff1cba4c7c9637cae8c577833">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient</a></div><div class="ttdeci">HttpClient CreateHttpClient()</div><div class="ttdoc">Create a new configured HttpClient.</div><div class="ttdef"><b>Definition:</b> <a href="_generic_o_auth_validator_8cs_source.html#l00184">GenericOAuthValidator.cs:184</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator_html_a68585ace726fcf3936747b53129e8aa7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a68585ace726fcf3936747b53129e8aa7">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.DecodeTokenPayload</a></div><div class="ttdeci">abstract string DecodeTokenPayload(dynamic responseJson)</div><div class="ttdoc">Decode the token payload responseJson .</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator_html_a723b2112da14f3f245c78bd626339bd4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a723b2112da14f3f245c78bd626339bd4">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.UserInformationUrl</a></div><div class="ttdeci">abstract Uri UserInformationUrl</div><div class="ttdoc">Uri to HttpMethod.Get the user information payload from.</div><div class="ttdef"><b>Definition:</b> <a href="_generic_o_auth_validator_8cs_source.html#l00047">GenericOAuthValidator.cs:47</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator_html_a8413565f4858d03d93cbfe362d629ad6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a8413565f4858d03d93cbfe362d629ad6">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.TokenUrl</a></div><div class="ttdeci">abstract Uri TokenUrl</div><div class="ttdoc">Uri to HttpMethod.Post to to get the access token.</div><div class="ttdef"><b>Definition:</b> <a href="_generic_o_auth_validator_8cs_source.html#l00042">GenericOAuthValidator.cs:42</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator_html_a9a6766ae5983746a97b04f9592b6f330"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a9a6766ae5983746a97b04f9592b6f330">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.DecodeUserInformationPayload</a></div><div class="ttdeci">abstract string DecodeUserInformationPayload(dynamic responseJson)</div><div class="ttdoc">Decode the user information payload responseJson .</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator_html_af544a467c18495ff462eb6120ba788fa"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#af544a467c18495ff462eb6120ba788fa">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.SerializerSettings</a></div><div class="ttdeci">static JsonSerializerSettings SerializerSettings()</div><div class="ttdoc">Gets JsonSerializerSettings that should be used.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00041">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00182">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a2a56ab728ee760bcca4af7eea14d2c76">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateTokenRequest()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a68585ace726fcf3936747b53129e8aa7">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.DecodeTokenPayload()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a9a6766ae5983746a97b04f9592b6f330">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.DecodeUserInformationPayload()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00032">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.Logger</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#af544a467c18495ff462eb6120ba788fa">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.SerializerSettings()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00042">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.TokenUrl</a>, and <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00047">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.UserInformationUrl</a>.</p>
+<p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00041">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00184">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a2a56ab728ee760bcca4af7eea14d2c76">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateTokenRequest()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a68585ace726fcf3936747b53129e8aa7">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.DecodeTokenPayload()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a9a6766ae5983746a97b04f9592b6f330">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.DecodeUserInformationPayload()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00032">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.Logger</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#af544a467c18495ff462eb6120ba788fa">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.SerializerSettings()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00042">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.TokenUrl</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00047">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.UserInformationUrl</a>, and <a class="el" href="_o_auth_configuration_8cs_source.html#l00023">Tgstation.Server.Host.Configuration.OAuthConfiguration.UserInformationUrlOverride</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -691,7 +694,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00057">57</a> of file <a class="el" href="_generic_o_auth_validator_8cs_source.html">GenericOAuthValidator.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00182">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient()</a>, and <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00078">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.GenericOAuthValidator()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00184">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient()</a>, and <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00078">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.GenericOAuthValidator()</a>.</p>
 
 </div>
 </div>
@@ -719,7 +722,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00052">52</a> of file <a class="el" href="_generic_o_auth_validator_8cs_source.html">GenericOAuthValidator.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00182">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient()</a>, and <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00078">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.GenericOAuthValidator()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00184">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.CreateHttpClient()</a>, and <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00078">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.GenericOAuthValidator()</a>.</p>
 
 </div>
 </div>
