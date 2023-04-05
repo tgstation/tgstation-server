@@ -173,7 +173,7 @@ Security:
       ClientSecret: "..."
       RedirectUrl: "..."
       ServerUrl: "..."
-	  UserInformationUrlOverride: "..." # For power users, leave out of configuration for most cases. Not supported by GitHub provider.
+      UserInformationUrlOverride: "..." # For power users, leave out of configuration for most cases. Not supported by GitHub provider.
 ```
 The following providers use the `RedirectUrl` setting:
 
