@@ -29,6 +29,7 @@ using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
@@ -486,10 +487,10 @@ namespace Tgstation.Server.Host.Core
 
 			// 404 anything that gets this far
 			// End of request pipeline setup
-			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
-			logger.LogTrace("Configuration version: {configVersion}", masterVersionsAttribute.RawConfigurationVersion);
-			logger.LogTrace("DMAPI Interop version: {interopVersion}", masterVersionsAttribute.RawInteropVersion);
-			logger.LogTrace("Web control panel version: {webCPVersion}", masterVersionsAttribute.RawControlPanelVersion);
+			logger.LogTrace("Configuration version: {configVersion}", GeneralConfiguration.CurrentConfigVersion);
+			logger.LogTrace("DMAPI Interop version: {interopVersion}", DMApiConstants.InteropVersion);
+			if (controlPanelConfiguration.Enable)
+				logger.LogTrace("Web control panel version: {webCPVersion}", MasterVersionsAttribute.Instance.RawControlPanelVersion);
 
 			logger.LogDebug("Starting hosting on port {httpApiPort}...", serverPortProvider.HttpApiPort);
 		}
