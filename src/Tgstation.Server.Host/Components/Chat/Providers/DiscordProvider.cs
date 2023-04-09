@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						MentionType.Users
 					},
 					//disable reply mentions
-					MentionRepliedUser = false
+					MentionRepliedUser: false
 				);
 			}
 
