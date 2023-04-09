@@ -224,9 +224,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override async Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
 			Optional<IMessageReference> replyToReference = default;
+			Optional<IAllowedMentions> allowedMentions = default;
 			if (replyTo != null && replyTo is DiscordMessage discordMessage)
 			{
 				replyToReference = discordMessage.MessageReference;
+				allowedMentions = new AllowedMentions( 
+					//reset settings back to how discord acts if this is not passed (which is different than the default if empty)
+					Parse: [
+						MentionType.Everyone,
+						MentionType.Roles,
+						MentionType.Users
+					],
+					//disable reply mentions
+					MentionRepliedUser = false
+				);
 			}
 
 			var embeds = ConvertEmbed(message.Embed);
@@ -239,6 +250,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					message.Text,
 					embeds: embeds,
 					messageReference: replyToReference,
+					allowedMentions: allowedMentions,
 					ct: cancellationToken);
 
 				if (!result.IsSuccess)
