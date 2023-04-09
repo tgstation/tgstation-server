@@ -230,11 +230,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				replyToReference = discordMessage.MessageReference;
 				allowedMentions = new AllowedMentions( 
 					//reset settings back to how discord acts if this is not passed (which is different than the default if empty)
-					Parse: [
+					Parse: new[] {
 						MentionType.Everyone,
 						MentionType.Roles,
 						MentionType.Users
-					],
+					},
 					//disable reply mentions
 					MentionRepliedUser = false
 				);
