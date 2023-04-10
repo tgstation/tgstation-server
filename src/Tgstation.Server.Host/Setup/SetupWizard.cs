@@ -80,9 +80,9 @@ namespace Tgstation.Server.Host.Setup
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
-		/// A <see cref="TaskCompletionSource{TResult}"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
+		/// A <see cref="TaskCompletionSource"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
 		/// </summary>
-		TaskCompletionSource<object> reloadTcs;
+		TaskCompletionSource reloadTcs;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SetupWizard"/> class.
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Setup
 			configuration
 				.GetReloadToken()
 				.RegisterChangeCallback(
-					state => reloadTcs?.TrySetResult(null),
+					state => reloadTcs?.TrySetResult(),
 					null);
 		}
 
@@ -942,7 +942,7 @@ namespace Tgstation.Server.Host.Setup
 
 			var configBytes = Encoding.UTF8.GetBytes(serializedYaml);
 
-			reloadTcs = new TaskCompletionSource<object>();
+			reloadTcs = new TaskCompletionSource();
 
 			try
 			{

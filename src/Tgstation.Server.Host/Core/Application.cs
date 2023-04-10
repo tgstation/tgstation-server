@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -420,9 +419,7 @@ namespace Tgstation.Server.Host.Core
 			// 503 requests made while the application is starting
 			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
 			{
-				var tcs = new TaskCompletionSource<object>();
-				using (cancellationToken.Register(() => tcs.SetCanceled()))
-					await Task.WhenAny(tcs.Task, instanceManager.Ready);
+				await instanceManager.Ready.WithToken(cancellationToken);
 			});
 
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests

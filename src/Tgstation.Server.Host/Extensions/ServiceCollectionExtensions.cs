@@ -42,10 +42,8 @@ namespace Tgstation.Server.Host.Extensions
 			const string SectionFieldName = nameof(GeneralConfiguration.Section);
 
 			var configType = typeof(TConfig);
-			var sectionField = configType.GetField(SectionFieldName);
-			if (sectionField == null)
-				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "{0} has no {1} field!", configType, SectionFieldName));
-
+			var sectionField = configType.GetField(SectionFieldName) ?? throw new InvalidOperationException(
+				String.Format(CultureInfo.InvariantCulture, "{0} has no {1} field!", configType, SectionFieldName));
 			var stringType = typeof(string);
 			if (sectionField.FieldType != stringType)
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "{0} has invalid {1} field type, must be {2}!", configType, SectionFieldName, stringType));

@@ -40,9 +40,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly Queue<Message> messageQueue;
 
 		/// <summary>
-		/// The backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="InitialConnectionJob"/>.
+		/// The backing <see cref="TaskCompletionSource"/> for <see cref="InitialConnectionJob"/>.
 		/// </summary>
-		readonly TaskCompletionSource<object> initialConnectionTcs;
+		readonly TaskCompletionSource initialConnectionTcs;
 
 		/// <summary>
 		/// Used for synchronizing access to <see cref="reconnectCts"/> and <see cref="reconnectTask"/>.
@@ -50,9 +50,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly object reconnectTaskLock;
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> that completes while <see cref="messageQueue"/> isn't empty.
+		/// <see cref="TaskCompletionSource"/> that completes while <see cref="messageQueue"/> isn't empty.
 		/// </summary>
-		TaskCompletionSource<object> nextMessage;
+		TaskCompletionSource nextMessage;
 
 		/// <summary>
 		/// The auto reconnect <see cref="Task"/>.
@@ -77,8 +77,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			ChatBot = chatBot ?? throw new ArgumentNullException(nameof(chatBot));
 
 			messageQueue = new Queue<Message>();
-			nextMessage = new TaskCompletionSource<object>();
-			initialConnectionTcs = new TaskCompletionSource<object>();
+			nextMessage = new TaskCompletionSource();
+			initialConnectionTcs = new TaskCompletionSource();
 			reconnectTaskLock = new object();
 
 			logger.LogTrace("Created.");
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public void InitialMappingComplete() => initialConnectionTcs.TrySetResult(null);
+		public void InitialMappingComplete() => initialConnectionTcs.TrySetResult();
 
 		/// <inheritdoc />
 		public async Task<IReadOnlyCollection<Tuple<ChatChannel, ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
@@ -126,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch
 			{
-				initialConnectionTcs.TrySetResult(null);
+				initialConnectionTcs.TrySetResult();
 				throw;
 			}
 		}
@@ -142,7 +142,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					{
 						var result = messageQueue.Dequeue();
 						if (messageQueue.Count == 0)
-							nextMessage = new TaskCompletionSource<object>();
+							nextMessage = new TaskCompletionSource();
 						return result;
 					}
 			}
@@ -215,7 +215,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			lock (messageQueue)
 			{
 				messageQueue.Enqueue(message);
-				nextMessage.TrySetResult(null);
+				nextMessage.TrySetResult();
 			}
 		}
 
@@ -290,7 +290,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								}
 								catch
 								{
-									initialConnectionTcs.TrySetResult(null);
+									initialConnectionTcs.TrySetResult();
 									throw;
 								}
 							},

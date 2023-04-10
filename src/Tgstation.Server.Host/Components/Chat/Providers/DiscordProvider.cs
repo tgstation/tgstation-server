@@ -88,9 +88,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		CancellationTokenSource gatewayCts;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> for the initial gateway connection event.
+		/// The <see cref="TaskCompletionSource"/> for the initial gateway connection event.
 		/// </summary>
-		TaskCompletionSource<object> gatewayReadyTcs;
+		TaskCompletionSource gatewayReadyTcs;
 
 		/// <summary>
 		/// The <see cref="Task"/> representing the lifetime of the client.
@@ -145,14 +145,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				new EmbedField(
 					"Local Commit",
 					localCommitPushed && gitHub
-						? $"[{revisionInformation.CommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.CommitSha})"
-						: revisionInformation.CommitSha.Substring(0, 7),
+						? $"[{revisionInformation.CommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.CommitSha})"
+						: revisionInformation.CommitSha[..7],
 					true),
 				new EmbedField(
 					"Branch Commit",
 					gitHub
-						? $"[{revisionInformation.OriginCommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.OriginCommitSha})"
-						: revisionInformation.OriginCommitSha.Substring(0, 7),
+						? $"[{revisionInformation.OriginCommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.OriginCommitSha})"
+						: revisionInformation.OriginCommitSha[..7],
 					true),
 			};
 
@@ -160,7 +160,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				.Select(x => x.TestMerge)
 				.Select(x => new EmbedField(
 					$"#{x.Number}",
-					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
+					$"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha[..7]}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}",
 					false)));
 
 			return fields;
@@ -253,7 +253,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				if (!result.IsSuccess)
 					Logger.LogWarning(
-						"Failed to send to channel {0}: {1}",
+						"Failed to send to channel {channelId}: {error}",
 						channelId,
 						result.Error);
 			}
@@ -267,7 +267,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!currentGuildsResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Error retrieving current discord guilds: {0}",
+							"Error retrieving current discord guilds: {error}",
 							currentGuildsResponse.Error.Message);
 						return;
 					}
@@ -559,7 +559,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				throw new ArgumentNullException(nameof(readyEvent));
 
 			Logger.LogTrace("Gatway ready. Version: {version}", readyEvent.Version);
-			gatewayReadyTcs?.TrySetResult(null);
+			gatewayReadyTcs?.TrySetResult();
 			return Task.FromResult(Result.FromSuccess());
 		}
 
@@ -580,7 +580,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
 
 				Task<Result> localGatewayTask;
-				gatewayReadyTcs = new TaskCompletionSource<object>();
+				gatewayReadyTcs = new TaskCompletionSource();
 
 				using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled());
 				gatewayCancellationToken.Register(() => Logger.LogTrace("Stopping gateway client..."));
@@ -758,10 +758,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (embed == null)
 				return default;
 
-			List<string> embedErrors = new List<string>();
+			var embedErrors = new List<string>();
 			Optional<Color> colour = default;
 			if (embed.Colour != null)
-				if (Int32.TryParse(embed.Colour.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var argb))
+				if (Int32.TryParse(embed.Colour[1..], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var argb))
 					colour = Color.FromArgb(argb);
 				else
 					embedErrors.Add(

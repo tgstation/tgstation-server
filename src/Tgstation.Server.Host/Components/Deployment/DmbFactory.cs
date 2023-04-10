@@ -80,9 +80,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		Task cleanupTask;
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> resulting in the latest <see cref="DmbProvider"/> yet to exist.
+		/// <see cref="TaskCompletionSource"/> resulting in the latest <see cref="DmbProvider"/> yet to exist.
 		/// </summary>
-		TaskCompletionSource<object> newerDmbTcs;
+		TaskCompletionSource newerDmbTcs;
 
 		/// <summary>
 		/// The latest <see cref="DmbProvider"/>.
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			cleanupTask = Task.CompletedTask;
-			newerDmbTcs = new TaskCompletionSource<object>();
+			newerDmbTcs = new TaskCompletionSource();
 			cleanupCts = new CancellationTokenSource();
 			jobLockCounts = new Dictionary<long, int>();
 		}
@@ -156,8 +156,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				// Oh god dammit
 				var temp = newerDmbTcs;
-				newerDmbTcs = new TaskCompletionSource<object>();
-				temp.SetResult(nextDmbProvider);
+				newerDmbTcs = new TaskCompletionSource();
+				temp.SetResult();
 			}
 		}
 

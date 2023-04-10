@@ -44,9 +44,9 @@ namespace Tgstation.Server.Host.Jobs
 		readonly Dictionary<long, JobHandler> jobs;
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> to delay starting jobs until the server is ready.
+		/// <see cref="TaskCompletionSource"/> to delay starting jobs until the server is ready.
 		/// </summary>
-		readonly TaskCompletionSource<object> activationTcs;
+		readonly TaskCompletionSource activationTcs;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for various operations.
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Jobs
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			jobs = new Dictionary<long, JobHandler>();
-			activationTcs = new TaskCompletionSource<object>();
+			activationTcs = new TaskCompletionSource();
 			synchronizationLock = new object();
 			addCancelLock = new object();
 		}
@@ -268,7 +268,7 @@ namespace Tgstation.Server.Host.Jobs
 		public void Activate()
 		{
 			logger.LogTrace("Activating job manager...");
-			activationTcs.SetResult(null);
+			activationTcs.SetResult();
 		}
 
 		/// <summary>

@@ -24,8 +24,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- DO NOT UPDATE UNLESS YOU WANT TO DEAL WITH THE LOGGERFACTORY REFACTOR -->
+    <!-- Usage: Console logging plugin -->
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <!-- Usage: Linting -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

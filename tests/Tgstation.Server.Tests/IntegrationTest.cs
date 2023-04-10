@@ -27,6 +27,8 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Host;
+using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
@@ -827,6 +829,8 @@ namespace Tgstation.Server.Tests
 
 			TerminateAllDDs();
 
+			IInstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<IInstanceManager>();
+
 			// main run
 			var serverTask = server.Run(cancellationToken);
 
@@ -874,7 +878,7 @@ namespace Tgstation.Server.Tests
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
-					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances).RunTests(cancellationToken));
+					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances, GetInstanceManager()).RunTests(cancellationToken));
 
 					await Task.WhenAll(rootTest, adminTest, instanceTests, usersTest);
 
@@ -994,7 +998,7 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(instanceClient);
+					var wdt = new WatchdogTest(instanceClient, GetInstanceManager());
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1041,7 +1045,7 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(instanceClient);
+					var wdt = new WatchdogTest(instanceClient, GetInstanceManager());
 					currentDD = await wdt.TellWorldToReboot(cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);

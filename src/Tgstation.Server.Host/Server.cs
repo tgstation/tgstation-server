@@ -35,6 +35,11 @@ namespace Tgstation.Server.Host
 #endif
 
 		/// <summary>
+		/// The <see cref="IHost"/> of the running server.
+		/// </summary>
+		internal IHost Host { get; private set; }
+
+		/// <summary>
 		/// The <see cref="IHostBuilder"/> for the <see cref="Server"/>.
 		/// </summary>
 		readonly IHostBuilder hostBuilder;
@@ -119,26 +124,35 @@ namespace Tgstation.Server.Host
 					fsWatcher.EnableRaisingEvents = true;
 				}
 
-				using var host = hostBuilder.Build();
 				try
 				{
-					swarmService = host.Services.GetRequiredService<ISwarmService>();
-					logger = host.Services.GetRequiredService<ILogger<Server>>();
-					using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
+					using (Host = hostBuilder.Build())
 					{
-						var generalConfigurationOptions = host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
-						generalConfiguration = generalConfigurationOptions.Value;
-						await host.RunAsync(cancellationTokenSource.Token);
+						try
+						{
+							swarmService = Host.Services.GetRequiredService<ISwarmService>();
+							logger = Host.Services.GetRequiredService<ILogger<Server>>();
+							using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
+							{
+								var generalConfigurationOptions = Host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
+								generalConfiguration = generalConfigurationOptions.Value;
+								await Host.RunAsync(cancellationTokenSource.Token);
+							}
+						}
+						catch (OperationCanceledException ex)
+						{
+							logger?.LogDebug(ex, "Server run cancelled!");
+						}
+						catch (Exception ex)
+						{
+							CheckExceptionPropagation(ex);
+							throw;
+						}
 					}
 				}
-				catch (OperationCanceledException ex)
+				finally
 				{
-					logger?.LogDebug(ex, "Server run cancelled!");
-				}
-				catch (Exception ex)
-				{
-					CheckExceptionPropagation(ex);
-					throw;
+					Host = null;
 				}
 			}
 

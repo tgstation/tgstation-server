@@ -168,8 +168,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				// IRC doesn't allow newlines
 				// Explicitly ignore embeds
 				var messageText = message.Text;
-				if (messageText == null)
-					messageText = $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
+				messageText ??= $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
 
 				messageText = String.Concat(
 					messageText
@@ -380,7 +379,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogTrace("Processing initial messages...");
 				await NonBlockingListen(cancellationToken);
 
-				var nickCheckCompleteTcs = new TaskCompletionSource<object>();
+				var nickCheckCompleteTcs = new TaskCompletionSource();
 				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled()))
 				{
 					listenTask = Task.Factory.StartNew(
@@ -399,7 +398,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								client.RfcNick(nickname);
 						}
 
-						nickCheckCompleteTcs.TrySetResult(null);
+						nickCheckCompleteTcs.TrySetResult();
 
 						Logger.LogTrace("Starting blocking listen...");
 						try

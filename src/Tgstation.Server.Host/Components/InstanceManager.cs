@@ -117,9 +117,9 @@ namespace Tgstation.Server.Host.Components
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> for <see cref="Ready"/>.
+		/// The <see cref="TaskCompletionSource"/> for <see cref="Ready"/>.
 		/// </summary>
-		readonly TaskCompletionSource<object> readyTcs;
+		readonly TaskCompletionSource readyTcs;
 
 		/// <summary>
 		/// If the <see cref="InstanceManager"/> has been <see cref="DisposeAsync"/>'d.
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Host.Components
 
 			instances = new Dictionary<long, InstanceContainer>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
-			readyTcs = new TaskCompletionSource<object>();
+			readyTcs = new TaskCompletionSource();
 			instanceStateChangeSemaphore = new SemaphoreSlim(1);
 		}
 
@@ -218,6 +218,8 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (oldPath == null)
 				throw new ArgumentNullException(nameof(oldPath));
+
+			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			using var instanceReferenceCheck = GetInstanceReference(instance);
 			if (instanceReferenceCheck != null)
 				throw new InvalidOperationException("Cannot move an online instance!");
@@ -225,6 +227,10 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				await ioManager.MoveDirectory(oldPath, newPath, cancellationToken);
+
+				// Delete the Game directory to clear out broken symlinks
+				var instanceGameIOManager = instanceFactory.CreateGameIOManager(instance);
+				await instanceGameIOManager.DeleteDirectory(".", cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -307,23 +313,21 @@ namespace Tgstation.Server.Host.Components
 
 				// we are the one responsible for cancelling his jobs
 				var tasks = new List<Task>();
-				await databaseContextFactory.UseContext(async db =>
-				{
-					var jobs = db
-						.Jobs
-						.AsQueryable()
-						.Where(x => x.Instance.Id == metadata.Id)
-						.Select(x => new Models.Job
-						{
-							Id = x.Id,
-						});
-					await jobs.ForEachAsync(
-						job =>
+				await databaseContextFactory.UseContext(
+					async db =>
 					{
-						lock (tasks)
+						var jobs = await db
+							.Jobs
+							.AsQueryable()
+							.Where(x => x.Instance.Id == metadata.Id && !x.StoppedAt.HasValue)
+							.Select(x => new Models.Job
+							{
+								Id = x.Id,
+							})
+							.ToListAsync(cancellationToken);
+						foreach (var job in jobs)
 							tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));
-					}, cancellationToken);
-				});
+					});
 
 				await Task.WhenAll(tasks);
 
@@ -430,7 +434,7 @@ namespace Tgstation.Server.Host.Components
 				jobManager.Activate();
 
 				logger.LogInformation("Server ready!");
-				readyTcs.SetResult(null);
+				readyTcs.SetResult();
 			}
 			catch (OperationCanceledException ex)
 			{

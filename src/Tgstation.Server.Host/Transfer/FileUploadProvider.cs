@@ -29,9 +29,9 @@ namespace Tgstation.Server.Host.Transfer
 		readonly TaskCompletionSource<Stream> taskCompletionSource;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetErrorMessage(ErrorMessageResponse)"/> is called.
+		/// The <see cref="TaskCompletionSource"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetErrorMessage(ErrorMessageResponse)"/> is called.
 		/// </summary>
-		readonly TaskCompletionSource<object> completionTcs;
+		readonly TaskCompletionSource completionTcs;
 
 		/// <summary>
 		/// If synchronous IO is required. Uses a <see cref="FileBufferingReadStream"/> as a backend if set.
@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.Transfer
 
 			ticketExpiryCts = new CancellationTokenSource();
 			taskCompletionSource = new TaskCompletionSource<Stream>();
-			completionTcs = new TaskCompletionSource<object>();
+			completionTcs = new TaskCompletionSource();
 			this.requireSynchronousIO = requireSynchronousIO;
 		}
 
@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Transfer
 		public void Dispose()
 		{
 			ticketExpiryCts.Dispose();
-			completionTcs.TrySetResult(null);
+			completionTcs.TrySetResult();
 		}
 
 		/// <inheritdoc />
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Transfer
 				throw new InvalidOperationException("ErrorMessage already set!");
 
 			this.errorMessage = errorMessage;
-			completionTcs.TrySetResult(null);
+			completionTcs.TrySetResult();
 		}
 	}
 }

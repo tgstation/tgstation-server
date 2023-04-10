@@ -23,17 +23,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Usage: Command line argument support -->
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <!-- Usage: Windows event log logging plugin -->
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="6.0.0" />
+    <!-- Usage: Console logging plugin -->
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <!-- Usage: Linting -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <!-- Usage: OS identification -->
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
   </ItemGroup>
 
