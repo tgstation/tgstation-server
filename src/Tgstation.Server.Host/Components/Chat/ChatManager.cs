@@ -483,6 +483,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			logger.LogTrace("DeleteConnection {connectionId}", connectionId);
 			var provider = await RemoveProviderChannels(connectionId, true, cancellationToken);
 			if (provider != null)
+			{
+				var startTime = DateTimeOffset.UtcNow;
 				try
 				{
 					await provider.Disconnect(cancellationToken);
@@ -490,7 +492,11 @@ namespace Tgstation.Server.Host.Components.Chat
 				finally
 				{
 					await provider.DisposeAsync();
+					var duration = DateTimeOffset.UtcNow - startTime;
+					if (duration.TotalSeconds > 3)
+						logger.LogWarning("Disconnecting a {providerType} took {totalSeconds}s!", provider.GetType().Name, duration.TotalSeconds);
 				}
+			}
 			else
 				logger.LogTrace("DeleteConnection: ID {connectionId} doesn't exist!", connectionId);
 		}
