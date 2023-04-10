@@ -313,23 +313,21 @@ namespace Tgstation.Server.Host.Components
 
 				// we are the one responsible for cancelling his jobs
 				var tasks = new List<Task>();
-				await databaseContextFactory.UseContext(async db =>
-				{
-					var jobs = db
-						.Jobs
-						.AsQueryable()
-						.Where(x => x.Instance.Id == metadata.Id)
-						.Select(x => new Models.Job
-						{
-							Id = x.Id,
-						});
-					await jobs.ForEachAsync(
-						job =>
+				await databaseContextFactory.UseContext(
+					async db =>
 					{
-						lock (tasks)
+						var jobs = await db
+							.Jobs
+							.AsQueryable()
+							.Where(x => x.Instance.Id == metadata.Id && !x.StoppedAt.HasValue)
+							.Select(x => new Models.Job
+							{
+								Id = x.Id,
+							})
+							.ToListAsync(cancellationToken);
+						foreach (var job in jobs)
 							tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));
-					}, cancellationToken);
-				});
+					});
 
 				await Task.WhenAll(tasks);
 
