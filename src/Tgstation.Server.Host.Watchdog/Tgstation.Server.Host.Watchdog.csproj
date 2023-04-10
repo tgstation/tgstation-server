@@ -24,12 +24,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <!-- DO NOT UPDATE UNLESS YOU WANT TO DEAL WITH THE LOGGERFACTORY REFACTOR -->
+    <!-- Usage: Logging abstractions -->
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <!-- Usage: Linting -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
