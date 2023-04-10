@@ -228,16 +228,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (replyTo != null && replyTo is DiscordMessage discordMessage)
 			{
 				replyToReference = discordMessage.MessageReference;
-				allowedMentions = new AllowedMentions( 
-					//reset settings back to how discord acts if this is not passed (which is different than the default if empty)
-					Parse: new[] {
+				allowedMentions = new AllowedMentions(
+					Parse: new[] // reset settings back to how discord acts if this is not passed (which is different than the default if empty)
+					{
 						MentionType.Everyone,
 						MentionType.Roles,
-						MentionType.Users
+						MentionType.Users,
 					},
-					//disable reply mentions
-					MentionRepliedUser: false
-				);
+					MentionRepliedUser: false); // disable reply mentions
 			}
 
 			var embeds = ConvertEmbed(message.Embed);
