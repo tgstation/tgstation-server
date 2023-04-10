@@ -101,11 +101,11 @@ namespace Tgstation.Server.Tests.Instance
 			File.Delete(dumpFiles.Single());
 
 			KillDD(true);
-			TaskCompletionSource<object> jobTcs = new TaskCompletionSource<object>();
-			TaskCompletionSource<object> killTaskStarted = new TaskCompletionSource<object>();
+			var jobTcs = new TaskCompletionSource();
+			var killTaskStarted = new TaskCompletionSource();
 			var killTask = Task.Run(() =>
 			{
-				killTaskStarted.SetResult(null);
+				killTaskStarted.SetResult();
 				while (!jobTcs.Task.IsCompleted)
 					KillDD(false);
 			}, cancellationToken);
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Tests.Instance
 			}
 			finally
 			{
-				jobTcs.SetResult(null);
+				jobTcs.SetResult();
 				await killTask;
 			}
 			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
