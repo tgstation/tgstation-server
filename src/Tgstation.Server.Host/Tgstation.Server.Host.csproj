@@ -67,6 +67,7 @@
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.7" />
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="1.5.3" />
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
+    <!-- Later versions are known to show issues with TGS. Do not upgrade without thorough git testing -->
     <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.15" />
@@ -82,8 +83,9 @@
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
-    <PackageReference Include="Octokit" Version="5.0.2" />
+    <PackageReference Include="Octokit" Version="5.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+    <!-- 2022.49.0 is the last .NET 6.0 version but has issues -->
     <PackageReference Include="Remora.Discord" Version="2022.48.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
@@ -98,7 +100,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="6.0.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.28.1" />
     <PackageReference Include="System.Management" Version="6.0.0" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.20.1" />
   </ItemGroup>
