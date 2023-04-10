@@ -27,11 +27,11 @@ namespace Tgstation.Server.Tests
 
 		public bool DumpOpenApiSpecpath { get; }
 
-		public bool RestartRequested => realServer.RestartRequested;
+		public bool RestartRequested => RealServer.RestartRequested;
 
 		string[] args;
 
-		IServer realServer;
+		public IServer RealServer { get; private set; }
 
 		public TestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
 		{
@@ -154,8 +154,8 @@ namespace Tgstation.Server.Tests
 		public async Task Run(CancellationToken cancellationToken)
 		{
 			Console.WriteLine("TEST SERVER START");
-			var firstRun = realServer == null;
-			realServer = await Application
+			var firstRun = RealServer == null;
+			RealServer = await Application
 				.CreateDefaultServerFactory()
 				.CreateServer(
 					args,
@@ -169,7 +169,8 @@ namespace Tgstation.Server.Tests
 				args = tmp.ToArray();
 			}
 
-			await realServer.Run(cancellationToken);
+			await RealServer.Run(cancellationToken);
+			RealServer = null;
 			Console.WriteLine("TEST SERVER END");
 		}
 	}

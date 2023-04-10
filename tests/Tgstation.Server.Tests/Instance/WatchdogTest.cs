@@ -1,8 +1,11 @@
 ﻿using Byond.TopicSender;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,7 +20,9 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
@@ -27,13 +32,15 @@ namespace Tgstation.Server.Tests.Instance
 	sealed class WatchdogTest : JobsRequiredTest
 	{
 		readonly IInstanceClient instanceClient;
+		readonly IInstanceManager instanceManager;
 
 		bool ranTimeoutTest = false;
 
-		public WatchdogTest(IInstanceClient instanceClient)
+		public WatchdogTest(IInstanceClient instanceClient, IInstanceManager instanceManager)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
+			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
 		public async Task Run(CancellationToken cancellationToken)
@@ -66,6 +73,9 @@ namespace Tgstation.Server.Tests.Instance
 			await TestDMApiFreeDeploy(cancellationToken);
 
 			await RunLongRunningTestThenUpdate(cancellationToken);
+
+			await GhettoChatCommandTest(cancellationToken);
+
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
@@ -316,6 +326,63 @@ namespace Tgstation.Server.Tests.Instance
 			await Task.Delay(TimeSpan.FromSeconds(3), cts.Token);
 
 			return await instanceClient.DreamDaemon.Start(cancellationToken);
+		}
+
+		async Task GhettoChatCommandTest(CancellationToken cancellationToken)
+		{
+			var startJob = await StartDD(cancellationToken);
+
+			await WaitForJob(startJob, 40, false, null, cancellationToken);
+
+			// oh god, oh fuck, blackbox testing
+			using var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata);
+
+			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
+			var response = await ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
+				"embeds_test",
+				String.Empty,
+				new Host.Components.Chat.ChatUser
+				{
+					Channel = new Host.Components.Chat.ChannelRepresentation
+					{
+						IsAdminChannel = true,
+						ConnectionName = "test_connection",
+						EmbedsSupported = true,
+						FriendlyName = "Test Connection",
+						Id = "test_channel_id",
+						IsPrivateChannel = false,
+					},
+					FriendlyName = "Test Sender",
+					Id = "test_user_id",
+					Mention = "test_user_mention",
+					RealId = 1234,
+				},
+				cancellationToken);
+			var endTime = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
+
+			Assert.IsNotNull(response);
+			Assert.AreEqual("Embed support test2", response.Text);
+			Assert.AreEqual("desc", response.Embed.Description);
+			Assert.AreEqual("title", response.Embed.Title);
+			Assert.AreEqual("#0000FF", response.Embed.Colour);
+			Assert.AreEqual("Dominion", response.Embed.Author?.Name);
+			Assert.AreEqual("https://github.com/Cyberboss", response.Embed.Author.Url);
+			Assert.IsTrue(DateTimeOffset.TryParse(response.Embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp));
+			Assert.IsTrue(startTime < timestamp && endTime > timestamp);
+			Assert.AreEqual("https://github.com/tgstation/tgstation-server", response.Embed.Url);
+			Assert.AreEqual(3, response.Embed.Fields?.Count);
+			Assert.AreEqual("field1", response.Embed.Fields.ElementAt(0).Name);
+			Assert.AreEqual("value1", response.Embed.Fields.ElementAt(0).Value);
+			Assert.IsNull(response.Embed.Fields.ElementAt(0).IsInline);
+			Assert.AreEqual("field2", response.Embed.Fields.ElementAt(1).Name);
+			Assert.AreEqual("value2", response.Embed.Fields.ElementAt(1).Value);
+			Assert.IsTrue(response.Embed.Fields.ElementAt(1).IsInline);
+			Assert.AreEqual("field3", response.Embed.Fields.ElementAt(2).Name);
+			Assert.AreEqual("value3", response.Embed.Fields.ElementAt(2).Value);
+			Assert.IsTrue(response.Embed.Fields.ElementAt(2).IsInline);
+			Assert.AreEqual("Footer text", response.Embed.Footer?.Text);
+
+			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 		}
 
 		async Task RunLongRunningTestThenUpdate(CancellationToken cancellationToken)
