@@ -170,7 +170,6 @@ namespace Tgstation.Server.Tests
 			}
 
 			await RealServer.Run(cancellationToken);
-			RealServer = null;
 			Console.WriteLine("TEST SERVER END");
 		}
 	}
