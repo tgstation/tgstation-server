@@ -144,6 +144,13 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		readonly SessionConfiguration sessionConfiguration;
 
+		/// <summary>
+		/// Create the <see cref="IIOManager"/> pointing to the "Game" directory of a given <paramref name="instanceIOManager"/>.
+		/// </summary>
+		/// <param name="instanceIOManager">The instance's <see cref="IIOManager"/>.</param>
+		/// <returns>The <see cref="IIOManager"/> for the instance's "Game" directory.</returns>
+		static IIOManager CreateGameIOManager(IIOManager instanceIOManager) => new ResolvingIOManager(instanceIOManager, "Game");
+
 #pragma warning disable CA1502 // TODO: Decomplexify
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InstanceFactory"/> class.
@@ -223,16 +230,31 @@ namespace Tgstation.Server.Host.Components
 #pragma warning restore CA1502
 
 		/// <inheritdoc />
+		public IIOManager CreateGameIOManager(Models.Instance metadata)
+		{
+			if (metadata == null)
+				throw new ArgumentNullException(nameof(metadata));
+
+			var instanceIoManager = CreateInstanceIOManager(metadata);
+			return CreateGameIOManager(instanceIoManager);
+		}
+
+		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
 		{
+			if (bridgeRegistrar == null)
+				throw new ArgumentNullException(nameof(bridgeRegistrar));
+			if (metadata == null)
+				throw new ArgumentNullException(nameof(metadata));
+
 			// Create the ioManager for the instance
-			var instanceIoManager = new ResolvingIOManager(ioManager, metadata.Path);
+			var instanceIoManager = CreateInstanceIOManager(metadata);
 
 			// various other ioManagers
 			var repoIoManager = new ResolvingIOManager(instanceIoManager, "Repository");
 			var byondIOManager = new ResolvingIOManager(instanceIoManager, "Byond");
-			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
+			var gameIoManager = CreateGameIOManager(instanceIoManager);
 			var diagnosticsIOManager = new ResolvingIOManager(instanceIoManager, "Diagnostics");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 
@@ -386,5 +408,12 @@ namespace Tgstation.Server.Host.Components
 		/// Test that the <see cref="repositoryFactory"/> is functional.
 		/// </summary>
 		void CheckSystemCompatibility() => repositoryFactory.CreateInMemory();
+
+		/// <summary>
+		/// Create the <see cref="IIOManager"/> for a given set of instance <paramref name="metadata"/>.
+		/// </summary>
+		/// <param name="metadata">The <see cref="Models.Instance"/>.</param>
+		/// <returns>The <see cref="IIOManager"/> for the <paramref name="metadata"/>.</returns>
+		IIOManager CreateInstanceIOManager(Models.Instance metadata) => new ResolvingIOManager(ioManager, metadata.Path);
 	}
 }

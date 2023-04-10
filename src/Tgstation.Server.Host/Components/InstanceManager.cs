@@ -218,6 +218,8 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (oldPath == null)
 				throw new ArgumentNullException(nameof(oldPath));
+
+			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			using var instanceReferenceCheck = GetInstanceReference(instance);
 			if (instanceReferenceCheck != null)
 				throw new InvalidOperationException("Cannot move an online instance!");
@@ -225,6 +227,10 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				await ioManager.MoveDirectory(oldPath, newPath, cancellationToken);
+
+				// Delete the Game directory to clear out broken symlinks
+				var instanceGameIOManager = instanceFactory.CreateGameIOManager(instance);
+				await instanceGameIOManager.DeleteDirectory(".", cancellationToken);
 			}
 			catch (Exception ex)
 			{
