@@ -305,7 +305,7 @@ namespace Tgstation.Server.Host.Components
 							sessionControllerFactory,
 							gameIoManager,
 							diagnosticsIOManager,
-							eventConsumer,
+							configuration, // watchdog doesn't need itself as an event consumer
 							remoteDeploymentManagerFactory,
 							metadata,
 							metadata.DreamDaemonSettings);
