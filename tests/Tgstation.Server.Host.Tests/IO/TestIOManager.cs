@@ -20,13 +20,17 @@ namespace Tgstation.Server.Host.IO.Tests
 			Directory.CreateDirectory(tempPath);
 			try
 			{
+				await File.WriteAllTextAsync(Path.Combine(tempPath, "file.txt"), "asdf");
+				var subDir = Path.Combine(tempPath, "subdir");
+				Directory.CreateDirectory(subDir);
+				await File.WriteAllTextAsync(Path.Combine(subDir, "file2.txt"), "fdsa");
 				await ioManager.DeleteDirectory(tempPath, default);
 
 				Assert.IsFalse(Directory.Exists(tempPath));
 			}
 			catch
 			{
-				Directory.Delete(tempPath);
+				Directory.Delete(tempPath, true);
 				throw;
 			}
 		}
