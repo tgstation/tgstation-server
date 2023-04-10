@@ -1,24 +1,24 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider">
-<area shape="rect" id="node1" title="IProvider for the Discord app." alt="" coords="1028,555,1255,595"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="673,211,744,237"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="273,199,348,225"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,199,132,225"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="219,249,402,289"/>
-<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="13,257,125,282"/>
-<area shape="rect" id="node7" title=" " alt="" coords="181,71,440,126"/>
-<area shape="rect" id="node8" title=" " alt="" coords="232,5,389,45"/>
-<area shape="rect" id="node9" title=" " alt="" coords="257,315,365,341"/>
-<area shape="rect" id="node10" title=" " alt="" coords="285,150,336,175"/>
-<area shape="rect" id="node11" title=" " alt="" coords="225,373,396,398"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="639,458,778,483"/>
-<area shape="rect" id="node13" href="$class_i_responder.html" title=" " alt="" coords="208,443,413,469"/>
-<area shape="rect" id="node14" href="$class_i_responder.html" title=" " alt="" coords="235,493,386,518"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="609,508,808,548"/>
-<area shape="rect" id="node16" title=" " alt="" coords="626,573,791,598"/>
-<area shape="rect" id="node17" title=" " alt="" coords="635,622,783,647"/>
-<area shape="rect" id="node18" title=" " alt="" coords="685,671,732,697"/>
-<area shape="rect" id="node19" title=" " alt="" coords="621,721,797,761"/>
-<area shape="rect" id="node20" title=" " alt="" coords="653,786,764,811"/>
-<area shape="rect" id="node21" title=" " alt="" coords="667,835,750,861"/>
-<area shape="rect" id="node22" title=" " alt="" coords="681,885,736,910"/>
+<area shape="rect" id="node1" title="IProvider for the Discord app." alt="" coords="1028,543,1255,583"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="673,200,744,225"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="273,188,348,213"/>
+<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,188,132,213"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="219,238,402,278"/>
+<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="13,245,125,271"/>
+<area shape="rect" id="node7" title=" " alt="" coords="181,60,440,115"/>
+<area shape="rect" id="node8" title=" " alt="" coords="232,5,389,31"/>
+<area shape="rect" id="node9" title=" " alt="" coords="257,304,365,329"/>
+<area shape="rect" id="node10" title=" " alt="" coords="285,139,336,164"/>
+<area shape="rect" id="node11" title=" " alt="" coords="225,361,396,387"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_discord_responders.html" title="Combined interface for the IResponder types used by TGS." alt="" coords="639,447,778,472"/>
+<area shape="rect" id="node13" href="$class_i_responder.html" title=" " alt="" coords="208,432,413,457"/>
+<area shape="rect" id="node14" href="$class_i_responder.html" title=" " alt="" coords="235,481,386,507"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="609,497,808,537"/>
+<area shape="rect" id="node16" title=" " alt="" coords="626,561,791,587"/>
+<area shape="rect" id="node17" title=" " alt="" coords="635,611,783,636"/>
+<area shape="rect" id="node18" title=" " alt="" coords="685,660,732,685"/>
+<area shape="rect" id="node19" title=" " alt="" coords="621,710,797,750"/>
+<area shape="rect" id="node20" title=" " alt="" coords="653,775,764,800"/>
+<area shape="rect" id="node21" title=" " alt="" coords="667,824,750,849"/>
+<area shape="rect" id="node22" title=" " alt="" coords="681,873,736,899"/>
 </map>

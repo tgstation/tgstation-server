@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.8.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.9.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -101,14 +101,14 @@ Collaboration diagram for Tgstation.Server.Host.Transfer.FileUploadProvider:</di
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_transfer_8_file_upload_provider_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_transfer_8_file_upload_provider_coll__map" id="a_tgstation_8_server_8_host_8_transfer_8_file_upload_provider_coll__map">
-<area shape="rect" title=" " alt="" coords="549,137,752,177"/>
+<area shape="rect" title=" " alt="" coords="549,134,752,174"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload." alt="" coords="194,5,318,31"/>
 <area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="5,5,96,31"/>
 <area shape="rect" title=" " alt="" coords="171,55,341,80"/>
-<area shape="rect" title=" " alt="" coords="152,105,360,145"/>
-<area shape="rect" title=" " alt="" coords="177,169,335,209"/>
-<area shape="rect" title=" " alt="" coords="233,233,279,259"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html" title="Represents an error message returned by the server." alt="" coords="145,283,367,323"/>
+<area shape="rect" title=" " alt="" coords="177,105,335,145"/>
+<area shape="rect" title=" " alt="" coords="177,169,335,195"/>
+<area shape="rect" title=" " alt="" coords="233,219,279,244"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html" title="Represents an error message returned by the server." alt="" coords="145,269,367,309"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -169,9 +169,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a2a47c6166f33c97309a8946f6d87db66"><td class="memItemLeft" align="right" valign="top">readonly TaskCompletionSource&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a2a47c6166f33c97309a8946f6d87db66">taskCompletionSource</a></td></tr>
 <tr class="memdesc:a2a47c6166f33c97309a8946f6d87db66"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TaskCompletionSource&lt;TResult&gt; for the <a class="el" href="class_stream.html">Stream</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a2a47c6166f33c97309a8946f6d87db66">More...</a><br /></td></tr>
 <tr class="separator:a2a47c6166f33c97309a8946f6d87db66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8045a6d1cbeb1136d1e7ceaf9cc3fe26"><td class="memItemLeft" align="right" valign="top">readonly TaskCompletionSource&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">completionTcs</a></td></tr>
-<tr class="memdesc:a8045a6d1cbeb1136d1e7ceaf9cc3fe26"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TaskCompletionSource&lt;TResult&gt; that completes in IDisposable.Dispose or when <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#acb8bc974ef8f0e36c12bfddca8cd7c8c" title="Sets an errorMessage  for the upload. Will be returned in upload request as a 409 error.">SetErrorMessage(ErrorMessageResponse)</a> is called.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">More...</a><br /></td></tr>
-<tr class="separator:a8045a6d1cbeb1136d1e7ceaf9cc3fe26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac28a7cc3bcb617e27496478772f1a2fb"><td class="memItemLeft" align="right" valign="top">readonly TaskCompletionSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">completionTcs</a></td></tr>
+<tr class="memdesc:ac28a7cc3bcb617e27496478772f1a2fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TaskCompletionSource that completes in IDisposable.Dispose or when <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#acb8bc974ef8f0e36c12bfddca8cd7c8c" title="Sets an errorMessage  for the upload. Will be returned in upload request as a 409 error.">SetErrorMessage(ErrorMessageResponse)</a> is called.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">More...</a><br /></td></tr>
+<tr class="separator:ac28a7cc3bcb617e27496478772f1a2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fb0903f7a3953dea667569235d55aaf"><td class="memItemLeft" align="right" valign="top">readonly bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fb0903f7a3953dea667569235d55aaf">requireSynchronousIO</a></td></tr>
 <tr class="memdesc:a8fb0903f7a3953dea667569235d55aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">If synchronous <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_i_o.html">IO</a> is required. Uses a FileBufferingReadStream as a backend if set.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fb0903f7a3953dea667569235d55aaf">More...</a><br /></td></tr>
 <tr class="separator:a8fb0903f7a3953dea667569235d55aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,14 +224,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   54</span> </div>
 <div class="line"><span class="lineno">   55</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fd1d5f433708ef0f3aed7c444fe473e">ticketExpiryCts</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
 <div class="line"><span class="lineno">   56</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a2a47c6166f33c97309a8946f6d87db66">taskCompletionSource</a> = <span class="keyword">new</span> TaskCompletionSource&lt;Stream&gt;();</div>
-<div class="line"><span class="lineno">   57</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">completionTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
+<div class="line"><span class="lineno">   57</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">completionTcs</a> = <span class="keyword">new</span> TaskCompletionSource();</div>
 <div class="line"><span class="lineno">   58</span>            this.requireSynchronousIO = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fb0903f7a3953dea667569235d55aaf">requireSynchronousIO</a>;</div>
 <div class="line"><span class="lineno">   59</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_html_a0e0a5406bc12caa666097d4158634395"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a0e0a5406bc12caa666097d4158634395">Tgstation.Server.Host.Transfer.FileUploadProvider.Ticket</a></div><div class="ttdeci">FileTicketResponse Ticket</div><div class="ttdoc">The FileTicketResponse.</div><div class="ttdef"><b>Definition:</b> <a href="_file_upload_provider_8cs_source.html#l00019">FileUploadProvider.cs:19</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_html_a2a47c6166f33c97309a8946f6d87db66"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a2a47c6166f33c97309a8946f6d87db66">Tgstation.Server.Host.Transfer.FileUploadProvider.taskCompletionSource</a></div><div class="ttdeci">readonly TaskCompletionSource&lt; Stream &gt; taskCompletionSource</div><div class="ttdoc">The TaskCompletionSource&lt;TResult&gt; for the Stream.</div><div class="ttdef"><b>Definition:</b> <a href="_file_upload_provider_8cs_source.html#l00029">FileUploadProvider.cs:29</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_html_a8045a6d1cbeb1136d1e7ceaf9cc3fe26"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">Tgstation.Server.Host.Transfer.FileUploadProvider.completionTcs</a></div><div class="ttdeci">readonly TaskCompletionSource&lt; object &gt; completionTcs</div><div class="ttdoc">The TaskCompletionSource&lt;TResult&gt; that completes in IDisposable.Dispose or when SetErrorMessage(Error...</div><div class="ttdef"><b>Definition:</b> <a href="_file_upload_provider_8cs_source.html#l00034">FileUploadProvider.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_html_a8fb0903f7a3953dea667569235d55aaf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fb0903f7a3953dea667569235d55aaf">Tgstation.Server.Host.Transfer.FileUploadProvider.requireSynchronousIO</a></div><div class="ttdeci">readonly bool requireSynchronousIO</div><div class="ttdoc">If synchronous IO is required. Uses a FileBufferingReadStream as a backend if set.</div><div class="ttdef"><b>Definition:</b> <a href="_file_upload_provider_8cs_source.html#l00039">FileUploadProvider.cs:39</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_html_a8fd1d5f433708ef0f3aed7c444fe473e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fd1d5f433708ef0f3aed7c444fe473e">Tgstation.Server.Host.Transfer.FileUploadProvider.ticketExpiryCts</a></div><div class="ttdeci">readonly CancellationTokenSource ticketExpiryCts</div><div class="ttdoc">The CancellationTokenSource for the ticket duration.</div><div class="ttdef"><b>Definition:</b> <a href="_file_upload_provider_8cs_source.html#l00024">FileUploadProvider.cs:24</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider_html_ac28a7cc3bcb617e27496478772f1a2fb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">Tgstation.Server.Host.Transfer.FileUploadProvider.completionTcs</a></div><div class="ttdeci">readonly TaskCompletionSource completionTcs</div><div class="ttdoc">The TaskCompletionSource that completes in IDisposable.Dispose or when SetErrorMessage(ErrorMessageRe...</div><div class="ttdef"><b>Definition:</b> <a href="_file_upload_provider_8cs_source.html#l00034">FileUploadProvider.cs:34</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_file_upload_provider_8cs_source.html#l00034">Tgstation.Server.Host.Transfer.FileUploadProvider.completionTcs</a>, <a class="el" href="_file_upload_provider_8cs_source.html#l00039">Tgstation.Server.Host.Transfer.FileUploadProvider.requireSynchronousIO</a>, <a class="el" href="_file_upload_provider_8cs_source.html#l00029">Tgstation.Server.Host.Transfer.FileUploadProvider.taskCompletionSource</a>, <a class="el" href="_file_upload_provider_8cs_source.html#l00019">Tgstation.Server.Host.Transfer.FileUploadProvider.Ticket</a>, and <a class="el" href="_file_upload_provider_8cs_source.html#l00024">Tgstation.Server.Host.Transfer.FileUploadProvider.ticketExpiryCts</a>.</p>
 
@@ -294,7 +294,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  108</span>            {</div>
 <div class="line"><span class="lineno">  109</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a2a47c6166f33c97309a8946f6d87db66">taskCompletionSource</a>.TrySetResult(bufferedStream ?? stream);</div>
 <div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">completionTcs</a>.Task.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  111</span>                await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">completionTcs</a>.Task.WithToken(cancellationToken);</div>
 <div class="line"><span class="lineno">  112</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#aa574c8b0a37895b05e9d84a606372baa">errorMessage</a>;</div>
 <div class="line"><span class="lineno">  113</span>            }</div>
 <div class="line"><span class="lineno">  114</span>        }</div>
@@ -340,7 +340,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_file_upload_provider_8cs_source.html#l00062">62</a> of file <a class="el" href="_file_upload_provider_8cs_source.html">FileUploadProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   63</span>        {</div>
 <div class="line"><span class="lineno">   64</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fd1d5f433708ef0f3aed7c444fe473e">ticketExpiryCts</a>.Dispose();</div>
-<div class="line"><span class="lineno">   65</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">completionTcs</a>.TrySetResult(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">   65</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">completionTcs</a>.TrySetResult();</div>
 <div class="line"><span class="lineno">   66</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_file_upload_provider_8cs_source.html#l00034">Tgstation.Server.Host.Transfer.FileUploadProvider.completionTcs</a>, and <a class="el" href="_file_upload_provider_8cs_source.html#l00024">Tgstation.Server.Host.Transfer.FileUploadProvider.ticketExpiryCts</a>.</p>
@@ -366,7 +366,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_file_upload_provider_8cs_source.html#l00079">79</a> of file <a class="el" href="_file_upload_provider_8cs_source.html">FileUploadProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   80</span>        {</div>
-<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">completionTcs</a>.Task.IsCompleted)</div>
+<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">completionTcs</a>.Task.IsCompleted)</div>
 <div class="line"><span class="lineno">   82</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8fd1d5f433708ef0f3aed7c444fe473e">ticketExpiryCts</a>.Cancel();</div>
 <div class="line"><span class="lineno">   83</span>        }</div>
 </div><!-- fragment -->
@@ -449,7 +449,7 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is short lived a
 <div class="line"><span class="lineno">  125</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;ErrorMessage already set!&quot;</span>);</div>
 <div class="line"><span class="lineno">  126</span> </div>
 <div class="line"><span class="lineno">  127</span>            this.errorMessage = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#aa574c8b0a37895b05e9d84a606372baa">errorMessage</a>;</div>
-<div class="line"><span class="lineno">  128</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">completionTcs</a>.TrySetResult(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  128</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ac28a7cc3bcb617e27496478772f1a2fb">completionTcs</a>.TrySetResult();</div>
 <div class="line"><span class="lineno">  129</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_file_upload_provider_8cs_source.html#l00034">Tgstation.Server.Host.Transfer.FileUploadProvider.completionTcs</a>, and <a class="el" href="_file_upload_provider_8cs_source.html#l00044">Tgstation.Server.Host.Transfer.FileUploadProvider.errorMessage</a>.</p>
@@ -457,8 +457,8 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is short lived a
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a8045a6d1cbeb1136d1e7ceaf9cc3fe26" name="a8045a6d1cbeb1136d1e7ceaf9cc3fe26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8045a6d1cbeb1136d1e7ceaf9cc3fe26">&#9670;&#160;</a></span>completionTcs</h2>
+<a id="ac28a7cc3bcb617e27496478772f1a2fb" name="ac28a7cc3bcb617e27496478772f1a2fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac28a7cc3bcb617e27496478772f1a2fb">&#9670;&#160;</a></span>completionTcs</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -467,7 +467,7 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is short lived a
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly TaskCompletionSource&lt;object&gt; Tgstation.Server.Host.Transfer.FileUploadProvider.completionTcs</td>
+          <td class="memname">readonly TaskCompletionSource Tgstation.Server.Host.Transfer.FileUploadProvider.completionTcs</td>
         </tr>
       </table>
   </td>
@@ -477,7 +477,7 @@ The resulting <a class="el" href="class_stream.html">Stream</a> is short lived a
 </table>
 </div><div class="memdoc">
 
-<p>The TaskCompletionSource&lt;TResult&gt; that completes in IDisposable.Dispose or when <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#acb8bc974ef8f0e36c12bfddca8cd7c8c" title="Sets an errorMessage  for the upload. Will be returned in upload request as a 409 error.">SetErrorMessage(ErrorMessageResponse)</a> is called.  </p>
+<p>The TaskCompletionSource that completes in IDisposable.Dispose or when <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#acb8bc974ef8f0e36c12bfddca8cd7c8c" title="Sets an errorMessage  for the upload. Will be returned in upload request as a 409 error.">SetErrorMessage(ErrorMessageResponse)</a> is called.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_file_upload_provider_8cs_source.html#l00034">34</a> of file <a class="el" href="_file_upload_provider_8cs_source.html">FileUploadProvider.cs</a>.</p>
 

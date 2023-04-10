@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.8.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.9.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -109,12 +109,55 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a85af2a0153062b03bde4bd6f1df9d846"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html">IInstance</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#a85af2a0153062b03bde4bd6f1df9d846">CreateInstance</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html">IBridgeRegistrar</a> bridgeRegistrar, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Models.Instance</a> metadata)</td></tr>
 <tr class="memdesc:a85af2a0153062b03bde4bd6f1df9d846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore.">IInstance</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#a85af2a0153062b03bde4bd6f1df9d846">More...</a><br /></td></tr>
 <tr class="separator:a85af2a0153062b03bde4bd6f1df9d846"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88417ce87f3416974c7b7d7ef4ed5a58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#a88417ce87f3416974c7b7d7ef4ed5a58">CreateGameIOManager</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Models.Instance</a> metadata)</td></tr>
+<tr class="memdesc:a88417ce87f3416974c7b7d7ef4ed5a58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an IIOManager that resolves to the "Game" directory of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html" title="Represents an Api.Models.Instance in the database.">Models.Instance</a> defined by <em>metadata</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#a88417ce87f3416974c7b7d7ef4ed5a58">More...</a><br /></td></tr>
+<tr class="separator:a88417ce87f3416974c7b7d7ef4ed5a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Factory for creating <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore.">IInstance</a>s.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_instance_factory_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_instance_factory_8cs_source.html">IInstanceFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_instance_factory_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_instance_factory_8cs_source.html">IInstanceFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a88417ce87f3416974c7b7d7ef4ed5a58" name="a88417ce87f3416974c7b7d7ef4ed5a58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88417ce87f3416974c7b7d7ef4ed5a58">&#9670;&#160;</a></span>CreateGameIOManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> Tgstation.Server.Host.Components.IInstanceFactory.CreateGameIOManager </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Models.Instance</a>&#160;</td>
+          <td class="paramname"><em>metadata</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an IIOManager that resolves to the "Game" directory of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html" title="Represents an Api.Models.Instance in the database.">Models.Instance</a> defined by <em>metadata</em> .  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metadata</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html" title="Represents an Api.Models.Instance in the database.">Models.Instance</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The IIOManager for the instance's "Game" directory.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf149e45487115e81f6e75a5dc1ff5a7">Tgstation.Server.Host.Components.InstanceFactory</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00217">Tgstation.Server.Host.Components.InstanceManager.MoveInstance()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory_a88417ce87f3416974c7b7d7ef4ed5a58_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory_a88417ce87f3416974c7b7d7ef4ed5a58_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory_a88417ce87f3416974c7b7d7ef4ed5a58_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory_a88417ce87f3416974c7b7d7ef4ed5a58_icgraph">
+<area shape="rect" title="Create an IIOManager that resolves to the &quot;Game&quot; directory of the Models.Instance defined by metadata..." alt="" coords="280,5,539,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a232e9720186876671fb9709f433a507b" title="Move an IInstance. A Task representing the running operation." alt="" coords="5,5,232,45"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a85af2a0153062b03bde4bd6f1df9d846" name="a85af2a0153062b03bde4bd6f1df9d846"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a85af2a0153062b03bde4bd6f1df9d846">&#9670;&#160;</a></span>CreateInstance()</h2>
 
@@ -153,7 +196,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf28ce0a3f52d47f8e5200e48ef6ee4d">Tgstation.Server.Host.Components.InstanceFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00339">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00343">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

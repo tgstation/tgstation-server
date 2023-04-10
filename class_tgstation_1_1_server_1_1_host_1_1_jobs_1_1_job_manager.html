@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.8.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.9.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -111,8 +111,8 @@ Collaboration diagram for Tgstation.Server.Host.Jobs.JobManager:</div>
 <area shape="rect" title=" " alt="" coords="168,219,375,259"/>
 <area shape="rect" title=" " alt="" coords="189,283,354,323"/>
 <area shape="rect" title=" " alt="" coords="175,348,368,403"/>
-<area shape="rect" title=" " alt="" coords="193,427,350,467"/>
-<area shape="rect" title=" " alt="" coords="217,493,325,519"/>
+<area shape="rect" title=" " alt="" coords="193,427,350,452"/>
+<area shape="rect" title=" " alt="" coords="217,481,325,507"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -219,9 +219,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ade9edf0f3f116c19c38036716bec9847"><td class="memItemLeft" align="right" valign="top">readonly Dictionary&lt; long, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html">JobHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ade9edf0f3f116c19c38036716bec9847">jobs</a></td></tr>
 <tr class="memdesc:ade9edf0f3f116c19c38036716bec9847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dictionary&lt;TKey, TValue&gt; of Job <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">Api.Models.EntityId.Id</a>s to running <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html" title="Class for pairing Tasks with CancellationTokenSources.">JobHandler</a>s.   <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ade9edf0f3f116c19c38036716bec9847">More...</a><br /></td></tr>
 <tr class="separator:ade9edf0f3f116c19c38036716bec9847"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb78e37489526b7e189bb43d526f88b2"><td class="memItemLeft" align="right" valign="top">readonly TaskCompletionSource&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aeb78e37489526b7e189bb43d526f88b2">activationTcs</a></td></tr>
-<tr class="memdesc:aeb78e37489526b7e189bb43d526f88b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">TaskCompletionSource&lt;TResult&gt; to delay starting jobs until the server is ready.   <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aeb78e37489526b7e189bb43d526f88b2">More...</a><br /></td></tr>
-<tr class="separator:aeb78e37489526b7e189bb43d526f88b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4463fd5974d250afec4276ba5800bb24"><td class="memItemLeft" align="right" valign="top">readonly TaskCompletionSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a4463fd5974d250afec4276ba5800bb24">activationTcs</a></td></tr>
+<tr class="memdesc:a4463fd5974d250afec4276ba5800bb24"><td class="mdescLeft">&#160;</td><td class="mdescRight">TaskCompletionSource to delay starting jobs until the server is ready.   <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a4463fd5974d250afec4276ba5800bb24">More...</a><br /></td></tr>
+<tr class="separator:a4463fd5974d250afec4276ba5800bb24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec64bbed8584f4daad12932098999e1b"><td class="memItemLeft" align="right" valign="top">readonly object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aec64bbed8584f4daad12932098999e1b">synchronizationLock</a></td></tr>
 <tr class="memdesc:aec64bbed8584f4daad12932098999e1b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>lock</code> object for various operations.   <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aec64bbed8584f4daad12932098999e1b">More...</a><br /></td></tr>
 <tr class="separator:aec64bbed8584f4daad12932098999e1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -289,16 +289,16 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   76</span>            this.loggerFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a43efc71a9912da270ef267cf6f602b07">loggerFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a43efc71a9912da270ef267cf6f602b07">loggerFactory</a>));</div>
 <div class="line"><span class="lineno">   77</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aecd93d616cf56f52f149457f064dd520">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aecd93d616cf56f52f149457f064dd520">logger</a>));</div>
 <div class="line"><span class="lineno">   78</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ade9edf0f3f116c19c38036716bec9847">jobs</a> = <span class="keyword">new</span> Dictionary&lt;long, JobHandler&gt;();</div>
-<div class="line"><span class="lineno">   79</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aeb78e37489526b7e189bb43d526f88b2">activationTcs</a> = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
+<div class="line"><span class="lineno">   79</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a4463fd5974d250afec4276ba5800bb24">activationTcs</a> = <span class="keyword">new</span> TaskCompletionSource();</div>
 <div class="line"><span class="lineno">   80</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aec64bbed8584f4daad12932098999e1b">synchronizationLock</a> = <span class="keyword">new</span> object();</div>
 <div class="line"><span class="lineno">   81</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ac3d8850a22fd20b74c6e8a2b3dac57c1">addCancelLock</a> = <span class="keyword">new</span> object();</div>
 <div class="line"><span class="lineno">   82</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_a3758020992c3c8e37a25439bc067e365"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a3758020992c3c8e37a25439bc067e365">Tgstation.Server.Host.Jobs.JobManager.databaseContextFactory</a></div><div class="ttdeci">readonly IDatabaseContextFactory databaseContextFactory</div><div class="ttdoc">The IServiceProvider for the JobManager.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00024">JobManager.cs:24</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_a43efc71a9912da270ef267cf6f602b07"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a43efc71a9912da270ef267cf6f602b07">Tgstation.Server.Host.Jobs.JobManager.loggerFactory</a></div><div class="ttdeci">readonly ILoggerFactory loggerFactory</div><div class="ttdoc">The ILoggerFactory for the JobManager.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00029">JobManager.cs:29</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_a4463fd5974d250afec4276ba5800bb24"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a4463fd5974d250afec4276ba5800bb24">Tgstation.Server.Host.Jobs.JobManager.activationTcs</a></div><div class="ttdeci">readonly TaskCompletionSource activationTcs</div><div class="ttdoc">TaskCompletionSource to delay starting jobs until the server is ready.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00049">JobManager.cs:49</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_aa4c0ba27f0b63feac43b865490f971c3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aa4c0ba27f0b63feac43b865490f971c3">Tgstation.Server.Host.Jobs.JobManager.instanceCoreProvider</a></div><div class="ttdeci">readonly Lazy&lt; IInstanceCoreProvider &gt; instanceCoreProvider</div><div class="ttdoc">The IInstanceCoreProvider for the JobManager.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00039">JobManager.cs:39</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_ac3d8850a22fd20b74c6e8a2b3dac57c1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ac3d8850a22fd20b74c6e8a2b3dac57c1">Tgstation.Server.Host.Jobs.JobManager.addCancelLock</a></div><div class="ttdeci">readonly object addCancelLock</div><div class="ttdoc">Prevents a really REALLY rare race condition between add and cancel operations.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00059">JobManager.cs:59</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_ade9edf0f3f116c19c38036716bec9847"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ade9edf0f3f116c19c38036716bec9847">Tgstation.Server.Host.Jobs.JobManager.jobs</a></div><div class="ttdeci">readonly Dictionary&lt; long, JobHandler &gt; jobs</div><div class="ttdoc">Dictionary&lt;TKey, TValue&gt; of Job Api.Models.EntityId.Ids to running JobHandlers.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00044">JobManager.cs:44</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_aeb78e37489526b7e189bb43d526f88b2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aeb78e37489526b7e189bb43d526f88b2">Tgstation.Server.Host.Jobs.JobManager.activationTcs</a></div><div class="ttdeci">readonly TaskCompletionSource&lt; object &gt; activationTcs</div><div class="ttdoc">TaskCompletionSource&lt;TResult&gt; to delay starting jobs until the server is ready.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00049">JobManager.cs:49</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_aec64bbed8584f4daad12932098999e1b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aec64bbed8584f4daad12932098999e1b">Tgstation.Server.Host.Jobs.JobManager.synchronizationLock</a></div><div class="ttdeci">readonly object synchronizationLock</div><div class="ttdoc">lock object for various operations.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00054">JobManager.cs:54</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html_aecd93d616cf56f52f149457f064dd520"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aecd93d616cf56f52f149457f064dd520">Tgstation.Server.Host.Jobs.JobManager.logger</a></div><div class="ttdeci">readonly ILogger&lt; JobManager &gt; logger</div><div class="ttdoc">The ILogger for the JobManager.</div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00034">JobManager.cs:34</a></div></div>
 </div><!-- fragment -->
@@ -329,7 +329,7 @@ Private Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_job_manager_8cs_source.html#l00268">268</a> of file <a class="el" href="_job_manager_8cs_source.html">JobManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  269</span>        {</div>
 <div class="line"><span class="lineno">  270</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aecd93d616cf56f52f149457f064dd520">logger</a>.LogTrace(<span class="stringliteral">&quot;Activating job manager...&quot;</span>);</div>
-<div class="line"><span class="lineno">  271</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aeb78e37489526b7e189bb43d526f88b2">activationTcs</a>.SetResult(<span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  271</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a4463fd5974d250afec4276ba5800bb24">activationTcs</a>.SetResult();</div>
 <div class="line"><span class="lineno">  272</span>        }</div>
 </div><!-- fragment -->
 </div>
@@ -663,7 +663,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  322</span>                                }</div>
 <div class="line"><span class="lineno">  323</span>                        }</div>
 <div class="line"><span class="lineno">  324</span> </div>
-<div class="line"><span class="lineno">  325</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aeb78e37489526b7e189bb43d526f88b2">activationTcs</a>.Task.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  325</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a4463fd5974d250afec4276ba5800bb24">activationTcs</a>.Task.WithToken(cancellationToken);</div>
 <div class="line"><span class="lineno">  326</span> </div>
 <div class="line"><span class="lineno">  327</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aecd93d616cf56f52f149457f064dd520">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting job...&quot;</span>);</div>
 <div class="line"><span class="lineno">  328</span>                        await operation(</div>
@@ -924,8 +924,8 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="aeb78e37489526b7e189bb43d526f88b2" name="aeb78e37489526b7e189bb43d526f88b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb78e37489526b7e189bb43d526f88b2">&#9670;&#160;</a></span>activationTcs</h2>
+<a id="a4463fd5974d250afec4276ba5800bb24" name="a4463fd5974d250afec4276ba5800bb24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4463fd5974d250afec4276ba5800bb24">&#9670;&#160;</a></span>activationTcs</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -934,7 +934,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly TaskCompletionSource&lt;object&gt; Tgstation.Server.Host.Jobs.JobManager.activationTcs</td>
+          <td class="memname">readonly TaskCompletionSource Tgstation.Server.Host.Jobs.JobManager.activationTcs</td>
         </tr>
       </table>
   </td>
@@ -944,7 +944,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>TaskCompletionSource&lt;TResult&gt; to delay starting jobs until the server is ready.  </p>
+<p>TaskCompletionSource to delay starting jobs until the server is ready.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_job_manager_8cs_source.html#l00049">49</a> of file <a class="el" href="_job_manager_8cs_source.html">JobManager.cs</a>.</p>
 

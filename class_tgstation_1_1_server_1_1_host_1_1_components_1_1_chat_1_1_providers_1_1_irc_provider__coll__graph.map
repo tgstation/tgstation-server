@@ -1,21 +1,21 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider">
-<area shape="rect" id="node1" title="IProvider for internet relay chat." alt="" coords="953,587,1180,627"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="665,216,735,241"/>
+<area shape="rect" id="node1" title="IProvider for internet relay chat." alt="" coords="953,583,1180,623"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title=" " alt="" coords="665,215,735,240"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service." alt="" coords="273,55,348,80"/>
 <area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,55,132,80"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="219,105,402,145"/>
 <area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="13,112,125,137"/>
 <area shape="rect" id="node7" title=" " alt="" coords="181,169,440,224"/>
-<area shape="rect" id="node8" title=" " alt="" coords="232,249,389,289"/>
-<area shape="rect" id="node9" title=" " alt="" coords="257,313,365,339"/>
-<area shape="rect" id="node10" title=" " alt="" coords="285,371,336,396"/>
+<area shape="rect" id="node8" title=" " alt="" coords="232,248,389,273"/>
+<area shape="rect" id="node9" title=" " alt="" coords="257,297,365,323"/>
+<area shape="rect" id="node10" title=" " alt="" coords="285,363,336,388"/>
 <area shape="rect" id="node11" title=" " alt="" coords="225,5,396,31"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="609,445,791,485"/>
-<area shape="rect" id="node13" title=" " alt="" coords="631,509,769,535"/>
-<area shape="rect" id="node14" title=" " alt="" coords="673,567,727,592"/>
-<area shape="rect" id="node15" title=" " alt="" coords="645,616,755,641"/>
-<area shape="rect" id="node16" title=" " alt="" coords="609,665,791,691"/>
-<area shape="rect" id="node17" title=" " alt="" coords="635,715,765,755"/>
-<area shape="rect" id="node18" title=" " alt="" coords="673,780,727,805"/>
-<area shape="rect" id="node19" title=" " alt="" coords="677,829,723,855"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="609,441,791,481"/>
+<area shape="rect" id="node13" title=" " alt="" coords="631,505,769,531"/>
+<area shape="rect" id="node14" title=" " alt="" coords="673,563,727,588"/>
+<area shape="rect" id="node15" title=" " alt="" coords="645,612,755,637"/>
+<area shape="rect" id="node16" title=" " alt="" coords="609,661,791,687"/>
+<area shape="rect" id="node17" title=" " alt="" coords="635,711,765,751"/>
+<area shape="rect" id="node18" title=" " alt="" coords="673,776,727,801"/>
+<area shape="rect" id="node19" title=" " alt="" coords="677,825,723,851"/>
 </map>

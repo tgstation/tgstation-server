@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.InstanceContainer" name="Tgstation.Server.Host.Components.InstanceContainer">
-<area shape="rect" id="node1" title="Wrapper for managing IInstances." alt="" coords="103,108,330,148"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,13,113,38"/>
-<area shape="rect" id="node3" title=" " alt="" coords="138,5,295,45"/>
-<area shape="rect" id="node4" title=" " alt="" coords="353,13,406,38"/>
+<area shape="rect" id="node1" title="Wrapper for managing IInstances." alt="" coords="103,93,330,133"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,113,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="138,5,295,31"/>
+<area shape="rect" id="node4" title=" " alt="" coords="353,5,406,31"/>
 </map>
