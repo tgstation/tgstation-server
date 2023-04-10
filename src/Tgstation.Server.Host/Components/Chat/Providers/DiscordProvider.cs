@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				replyToReference = discordMessage.MessageReference;
 				allowedMentions = new AllowedMentions(
-					Parse: new[] // reset settings back to how discord acts if this is not passed (which is different than the default if empty)
+					Parse: new List<MentionType> // reset settings back to how discord acts if this is not passed (which is different than the default if empty)
 					{
 						MentionType.Everyone,
 						MentionType.Roles,
