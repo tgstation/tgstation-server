@@ -276,7 +276,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task<string> InstallVersion(Version version, Stream customVersionStream, CancellationToken cancellationToken)
 		{
-			var ourTcs = new TaskCompletionSource<object>();
+			var ourTcs = new TaskCompletionSource();
 			Task inProgressTask;
 			string versionKey;
 			bool installed;
@@ -370,7 +370,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					throw;
 				}
 
-				ourTcs.SetResult(null);
+				ourTcs.SetResult();
 			}
 			catch (Exception e)
 			{

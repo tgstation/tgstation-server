@@ -88,9 +88,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		CancellationTokenSource gatewayCts;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> for the initial gateway connection event.
+		/// The <see cref="TaskCompletionSource"/> for the initial gateway connection event.
 		/// </summary>
-		TaskCompletionSource<object> gatewayReadyTcs;
+		TaskCompletionSource gatewayReadyTcs;
 
 		/// <summary>
 		/// The <see cref="Task"/> representing the lifetime of the client.
@@ -559,7 +559,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				throw new ArgumentNullException(nameof(readyEvent));
 
 			Logger.LogTrace("Gatway ready. Version: {version}", readyEvent.Version);
-			gatewayReadyTcs?.TrySetResult(null);
+			gatewayReadyTcs?.TrySetResult();
 			return Task.FromResult(Result.FromSuccess());
 		}
 
@@ -580,7 +580,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var gatewayClient = serviceProvider.GetRequiredService<DiscordGatewayClient>();
 
 				Task<Result> localGatewayTask;
-				gatewayReadyTcs = new TaskCompletionSource<object>();
+				gatewayReadyTcs = new TaskCompletionSource();
 
 				using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled());
 				gatewayCancellationToken.Register(() => Logger.LogTrace("Stopping gateway client..."));

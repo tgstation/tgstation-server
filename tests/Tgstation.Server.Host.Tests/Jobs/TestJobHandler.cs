@@ -35,14 +35,14 @@ namespace Tgstation.Server.Host.Jobs.Tests
 			//test with a cancelled cts
 			using (var cts = new CancellationTokenSource())
 			{
-				var tcs = new TaskCompletionSource<object>();
+				var tcs = new TaskCompletionSource();
 				currentWaitTask = tcs.Task;
 				cts.Cancel();
 				using var handler = new JobHandler(TestJob);
 				await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => handler.Wait(cts.Token));
 				handler.Start();
 				await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => handler.Wait(cts.Token));
-				tcs.SetResult(null);
+				tcs.SetResult();
 				await handler.Wait(default);
 			}
 			Assert.IsFalse(cancelled);
@@ -65,14 +65,14 @@ namespace Tgstation.Server.Host.Jobs.Tests
 		[TestMethod]
 		public async Task TestCancellation()
 		{
-			var tcs = new TaskCompletionSource<object>();
+			var tcs = new TaskCompletionSource();
 			currentWaitTask = tcs.Task;
 			cancelled = false;
 			using (var handler = new JobHandler(TestJob))
 			{
 				handler.Start();
 				handler.Cancel();
-				tcs.SetResult(null);
+				tcs.SetResult();
 				await handler.Wait(default);
 			}
 			Assert.IsTrue(cancelled);

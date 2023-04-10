@@ -142,9 +142,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly bool swarmController;
 
 		/// <summary>
-		/// A <see cref="TaskCompletionSource{TResult}"/> that is used to force a health check.
+		/// A <see cref="TaskCompletionSource"/> that is used to force a health check.
 		/// </summary>
-		TaskCompletionSource<object> forceHealthCheckTcs;
+		TaskCompletionSource forceHealthCheckTcs;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> that is used to proceed with committing an update.
@@ -233,7 +233,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (SwarmMode)
 			{
 				serverHealthCheckCancellationTokenSource = new CancellationTokenSource();
-				forceHealthCheckTcs = new TaskCompletionSource<object>();
+				forceHealthCheckTcs = new TaskCompletionSource();
 				if (swarmController)
 					registrationIds = new Dictionary<string, Guid>();
 
@@ -963,8 +963,8 @@ namespace Tgstation.Server.Host.Swarm
 		bool TriggerHealthCheck()
 		{
 			var currentTcs = forceHealthCheckTcs;
-			forceHealthCheckTcs = new TaskCompletionSource<object>();
-			return currentTcs.TrySetResult(null);
+			forceHealthCheckTcs = new TaskCompletionSource();
+			return currentTcs.TrySetResult();
 		}
 
 		/// <summary>

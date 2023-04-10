@@ -380,7 +380,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogTrace("Processing initial messages...");
 				await NonBlockingListen(cancellationToken);
 
-				var nickCheckCompleteTcs = new TaskCompletionSource<object>();
+				var nickCheckCompleteTcs = new TaskCompletionSource();
 				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled()))
 				{
 					listenTask = Task.Factory.StartNew(
@@ -399,7 +399,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								client.RfcNick(nickname);
 						}
 
-						nickCheckCompleteTcs.TrySetResult(null);
+						nickCheckCompleteTcs.TrySetResult();
 
 						Logger.LogTrace("Starting blocking listen...");
 						try

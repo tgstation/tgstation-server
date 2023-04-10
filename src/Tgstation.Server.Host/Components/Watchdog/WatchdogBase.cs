@@ -57,9 +57,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public abstract RebootState? RebootState { get; }
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are running.
+		/// <see cref="TaskCompletionSource"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are running.
 		/// </summary>
-		protected TaskCompletionSource<object> ActiveParametersUpdated { get; set; }
+		protected TaskCompletionSource ActiveParametersUpdated { get; set; }
 
 		/// <summary>
 		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			ActiveLaunchParameters = initialLaunchParameters;
 			releaseServers = false;
-			ActiveParametersUpdated = new TaskCompletionSource<object>();
+			ActiveParametersUpdated = new TaskCompletionSource();
 
 			restartRegistration = serverControl.RegisterForRestart(this);
 			try
@@ -261,8 +261,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (match || Status == WatchdogStatus.Offline)
 					return;
 
-				ActiveParametersUpdated.TrySetResult(null); // queue an update
-				ActiveParametersUpdated = new TaskCompletionSource<object>();
+				ActiveParametersUpdated.TrySetResult(); // queue an update
+				ActiveParametersUpdated = new TaskCompletionSource();
 			}
 		}
 
@@ -872,7 +872,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									cancellationToken);
 
 							// cancel waiting if requested
-							var cancelTcs = new TaskCompletionSource<object>();
+							var cancelTcs = new TaskCompletionSource();
 							var toWaitOn = Task.WhenAny(
 								activeServerLifetime,
 								activeServerReboot,

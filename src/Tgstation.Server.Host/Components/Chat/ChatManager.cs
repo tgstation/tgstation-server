@@ -109,9 +109,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task messageSendTask;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ChatBotSettings"/>s change.
+		/// The <see cref="TaskCompletionSource"/> that completes when <see cref="ChatBotSettings"/>s change.
 		/// </summary>
-		TaskCompletionSource<object> connectionsUpdated;
+		TaskCompletionSource connectionsUpdated;
 
 		/// <summary>
 		/// Used for remapping <see cref="ChannelRepresentation.RealId"/>s.
@@ -157,7 +157,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
 			trackingContexts = new List<IChatTrackingContext>();
 			handlerCts = new CancellationTokenSource();
-			connectionsUpdated = new TaskCompletionSource<object>();
+			connectionsUpdated = new TaskCompletionSource();
 
 			messageSendTask = Task.CompletedTask;
 			channelIdCounter = 1;
@@ -293,8 +293,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				// same thread shennanigans
 				var oldOne = connectionsUpdated;
-				connectionsUpdated = new TaskCompletionSource<object>();
-				oldOne.SetResult(null);
+				connectionsUpdated = new TaskCompletionSource();
+				oldOne.SetResult();
 			}
 
 			var reconnectionUpdateTask = provider?.SetReconnectInterval(

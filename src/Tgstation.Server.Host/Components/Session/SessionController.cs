@@ -76,9 +76,9 @@ namespace Tgstation.Server.Host.Components.Session
 		public ReattachInformation ReattachInformation { get; }
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD makes it's first bridge request.
+		/// The <see cref="TaskCompletionSource"/> that completes when DD makes it's first bridge request.
 		/// </summary>
-		readonly TaskCompletionSource<object> initialBridgeRequestTcs;
+		readonly TaskCompletionSource initialBridgeRequestTcs;
 
 		/// <summary>
 		/// The <see cref="Instance"/> metadata.
@@ -141,14 +141,14 @@ namespace Tgstation.Server.Host.Components.Session
 		ushort? nextPort;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us about a reboot.
+		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us about a reboot.
 		/// </summary>
-		TaskCompletionSource<object> rebootTcs;
+		TaskCompletionSource rebootTcs;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us it's primed.
+		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us it's primed.
 		/// </summary>
-		TaskCompletionSource<object> primeTcs;
+		TaskCompletionSource primeTcs;
 
 		/// <summary>
 		/// If we know DreamDaemon currently has it's port closed.
@@ -219,9 +219,9 @@ namespace Tgstation.Server.Host.Components.Session
 			apiValidationStatus = ApiValidationStatus.NeverValidated;
 			released = false;
 
-			rebootTcs = new TaskCompletionSource<object>();
-			primeTcs = new TaskCompletionSource<object>();
-			initialBridgeRequestTcs = new TaskCompletionSource<object>();
+			rebootTcs = new TaskCompletionSource();
+			primeTcs = new TaskCompletionSource();
+			initialBridgeRequestTcs = new TaskCompletionSource();
 			reattachTopicCts = new CancellationTokenSource();
 			synchronizationLock = new object();
 
@@ -298,7 +298,7 @@ namespace Tgstation.Server.Host.Components.Session
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
 				logger.LogTrace("Handling bridge request...");
-				initialBridgeRequestTcs.TrySetResult(null);
+				initialBridgeRequestTcs.TrySetResult();
 
 				var response = new BridgeResponse();
 				switch (parameters.CommandType)
@@ -333,8 +333,8 @@ namespace Tgstation.Server.Host.Components.Session
 						break;
 					case BridgeCommandType.Prime:
 						var oldPrimeTcs = primeTcs;
-						primeTcs = new TaskCompletionSource<object>();
-						oldPrimeTcs.SetResult(null);
+						primeTcs = new TaskCompletionSource();
+						oldPrimeTcs.SetResult();
 						break;
 					case BridgeCommandType.Kill:
 						logger.LogInformation("Bridge requested process termination!");
@@ -425,8 +425,8 @@ namespace Tgstation.Server.Host.Components.Session
 						}
 
 						var oldRebootTcs = rebootTcs;
-						rebootTcs = new TaskCompletionSource<object>();
-						oldRebootTcs.SetResult(null);
+						rebootTcs = new TaskCompletionSource();
+						oldRebootTcs.SetResult();
 						break;
 					case null:
 						response.ErrorMessage = "Missing commandType!";

@@ -117,9 +117,9 @@ namespace Tgstation.Server.Host.Components
 		readonly SwarmConfiguration swarmConfiguration;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> for <see cref="Ready"/>.
+		/// The <see cref="TaskCompletionSource"/> for <see cref="Ready"/>.
 		/// </summary>
-		readonly TaskCompletionSource<object> readyTcs;
+		readonly TaskCompletionSource readyTcs;
 
 		/// <summary>
 		/// If the <see cref="InstanceManager"/> has been <see cref="DisposeAsync"/>'d.
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Host.Components
 
 			instances = new Dictionary<long, InstanceContainer>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
-			readyTcs = new TaskCompletionSource<object>();
+			readyTcs = new TaskCompletionSource();
 			instanceStateChangeSemaphore = new SemaphoreSlim(1);
 		}
 
@@ -430,7 +430,7 @@ namespace Tgstation.Server.Host.Components
 				jobManager.Activate();
 
 				logger.LogInformation("Server ready!");
-				readyTcs.SetResult(null);
+				readyTcs.SetResult();
 			}
 			catch (OperationCanceledException ex)
 			{

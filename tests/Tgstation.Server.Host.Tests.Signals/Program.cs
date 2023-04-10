@@ -18,10 +18,10 @@ namespace Tgstation.Server.Host.Tests.Signals
 		{
 			var mockServerControl = new Mock<IServerControl>();
 
-			var tcs = new TaskCompletionSource<object>();
+			var tcs = new TaskCompletionSource();
 			mockServerControl
 				.Setup(x => x.GracefulShutdown())
-				.Callback(() => tcs.SetResult(null))
+				.Callback(() => tcs.SetResult())
 				.Returns(Task.CompletedTask);
 
 			var mockAsyncDelayer = new Mock<IAsyncDelayer>();

@@ -35,9 +35,9 @@ namespace Tgstation.Server.Host.Components
 		readonly object referenceCountLock;
 
 		/// <summary>
-		/// Backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="OnZeroReferences"/>.
+		/// Backing <see cref="TaskCompletionSource"/> for <see cref="OnZeroReferences"/>.
 		/// </summary>
-		TaskCompletionSource<object> onZeroReferencesTcs;
+		TaskCompletionSource onZeroReferencesTcs;
 
 		/// <summary>
 		/// Count of active <see cref="IInstanceReference"/>s.
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Components
 			lock (referenceCountLock)
 			{
 				if (referenceCount++ == 0)
-					onZeroReferencesTcs = new TaskCompletionSource<object>();
+					onZeroReferencesTcs = new TaskCompletionSource();
 
 				try
 				{
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Components
 					{
 						lock (referenceCountLock)
 							if (--referenceCount == 0)
-								onZeroReferencesTcs.SetResult(null);
+								onZeroReferencesTcs.SetResult();
 					});
 				}
 				catch

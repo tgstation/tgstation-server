@@ -10,6 +10,11 @@ namespace Tgstation.Server.Host.Extensions
 	static class TaskExtensions
 	{
 		/// <summary>
+		/// A <see cref="TaskCompletionSource"/> that never completes.
+		/// </summary>
+		private static readonly TaskCompletionSource InfiniteTaskCompletionSource = new TaskCompletionSource();
+
+		/// <summary>
 		/// Create a <see cref="Task"/> that can be awaited while respecting a given <paramref name="cancellationToken"/>.
 		/// </summary>
 		/// <param name="task">The <see cref="Task"/> to add cancel support to.</param>
@@ -41,7 +46,7 @@ namespace Tgstation.Server.Host.Extensions
 			if (task == null)
 				throw new ArgumentNullException(nameof(task));
 
-			var cancelTcs = new TaskCompletionSource<object>();
+			var cancelTcs = new TaskCompletionSource();
 			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
 				await Task.WhenAny(task, cancelTcs.Task);
 			cancellationToken.ThrowIfCancellationRequested();
@@ -53,6 +58,6 @@ namespace Tgstation.Server.Host.Extensions
 		/// Creates a <see cref="Task"/> that never completes.
 		/// </summary>
 		/// <returns>A never ending <see cref="Task"/>.</returns>
-		public static Task InfiniteTask() => new TaskCompletionSource<object>().Task;
+		public static Task InfiniteTask() => InfiniteTaskCompletionSource.Task;
 	}
 }
