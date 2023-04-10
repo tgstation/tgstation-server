@@ -101,8 +101,7 @@
 	var/list/response = list()
 	if(error_message)
 		response[DMAPI5_RESPONSE_ERROR_MESSAGE] = error_message
-		return json_encode(response)
-	return "{}"
+	return response
 
 /datum/tgs_api/v5/OnTopic(T)
 	RequireInitialBridgeResponse()
@@ -127,17 +126,20 @@
 	if(!isnum(command))
 		return TopicResponse("Failed to decode [DMAPI5_TOPIC_PARAMETER_COMMAND_TYPE] from: [json]!")
 
+	var/result = ProcessTopicCommand(command, topic_parameters)
+	if(!length(result))
+		return "{}" // quirk of json_encode is an empty list returns "[]"
+
+	return json_encode(result)
+
+/datum/tgs_api/v5/proc/ProcessTopicCommand(command, list/topic_parameters)
 	switch(command)
 		if(DMAPI5_TOPIC_COMMAND_CHAT_COMMAND)
 			intercepted_message_queue = list()
-			var/result = HandleCustomCommand(topic_parameters[DMAPI5_TOPIC_PARAMETER_CHAT_COMMAND])
+			var/list/result = HandleCustomCommand(topic_parameters[DMAPI5_TOPIC_PARAMETER_CHAT_COMMAND])
 			if(!result)
 				result = TopicResponse("Error running chat command!")
-			//TODO: make this not need the decode/encode.
-			if (length(intercepted_message_queue))
-				var/list/result_array = json_decode(result)
-				result_array[DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES] = intercepted_message_queue
-				result = json_encode(result_array)
+			result[DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES] = intercepted_message_queue
 			intercepted_message_queue = null
 			return result
 		if(DMAPI5_TOPIC_COMMAND_EVENT_NOTIFICATION)
@@ -161,10 +163,10 @@
 			if(event_handler != null)
 				event_handler.HandleEvent(arglist(event_call))
 
-			var/list/response = list()
+			var/list/response = TopicResponse()
 			response[DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES] = intercepted_message_queue
 			intercepted_message_queue = null
-			return json_encode(response)
+			return response
 		if(DMAPI5_TOPIC_COMMAND_CHANGE_PORT)
 			var/new_port = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_PORT]
 			if (!isnum(new_port) || !(new_port > 0))
@@ -236,7 +238,9 @@
 
 				version = new_version
 
-			return json_encode(list(DMAPI5_RESPONSE_ERROR_MESSAGE = error_message, DMAPI5_PARAMETER_CUSTOM_COMMANDS = ListCustomCommands()))
+			var/list/reattach_response = TopicResponse(error_message)
+			reattach_response[DMAPI5_PARAMETER_CUSTOM_COMMANDS] = ListCustomCommands()
+			return reattach_response
 
 	return TopicResponse("Unknown command: [command]")
 
