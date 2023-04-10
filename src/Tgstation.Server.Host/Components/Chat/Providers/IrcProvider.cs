@@ -168,8 +168,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				// IRC doesn't allow newlines
 				// Explicitly ignore embeds
 				var messageText = message.Text;
-				if (messageText == null)
-					messageText = $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
+				messageText ??= $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
 
 				messageText = String.Concat(
 					messageText

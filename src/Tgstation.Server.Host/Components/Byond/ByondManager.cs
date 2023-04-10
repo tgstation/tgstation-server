@@ -150,15 +150,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task<IByondExecutableLock> UseExecutables(Version requiredVersion, CancellationToken cancellationToken)
 		{
-			var versionToUse = requiredVersion ?? ActiveVersion;
-			if (versionToUse == null)
-				throw new JobException(ErrorCode.ByondNoVersionsInstalled);
+			var versionToUse = requiredVersion ?? ActiveVersion ?? throw new JobException(ErrorCode.ByondNoVersionsInstalled);
 			await InstallVersion(versionToUse, null, cancellationToken);
 
 			var versionKey = VersionKey(versionToUse, true);
 			var binPathForVersion = ioManager.ConcatPath(versionKey, BinPath);
 
-			logger.LogTrace("Creating ByondExecutableLock lock for version {0}", versionToUse);
+			logger.LogTrace("Creating ByondExecutableLock lock for version {versionToUse}", versionToUse);
 			return new ByondExecutableLock(
 				ioManager,
 				semaphore,
@@ -203,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				ioManager.ConcatPath(
 					localCfgDirectory,
 					TrustedDmbFileName);
-			logger.LogTrace("Deleting trusted .dmbs file {0}", trustedFilePath);
+			logger.LogTrace("Deleting trusted .dmbs file {trustedFilePath}", trustedFilePath);
 			await ioManager.DeleteFile(
 				trustedFilePath,
 				cancellationToken);
@@ -219,7 +217,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				var versionFile = ioManager.ConcatPath(path, VersionFileName);
 				if (!await ioManager.FileExists(versionFile, cancellationToken))
 				{
-					logger.LogInformation("Cleaning unparsable version path: {0}", ioManager.ResolvePath(path));
+					logger.LogInformation("Cleaning unparsable version path: {versionPath}", ioManager.ResolvePath(path));
 					await ioManager.DeleteDirectory(path, cancellationToken); // cleanup
 					return;
 				}
@@ -232,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					lock (installedVersions)
 						if (!installedVersions.ContainsKey(key))
 						{
-							logger.LogDebug("Adding detected BYOND version {0}...", key);
+							logger.LogDebug("Adding detected BYOND version {versionKey}...", key);
 							installedVersions.Add(key, Task.CompletedTask);
 							installedVersionPaths.Add(ioManager.ResolvePath(key), version);
 							return;
@@ -308,11 +306,11 @@ namespace Tgstation.Server.Host.Components.Byond
 				}
 
 			if (customVersionStream != null)
-				logger.LogInformation("Installing custom BYOND version as {0}...", versionKey);
+				logger.LogInformation("Installing custom BYOND version as {versionKey}...", versionKey);
 			else if (version.Build > 0)
 				throw new JobException(ErrorCode.ByondNonExistentCustomVersion);
 			else
-				logger.LogDebug("Requested BYOND version {0} not currently installed. Doing so now...", versionKey);
+				logger.LogDebug("Requested BYOND version {versionKey} not currently installed. Doing so now...", versionKey);
 
 			// okay up to us to install it then
 			try
@@ -342,7 +340,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					using (downloadedStream)
 					{
 						await directoryCleanupTask;
-						logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
+						logger.LogTrace("Extracting downloaded BYOND zip to {extractPath}...", extractPath);
 						await ioManager.ZipToDirectory(extractPath, versionZipStream, cancellationToken);
 					}
 
@@ -374,7 +372,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			}
 			catch (Exception e)
 			{
-				if (!(e is OperationCanceledException))
+				if (e is not OperationCanceledException)
 					await eventConsumer.HandleEvent(EventType.ByondInstallFail, new List<string> { e.Message }, cancellationToken);
 				lock (installedVersions)
 					installedVersions.Remove(versionKey);

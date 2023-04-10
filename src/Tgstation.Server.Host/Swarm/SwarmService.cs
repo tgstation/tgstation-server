@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// See <see cref="JsonSerializerSettings"/> for the swarm system.
 		/// </summary>
-		static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+		static readonly JsonSerializerSettings SerializerSettings = new ()
 		{
 			ContractResolver = new DefaultContractResolver
 			{
@@ -917,7 +917,7 @@ namespace Tgstation.Server.Host.Swarm
 					response.EnsureSuccessStatusCode();
 					return;
 				}
-				catch (Exception ex) when (!(ex is OperationCanceledException))
+				catch (Exception ex) when (ex is not OperationCanceledException)
 				{
 					logger.LogWarning(
 						ex,
@@ -1068,7 +1068,7 @@ namespace Tgstation.Server.Host.Swarm
 				logger.LogWarning("Error registering with swarm controller: HTTP {0}", response.StatusCode);
 				try
 				{
-					var responseData = await response.Content.ReadAsStringAsync();
+					var responseData = await response.Content.ReadAsStringAsync(cancellationToken);
 					if (!String.IsNullOrWhiteSpace(responseData))
 						logger.LogDebug("Response:{0}{1}", Environment.NewLine, responseData);
 				}
@@ -1114,7 +1114,7 @@ namespace Tgstation.Server.Host.Swarm
 					using var response = await httpClient.SendAsync(request, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
-				catch (Exception ex) when (!(ex is OperationCanceledException))
+				catch (Exception ex) when (ex is not OperationCanceledException)
 				{
 					logger.LogWarning(ex, "Error during swarm server list update for node '{0}'! Unregistering...", swarmServer.Identifier);
 
@@ -1268,7 +1268,7 @@ namespace Tgstation.Server.Host.Swarm
 						else
 							await HealthCheckController(cancellationToken);
 					}
-					catch (Exception ex) when (!(ex is OperationCanceledException))
+					catch (Exception ex) when (ex is not OperationCanceledException)
 					{
 						logger.LogError(ex, "Health check error!");
 					}

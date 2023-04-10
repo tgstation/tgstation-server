@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <summary>
 		/// A <see cref="TaskCompletionSource"/> that never completes.
 		/// </summary>
-		private static readonly TaskCompletionSource InfiniteTaskCompletionSource = new TaskCompletionSource();
+		static readonly TaskCompletionSource InfiniteTaskCompletionSource = new ();
 
 		/// <summary>
 		/// Create a <see cref="Task"/> that can be awaited while respecting a given <paramref name="cancellationToken"/>.
