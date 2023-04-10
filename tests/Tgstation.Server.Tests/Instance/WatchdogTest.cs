@@ -335,29 +335,32 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
 			// oh god, oh fuck, blackbox testing
-			using var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata);
-
+			MessageContent response;
 			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
-			var response = await ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
-				"embeds_test",
-				String.Empty,
-				new Host.Components.Chat.ChatUser
-				{
-					Channel = new Host.Components.Chat.ChannelRepresentation
+			using (var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata))
+			{
+				response = await ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
+					"embeds_test",
+					String.Empty,
+					new Host.Components.Chat.ChatUser
 					{
-						IsAdminChannel = true,
-						ConnectionName = "test_connection",
-						EmbedsSupported = true,
-						FriendlyName = "Test Connection",
-						Id = "test_channel_id",
-						IsPrivateChannel = false,
+						Channel = new Host.Components.Chat.ChannelRepresentation
+						{
+							IsAdminChannel = true,
+							ConnectionName = "test_connection",
+							EmbedsSupported = true,
+							FriendlyName = "Test Connection",
+							Id = "test_channel_id",
+							IsPrivateChannel = false,
+						},
+						FriendlyName = "Test Sender",
+						Id = "test_user_id",
+						Mention = "test_user_mention",
+						RealId = 1234,
 					},
-					FriendlyName = "Test Sender",
-					Id = "test_user_id",
-					Mention = "test_user_mention",
-					RealId = 1234,
-				},
-				cancellationToken);
+					cancellationToken);
+			}
+
 			var endTime = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
 
 			Assert.IsNotNull(response);
