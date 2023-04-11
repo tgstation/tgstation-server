@@ -87,43 +87,43 @@ $(function() {
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        ReadRevision = 1,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        ReadRevision = 1 &lt;&lt; 0,</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        SetPort = 2,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        SetPort = 1 &lt;&lt; 1,</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        SetAutoStart = 4,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        SetAutoStart = 1 &lt;&lt; 2,</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        SetSecurity = 8,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        SetSecurity = 1 &lt;&lt; 3,</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        ReadMetadata = 16,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        ReadMetadata = 1 &lt;&lt; 4,</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        SetWebClient = 32,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        SetWebClient = 1 &lt;&lt; 5,</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        SoftRestart = 64,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        SoftRestart = 1 &lt;&lt; 6,</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        SoftShutdown = 128,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        SoftShutdown = 1 &lt;&lt; 7,</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        Restart = 256,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        Restart = 1 &lt;&lt; 8,</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        Shutdown = 512,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        Shutdown = 1 &lt;&lt; 9,</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        Start = 1024,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        Start = 1 &lt;&lt; 10,</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        SetStartupTimeout = 2048,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        SetStartupTimeout = 1 &lt;&lt; 11,</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        SetHeartbeatInterval = 4096,</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        SetHeartbeatInterval = 1 &lt;&lt; 12,</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        CreateDump = 8192,</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        CreateDump = 1 &lt;&lt; 13,</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        SetTopicTimeout = 16384,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        SetTopicTimeout = 1 &lt;&lt; 14,</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        SetAdditionalParameters = 32768,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        SetAdditionalParameters = 1 &lt;&lt; 15,</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        SetVisibility = 65536,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        SetVisibility = 1 &lt;&lt; 16,</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        SetProfiler = 131072,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        SetProfiler = 1 &lt;&lt; 17,</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        SetLogOutput = 262144,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        SetLogOutput = 1 &lt;&lt; 18,</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html">Tgstation.Server.Api.Rights</a></div><div class="ttdef"><b>Definition:</b> <a href="_administration_rights_8cs_source.html#l00003">AdministrationRights.cs:4</a></div></div>

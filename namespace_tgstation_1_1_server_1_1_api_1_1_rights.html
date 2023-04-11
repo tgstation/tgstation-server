@@ -140,19 +140,19 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        WriteUsers = 1,</div>
+<div class="line"><span class="lineno">   19</span>        WriteUsers = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        RestartHost = 2,</div>
+<div class="line"><span class="lineno">   24</span>        RestartHost = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        ChangeVersion = 4,</div>
+<div class="line"><span class="lineno">   29</span>        ChangeVersion = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        EditOwnPassword = 8,</div>
+<div class="line"><span class="lineno">   34</span>        EditOwnPassword = 1 &lt;&lt; 3,</div>
 <div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        ReadUsers = 16,</div>
+<div class="line"><span class="lineno">   39</span>        ReadUsers = 1 &lt;&lt; 4,</div>
 <div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   44</span>        DownloadLogs = 32,</div>
+<div class="line"><span class="lineno">   44</span>        DownloadLogs = 1 &lt;&lt; 5,</div>
 <div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   49</span>        EditOwnOAuthConnections = 64,</div>
+<div class="line"><span class="lineno">   49</span>        EditOwnOAuthConnections = 1 &lt;&lt; 6,</div>
 <div class="line"><span class="lineno">   50</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -175,15 +175,15 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        ReadActive = 1,</div>
+<div class="line"><span class="lineno">   19</span>        ReadActive = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        ListInstalled = 2,</div>
+<div class="line"><span class="lineno">   24</span>        ListInstalled = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        InstallOfficialOrChangeActiveVersion = 4,</div>
+<div class="line"><span class="lineno">   29</span>        InstallOfficialOrChangeActiveVersion = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        CancelInstall = 8,</div>
+<div class="line"><span class="lineno">   34</span>        CancelInstall = 1 &lt;&lt; 3,</div>
 <div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        InstallCustomVersion = 16,</div>
+<div class="line"><span class="lineno">   39</span>        InstallCustomVersion = 1 &lt;&lt; 4,</div>
 <div class="line"><span class="lineno">   40</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -206,27 +206,27 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        WriteEnabled = 1,</div>
+<div class="line"><span class="lineno">   19</span>        WriteEnabled = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        WriteProvider = 2,</div>
+<div class="line"><span class="lineno">   24</span>        WriteProvider = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        WriteChannels = 4,</div>
+<div class="line"><span class="lineno">   29</span>        WriteChannels = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        WriteConnectionString = 8,</div>
+<div class="line"><span class="lineno">   34</span>        WriteConnectionString = 1 &lt;&lt; 3,</div>
 <div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        ReadConnectionString = 16,</div>
+<div class="line"><span class="lineno">   39</span>        ReadConnectionString = 1 &lt;&lt; 4,</div>
 <div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   44</span>        Read = 32,</div>
+<div class="line"><span class="lineno">   44</span>        Read = 1 &lt;&lt; 5,</div>
 <div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   49</span>        Create = 64,</div>
+<div class="line"><span class="lineno">   49</span>        Create = 1 &lt;&lt; 6,</div>
 <div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   54</span>        Delete = 128,</div>
+<div class="line"><span class="lineno">   54</span>        Delete = 1 &lt;&lt; 7,</div>
 <div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   59</span>        WriteName = 256,</div>
+<div class="line"><span class="lineno">   59</span>        WriteName = 1 &lt;&lt; 8,</div>
 <div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   64</span>        WriteReconnectionInterval = 512,</div>
+<div class="line"><span class="lineno">   64</span>        WriteReconnectionInterval = 1 &lt;&lt; 9,</div>
 <div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   69</span>        WriteChannelLimit = 1024,</div>
+<div class="line"><span class="lineno">   69</span>        WriteChannelLimit = 1 &lt;&lt; 10,</div>
 <div class="line"><span class="lineno">   70</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -249,13 +249,13 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        Read = 1,</div>
+<div class="line"><span class="lineno">   19</span>        Read = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        Write = 2,</div>
+<div class="line"><span class="lineno">   24</span>        Write = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        List = 4,</div>
+<div class="line"><span class="lineno">   29</span>        List = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        Delete = 8,</div>
+<div class="line"><span class="lineno">   34</span>        Delete = 1 &lt;&lt; 3,</div>
 <div class="line"><span class="lineno">   35</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -278,43 +278,43 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        ReadRevision = 1,</div>
+<div class="line"><span class="lineno">   19</span>        ReadRevision = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        SetPort = 2,</div>
+<div class="line"><span class="lineno">   24</span>        SetPort = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        SetAutoStart = 4,</div>
+<div class="line"><span class="lineno">   29</span>        SetAutoStart = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        SetSecurity = 8,</div>
+<div class="line"><span class="lineno">   34</span>        SetSecurity = 1 &lt;&lt; 3,</div>
 <div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        ReadMetadata = 16,</div>
+<div class="line"><span class="lineno">   39</span>        ReadMetadata = 1 &lt;&lt; 4,</div>
 <div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   44</span>        SetWebClient = 32,</div>
+<div class="line"><span class="lineno">   44</span>        SetWebClient = 1 &lt;&lt; 5,</div>
 <div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   49</span>        SoftRestart = 64,</div>
+<div class="line"><span class="lineno">   49</span>        SoftRestart = 1 &lt;&lt; 6,</div>
 <div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   54</span>        SoftShutdown = 128,</div>
+<div class="line"><span class="lineno">   54</span>        SoftShutdown = 1 &lt;&lt; 7,</div>
 <div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   59</span>        Restart = 256,</div>
+<div class="line"><span class="lineno">   59</span>        Restart = 1 &lt;&lt; 8,</div>
 <div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   64</span>        Shutdown = 512,</div>
+<div class="line"><span class="lineno">   64</span>        Shutdown = 1 &lt;&lt; 9,</div>
 <div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   69</span>        Start = 1024,</div>
+<div class="line"><span class="lineno">   69</span>        Start = 1 &lt;&lt; 10,</div>
 <div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   74</span>        SetStartupTimeout = 2048,</div>
+<div class="line"><span class="lineno">   74</span>        SetStartupTimeout = 1 &lt;&lt; 11,</div>
 <div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   79</span>        SetHeartbeatInterval = 4096,</div>
+<div class="line"><span class="lineno">   79</span>        SetHeartbeatInterval = 1 &lt;&lt; 12,</div>
 <div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   84</span>        CreateDump = 8192,</div>
+<div class="line"><span class="lineno">   84</span>        CreateDump = 1 &lt;&lt; 13,</div>
 <div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   89</span>        SetTopicTimeout = 16384,</div>
+<div class="line"><span class="lineno">   89</span>        SetTopicTimeout = 1 &lt;&lt; 14,</div>
 <div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   94</span>        SetAdditionalParameters = 32768,</div>
+<div class="line"><span class="lineno">   94</span>        SetAdditionalParameters = 1 &lt;&lt; 15,</div>
 <div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   99</span>        SetVisibility = 65536,</div>
+<div class="line"><span class="lineno">   99</span>        SetVisibility = 1 &lt;&lt; 16,</div>
 <div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  104</span>        SetProfiler = 131072,</div>
+<div class="line"><span class="lineno">  104</span>        SetProfiler = 1 &lt;&lt; 17,</div>
 <div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  109</span>        SetLogOutput = 262144,</div>
+<div class="line"><span class="lineno">  109</span>        SetLogOutput = 1 &lt;&lt; 18,</div>
 <div class="line"><span class="lineno">  110</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -337,23 +337,23 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        Read = 1,</div>
+<div class="line"><span class="lineno">   19</span>        Read = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        Compile = 2,</div>
+<div class="line"><span class="lineno">   24</span>        Compile = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        CancelCompile = 4,</div>
+<div class="line"><span class="lineno">   29</span>        CancelCompile = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        SetDme = 8,</div>
+<div class="line"><span class="lineno">   34</span>        SetDme = 1 &lt;&lt; 3,</div>
 <div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        SetApiValidationPort = 16,</div>
+<div class="line"><span class="lineno">   39</span>        SetApiValidationPort = 1 &lt;&lt; 4,</div>
 <div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   44</span>        CompileJobs = 32,</div>
+<div class="line"><span class="lineno">   44</span>        CompileJobs = 1 &lt;&lt; 5,</div>
 <div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   49</span>        SetSecurityLevel = 64,</div>
+<div class="line"><span class="lineno">   49</span>        SetSecurityLevel = 1 &lt;&lt; 6,</div>
 <div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   54</span>        SetApiValidationRequirement = 128,</div>
+<div class="line"><span class="lineno">   54</span>        SetApiValidationRequirement = 1 &lt;&lt; 7,</div>
 <div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   59</span>        SetTimeout = 256,</div>
+<div class="line"><span class="lineno">   59</span>        SetTimeout = 1 &lt;&lt; 8,</div>
 <div class="line"><span class="lineno">   60</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -376,27 +376,27 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        Read = 1,</div>
+<div class="line"><span class="lineno">   19</span>        Read = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        Create = 2,</div>
+<div class="line"><span class="lineno">   24</span>        Create = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        Rename = 4,</div>
+<div class="line"><span class="lineno">   29</span>        Rename = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        Relocate = 8,</div>
+<div class="line"><span class="lineno">   34</span>        Relocate = 1 &lt;&lt; 3,</div>
 <div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        SetOnline = 16,</div>
+<div class="line"><span class="lineno">   39</span>        SetOnline = 1 &lt;&lt; 4,</div>
 <div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   44</span>        Delete = 32,</div>
+<div class="line"><span class="lineno">   44</span>        Delete = 1 &lt;&lt; 5,</div>
 <div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   49</span>        List = 64,</div>
+<div class="line"><span class="lineno">   49</span>        List = 1 &lt;&lt; 6,</div>
 <div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   54</span>        SetConfiguration = 128,</div>
+<div class="line"><span class="lineno">   54</span>        SetConfiguration = 1 &lt;&lt; 7,</div>
 <div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   59</span>        SetAutoUpdate = 256,</div>
+<div class="line"><span class="lineno">   59</span>        SetAutoUpdate = 1 &lt;&lt; 8,</div>
 <div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   64</span>        SetChatBotLimit = 512,</div>
+<div class="line"><span class="lineno">   64</span>        SetChatBotLimit = 1 &lt;&lt; 9,</div>
 <div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   69</span>        GrantPermissions = 1024,</div>
+<div class="line"><span class="lineno">   69</span>        GrantPermissions = 1 &lt;&lt; 10,</div>
 <div class="line"><span class="lineno">   70</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -419,11 +419,11 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        Read = 1,</div>
+<div class="line"><span class="lineno">   19</span>        Read = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        Write = 2,</div>
+<div class="line"><span class="lineno">   24</span>        Write = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        Create = 4,</div>
+<div class="line"><span class="lineno">   29</span>        Create = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -446,33 +446,33 @@ Enumerations</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        None = 0,</div>
 <div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   19</span>        CancelPendingChanges = 1,</div>
+<div class="line"><span class="lineno">   19</span>        CancelPendingChanges = 1 &lt;&lt; 0,</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   24</span>        SetOrigin = 2,</div>
+<div class="line"><span class="lineno">   24</span>        SetOrigin = 1 &lt;&lt; 1,</div>
 <div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   29</span>        SetSha = 4,</div>
+<div class="line"><span class="lineno">   29</span>        SetSha = 1 &lt;&lt; 2,</div>
 <div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   34</span>        MergePullRequest = 8,</div>
+<div class="line"><span class="lineno">   34</span>        MergePullRequest = 1 &lt;&lt; 3,</div>
 <div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   39</span>        UpdateBranch = 16,</div>
+<div class="line"><span class="lineno">   39</span>        UpdateBranch = 1 &lt;&lt; 4,</div>
 <div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   44</span>        ChangeCommitter = 32,</div>
+<div class="line"><span class="lineno">   44</span>        ChangeCommitter = 1 &lt;&lt; 5,</div>
 <div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   49</span>        ChangeTestMergeCommits = 64,</div>
+<div class="line"><span class="lineno">   49</span>        ChangeTestMergeCommits = 1 &lt;&lt; 6,</div>
 <div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   54</span>        ChangeCredentials = 128,</div>
+<div class="line"><span class="lineno">   54</span>        ChangeCredentials = 1 &lt;&lt; 7,</div>
 <div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   59</span>        SetReference = 256,</div>
+<div class="line"><span class="lineno">   59</span>        SetReference = 1 &lt;&lt; 8,</div>
 <div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   64</span>        Read = 512,</div>
+<div class="line"><span class="lineno">   64</span>        Read = 1 &lt;&lt; 9,</div>
 <div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   69</span>        ChangeAutoUpdateSettings = 1024,</div>
+<div class="line"><span class="lineno">   69</span>        ChangeAutoUpdateSettings = 1 &lt;&lt; 10,</div>
 <div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   74</span>        Delete = 2048,</div>
+<div class="line"><span class="lineno">   74</span>        Delete = 1 &lt;&lt; 11,</div>
 <div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   79</span>        CancelClone = 4096,</div>
+<div class="line"><span class="lineno">   79</span>        CancelClone = 1 &lt;&lt; 12,</div>
 <div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   84</span>        ChangeSubmoduleUpdate = 8192,</div>
+<div class="line"><span class="lineno">   84</span>        ChangeSubmoduleUpdate = 1 &lt;&lt; 13,</div>
 <div class="line"><span class="lineno">   85</span>    }</div>
 </div><!-- fragment -->
 </div>
