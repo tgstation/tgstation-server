@@ -680,6 +680,11 @@ jobs:
     runs-on: windows-latest
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
     steps:
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
       - name: Checkout
         uses: actions/checkout@v3
 
