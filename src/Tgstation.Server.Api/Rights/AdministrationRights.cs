@@ -16,36 +16,36 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User has complete control over creating/editing <see cref="Models.Response.UserResponse"/>s and <see cref="Models.Response.UserGroupResponse"/>s (and deleting in the case of the latter).
 		/// </summary>
-		WriteUsers = 1,
+		WriteUsers = 1 << 0,
 
 		/// <summary>
 		/// User can gracefully restart TGS.
 		/// </summary>
-		RestartHost = 2,
+		RestartHost = 1 << 1,
 
 		/// <summary>
 		/// User can read <see cref="Models.Response.AdministrationResponse"/> and upgrade/downgrade TGS through the API.
 		/// </summary>
-		ChangeVersion = 4,
+		ChangeVersion = 1 << 2,
 
 		/// <summary>
 		/// User can change their password.
 		/// </summary>
-		EditOwnPassword = 8,
+		EditOwnPassword = 1 << 3,
 
 		/// <summary>
 		/// User can read info and rights of other users.
 		/// </summary>
-		ReadUsers = 16,
+		ReadUsers = 1 << 4,
 
 		/// <summary>
 		/// User can list and download <see cref="Models.Response.LogFileResponse"/>s.
 		/// </summary>
-		DownloadLogs = 32,
+		DownloadLogs = 1 << 5,
 
 		/// <summary>
 		/// User can modify their own <see cref="Models.Internal.UserApiBase.OAuthConnections"/>.
 		/// </summary>
-		EditOwnOAuthConnections = 64,
+		EditOwnOAuthConnections = 1 << 6,
 	}
 }

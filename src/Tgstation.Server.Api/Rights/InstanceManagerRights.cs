@@ -16,56 +16,56 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can view <see cref="Models.Instance"/>s which they have an <see cref="Models.Internal.InstancePermissionSet"/> for.
 		/// </summary>
-		Read = 1,
+		Read = 1 << 0,
 
 		/// <summary>
 		/// User can create <see cref="Models.Instance"/>s.
 		/// </summary>
-		Create = 2,
+		Create = 1 << 1,
 
 		/// <summary>
 		/// User can rename <see cref="Models.Instance"/>s they can view.
 		/// </summary>
-		Rename = 4,
+		Rename = 1 << 2,
 
 		/// <summary>
 		/// User can relocate <see cref="Models.Instance"/>s they can view.
 		/// </summary>
-		Relocate = 8,
+		Relocate = 1 << 3,
 
 		/// <summary>
 		/// User can online <see cref="Models.Instance"/>s they can view.
 		/// </summary>
-		SetOnline = 16,
+		SetOnline = 1 << 4,
 
 		/// <summary>
 		/// User can delete <see cref="Models.Instance"/>s they can view.
 		/// </summary>
-		Delete = 32,
+		Delete = 1 << 5,
 
 		/// <summary>
 		/// User can view all <see cref="Models.Instance"/>s.
 		/// </summary>
-		List = 64,
+		List = 1 << 6,
 
 		/// <summary>
 		/// User can change <see cref="Models.Instance.ConfigurationType"/> on instances they can view.
 		/// </summary>
-		SetConfiguration = 128,
+		SetConfiguration = 1 << 7,
 
 		/// <summary>
 		/// User can change <see cref="Models.Instance.AutoUpdateInterval"/> on instances they can view.
 		/// </summary>
-		SetAutoUpdate = 256,
+		SetAutoUpdate = 1 << 8,
 
 		/// <summary>
 		/// User can change <see cref="Models.Instance.ChatBotLimit"/> on instances they can view.
 		/// </summary>
-		SetChatBotLimit = 512,
+		SetChatBotLimit = 1 << 9,
 
 		/// <summary>
 		/// User can give themselves or their group full <see cref="InstancePermissionSetRights"/> on ALL instances.
 		/// </summary>
-		GrantPermissions = 1024,
+		GrantPermissions = 1 << 10,
 	}
 }

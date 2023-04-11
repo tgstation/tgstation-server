@@ -16,46 +16,46 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may read all properties of <see cref="Models.Internal.DreamMakerSettings"/>.
 		/// </summary>
-		Read = 1,
+		Read = 1 << 0,
 
 		/// <summary>
 		/// User may trigger deployments.
 		/// </summary>
-		Compile = 2,
+		Compile = 1 << 1,
 
 		/// <summary>
 		/// User may cancel deployment jobs.
 		/// </summary>
-		CancelCompile = 4,
+		CancelCompile = 1 << 2,
 
 		/// <summary>
 		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ProjectName"/>.
 		/// </summary>
-		SetDme = 8,
+		SetDme = 1 << 3,
 
 		/// <summary>
 		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ApiValidationPort"/>.
 		/// </summary>
-		SetApiValidationPort = 16,
+		SetApiValidationPort = 1 << 4,
 
 		/// <summary>
 		/// User may list and read all <see cref="Models.Internal.CompileJob"/>s.
 		/// </summary>
-		CompileJobs = 32,
+		CompileJobs = 1 << 5,
 
 		/// <summary>
 		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ApiValidationSecurityLevel"/>.
 		/// </summary>
-		SetSecurityLevel = 64,
+		SetSecurityLevel = 1 << 6,
 
 		/// <summary>
 		/// User may modify <see cref="Models.Internal.DreamMakerSettings.RequireDMApiValidation"/>.
 		/// </summary>
-		SetApiValidationRequirement = 128,
+		SetApiValidationRequirement = 1 << 7,
 
 		/// <summary>
 		/// User may modify <see cref="Models.Internal.DreamMakerSettings.Timeout"/>.
 		/// </summary>
-		SetTimeout = 256,
+		SetTimeout = 1 << 8,
 	}
 }

@@ -16,26 +16,26 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User may view the active installed BYOND version.
 		/// </summary>
-		ReadActive = 1,
+		ReadActive = 1 << 0,
 
 		/// <summary>
 		/// User may list all installed BYOND versions.
 		/// </summary>
-		ListInstalled = 2,
+		ListInstalled = 1 << 1,
 
 		/// <summary>
 		/// User may install official BYOND versions or change the active BYOND version.
 		/// </summary>
-		InstallOfficialOrChangeActiveVersion = 4,
+		InstallOfficialOrChangeActiveVersion = 1 << 2,
 
 		/// <summary>
 		/// User may cancel BYOND installation job.
 		/// </summary>
-		CancelInstall = 8,
+		CancelInstall = 1 << 3,
 
 		/// <summary>
 		/// User may upload and activate custom BYOND builds.
 		/// </summary>
-		InstallCustomVersion = 16,
+		InstallCustomVersion = 1 << 4,
 	}
 }

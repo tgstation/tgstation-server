@@ -16,26 +16,26 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// <see cref="Microsoft.Net.Http.Headers.HeaderNames.UserAgent"/> header.
 		/// </summary>
-		UserAgent = 1,
+		UserAgent = 1 << 0,
 
 		/// <summary>
 		/// <see cref="Microsoft.Net.Http.Headers.HeaderNames.Accept"/> header.
 		/// </summary>
-		Accept = 2,
+		Accept = 1 << 1,
 
 		/// <summary>
 		/// <see cref="ApiHeaders.ApiVersionHeader"/>.
 		/// </summary>
-		Api = 4,
+		Api = 1 << 2,
 
 		/// <summary>
 		/// <see cref="Microsoft.Net.Http.Headers.HeaderNames.Authorization"/>
 		/// </summary>
-		Authorization = 8,
+		Authorization = 1 << 3,
 
 		/// <summary>
 		/// <see cref="ApiHeaders.OAuthProviderHeader"/>.
 		/// </summary>
-		OAuthProvider = 16,
+		OAuthProvider = 1 << 4,
 	}
 }

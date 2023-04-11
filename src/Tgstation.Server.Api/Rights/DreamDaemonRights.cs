@@ -16,96 +16,96 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can read <see cref="Models.Response.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.Response.DreamDaemonResponse.StagedCompileJob"/>
 		/// </summary>
-		ReadRevision = 1,
+		ReadRevision = 1 << 0,
 
 		/// <summary>
 		/// User can change the port DreamDaemon runs on.
 		/// </summary>
-		SetPort = 2,
+		SetPort = 1 << 1,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
 		/// </summary>
-		SetAutoStart = 4,
+		SetAutoStart = 1 << 2,
 
 		/// <summary>
 		/// User set <see cref="Models.Internal.DreamDaemonLaunchParameters.SecurityLevel"/>
 		/// </summary>
-		SetSecurity = 8,
+		SetSecurity = 1 << 3,
 
 		/// <summary>
 		/// User can read every property of <see cref="Models.Response.DreamDaemonResponse"/> except <see cref="Models.Response.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.Response.DreamDaemonResponse.StagedCompileJob"/>.
 		/// </summary>
-		ReadMetadata = 16,
+		ReadMetadata = 1 << 4,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>
 		/// </summary>
-		SetWebClient = 32,
+		SetWebClient = 1 << 5,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonApiBase.SoftRestart"/>.
 		/// </summary>
-		SoftRestart = 64,
+		SoftRestart = 1 << 6,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonApiBase.SoftShutdown"/>.
 		/// </summary>
-		SoftShutdown = 128,
+		SoftShutdown = 1 << 7,
 
 		/// <summary>
 		/// User can immediately restart the Watchdog.
 		/// </summary>
-		Restart = 256,
+		Restart = 1 << 8,
 
 		/// <summary>
 		/// User can immediately shutdown the Watchdog.
 		/// </summary>
-		Shutdown = 512,
+		Shutdown = 1 << 9,
 
 		/// <summary>
 		/// User can start the Watchdog.
 		/// </summary>
-		Start = 1024,
+		Start = 1 << 10,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartupTimeout"/>
 		/// </summary>
-		SetStartupTimeout = 2048,
+		SetStartupTimeout = 1 << 11,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HeartbeatSeconds"/>
 		/// </summary>
-		SetHeartbeatInterval = 4096,
+		SetHeartbeatInterval = 1 << 12,
 
 		/// <summary>
 		/// User can create DreamDaemon process dumps or change <see cref="Models.Internal.DreamDaemonLaunchParameters.DumpOnHeartbeatRestart"/>.
 		/// </summary>
-		CreateDump = 8192,
+		CreateDump = 1 << 13,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.TopicRequestTimeout"/>.
 		/// </summary>
-		SetTopicTimeout = 16384,
+		SetTopicTimeout = 1 << 14,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.AdditionalParameters"/>.
 		/// </summary>
-		SetAdditionalParameters = 32768,
+		SetAdditionalParameters = 1 << 15,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.Visibility"/>
 		/// </summary>
-		SetVisibility = 65536,
+		SetVisibility = 1 << 16,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartProfiler"/>
 		/// </summary>
-		SetProfiler = 131072,
+		SetProfiler = 1 << 17,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.LogOutput"/>
 		/// </summary>
-		SetLogOutput = 262144,
+		SetLogOutput = 1 << 18,
 	}
 }

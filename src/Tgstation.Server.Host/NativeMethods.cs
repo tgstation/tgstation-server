@@ -18,9 +18,9 @@ namespace Tgstation.Server.Host
 		[Flags]
 		public enum CreateSymbolicLinkFlags : int
 		{
-			None = 0,
-			Directory = 1,
-			AllowUnprivilegedCreate = 2,
+			None = 0x0,
+			Directory = 0x1,
+			AllowUnprivilegedCreate = 0x2,
 		}
 
 		/// <summary>
