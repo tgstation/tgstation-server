@@ -22,7 +22,8 @@ var searchData=
   ['lock_19',['Lock',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e',1,'Tgstation::Server::Host::Core::SemaphoreSlimContext']]],
   ['locknextdmb_20',['LockNextDmb',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa5ae13811ef0862a54741653dc058783',1,'Tgstation.Server.Host.Components.Deployment.DmbFactory.LockNextDmb()'],['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html#a565a84900113c480ae29535fa22ae175',1,'Tgstation.Server.Host.Components.Deployment.IDmbFactory.LockNextDmb()']]],
   ['logddoutput_21',['LogDDOutput',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a11433df2f5ef1444929e43de9d674aef',1,'Tgstation::Server::Host::Components::Session::SessionControllerFactory']]],
-  ['logonuser_22',['LogonUser',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a1dfa561b475b805169687e321251038c',1,'Tgstation::Server::Host::NativeMethods']]],
-  ['logrequest_23',['LogRequest',['../interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html#a865404ae66021a7a6d95c0688e51f51c',1,'Tgstation::Server::Client::IRequestLogger']]],
-  ['logresponse_24',['LogResponse',['../interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html#a685925403fc438eb5d3688ce8aca08b7',1,'Tgstation::Server::Client::IRequestLogger']]]
+  ['logformat_22',['LogFormat',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_result_extensions.html#afdb6868db32eda2178b3959f4374de94',1,'Tgstation::Server::Host::Extensions::ResultExtensions']]],
+  ['logonuser_23',['LogonUser',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a1dfa561b475b805169687e321251038c',1,'Tgstation::Server::Host::NativeMethods']]],
+  ['logrequest_24',['LogRequest',['../interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html#a865404ae66021a7a6d95c0688e51f51c',1,'Tgstation::Server::Client::IRequestLogger']]],
+  ['logresponse_25',['LogResponse',['../interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html#a685925403fc438eb5d3688ce8aca08b7',1,'Tgstation::Server::Client::IRequestLogger']]]
 ];

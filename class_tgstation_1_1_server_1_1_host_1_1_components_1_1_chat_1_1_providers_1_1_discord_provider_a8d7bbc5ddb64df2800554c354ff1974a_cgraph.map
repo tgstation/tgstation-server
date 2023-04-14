@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.RespondAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,77,297,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="345,5,609,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1" title="Normalize a discord mention string." alt="" coords="346,70,609,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#af4a17b4a63612dfafbd1d48f73ad1ee5" title="Send a message to the IProvider. A Task representing the running operation." alt="" coords="360,149,595,203"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#acb7a2fd7f33039ab041c83beca2b85f0" title="Convert a ChatEmbed to an IEmbed parameters." alt="" coords="657,156,948,196"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,48,297,88"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="669,5,933,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1" title="Normalize a discord mention string." alt="" coords="345,41,608,95"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#af4a17b4a63612dfafbd1d48f73ad1ee5" title="Send a message to the IProvider. A Task representing the running operation." alt="" coords="359,119,594,174"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#acb7a2fd7f33039ab041c83beca2b85f0" title="Convert a ChatEmbed to an IEmbed parameters." alt="" coords="656,91,947,131"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a71748fbc2a36a3f401fd6b156cb6795d" title="Get all text IChannels accessible to and supported by the bot." alt="" coords="681,155,922,210"/>
 </map>

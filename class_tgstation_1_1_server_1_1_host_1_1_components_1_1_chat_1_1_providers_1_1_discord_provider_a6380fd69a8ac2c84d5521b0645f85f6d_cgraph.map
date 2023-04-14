@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannelsImpl">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,315,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,41,315,81"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)." alt="" coords="363,5,627,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a71748fbc2a36a3f401fd6b156cb6795d" title="Get all text IChannels accessible to and supported by the bot." alt="" coords="374,70,615,125"/>
 </map>

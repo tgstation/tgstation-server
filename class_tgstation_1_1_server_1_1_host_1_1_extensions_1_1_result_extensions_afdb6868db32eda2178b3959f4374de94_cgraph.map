@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Extensions.ResultExtensions.LogFormat" name="Tgstation.Server.Host.Extensions.ResultExtensions.LogFormat">
+<area shape="rect" id="node1" title="Converts a given result &#160;into a log entry string." alt="" coords="5,29,223,69"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_result_extensions.html#ad1d16b16f93ff25c6fc0d2d978e0981d" title="Formats given propertyErrorDetails &#160;into a given stringBuilder ." alt="" coords="271,29,504,69"/>
+</map>
