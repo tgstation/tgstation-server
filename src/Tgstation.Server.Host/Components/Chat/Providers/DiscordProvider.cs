@@ -21,6 +21,7 @@ using Remora.Results;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -253,9 +254,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				if (!result.IsSuccess)
 					Logger.LogWarning(
-						"Failed to send to channel {channelId}: {error}",
+						"Failed to send to channel {channelId}: {result}",
 						channelId,
-						result.Error);
+						result.LogFormat());
 			}
 
 			try
@@ -267,8 +268,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!currentGuildsResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Error retrieving current discord guilds: {error}",
-							currentGuildsResponse.Error.Message);
+							"Error retrieving current discord guilds: {result}",
+							currentGuildsResponse.LogFormat());
 						return;
 					}
 
@@ -353,7 +354,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				;
 
 			if (!messageResponse.IsSuccess)
-				Logger.LogWarning("Failed to post deploy embed to channel {channelId}: {errorMessage}", channelId, messageResponse.Error.Message);
+				Logger.LogWarning("Failed to post deploy embed to channel {channelId}: {result}", channelId, messageResponse.LogFormat());
 
 			return async (errorMessage, dreamMakerOutput) =>
 			{
@@ -412,8 +413,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 					if (!createUpdatedMessageResponse.IsSuccess)
 						Logger.LogWarning(
-							"Creating updated deploy embed failed! Error: {errorMessage}",
-							createUpdatedMessageResponse.Error.Message);
+							"Creating updated deploy embed failed: {result}",
+							createUpdatedMessageResponse.LogFormat());
 				}
 
 				if (!messageResponse.IsSuccess)
@@ -431,9 +432,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!editResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Updating deploy embed {messageId} failed, attempting new post! Error: {errorMessage}",
+							"Updating deploy embed {messageId} failed, attempting new post: {result}",
 							messageResponse.Entity.ID,
-							editResponse.Error.Message);
+							editResponse.LogFormat());
 						await CreateUpdatedMessage();
 					}
 				}
@@ -521,9 +522,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					guildName = messageGuildResponse.Entity.Name;
 				else
 					Logger.LogWarning(
-						"Failed to get channel {channelID} in response to message {messageID}!",
+						"Failed to get channel {channelID} in response to message {messageID}: {result}",
 						messageCreateEvent.ChannelID,
-						messageCreateEvent.ID);
+						messageCreateEvent.ID,
+						messageGuildResponse.LogFormat());
 			}
 
 			var result = new DiscordMessage
@@ -600,7 +602,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token);
 					if (!currentUserResult.IsSuccess)
 					{
-						Logger.LogWarning("Unable to retrieve current user: {errorMessage}", currentUserResult.Error.Message);
+						Logger.LogWarning("Unable to retrieve current user: {result}", currentUserResult.LogFormat());
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
 					}
 
@@ -639,7 +641,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			localGatewayCts.Cancel();
 			var gatewayResult = await localGatewayTask;
 			if (!gatewayResult.IsSuccess)
-				Logger.LogWarning("Gateway issue: {errorMessage}", gatewayResult.Error.Message);
+				Logger.LogWarning("Gateway issue: {result}", gatewayResult.LogFormat());
 
 			localGatewayCts.Dispose();
 		}
@@ -672,10 +674,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!discordChannelResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Error retrieving discord channel {channelId}: {error} Inner: {innerError}",
+							"Error retrieving discord channel {channelId}: {result}",
 							channelId,
-							discordChannelResponse.Error.Message,
-							discordChannelResponse.Inner?.Error?.Message);
+							discordChannelResponse.LogFormat());
 						remapRequired = true;
 						return null;
 					}
@@ -698,10 +699,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!guildsResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Error retrieving discord guild {guildID}: {error} Inner: {innerError}",
+							"Error retrieving discord guild {guildID}: {result}",
 							guildId,
-							guildsResponse.Error.Message,
-							guildsResponse.Inner?.Error?.Message);
+							guildsResponse.LogFormat());
 						remapRequired = true;
 						return null;
 					}
