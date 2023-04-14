@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Database
 			if (operation == null)
 				throw new ArgumentNullException(nameof(operation));
 
-			using var scope = scopeFactory.CreateScope();
+			await using var scope = scopeFactory.CreateAsyncScope();
 			await operation(scope.ServiceProvider.GetRequiredService<IDatabaseContext>());
 		}
 	}
