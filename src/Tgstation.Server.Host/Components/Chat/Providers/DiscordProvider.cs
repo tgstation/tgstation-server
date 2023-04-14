@@ -292,7 +292,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					// discord API confirmed weak boned: https://stackoverflow.com/a/52462336
 					if (unmappedTextChannels.Any())
 					{
-						Logger.LogTrace("Dispatching to {0} unmapped channels...", unmappedTextChannels.Count());
+						Logger.LogTrace("Dispatching to {count} unmapped channels...", unmappedTextChannels.Count());
 						await Task.WhenAll(
 							unmappedTextChannels.Select(
 								x => SendToChannel(x.ID)));
@@ -342,7 +342,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Timestamp = estimatedCompletionTime ?? default,
 			};
 
-			Logger.LogTrace("Attempting to post deploy embed to channel {0}...", channelId);
+			Logger.LogTrace("Attempting to post deploy embed to channel {channelId}...", channelId);
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 
 			var messageResponse = await channelsClient.CreateMessageAsync(
@@ -353,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				;
 
 			if (!messageResponse.IsSuccess)
-				Logger.LogWarning("Failed to post deploy embed to channel {0}: {1}", channelId, messageResponse.Error.Message);
+				Logger.LogWarning("Failed to post deploy embed to channel {channelId}: {errorMessage}", channelId, messageResponse.Error.Message);
 
 			return async (errorMessage, dreamMakerOutput) =>
 			{
@@ -412,7 +412,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 					if (!createUpdatedMessageResponse.IsSuccess)
 						Logger.LogWarning(
-							"Creating updated deploy embed failed! Error: {0}",
+							"Creating updated deploy embed failed! Error: {errorMessage}",
 							createUpdatedMessageResponse.Error.Message);
 				}
 
@@ -431,7 +431,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!editResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Updating deploy embed {0} failed, attempting new post! Error: {1}",
+							"Updating deploy embed {messageId} failed, attempting new post! Error: {errorMessage}",
 							messageResponse.Entity.ID,
 							editResponse.Error.Message);
 						await CreateUpdatedMessage();
@@ -481,7 +481,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (!channelResponse.IsSuccess)
 			{
 				Logger.LogWarning(
-					"Failed to get channel {0} in response to message {1}!",
+					"Failed to get channel {channelId} in response to message {messageId}!",
 					messageCreateEvent.ChannelID,
 					messageCreateEvent.ID);
 
@@ -503,7 +503,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				if (mentionedUs)
 					Logger.LogTrace(
-						"Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!",
+						"Ignoring mention from {channelId} ({channelName}) by {authorId} ({authorName}). Channel not mapped!",
 						messageCreateEvent.ChannelID,
 						channelResponse.Entity.Name,
 						messageCreateEvent.Author.ID,
@@ -521,7 +521,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					guildName = messageGuildResponse.Entity.Name;
 				else
 					Logger.LogWarning(
-						"Failed to get channel {0} in response to message {1}!",
+						"Failed to get channel {channelID} in response to message {messageID}!",
 						messageCreateEvent.ChannelID,
 						messageCreateEvent.ID);
 			}
@@ -600,7 +600,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token);
 					if (!currentUserResult.IsSuccess)
 					{
-						Logger.LogWarning("Unable to retrieve current user: {0}", currentUserResult.Error.Message);
+						Logger.LogWarning("Unable to retrieve current user: {errorMessage}", currentUserResult.Error.Message);
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
 					}
 
@@ -639,7 +639,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			localGatewayCts.Cancel();
 			var gatewayResult = await localGatewayTask;
 			if (!gatewayResult.IsSuccess)
-				Logger.LogWarning("Gateway issue: {0}", gatewayResult.Error.Message);
+				Logger.LogWarning("Gateway issue: {errorMessage}", gatewayResult.Error.Message);
 
 			localGatewayCts.Dispose();
 		}
@@ -720,7 +720,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					EmbedsSupported = true,
 				};
 
-				Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
+				Logger.LogTrace("Mapped channel {realId}: {friendlyName}", channelModel.RealId, channelModel.FriendlyName);
 				return Tuple.Create(channelFromDB, channelModel);
 			}
 
