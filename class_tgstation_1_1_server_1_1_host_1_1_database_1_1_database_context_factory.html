@@ -204,7 +204,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   31</span>            <span class="keywordflow">if</span> (operation == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   32</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(operation));</div>
 <div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>            <span class="keyword">using </span>var scope = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#a82349a843b7d53e907fbdcfd46bf91d2">scopeFactory</a>.CreateScope();</div>
+<div class="line"><span class="lineno">   34</span>            await <span class="keyword">using </span>var scope = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#a82349a843b7d53e907fbdcfd46bf91d2">scopeFactory</a>.CreateAsyncScope();</div>
 <div class="line"><span class="lineno">   35</span>            await operation(scope.ServiceProvider.GetRequiredService&lt;IDatabaseContext&gt;());</div>
 <div class="line"><span class="lineno">   36</span>        }</div>
 </div><!-- fragment -->

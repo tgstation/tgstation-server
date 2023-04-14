@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.StartAsync" name="Tgstation.Server.Host.Components.InstanceManager.StartAsync">
 <area shape="rect" id="node1" title=" " alt="" coords="5,197,232,237"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a9e14a1757415a90da51678d31c04a534" title="Activate the IJobManager." alt="" coords="329,5,511,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ae2c07383e771a67abf5ced7179dee8aa" title="Activate the IJobManager." alt="" coords="329,5,511,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="292,69,548,109"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system identity." alt="" coords="280,133,560,173"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a2eb5bdeb76bf1fbfdb297219af3ede45" title="Kill the server with a fatal exception." alt="" coords="329,197,511,237"/>
