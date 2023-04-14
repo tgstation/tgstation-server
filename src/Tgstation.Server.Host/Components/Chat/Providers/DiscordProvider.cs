@@ -13,14 +13,17 @@ using Remora.Discord.API.Abstractions.Gateway.Commands;
 using Remora.Discord.API.Abstractions.Gateway.Events;
 using Remora.Discord.API.Abstractions.Objects;
 using Remora.Discord.API.Abstractions.Rest;
+using Remora.Discord.API.Abstractions.Results;
 using Remora.Discord.API.Objects;
 using Remora.Discord.Gateway;
 using Remora.Discord.Gateway.Extensions;
 using Remora.Rest.Core;
+using Remora.Rest.Results;
 using Remora.Results;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -46,6 +49,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				return NormalizeMentions($"<@{currentUserId}>");
 			}
 		}
+
+		/// <summary>
+		/// The <see cref="ChannelType"/>s supported by the <see cref="DiscordProvider"/> for mapping.
+		/// </summary>
+		static readonly ChannelType[] SupportedGuildChannelTypes = new[]
+		{
+			ChannelType.GuildText,
+			ChannelType.GuildAnnouncement,
+			ChannelType.PrivateThread,
+			ChannelType.PublicThread,
+		};
 
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.
@@ -101,11 +115,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The bot's <see cref="Snowflake"/>.
 		/// </summary>
 		Snowflake currentUserId;
-
-		/// <summary>
-		/// The bot's username at the time of connection.
-		/// </summary>
-		string initialUserName;
 
 		/// <summary>
 		/// If <see cref="serviceProvider"/> is being disposed.
@@ -253,46 +262,36 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				if (!result.IsSuccess)
 					Logger.LogWarning(
-						"Failed to send to channel {channelId}: {error}",
+						"Failed to send to channel {channelId}: {result}",
 						channelId,
-						result.Error);
+						result.LogFormat());
 			}
 
 			try
 			{
 				if (channelId == 0)
 				{
-					var usersClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
-					var currentGuildsResponse = await usersClient.GetCurrentUserGuildsAsync(ct: cancellationToken);
-					if (!currentGuildsResponse.IsSuccess)
-					{
-						Logger.LogWarning(
-							"Error retrieving current discord guilds: {error}",
-							currentGuildsResponse.Error.Message);
-						return;
-					}
-
-					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
-
-					var guildsChannelsTasks = currentGuildsResponse.Entity.Select(
-						guild => guildsClient.GetGuildChannelsAsync(guild.ID.Value, cancellationToken));
-
-					await Task.WhenAll(guildsChannelsTasks);
-
-					var unmappedTextChannels = guildsChannelsTasks
-						.Select(task => task.Result)
-						.SelectMany(guildChannels => guildChannels.Entity)
-						.Where(guildChannel => guildChannel.Type == ChannelType.GuildText);
-
+					IEnumerable<IChannel> unmappedTextChannels;
+					var allAccessibleTextChannels = await GetAllAccessibleTextChannels(cancellationToken);
 					lock (mappedChannels)
-						unmappedTextChannels = unmappedTextChannels
+					{
+						unmappedTextChannels = allAccessibleTextChannels
 							.Where(x => !mappedChannels.Contains(x.ID.Value))
 							.ToList();
+
+						var remapRequired = unmappedTextChannels.Any()
+							|| mappedChannels.Any(
+								mappedChannel => !allAccessibleTextChannels.Any(
+									accessibleTextChannel => accessibleTextChannel.ID == new Snowflake(mappedChannel)));
+
+						if (remapRequired)
+							EnqueueMessage(null);
+					}
 
 					// discord API confirmed weak boned: https://stackoverflow.com/a/52462336
 					if (unmappedTextChannels.Any())
 					{
-						Logger.LogTrace("Dispatching to {0} unmapped channels...", unmappedTextChannels.Count());
+						Logger.LogDebug("Dispatching to {count} unmapped channels...", unmappedTextChannels.Count());
 						await Task.WhenAll(
 							unmappedTextChannels.Select(
 								x => SendToChannel(x.ID)));
@@ -342,7 +341,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Timestamp = estimatedCompletionTime ?? default,
 			};
 
-			Logger.LogTrace("Attempting to post deploy embed to channel {0}...", channelId);
+			Logger.LogTrace("Attempting to post deploy embed to channel {channelId}...", channelId);
 			var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
 
 			var messageResponse = await channelsClient.CreateMessageAsync(
@@ -353,7 +352,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				;
 
 			if (!messageResponse.IsSuccess)
-				Logger.LogWarning("Failed to post deploy embed to channel {0}: {1}", channelId, messageResponse.Error.Message);
+				Logger.LogWarning("Failed to post deploy embed to channel {channelId}: {result}", channelId, messageResponse.LogFormat());
 
 			return async (errorMessage, dreamMakerOutput) =>
 			{
@@ -412,8 +411,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 					if (!createUpdatedMessageResponse.IsSuccess)
 						Logger.LogWarning(
-							"Creating updated deploy embed failed! Error: {0}",
-							createUpdatedMessageResponse.Error.Message);
+							"Creating updated deploy embed failed: {result}",
+							createUpdatedMessageResponse.LogFormat());
 				}
 
 				if (!messageResponse.IsSuccess)
@@ -431,9 +430,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!editResponse.IsSuccess)
 					{
 						Logger.LogWarning(
-							"Updating deploy embed {0} failed, attempting new post! Error: {1}",
+							"Updating deploy embed {messageId} failed, attempting new post: {result}",
 							messageResponse.Entity.ID,
-							editResponse.Error.Message);
+							editResponse.LogFormat());
 						await CreateUpdatedMessage();
 					}
 				}
@@ -481,7 +480,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (!channelResponse.IsSuccess)
 			{
 				Logger.LogWarning(
-					"Failed to get channel {0} in response to message {1}!",
+					"Failed to get channel {channelId} in response to message {messageId}!",
 					messageCreateEvent.ChannelID,
 					messageCreateEvent.ID);
 
@@ -503,7 +502,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				if (mentionedUs)
 					Logger.LogTrace(
-						"Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!",
+						"Ignoring mention from {channelId} ({channelName}) by {authorId} ({authorName}). Channel not mapped!",
 						messageCreateEvent.ChannelID,
 						channelResponse.Entity.Name,
 						messageCreateEvent.Author.ID,
@@ -521,9 +520,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					guildName = messageGuildResponse.Entity.Name;
 				else
 					Logger.LogWarning(
-						"Failed to get channel {0} in response to message {1}!",
+						"Failed to get channel {channelID} in response to message {messageID}: {result}",
 						messageCreateEvent.ChannelID,
-						messageCreateEvent.ID);
+						messageCreateEvent.ID,
+						messageGuildResponse.LogFormat());
 			}
 
 			var result = new DiscordMessage
@@ -600,12 +600,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token);
 					if (!currentUserResult.IsSuccess)
 					{
-						Logger.LogWarning("Unable to retrieve current user: {0}", currentUserResult.Error.Message);
+						Logger.LogWarning("Unable to retrieve current user: {result}", currentUserResult.LogFormat());
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
 					}
 
 					currentUserId = currentUserResult.Entity.ID;
-					initialUserName = currentUserResult.Entity.Username;
 				}
 				finally
 				{
@@ -639,96 +638,138 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			localGatewayCts.Cancel();
 			var gatewayResult = await localGatewayTask;
 			if (!gatewayResult.IsSuccess)
-				Logger.LogWarning("Gateway issue: {0}", gatewayResult.Error.Message);
+				Logger.LogWarning("Gateway issue: {result}", gatewayResult.LogFormat());
 
 			localGatewayCts.Dispose();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<Tuple<Models.ChatChannel, ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Models.ChatChannel> channels, CancellationToken cancellationToken)
+		protected override async Task<Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
 
 			var remapRequired = false;
+			var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
 
-			async Task<Tuple<Models.ChatChannel, ChannelRepresentation>> GetModelChannelFromDBChannel(Models.ChatChannel channelFromDB)
+			async Task<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> GetModelChannelFromDBChannel(Models.ChatChannel channelFromDB)
 			{
 				if (!channelFromDB.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
 
 				var channelId = channelFromDB.DiscordChannelId.Value;
-				string connectionName;
-				string friendlyName;
-				if (channelId == 0)
+				var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
+				var discordChannelResponse = await channelsClient.GetChannelAsync(new Snowflake(channelId), cancellationToken);
+				if (!discordChannelResponse.IsSuccess)
 				{
-					connectionName = initialUserName;
-					friendlyName = "(Unmapped accessible channels)";
+					Logger.LogWarning(
+						"Error retrieving discord channel {channelId}: {result}",
+						channelId,
+						discordChannelResponse.LogFormat());
+
+					remapRequired |= !(discordChannelResponse.Error is RestResultError<RestError> restResultError
+						&& (restResultError.Error?.Code == DiscordError.MissingAccess
+						|| restResultError.Error?.Code == DiscordError.UnknownChannel));
+					return null;
 				}
-				else
+
+				var channelType = discordChannelResponse.Entity.Type;
+				if (!SupportedGuildChannelTypes.Contains(channelType))
 				{
-					var channelsClient = serviceProvider.GetRequiredService<IDiscordRestChannelAPI>();
-					var discordChannelResponse = await channelsClient.GetChannelAsync(new Snowflake(channelId), cancellationToken);
-					if (!discordChannelResponse.IsSuccess)
-					{
-						Logger.LogWarning(
-							"Error retrieving discord channel {channelId}: {error} Inner: {innerError}",
-							channelId,
-							discordChannelResponse.Error.Message,
-							discordChannelResponse.Inner?.Error?.Message);
-						remapRequired = true;
-						return null;
-					}
+					Logger.LogWarning("Cound not map channel {channelId}! Incorrect type: {channelType}", channelId, discordChannelResponse.Entity.Type);
+					return null;
+				}
 
-					var channelType = discordChannelResponse.Entity.Type;
-					if (channelType != ChannelType.GuildText && channelType != ChannelType.GuildAnnouncement)
-					{
-						Logger.LogWarning("Cound not map channel {channelId}! Incorrect type: {channelType}", channelId, discordChannelResponse.Entity.Type);
-						return null;
-					}
+				var guildId = discordChannelResponse.Entity.GuildID.Value;
 
-					friendlyName = discordChannelResponse.Entity.Name.Value;
-					var guildId = discordChannelResponse.Entity.GuildID.Value;
-
-					var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
-					var guildsResponse = await guildsClient.GetGuildAsync(
+				var guildsResponse = await guildsClient.GetGuildAsync(
+					guildId,
+					false,
+					cancellationToken);
+				if (!guildsResponse.IsSuccess)
+				{
+					Logger.LogWarning(
+						"Error retrieving discord guild {guildID}: {result}",
 						guildId,
-						false,
-						cancellationToken);
-					if (!guildsResponse.IsSuccess)
-					{
-						Logger.LogWarning(
-							"Error retrieving discord guild {guildID}: {error} Inner: {innerError}",
-							guildId,
-							guildsResponse.Error.Message,
-							guildsResponse.Inner?.Error?.Message);
-						remapRequired = true;
-						return null;
-					}
-
-					connectionName = guildsResponse.Entity.Name;
+						guildsResponse.LogFormat());
+					remapRequired |= true;
+					return null;
 				}
+
+				var connectionName = guildsResponse.Entity.Name;
 
 				var channelModel = new ChannelRepresentation
 				{
 					RealId = channelId,
 					IsAdminChannel = channelFromDB.IsAdminChannel == true,
-					ConnectionName = connectionName,
-					FriendlyName = friendlyName,
+					ConnectionName = guildsResponse.Entity.Name,
+					FriendlyName = discordChannelResponse.Entity.Name.Value,
 					IsPrivateChannel = false,
 					Tag = channelFromDB.Tag,
 					EmbedsSupported = true,
 				};
 
-				Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
-				return Tuple.Create(channelFromDB, channelModel);
+				Logger.LogTrace("Mapped channel {realId}: {friendlyName}", channelModel.RealId, channelModel.FriendlyName);
+				return Tuple.Create<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(
+					channelFromDB,
+					new List<ChannelRepresentation> { channelModel });
 			}
 
 			var tasks = channels
-				.Select(x => GetModelChannelFromDBChannel(x))
+				.Where(x => x.DiscordChannelId != 0)
+				.Select(GetModelChannelFromDBChannel)
 				.ToList();
 
 			await Task.WhenAll(tasks);
+
+			var channelIdZeroModel = channels.FirstOrDefault(x => x.DiscordChannelId == 0);
+			if (channelIdZeroModel != null)
+			{
+				Logger.LogInformation("Mapping ALL additional accessible text channels");
+				var allAccessibleChannels = await GetAllAccessibleTextChannels(cancellationToken);
+				var unmappedTextChannels = allAccessibleChannels
+					.Where(x => !tasks.Any(task => task.Result != null && new Snowflake(task.Result.Item1.DiscordChannelId.Value) == x.ID));
+
+				async Task<Tuple<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> CreateMappingsForUnmappedChannels()
+				{
+					var unmappedTasks =
+						unmappedTextChannels.Select(
+							async unmappedTextChannel =>
+							{
+								var fakeChannelModel = new Models.ChatChannel
+								{
+									DiscordChannelId = unmappedTextChannel.ID.Value,
+									IsAdminChannel = channelIdZeroModel.IsAdminChannel,
+									Tag = channelIdZeroModel.Tag,
+								};
+
+								var tuple = await GetModelChannelFromDBChannel(fakeChannelModel);
+								return tuple?.Item2.First();
+							})
+						.ToList();
+
+					// Add catch-all channel
+					unmappedTasks.Add(Task.FromResult(
+						new ChannelRepresentation
+						{
+							IsAdminChannel = channelIdZeroModel.IsAdminChannel.Value,
+							ConnectionName = "(Unknown Discord Guilds)",
+							EmbedsSupported = true,
+							FriendlyName = "(Unknown Discord Channels)",
+							RealId = 0,
+							Tag = channelIdZeroModel.Tag,
+						}));
+
+					await Task.WhenAll(unmappedTasks);
+					return Tuple.Create<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(
+						channelIdZeroModel,
+						unmappedTasks.Select(x => x.Result).Where(x => x != null).ToList());
+				}
+
+				var task = CreateMappingsForUnmappedChannels();
+				await task;
+				tasks.Add(task);
+			}
 
 			var enumerator = tasks
 				.Select(x => x.Result)
@@ -738,13 +779,76 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			lock (mappedChannels)
 			{
 				mappedChannels.Clear();
-				mappedChannels.AddRange(enumerator.Select(x => x.Item2.RealId));
+				mappedChannels.AddRange(enumerator.SelectMany(x => x.Item2).Select(x => x.RealId));
 			}
 
 			if (remapRequired)
+			{
+				Logger.LogWarning("Some channels failed to load with unknown errors. We will request that these be remapped, but it may result in communication spam. Please check prior logs and report an issue if this occurs.");
 				EnqueueMessage(null);
+			}
 
-			return enumerator;
+			return new Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(enumerator.Select(x => new KeyValuePair<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(x.Item1, x.Item2)));
+		}
+
+		/// <summary>
+		/// Get all text <see cref="IChannel"/>s accessible to and supported by the bot.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IEnumerable{T}"/> of accessible and compatible <see cref="IChannel"/>s.</returns>
+		async Task<IEnumerable<IChannel>> GetAllAccessibleTextChannels(CancellationToken cancellationToken)
+		{
+			var usersClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
+			var currentGuildsResponse = await usersClient.GetCurrentUserGuildsAsync(ct: cancellationToken);
+			if (!currentGuildsResponse.IsSuccess)
+			{
+				Logger.LogWarning(
+					"Error retrieving current discord guilds: {result}",
+					currentGuildsResponse.LogFormat());
+				return Enumerable.Empty<IChannel>();
+			}
+
+			var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();
+
+			async Task<IEnumerable<IChannel>> GetGuildChannels(IPartialGuild guild)
+			{
+				var channelsTask = guildsClient.GetGuildChannelsAsync(guild.ID.Value, cancellationToken);
+				var threads = await guildsClient.ListActiveGuildThreadsAsync(guild.ID.Value, cancellationToken);
+				if (!threads.IsSuccess)
+					Logger.LogWarning(
+						"Error retrieving discord guild threads {guildId} ({guildName}): {result}",
+						guild.ID,
+						guild.Name,
+						threads.LogFormat());
+
+				var channels = await channelsTask;
+				if (!channels.IsSuccess)
+					Logger.LogWarning(
+						"Error retrieving discord guild channels {guildId} ({guildName}): {result}",
+						guild.ID,
+						guild.Name,
+						channels.LogFormat());
+
+				if (!channels.IsSuccess && !threads.IsSuccess)
+					return Enumerable.Empty<IChannel>();
+
+				if (channels.IsSuccess && threads.IsSuccess)
+					return channels.Entity.Concat(threads.Entity.Threads ?? Enumerable.Empty<IChannel>());
+
+				return channels.Entity ?? threads.Entity?.Threads ?? Enumerable.Empty<IChannel>();
+			}
+
+			var guildsChannelsTasks = currentGuildsResponse.Entity
+				.Select(GetGuildChannels)
+				.ToList();
+
+			await Task.WhenAll(guildsChannelsTasks);
+
+			var allAccessibleChannels = guildsChannelsTasks
+				.SelectMany(task => task.Result)
+				.Where(guildChannel => SupportedGuildChannelTypes.Contains(guildChannel.Type));
+
+			return allAccessibleChannels;
 		}
 
 		/// <summary>
@@ -753,7 +857,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="embed">The <see cref="ChatEmbed"/> to convert.</param>
 		/// <returns>The parameter for sending a single <see cref="IEmbed"/>.</returns>
 		#pragma warning disable CA1502
-		private Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed embed)
+		Optional<IReadOnlyList<IEmbed>> ConvertEmbed(ChatEmbed embed)
 		{
 			if (embed == null)
 				return default;
