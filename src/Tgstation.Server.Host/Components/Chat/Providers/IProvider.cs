@@ -58,8 +58,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="channels">The <see cref="Api.Models.ChatChannel"/>s to map.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyCollection{T}"/> of the <see cref="ChatChannel"/>'s <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
-		Task<IReadOnlyCollection<Tuple<ChatChannel, ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the <see cref="ChatChannel"/>'s <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
+		Task<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Send a message to the <see cref="IProvider"/>.

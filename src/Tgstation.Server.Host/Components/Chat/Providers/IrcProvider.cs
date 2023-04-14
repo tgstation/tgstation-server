@@ -267,7 +267,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override Task<IReadOnlyCollection<Tuple<Models.ChatChannel, ChannelRepresentation>>> MapChannelsImpl(
+		protected override Task<Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(
 			IEnumerable<Models.ChatChannel> channels,
 			CancellationToken cancellationToken)
 			=> Task.Factory.StartNew(
@@ -300,37 +300,40 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							else
 								client.RfcJoin(channelToJoin);
 
-						return (IReadOnlyCollection<Tuple<Models.ChatChannel, ChannelRepresentation>>)channels
-							.Select(dbChannel =>
-							{
-								var channelName = dbChannel.GetIrcChannelName();
-								ulong? id = null;
-								if (!channelIdMap.Any(y =>
+						return new Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(
+							channels
+								.Select(dbChannel =>
 								{
-									if (y.Value != channelName)
-										return false;
-									id = y.Key;
-									return true;
-								}))
-								{
-									id = channelIdCounter++;
-									channelIdMap.Add(id.Value, channelName);
-								}
-
-								return Tuple.Create(
-									dbChannel,
-									new ChannelRepresentation
+									var channelName = dbChannel.GetIrcChannelName();
+									ulong? id = null;
+									if (!channelIdMap.Any(y =>
 									{
-										RealId = id.Value,
-										IsAdminChannel = dbChannel.IsAdminChannel == true,
-										ConnectionName = address,
-										FriendlyName = channelIdMap[id.Value],
-										IsPrivateChannel = false,
-										Tag = dbChannel.Tag,
-										EmbedsSupported = false,
-									});
-							})
-							.ToList();
+										if (y.Value != channelName)
+											return false;
+										id = y.Key;
+										return true;
+									}))
+									{
+										id = channelIdCounter++;
+										channelIdMap.Add(id.Value, channelName);
+									}
+
+									return new KeyValuePair<Models.ChatChannel, IEnumerable<ChannelRepresentation>>(
+										dbChannel,
+										new List<ChannelRepresentation>
+										{
+											new ChannelRepresentation
+											{
+												RealId = id.Value,
+												IsAdminChannel = dbChannel.IsAdminChannel == true,
+												ConnectionName = address,
+												FriendlyName = channelIdMap[id.Value],
+												IsPrivateChannel = false,
+												Tag = dbChannel.Tag,
+												EmbedsSupported = false,
+											},
+										});
+								}));
 					}
 				},
 				cancellationToken,

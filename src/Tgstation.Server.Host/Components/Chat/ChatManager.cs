@@ -212,15 +212,17 @@ namespace Tgstation.Server.Host.Components.Chat
 							.ToList();
 				}
 
-				var newMappings = results.Select(tuple => new ChannelMapping
-				{
-					IsWatchdogChannel = tuple.Item1.IsWatchdogChannel == true,
-					IsUpdatesChannel = tuple.Item1.IsUpdatesChannel == true,
-					IsAdminChannel = tuple.Item1.IsAdminChannel == true,
-					ProviderChannelId = tuple.Item2.RealId,
-					ProviderId = connectionId,
-					Channel = tuple.Item2,
-				});
+				var newMappings = results.SelectMany(
+					kvp => kvp.Value.Select(
+						channelRepresentation => new ChannelMapping
+						{
+							IsWatchdogChannel = kvp.Key.IsWatchdogChannel == true,
+							IsUpdatesChannel = kvp.Key.IsUpdatesChannel == true,
+							IsAdminChannel = kvp.Key.IsAdminChannel == true,
+							ProviderChannelId = channelRepresentation.RealId,
+							ProviderId = connectionId,
+							Channel = channelRepresentation,
+						}));
 
 				ulong baseId;
 				lock (synchronizationLock)
@@ -594,10 +596,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="provider">The <see cref="IProvider"/> who recevied <paramref name="message"/>.</param>
 		/// <param name="message">The <see cref="Message"/> to process. If <see langword="null"/>, this indicates the provider reconnected.</param>
+		/// <param name="recursed">If we are called recursively after remapping the provider.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 #pragma warning disable CA1502
-		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
+		async Task ProcessMessage(IProvider provider, Message message, bool recursed, CancellationToken cancellationToken)
 #pragma warning restore CA1502
 		{
 			if (!provider.Connected)
@@ -617,6 +620,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			var providerChannelId = message.User.Channel.RealId;
 			KeyValuePair<ulong, ChannelMapping>? mappedChannel;
 			long providerId;
+			bool hasChannelZero;
 			lock (providers)
 			{
 				// important, otherwise we could end up processing during shutdown
@@ -630,6 +634,18 @@ namespace Tgstation.Server.Host.Components.Chat
 					.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == providerChannelId)
 					.Select(x => (KeyValuePair<ulong, ChannelMapping>?)x)
 					.FirstOrDefault();
+				hasChannelZero = mappedChannels
+					.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == 0)
+					.Any();
+			}
+
+			if (!recursed && !mappedChannel.HasValue && hasChannelZero)
+			{
+				logger.LogInformation("Receieved message from unmapped channel whose provider contains ID 0. Remapping...");
+				await RemapProvider(provider, cancellationToken);
+				logger.LogTrace("Resume processing original message...");
+				await ProcessMessage(provider, message, true, cancellationToken);
+				return;
 			}
 
 			if (message.User.Channel.IsPrivateChannel)
@@ -646,11 +662,17 @@ namespace Tgstation.Server.Host.Components.Chat
 							newId);
 						mappedChannels.Add(newId, new ChannelMapping
 						{
-							IsWatchdogChannel = false,
 							ProviderChannelId = message.User.Channel.RealId,
 							ProviderId = providerId,
 							Channel = message.User.Channel,
 						});
+
+						logger.LogTrace(
+							"Mapping DM {connectionName}:{userId} ({userFriendlyName}) as {newId}",
+							message.User.Channel.ConnectionName,
+							message.User.RealId,
+							message.User.FriendlyName,
+							newId);
 						message.User.Channel.RealId = newId;
 					}
 					else
@@ -668,7 +690,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						{
 							message.User.Channel.RealId,
 						},
-						null,
+						message,
 						new MessageContent
 						{
 							Text = "TGS: Processing error, check logs!",
@@ -892,7 +914,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							using (LogContext.PushProperty("ChatMessage", messageNumber))
 								try
 								{
-									await ProcessMessage(completedMessageTaskKvp.Key, message, cancellationToken);
+									await ProcessMessage(completedMessageTaskKvp.Key, message, false, cancellationToken);
 								}
 								catch (Exception ex)
 								{
