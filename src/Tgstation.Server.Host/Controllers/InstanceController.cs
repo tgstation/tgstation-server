@@ -686,7 +686,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="Models.Instance"/> or <see langword="null"/> if ports could not be allocated.</returns>
 		async Task<Models.Instance> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
 		{
-			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken);
+			var ddPort = await portAllocator.GetAvailablePort(1024, false, cancellationToken);
 			if (!ddPort.HasValue)
 				return null;
 
