@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Hosting;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Jobs
@@ -50,6 +51,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// Activate the <see cref="IJobManager"/>.
 		/// </summary>
-		void Activate();
+		/// <param name="instanceCoreProvider">The <see cref="IInstanceCoreProvider"/> for the <see cref="IJobManager"/>.</param>
+		void Activate(IInstanceCoreProvider instanceCoreProvider);
 	}
 }

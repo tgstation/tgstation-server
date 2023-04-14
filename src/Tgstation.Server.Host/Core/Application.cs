@@ -355,7 +355,6 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
-			services.AddSingleton(x => new Lazy<IInstanceCoreProvider>(() => x.GetRequiredService<InstanceManager>()));
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 		}
 

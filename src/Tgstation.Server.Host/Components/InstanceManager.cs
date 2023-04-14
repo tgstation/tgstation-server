@@ -431,7 +431,7 @@ namespace Tgstation.Server.Host.Components
 
 				await Task.WhenAll(instanceOnliningTasks);
 
-				jobManager.Activate();
+				jobManager.Activate(this);
 
 				logger.LogInformation("Server ready!");
 				readyTcs.SetResult();

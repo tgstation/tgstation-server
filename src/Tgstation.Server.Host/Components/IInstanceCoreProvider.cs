@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Provider for <see cref="IInstanceCore"/>s.
 	/// </summary>
-	interface IInstanceCoreProvider
+	public interface IInstanceCoreProvider
 	{
 		/// <summary>
 		/// Get the <see cref="IInstanceCore"/> for a given <paramref name="instance"/> if it's online.

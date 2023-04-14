@@ -34,19 +34,14 @@ namespace Tgstation.Server.Host.Jobs
 		readonly ILogger<JobManager> logger;
 
 		/// <summary>
-		/// The <see cref="IInstanceCoreProvider"/> for the <see cref="JobManager"/>.
-		/// </summary>
-		readonly Lazy<IInstanceCoreProvider> instanceCoreProvider;
-
-		/// <summary>
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to running <see cref="JobHandler"/>s.
 		/// </summary>
 		readonly Dictionary<long, JobHandler> jobs;
 
 		/// <summary>
-		/// <see cref="TaskCompletionSource"/> to delay starting jobs until the server is ready.
+		/// <see cref="TaskCompletionSource{TResult}"/> to delay starting jobs until the server is ready.
 		/// </summary>
-		readonly TaskCompletionSource activationTcs;
+		readonly TaskCompletionSource<IInstanceCoreProvider> activationTcs;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for various operations.
@@ -62,21 +57,18 @@ namespace Tgstation.Server.Host.Jobs
 		/// Initializes a new instance of the <see cref="JobManager"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
-		/// <param name="instanceCoreProvider">The value of <see cref="instanceCoreProvider"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public JobManager(
 			IDatabaseContextFactory databaseContextFactory,
-			Lazy<IInstanceCoreProvider> instanceCoreProvider,
 			ILoggerFactory loggerFactory,
 			ILogger<JobManager> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-			this.instanceCoreProvider = instanceCoreProvider ?? throw new ArgumentNullException(nameof(instanceCoreProvider));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			jobs = new Dictionary<long, JobHandler>();
-			activationTcs = new TaskCompletionSource();
+			activationTcs = new TaskCompletionSource<IInstanceCoreProvider>();
 			synchronizationLock = new object();
 			addCancelLock = new object();
 		}
@@ -265,10 +257,13 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public void Activate()
+		public void Activate(IInstanceCoreProvider instanceCoreProvider)
 		{
+			if (instanceCoreProvider == null)
+				throw new ArgumentNullException(nameof(instanceCoreProvider));
+
 			logger.LogTrace("Activating job manager...");
-			activationTcs.SetResult();
+			activationTcs.SetResult(instanceCoreProvider);
 		}
 
 		/// <summary>
@@ -322,11 +317,11 @@ namespace Tgstation.Server.Host.Jobs
 								}
 						}
 
-						await activationTcs.Task.WithToken(cancellationToken);
+						var instanceCoreProvider = await activationTcs.Task.WithToken(cancellationToken);
 
 						logger.LogTrace("Starting job...");
 						await operation(
-							instanceCoreProvider.Value.GetInstance(oldJob.Instance),
+							instanceCoreProvider.GetInstance(oldJob.Instance),
 							databaseContextFactory,
 							job,
 							new JobProgressReporter(
