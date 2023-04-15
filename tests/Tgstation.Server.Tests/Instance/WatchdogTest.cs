@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
+using Newtonsoft.Json;
+
 using System;
 using System.Globalization;
 using System.IO;
@@ -13,6 +15,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -22,25 +25,29 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
 {
-	sealed class WatchdogTest : JobsRequiredTest
+	sealed class WatchdogTest : JobsRequiredTest, IBridgeHandler
 	{
 		readonly IInstanceClient instanceClient;
-		readonly IInstanceManager instanceManager;
+		readonly InstanceManager instanceManager;
+		readonly ushort serverPort;
 
 		bool ranTimeoutTest = false;
 
-		public WatchdogTest(IInstanceClient instanceClient, IInstanceManager instanceManager)
+		public WatchdogTest(IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
+			this.serverPort = serverPort;
 		}
 
 		public async Task Run(CancellationToken cancellationToken)
@@ -75,6 +82,7 @@ namespace Tgstation.Server.Tests.Instance
 			await RunLongRunningTestThenUpdate(cancellationToken);
 
 			await GhettoChatCommandTest(cancellationToken);
+			await GhettoValidateDMApiLimits(cancellationToken);
 
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
@@ -242,7 +250,7 @@ namespace Tgstation.Server.Tests.Instance
 			using var ddProc = ddProcs.Single();
 			IProcessExecutor executor = null;
 			executor = new ProcessExecutor(
-				RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<IIOManager>(),
@@ -326,6 +334,198 @@ namespace Tgstation.Server.Tests.Instance
 			await Task.Delay(TimeSpan.FromSeconds(3), cts.Token);
 
 			return await instanceClient.DreamDaemon.Start(cancellationToken);
+		}
+
+		class DMApiParametersImpl : DMApiParameters { }
+		public DMApiParameters DMApiParameters => new DMApiParametersImpl
+		{
+			AccessIdentifier = "tgs_integration_test"
+		};
+
+		TaskCompletionSource bridgeTestsTcs;
+
+		public class BridgeResponseHack : BridgeResponse
+		{
+			public string IntegrationHack { get; set; }
+		}
+
+		public class ResponseTestData : TestData
+		{
+			public bool Continue { get; set; }
+			public string PayloadId { get; set; }
+		}
+
+		bool bridgeStageResponse;
+		long lastBridgeRequestSize = 0;
+
+		uint lastPayloadId = 0;
+
+		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		{
+			try
+			{
+				Assert.AreEqual(DMApiParameters.AccessIdentifier, parameters.AccessIdentifier);
+				Assert.AreEqual((BridgeCommandType)0, parameters.CommandType);
+				Assert.IsNotNull(parameters.ChatMessage?.Text);
+				var splits = parameters.ChatMessage.Text.Split(':', StringSplitOptions.RemoveEmptyEntries);
+				var coreMessage = splits[0];
+				Assert.IsFalse(String.IsNullOrWhiteSpace(coreMessage));
+				if (!bridgeStageResponse)
+					if (coreMessage == "done")
+					{
+						Assert.AreEqual(DMApiConstants.MaximumBridgeRequestLength, lastBridgeRequestSize);
+
+						bridgeTestsTcs.SetResult();
+						return Task.FromResult<BridgeResponse>(
+							new BridgeResponseHack
+							{
+								IntegrationHack = "ok"
+							});
+					}
+
+				Assert.AreEqual("payload", coreMessage);
+				lastBridgeRequestSize = $"http://127.0.0.1:{serverPort}/Bridge?data=".Length + HttpUtility.UrlEncode(
+					JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings)).Length;
+				return Task.FromResult<BridgeResponse>(
+					new BridgeResponseHack
+					{
+						IntegrationHack = "ok"
+					});
+			}
+			catch (Exception ex)
+			{
+				bridgeTestsTcs.SetException(ex);
+				return Task.FromResult<BridgeResponse>(null);
+			}
+		}
+
+		public class TestData
+		{
+			public string Size { get; set; }
+			public string Payload { get; set; }
+		}
+
+		async Task GhettoValidateDMApiLimits(CancellationToken cancellationToken)
+		{
+			var startJob = await StartDD(cancellationToken);
+
+			await WaitForJob(startJob, 40, false, null, cancellationToken);
+
+			// first check the bridge limits
+			bridgeTestsTcs = new TaskCompletionSource();
+			BridgeController.LogContent = false;
+			using (var bridgeRegistration = instanceManager.RegisterHandler(this))
+			{
+				System.Console.WriteLine("TEST: Sending Bridge tests topic...");
+				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", IntegrationTest.DDPort, cancellationToken);
+				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
+
+				using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+				// this test doesn't take long
+				cts.CancelAfter(TimeSpan.FromMinutes(10));
+				await bridgeTestsTcs.Task.WithToken(cts.Token);
+			}
+
+			BridgeController.LogContent = true;
+
+			// Time for DD to revert the bridge access identifier change
+			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+
+			// Time for topic tests
+			// Request
+
+			System.Console.WriteLine("TEST: Sending Topic tests topics...");
+
+			var nextPow = 0;
+			var lastSize = 0;
+
+			var baseTopic = new TestData
+			{
+				Size = 0.ToString().PadLeft(6, '0'),
+				Payload = "",
+			};
+
+			var json = JsonConvert.SerializeObject(baseTopic, DMApiConstants.SerializerSettings);
+			var topicString = $"tgs_integration_test_tactics3={topicClient.SanitizeString(json)}";
+
+			var baseSize = topicString.Length;
+			var wrappingSize = baseSize;
+
+			while (!cancellationToken.IsCancellationRequested)
+			{
+				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
+				var payloadSize = currentSize - wrappingSize;
+
+				var topic = new TestData
+				{
+					Size = payloadSize.ToString().PadLeft(6, '0'),
+					Payload = new string('a', payloadSize),
+				};
+
+				TopicResponse topicRequestResult = null;
+				try
+				{
+					topicRequestResult = await topicClient.SendTopic(
+						IPAddress.Loopback,
+						$"tgs_integration_test_tactics3={topicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
+						IntegrationTest.DDPort,
+						cancellationToken);
+				}
+				catch (ArgumentOutOfRangeException)
+				{
+				}
+
+				if (topicRequestResult == null
+					|| topicRequestResult.ResponseType != TopicResponseType.StringResponse
+					|| topicRequestResult.StringData != "pass")
+				{
+					if (topicRequestResult != null)
+						Assert.AreEqual("fail", topicRequestResult.StringData);
+					if (currentSize == lastSize + 1)
+						break;
+					baseSize = lastSize;
+					nextPow = 0;
+					continue;
+				}
+
+				lastSize = currentSize;
+				++nextPow;
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+
+			Assert.AreEqual(DMApiConstants.MaximumTopicRequestLength, (uint)lastSize);
+
+			// Receive
+			baseSize = 1;
+			nextPow = 0;
+			lastSize = 0;
+			while (!cancellationToken.IsCancellationRequested)
+			{
+				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
+				var topicRequestResult = await topicClient.SendTopic(
+					IPAddress.Loopback,
+					$"tgs_integration_test_tactics4={topicClient.SanitizeString(currentSize.ToString())}",
+					IntegrationTest.DDPort,
+					cancellationToken);
+
+				if (topicRequestResult.ResponseType != TopicResponseType.StringResponse
+					|| new string('a', currentSize) != topicRequestResult.StringData)
+				{
+					if (currentSize == lastSize + 1)
+						break;
+					baseSize = lastSize;
+					nextPow = 0;
+					continue;
+				}
+
+				lastSize = currentSize;
+				++nextPow;
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+			Assert.AreEqual(DMApiConstants.MaximumTopicResponseLength, (uint)lastSize);
+			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 		}
 
 		async Task GhettoChatCommandTest(CancellationToken cancellationToken)
@@ -581,23 +781,23 @@ namespace Tgstation.Server.Tests.Instance
 			return ddProc != null;
 		}
 
+		TopicClient topicClient = new (new SocketParameters
+		{
+			SendTimeout = TimeSpan.FromSeconds(30),
+			ReceiveTimeout = TimeSpan.FromSeconds(30),
+			ConnectTimeout = TimeSpan.FromSeconds(30),
+			DisconnectTimeout = TimeSpan.FromSeconds(30)
+		});
+
 		public async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 
-			var bts = new TopicClient(new SocketParameters
-			{
-				SendTimeout = TimeSpan.FromSeconds(30),
-				ReceiveTimeout = TimeSpan.FromSeconds(30),
-				ConnectTimeout = TimeSpan.FromSeconds(30),
-				DisconnectTimeout = TimeSpan.FromSeconds(30)
-			});
-
 			try
 			{
 				System.Console.WriteLine("TEST: Sending world reboot topic...");
-				var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", IntegrationTest.DDPort, cancellationToken);
+				var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", IntegrationTest.DDPort, cancellationToken);
 				Assert.AreEqual("ack", result.StringData);
 
 				using (var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))

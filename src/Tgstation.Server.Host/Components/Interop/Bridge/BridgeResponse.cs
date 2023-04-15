@@ -3,7 +3,7 @@
 	/// <summary>
 	/// A response to a bridge request.
 	/// </summary>
-	public sealed class BridgeResponse : DMApiResponse
+	public class BridgeResponse : DMApiResponse
 	{
 		/// <summary>
 		/// The new port for <see cref="BridgeCommandType.Reboot"/> requests.

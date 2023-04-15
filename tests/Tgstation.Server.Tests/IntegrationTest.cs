@@ -829,7 +829,7 @@ namespace Tgstation.Server.Tests
 
 			TerminateAllDDs();
 
-			IInstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<IInstanceManager>();
+			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
 
 			// main run
 			var serverTask = server.Run(cancellationToken);
@@ -878,7 +878,7 @@ namespace Tgstation.Server.Tests
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
-					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances, GetInstanceManager()).RunTests(cancellationToken));
+					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances, GetInstanceManager(), (ushort)server.Url.Port).RunTests(cancellationToken));
 
 					await Task.WhenAll(rootTest, adminTest, instanceTests, usersTest);
 
@@ -998,7 +998,7 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(instanceClient, GetInstanceManager());
+					var wdt = new WatchdogTest(instanceClient, GetInstanceManager(), (ushort)server.Url.Port);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1045,7 +1045,7 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(instanceClient, GetInstanceManager());
+					var wdt = new WatchdogTest(instanceClient, GetInstanceManager(), (ushort)server.Url.Port);
 					currentDD = await wdt.TellWorldToReboot(cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);

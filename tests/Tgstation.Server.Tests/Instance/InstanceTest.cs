@@ -12,13 +12,15 @@ namespace Tgstation.Server.Tests.Instance
 	{
 		readonly IInstanceClient instanceClient;
 		readonly IInstanceManagerClient instanceManagerClient;
-		readonly IInstanceManager instanceManager;
+		readonly InstanceManager instanceManager;
+		readonly ushort serverPort;
 
-		public InstanceTest(IInstanceClient instanceClient, IInstanceManagerClient instanceManagerClient, IInstanceManager instanceManager)
+		public InstanceTest(IInstanceClient instanceClient, IInstanceManagerClient instanceManagerClient, InstanceManager instanceManager, ushort serverPort)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 			this.instanceManagerClient = instanceManagerClient ?? throw new ArgumentNullException(nameof(instanceManagerClient));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
+			this.serverPort = serverPort;
 		}
 
 		public async Task RunTests(CancellationToken cancellationToken)
@@ -38,7 +40,7 @@ namespace Tgstation.Server.Tests.Instance
 			await configTest.Run(cancellationToken);
 			await chatTests;
 			await repoTests;
-			await new WatchdogTest(instanceClient, instanceManager).Run(cancellationToken);
+			await new WatchdogTest(instanceClient, instanceManager, serverPort).Run(cancellationToken);
 		}
 	}
 }
