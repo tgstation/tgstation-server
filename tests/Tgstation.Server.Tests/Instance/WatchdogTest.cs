@@ -355,7 +355,6 @@ namespace Tgstation.Server.Tests.Instance
 			public string PayloadId { get; set; }
 		}
 
-		bool bridgeStageResponse;
 		long lastBridgeRequestSize = 0;
 
 		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
@@ -368,18 +367,17 @@ namespace Tgstation.Server.Tests.Instance
 				var splits = parameters.ChatMessage.Text.Split(':', StringSplitOptions.RemoveEmptyEntries);
 				var coreMessage = splits[0];
 				Assert.IsFalse(String.IsNullOrWhiteSpace(coreMessage));
-				if (!bridgeStageResponse)
-					if (coreMessage == "done")
-					{
-						Assert.AreEqual(DMApiConstants.MaximumBridgeRequestLength, lastBridgeRequestSize);
+				if (coreMessage == "done")
+				{
+					Assert.AreEqual(DMApiConstants.MaximumBridgeRequestLength, lastBridgeRequestSize);
 
-						bridgeTestsTcs.SetResult();
-						return Task.FromResult<BridgeResponse>(
-							new BridgeResponseHack
-							{
-								IntegrationHack = "ok"
-							});
-					}
+					bridgeTestsTcs.SetResult();
+					return Task.FromResult<BridgeResponse>(
+						new BridgeResponseHack
+						{
+							IntegrationHack = "ok"
+						});
+				}
 
 				Assert.AreEqual("payload", coreMessage);
 				lastBridgeRequestSize = $"http://127.0.0.1:{serverPort}/Bridge?data=".Length + HttpUtility.UrlEncode(
