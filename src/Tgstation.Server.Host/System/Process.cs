@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Win32.SafeHandles;
 
 using Tgstation.Server.Host.IO;
 
