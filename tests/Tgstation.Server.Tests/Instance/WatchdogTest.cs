@@ -358,8 +358,6 @@ namespace Tgstation.Server.Tests.Instance
 		bool bridgeStageResponse;
 		long lastBridgeRequestSize = 0;
 
-		uint lastPayloadId = 0;
-
 		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			try
