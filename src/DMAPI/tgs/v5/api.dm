@@ -16,6 +16,7 @@
 	var/list/chat_channels
 
 	var/initialized = FALSE
+	var/chunked_requests = 0
 
 /datum/tgs_api/v5/ApiVersion()
 	return new /datum/tgs_version(
@@ -243,39 +244,6 @@
 			return reattach_response
 
 	return TopicResponse("Unknown command: [command]")
-
-/datum/tgs_api/v5/proc/Bridge(command, list/data)
-	if(!data)
-		data = list()
-
-	data[DMAPI5_BRIDGE_PARAMETER_COMMAND_TYPE] = command
-	data[DMAPI5_PARAMETER_ACCESS_IDENTIFIER] = access_identifier
-
-	var/json = json_encode(data)
-	var/encoded_json = url_encode(json)
-
-	// This is an infinite sleep until we get a response
-	var/export_response = world.Export("http://127.0.0.1:[server_port]/Bridge?[DMAPI5_BRIDGE_DATA]=[encoded_json]")
-	if(!export_response)
-		TGS_ERROR_LOG("Failed export request: [json]")
-		return
-
-	var/response_json = file2text(export_response["CONTENT"])
-	if(!response_json)
-		TGS_ERROR_LOG("Failed export request, missing content!")
-		return
-
-	var/list/bridge_response = json_decode(response_json)
-	if(!bridge_response)
-		TGS_ERROR_LOG("Failed export request, bad json: [response_json]")
-		return
-
-	var/error = bridge_response[DMAPI5_RESPONSE_ERROR_MESSAGE]
-	if(error)
-		TGS_ERROR_LOG("Failed export request, bad request: [error]")
-		return
-
-	return bridge_response
 
 /datum/tgs_api/v5/OnReboot()
 	var/list/result = Bridge(DMAPI5_BRIDGE_COMMAND_REBOOT)

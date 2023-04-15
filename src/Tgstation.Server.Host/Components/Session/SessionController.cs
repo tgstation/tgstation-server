@@ -24,7 +24,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc />
-	sealed class SessionController : ISessionController, IBridgeHandler, IChannelSink
+	sealed class SessionController : BridgeRequestChunker, ISessionController, IBridgeHandler, IChannelSink
 	{
 		/// <inheritdoc />
 		public DMApiParameters DMApiParameters => ReattachInformation;
@@ -121,11 +121,6 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IChatManager chat;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="SessionController"/>.
-		/// </summary>
-		readonly ILogger<SessionController> logger;
-
-		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for port updates and <see cref="disposed"/>.
 		/// </summary>
 		readonly object synchronizationLock;
@@ -182,7 +177,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="chat">The value of <see cref="chat"/>.</param>
 		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
-		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="logger">The value of <see cref="BridgeRequestChunker.Logger"/>.</param>
 		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="Task"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
 		/// <param name="reattached">If this is a reattached session.</param>
@@ -202,6 +197,7 @@ namespace Tgstation.Server.Host.Components.Session
 			uint? startupTimeout,
 			bool reattached,
 			bool apiValidate)
+			: base(logger)
 		{
 			ReattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
@@ -212,7 +208,6 @@ namespace Tgstation.Server.Host.Components.Session
 			if (bridgeRegistrar == null)
 				throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			portClosedForReboot = false;
 			disposed = false;
@@ -268,7 +263,7 @@ namespace Tgstation.Server.Host.Components.Session
 				disposed = true;
 			}
 
-			logger.LogTrace("Disposing...");
+			Logger.LogTrace("Disposing...");
 			if (!released)
 			{
 				process.Terminate();
@@ -288,158 +283,23 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public override async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			static Task<BridgeResponse> Error(string message) => Task.FromResult(new BridgeResponse
-			{
-				ErrorMessage = message,
-			});
-
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
-				logger.LogTrace("Handling bridge request...");
-				initialBridgeRequestTcs.TrySetResult();
+				Logger.LogTrace("Handling bridge request...");
 
-				var response = new BridgeResponse();
-				switch (parameters.CommandType)
+				try
 				{
-					case BridgeCommandType.ChatSend:
-						if (parameters.ChatMessage == null)
-							return Error("Missing chatMessage field!");
-
-						if (parameters.ChatMessage.ChannelIds == null)
-							return Error("Missing channelIds field in chatMessage!");
-
-						if (parameters.ChatMessage.ChannelIds.Any(channelIdString => !UInt64.TryParse(channelIdString, out var _)))
-							return Error("Invalid channelIds in chatMessage!");
-
-						if (parameters.ChatMessage.Text == null)
-							return Error("Missing message field in chatMessage!");
-
-						var anyFailed = false;
-						var parsedChannels = parameters.ChatMessage.ChannelIds.Select(
-							channelString =>
-							{
-								anyFailed |= !UInt64.TryParse(channelString, out var channelId);
-								return channelId;
-							});
-
-						if (anyFailed)
-							return Error("Failed to parse channelIds as U64!");
-
-						chat.QueueMessage(
-							parameters.ChatMessage,
-							parsedChannels);
-						break;
-					case BridgeCommandType.Prime:
-						var oldPrimeTcs = primeTcs;
-						primeTcs = new TaskCompletionSource();
-						oldPrimeTcs.SetResult();
-						break;
-					case BridgeCommandType.Kill:
-						logger.LogInformation("Bridge requested process termination!");
-						TerminationWasRequested = true;
-						process.Terminate();
-						break;
-					case BridgeCommandType.PortUpdate:
-						lock (synchronizationLock)
-						{
-							if (!parameters.CurrentPort.HasValue)
-							{
-								/////UHHHH
-								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
-								return Error("Missing stringified port as data parameter!");
-							}
-
-							var currentPort = parameters.CurrentPort.Value;
-							if (!nextPort.HasValue)
-								ReattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
-							else
-							{
-								// nextPort is ready, tell DD to switch to that
-								// if it fails it'll kill itself
-								response.NewPort = nextPort.Value;
-								ReattachInformation.Port = nextPort.Value;
-								nextPort = null;
-
-								// we'll also get here from SetPort so complete that task
-								var tmpTcs = portAssignmentTcs;
-								portAssignmentTcs = null;
-								tmpTcs.SetResult(true);
-							}
-
-							portClosedForReboot = false;
-						}
-
-						break;
-					case BridgeCommandType.Startup:
-						apiValidationStatus = ApiValidationStatus.BadValidationRequest;
-						if (parameters.Version == null)
-							return Error("Missing dmApiVersion field!");
-
-						DMApiVersion = parameters.Version;
-						if (DMApiVersion.Major != DMApiConstants.InteropVersion.Major)
-						{
-							apiValidationStatus = ApiValidationStatus.Incompatible;
-							return Error("Incompatible dmApiVersion!");
-						}
-
-						switch (parameters.MinimumSecurityLevel)
-						{
-							case DreamDaemonSecurity.Ultrasafe:
-								apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
-								break;
-							case DreamDaemonSecurity.Safe:
-								apiValidationStatus = ApiValidationStatus.RequiresSafe;
-								break;
-							case DreamDaemonSecurity.Trusted:
-								apiValidationStatus = ApiValidationStatus.RequiresTrusted;
-								break;
-							case null:
-								return Error("Missing minimumSecurityLevel field!");
-							default:
-								return Error("Invalid minimumSecurityLevel!");
-						}
-
-						logger.LogTrace("ApiValidationStatus set to {0}", apiValidationStatus);
-
-						response.RuntimeInformation = new RuntimeInformation(
-							chatTrackingContext,
-							ReattachInformation.Dmb,
-							ReattachInformation.RuntimeInformation.ServerVersion,
-							ReattachInformation.RuntimeInformation.InstanceName,
-							ReattachInformation.RuntimeInformation.SecurityLevel,
-							ReattachInformation.RuntimeInformation.Visibility,
-							ReattachInformation.RuntimeInformation.ServerPort,
-							ReattachInformation.RuntimeInformation.ApiValidateOnly);
-
-						// Load custom commands
-						chatTrackingContext.CustomCommands = parameters.CustomCommands;
-						break;
-					case BridgeCommandType.Reboot:
-						if (ClosePortOnReboot)
-						{
-							chatTrackingContext.Active = false;
-							response.NewPort = 0;
-							portClosedForReboot = true;
-						}
-
-						var oldRebootTcs = rebootTcs;
-						rebootTcs = new TaskCompletionSource();
-						oldRebootTcs.SetResult();
-						break;
-					case null:
-						response.ErrorMessage = "Missing commandType!";
-						break;
-					default:
-						response.ErrorMessage = "Requested commandType not supported!";
-						break;
+					return await ProcessBridgeCommand(parameters, cancellationToken);
 				}
-
-				return Task.FromResult(response);
+				finally
+				{
+					initialBridgeRequestTcs.TrySetResult();
+				}
 			}
 		}
 
@@ -466,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			if (Lifetime.IsCompleted)
 			{
-				logger.LogWarning(
+				Logger.LogWarning(
 					"Attempted to send a command to an inactive SessionController: {0}",
 					parameters.CommandType);
 				return null;
@@ -474,14 +334,14 @@ namespace Tgstation.Server.Host.Components.Session
 
 			if (!DMApiAvailable)
 			{
-				logger.LogTrace("Not sending topic request {0} to server without/with incompatible DMAPI!", parameters.CommandType);
+				Logger.LogTrace("Not sending topic request {0} to server without/with incompatible DMAPI!", parameters.CommandType);
 				return null;
 			}
 
 			parameters.AccessIdentifier = ReattachInformation.AccessIdentifier;
 
 			var json = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
-			logger.LogTrace("Topic request: {0}", json);
+			Logger.LogTrace("Topic request: {0}", json);
 			try
 			{
 				var commandString = String.Format(
@@ -506,21 +366,21 @@ namespace Tgstation.Server.Host.Components.Session
 						interopResponse = JsonConvert.DeserializeObject<Interop.Topic.TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
 						if (interopResponse.ErrorMessage != null)
 						{
-							logger.LogWarning("Errored topic response for command {0}: {1}", parameters.CommandType, interopResponse.ErrorMessage);
+							Logger.LogWarning("Errored topic response for command {0}: {1}", parameters.CommandType, interopResponse.ErrorMessage);
 						}
 
-						logger.LogTrace("Interop response: {0}", topicReturn);
+						Logger.LogTrace("Interop response: {0}", topicReturn);
 					}
 					catch (Exception ex)
 					{
-						logger.LogWarning(ex, "Invalid interop response: {0}", topicReturn);
+						Logger.LogWarning(ex, "Invalid interop response: {0}", topicReturn);
 					}
 
 				return new CombinedTopicResponse(topicResponse, interopResponse);
 			}
 			catch (OperationCanceledException ex)
 			{
-				logger.LogTrace(
+				Logger.LogTrace(
 					ex,
 					"Topic request {0}!",
 					cancellationToken.IsCancellationRequested
@@ -530,7 +390,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning(e, "Send command exception!");
+				Logger.LogWarning(e, "Send command exception!");
 			}
 
 			return null;
@@ -577,7 +437,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (RebootState == newRebootState)
 				return true;
 
-			logger.LogTrace("Changing reboot state to {0}", newRebootState);
+			Logger.LogTrace("Changing reboot state to {0}", newRebootState);
 
 			ReattachInformation.RebootState = newRebootState;
 			var result = await SendCommand(
@@ -592,7 +452,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public void ResetRebootState()
 		{
 			CheckDisposed();
-			logger.LogTrace("Resetting reboot state...");
+			Logger.LogTrace("Resetting reboot state...");
 			ReattachInformation.RebootState = RebootState.Normal;
 		}
 
@@ -654,7 +514,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (startupTimeout.HasValue)
 				toAwait = Task.WhenAny(toAwait, Task.Delay(TimeSpan.FromSeconds(startupTimeout.Value)));
 
-			logger.LogTrace(
+			Logger.LogTrace(
 				"Waiting for LaunchResult based on {0}{1}...",
 				useBridgeRequestForLaunchResult ? "initial bridge request" : "process startup",
 				startupTimeout.HasValue ? $" with a timeout of {startupTimeout.Value}s" : String.Empty);
@@ -667,7 +527,7 @@ namespace Tgstation.Server.Host.Components.Session
 				StartupTime = startupTask.IsCompleted ? (DateTimeOffset.UtcNow - startTime) : null,
 			};
 
-			logger.LogTrace("Launch result: {0}", result);
+			Logger.LogTrace("Launch result: {0}", result);
 
 			if (!result.ExitCode.HasValue && reattached && !disposed)
 			{
@@ -683,7 +543,7 @@ namespace Tgstation.Server.Host.Components.Session
 					if (reattachResponse.InteropResponse?.CustomCommands != null)
 						chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands;
 					else if (reattachResponse.InteropResponse != null)
-						logger.LogWarning(
+						Logger.LogWarning(
 							"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
 							CompileJob.DMApiVersion.Semver());
 				}
@@ -699,6 +559,153 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			if (disposed)
 				throw new ObjectDisposedException(nameof(SessionController));
+		}
+
+		/// <summary>
+		/// Handle a set of bridge <paramref name="parameters"/>.
+		/// </summary>
+		/// <param name="parameters">The <see cref="BridgeParameters"/> to handle.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="BridgeResponse"/> for the request or <see langword="null"/> if the request could not be dispatched.</returns>
+		async Task<BridgeResponse> ProcessBridgeCommand(BridgeParameters parameters, CancellationToken cancellationToken)
+		{
+			var response = new BridgeResponse();
+			switch (parameters.CommandType)
+			{
+				case BridgeCommandType.ChatSend:
+					if (parameters.ChatMessage == null)
+						return BridgeError("Missing chatMessage field!");
+
+					if (parameters.ChatMessage.ChannelIds == null)
+						return BridgeError("Missing channelIds field in chatMessage!");
+
+					if (parameters.ChatMessage.ChannelIds.Any(channelIdString => !UInt64.TryParse(channelIdString, out var _)))
+						return BridgeError("Invalid channelIds in chatMessage!");
+
+					if (parameters.ChatMessage.Text == null)
+						return BridgeError("Missing message field in chatMessage!");
+
+					var anyFailed = false;
+					var parsedChannels = parameters.ChatMessage.ChannelIds.Select(
+						channelString =>
+						{
+							anyFailed |= !UInt64.TryParse(channelString, out var channelId);
+							return channelId;
+						});
+
+					if (anyFailed)
+						return BridgeError("Failed to parse channelIds as U64!");
+
+					chat.QueueMessage(
+						parameters.ChatMessage,
+						parsedChannels);
+					break;
+				case BridgeCommandType.Prime:
+					var oldPrimeTcs = primeTcs;
+					primeTcs = new TaskCompletionSource();
+					oldPrimeTcs.SetResult();
+					break;
+				case BridgeCommandType.Kill:
+					Logger.LogInformation("Bridge requested process termination!");
+					TerminationWasRequested = true;
+					process.Terminate();
+					break;
+				case BridgeCommandType.PortUpdate:
+					lock (synchronizationLock)
+					{
+						if (!parameters.CurrentPort.HasValue)
+						{
+							/////UHHHH
+							Logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
+							return BridgeError("Missing stringified port as data parameter!");
+						}
+
+						var currentPort = parameters.CurrentPort.Value;
+						if (!nextPort.HasValue)
+							ReattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
+						else
+						{
+							// nextPort is ready, tell DD to switch to that
+							// if it fails it'll kill itself
+							response.NewPort = nextPort.Value;
+							ReattachInformation.Port = nextPort.Value;
+							nextPort = null;
+
+							// we'll also get here from SetPort so complete that task
+							var tmpTcs = portAssignmentTcs;
+							portAssignmentTcs = null;
+							tmpTcs.SetResult(true);
+						}
+
+						portClosedForReboot = false;
+					}
+
+					break;
+				case BridgeCommandType.Startup:
+					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
+					if (parameters.Version == null)
+						return BridgeError("Missing dmApiVersion field!");
+
+					DMApiVersion = parameters.Version;
+					if (DMApiVersion.Major != DMApiConstants.InteropVersion.Major)
+					{
+						apiValidationStatus = ApiValidationStatus.Incompatible;
+						return BridgeError("Incompatible dmApiVersion!");
+					}
+
+					switch (parameters.MinimumSecurityLevel)
+					{
+						case DreamDaemonSecurity.Ultrasafe:
+							apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
+							break;
+						case DreamDaemonSecurity.Safe:
+							apiValidationStatus = ApiValidationStatus.RequiresSafe;
+							break;
+						case DreamDaemonSecurity.Trusted:
+							apiValidationStatus = ApiValidationStatus.RequiresTrusted;
+							break;
+						case null:
+							return BridgeError("Missing minimumSecurityLevel field!");
+						default:
+							return BridgeError("Invalid minimumSecurityLevel!");
+					}
+
+					Logger.LogTrace("ApiValidationStatus set to {0}", apiValidationStatus);
+
+					response.RuntimeInformation = new RuntimeInformation(
+						chatTrackingContext,
+						ReattachInformation.Dmb,
+						ReattachInformation.RuntimeInformation.ServerVersion,
+						ReattachInformation.RuntimeInformation.InstanceName,
+						ReattachInformation.RuntimeInformation.SecurityLevel,
+						ReattachInformation.RuntimeInformation.Visibility,
+						ReattachInformation.RuntimeInformation.ServerPort,
+						ReattachInformation.RuntimeInformation.ApiValidateOnly);
+
+					// Load custom commands
+					chatTrackingContext.CustomCommands = parameters.CustomCommands;
+					break;
+				case BridgeCommandType.Reboot:
+					if (ClosePortOnReboot)
+					{
+						chatTrackingContext.Active = false;
+						response.NewPort = 0;
+						portClosedForReboot = true;
+					}
+
+					var oldRebootTcs = rebootTcs;
+					rebootTcs = new TaskCompletionSource();
+					oldRebootTcs.SetResult();
+					break;
+				case BridgeCommandType.Chunk:
+					return await ProcessBridgeChunk(parameters.Chunk, cancellationToken);
+				case null:
+					return BridgeError("Missing commandType!");
+				default:
+					return BridgeError($"commandType {parameters.CommandType} not supported!");
+			}
+
+			return response;
 		}
 	}
 }

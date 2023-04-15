@@ -173,6 +173,12 @@ var/lastTgsError
 	set waitfor = FALSE
 	CheckBridgeLimitsImpl()
 
+
+/proc/BridgeWithoutChunking(command, list/data)
+	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+	var/bridge_request = api.CreateBridgeRequest(command, data)
+	return api.PerformBridgeRequest(bridge_request)
+
 /proc/CheckBridgeLimitsImpl()
 	sleep(30)
 
@@ -192,7 +198,7 @@ var/lastTgsError
 	for(i = 1; ; i = base + (2 ** nextPow))
 		var/payload = create_payload(i)
 		
-		var/list/result = api.Bridge(0, list("chatMessage" = list("text" = "payload:[payload]")))
+		var/list/result = BridgeWithoutChunking(0, list("chatMessage" = list("text" = "payload:[payload]")))
 
 		if(!result || lastTgsError || result["integrationHack"] != "ok")
 			if(i == lastI + 1)
@@ -206,7 +212,7 @@ var/lastTgsError
 		lastI = i
 		++nextPow
 
-	var/finalResult = api.Bridge(0, list("chatMessage" = list("text" = "done")))
+	var/finalResult = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(DMAPI5_BRIDGE_REQUEST_LIMIT * 3)]")))
 	if(!finalResult || lastTgsError || finalResult["integrationHack"] != "ok")
 		text2file("Failed to end bridge limit test!", "test_fail_reason.txt")
 		del(world)

@@ -138,6 +138,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v5", "v5", "{FAEAD3B5-2EAB-465C-A9C3-E8CB6AAA7131}"
 	ProjectSection(SolutionItems) = preProject
 		src\DMAPI\tgs\v5\api.dm = src\DMAPI\tgs\v5\api.dm
+		src\DMAPI\tgs\v5\bridge.dm = src\DMAPI\tgs\v5\bridge.dm
 		src\DMAPI\tgs\v5\commands.dm = src\DMAPI\tgs\v5\commands.dm
 		src\DMAPI\tgs\v5\README.md = src\DMAPI\tgs\v5\README.md
 		src\DMAPI\tgs\v5\serializers.dm = src\DMAPI\tgs\v5\serializers.dm

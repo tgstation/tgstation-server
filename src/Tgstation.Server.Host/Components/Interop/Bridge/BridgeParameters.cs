@@ -40,5 +40,10 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// The <see cref="Interop.ChatMessage"/> for <see cref="BridgeCommandType.ChatSend"/> requests.
 		/// </summary>
 		public ChatMessage ChatMessage { get; set; }
+
+		/// <summary>
+		/// The <see cref="ChunkData"/> for <see cref="BridgeCommandType.Chunk"/> requests.
+		/// </summary>
+		public ChunkData Chunk { get; set; }
 	}
 }

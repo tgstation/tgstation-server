@@ -34,7 +34,7 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
 {
-	sealed class WatchdogTest : JobsRequiredTest, IBridgeHandler
+	sealed class WatchdogTest : JobsRequiredTest
 	{
 		readonly IInstanceClient instanceClient;
 		readonly InstanceManager instanceManager;
@@ -336,66 +336,7 @@ namespace Tgstation.Server.Tests.Instance
 			return await instanceClient.DreamDaemon.Start(cancellationToken);
 		}
 
-		class DMApiParametersImpl : DMApiParameters { }
-		public DMApiParameters DMApiParameters => new DMApiParametersImpl
-		{
-			AccessIdentifier = "tgs_integration_test"
-		};
-
-		TaskCompletionSource bridgeTestsTcs;
-
-		public class BridgeResponseHack : BridgeResponse
-		{
-			public string IntegrationHack { get; set; }
-		}
-
-		public class ResponseTestData : TestData
-		{
-			public bool Continue { get; set; }
-			public string PayloadId { get; set; }
-		}
-
-		long lastBridgeRequestSize = 0;
-
-		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
-		{
-			try
-			{
-				Assert.AreEqual(DMApiParameters.AccessIdentifier, parameters.AccessIdentifier);
-				Assert.AreEqual((BridgeCommandType)0, parameters.CommandType);
-				Assert.IsNotNull(parameters.ChatMessage?.Text);
-				var splits = parameters.ChatMessage.Text.Split(':', StringSplitOptions.RemoveEmptyEntries);
-				var coreMessage = splits[0];
-				Assert.IsFalse(String.IsNullOrWhiteSpace(coreMessage));
-				if (coreMessage == "done")
-				{
-					Assert.AreEqual(DMApiConstants.MaximumBridgeRequestLength, lastBridgeRequestSize);
-
-					bridgeTestsTcs.SetResult();
-					return Task.FromResult<BridgeResponse>(
-						new BridgeResponseHack
-						{
-							IntegrationHack = "ok"
-						});
-				}
-
-				Assert.AreEqual("payload", coreMessage);
-				lastBridgeRequestSize = $"http://127.0.0.1:{serverPort}/Bridge?data=".Length + HttpUtility.UrlEncode(
-					JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings)).Length;
-				return Task.FromResult<BridgeResponse>(
-					new BridgeResponseHack
-					{
-						IntegrationHack = "ok"
-					});
-			}
-			catch (Exception ex)
-			{
-				bridgeTestsTcs.SetException(ex);
-				return Task.FromResult<BridgeResponse>(null);
-			}
-		}
-
-		public class TestData
+		class TestData
 		{
 			public string Size { get; set; }
 			public string Payload { get; set; }
@@ -408,17 +349,23 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
 			// first check the bridge limits
-			bridgeTestsTcs = new TaskCompletionSource();
+			var bridgeTestsTcs = new TaskCompletionSource();
 			BridgeController.LogContent = false;
-			using (var bridgeRegistration = instanceManager.RegisterHandler(this))
+			using (var loggerFactory = LoggerFactory.Create(builder =>
 			{
-				System.Console.WriteLine("TEST: Sending Bridge tests topic...");
-				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", IntegrationTest.DDPort, cancellationToken);
-				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			}))
+			{
+				var bridgeProcessor = new TestBridgeHandler(bridgeTestsTcs, loggerFactory.CreateLogger<TestBridgeHandler>(), serverPort);
+				using (var bridgeRegistration = instanceManager.RegisterHandler(bridgeProcessor))
+				{
+					System.Console.WriteLine("TEST: Sending Bridge tests topic...");
+					var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", IntegrationTest.DDPort, cancellationToken);
+					Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
 
-				using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-				// this test doesn't take long
-				await bridgeTestsTcs.Task.WithToken(cancellationToken);
+					await bridgeTestsTcs.Task.WithToken(cancellationToken);
+				}
 			}
 
 			BridgeController.LogContent = true;
@@ -776,7 +723,7 @@ namespace Tgstation.Server.Tests.Instance
 			return ddProc != null;
 		}
 
-		TopicClient topicClient = new (new SocketParameters
+		readonly TopicClient topicClient = new (new SocketParameters
 		{
 			SendTimeout = TimeSpan.FromSeconds(30),
 			ReceiveTimeout = TimeSpan.FromSeconds(30),
