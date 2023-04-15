@@ -422,8 +422,7 @@ namespace Tgstation.Server.Tests.Instance
 
 				using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 				// this test doesn't take long
-				cts.CancelAfter(TimeSpan.FromMinutes(10));
-				await bridgeTestsTcs.Task.WithToken(cts.Token);
+				await bridgeTestsTcs.Task.WithToken(cancellationToken);
 			}
 
 			BridgeController.LogContent = true;
