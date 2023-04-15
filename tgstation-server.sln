@@ -92,6 +92,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3BB10856-AA0
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{82066812-6C73-4360-943B-B23F2F491261}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\tgs_include.dm = tests\DMAPI\tgs_include.dm
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v4", "v4", "{057FAC33-CC31-4948-91C6-B0977C335890}"
 	ProjectSection(SolutionItems) = preProject
