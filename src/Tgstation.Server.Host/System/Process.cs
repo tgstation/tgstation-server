@@ -43,6 +43,12 @@ namespace Tgstation.Server.Host.System
 		readonly CancellationTokenSource readerCts;
 
 		/// <summary>
+		/// The <see cref="global::System.Diagnostics.Process.SafeHandle"/>.
+		/// </summary>
+		/// <remarks>We keep this to prevent .NET from closing the real handle too soon. See https://stackoverflow.com/a/47656845</remarks>
+		readonly SafeProcessHandle safeHandle;
+
+		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the process' standard output/error text.
 		/// </summary>
 		readonly Task<string> readTask;
@@ -69,6 +75,7 @@ namespace Tgstation.Server.Host.System
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 
 			// Do this fast because the runtime will bitch if we try to access it after it ends
+			safeHandle = handle.SafeHandle;
 			Id = handle.Id;
 
 			this.readerCts = readerCts;
@@ -115,6 +122,7 @@ namespace Tgstation.Server.Host.System
 			if (readTask != null)
 				await readTask;
 
+			safeHandle.Dispose();
 			handle.Dispose();
 		}
 
