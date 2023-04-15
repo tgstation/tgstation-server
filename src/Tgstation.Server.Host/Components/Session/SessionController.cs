@@ -270,7 +270,10 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Disposing...");
 			if (!released)
+			{
 				process.Terminate();
+				await process.Lifetime;
+			}
 
 			await process.DisposeAsync();
 			byondLock.Dispose();
