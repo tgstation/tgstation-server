@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace Tgstation.Server.Host.System
 {
@@ -6,6 +7,7 @@ namespace Tgstation.Server.Host.System
 	sealed class PlatformIdentifier : IPlatformIdentifier
 	{
 		/// <inheritdoc />
+		[SupportedOSPlatformGuard("windows")]
 		public bool IsWindows { get; }
 
 		/// <inheritdoc />
