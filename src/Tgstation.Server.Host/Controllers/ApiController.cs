@@ -179,11 +179,18 @@ namespace Tgstation.Server.Host.Controllers
 			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
 			{
 				if (ApiHeaders != null)
-					Logger.LogDebug(
-						"Starting API request: Version: {clientApiVersion}. {userAgentHeaderName}: {clientUserAgent}",
-						ApiHeaders.ApiVersion.Semver(),
-						HeaderNames.UserAgent,
-						ApiHeaders.RawUserAgent);
+				{
+					var isGet = HttpMethods.IsGet(Request.Method);
+					if (!(isGet && Request.Path.StartsWithSegments(Routes.Jobs, StringComparison.OrdinalIgnoreCase)))
+						Logger.Log(
+							isGet
+								? LogLevel.Trace
+								: LogLevel.Debug,
+							"Starting API request: Version: {clientApiVersion}. {userAgentHeaderName}: {clientUserAgent}",
+							ApiHeaders.ApiVersion.Semver(),
+							HeaderNames.UserAgent,
+							ApiHeaders.RawUserAgent);
+				}
 				else if (Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgents))
 					Logger.LogDebug(
 						"Starting unauthorized API request. {userAgentHeaderName}: {allUserAgents}",
