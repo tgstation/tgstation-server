@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
@@ -192,7 +192,7 @@ namespace Tgstation.Server.Tests
 				var migrationType = kvp.Key;
 				var migrationTimestamp = kvp.Value;
 
-				switch (migrationType.Name.Substring(0, 2))
+				switch (migrationType.Name[..2])
 				{
 					case "MS":
 						if (String.Compare(GetMigrationTimestampString(latestMigrationMS), migrationTimestamp) < 0)

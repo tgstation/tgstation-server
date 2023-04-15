@@ -604,7 +604,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IChatTrackingContext chatTrackingContext,
 			DreamDaemonLaunchParameters launchParameters,
 			bool apiValidateOnly)
-			=> new RuntimeInformation(
+			=> new (
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,
