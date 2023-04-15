@@ -209,12 +209,6 @@ namespace Tgstation.Server.Host.System
 				var id = idProvider();
 				try
 				{
-					if (tcs.Task.IsCompleted)
-					{
-						logger.LogTrace("Skipping PID {0} exit handler as the TaskCompletionSource is already set", id);
-						return;
-					}
-
 					try
 					{
 						var exitCode = handle.ExitCode;
