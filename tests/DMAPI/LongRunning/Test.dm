@@ -2,9 +2,29 @@
 	sleep_offline = FALSE
 	loop_checks = FALSE
 
-/world/Error(exception)
+/world/Error(exception/E, datum/e_src)
+	var/list/usrinfo = null
+	var/list/splitlines = splittext(E.desc, "\n")
+	var/list/desclines = list()
+	for(var/line in splitlines)
+		if(length(line) < 3 || findtext(line, "source file:") || findtext(line, "usr.loc:"))
+			continue
+		if(findtext(line, "usr:"))
+			if(usrinfo)
+				desclines.Add(usrinfo)
+				usrinfo = null
+			continue // Our usr info is better, replace it
+
+		if(copytext(line, 1, 3) != "  ")//3 == length("  ") + 1
+			desclines += ("  " + line) // Pad any unpadded lines, so they look pretty
+		else
+			desclines += line
+
+	if(usrinfo) //If this info isn't null, it hasn't been added yet
+		desclines.Add(usrinfo)
+
 	fdel("test_success.txt")
-	text2file("Runtime Error: [exception]", "test_fail_reason.txt")
+	text2file("Runtime Error: [E]", "test_fail_reason.txt")
 
 /world/New()
 	text2file("SUCCESS", "test_success.txt")
@@ -104,7 +124,7 @@ var/run_bridge_test
 		var/payload = create_payload(size)
 		return payload
 
-	TgsChatBroadcast("Recieved non-tgs topic: [T]")
+	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
 	return "feck"
 
@@ -115,7 +135,7 @@ var/run_bridge_test
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
-	world.TgsChatBroadcast("Recieved event: `[json_encode(args)]`")
+	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
 
 /world/Export(url)
 	if(length(url) < 1000)
@@ -124,12 +144,12 @@ var/run_bridge_test
 
 /proc/RebootAsync()
 	set waitfor = FALSE
-	world.TgsChatBroadcast("Rebooting after 3 seconds");
+	world.TgsChatBroadcast(new /datum/tgs_message_content("Rebooting after 3 seconds"));
 	world.log << "About to sleep. sleep_offline: [world.sleep_offline]"
 	sleep(30)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
-	
+
 /datum/tgs_chat_command/embeds_test
 	name = "embeds_test"
 	help_text = "dumps an embed"
@@ -156,6 +176,17 @@ var/run_bridge_test
 	response.embed.footer = new /datum/tgs_chat_embed/footer("Footer text")
 	return response
 
+/datum/tgs_chat_command/response_overload_test
+	name = "response_overload_test"
+	help_text = "returns a massive string that probably won't display in a chat client but is used to test topic response chunking"
+
+/datum/tgs_chat_command/response_overload_test/Run(datum/tgs_chat_user/sender, params)
+	// DMAPI5_TOPIC_RESPONSE_LIMIT
+	var/limit = 65528
+	// this actually gets doubled because it's in two fields for backwards compatibility, but that's fine
+	var/datum/tgs_message_content/response = new(create_payload(limit * 3))
+	return response
+
 var/lastTgsError
 
 /proc/TgsError(message)
@@ -168,7 +199,7 @@ var/lastTgsError
 		builder += "a"
 	var/payload = jointext(builder, "")
 	return payload
-	
+
 /proc/CheckBridgeLimits()
 	set waitfor = FALSE
 	CheckBridgeLimitsImpl()
@@ -197,7 +228,7 @@ var/lastTgsError
 	lastTgsError = null
 	for(i = 1; ; i = base + (2 ** nextPow))
 		var/payload = create_payload(i)
-		
+
 		var/list/result = BridgeWithoutChunking(0, list("chatMessage" = list("text" = "payload:[payload]")))
 
 		if(!result || lastTgsError || result["integrationHack"] != "ok")
@@ -212,7 +243,10 @@ var/lastTgsError
 		lastI = i
 		++nextPow
 
-	var/finalResult = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(DMAPI5_BRIDGE_REQUEST_LIMIT * 3)]")))
+	// DMAPI5_BRIDGE_REQUEST_LIMIT
+	var/limit = 8198
+
+	var/finalResult = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(limit * 3)]")))
 	if(!finalResult || lastTgsError || finalResult["integrationHack"] != "ok")
 		text2file("Failed to end bridge limit test!", "test_fail_reason.txt")
 		del(world)
