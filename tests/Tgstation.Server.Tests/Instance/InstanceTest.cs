@@ -31,15 +31,20 @@ namespace Tgstation.Server.Tests.Instance
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
 			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs);
 
-			var byondTests = byondTest.Run(cancellationToken);
-			var repoTests = repoTest.RunPreWatchdog(cancellationToken);
-			var chatTests = chatTest.RunPreWatchdog(cancellationToken);
-			await byondTests;
-			await dmTest.Run(repoTests, cancellationToken);
+			var byondTask = byondTest.Run(cancellationToken);
+			var chatTask = chatTest.RunPreWatchdog(cancellationToken);
 
-			await configTest.Run(cancellationToken);
-			await chatTests;
-			await repoTests;
+			var repoLongJob = repoTest.RunLongClone(cancellationToken);
+
+			await dmTest.RunPreRepoClone(cancellationToken);
+			await repoTest.AbortLongCloneAndCloneSomethingQuick(await repoLongJob, cancellationToken);
+			await configTest.RunPreWatchdog(cancellationToken);
+			var dmTask = dmTest.RunPostRepoClone(cancellationToken);
+
+			await byondTask;
+			await chatTask;
+			await dmTask;
+
 			await new WatchdogTest(instanceClient, instanceManager, serverPort).Run(cancellationToken);
 		}
 	}

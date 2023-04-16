@@ -246,21 +246,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Set TGS_TEST_PULL_REQUEST_NUMBER
-      if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $Env:GITHUB_ENV
-
-    - name: Set TGS_GITHUB_REF for PR
-      if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS_GITHUB_REF=${{ github.base_ref }}" >> $Env:GITHUB_ENV
-
-    - name: Set TGS_GITHUB_REF for push
-      if: ${{ github.event_name == 'push' }}
-      shell: bash
-      run: |
-        TEMP_GITHUB_REF="${{ github.event.ref }}"
-        echo "TGS_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
-
     - name: Run Integration Test
       run: |
         cd tests/Tgstation.Server.Tests
@@ -394,21 +379,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
-
-    - name: Set TGS_TEST_PULL_REQUEST_NUMBER
-      if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
-
-    - name: Set TGS_GITHUB_REF for PR
-      if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS_GITHUB_REF=${{ github.base_ref }}" >> $GITHUB_ENV
-
-    - name: Set TGS_GITHUB_REF for push
-      if: ${{ github.event_name == 'push' }}
-      shell: bash
-      run: |
-        TEMP_GITHUB_REF="${{ github.event.ref }}"
-        echo "TGS_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
 
     - name: Run Integration Test
       run: |

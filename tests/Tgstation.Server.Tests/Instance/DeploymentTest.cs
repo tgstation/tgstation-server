@@ -18,6 +18,8 @@ namespace Tgstation.Server.Tests.Instance
 		readonly IDreamDaemonClient dreamDaemonClient;
 		readonly IInstanceClient instanceClient;
 
+		Task vpTest;
+
 		public DeploymentTest(IInstanceClient instanceClient, IJobsClient jobsClient) : base(jobsClient)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentException(nameof(instanceClient));
@@ -25,9 +27,10 @@ namespace Tgstation.Server.Tests.Instance
 			this.dreamDaemonClient = instanceClient.DreamDaemon;
 		}
 
-		public async Task Run(Task repositoryTask, CancellationToken cancellationToken)
+		public async Task RunPreRepoClone(CancellationToken cancellationToken)
 		{
-			var vpTest = TestVisibilityPermission(cancellationToken);
+			Assert.IsNull(vpTest);
+			vpTest = TestVisibilityPermission(cancellationToken);
 			var deployJob = await dreamMakerClient.Compile(cancellationToken);
 			deployJob = await WaitForJob(deployJob, 30, true, null, cancellationToken);
 			Assert.IsTrue(deployJob.ErrorCode == ErrorCode.RepoCloning || deployJob.ErrorCode == ErrorCode.RepoMissing);
@@ -35,9 +38,11 @@ namespace Tgstation.Server.Tests.Instance
 			var dmSettings = await dreamMakerClient.Read(cancellationToken);
 			Assert.AreEqual(true, dmSettings.RequireDMApiValidation);
 			Assert.AreEqual(null, dmSettings.ProjectName);
+		}
 
-			await repositoryTask;
-
+		public async Task RunPostRepoClone(CancellationToken cancellationToken)
+		{
+			Assert.IsNotNull(vpTest);
 			// by alphabetization rules, it should discover api_free here
 			if (!new PlatformIdentifier().IsWindows)
 			{
@@ -76,7 +81,7 @@ namespace Tgstation.Server.Tests.Instance
 				ApiValidationPort = IntegrationTest.DDPort
 			}, cancellationToken), ErrorCode.PortNotAvailable);
 
-			deployJob = await dreamMakerClient.Compile(cancellationToken);
+			var deployJob = await dreamMakerClient.Compile(cancellationToken);
 			await WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerNeverValidated, cancellationToken);
 
 			const string FailProject = "tests/DMAPI/BuildFail/build_fail";
