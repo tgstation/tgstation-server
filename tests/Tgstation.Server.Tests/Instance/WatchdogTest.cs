@@ -15,7 +15,6 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -25,7 +24,6 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
@@ -358,14 +356,14 @@ namespace Tgstation.Server.Tests.Instance
 			}))
 			{
 				var bridgeProcessor = new TestBridgeHandler(bridgeTestsTcs, loggerFactory.CreateLogger<TestBridgeHandler>(), serverPort);
-				using (var bridgeRegistration = instanceManager.RegisterHandler(bridgeProcessor))
-				{
-					System.Console.WriteLine("TEST: Sending Bridge tests topic...");
-					var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", IntegrationTest.DDPort, cancellationToken);
-					Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
+				using var bridgeRegistration = instanceManager.RegisterHandler(bridgeProcessor);
 
-					await bridgeTestsTcs.Task.WithToken(cancellationToken);
-				}
+				System.Console.WriteLine("TEST: Sending Bridge tests topic...");
+
+				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", IntegrationTest.DDPort, cancellationToken);
+				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
+
+				await bridgeTestsTcs.Task.WithToken(cancellationToken);
 			}
 
 			BridgeController.LogContent = true;
@@ -477,57 +475,98 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
 			// oh god, oh fuck, blackbox testing
-			MessageContent response;
+			MessageContent embedsResponse, overloadResponse, overloadResponse2, embedsResponse2;
 			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
 			using (var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata))
 			{
-				response = await ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
+				var mockChatUser = new Host.Components.Chat.ChatUser
+				{
+					Channel = new Host.Components.Chat.ChannelRepresentation
+					{
+						IsAdminChannel = true,
+						ConnectionName = "test_connection",
+						EmbedsSupported = true,
+						FriendlyName = "Test Connection",
+						Id = "test_channel_id",
+						IsPrivateChannel = false,
+					},
+					FriendlyName = "Test Sender",
+					Id = "test_user_id",
+					Mention = "test_user_mention",
+					RealId = 1234,
+				};
+
+				var embedsResponseTask = ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
 					"embeds_test",
 					String.Empty,
-					new Host.Components.Chat.ChatUser
-					{
-						Channel = new Host.Components.Chat.ChannelRepresentation
-						{
-							IsAdminChannel = true,
-							ConnectionName = "test_connection",
-							EmbedsSupported = true,
-							FriendlyName = "Test Connection",
-							Id = "test_channel_id",
-							IsPrivateChannel = false,
-						},
-						FriendlyName = "Test Sender",
-						Id = "test_user_id",
-						Mention = "test_user_mention",
-						RealId = 1234,
-					},
+					mockChatUser,
 					cancellationToken);
+
+				var embedsResponseTask2 = ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
+					"embeds_test",
+					new string('a', (int)DMApiConstants.MaximumTopicRequestLength * 3),
+					mockChatUser,
+					cancellationToken);
+
+				var overloadResponseTask2 = ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
+					"response_overload_test",
+					String.Empty,
+					mockChatUser,
+					cancellationToken);
+
+				overloadResponse = await ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
+					"response_overload_test",
+					String.Empty,
+					mockChatUser,
+					cancellationToken);
+
+				overloadResponse2 = await overloadResponseTask2;
+				embedsResponse = await embedsResponseTask;
+				embedsResponse2 = await embedsResponseTask2;
 			}
 
 			var endTime = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
 
-			Assert.IsNotNull(response);
-			Assert.AreEqual("Embed support test2", response.Text);
-			Assert.AreEqual("desc", response.Embed.Description);
-			Assert.AreEqual("title", response.Embed.Title);
-			Assert.AreEqual("#0000FF", response.Embed.Colour);
-			Assert.AreEqual("Dominion", response.Embed.Author?.Name);
-			Assert.AreEqual("https://github.com/Cyberboss", response.Embed.Author.Url);
-			Assert.IsTrue(DateTimeOffset.TryParse(response.Embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp));
-			Assert.IsTrue(startTime < timestamp && endTime > timestamp);
-			Assert.AreEqual("https://github.com/tgstation/tgstation-server", response.Embed.Url);
-			Assert.AreEqual(3, response.Embed.Fields?.Count);
-			Assert.AreEqual("field1", response.Embed.Fields.ElementAt(0).Name);
-			Assert.AreEqual("value1", response.Embed.Fields.ElementAt(0).Value);
-			Assert.IsNull(response.Embed.Fields.ElementAt(0).IsInline);
-			Assert.AreEqual("field2", response.Embed.Fields.ElementAt(1).Name);
-			Assert.AreEqual("value2", response.Embed.Fields.ElementAt(1).Value);
-			Assert.IsTrue(response.Embed.Fields.ElementAt(1).IsInline);
-			Assert.AreEqual("field3", response.Embed.Fields.ElementAt(2).Name);
-			Assert.AreEqual("value3", response.Embed.Fields.ElementAt(2).Value);
-			Assert.IsTrue(response.Embed.Fields.ElementAt(2).IsInline);
-			Assert.AreEqual("Footer text", response.Embed.Footer?.Text);
+			var shutdownTask = instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
-			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
+
+			CheckEmbedsTest(embedsResponse, startTime, endTime);
+			CheckEmbedsTest(embedsResponse2, startTime, endTime);
+
+			var expectedString = new string('a', (int)DMApiConstants.MaximumTopicResponseLength * 3);
+			Assert.IsNotNull(overloadResponse);
+			Assert.AreEqual(expectedString, overloadResponse.Text);
+			Assert.IsNotNull(overloadResponse2);
+			Assert.AreEqual(expectedString, overloadResponse2.Text);
+
+			await shutdownTask;
+		}
+
+		void CheckEmbedsTest(MessageContent embedsResponse, DateTimeOffset startTime, DateTimeOffset endTime)
+		{
+			Assert.IsNotNull(embedsResponse);
+			Assert.AreEqual("Embed support test2", embedsResponse.Text);
+			Assert.AreEqual("desc", embedsResponse.Embed.Description);
+			Assert.AreEqual("title", embedsResponse.Embed.Title);
+			Assert.AreEqual("#0000FF", embedsResponse.Embed.Colour);
+			Assert.AreEqual("Dominion", embedsResponse.Embed.Author?.Name);
+			Assert.AreEqual("https://github.com/Cyberboss", embedsResponse.Embed.Author.Url);
+			Assert.IsTrue(DateTimeOffset.TryParse(embedsResponse.Embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp));
+			Assert.IsTrue(startTime < timestamp && endTime > timestamp);
+			Assert.AreEqual("https://github.com/tgstation/tgstation-server", embedsResponse.Embed.Url);
+			Assert.AreEqual(3, embedsResponse.Embed.Fields?.Count);
+			Assert.AreEqual("field1", embedsResponse.Embed.Fields.ElementAt(0).Name);
+			Assert.AreEqual("value1", embedsResponse.Embed.Fields.ElementAt(0).Value);
+			Assert.IsNull(embedsResponse.Embed.Fields.ElementAt(0).IsInline);
+			Assert.AreEqual("field2", embedsResponse.Embed.Fields.ElementAt(1).Name);
+			Assert.AreEqual("value2", embedsResponse.Embed.Fields.ElementAt(1).Value);
+			Assert.IsTrue(embedsResponse.Embed.Fields.ElementAt(1).IsInline);
+			Assert.AreEqual("field3", embedsResponse.Embed.Fields.ElementAt(2).Name);
+			Assert.AreEqual("value3", embedsResponse.Embed.Fields.ElementAt(2).Value);
+			Assert.IsTrue(embedsResponse.Embed.Fields.ElementAt(2).IsInline);
+			Assert.AreEqual("Footer text", embedsResponse.Embed.Footer?.Text);
 		}
 
 		async Task RunLongRunningTestThenUpdate(CancellationToken cancellationToken)
