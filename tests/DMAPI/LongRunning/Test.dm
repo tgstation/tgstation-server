@@ -46,7 +46,7 @@
 
 /proc/Run()
 	sleep(60)
-	world.TgsChatBroadcast("World Initialized")
+	world.TgsChatBroadcast(new /datum/tgs_message_content("World Initialized"))
 	var/datum/tgs_message_content/response = new("Embed support test1")
 	response.embed = new()
 	response.embed.description = "desc"
@@ -123,6 +123,12 @@ var/run_bridge_test
 
 		var/payload = create_payload(size)
 		return payload
+
+	// Chat overload
+	var/tactics5 = data["tgs_integration_test_tactics5"]
+	if(tactics5)
+		TgsChatBroadcast(new /datum/tgs_message_content(create_payload(3000)))
+		return "sent"
 
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
@@ -232,9 +238,9 @@ var/lastTgsError
 		var/list/result = BridgeWithoutChunking(0, list("chatMessage" = list("text" = "payload:[payload]")))
 
 		if(!result || lastTgsError || result["integrationHack"] != "ok")
+			lastTgsError = null
 			if(i == lastI + 1)
 				break
-			lastTgsError = null
 			i = lastI
 			base = lastI
 			nextPow = 0
@@ -246,9 +252,9 @@ var/lastTgsError
 	// DMAPI5_BRIDGE_REQUEST_LIMIT
 	var/limit = 8198
 
-	var/finalResult = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(limit * 3)]")))
-	if(!finalResult || lastTgsError || finalResult["integrationHack"] != "ok")
-		text2file("Failed to end bridge limit test!", "test_fail_reason.txt")
+	var/list/final_result = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(limit * 3)]")))
+	if(!final_result || lastTgsError || final_result["integrationHack"] != "ok")
+		text2file("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]", "test_fail_reason.txt")
 		del(world)
 
 	api.access_identifier = old_ai

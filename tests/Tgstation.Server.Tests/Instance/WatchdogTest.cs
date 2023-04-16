@@ -79,20 +79,43 @@ namespace Tgstation.Server.Tests.Instance
 
 			await RunLongRunningTestThenUpdate(cancellationToken);
 
-			await GhettoChatCommandTest(cancellationToken);
-			await GhettoValidateDMApiLimits(cancellationToken);
-
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
 			await RunHeartbeatTest(true, cancellationToken);
 			await RunHeartbeatTest(false, cancellationToken);
 
-			await StartAndLeaveRunning(cancellationToken);
-
-			await DumpTests(cancellationToken);
+			await InteropTestsForLongRunningDme(cancellationToken);
 
 			System.Console.WriteLine("TEST: END WATCHDOG TESTS");
+		}
+
+		async Task InteropTestsForLongRunningDme(CancellationToken cancellationToken)
+		{
+			await StartAndLeaveRunning(cancellationToken);
+
+			await Task.WhenAll(
+				WhiteBoxChatCommandTest(cancellationToken),
+				SendChatOverloadCommand(cancellationToken));
+
+			// This one fucks with the access_identifer, run it in isolation
+			await WhiteBoxValidateDMApiLimits(cancellationToken);
+
+			// And this freezes DD
+			await DumpTests(cancellationToken);
+		}
+
+		async Task SendChatOverloadCommand(CancellationToken cancellationToken)
+		{
+			// for the code coverage really...
+			var topicRequestResult = await topicClient.SendTopic(
+				IPAddress.Loopback,
+				$"tgs_integration_test_tactics5=1",
+				IntegrationTest.DDPort,
+				cancellationToken);
+
+			Assert.IsNotNull(topicRequestResult);
+			Assert.AreEqual("sent", topicRequestResult.StringData);
 		}
 
 		async Task DumpTests(CancellationToken cancellationToken)
@@ -340,12 +363,8 @@ namespace Tgstation.Server.Tests.Instance
 			public string Payload { get; set; }
 		}
 
-		async Task GhettoValidateDMApiLimits(CancellationToken cancellationToken)
+		async Task WhiteBoxValidateDMApiLimits(CancellationToken cancellationToken)
 		{
-			var startJob = await StartDD(cancellationToken);
-
-			await WaitForJob(startJob, 40, false, null, cancellationToken);
-
 			// first check the bridge limits
 			var bridgeTestsTcs = new TaskCompletionSource();
 			BridgeController.LogContent = false;
@@ -465,15 +484,13 @@ namespace Tgstation.Server.Tests.Instance
 
 			cancellationToken.ThrowIfCancellationRequested();
 			Assert.AreEqual(DMApiConstants.MaximumTopicResponseLength, (uint)lastSize);
-			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+
+			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
 		}
 
-		async Task GhettoChatCommandTest(CancellationToken cancellationToken)
+		async Task WhiteBoxChatCommandTest(CancellationToken cancellationToken)
 		{
-			var startJob = await StartDD(cancellationToken);
-
-			await WaitForJob(startJob, 40, false, null, cancellationToken);
-
 			// oh god, oh fuck, blackbox testing
 			MessageContent embedsResponse, overloadResponse, overloadResponse2, embedsResponse2;
 			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
@@ -527,8 +544,6 @@ namespace Tgstation.Server.Tests.Instance
 
 			var endTime = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
 
-			var shutdownTask = instanceClient.DreamDaemon.Shutdown(cancellationToken);
-
 			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
 			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
 
@@ -540,8 +555,6 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(expectedString, overloadResponse.Text);
 			Assert.IsNotNull(overloadResponse2);
 			Assert.AreEqual(expectedString, overloadResponse2.Text);
-
-			await shutdownTask;
 		}
 
 		void CheckEmbedsTest(MessageContent embedsResponse, DateTimeOffset startTime, DateTimeOffset endTime)
