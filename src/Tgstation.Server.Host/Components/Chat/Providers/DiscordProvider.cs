@@ -261,10 +261,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					ct: cancellationToken);
 
 				if (!result.IsSuccess)
+				{
 					Logger.LogWarning(
 						"Failed to send to channel {channelId}: {result}",
 						channelId,
 						result.LogFormat());
+
+					if (result.Error is RestResultError<RestError> restError && restError.Error.Code == DiscordError.InvalidFormBody)
+						await channelsClient.CreateMessageAsync(
+							channelId,
+							"TGS: Could not send message to Discord. Body was malformed or too long",
+							messageReference: replyToReference,
+							allowedMentions: allowedMentions,
+							ct: cancellationToken);
+				}
 			}
 
 			try
