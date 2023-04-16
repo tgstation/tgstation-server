@@ -25,6 +25,8 @@ namespace Tgstation.Server.Tests
 		{
 			// we only test a few things because they are sourced by BYOND and we want to validate them
 			CheckLine("DMAPI5_BRIDGE_REQUEST_LIMIT", DMApiConstants.MaximumBridgeRequestLength);
+			CheckLine("DMAPI5_TOPIC_REQUEST_LIMIT", DMApiConstants.MaximumTopicRequestLength);
+			CheckLine("DMAPI5_TOPIC_RESPONSE_LIMIT", DMApiConstants.MaximumTopicResponseLength);
 		}
 
 		void CheckLine(string defineName, object expectedValue)
