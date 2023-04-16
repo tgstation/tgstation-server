@@ -290,7 +290,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						Text = "TGS: Bad topic exchange!",
 					};
 
-				if (commandResult.InteropResponse == null)
+				if (commandResult == null)
 					return new MessageContent
 					{
 						Text = "TGS: Bad topic response!",
@@ -298,8 +298,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				var commandResponse = new MessageContent
 				{
-					Text = commandResult.InteropResponse.CommandResponse?.Text ?? commandResult.InteropResponse.CommandResponseMessage,
-					Embed = commandResult.InteropResponse.CommandResponse?.Embed,
+					Text = commandResult.CommandResponse?.Text ?? commandResult.CommandResponseMessage,
+					Embed = commandResult.CommandResponse?.Embed,
 				};
 
 				if (commandResponse.Text == null && commandResponse.Embed == null)
@@ -1125,11 +1125,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Handle any <see cref="TopicResponse.ChatResponses"/> in a given topic <paramref name="result"/>.
 		/// </summary>
-		/// <param name="result">The <see cref="CombinedTopicResponse"/>.</param>
-		void HandleChatResponses(CombinedTopicResponse result)
+		/// <param name="result">The <see cref="TopicResponse"/>.</param>
+		void HandleChatResponses(TopicResponse result)
 		{
-			if (result?.InteropResponse?.ChatResponses != null)
-				foreach (var response in result.InteropResponse.ChatResponses)
+			if (result?.ChatResponses != null)
+				foreach (var response in result.ChatResponses)
 					Chat.QueueMessage(
 						response,
 						response.ChannelIds

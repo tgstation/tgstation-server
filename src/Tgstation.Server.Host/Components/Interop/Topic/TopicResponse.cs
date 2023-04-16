@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 	/// <summary>
 	/// A response to a topic request.
 	/// </summary>
-	sealed class TopicResponse : DMApiResponse
+	sealed class TopicResponse : DMApiResponse, IMissingPayloadsCommunication
 	{
 		/// <summary>
 		/// The text to reply with as the result of a <see cref="TopicCommandType.ChatCommand"/> request, if any. Deprecated circa Interop 5.4.0.
@@ -28,5 +28,13 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// The DMAPI <see cref="CustomCommand"/>s for <see cref="TopicCommandType.ServerRestarted"/> requests.
 		/// </summary>
 		public ICollection<CustomCommand> CustomCommands { get; set; }
+
+		/// <summary>
+		/// The <see cref="ChunkData"/> for a partial response.
+		/// </summary>
+		public ChunkData Chunk { get; set; }
+
+		/// <inheritdoc />
+		public IReadOnlyCollection<uint> MissingChunks { get; set; }
 	}
 }

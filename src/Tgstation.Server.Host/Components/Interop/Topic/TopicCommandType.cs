@@ -52,5 +52,15 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// Notify the server of a reattach and potentially new version.
 		/// </summary>
 		ServerRestarted,
+
+		/// <summary>
+		/// Part of a larger topic.
+		/// </summary>
+		SendChunk,
+
+		/// <summary>
+		/// Receive additional data for a previous response.
+		/// </summary>
+		ReceiveChunk,
 	}
 }

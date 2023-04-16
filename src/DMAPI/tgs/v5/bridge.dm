@@ -10,29 +10,8 @@
 	var/payload_id = ++chunked_requests
 
 	var/raw_data = CreateBridgeData(command, data, FALSE)
-	var/data_length = length(raw_data)
 
-	var/chunk_count
-	var/list/chunk_requests
-	for(chunk_count = 2; !chunk_requests; ++chunk_count);
-		var/max_chunk_size = -round(-(data_length / chunk_count))
-		if(max_chunk_size > DMAPI5_BRIDGE_REQUEST_LIMIT)
-			continue
-
-		chunk_requests = list()
-		for(var/i in 1 to chunk_count)
-			var/startIndex = 1 + ((i - 1) * max_chunk_size)
-			var/endIndex = min(1 + (i * max_chunk_size), data_length + 1)
-			var/chunk_payload = copytext(raw_data, startIndex, endIndex)
-			var/list/chunk = list("payloadId" = payload_id, "sequenceId" = (i - 1), "totalChunks" = chunk_count, payload = chunk_payload)
-
-			var/chunk_request = CreateBridgeRequest(DMAPI5_BRIDGE_COMMAND_CHUNK, list("chunk" = chunk))
-			if(length(chunk_request) > DMAPI5_BRIDGE_REQUEST_LIMIT)
-				// Screwed by url encoding, no way to preempt it though
-				chunk_requests = null
-				break
-
-			chunk_requests += chunk_request
+	var/list/chunk_requests = GenerateChunks(raw_data, TRUE)
 
 	var/list/response
 	for(var/bridge_request in chunk_requests)
@@ -41,17 +20,17 @@
 			// Abort
 			return
 
-	var/list/missing_sequence_ids = response[DMAPI5_BRIDGE_RESPONSE_MISSING_CHUNKS]
+	var/list/missing_sequence_ids = response[DMAPI5_MISSING_CHUNKS]
 	if(length(missing_sequence_ids))
 		do
-			TGS_WARNING_LOG("Server is missing some chunks of payload [payload_id]! Sending missing chunks...")
+			TGS_WARNING_LOG("Server is still missing some chunks of bridge P[payload_id]! Sending missing chunks...")
 			if(!istype(missing_sequence_ids))
-				TGS_ERROR_LOG("Did not receive a list() for [DMAPI5_BRIDGE_RESPONSE_MISSING_CHUNKS]!")
+				TGS_ERROR_LOG("Did not receive a list() for [DMAPI5_MISSING_CHUNKS]!")
 				return
 
 			for(var/missing_sequence_id in missing_sequence_ids)
 				if(!isnum(missing_sequence_id))
-					TGS_ERROR_LOG("Did not receive a num in [DMAPI5_BRIDGE_RESPONSE_MISSING_CHUNKS]!")
+					TGS_ERROR_LOG("Did not receive a num in [DMAPI5_MISSING_CHUNKS]!")
 					return
 
 				var/missing_chunk_request = chunk_requests[missing_sequence_id + 1]
@@ -60,7 +39,7 @@
 					// Abort
 					return
 
-			missing_sequence_ids = response[DMAPI5_BRIDGE_RESPONSE_MISSING_CHUNKS]
+			missing_sequence_ids = response[DMAPI5_MISSING_CHUNKS]
 		while(length(missing_sequence_ids))
 
 	return response

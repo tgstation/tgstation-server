@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 	/// <summary>
 	/// A response to a bridge request.
 	/// </summary>
-	public class BridgeResponse : DMApiResponse
+	public class BridgeResponse : DMApiResponse, IMissingPayloadsCommunication
 	{
 		/// <summary>
 		/// The new port for <see cref="BridgeCommandType.Reboot"/> requests.

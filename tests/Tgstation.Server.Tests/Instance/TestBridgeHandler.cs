@@ -6,8 +6,6 @@ using System.Web;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Moq;
-
 using Newtonsoft.Json;
 
 using Tgstation.Server.Host.Components.Interop;
@@ -15,7 +13,7 @@ using Tgstation.Server.Host.Components.Interop.Bridge;
 
 namespace Tgstation.Server.Tests.Instance
 {
-	sealed class TestBridgeHandler : BridgeRequestChunker, IBridgeHandler
+	sealed class TestBridgeHandler : Chunker, IBridgeHandler
 	{
 		class DMApiParametersImpl : DMApiParameters { }
 
@@ -34,6 +32,8 @@ namespace Tgstation.Server.Tests.Instance
 		readonly TaskCompletionSource bridgeTestsTcs;
 		readonly ushort serverPort;
 
+		bool chunksProcessed = false;
+
 		public TestBridgeHandler(TaskCompletionSource tcs, ILogger<TestBridgeHandler> logger, ushort serverPort)
 			: base(logger)
 		{
@@ -41,13 +41,28 @@ namespace Tgstation.Server.Tests.Instance
 			this.serverPort = serverPort;
 		}
 
-		public override async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			try
 			{
 				Assert.AreEqual(DMApiParameters.AccessIdentifier, parameters.AccessIdentifier);
 				if (parameters.CommandType == BridgeCommandType.Chunk)
-					return await ProcessBridgeChunk(parameters.Chunk, cancellationToken);
+					return await ProcessChunk<BridgeParameters, BridgeResponse>(
+						(parameters, cancellationToken) =>
+						{
+							chunksProcessed = true;
+							return ProcessBridgeRequest(parameters, cancellationToken);
+						},
+						error =>
+						{
+							bridgeTestsTcs.SetException(new Exception(error));
+							return new BridgeResponse
+							{
+								ErrorMessage = error,
+							};
+						},
+						parameters.Chunk,
+						cancellationToken);
 
 				Assert.AreEqual((BridgeCommandType)0, parameters.CommandType);
 				Assert.IsNotNull(parameters.ChatMessage?.Text);
@@ -57,6 +72,7 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.IsFalse(String.IsNullOrWhiteSpace(coreMessage));
 				if (coreMessage == "done")
 				{
+					Assert.IsTrue(chunksProcessed);
 					Assert.AreEqual(DMApiConstants.MaximumBridgeRequestLength, lastBridgeRequestSize);
 					Assert.AreEqual(new string('a', (int)(DMApiConstants.MaximumBridgeRequestLength * 3)), splits[1]);
 

@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 	/// <summary>
 	/// Parameters for a topic request.
 	/// </summary>
-	sealed class TopicParameters : DMApiParameters
+	class TopicParameters : DMApiParameters
 	{
 		/// <summary>
 		/// The <see cref="TopicCommandType"/>.
@@ -49,6 +49,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// The new server <see cref="Version"/> after a reattach.
 		/// </summary>
 		public Version NewServerVersion { get; }
+
+		/// <summary>
+		/// The <see cref="ChunkData"/> for a partial request.
+		/// </summary>
+		public ChunkData Chunk { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
@@ -125,6 +130,16 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
+		/// <param name="chunk">The value of <see cref="Chunk"/>.</param>
+		public TopicParameters(ChunkData chunk)
+			: this(TopicCommandType.SendChunk)
+		{
+			Chunk = chunk ?? throw new ArgumentNullException(nameof(chunk));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
+		/// </summary>
 		/// <remarks>Constructor for <see cref="TopicCommandType.Heartbeat"/>s.</remarks>
 		public TopicParameters()
 			: this(TopicCommandType.Heartbeat)
@@ -135,7 +150,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
 		/// <param name="commandType">The value of <see cref="CommandType"/>.</param>
-		TopicParameters(TopicCommandType commandType)
+		protected TopicParameters(TopicCommandType commandType)
 		{
 			CommandType = commandType;
 		}
