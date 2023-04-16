@@ -26,6 +26,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// </summary>
 	sealed class IrcProvider : Provider
 	{
+		/// <summary>
+		/// Length of the preamble when writing a message to the server. Must be summed with the channel name to get the true value.
+		/// </summary>
+		const int PreambleMessageLength = 12;
+
+		/// <summary>
+		/// Hard limit to sendable message size in bytes.
+		/// </summary>
+		const int MessageBytesLimit = 512;
+
 		/// <inheritdoc />
 		public override bool Connected => client.IsConnected;
 
@@ -184,6 +194,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 				else
 					sendType = SendType.Message;
+
+				var messageSize = Encoding.UTF8.GetByteCount(messageText) + Encoding.UTF8.GetByteCount(channelName) + PreambleMessageLength;
+				var messageTooLong = messageSize > MessageBytesLimit;
+				if (messageTooLong)
+					messageText = $"TGS: Could not send message to IRC. Line write exceeded protocol limit of {MessageBytesLimit}B.";
+
 				try
 				{
 					client.SendMessage(sendType, channelName, messageText);
@@ -191,7 +207,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				catch (Exception e)
 				{
 					Logger.LogWarning(e, "Unable to send to channel {channelName}!", channelName);
+					return;
 				}
+
+				if (messageTooLong)
+					Logger.LogWarning(
+						"Failed to send to channel {channelId}: Message size ({messageSize}B) exceeds IRC limit of 512B",
+						channelId,
+						messageSize);
 			},
 			cancellationToken,
 			DefaultIOManager.BlockingTaskCreationOptions,
