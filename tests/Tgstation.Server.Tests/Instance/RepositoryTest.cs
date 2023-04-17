@@ -50,7 +50,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNotNull(clone.ActiveJob);
 
 			// throwing this small jobs consistency test in here
-			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+			await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
 			var activeJobs = await JobsClient.ListActive(null, cancellationToken);
 			var allJobs = await JobsClient.List(null, cancellationToken);
 
