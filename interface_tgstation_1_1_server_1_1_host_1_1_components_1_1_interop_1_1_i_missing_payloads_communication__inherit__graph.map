@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Interop.IMissingPayloadsCommunication" name="Tgstation.Server.Host.Components.Interop.IMissingPayloadsCommunication">
+<area shape="rect" id="node1" title="A communication that can be missing chunk payloads." alt="" coords="5,69,263,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html" title="A response to a bridge request." alt="" coords="323,5,549,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html" title="TopicParameters for TopicCommandType.ReceiveChunk." alt="" coords="311,69,561,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html" title="A response to a topic request." alt="" coords="323,133,549,173"/>
+</map>

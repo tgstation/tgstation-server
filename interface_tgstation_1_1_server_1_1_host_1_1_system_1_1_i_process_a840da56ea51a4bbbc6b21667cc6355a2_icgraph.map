@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.System.IProcess.Terminate" name="Tgstation.Server.Host.System.IProcess.Terminate">
-<area shape="rect" id="node1" title="Asycnhronously terminates the process." alt="" coords="591,41,789,81"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="281,5,541,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a3d2409bf4c6bce84a6127e7f83129fbf" title="Handle a set of bridge parameters . A Task&lt;TResult&gt; resulting in the BridgeResponse for the request o..." alt="" coords="280,70,543,125"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a56746b962570ee4b349380f63965dc0d" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A Task representing the..." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node1" title="Asycnhronously terminates the process." alt="" coords="627,41,825,81"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1" title=" " alt="" coords="317,5,577,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6b89533592ce90d8668f11936e8096d5" title="Handle a set of bridge parameters ." alt="" coords="316,70,579,125"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a56746b962570ee4b349380f63965dc0d" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose. A Task representing the..." alt="" coords="23,5,250,45"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a96817aa0735ddf0a72782b5f38b22cce" title="Handle a set of bridge parameters . A Task&lt;TResult&gt; resulting in the BridgeResponse for the request o..." alt="" coords="5,70,268,125"/>
 </map>

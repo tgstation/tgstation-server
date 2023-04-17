@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.10.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.11.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -132,7 +132,7 @@ Collaboration diagram for Tgstation.Server.Host.Components.InstanceManager:</div
 <area shape="rect" title=" " alt="" coords="55,1096,110,1122"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="401,1173,631,1213"/>
 <area shape="rect" title=" " alt="" coords="36,1339,129,1364"/>
-<area shape="rect" title=" " alt="" coords="43,1240,122,1266"/>
+<area shape="rect" title=" " alt="" coords="61,1240,104,1266"/>
 <area shape="rect" title=" " alt="" coords="7,1290,159,1315"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="32,1031,133,1056"/>
 <area shape="rect" title=" " alt="" coords="437,1302,595,1327"/>
@@ -1182,7 +1182,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  512</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa63fb27d9675a19d4682b34a6d48130d">bridgeHandlers</a>)</div>
 <div class="line"><span class="lineno">  513</span>                    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa63fb27d9675a19d4682b34a6d48130d">bridgeHandlers</a>.TryGetValue(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html#af84241c8eda4d8f7deddb9c5b7eb79a5">AccessIdentifier</a>, out bridgeHandler))</div>
 <div class="line"><span class="lineno">  514</span>                    {</div>
-<div class="line"><span class="lineno">  515</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogWarning(<span class="stringliteral">&quot;Recieved invalid bridge request with accees identifier: {accessIdentifier}&quot;</span>, parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html#af84241c8eda4d8f7deddb9c5b7eb79a5">AccessIdentifier</a>);</div>
+<div class="line"><span class="lineno">  515</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a968fedca8d4cc5ff16c77c0cbc782bda">logger</a>.LogWarning(<span class="stringliteral">&quot;Recieved invalid bridge request with access identifier: {accessIdentifier}&quot;</span>, parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html#af84241c8eda4d8f7deddb9c5b7eb79a5">AccessIdentifier</a>);</div>
 <div class="line"><span class="lineno">  516</span>                        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  517</span>                    }</div>
 <div class="line"><span class="lineno">  518</span> </div>

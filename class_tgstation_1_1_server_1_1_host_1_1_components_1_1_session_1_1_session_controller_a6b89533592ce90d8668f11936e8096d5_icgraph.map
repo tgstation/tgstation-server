@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeCommand" name="Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeCommand">
+<area shape="rect" id="node1" title="Handle a set of bridge parameters ." alt="" coords="316,5,579,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a96817aa0735ddf0a72782b5f38b22cce" title="Handle a set of bridge parameters . A Task&lt;TResult&gt; resulting in the BridgeResponse for the request o..." alt="" coords="5,5,268,60"/>
+</map>

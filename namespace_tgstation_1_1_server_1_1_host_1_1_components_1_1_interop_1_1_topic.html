@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.10.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.11.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -87,6 +87,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chat_command.html">ChatCommand</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a chat command to be handled by DD.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chat_command.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html">ChunkedTopicParameters</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html" title="Parameters for a topic request.">TopicParameters</a> for TopicCommandType.ReceiveChunk.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chunked_topic_parameters.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html">EventNotification</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure for TopicCommandType.EventNotification requests.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,7 +141,11 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">   49</span>        Heartbeat,</div>
 <div class="line"><span class="lineno">   50</span> </div>
 <div class="line"><span class="lineno">   54</span>        ServerRestarted,</div>
-<div class="line"><span class="lineno">   55</span>    }</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   59</span>        SendChunk,</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   64</span>        ReceiveChunk,</div>
+<div class="line"><span class="lineno">   65</span>    }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chat_command_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chat_command.html">Tgstation.Server.Host.Components.Interop.Topic.ChatCommand</a></div><div class="ttdoc">Represents a chat command to be handled by DD.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_command_8cs_source.html#l00010">ChatCommand.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html">Tgstation.Server.Host.Components.Interop.Topic.EventNotification</a></div><div class="ttdoc">Data structure for TopicCommandType.EventNotification requests.</div><div class="ttdef"><b>Definition:</b> <a href="_event_notification_8cs_source.html#l00012">EventNotification.cs:13</a></div></div>
 </div><!-- fragment -->

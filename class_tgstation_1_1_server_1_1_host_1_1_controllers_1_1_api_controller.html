@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.10.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.11.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -441,29 +441,29 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The appropriate IActionResult.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00270">270</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  271</span>        {</div>
-<div class="line"><span class="lineno">  272</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a> headersException;</div>
-<div class="line"><span class="lineno">  273</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  274</span>            {</div>
-<div class="line"><span class="lineno">  275</span>                _ = <span class="keyword">new</span> <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a1934074118a6f4f9044b9da630c91a8e">ApiHeaders</a>(Request.GetTypedHeaders(), ignoreMissingAuth);</div>
-<div class="line"><span class="lineno">  276</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Expected a header parse exception!&quot;</span>);</div>
-<div class="line"><span class="lineno">  277</span>            }</div>
-<div class="line"><span class="lineno">  278</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a> ex)</div>
-<div class="line"><span class="lineno">  279</span>            {</div>
-<div class="line"><span class="lineno">  280</span>                headersException = ex;</div>
-<div class="line"><span class="lineno">  281</span>            }</div>
-<div class="line"><span class="lineno">  282</span> </div>
-<div class="line"><span class="lineno">  283</span>            var errorMessage = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.BadHeaders)</div>
-<div class="line"><span class="lineno">  284</span>            {</div>
-<div class="line"><span class="lineno">  285</span>                AdditionalData = headersException.Message,</div>
-<div class="line"><span class="lineno">  286</span>            };</div>
-<div class="line"><span class="lineno">  287</span> </div>
-<div class="line"><span class="lineno">  288</span>            <span class="keywordflow">if</span> (headersException.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#ad6cff8dd9410c9e7f097259642101a7d">MissingOrMalformedHeaders</a>.HasFlag(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Accept))</div>
-<div class="line"><span class="lineno">  289</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.NotAcceptable, errorMessage);</div>
-<div class="line"><span class="lineno">  290</span> </div>
-<div class="line"><span class="lineno">  291</span>            <span class="keywordflow">return</span> BadRequest(errorMessage);</div>
-<div class="line"><span class="lineno">  292</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00277">277</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  278</span>        {</div>
+<div class="line"><span class="lineno">  279</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a> headersException;</div>
+<div class="line"><span class="lineno">  280</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  281</span>            {</div>
+<div class="line"><span class="lineno">  282</span>                _ = <span class="keyword">new</span> <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a1934074118a6f4f9044b9da630c91a8e">ApiHeaders</a>(Request.GetTypedHeaders(), ignoreMissingAuth);</div>
+<div class="line"><span class="lineno">  283</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Expected a header parse exception!&quot;</span>);</div>
+<div class="line"><span class="lineno">  284</span>            }</div>
+<div class="line"><span class="lineno">  285</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">HeadersException</a> ex)</div>
+<div class="line"><span class="lineno">  286</span>            {</div>
+<div class="line"><span class="lineno">  287</span>                headersException = ex;</div>
+<div class="line"><span class="lineno">  288</span>            }</div>
+<div class="line"><span class="lineno">  289</span> </div>
+<div class="line"><span class="lineno">  290</span>            var errorMessage = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.BadHeaders)</div>
+<div class="line"><span class="lineno">  291</span>            {</div>
+<div class="line"><span class="lineno">  292</span>                AdditionalData = headersException.Message,</div>
+<div class="line"><span class="lineno">  293</span>            };</div>
+<div class="line"><span class="lineno">  294</span> </div>
+<div class="line"><span class="lineno">  295</span>            <span class="keywordflow">if</span> (headersException.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#ad6cff8dd9410c9e7f097259642101a7d">MissingOrMalformedHeaders</a>.HasFlag(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Accept))</div>
+<div class="line"><span class="lineno">  296</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.NotAcceptable, errorMessage);</div>
+<div class="line"><span class="lineno">  297</span> </div>
+<div class="line"><span class="lineno">  298</span>            <span class="keywordflow">return</span> BadRequest(errorMessage);</div>
+<div class="line"><span class="lineno">  299</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_headers_exception_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html">Tgstation.Server.Api.HeadersException</a></div><div class="ttdoc">Thrown when trying to generate ApiHeaders from Microsoft.AspNetCore.Http.Headers.RequestHeaders fails...</div><div class="ttdef"><b>Definition:</b> <a href="_headers_exception_8cs_source.html#l00008">HeadersException.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_headers_exception_html_ad6cff8dd9410c9e7f097259642101a7d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html#ad6cff8dd9410c9e7f097259642101a7d">Tgstation.Server.Api.HeadersException.MissingOrMalformedHeaders</a></div><div class="ttdeci">HeaderTypes MissingOrMalformedHeaders</div><div class="ttdoc">The HeaderTypess that are missing or malformed.</div><div class="ttdef"><b>Definition:</b> <a href="_headers_exception_8cs_source.html#l00013">HeadersException.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_response_8cs_source.html#l00009">ErrorMessageResponse.cs:10</a></div></div>
@@ -652,34 +652,43 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  179</span>            <span class="keyword">using</span> (LogContext.PushProperty(<span class="stringliteral">&quot;Request&quot;</span>, $<span class="stringliteral">&quot;{Request.Method} {Request.Path}&quot;</span>))</div>
 <div class="line"><span class="lineno">  180</span>            {</div>
 <div class="line"><span class="lineno">  181</span>                <span class="keywordflow">if</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  182</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">  183</span>                        <span class="stringliteral">&quot;Starting API request: Version: {clientApiVersion}. {userAgentHeaderName}: {clientUserAgent}&quot;</span>,</div>
-<div class="line"><span class="lineno">  184</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">ApiVersion</a>.Semver(),</div>
-<div class="line"><span class="lineno">  185</span>                        HeaderNames.UserAgent,</div>
-<div class="line"><span class="lineno">  186</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">RawUserAgent</a>);</div>
-<div class="line"><span class="lineno">  187</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgents))</div>
-<div class="line"><span class="lineno">  188</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">  189</span>                        <span class="stringliteral">&quot;Starting unauthorized API request. {userAgentHeaderName}: {allUserAgents}&quot;</span>,</div>
-<div class="line"><span class="lineno">  190</span>                        HeaderNames.UserAgent,</div>
-<div class="line"><span class="lineno">  191</span>                        userAgents);</div>
-<div class="line"><span class="lineno">  192</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  193</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(</div>
-<div class="line"><span class="lineno">  194</span>                        <span class="stringliteral">&quot;Starting unauthorized API request. No {userAgentHeaderName}!&quot;</span>,</div>
-<div class="line"><span class="lineno">  195</span>                        HeaderNames.UserAgent);</div>
-<div class="line"><span class="lineno">  196</span>                await base.OnActionExecutionAsync(context, next);</div>
-<div class="line"><span class="lineno">  197</span>            }</div>
-<div class="line"><span class="lineno">  198</span>        }</div>
+<div class="line"><span class="lineno">  182</span>                {</div>
+<div class="line"><span class="lineno">  183</span>                    var isGet = HttpMethods.IsGet(Request.Method);</div>
+<div class="line"><span class="lineno">  184</span>                    <span class="keywordflow">if</span> (!(isGet &amp;&amp; Request.Path.StartsWithSegments(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a85c563262244bd21fe1bfa1ce5de6a1d">Jobs</a>, StringComparison.OrdinalIgnoreCase)))</div>
+<div class="line"><span class="lineno">  185</span>                        <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.Log(</div>
+<div class="line"><span class="lineno">  186</span>                            isGet</div>
+<div class="line"><span class="lineno">  187</span>                                ? LogLevel.Trace</div>
+<div class="line"><span class="lineno">  188</span>                                : LogLevel.Debug,</div>
+<div class="line"><span class="lineno">  189</span>                            <span class="stringliteral">&quot;Starting API request: Version: {clientApiVersion}. {userAgentHeaderName}: {clientUserAgent}&quot;</span>,</div>
+<div class="line"><span class="lineno">  190</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">ApiVersion</a>.Semver(),</div>
+<div class="line"><span class="lineno">  191</span>                            HeaderNames.UserAgent,</div>
+<div class="line"><span class="lineno">  192</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">RawUserAgent</a>);</div>
+<div class="line"><span class="lineno">  193</span>                }</div>
+<div class="line"><span class="lineno">  194</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgents))</div>
+<div class="line"><span class="lineno">  195</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(</div>
+<div class="line"><span class="lineno">  196</span>                        <span class="stringliteral">&quot;Starting unauthorized API request. {userAgentHeaderName}: {allUserAgents}&quot;</span>,</div>
+<div class="line"><span class="lineno">  197</span>                        HeaderNames.UserAgent,</div>
+<div class="line"><span class="lineno">  198</span>                        userAgents);</div>
+<div class="line"><span class="lineno">  199</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  200</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(</div>
+<div class="line"><span class="lineno">  201</span>                        <span class="stringliteral">&quot;Starting unauthorized API request. No {userAgentHeaderName}!&quot;</span>,</div>
+<div class="line"><span class="lineno">  202</span>                        HeaderNames.UserAgent);</div>
+<div class="line"><span class="lineno">  203</span>                await base.OnActionExecutionAsync(context, next);</div>
+<div class="line"><span class="lineno">  204</span>            }</div>
+<div class="line"><span class="lineno">  205</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a></div><div class="ttdoc">Represents the header that must be present for every server request.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00021">ApiHeaders.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a22828aaeba69d042e69d5add1e451e0d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a></div><div class="ttdeci">string? RawUserAgent</div><div class="ttdoc">The client's raw user agent.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00081">ApiHeaders.cs:81</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a305abd5b6b16230fb32f779af0a07d61"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a305abd5b6b16230fb32f779af0a07d61">Tgstation.Server.Api.ApiHeaders.Compatible</a></div><div class="ttdeci">bool Compatible()</div><div class="ttdoc">Checks if the ApiVersion is compatible with Version.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a4769bf50b06d55b116a34cd1ffa04809"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">Tgstation.Server.Api.ApiHeaders.ApiVersion</a></div><div class="ttdeci">Version ApiVersion</div><div class="ttdoc">The client's API version.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00086">ApiHeaders.cs:86</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a65e7d0ba3a39c992691f7721c62c1531"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">Tgstation.Server.Api.ApiHeaders.InstanceId</a></div><div class="ttdeci">long? InstanceId</div><div class="ttdoc">The instance EntityId.Id being accessed.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00071">ApiHeaders.cs:71</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00008">Routes.cs:9</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a85c563262244bd21fe1bfa1ce5de6a1d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a85c563262244bd21fe1bfa1ce5de6a1d">Tgstation.Server.Api.Routes.Jobs</a></div><div class="ttdeci">const string Jobs</div><div class="ttdoc">The jobs controller.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00093">Routes.cs:93</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a1df01a8fe92492320149135206e09f47"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a1df01a8fe92492320149135206e09f47">Tgstation.Server.Host.Controllers.ApiController.ValidateRequest</a></div><div class="ttdeci">virtual Task&lt; IActionResult &gt; ValidateRequest(CancellationToken cancellationToken)</div><div class="ttdoc">Performs validation a request.</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a28d03a8af8e2ef025de2f0ac8e7a4221"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221">Tgstation.Server.Host.Controllers.ApiController.HeadersIssue</a></div><div class="ttdeci">IActionResult HeadersIssue(bool ignoreMissingAuth)</div><div class="ttdoc">Response for missing/Invalid headers.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_8cs_source.html#l00270">ApiController.cs:270</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a28d03a8af8e2ef025de2f0ac8e7a4221"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221">Tgstation.Server.Host.Controllers.ApiController.HeadersIssue</a></div><div class="ttdeci">IActionResult HeadersIssue(bool ignoreMissingAuth)</div><div class="ttdoc">Response for missing/Invalid headers.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_8cs_source.html#l00277">ApiController.cs:277</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html_a0846ac9679599a99923987863edb0d5c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">Tgstation.Server.Host.Security.AuthenticationContext.User</a></div><div class="ttdeci">User User</div><div class="ttdoc">The authenticated user.</div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00013">AuthenticationContext.cs:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_api_controller_8cs_source.html#l00049">Tgstation.Server.Host.Controllers.ApiController.ApiHeaders</a>, <a class="el" href="_api_headers_8cs_source.html#l00086">Tgstation.Server.Api.ApiHeaders.ApiVersion</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a305abd5b6b16230fb32f779af0a07d61">Tgstation.Server.Api.ApiHeaders.Compatible()</a>, <a class="el" href="_api_controller_8cs_source.html#l00270">Tgstation.Server.Host.Controllers.ApiController.HeadersIssue()</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_api_headers_8cs_source.html#l00071">Tgstation.Server.Api.ApiHeaders.InstanceId</a>, <a class="el" href="_api_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_api_headers_8cs_source.html#l00081">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a>, <a class="el" href="_api_controller_8cs_source.html#l00074">Tgstation.Server.Host.Controllers.ApiController.requireHeaders</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">Tgstation.Server.Host.Controllers.ApiController.StatusCode()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00013">Tgstation.Server.Host.Security.AuthenticationContext.User</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a1df01a8fe92492320149135206e09f47">Tgstation.Server.Host.Controllers.ApiController.ValidateRequest()</a>.</p>
+<p class="reference">References <a class="el" href="_api_controller_8cs_source.html#l00049">Tgstation.Server.Host.Controllers.ApiController.ApiHeaders</a>, <a class="el" href="_api_headers_8cs_source.html#l00086">Tgstation.Server.Api.ApiHeaders.ApiVersion</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a305abd5b6b16230fb32f779af0a07d61">Tgstation.Server.Api.ApiHeaders.Compatible()</a>, <a class="el" href="_api_controller_8cs_source.html#l00277">Tgstation.Server.Host.Controllers.ApiController.HeadersIssue()</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_api_headers_8cs_source.html#l00071">Tgstation.Server.Api.ApiHeaders.InstanceId</a>, <a class="el" href="_routes_8cs_source.html#l00093">Tgstation.Server.Api.Routes.Jobs</a>, <a class="el" href="_api_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_api_headers_8cs_source.html#l00081">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a>, <a class="el" href="_api_controller_8cs_source.html#l00074">Tgstation.Server.Host.Controllers.ApiController.requireHeaders</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">Tgstation.Server.Host.Controllers.ApiController.StatusCode()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00013">Tgstation.Server.Host.Security.AuthenticationContext.User</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a1df01a8fe92492320149135206e09f47">Tgstation.Server.Host.Controllers.ApiController.ValidateRequest()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -928,72 +937,72 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult for the operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00352">352</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  358</span>        {</div>
-<div class="line"><span class="lineno">  359</span>            <span class="keywordflow">if</span> (queryGenerator == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  360</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(queryGenerator));</div>
-<div class="line"><span class="lineno">  361</span> </div>
-<div class="line"><span class="lineno">  362</span>            <span class="keywordflow">if</span> (pageQuery &lt;= 0 || pageSizeQuery &lt;= 0)</div>
-<div class="line"><span class="lineno">  363</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ApiInvalidPageOrPageSize));</div>
-<div class="line"><span class="lineno">  364</span> </div>
-<div class="line"><span class="lineno">  365</span>            var pageSize = pageSizeQuery ?? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#abbc50c770e93a741960b1c807deee194">DefaultPageSize</a>;</div>
-<div class="line"><span class="lineno">  366</span>            <span class="keywordflow">if</span> (pageSize &gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2287f9007dc7a59dd292ba27b66bfae2">MaximumPageSize</a>)</div>
-<div class="line"><span class="lineno">  367</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ApiPageTooLarge)</div>
-<div class="line"><span class="lineno">  368</span>                {</div>
-<div class="line"><span class="lineno">  369</span>                    AdditionalData = $<span class="stringliteral">&quot;Maximum page size: {MaximumPageSize}&quot;</span>,</div>
-<div class="line"><span class="lineno">  370</span>                });</div>
+<p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00359">359</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  365</span>        {</div>
+<div class="line"><span class="lineno">  366</span>            <span class="keywordflow">if</span> (queryGenerator == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  367</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(queryGenerator));</div>
+<div class="line"><span class="lineno">  368</span> </div>
+<div class="line"><span class="lineno">  369</span>            <span class="keywordflow">if</span> (pageQuery &lt;= 0 || pageSizeQuery &lt;= 0)</div>
+<div class="line"><span class="lineno">  370</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ApiInvalidPageOrPageSize));</div>
 <div class="line"><span class="lineno">  371</span> </div>
-<div class="line"><span class="lineno">  372</span>            var page = pageQuery ?? 1;</div>
-<div class="line"><span class="lineno">  373</span> </div>
-<div class="line"><span class="lineno">  374</span>            var paginationResult = await queryGenerator();</div>
-<div class="line"><span class="lineno">  375</span>            <span class="keywordflow">if</span> (paginationResult.EarlyOut != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  376</span>                <span class="keywordflow">return</span> paginationResult.EarlyOut;</div>
-<div class="line"><span class="lineno">  377</span> </div>
-<div class="line"><span class="lineno">  378</span>            var queriedResults = paginationResult</div>
-<div class="line"><span class="lineno">  379</span>                .Results</div>
-<div class="line"><span class="lineno">  380</span>                .Skip((page - 1) * pageSize)</div>
-<div class="line"><span class="lineno">  381</span>                .Take(pageSize);</div>
-<div class="line"><span class="lineno">  382</span> </div>
-<div class="line"><span class="lineno">  383</span>            <span class="keywordtype">int</span> totalResults;</div>
-<div class="line"><span class="lineno">  384</span>            List&lt;TModel&gt; pagedResults;</div>
-<div class="line"><span class="lineno">  385</span>            <span class="keywordflow">if</span> (queriedResults.Provider is IAsyncQueryProvider)</div>
-<div class="line"><span class="lineno">  386</span>            {</div>
-<div class="line"><span class="lineno">  387</span>                totalResults = await paginationResult.Results.CountAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">  388</span>                pagedResults = await queriedResults</div>
-<div class="line"><span class="lineno">  389</span>                    .ToListAsync(cancellationToken)</div>
-<div class="line"><span class="lineno">  390</span>                    ;</div>
-<div class="line"><span class="lineno">  391</span>            }</div>
-<div class="line"><span class="lineno">  392</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  372</span>            var pageSize = pageSizeQuery ?? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#abbc50c770e93a741960b1c807deee194">DefaultPageSize</a>;</div>
+<div class="line"><span class="lineno">  373</span>            <span class="keywordflow">if</span> (pageSize &gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2287f9007dc7a59dd292ba27b66bfae2">MaximumPageSize</a>)</div>
+<div class="line"><span class="lineno">  374</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ApiPageTooLarge)</div>
+<div class="line"><span class="lineno">  375</span>                {</div>
+<div class="line"><span class="lineno">  376</span>                    AdditionalData = $<span class="stringliteral">&quot;Maximum page size: {MaximumPageSize}&quot;</span>,</div>
+<div class="line"><span class="lineno">  377</span>                });</div>
+<div class="line"><span class="lineno">  378</span> </div>
+<div class="line"><span class="lineno">  379</span>            var page = pageQuery ?? 1;</div>
+<div class="line"><span class="lineno">  380</span> </div>
+<div class="line"><span class="lineno">  381</span>            var paginationResult = await queryGenerator();</div>
+<div class="line"><span class="lineno">  382</span>            <span class="keywordflow">if</span> (paginationResult.EarlyOut != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  383</span>                <span class="keywordflow">return</span> paginationResult.EarlyOut;</div>
+<div class="line"><span class="lineno">  384</span> </div>
+<div class="line"><span class="lineno">  385</span>            var queriedResults = paginationResult</div>
+<div class="line"><span class="lineno">  386</span>                .Results</div>
+<div class="line"><span class="lineno">  387</span>                .Skip((page - 1) * pageSize)</div>
+<div class="line"><span class="lineno">  388</span>                .Take(pageSize);</div>
+<div class="line"><span class="lineno">  389</span> </div>
+<div class="line"><span class="lineno">  390</span>            <span class="keywordtype">int</span> totalResults;</div>
+<div class="line"><span class="lineno">  391</span>            List&lt;TModel&gt; pagedResults;</div>
+<div class="line"><span class="lineno">  392</span>            <span class="keywordflow">if</span> (queriedResults.Provider is IAsyncQueryProvider)</div>
 <div class="line"><span class="lineno">  393</span>            {</div>
-<div class="line"><span class="lineno">  394</span>                totalResults = paginationResult.Results.Count();</div>
-<div class="line"><span class="lineno">  395</span>                pagedResults = queriedResults.ToList();</div>
-<div class="line"><span class="lineno">  396</span>            }</div>
-<div class="line"><span class="lineno">  397</span> </div>
-<div class="line"><span class="lineno">  398</span>            ICollection&lt;TResultModel&gt; finalResults;</div>
-<div class="line"><span class="lineno">  399</span>            <span class="keywordflow">if</span> (typeof(TModel) == typeof(TResultModel))</div>
-<div class="line"><span class="lineno">  400</span>                finalResults = (List&lt;TResultModel&gt;)(<span class="keywordtype">object</span>)pagedResults; <span class="comment">// clearly a safe cast</span></div>
-<div class="line"><span class="lineno">  401</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  402</span>                finalResults = pagedResults</div>
-<div class="line"><span class="lineno">  403</span>                    .OfType&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html">IApiTransformable&lt;TResultModel&gt;</a>&gt;()</div>
-<div class="line"><span class="lineno">  404</span>                    .Select(x =&gt; x.ToApi())</div>
-<div class="line"><span class="lineno">  405</span>                    .ToList();</div>
-<div class="line"><span class="lineno">  406</span> </div>
-<div class="line"><span class="lineno">  407</span>            <span class="keywordflow">if</span> (resultTransformer != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  408</span>                <span class="keywordflow">foreach</span> (var finalResult <span class="keywordflow">in</span> finalResults)</div>
-<div class="line"><span class="lineno">  409</span>                    await resultTransformer(finalResult);</div>
-<div class="line"><span class="lineno">  410</span> </div>
-<div class="line"><span class="lineno">  411</span>            var carryTheOne = totalResults % pageSize != 0</div>
-<div class="line"><span class="lineno">  412</span>                ? 1</div>
-<div class="line"><span class="lineno">  413</span>                : 0;</div>
-<div class="line"><span class="lineno">  414</span>            <span class="keywordflow">return</span> Json(</div>
-<div class="line"><span class="lineno">  415</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_paginated_response.html">PaginatedResponse&lt;TResultModel&gt;</a></div>
-<div class="line"><span class="lineno">  416</span>                {</div>
-<div class="line"><span class="lineno">  417</span>                    Content = finalResults,</div>
-<div class="line"><span class="lineno">  418</span>                    PageSize = pageSize,</div>
-<div class="line"><span class="lineno">  419</span>                    TotalPages = (ushort)(totalResults / pageSize) + carryTheOne,</div>
-<div class="line"><span class="lineno">  420</span>                    TotalItems = totalResults,</div>
-<div class="line"><span class="lineno">  421</span>                });</div>
-<div class="line"><span class="lineno">  422</span>        }</div>
+<div class="line"><span class="lineno">  394</span>                totalResults = await paginationResult.Results.CountAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">  395</span>                pagedResults = await queriedResults</div>
+<div class="line"><span class="lineno">  396</span>                    .ToListAsync(cancellationToken)</div>
+<div class="line"><span class="lineno">  397</span>                    ;</div>
+<div class="line"><span class="lineno">  398</span>            }</div>
+<div class="line"><span class="lineno">  399</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  400</span>            {</div>
+<div class="line"><span class="lineno">  401</span>                totalResults = paginationResult.Results.Count();</div>
+<div class="line"><span class="lineno">  402</span>                pagedResults = queriedResults.ToList();</div>
+<div class="line"><span class="lineno">  403</span>            }</div>
+<div class="line"><span class="lineno">  404</span> </div>
+<div class="line"><span class="lineno">  405</span>            ICollection&lt;TResultModel&gt; finalResults;</div>
+<div class="line"><span class="lineno">  406</span>            <span class="keywordflow">if</span> (typeof(TModel) == typeof(TResultModel))</div>
+<div class="line"><span class="lineno">  407</span>                finalResults = (List&lt;TResultModel&gt;)(<span class="keywordtype">object</span>)pagedResults; <span class="comment">// clearly a safe cast</span></div>
+<div class="line"><span class="lineno">  408</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  409</span>                finalResults = pagedResults</div>
+<div class="line"><span class="lineno">  410</span>                    .OfType&lt;<a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html">IApiTransformable&lt;TResultModel&gt;</a>&gt;()</div>
+<div class="line"><span class="lineno">  411</span>                    .Select(x =&gt; x.ToApi())</div>
+<div class="line"><span class="lineno">  412</span>                    .ToList();</div>
+<div class="line"><span class="lineno">  413</span> </div>
+<div class="line"><span class="lineno">  414</span>            <span class="keywordflow">if</span> (resultTransformer != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  415</span>                <span class="keywordflow">foreach</span> (var finalResult <span class="keywordflow">in</span> finalResults)</div>
+<div class="line"><span class="lineno">  416</span>                    await resultTransformer(finalResult);</div>
+<div class="line"><span class="lineno">  417</span> </div>
+<div class="line"><span class="lineno">  418</span>            var carryTheOne = totalResults % pageSize != 0</div>
+<div class="line"><span class="lineno">  419</span>                ? 1</div>
+<div class="line"><span class="lineno">  420</span>                : 0;</div>
+<div class="line"><span class="lineno">  421</span>            <span class="keywordflow">return</span> Json(</div>
+<div class="line"><span class="lineno">  422</span>                <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_paginated_response.html">PaginatedResponse&lt;TResultModel&gt;</a></div>
+<div class="line"><span class="lineno">  423</span>                {</div>
+<div class="line"><span class="lineno">  424</span>                    Content = finalResults,</div>
+<div class="line"><span class="lineno">  425</span>                    PageSize = pageSize,</div>
+<div class="line"><span class="lineno">  426</span>                    TotalPages = (ushort)(totalResults / pageSize) + carryTheOne,</div>
+<div class="line"><span class="lineno">  427</span>                    TotalItems = totalResults,</div>
+<div class="line"><span class="lineno">  428</span>                });</div>
+<div class="line"><span class="lineno">  429</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_paginated_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_paginated_response.html">Tgstation.Server.Api.Models.Response.PaginatedResponse</a></div><div class="ttdoc">Represents a paginated set of models.</div><div class="ttdef"><b>Definition:</b> <a href="_paginated_response_8cs_source.html#l00010">PaginatedResponse.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a2287f9007dc7a59dd292ba27b66bfae2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a2287f9007dc7a59dd292ba27b66bfae2">Tgstation.Server.Host.Controllers.ApiController.MaximumPageSize</a></div><div class="ttdeci">const ushort MaximumPageSize</div><div class="ttdoc">Maximum size of Paginated&lt;TModel&gt; results.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_8cs_source.html#l00044">ApiController.cs:44</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_abbc50c770e93a741960b1c807deee194"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#abbc50c770e93a741960b1c807deee194">Tgstation.Server.Host.Controllers.ApiController.DefaultPageSize</a></div><div class="ttdeci">const ushort DefaultPageSize</div><div class="ttdoc">Default size of Paginated&lt;TModel&gt; results.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_8cs_source.html#l00039">ApiController.cs:39</a></div></div>
@@ -1036,16 +1045,16 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A HttpStatusCode.TooManyRequests ObjectResult.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00246">246</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  247</span>        {</div>
-<div class="line"><span class="lineno">  248</span>            <span class="keywordflow">if</span> (rateLimitException == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  249</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rateLimitException));</div>
-<div class="line"><span class="lineno">  250</span> </div>
-<div class="line"><span class="lineno">  251</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(rateLimitException, <span class="stringliteral">&quot;Exceeded GitHub rate limit!&quot;</span>);</div>
-<div class="line"><span class="lineno">  252</span>            var secondsString = Math.Ceiling((rateLimitException.Reset - DateTimeOffset.UtcNow).TotalSeconds).ToString(CultureInfo.InvariantCulture);</div>
-<div class="line"><span class="lineno">  253</span>            Response.Headers.Add(HeaderNames.RetryAfter, secondsString);</div>
-<div class="line"><span class="lineno">  254</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.TooManyRequests, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GitHubApiRateLimit));</div>
-<div class="line"><span class="lineno">  255</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00253">253</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  254</span>        {</div>
+<div class="line"><span class="lineno">  255</span>            <span class="keywordflow">if</span> (rateLimitException == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  256</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(rateLimitException));</div>
+<div class="line"><span class="lineno">  257</span> </div>
+<div class="line"><span class="lineno">  258</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogWarning(rateLimitException, <span class="stringliteral">&quot;Exceeded GitHub rate limit!&quot;</span>);</div>
+<div class="line"><span class="lineno">  259</span>            var secondsString = Math.Ceiling((rateLimitException.Reset - DateTimeOffset.UtcNow).TotalSeconds).ToString(CultureInfo.InvariantCulture);</div>
+<div class="line"><span class="lineno">  260</span>            Response.Headers.Add(HeaderNames.RetryAfter, secondsString);</div>
+<div class="line"><span class="lineno">  261</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.TooManyRequests, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.GitHubApiRateLimit));</div>
+<div class="line"><span class="lineno">  262</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_api_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">Tgstation.Server.Host.Controllers.ApiController.StatusCode()</a>.</p>
 
@@ -1151,7 +1160,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A StatusCodeResult with the given <em>statusCode</em> .</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00105">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00271">Tgstation.Server.Host.Controllers.AdministrationController.Delete()</a>, <a class="el" href="_transfer_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.TransferController.Download()</a>, <a class="el" href="_api_controller_8cs_source.html#l00270">Tgstation.Server.Host.Controllers.ApiController.HeadersIssue()</a>, <a class="el" href="_home_controller_8cs_source.html#l00156">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, <a class="el" href="_api_controller_8cs_source.html#l00100">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>, <a class="el" href="_api_controller_8cs_source.html#l00246">Tgstation.Server.Host.Controllers.ApiController.RateLimit()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.AdministrationController.Read()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00105">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00271">Tgstation.Server.Host.Controllers.AdministrationController.Delete()</a>, <a class="el" href="_transfer_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.TransferController.Download()</a>, <a class="el" href="_api_controller_8cs_source.html#l00277">Tgstation.Server.Host.Controllers.ApiController.HeadersIssue()</a>, <a class="el" href="_home_controller_8cs_source.html#l00156">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, <a class="el" href="_api_controller_8cs_source.html#l00100">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>, <a class="el" href="_api_controller_8cs_source.html#l00253">Tgstation.Server.Host.Controllers.ApiController.RateLimit()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.AdministrationController.Read()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1293,7 +1302,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00039">39</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00352">Tgstation.Server.Host.Controllers.ApiController.PaginatedImpl&lt; TModel, TResultModel &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00359">Tgstation.Server.Host.Controllers.ApiController.PaginatedImpl&lt; TModel, TResultModel &gt;()</a>.</p>
 
 </div>
 </div>
@@ -1321,7 +1330,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00044">44</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00352">Tgstation.Server.Host.Controllers.ApiController.PaginatedImpl&lt; TModel, TResultModel &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00359">Tgstation.Server.Host.Controllers.ApiController.PaginatedImpl&lt; TModel, TResultModel &gt;()</a>.</p>
 
 </div>
 </div>
@@ -1379,7 +1388,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00049">49</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   49</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00270">Tgstation.Server.Host.Controllers.ApiController.HeadersIssue()</a>, <a class="el" href="_home_controller_8cs_source.html#l00156">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, and <a class="el" href="_api_controller_8cs_source.html#l00100">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00277">Tgstation.Server.Host.Controllers.ApiController.HeadersIssue()</a>, <a class="el" href="_home_controller_8cs_source.html#l00156">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, and <a class="el" href="_api_controller_8cs_source.html#l00100">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>.</p>
 
 </div>
 </div>
@@ -1491,7 +1500,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_api_controller_8cs_source.html#l00064">64</a> of file <a class="el" href="_api_controller_8cs_source.html">ApiController.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   64</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.ApiController.ApiController()</a>, <a class="el" href="_user_controller_8cs_source.html#l00084">Tgstation.Server.Host.Controllers.UserController.Create()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00067">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00239">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory()</a>, <a class="el" href="_home_controller_8cs_source.html#l00222">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00271">Tgstation.Server.Host.Controllers.AdministrationController.Delete()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00208">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00120">Tgstation.Server.Host.Controllers.ConfigurationController.File()</a>, <a class="el" href="_home_controller_8cs_source.html#l00156">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, <a class="el" href="_api_controller_8cs_source.html#l00100">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00500">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>, <a class="el" href="_api_controller_8cs_source.html#l00246">Tgstation.Server.Host.Controllers.ApiController.RateLimit()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.AdministrationController.Read()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00069">Tgstation.Server.Host.Controllers.ConfigurationController.Update()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>, <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>, and <a class="el" href="_instance_required_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.InstanceRequiredController.ValidateRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.ApiController.ApiController()</a>, <a class="el" href="_user_controller_8cs_source.html#l00084">Tgstation.Server.Host.Controllers.UserController.Create()</a>, <a class="el" href="_user_group_controller_8cs_source.html#l00067">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00239">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory()</a>, <a class="el" href="_home_controller_8cs_source.html#l00222">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00271">Tgstation.Server.Host.Controllers.AdministrationController.Delete()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00208">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00120">Tgstation.Server.Host.Controllers.ConfigurationController.File()</a>, <a class="el" href="_home_controller_8cs_source.html#l00156">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, <a class="el" href="_api_controller_8cs_source.html#l00100">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00500">Tgstation.Server.Host.Controllers.RepositoryController.PopulateApi()</a>, <a class="el" href="_api_controller_8cs_source.html#l00253">Tgstation.Server.Host.Controllers.ApiController.RateLimit()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.AdministrationController.Read()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00069">Tgstation.Server.Host.Controllers.ConfigurationController.Update()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>, <a class="el" href="_user_controller_8cs_source.html#l00171">Tgstation.Server.Host.Controllers.UserController.Update()</a>, and <a class="el" href="_instance_required_controller_8cs_source.html#l00083">Tgstation.Server.Host.Controllers.InstanceRequiredController.ValidateRequest()</a>.</p>
 
 </div>
 </div>

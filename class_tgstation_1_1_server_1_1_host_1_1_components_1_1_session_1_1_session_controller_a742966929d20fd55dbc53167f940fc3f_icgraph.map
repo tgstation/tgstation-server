@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Session.SessionController.SendCommand" name="Tgstation.Server.Host.Components.Session.SessionController.SendCommand">
-<area shape="rect" id="node1" title="Sends a command to DreamDaemon through /world/Topic(). A Task&lt;TResult&gt; resulting in the TopicResponse..." alt="" coords="663,101,929,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6552a1ff883df9f9aaa0d98094ee5025" title="The Task&lt;TResult&gt; for LaunchResult." alt="" coords="334,5,613,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a903d2a63951a7425699c6936160826d7" title="Called when the owning Instance is renamed. A Task representing the running operation." alt="" coords="332,69,615,109"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a574458f82b06e1b174466e0c8c7d55e5" title="Causes the world to start listening on a newPort . A Task&lt;TResult&gt; resulting in true if the operation..." alt="" coords="360,133,587,173"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a7a1b8154a511d6fedfc236cbaf26ac76" title="Attempts to change the current RebootState to newRebootState . A Task&lt;TResult&gt; resulting in true if t..." alt="" coords="339,197,608,237"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aca4798c3df5c740c0690c6b13db4f0f0" title="Initializes a new instance of the SessionController class." alt="" coords="5,5,284,45"/>
-</map>
