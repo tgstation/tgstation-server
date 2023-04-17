@@ -130,9 +130,30 @@ var/run_bridge_test
 		TgsChatBroadcast(new /datum/tgs_message_content(create_payload(3000)))
 		return "sent"
 
+	// Bridge response queuing
+	var/tactics6 = data["tgs_integration_test_tactics6"]
+	if(tactics6)
+		DetachedChatMessageQueuing()
+		return "queued"
+
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
 	return "feck"
+
+// Look I always forget how waitfor = FALSE works
+/proc/DetachedChatMessageQueuing()
+	set waitfor = FALSE
+	DetachedChatMessageQueuingP2()
+
+/proc/DetachedChatMessageQueuingP2()
+	sleep(1)
+	DetachedChatMessageQueuingP3()
+
+/proc/DetachedChatMessageQueuingP3()
+	set waitfor = FALSE
+	world.TgsChatBroadcast(new /datum/tgs_message_content("1/3 queued detached chat messages"))
+	world.TgsChatBroadcast(new /datum/tgs_message_content("2/3 queued detached chat messages"))
+	world.TgsChatBroadcast(new /datum/tgs_message_content("3/3 queued detached chat messages"))
 
 /world/Reboot(reason)
 	TgsChatBroadcast("World Rebooting")

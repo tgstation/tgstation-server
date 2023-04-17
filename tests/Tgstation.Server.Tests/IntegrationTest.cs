@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Byond.TopicSender;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
@@ -887,6 +889,17 @@ namespace Tgstation.Server.Tests
 
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
+
+				// test the reattach message queueing
+				// for the code coverage really...
+				var topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
+					IPAddress.Loopback,
+					$"tgs_integration_test_tactics6=1",
+					DDPort,
+					cancellationToken);
+
+				Assert.IsNotNull(topicRequestResult);
+				Assert.AreEqual("queued", topicRequestResult.StringData);
 
 				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
 				if (new PlatformIdentifier().IsWindows)

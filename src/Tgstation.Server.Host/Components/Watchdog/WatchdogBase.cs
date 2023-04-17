@@ -513,7 +513,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					cancellationToken); // simple announce
 				if (reattachInfo == null)
 					announceTask = Task.WhenAll(
-						HandleNonRelayedEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken),
+						HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken),
 						announceTask);
 			}
 			else
@@ -697,13 +697,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="eventType">The <see cref="EventType"/>.</param>
 		/// <param name="parameters">An <see cref="IEnumerable{T}"/> of <see cref="string"/> parameters for <paramref name="eventType"/>.</param>
+		/// <param name="relayToSession">If the event should be sent to DreamDaemon.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task HandleNonRelayedEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		protected async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
 		{
 			try
 			{
-				await eventConsumer.HandleEvent(eventType, parameters, cancellationToken);
+				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, cancellationToken) : Task.CompletedTask;
+				await Task.WhenAll(
+					eventConsumer.HandleEvent(eventType, parameters, cancellationToken),
+					sessionEventTask);
 			}
 			catch (JobException ex)
 			{
@@ -1021,11 +1025,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = HandleNonRelayedEvent(
+				var eventTask = HandleEvent(
 					releaseServers
 						? EventType.WatchdogDetach
 						: EventType.WatchdogShutdown,
 					Enumerable.Empty<string>(),
+					releaseServers,
 					cancellationToken);
 
 				var chatTask = announce ? Chat.QueueWatchdogMessage("Shutting down...", cancellationToken) : Task.CompletedTask;

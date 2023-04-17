@@ -69,6 +69,9 @@
 				return TopicResponse("Invalid or missing [DMAPI5_EVENT_NOTIFICATION_PARAMETERS]!")
 
 			var/list/event_call = list(event_type)
+			if (event_type == TGS_EVENT_WATCHDOG_DETACH)
+				detached = TRUE
+
 			if(event_parameters)
 				event_call += event_parameters
 
@@ -137,6 +140,7 @@
 			return TopicResponse()
 
 		if(DMAPI5_TOPIC_COMMAND_WATCHDOG_REATTACH)
+			detached = FALSE
 			var/new_port = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_PORT]
 			var/error_message = null
 			if (new_port != null)

@@ -108,7 +108,7 @@ namespace Tgstation.Server.Tests.Instance
 		async Task SendChatOverloadCommand(CancellationToken cancellationToken)
 		{
 			// for the code coverage really...
-			var topicRequestResult = await topicClient.SendTopic(
+			var topicRequestResult = await TopicClient.SendTopic(
 				IPAddress.Loopback,
 				$"tgs_integration_test_tactics5=1",
 				IntegrationTest.DDPort,
@@ -379,7 +379,7 @@ namespace Tgstation.Server.Tests.Instance
 
 				System.Console.WriteLine("TEST: Sending Bridge tests topic...");
 
-				var bridgeTestTopicResult = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", IntegrationTest.DDPort, cancellationToken);
+				var bridgeTestTopicResult = await TopicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", IntegrationTest.DDPort, cancellationToken);
 				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
 
 				await bridgeTestsTcs.Task.WithToken(cancellationToken);
@@ -405,7 +405,7 @@ namespace Tgstation.Server.Tests.Instance
 			};
 
 			var json = JsonConvert.SerializeObject(baseTopic, DMApiConstants.SerializerSettings);
-			var topicString = $"tgs_integration_test_tactics3={topicClient.SanitizeString(json)}";
+			var topicString = $"tgs_integration_test_tactics3={TopicClient.SanitizeString(json)}";
 
 			var baseSize = topicString.Length;
 			var wrappingSize = baseSize;
@@ -424,9 +424,9 @@ namespace Tgstation.Server.Tests.Instance
 				TopicResponse topicRequestResult = null;
 				try
 				{
-					topicRequestResult = await topicClient.SendTopic(
+					topicRequestResult = await TopicClient.SendTopic(
 						IPAddress.Loopback,
-						$"tgs_integration_test_tactics3={topicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
+						$"tgs_integration_test_tactics3={TopicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
 						IntegrationTest.DDPort,
 						cancellationToken);
 				}
@@ -462,9 +462,9 @@ namespace Tgstation.Server.Tests.Instance
 			while (!cancellationToken.IsCancellationRequested)
 			{
 				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
-				var topicRequestResult = await topicClient.SendTopic(
+				var topicRequestResult = await TopicClient.SendTopic(
 					IPAddress.Loopback,
-					$"tgs_integration_test_tactics4={topicClient.SanitizeString(currentSize.ToString())}",
+					$"tgs_integration_test_tactics4={TopicClient.SanitizeString(currentSize.ToString())}",
 					IntegrationTest.DDPort,
 					cancellationToken);
 
@@ -775,7 +775,7 @@ namespace Tgstation.Server.Tests.Instance
 			return ddProc != null;
 		}
 
-		readonly TopicClient topicClient = new (new SocketParameters
+		public static readonly TopicClient TopicClient = new (new SocketParameters
 		{
 			SendTimeout = TimeSpan.FromSeconds(30),
 			ReceiveTimeout = TimeSpan.FromSeconds(30),
@@ -791,7 +791,7 @@ namespace Tgstation.Server.Tests.Instance
 			try
 			{
 				System.Console.WriteLine("TEST: Sending world reboot topic...");
-				var result = await topicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", IntegrationTest.DDPort, cancellationToken);
+				var result = await TopicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", IntegrationTest.DDPort, cancellationToken);
 				Assert.AreEqual("ack", result.StringData);
 
 				using (var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))

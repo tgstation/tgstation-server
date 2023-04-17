@@ -60,6 +60,17 @@
 	return json
 
 /datum/tgs_api/v5/proc/PerformBridgeRequest(bridge_request)
+	if(detached)
+		// Wait up to one minute
+		for(var/i in 1 to 600)
+			sleep(1)
+			if(!detached)
+				break
+
+			// dad went out for milk cigarettes 20 years ago...
+			if(i == 600)
+				detached = FALSE
+
 	// This is an infinite sleep until we get a response
 	var/export_response = world.Export(bridge_request)
 	if(!export_response)

@@ -20,6 +20,8 @@
 	var/chunked_requests = 0
 	var/list/chunked_topics = list()
 
+	var/detached = FALSE
+
 /datum/tgs_api/v5/ApiVersion()
 	return new /datum/tgs_version(
 		#include "__interop_version.dm"
