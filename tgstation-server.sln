@@ -92,6 +92,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3BB10856-AA0
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{82066812-6C73-4360-943B-B23F2F491261}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\tgs_include.dm = tests\DMAPI\tgs_include.dm
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v4", "v4", "{057FAC33-CC31-4948-91C6-B0977C335890}"
 	ProjectSection(SolutionItems) = preProject
@@ -135,9 +138,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v5", "v5", "{FAEAD3B5-2EAB-465C-A9C3-E8CB6AAA7131}"
 	ProjectSection(SolutionItems) = preProject
 		src\DMAPI\tgs\v5\api.dm = src\DMAPI\tgs\v5\api.dm
+		src\DMAPI\tgs\v5\bridge.dm = src\DMAPI\tgs\v5\bridge.dm
+		src\DMAPI\tgs\v5\chunking.dm = src\DMAPI\tgs\v5\chunking.dm
 		src\DMAPI\tgs\v5\commands.dm = src\DMAPI\tgs\v5\commands.dm
 		src\DMAPI\tgs\v5\README.md = src\DMAPI\tgs\v5\README.md
 		src\DMAPI\tgs\v5\serializers.dm = src\DMAPI\tgs\v5\serializers.dm
+		src\DMAPI\tgs\v5\topic.dm = src\DMAPI\tgs\v5\topic.dm
 		src\DMAPI\tgs\v5\undefs.dm = src\DMAPI\tgs\v5\undefs.dm
 		src\DMAPI\tgs\v5\_defines.dm = src\DMAPI\tgs\v5\_defines.dm
 		src\DMAPI\tgs\v5\__interop_version.dm = src\DMAPI\tgs\v5\__interop_version.dm
@@ -168,13 +174,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildFail", "BuildFail", "{
 	ProjectSection(SolutionItems) = preProject
 		tests\DMAPI\BuildFail\build_fail.dme = tests\DMAPI\BuildFail\build_fail.dme
 		tests\DMAPI\BuildFail\Test.dm = tests\DMAPI\BuildFail\Test.dm
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{28CDEB8F-2B2A-47A2-985B-5E2487E8D096}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\artifact-cleanup.yml = .github\workflows\artifact-cleanup.yml
-		.github\workflows\ci-suite.yml = .github\workflows\ci-suite.yml
-		.github\workflows\stable-merge.yml = .github\workflows\stable-merge.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{CFFD7992-E73A-4D1F-9D7A-C817C07B7BEB}"
@@ -356,7 +355,6 @@ Global
 		{7B8FC2AF-1B64-4A89-8480-F0FE360DC9EC} = {82066812-6C73-4360-943B-B23F2F491261}
 		{F32B9514-AAD9-429D-841A-ED810FC2598C} = {82066812-6C73-4360-943B-B23F2F491261}
 		{103C61AB-67D6-46FE-AA47-CC633B88EE0F} = {82066812-6C73-4360-943B-B23F2F491261}
-		{28CDEB8F-2B2A-47A2-985B-5E2487E8D096} = {E82104F4-F5C4-4786-ACD4-B635166CDB21}
 		{CFFD7992-E73A-4D1F-9D7A-C817C07B7BEB} = {E82104F4-F5C4-4786-ACD4-B635166CDB21}
 		{5813CC33-B16C-485D-A74D-20204DDF6542} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
 		{CE499888-B22B-457C-891E-0EA9DC317228} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}

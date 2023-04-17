@@ -25,6 +25,11 @@ namespace Tgstation.Server.Host.Controllers
 	public class BridgeController : Controller
 	{
 		/// <summary>
+		/// If the content of bridge requests and responses should be logged.
+		/// </summary>
+		internal static bool LogContent { get; set; } = true;
+
+		/// <summary>
 		/// Static counter for the number of requests processed.
 		/// </summary>
 		static long requestsProcessed;
@@ -82,18 +87,22 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				catch (Exception ex)
 				{
-					logger.LogWarning(ex, "Error deserializing bridge request: {0}", data);
+					if (LogContent)
+						logger.LogWarning(ex, "Error deserializing bridge request: {0}", data);
 					return BadRequest();
 				}
 
-				logger.LogTrace("Bridge Request: {0}", data);
+				if (LogContent)
+					logger.LogTrace("Bridge Request: {0}", data);
 
 				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken);
 				if (response == null)
 					Forbid();
 
 				var responseJson = JsonConvert.SerializeObject(response, DMApiConstants.SerializerSettings);
-				logger.LogTrace("Bridge Response: {0}", responseJson);
+
+				if (LogContent)
+					logger.LogTrace("Bridge Response: {0}", responseJson);
 				return Content(responseJson, MediaTypeNames.Application.Json);
 			}
 		}

@@ -512,7 +512,7 @@ namespace Tgstation.Server.Host.Components
 				lock (bridgeHandlers)
 					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
 					{
-						logger.LogWarning("Recieved invalid bridge request with accees identifier: {accessIdentifier}", parameters.AccessIdentifier);
+						logger.LogWarning("Recieved invalid bridge request with access identifier: {accessIdentifier}", parameters.AccessIdentifier);
 						return null;
 					}
 

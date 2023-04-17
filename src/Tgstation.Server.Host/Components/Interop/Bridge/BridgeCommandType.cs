@@ -34,5 +34,10 @@
 		/// DreamDaemon requesting a <see cref="ChatMessage"/> be sent.
 		/// </summary>
 		ChatSend,
+
+		/// <summary>
+		/// DreamDaemon attempting to send a longer bridge message.
+		/// </summary>
+		Chunk,
 	}
 }

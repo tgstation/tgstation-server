@@ -6,6 +6,6 @@
 #define TGS_WORLD_ANNOUNCE(message) world << ##message
 #define TGS_INFO_LOG(message) world.log << "Info: [##message]"
 #define TGS_WARNING_LOG(message) world.log << "Warn: [##message]"
-#define TGS_ERROR_LOG(message) world.log << "Err: [##message]"
+#define TGS_ERROR_LOG(message) TgsError(##message)
 #define TGS_NOTIFY_ADMINS(event)
 #define TGS_CLIENT_COUNT 0

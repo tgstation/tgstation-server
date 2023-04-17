@@ -358,7 +358,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 							// The difficulty with compile jobs is they have a two part commit
 							await databaseContext.Save(cancellationToken);
-							logger.LogTrace("Created CompileJob {0}", compileJob.Id);
+							logger.LogTrace("Created CompileJob {compileJobId}", compileJob.Id);
 							try
 							{
 								await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken);
@@ -576,7 +576,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			CancellationToken cancellationToken)
 		{
 			var outputDirectory = job.DirectoryName.ToString();
-			logger.LogTrace("Compile output GUID: {0}", outputDirectory);
+			logger.LogTrace("Compile output GUID: {dirGuid}", outputDirectory);
 
 			try
 			{
@@ -624,7 +624,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						throw new JobException(ErrorCode.DreamMakerMissingDme);
 				}
 
-				logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
+				logger.LogDebug("Selected {dmeName}.dme for compilation!", job.DmeName);
 
 				currentStage = "Modifying .dme";
 				await ModifyDme(job, cancellationToken);
@@ -727,7 +727,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			if (estimatedDuration.HasValue)
 			{
-				logger.LogDebug("Compile is expected to take: {0}", estimatedDuration);
+				logger.LogDebug("Compile is expected to take: {estimatedDuration}", estimatedDuration);
 			}
 			else
 			{
@@ -792,7 +792,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			bool logOutput,
 			CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Verifying {0}DMAPI...", requireValidate ? "required " : String.Empty);
+			logger.LogTrace("Verifying {possiblyRequired}DMAPI...", requireValidate ? "required " : String.Empty);
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
@@ -827,7 +827,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				if (requireValidate && validationStatus == ApiValidationStatus.NeverValidated)
 					throw new JobException(ErrorCode.DreamMakerNeverValidated);
 
-				logger.LogTrace("API validation status: {0}", validationStatus);
+				logger.LogTrace("API validation status: {validationStatus}", validationStatus);
 
 				job.DMApiVersion = controller.DMApiVersion;
 			}
@@ -883,10 +883,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				exitCode = await dm.Lifetime;
 			cancellationToken.ThrowIfCancellationRequested();
 
-			logger.LogDebug("DreamMaker exit code: {0}", exitCode);
+			logger.LogDebug("DreamMaker exit code: {exitCode}", exitCode);
 			job.Output = await dm.GetCombinedOutput(cancellationToken);
 			currentDreamMakerOutput = job.Output;
-			logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
+			logger.LogDebug("DreamMaker output: {newLine}{output}", Environment.NewLine, job.Output);
 			return exitCode;
 		}
 
@@ -926,7 +926,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				{
 					var headIncludeLineNumber = dmeLineIndex + 1;
 					logger.LogDebug(
-						"Inserting HeadInclude.dm at line {0}: {1}",
+						"Inserting HeadInclude.dm at line {lineNumber}: {includeLine}",
 						headIncludeLineNumber,
 						dmeModifications.HeadIncludeLine);
 					dmeLines.Insert(headIncludeLineNumber, dmeModifications.HeadIncludeLine);
@@ -935,7 +935,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				else if (line.Contains("END_INCLUDE", StringComparison.Ordinal) && dmeModifications.TailIncludeLine != null)
 				{
 					logger.LogDebug(
-						"Inserting TailInclude.dm at line {0}: {1}",
+						"Inserting TailInclude.dm at line {lineNumber}: {includeLine}",
 						dmeLineIndex,
 						dmeModifications.TailIncludeLine);
 					dmeLines.Insert(dmeLineIndex, dmeModifications.TailIncludeLine);
@@ -968,7 +968,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (Exception e)
 				{
-					logger.LogWarning(e, "Error cleaning up compile directory {0}!", ioManager.ResolvePath(jobPath));
+					logger.LogWarning(e, "Error cleaning up compile directory {path}!", ioManager.ResolvePath(jobPath));
 				}
 			}
 

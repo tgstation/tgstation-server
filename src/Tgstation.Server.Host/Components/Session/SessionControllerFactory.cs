@@ -279,12 +279,13 @@ namespace Tgstation.Server.Host.Components.Session
 				string outputFilePath = null;
 				if (launchParameters.LogOutput.Value)
 				{
-					await diagnosticsIOManager.CreateDirectory(DreamDaemonLogsPath, cancellationToken);
 					var now = DateTimeOffset.UtcNow;
+					var dateDirectory = diagnosticsIOManager.ConcatPath(DreamDaemonLogsPath, now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+					await diagnosticsIOManager.CreateDirectory(dateDirectory, cancellationToken);
 					outputFilePath = diagnosticsIOManager.ResolvePath(
 						diagnosticsIOManager.ConcatPath(
-							DreamDaemonLogsPath,
-							$"dd-utc-{DateTimeOffset.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss", CultureInfo.InvariantCulture)}{(apiValidate ? "-dmapi" : String.Empty)}.log"));
+							dateDirectory,
+							$"dd-utc-{now.ToString("yyyy-MM-dd-HH-mm-ss", CultureInfo.InvariantCulture)}{(apiValidate ? "-dmapi" : String.Empty)}.log"));
 
 					logger.LogInformation("Logging DreamDaemon output to {path}...", outputFilePath);
 				}
@@ -603,7 +604,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IChatTrackingContext chatTrackingContext,
 			DreamDaemonLaunchParameters launchParameters,
 			bool apiValidateOnly)
-			=> new RuntimeInformation(
+			=> new (
 				chatTrackingContext,
 				dmbProvider,
 				assemblyInformationProvider.Version,

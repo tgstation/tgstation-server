@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿	using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,22 +23,9 @@ namespace Tgstation.Server.Tests.Instance
 			this.repositoryClient = repositoryClient ?? throw new ArgumentNullException(nameof(repositoryClient));
 		}
 
-		public async Task RunPreWatchdog(CancellationToken cancellationToken)
+		public async Task<JobResponse> RunLongClone(CancellationToken cancellationToken)
 		{
-			const string TestRefEnvVar = "TGS_GITHUB_REF";
-			var envVar = Environment.GetEnvironmentVariable(TestRefEnvVar);
-			string workingBranch = null;
-			if (!String.IsNullOrWhiteSpace(envVar))
-			{
-				workingBranch = envVar;
-				Console.WriteLine($"TEST: Set working branch to '{workingBranch}' from env var '{TestRefEnvVar}'");
-			}
-
-			if (workingBranch == null)
-			{
-				workingBranch = "master";
-				Console.WriteLine($"TEST: Set working branch to default '{workingBranch}'");
-			}
+			var workingBranch = "master";
 
 			var initalRepo = await repositoryClient.Read(cancellationToken);
 			Assert.IsNotNull(initalRepo);
@@ -47,7 +34,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(initalRepo.RevisionInformation);
 			Assert.IsNull(initalRepo.ActiveJob);
 
-			const string Origin = "https://github.com/tgstation/tgstation-server";
+			const string Origin = "https://github.com/tgstation/tgstation";
 			var cloneRequest = new RepositoryCreateRequest
 			{
 				Origin = new Uri(Origin),
@@ -62,16 +49,8 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(clone.RevisionInformation);
 			Assert.IsNotNull(clone.ActiveJob);
 
-			await WaitForJobProgressThenCancel(clone.ActiveJob, 40, cancellationToken);
-
-			var secondRead = await repositoryClient.Read(cancellationToken);
-			Assert.IsNotNull(secondRead);
-			Assert.IsNull(secondRead.ActiveJob);
-
-			clone = await repositoryClient.Clone(cloneRequest, cancellationToken);
-
 			// throwing this small jobs consistency test in here
-			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
+			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
 			var activeJobs = await JobsClient.ListActive(null, cancellationToken);
 			var allJobs = await JobsClient.List(null, cancellationToken);
 
@@ -80,11 +59,30 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsTrue(activeJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
 			Assert.IsTrue(allJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
 
-			await WaitForJob(clone.ActiveJob, 9000, false, null, cancellationToken);
+			return clone.ActiveJob;
+		}
+
+		public async Task AbortLongCloneAndCloneSomethingQuick(Task<JobResponse> longCloneJob, CancellationToken cancellationToken)
+		{
+			await WaitForJobProgressThenCancel(await longCloneJob, 40, cancellationToken);
+
+			var secondRead = await repositoryClient.Read(cancellationToken);
+			Assert.IsNotNull(secondRead);
+			Assert.IsNull(secondRead.ActiveJob);
+
+			const string Origin = "https://github.com/tgstation/common_core";
+			var cloneRequest = new RepositoryCreateRequest
+			{
+				Origin = new Uri(Origin),
+			};
+
+			var clone = await repositoryClient.Clone(cloneRequest, cancellationToken);
+
+			await WaitForJob(clone.ActiveJob, 60, false, null, cancellationToken);
 			var readAfterClone = await repositoryClient.Read(cancellationToken);
 
 			Assert.AreEqual(cloneRequest.Origin, readAfterClone.Origin);
-			Assert.AreEqual(workingBranch, readAfterClone.Reference);
+			Assert.AreEqual("master", readAfterClone.Reference);
 			Assert.IsNotNull(readAfterClone.RevisionInformation);
 			Assert.IsNotNull(readAfterClone.RevisionInformation.ActiveTestMerges);
 			Assert.AreEqual(0, readAfterClone.RevisionInformation.ActiveTestMerges.Count);
@@ -97,12 +95,9 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(readAfterClone.RevisionInformation.CommitSha, readAfterClone.RevisionInformation.OriginCommitSha);
 			Assert.AreNotEqual(default, readAfterClone.RevisionInformation.Timestamp);
 
-			// checkout V3 and back
-			var updated = await Checkout(new RepositoryUpdateRequest { Reference = "V3" }, false, true, cancellationToken);
-
 			// Specific SHA
-			await ApiAssert.ThrowsException<ApiConflictException>(() => Checkout(new RepositoryUpdateRequest { Reference = "V3", CheckoutSha = "f43f5bd" }, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
-			updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "f43f5bd" }, false, false, cancellationToken);
+			await ApiAssert.ThrowsException<ApiConflictException>(() => Checkout(new RepositoryUpdateRequest { Reference = "master", CheckoutSha = "286bb75" }, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
+			var updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "286bb75" }, false, false, cancellationToken);
 
 			// Fake SHA
 			updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }, true, false, cancellationToken);
@@ -111,22 +106,9 @@ namespace Tgstation.Server.Tests.Instance
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = "TgsIntegrationTestFakeBranchNeverNameABranchThis" }, true, true, cancellationToken);
 
 			// Back
-			updated = await Checkout(new RepositoryUpdateRequest { Reference = workingBranch }, false, true, cancellationToken);
+			updated = await Checkout(new RepositoryUpdateRequest { Reference = "master" }, false, true, cancellationToken);
 
-			var testPRString = Environment.GetEnvironmentVariable("TGS_TEST_PULL_REQUEST_NUMBER");
-			if (String.IsNullOrWhiteSpace(testPRString))
-				testPRString = Environment.GetEnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER");
-			if (String.IsNullOrWhiteSpace(testPRString))
-				testPRString = Environment.GetEnvironmentVariable("TRAVIS_PULL_REQUEST");
-
-			if (String.IsNullOrWhiteSpace(testPRString))
-				if (workingBranch == "dev")
-					testPRString = "957";
-				else
-					testPRString = "958";
-
-			if (!int.TryParse(testPRString, out var prNumber))
-				Assert.Inconclusive($"Invalid PR #: {testPRString}");
+			var prNumber = 37;
 			await TestMergeTests(updated, prNumber, cancellationToken);
 		}
 
@@ -182,7 +164,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.TitleAtMerge);
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.BodyAtMerge);
 			if (withMerge.RevisionInformation.PrimaryTestMerge.Url != "GITHUB API ERROR: RATE LIMITED")
-				Assert.AreEqual($"https://github.com/tgstation/tgstation-server/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
+				Assert.AreEqual($"https://github.com/tgstation/common_core/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
 			Assert.AreEqual(orignCommit, withMerge.RevisionInformation.OriginCommitSha);
 			Assert.AreNotEqual(orignCommit, withMerge.RevisionInformation.CommitSha);
 

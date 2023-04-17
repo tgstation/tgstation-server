@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Byond.TopicSender;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
@@ -829,7 +831,7 @@ namespace Tgstation.Server.Tests
 
 			TerminateAllDDs();
 
-			IInstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<IInstanceManager>();
+			InstanceManager GetInstanceManager() => ((Host.Server)server.RealServer).Host.Services.GetRequiredService<InstanceManager>();
 
 			// main run
 			var serverTask = server.Run(cancellationToken);
@@ -869,7 +871,7 @@ namespace Tgstation.Server.Tests
 						}
 					}
 
-					var rootTest = FailFast(new RawRequestTests().Run(clientFactory, adminClient, cancellationToken));
+					var rootTest = FailFast(RawRequestTests.Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 					instance = await new InstanceManagerTest(adminClient, server.Directory).RunPreInstanceTest(cancellationToken);
@@ -878,7 +880,7 @@ namespace Tgstation.Server.Tests
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
-					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances, GetInstanceManager()).RunTests(cancellationToken));
+					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances, GetInstanceManager(), (ushort)server.Url.Port).RunTests(cancellationToken));
 
 					await Task.WhenAll(rootTest, adminTest, instanceTests, usersTest);
 
@@ -887,6 +889,17 @@ namespace Tgstation.Server.Tests
 
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
+
+				// test the reattach message queueing
+				// for the code coverage really...
+				var topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
+					IPAddress.Loopback,
+					$"tgs_integration_test_tactics6=1",
+					DDPort,
+					cancellationToken);
+
+				Assert.IsNotNull(topicRequestResult);
+				Assert.AreEqual("queued", topicRequestResult.StringData);
 
 				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
 				if (new PlatformIdentifier().IsWindows)
@@ -998,7 +1011,7 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var compileJob = await instanceClient.DreamMaker.Compile(cancellationToken);
-					var wdt = new WatchdogTest(instanceClient, GetInstanceManager());
+					var wdt = new WatchdogTest(instanceClient, GetInstanceManager(), (ushort)server.Url.Port);
 					await wdt.WaitForJob(compileJob, 30, false, null, cancellationToken);
 
 					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1045,7 +1058,7 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(WatchdogStatus.Online, currentDD.Status);
 					Assert.AreEqual(expectedStaged, currentDD.StagedCompileJob.Job.Id.Value);
 
-					var wdt = new WatchdogTest(instanceClient, GetInstanceManager());
+					var wdt = new WatchdogTest(instanceClient, GetInstanceManager(), (ushort)server.Url.Port);
 					currentDD = await wdt.TellWorldToReboot(cancellationToken);
 					Assert.AreEqual(expectedStaged, currentDD.ActiveCompileJob.Job.Id.Value);
 					Assert.IsNull(currentDD.StagedCompileJob);
@@ -1138,10 +1151,10 @@ namespace Tgstation.Server.Tests
 			using var repo = new Repository(
 				libGit2Repo,
 				new LibGit2Commands(),
-				Mock.Of<Host.IO.IIOManager>(),
+				Mock.Of<IIOManager>(),
 				Mock.Of<IEventConsumer>(),
 				Mock.Of<ICredentialsProvider>(),
-				Mock.Of<Host.IO.IPostWriteHandler>(),
+				Mock.Of<IPostWriteHandler>(),
 				Mock.Of<IGitRemoteFeaturesFactory>(),
 				Mock.Of<ILogger<Repository>>(),
 				() => { });
@@ -1152,7 +1165,7 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(result);
 			Assert.AreEqual(StartSha, repo.Head);
 			result = await repo.ShaIsParent("f636418bf47d238d33b0e4a34f0072b23a8aad0e", default);
-			Assert.IsFalse(result); ;
+			Assert.IsFalse(result);
 			Assert.AreEqual(StartSha, repo.Head);
 		}
 	}

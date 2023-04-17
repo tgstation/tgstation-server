@@ -295,7 +295,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 
 			// configure platform specific services
-#pragma warning disable CA1416 // Validate platform compatibility
 			if (postSetupServices.PlatformIdentifier.IsWindows)
 			{
 				AddWatchdog<WindowsWatchdogFactory>(services, postSetupServices);
@@ -325,7 +324,6 @@ namespace Tgstation.Server.Host.Core
 
 				services.AddSingleton<IHostedService, PosixSignalHandler>();
 			}
-#pragma warning restore CA1416 // Validate platform compatibility
 
 			// configure component/misc services
 			services.AddScoped<IPortAllocator, PortAllocator>();

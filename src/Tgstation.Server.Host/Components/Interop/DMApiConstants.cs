@@ -34,6 +34,22 @@ namespace Tgstation.Server.Host.Components.Interop
 		public const string TopicData = "tgs_data";
 
 		/// <summary>
+		/// The maximum length of a BYOND side bridge request URL.
+		/// </summary>
+		/// <remarks>Testing has revealed that response size is effectively limited only by other factors like RAM.</remarks>
+		public const uint MaximumBridgeRequestLength = 8198;
+
+		/// <summary>
+		/// The maximum length in bytes of a <see cref="global::Byond.TopicSender.ITopicClient"/> payload.
+		/// </summary>
+		public const uint MaximumTopicRequestLength = 65529;
+
+		/// <summary>
+		/// The maximum length in bytes of a <see cref="global::Byond.TopicSender.ITopicClient"/> response.
+		/// </summary>
+		public const uint MaximumTopicResponseLength = 65528;
+
+		/// <summary>
 		/// The DMAPI <see cref="InteropVersion"/> being used.
 		/// </summary>
 		public static readonly Version InteropVersion = Version.Parse(MasterVersionsAttribute.Instance.RawInteropVersion);
@@ -41,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// <see cref="JsonSerializerSettings"/> for use when communicating with the DMAPI.
 		/// </summary>
-		public static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+		public static readonly JsonSerializerSettings SerializerSettings = new ()
 		{
 			ContractResolver = new DefaultContractResolver
 			{

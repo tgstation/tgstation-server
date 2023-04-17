@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Reflection;
@@ -13,6 +14,8 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
 {
@@ -35,7 +38,7 @@ namespace Tgstation.Server.Tests.Instance
 			return result;
 		}
 
-		async Task TestDeleteDirectory(CancellationToken cancellationToken)
+		async Task TestUploadDownloadAndDeleteDirectory(CancellationToken cancellationToken)
 		{
 			//try to delete non-existent
 			var TestDir = new ConfigurationFileRequest
@@ -67,7 +70,7 @@ namespace Tgstation.Server.Tests.Instance
 					Assert.IsNotNull(requestStream);
 					var response = (HttpResponseMessage)requestStream.GetType().GetField("response", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(requestStream);
 					Assert.AreEqual(response.Content.Headers.ContentType.MediaType, MediaTypeNames.Application.Octet);
-					await downloadStream.CopyToAsync(downloadMemoryStream);
+					await downloadStream.CopyToAsync(downloadMemoryStream, cancellationToken);
 				}
 				Assert.AreEqual(TestString, Encoding.UTF8.GetString(downloadMemoryStream.ToArray()).Trim());
 			}
@@ -97,9 +100,29 @@ namespace Tgstation.Server.Tests.Instance
 			await configurationClient.CreateDirectory(staticDir, cancellationToken);
 		}
 
-		public async Task Run(CancellationToken cancellationToken)
+		Task SetupDMApiTests(CancellationToken cancellationToken)
 		{
-			await TestDeleteDirectory(cancellationToken);
+			// just use an I/O manager here
+			var ioManager = new DefaultIOManager(new AssemblyInformationProvider());
+			return Task.WhenAll(
+				ioManager.CopyDirectory(
+					"../../../../DMAPI",
+					ioManager.ConcatPath(instance.Path, "Repository", "tests", "DMAPI"),
+					Enumerable.Empty<string>(),
+					null,
+					cancellationToken),
+				ioManager.CopyDirectory(
+					"../../../../../src/DMAPI",
+					ioManager.ConcatPath(instance.Path, "Repository", "src", "DMAPI"),
+					Enumerable.Empty<string>(),
+					null,
+					cancellationToken)
+				);
+		}
+
+		public Task RunPreWatchdog(CancellationToken cancellationToken)
+		{
+			return Task.WhenAll(TestUploadDownloadAndDeleteDirectory(cancellationToken), SetupDMApiTests(cancellationToken));
 		}
 	}
 }

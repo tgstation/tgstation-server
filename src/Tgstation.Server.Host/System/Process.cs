@@ -116,6 +116,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
+			logger.LogTrace("Disposing PID {pid}...", Id);
 			readerCts?.Cancel();
 			readerCts?.Dispose();
 			if (readTask != null)

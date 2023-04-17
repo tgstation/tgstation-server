@@ -2,7 +2,10 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
+
+using Newtonsoft.Json;
 
 using System;
 using System.Globalization;
@@ -21,8 +24,10 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
@@ -32,41 +37,42 @@ namespace Tgstation.Server.Tests.Instance
 	sealed class WatchdogTest : JobsRequiredTest
 	{
 		readonly IInstanceClient instanceClient;
-		readonly IInstanceManager instanceManager;
+		readonly InstanceManager instanceManager;
+		readonly ushort serverPort;
 
 		bool ranTimeoutTest = false;
 
-		public WatchdogTest(IInstanceClient instanceClient, IInstanceManager instanceManager)
+		public WatchdogTest(IInstanceClient instanceClient, InstanceManager instanceManager, ushort serverPort)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
+			this.serverPort = serverPort;
 		}
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
 			global::System.Console.WriteLine("TEST: START WATCHDOG TESTS");
-			// Increase startup timeout, disable heartbeats
-			var initialSettings = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
-			{
-				StartupTimeout = 15,
-				HeartbeatSeconds = 0,
-				Port = IntegrationTest.DDPort
-			}, cancellationToken);
 
-			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
-			{
-				Port = 0
-			}, cancellationToken), ErrorCode.ModelValidationFailure);
-
-			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
-			{
-				SoftShutdown = true,
-				SoftRestart = true
-			}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft);
-
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning);
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning);
+			await Task.WhenAll(
+				// Increase startup timeout, disable heartbeats
+				instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					StartupTimeout = 15,
+					HeartbeatSeconds = 0,
+					Port = IntegrationTest.DDPort
+				}, cancellationToken),
+				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					SoftShutdown = true,
+					SoftRestart = true
+				}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft),
+				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				{
+					Port = 0
+				}, cancellationToken), ErrorCode.ModelValidationFailure),
+				ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning),
+				ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning));
 
 			await RunBasicTest(cancellationToken);
 
@@ -74,19 +80,46 @@ namespace Tgstation.Server.Tests.Instance
 
 			await RunLongRunningTestThenUpdate(cancellationToken);
 
-			await GhettoChatCommandTest(cancellationToken);
-
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
 			await RunHeartbeatTest(true, cancellationToken);
 			await RunHeartbeatTest(false, cancellationToken);
 
-			await StartAndLeaveRunning(cancellationToken);
-
-			await DumpTests(cancellationToken);
+			await InteropTestsForLongRunningDme(cancellationToken);
 
 			System.Console.WriteLine("TEST: END WATCHDOG TESTS");
+		}
+
+		async Task InteropTestsForLongRunningDme(CancellationToken cancellationToken)
+		{
+			await StartAndLeaveRunning(cancellationToken);
+
+			await WhiteBoxChatCommandTest(cancellationToken);
+			await SendChatOverloadCommand(cancellationToken);
+			await ValidateTopicLimits(cancellationToken);
+
+			// This one fucks with the access_identifer, run it in isolation
+			await WhiteBoxValidateBridgeRequestLimitAndTestChunking(cancellationToken);
+
+			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
+
+			// And this freezes DD
+			await DumpTests(cancellationToken);
+		}
+
+		static async Task SendChatOverloadCommand(CancellationToken cancellationToken)
+		{
+			// for the code coverage really...
+			var topicRequestResult = await TopicClient.SendTopic(
+				IPAddress.Loopback,
+				$"tgs_integration_test_tactics5=1",
+				IntegrationTest.DDPort,
+				cancellationToken);
+
+			Assert.IsNotNull(topicRequestResult);
+			Assert.AreEqual("sent", topicRequestResult.StringData);
 		}
 
 		async Task DumpTests(CancellationToken cancellationToken)
@@ -242,7 +275,7 @@ namespace Tgstation.Server.Tests.Instance
 			using var ddProc = ddProcs.Single();
 			IProcessExecutor executor = null;
 			executor = new ProcessExecutor(
-				RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+				System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 					? new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<IIOManager>(),
@@ -328,64 +361,232 @@ namespace Tgstation.Server.Tests.Instance
 			return await instanceClient.DreamDaemon.Start(cancellationToken);
 		}
 
-		async Task GhettoChatCommandTest(CancellationToken cancellationToken)
+		class TestData
 		{
-			var startJob = await StartDD(cancellationToken);
+			public string Size { get; set; }
+			public string Payload { get; set; }
+		}
 
-			await WaitForJob(startJob, 40, false, null, cancellationToken);
+		// - Uses instance manager concrete
+		// - Injects a custom bridge handler into the bridge registrar and makes the test hack into the DMAPI and change its access_identifier
+		async Task WhiteBoxValidateBridgeRequestLimitAndTestChunking(CancellationToken cancellationToken)
+		{
+			// first check the bridge limits
+			var bridgeTestsTcs = new TaskCompletionSource();
+			BridgeController.LogContent = false;
+			using (var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			}))
+			{
+				var bridgeProcessor = new TestBridgeHandler(bridgeTestsTcs, loggerFactory.CreateLogger<TestBridgeHandler>(), serverPort);
+				using var bridgeRegistration = instanceManager.RegisterHandler(bridgeProcessor);
 
-			// oh god, oh fuck, blackbox testing
-			MessageContent response;
+				System.Console.WriteLine("TEST: Sending Bridge tests topic...");
+
+				var bridgeTestTopicResult = await TopicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_tactics2=1", IntegrationTest.DDPort, cancellationToken);
+				Assert.AreEqual("ack2", bridgeTestTopicResult.StringData);
+
+				await bridgeTestsTcs.Task.WithToken(cancellationToken);
+			}
+
+			BridgeController.LogContent = true;
+
+			// Time for DD to revert the bridge access identifier change
+			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+		}
+
+		static async Task ValidateTopicLimits(CancellationToken cancellationToken)
+		{
+			// Time for topic tests
+			// Request
+
+			System.Console.WriteLine("TEST: Sending Topic tests topics...");
+
+			var nextPow = 0;
+			var lastSize = 0;
+
+			var baseTopic = new TestData
+			{
+				Size = 0.ToString().PadLeft(6, '0'),
+				Payload = "",
+			};
+
+			var json = JsonConvert.SerializeObject(baseTopic, DMApiConstants.SerializerSettings);
+			var topicString = $"tgs_integration_test_tactics3={TopicClient.SanitizeString(json)}";
+
+			var baseSize = topicString.Length;
+			var wrappingSize = baseSize;
+
+			while (!cancellationToken.IsCancellationRequested)
+			{
+				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
+				var payloadSize = currentSize - wrappingSize;
+
+				var topic = new TestData
+				{
+					Size = payloadSize.ToString().PadLeft(6, '0'),
+					Payload = new string('a', payloadSize),
+				};
+
+				TopicResponse topicRequestResult = null;
+				try
+				{
+					topicRequestResult = await TopicClient.SendTopic(
+						IPAddress.Loopback,
+						$"tgs_integration_test_tactics3={TopicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
+						IntegrationTest.DDPort,
+						cancellationToken);
+				}
+				catch (ArgumentOutOfRangeException)
+				{
+				}
+
+				if (topicRequestResult == null
+					|| topicRequestResult.ResponseType != TopicResponseType.StringResponse
+					|| topicRequestResult.StringData != "pass")
+				{
+					if (topicRequestResult != null)
+						Assert.AreEqual("fail", topicRequestResult.StringData);
+					if (currentSize == lastSize + 1)
+						break;
+					baseSize = lastSize;
+					nextPow = 0;
+					continue;
+				}
+
+				lastSize = currentSize;
+				++nextPow;
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+
+			Assert.AreEqual(DMApiConstants.MaximumTopicRequestLength, (uint)lastSize);
+
+			// Receive
+			baseSize = 1;
+			nextPow = 0;
+			lastSize = 0;
+			while (!cancellationToken.IsCancellationRequested)
+			{
+				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
+				var topicRequestResult = await TopicClient.SendTopic(
+					IPAddress.Loopback,
+					$"tgs_integration_test_tactics4={TopicClient.SanitizeString(currentSize.ToString())}",
+					IntegrationTest.DDPort,
+					cancellationToken);
+
+				if (topicRequestResult.ResponseType != TopicResponseType.StringResponse
+					|| new string('a', currentSize) != topicRequestResult.StringData)
+				{
+					if (currentSize == lastSize + 1)
+						break;
+					baseSize = lastSize;
+					nextPow = 0;
+					continue;
+				}
+
+				lastSize = currentSize;
+				++nextPow;
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+			Assert.AreEqual(DMApiConstants.MaximumTopicResponseLength, (uint)lastSize);
+		}
+
+		// - Uses instance manager concrete
+		// - Injects a custom bridge handler into the bridge registrar and makes the test hack into the DMAPI and change its access_identifier
+		async Task WhiteBoxChatCommandTest(CancellationToken cancellationToken)
+		{
+			MessageContent embedsResponse, overloadResponse, overloadResponse2, embedsResponse2;
 			var startTime = DateTimeOffset.UtcNow - TimeSpan.FromSeconds(5);
 			using (var instanceReference = instanceManager.GetInstanceReference(instanceClient.Metadata))
 			{
-				response = await ((BasicWatchdog)instanceReference.Watchdog).HandleChatCommand(
+				var mockChatUser = new ChatUser
+				{
+					Channel = new ChannelRepresentation
+					{
+						IsAdminChannel = true,
+						ConnectionName = "test_connection",
+						EmbedsSupported = true,
+						FriendlyName = "Test Connection",
+						Id = "test_channel_id",
+						IsPrivateChannel = false,
+					},
+					FriendlyName = "Test Sender",
+					Id = "test_user_id",
+					Mention = "test_user_mention",
+					RealId = 1234,
+				};
+
+				var embedsResponseTask = ((WatchdogBase)instanceReference.Watchdog).HandleChatCommand(
 					"embeds_test",
 					String.Empty,
-					new Host.Components.Chat.ChatUser
-					{
-						Channel = new Host.Components.Chat.ChannelRepresentation
-						{
-							IsAdminChannel = true,
-							ConnectionName = "test_connection",
-							EmbedsSupported = true,
-							FriendlyName = "Test Connection",
-							Id = "test_channel_id",
-							IsPrivateChannel = false,
-						},
-						FriendlyName = "Test Sender",
-						Id = "test_user_id",
-						Mention = "test_user_mention",
-						RealId = 1234,
-					},
+					mockChatUser,
 					cancellationToken);
+
+				var embedsResponseTask2 = ((WatchdogBase)instanceReference.Watchdog).HandleChatCommand(
+					"embeds_test",
+					new string('a', (int)DMApiConstants.MaximumTopicRequestLength * 3),
+					mockChatUser,
+					cancellationToken);
+
+				var overloadResponseTask2 = ((WatchdogBase)instanceReference.Watchdog).HandleChatCommand(
+					"response_overload_test",
+					String.Empty,
+					mockChatUser,
+					cancellationToken);
+
+				overloadResponse = await ((WatchdogBase)instanceReference.Watchdog).HandleChatCommand(
+					"response_overload_test",
+					String.Empty,
+					mockChatUser,
+					cancellationToken);
+
+				overloadResponse2 = await overloadResponseTask2;
+				embedsResponse = await embedsResponseTask;
+				embedsResponse2 = await embedsResponseTask2;
 			}
 
 			var endTime = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
 
-			Assert.IsNotNull(response);
-			Assert.AreEqual("Embed support test2", response.Text);
-			Assert.AreEqual("desc", response.Embed.Description);
-			Assert.AreEqual("title", response.Embed.Title);
-			Assert.AreEqual("#0000FF", response.Embed.Colour);
-			Assert.AreEqual("Dominion", response.Embed.Author?.Name);
-			Assert.AreEqual("https://github.com/Cyberboss", response.Embed.Author.Url);
-			Assert.IsTrue(DateTimeOffset.TryParse(response.Embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp));
-			Assert.IsTrue(startTime < timestamp && endTime > timestamp);
-			Assert.AreEqual("https://github.com/tgstation/tgstation-server", response.Embed.Url);
-			Assert.AreEqual(3, response.Embed.Fields?.Count);
-			Assert.AreEqual("field1", response.Embed.Fields.ElementAt(0).Name);
-			Assert.AreEqual("value1", response.Embed.Fields.ElementAt(0).Value);
-			Assert.IsNull(response.Embed.Fields.ElementAt(0).IsInline);
-			Assert.AreEqual("field2", response.Embed.Fields.ElementAt(1).Name);
-			Assert.AreEqual("value2", response.Embed.Fields.ElementAt(1).Value);
-			Assert.IsTrue(response.Embed.Fields.ElementAt(1).IsInline);
-			Assert.AreEqual("field3", response.Embed.Fields.ElementAt(2).Name);
-			Assert.AreEqual("value3", response.Embed.Fields.ElementAt(2).Value);
-			Assert.IsTrue(response.Embed.Fields.ElementAt(2).IsInline);
-			Assert.AreEqual("Footer text", response.Embed.Footer?.Text);
+			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
 
-			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+			CheckEmbedsTest(embedsResponse, startTime, endTime);
+			CheckEmbedsTest(embedsResponse2, startTime, endTime);
+
+			var expectedString = new string('a', (int)DMApiConstants.MaximumTopicResponseLength * 3);
+			Assert.IsNotNull(overloadResponse);
+			Assert.AreEqual(expectedString, overloadResponse.Text);
+			Assert.IsNotNull(overloadResponse2);
+			Assert.AreEqual(expectedString, overloadResponse2.Text);
+		}
+
+		static void CheckEmbedsTest(MessageContent embedsResponse, DateTimeOffset startTime, DateTimeOffset endTime)
+		{
+			Assert.IsNotNull(embedsResponse);
+			Assert.AreEqual("Embed support test2", embedsResponse.Text);
+			Assert.AreEqual("desc", embedsResponse.Embed.Description);
+			Assert.AreEqual("title", embedsResponse.Embed.Title);
+			Assert.AreEqual("#0000FF", embedsResponse.Embed.Colour);
+			Assert.AreEqual("Dominion", embedsResponse.Embed.Author?.Name);
+			Assert.AreEqual("https://github.com/Cyberboss", embedsResponse.Embed.Author.Url);
+			Assert.IsTrue(DateTimeOffset.TryParse(embedsResponse.Embed.Timestamp, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var timestamp));
+			Assert.IsTrue(startTime < timestamp && endTime > timestamp);
+			Assert.AreEqual("https://github.com/tgstation/tgstation-server", embedsResponse.Embed.Url);
+			Assert.AreEqual(3, embedsResponse.Embed.Fields?.Count);
+			Assert.AreEqual("field1", embedsResponse.Embed.Fields.ElementAt(0).Name);
+			Assert.AreEqual("value1", embedsResponse.Embed.Fields.ElementAt(0).Value);
+			Assert.IsNull(embedsResponse.Embed.Fields.ElementAt(0).IsInline);
+			Assert.AreEqual("field2", embedsResponse.Embed.Fields.ElementAt(1).Name);
+			Assert.AreEqual("value2", embedsResponse.Embed.Fields.ElementAt(1).Value);
+			Assert.IsTrue(embedsResponse.Embed.Fields.ElementAt(1).IsInline);
+			Assert.AreEqual("field3", embedsResponse.Embed.Fields.ElementAt(2).Name);
+			Assert.AreEqual("value3", embedsResponse.Embed.Fields.ElementAt(2).Value);
+			Assert.IsTrue(embedsResponse.Embed.Fields.ElementAt(2).IsInline);
+			Assert.AreEqual("Footer text", embedsResponse.Embed.Footer?.Text);
 		}
 
 		async Task RunLongRunningTestThenUpdate(CancellationToken cancellationToken)
@@ -581,23 +782,23 @@ namespace Tgstation.Server.Tests.Instance
 			return ddProc != null;
 		}
 
+		public static readonly TopicClient TopicClient = new (new SocketParameters
+		{
+			SendTimeout = TimeSpan.FromSeconds(30),
+			ReceiveTimeout = TimeSpan.FromSeconds(30),
+			ConnectTimeout = TimeSpan.FromSeconds(30),
+			DisconnectTimeout = TimeSpan.FromSeconds(30)
+		});
+
 		public async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 
-			var bts = new TopicClient(new SocketParameters
-			{
-				SendTimeout = TimeSpan.FromSeconds(30),
-				ReceiveTimeout = TimeSpan.FromSeconds(30),
-				ConnectTimeout = TimeSpan.FromSeconds(30),
-				DisconnectTimeout = TimeSpan.FromSeconds(30)
-			});
-
 			try
 			{
 				System.Console.WriteLine("TEST: Sending world reboot topic...");
-				var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", IntegrationTest.DDPort, cancellationToken);
+				var result = await TopicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", IntegrationTest.DDPort, cancellationToken);
 				Assert.AreEqual("ack", result.StringData);
 
 				using (var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))

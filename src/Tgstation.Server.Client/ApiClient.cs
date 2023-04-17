@@ -107,7 +107,9 @@ namespace Tgstation.Server.Client
 			}
 
 #pragma warning disable IDE0010 // Add missing cases
+#pragma warning disable IDE0066 // Convert switch statement to expression
 			switch (response.StatusCode)
+#pragma warning restore IDE0066 // Convert switch statement to expression
 #pragma warning restore IDE0010 // Add missing cases
 			{
 				case HttpStatusCode.UpgradeRequired:
