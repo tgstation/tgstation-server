@@ -711,7 +711,7 @@ namespace Tgstation.Server.Host.Components.Session
 					oldRebootTcs.SetResult();
 					break;
 				case BridgeCommandType.Chunk:
-					return await ProcessChunk<BridgeParameters, BridgeResponse>(ProcessBridgeRequest, BridgeError, parameters.Chunk, cancellationToken);
+					return await ProcessChunk<BridgeParameters, BridgeResponse>(ProcessBridgeCommand, BridgeError, parameters.Chunk, cancellationToken);
 				case null:
 					return BridgeError("Missing commandType!");
 				default:
