@@ -43,10 +43,9 @@ namespace Tgstation.Server.Tests.Instance
 
 			await chatTask;
 			await dmTask;
+			await byondTask;
 
 			await new WatchdogTest(instanceClient, instanceManager, serverPort).Run(cancellationToken);
-
-			await byondTask;
 		}
 	}
 }
