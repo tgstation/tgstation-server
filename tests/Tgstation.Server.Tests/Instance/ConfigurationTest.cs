@@ -70,7 +70,7 @@ namespace Tgstation.Server.Tests.Instance
 					Assert.IsNotNull(requestStream);
 					var response = (HttpResponseMessage)requestStream.GetType().GetField("response", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(requestStream);
 					Assert.AreEqual(response.Content.Headers.ContentType.MediaType, MediaTypeNames.Application.Octet);
-					await downloadStream.CopyToAsync(downloadMemoryStream);
+					await downloadStream.CopyToAsync(downloadMemoryStream, cancellationToken);
 				}
 				Assert.AreEqual(TestString, Encoding.UTF8.GetString(downloadMemoryStream.ToArray()).Trim());
 			}

@@ -44,11 +44,11 @@ namespace Tgstation.Server.Host.System
 			foreach (ProcessThread thread in process.Threads)
 			{
 				var threadId = (uint)thread.Id;
-				logger.LogTrace("Suspending thread {0}...", threadId);
+				logger.LogTrace("Suspending thread {threadId}...", threadId);
 				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
 				if (pOpenThread == IntPtr.Zero)
 				{
-					logger.LogDebug(new Win32Exception(), "Failed to open thread {0}!", threadId);
+					logger.LogDebug(new Win32Exception(), "Failed to open thread {threadId}!", threadId);
 					continue;
 				}
 
@@ -74,11 +74,11 @@ namespace Tgstation.Server.Host.System
 			foreach (ProcessThread thread in process.Threads)
 			{
 				var threadId = (uint)thread.Id;
-				logger.LogTrace("Resuming thread {0}...", threadId);
+				logger.LogTrace("Resuming thread {threadId}...", threadId);
 				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
 				if (pOpenThread == IntPtr.Zero)
 				{
-					logger.LogDebug(new Win32Exception(), "Failed to open thread {0}!", threadId);
+					logger.LogDebug(new Win32Exception(), "Failed to open thread {threadId}!", threadId);
 					continue;
 				}
 
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.System
 		{
 			string query = $"SELECT * FROM Win32_Process WHERE ProcessId = {process?.Id ?? throw new ArgumentNullException(nameof(process))}";
 			using var searcher = new ManagementObjectSearcher(query);
-			foreach (ManagementObject obj in searcher.Get())
+			foreach (var obj in searcher.Get().Cast<ManagementObject>())
 			{
 				var argList = new string[] { String.Empty, String.Empty };
 				var returnString = obj.InvokeMethod(

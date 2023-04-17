@@ -62,9 +62,9 @@ namespace Tgstation.Server.Tests.Instance
 			return clone.ActiveJob;
 		}
 
-		public async Task AbortLongCloneAndCloneSomethingQuick(JobResponse longCloneJob, CancellationToken cancellationToken)
+		public async Task AbortLongCloneAndCloneSomethingQuick(Task<JobResponse> longCloneJob, CancellationToken cancellationToken)
 		{
-			await WaitForJobProgressThenCancel(longCloneJob, 40, cancellationToken);
+			await WaitForJobProgressThenCancel(await longCloneJob, 40, cancellationToken);
 
 			var secondRead = await repositoryClient.Read(cancellationToken);
 			Assert.IsNotNull(secondRead);

@@ -34,10 +34,16 @@ namespace Tgstation.Server.Tests.Instance
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 		}
 
-		public async Task Run(CancellationToken cancellationToken)
+		public Task Run(CancellationToken cancellationToken, out Task firstInstall)
 		{
+			firstInstall = TestInstallStable(cancellationToken);
+			return RunContinued(firstInstall, cancellationToken);
+		}
+
+		async Task RunContinued(Task firstInstall, CancellationToken cancellationToken)
+		{
+			await firstInstall;
 			await TestNoVersion(cancellationToken);
-			await TestInstallStable(cancellationToken);
 			await TestInstallFakeVersion(cancellationToken);
 			await TestCustomInstalls(cancellationToken);
 		}

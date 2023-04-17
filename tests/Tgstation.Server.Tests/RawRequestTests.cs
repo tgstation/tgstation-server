@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -18,9 +18,9 @@ using Tgstation.Server.Host;
 
 namespace Tgstation.Server.Tests
 {
-	sealed class RawRequestTests
+	static class RawRequestTests
 	{
-		async Task TestRequestValidation(IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task TestRequestValidation(IServerClient serverClient, CancellationToken cancellationToken)
 		{
 			var url = serverClient.Url;
 			var token = serverClient.Token.Bearer;
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Tests
 				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
@@ -63,7 +63,7 @@ namespace Tgstation.Server.Tests
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ServerInformationResponse>(content);
 				Assert.AreEqual(ApiHeaders.Version, message.ApiVersion);
 			}
@@ -77,12 +77,12 @@ namespace Tgstation.Server.Tests
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.Administration.Substring(1)))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.Administration.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -91,12 +91,12 @@ namespace Tgstation.Server.Tests
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.Administration.Substring(1)))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, String.Concat(url.ToString(), Routes.Administration.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -109,12 +109,12 @@ namespace Tgstation.Server.Tests
 					MediaTypeNames.Application.Json);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.DreamDaemon.Substring(1)))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, String.Concat(url.ToString(), Routes.DreamDaemon.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -124,7 +124,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString() + Routes.DreamDaemon.Substring(1)))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, String.Concat(url.ToString(), Routes.DreamDaemon.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -133,7 +133,7 @@ namespace Tgstation.Server.Tests
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.InstanceHeaderRequired, message.ErrorCode);
 			}
@@ -147,7 +147,7 @@ namespace Tgstation.Server.Tests
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme.ToLower(), token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Tests
 				request.Headers.Add(ApiHeaders.OAuthProviderHeader, "FakeProvider");
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
@@ -179,13 +179,13 @@ namespace Tgstation.Server.Tests
 						Encoding.UTF8.GetBytes(":")));
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 		}
 
-		async Task TestServerInformation(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task TestServerInformation(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
 		{
 			var serverInfo = await serverClient.ServerInformation(default);
 
@@ -209,7 +209,7 @@ namespace Tgstation.Server.Tests
 			await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Administration.Read(cancellationToken));
 		}
 
-		async Task TestOAuthFails(IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task TestOAuthFails(IServerClient serverClient, CancellationToken cancellationToken)
 		{
 			var url = serverClient.Url;
 			var token = serverClient.Token.Bearer;
@@ -230,14 +230,15 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 				}
 		}
-		async Task TestInvalidTransfers(IServerClient serverClient, CancellationToken cancellationToken)
+
+		static async Task TestInvalidTransfers(IServerClient serverClient, CancellationToken cancellationToken)
 		{
 			var url = serverClient.Url;
 			var token = serverClient.Token.Bearer;
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.Transfer.Substring(1)))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -246,13 +247,13 @@ namespace Tgstation.Server.Tests
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Put, url.ToString() + Routes.Transfer.Substring(1)))
+			using (var request = new HttpRequestMessage(HttpMethod.Put, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -261,13 +262,13 @@ namespace Tgstation.Server.Tests
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.Transfer.Substring(1) + "?ticket=veryfaketicket"))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -279,7 +280,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.Transfer.Substring(1) + "?ticket=veryfaketicket"))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -292,7 +293,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(HttpStatusCode.Gone, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Put, url.ToString() + Routes.Transfer.Substring(1) + "?ticket=veryfaketicket"))
+			using (var request = new HttpRequestMessage(HttpMethod.Put, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -305,7 +306,7 @@ namespace Tgstation.Server.Tests
 			}
 		}
 
-		async Task RegressionTestForLeakedPasswordHashesBug(IServerClient serverClient, CancellationToken cancellationToken)
+		static async Task RegressionTestForLeakedPasswordHashesBug(IServerClient serverClient, CancellationToken cancellationToken)
 		{
 			// See what https://github.com/tgstation/tgstation-server/commit/6c8dc87c4af36620885b262175d7974aca2b3c2b fixed
 
@@ -314,7 +315,7 @@ namespace Tgstation.Server.Tests
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.User.Substring(1)))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.User.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -323,11 +324,11 @@ namespace Tgstation.Server.Tests
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				Assert.IsFalse(content.Contains("passwordHash"));
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.User.Substring(1) + '/' + Routes.List + "?pageSize=100"))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.User[1..] + '/' + Routes.List + "?pageSize=100"))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -336,12 +337,12 @@ namespace Tgstation.Server.Tests
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				var content = await response.Content.ReadAsStringAsync();
+				var content = await response.Content.ReadAsStringAsync(cancellationToken);
 				Assert.IsFalse(content.Contains("passwordHash"));
 			}
 		}
 
-		public Task Run(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
+		public static Task Run(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
 			=> Task.WhenAll(
 				TestRequestValidation(serverClient, cancellationToken),
 				TestOAuthFails(serverClient, cancellationToken),

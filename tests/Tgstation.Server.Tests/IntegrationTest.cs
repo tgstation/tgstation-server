@@ -871,7 +871,7 @@ namespace Tgstation.Server.Tests
 						}
 					}
 
-					var rootTest = FailFast(new RawRequestTests().Run(clientFactory, adminClient, cancellationToken));
+					var rootTest = FailFast(RawRequestTests.Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 					instance = await new InstanceManagerTest(adminClient, server.Directory).RunPreInstanceTest(cancellationToken);
@@ -1151,10 +1151,10 @@ namespace Tgstation.Server.Tests
 			using var repo = new Repository(
 				libGit2Repo,
 				new LibGit2Commands(),
-				Mock.Of<Host.IO.IIOManager>(),
+				Mock.Of<IIOManager>(),
 				Mock.Of<IEventConsumer>(),
 				Mock.Of<ICredentialsProvider>(),
-				Mock.Of<Host.IO.IPostWriteHandler>(),
+				Mock.Of<IPostWriteHandler>(),
 				Mock.Of<IGitRemoteFeaturesFactory>(),
 				Mock.Of<ILogger<Repository>>(),
 				() => { });
@@ -1165,7 +1165,7 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(result);
 			Assert.AreEqual(StartSha, repo.Head);
 			result = await repo.ShaIsParent("f636418bf47d238d33b0e4a34f0072b23a8aad0e", default);
-			Assert.IsFalse(result); ;
+			Assert.IsFalse(result);
 			Assert.AreEqual(StartSha, repo.Head);
 		}
 	}
