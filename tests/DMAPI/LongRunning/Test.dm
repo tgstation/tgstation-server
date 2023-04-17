@@ -273,6 +273,7 @@ var/lastTgsError
 	// DMAPI5_BRIDGE_REQUEST_LIMIT
 	var/limit = 8198
 
+	// this actually gets doubled because it's in two fields for backwards compatibility, but that's fine
 	var/list/final_result = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(limit * 3)]")))
 	if(!final_result || lastTgsError || final_result["integrationHack"] != "ok")
 		text2file("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]", "test_fail_reason.txt")
