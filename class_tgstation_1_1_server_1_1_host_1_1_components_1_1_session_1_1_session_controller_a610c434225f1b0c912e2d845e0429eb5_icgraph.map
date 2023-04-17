@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController.BridgeError" name="Tgstation.Server.Host.Components.Session.SessionController.BridgeError">
-<area shape="rect" id="node1" title="Log and return a BridgeResponse for a given message ." alt="" coords="627,13,868,53"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6b89533592ce90d8668f11936e8096d5" title="Handle a set of bridge parameters ." alt="" coords="316,5,579,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a96817aa0735ddf0a72782b5f38b22cce" title="Handle a set of bridge parameters . A Task&lt;TResult&gt; resulting in the BridgeResponse for the request o..." alt="" coords="5,5,268,60"/>
+<area shape="rect" id="node1" title="Log and return a BridgeResponse for a given message ." alt="" coords="627,37,868,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6b89533592ce90d8668f11936e8096d5" title="Handle a set of bridge parameters ." alt="" coords="316,29,579,84"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a96817aa0735ddf0a72782b5f38b22cce" title="Handle a set of bridge parameters . A Task&lt;TResult&gt; resulting in the BridgeResponse for the request o..." alt="" coords="5,29,268,84"/>
 </map>
