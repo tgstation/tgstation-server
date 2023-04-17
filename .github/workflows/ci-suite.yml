@@ -173,7 +173,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}NoService
 
     - name: Run Unit Tests
-      run: sudo dotnet test --no-build --filter FullyQualifiedName!~IntegrationTest -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~IntegrationTest -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -204,7 +204,7 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}
 
     - name: Run Unit Tests
-      run: dotnet test --no-build --filter FullyQualifiedName!~IntegrationTest -c ${{ matrix.configuration }} --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~IntegrationTest -c ${{ matrix.configuration }} --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -246,11 +246,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Build
+      run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+
     - name: Run Integration Test
       run: |
         cd tests/Tgstation.Server.Tests
         Start-Sleep -Seconds 10
-        dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }} --no-build --logger GitHubActions --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -380,11 +383,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Build
+      run: dotnet build -c ${{ matrix.configuration }}NoService tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+
     - name: Run Integration Test
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoService -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }}NoService --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
