@@ -36,14 +36,19 @@ namespace Tgstation.Server.Tests.Instance
 
 		public Task Run(CancellationToken cancellationToken, out Task firstInstall)
 		{
-			firstInstall = TestInstallStable(cancellationToken);
+			firstInstall = RunPartOne(cancellationToken);
 			return RunContinued(firstInstall, cancellationToken);
+		}
+
+		async Task RunPartOne(CancellationToken cancellationToken)
+		{
+			await TestNoVersion(cancellationToken);
+			await TestInstallStable(cancellationToken);
 		}
 
 		async Task RunContinued(Task firstInstall, CancellationToken cancellationToken)
 		{
 			await firstInstall;
-			await TestNoVersion(cancellationToken);
 			await TestInstallFakeVersion(cancellationToken);
 			await TestCustomInstalls(cancellationToken);
 		}
