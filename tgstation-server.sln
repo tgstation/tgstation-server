@@ -191,6 +191,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Migrator",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Migrator.Comms", "tools\Tgstation.Server.Migrator.Comms\Tgstation.Server.Migrator.Comms.csproj", "{07ED0FD5-E46B-4841-931D-BA2B673E16B2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Common", "src\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj", "{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -331,6 +333,14 @@ Global
 		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.ReleaseNoService|Any CPU.ActiveCfg = Release|Any CPU
 		{07ED0FD5-E46B-4841-931D-BA2B673E16B2}.ReleaseNoService|Any CPU.Build.0 = Release|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.DebugNoService|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.DebugNoService|Any CPU.Build.0 = Debug|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.ReleaseNoService|Any CPU.ActiveCfg = Release|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.ReleaseNoService|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

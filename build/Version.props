@@ -10,7 +10,7 @@
     <TgsClientVersion>11.3.0</TgsClientVersion>
     <TgsDmapiVersion>6.4.2</TgsDmapiVersion>
     <TgsInteropVersion>5.6.0</TgsInteropVersion>
-    <TgsHostWatchdogVersion>1.2.1</TgsHostWatchdogVersion>
+    <TgsHostWatchdogVersion>1.2.2</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
     <TgsMigratorVersion>1.0.1</TgsMigratorVersion>
     <TgsNetVersion>net6.0</TgsNetVersion>

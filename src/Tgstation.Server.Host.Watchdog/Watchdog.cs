@@ -11,9 +11,12 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Tgstation.Server.Host.Common;
+
 namespace Tgstation.Server.Host.Watchdog
 {
 	/// <inheritdoc />
+	/// <remarks>This <see langword="class"/> is a HACK but it works. Try not to break it if you wish to change it. Remember, this code doesn't get updated with the rest of the server.</remarks>
 	sealed class Watchdog : IWatchdog
 	{
 		/// <summary>
@@ -36,7 +39,11 @@ namespace Tgstation.Server.Host.Watchdog
 		public async Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
-			logger.LogDebug("PID: {0}", Process.GetCurrentProcess().Id);
+			int currentProcessId;
+			using (var currentProc = Process.GetCurrentProcess())
+				currentProcessId = currentProc.Id;
+
+			logger.LogDebug("PID: {pid}", currentProcessId);
 			string updateDirectory = null;
 			try
 			{
@@ -48,7 +55,7 @@ namespace Tgstation.Server.Host.Watchdog
 					return;
 				}
 
-				logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
+				logger.LogInformation("Detected dotnet executable at {dotnetPath}", dotnetPath);
 
 				var executingAssembly = Assembly.GetExecutingAssembly();
 				var rootLocation = Path.GetDirectoryName(executingAssembly.Location);
@@ -94,13 +101,13 @@ namespace Tgstation.Server.Host.Watchdog
 					return;
 				}
 
-				string watchdogVersion = executingAssembly.GetName().Version.ToString();
+				var watchdogVersion = executingAssembly.GetName().Version.ToString();
 
 				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))
 					{
 						updateDirectory = Path.GetFullPath(Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString()));
-						logger.LogInformation("Update path set to {0}", updateDirectory);
+						logger.LogInformation("Update path set to {updateDirectory}", updateDirectory);
 						using (var process = new Process())
 						{
 							process.StartInfo.FileName = dotnetPath;
@@ -160,15 +167,17 @@ namespace Tgstation.Server.Host.Watchdog
 									{
 										processCts.CancelAfter(TimeSpan.FromSeconds(10));
 									}
-									catch (ObjectDisposedException)
+									catch (ObjectDisposedException ex)
 									{
 										// race conditions
+										logger.LogWarning(ex, "Error triggering timeout!");
 									}
 								}))
 									await tcs.Task.ConfigureAwait(false);
 							}
-							catch (InvalidOperationException)
+							catch (InvalidOperationException ex)
 							{
+								logger.LogWarning(ex, "Error triggering timeout!");
 							}
 							finally
 							{
@@ -194,27 +203,31 @@ namespace Tgstation.Server.Host.Watchdog
 								return;
 							}
 
-							switch (process.ExitCode)
+							switch ((HostExitCode)process.ExitCode)
 							{
-								case 0:
+								case HostExitCode.CompleteExecution:
 									return;
-								case 1:
+								case HostExitCode.RestartRequested:
 									if (!cancellationToken.IsCancellationRequested)
 										logger.LogInformation("Watchdog will restart host..."); // just a restart
 									else
 										logger.LogWarning("Host requested restart but watchdog shutdown is in progress!");
 									break;
-								case 2:
+								case HostExitCode.Error:
 									// update path is now an exception document
 									logger.LogCritical("Host crashed, propagating exception dump...");
-									var data = File.ReadAllText(updateDirectory);
+
+									var data = "(NOT PRESENT)";
+									if (File.Exists(updateDirectory))
+										data = File.ReadAllText(updateDirectory);
+
 									try
 									{
 										File.Delete(updateDirectory);
 									}
 									catch (Exception e)
 									{
-										logger.LogWarning(e, "Unable to delete exception dump file at {0}!", updateDirectory);
+										logger.LogWarning(e, "Unable to delete exception dump file at {updateDirectory}!", updateDirectory);
 									}
 
 #pragma warning disable CA2201 // Do not raise reserved exception types
@@ -260,7 +273,7 @@ namespace Tgstation.Server.Host.Watchdog
 									}
 									catch (Exception e)
 									{
-										logger.LogWarning(e, "Error deleting old server at {0}!", tempPath);
+										logger.LogWarning(e, "Error deleting old server at {tempPath}!", tempPath);
 									}
 								}
 								catch (Exception e)
@@ -321,10 +334,10 @@ namespace Tgstation.Server.Host.Watchdog
 			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
 
 			return enumerator
-				.Where(x =>
+				.Where(potentialDotnetPath =>
 				{
-					logger.LogTrace("Checking for dotnet at {0}", x);
-					return File.Exists(x);
+					logger.LogTrace("Checking for dotnet at {potentialDotnetPath}", potentialDotnetPath);
+					return File.Exists(potentialDotnetPath);
 				})
 				.FirstOrDefault();
 		}

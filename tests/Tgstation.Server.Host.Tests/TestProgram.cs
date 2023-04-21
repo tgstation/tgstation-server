@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
@@ -30,10 +31,14 @@ namespace Tgstation.Server.Host.Tests
 			mockServer.SetupGet(x => x.RestartRequested).Returns(false);
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
-			Program.ServerFactory = mockServerFactory.Object;
 
-			var result = await Program.Main(Array.Empty<string>());
-			Assert.AreEqual(0, result);
+			var program = new Program
+			{
+				ServerFactory = mockServerFactory.Object
+			};
+
+			var result = await program.Main(Array.Empty<string>(), null);
+			Assert.AreEqual(HostExitCode.CompleteExecution, result);
 		}
 
 		[TestMethod]
@@ -44,10 +49,14 @@ namespace Tgstation.Server.Host.Tests
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
-			Program.ServerFactory = mockServerFactory.Object;
 
-			var result = await Program.Main(Array.Empty<string>());
-			Assert.AreEqual(1, result);
+			var program = new Program
+			{
+				ServerFactory = mockServerFactory.Object
+			};
+
+			var result = await program.Main(Array.Empty<string>(), null);
+			Assert.AreEqual(HostExitCode.RestartRequested, result);
 		}
 
 		[TestMethod]
@@ -58,9 +67,13 @@ namespace Tgstation.Server.Host.Tests
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
-			Program.ServerFactory = mockServerFactory.Object;
 
-			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => Program.Main(Array.Empty<string>()));
+			var program = new Program
+			{
+				ServerFactory = mockServerFactory.Object
+			};
+
+			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => program.Main(Array.Empty<string>(), null));
 		}
 
 		[TestMethod]
@@ -73,14 +86,17 @@ namespace Tgstation.Server.Host.Tests
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.SetupGet(x => x.IOManager).Returns(new DefaultIOManager(new AssemblyInformationProvider()));
 			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
-			Program.ServerFactory = mockServerFactory.Object;
+			var program = new Program
+			{
+				ServerFactory = mockServerFactory.Object
+			};
 
 			var tempFileName = Path.GetTempFileName();
 			File.Delete(tempFileName);
 			try
 			{
-				var result = await Program.Main(new string[] { tempFileName });
-				Assert.AreEqual(2, result);
+				var result = await program.Main(Array.Empty<string>(), tempFileName);
+				Assert.AreEqual(HostExitCode.Error, result);
 				Assert.AreEqual(exception.ToString(), File.ReadAllText(tempFileName));
 			}
 			finally
