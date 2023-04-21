@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -30,7 +28,7 @@ namespace Tgstation.Server.Host.Tests.Swarm
 		public async Task TestInitHappensInstantlyWhenControllerIsInitialized()
 		{
 			using var controller = new TestableSwarmNode(loggerFactory, GenConfig());
-			using var node = new TestableSwarmNode(loggerFactory, GenConfig(controller.Config));
+			using var node = new TestableSwarmNode(loggerFactory, GenConfig(controller));
 
 			TestableSwarmNode.Link(controller, node);
 
@@ -47,8 +45,8 @@ namespace Tgstation.Server.Host.Tests.Swarm
 		public async Task TestNodeInitializeDoesNotWorkWithoutController()
 		{
 			using var controller = new TestableSwarmNode(loggerFactory, GenConfig());
-			using var node1 = new TestableSwarmNode(loggerFactory, GenConfig(controller.Config));
-			using var node2 = new TestableSwarmNode(loggerFactory, GenConfig(controller.Config));
+			using var node1 = new TestableSwarmNode(loggerFactory, GenConfig(controller));
+			using var node2 = new TestableSwarmNode(loggerFactory, GenConfig(controller));
 
 			TestableSwarmNode.Link(controller, node1, node2);
 
@@ -59,7 +57,7 @@ namespace Tgstation.Server.Host.Tests.Swarm
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node2.TryInit());
 		}
 
-		SwarmConfiguration GenConfig(SwarmConfiguration controllerConfig = null)
+		SwarmConfiguration GenConfig(TestableSwarmNode controller = null)
 		{
 			ushort randPort;
 			do
@@ -71,8 +69,8 @@ namespace Tgstation.Server.Host.Tests.Swarm
 			return new SwarmConfiguration
 			{
 				Address = new Uri($"http://127.0.0.1:{randPort}"),
-				ControllerAddress = controllerConfig?.Address,
-				Identifier = $"{(controllerConfig == null ? "Controller" : "Node")}{usedPorts.Count}",
+				ControllerAddress = controller?.Config.Address,
+				Identifier = $"{(controller == null ? "Controller" : "Node")}{usedPorts.Count}",
 				PrivateKey = "asdf",
 				UpdateRequiredNodeCount = (uint)usedPorts.Count - 1,
 			};
