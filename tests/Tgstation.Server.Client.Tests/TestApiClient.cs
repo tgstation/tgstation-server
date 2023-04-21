@@ -11,8 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api;
-using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Common;
 
 namespace Tgstation.Server.Client.Tests
 {

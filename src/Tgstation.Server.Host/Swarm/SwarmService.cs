@@ -72,11 +72,6 @@ namespace Tgstation.Server.Host.Swarm
 		bool SwarmMode => swarmConfiguration.PrivateKey != null;
 
 		/// <summary>
-		/// Lazily constructed <see cref="IRestartRegistration"/>.
-		/// </summary>
-		readonly Lazy<IRestartRegistration> lazyRestartRegistration;
-
-		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="SwarmService"/>.
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
@@ -92,9 +87,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IHttpClientFactory"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="SwarmService"/>.
 		/// </summary>
-		readonly IHttpClientFactory httpClientFactory;
+		readonly IAbstractHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="SwarmService"/>.
@@ -105,6 +100,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// The <see cref="IServerUpdater"/> for the <see cref="SwarmService"/>.
 		/// </summary>
 		readonly IServerUpdater serverUpdater;
+
+		/// <summary>
+		/// The <see cref="IRestartRegistration"/> for the <see cref="SwarmService"/>.
+		/// </summary>
+		readonly IRestartRegistration restartRegistration;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Swarm
 			IDatabaseContextFactory databaseContextFactory,
 			IDatabaseSeeder databaseSeeder,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			IHttpClientFactory httpClientFactory,
+			IAbstractHttpClientFactory httpClientFactory,
 			IServerControl serverControl,
 			IServerUpdater serverUpdater,
 			IAsyncDelayer asyncDelayer,
@@ -215,6 +215,7 @@ namespace Tgstation.Server.Host.Swarm
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 			if (serverControl == null)
 				throw new ArgumentNullException(nameof(serverControl));
+			restartRegistration = serverControl.RegisterForRestart(this);
 
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
@@ -249,12 +250,14 @@ namespace Tgstation.Server.Host.Swarm
 
 				updateSynchronizationLock = new object();
 			}
-
-			lazyRestartRegistration = new Lazy<IRestartRegistration>(() => serverControl.RegisterForRestart(this));
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => serverHealthCheckCancellationTokenSource?.Dispose();
+		public void Dispose()
+		{
+			restartRegistration.Dispose();
+			serverHealthCheckCancellationTokenSource?.Dispose();
+		}
 
 		/// <inheritdoc />
 		public async Task RemoteAbortUpdate(CancellationToken cancellationToken)
@@ -379,7 +382,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (!commitGoAhead)
 			{
 				logger.LogDebug(
-					"Update commit failed!{0}",
+					"Update commit failed!{maybeTimeout}",
 					timeoutTask.IsCompleted
 						? " Timed out!"
 						: String.Empty);
@@ -464,8 +467,6 @@ namespace Tgstation.Server.Host.Swarm
 					swarmConfiguration.Identifier);
 			else
 				logger.LogTrace("Swarm mode disabled");
-
-			_ = lazyRestartRegistration.Value;
 
 			SwarmRegistrationResult result;
 			if (swarmController)
@@ -1164,25 +1165,22 @@ namespace Tgstation.Server.Host.Swarm
 			var request = new HttpRequestMessage(
 				httpMethod,
 				swarmServer.Address + subroute[1..]);
-
-			request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
-			request.Headers.UserAgent.Clear();
-			request.Headers.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
-			request.Headers.Accept.Clear();
-			request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-			if (registrationIdOverride.HasValue)
-				request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdOverride.Value.ToString());
-			else if (swarmController)
-			{
-				lock (swarmServers)
-					if (registrationIds.TryGetValue(swarmServer.Identifier, out var registrationId))
-						request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationId.ToString());
-			}
-			else if (controllerRegistration.HasValue)
-				request.Headers.Add(SwarmConstants.RegistrationIdHeader, controllerRegistration.Value.ToString());
-
 			try
 			{
+				request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
+				request.Headers.Accept.Clear();
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				if (registrationIdOverride.HasValue)
+					request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdOverride.Value.ToString());
+				else if (swarmController)
+				{
+					lock (swarmServers)
+						if (registrationIds.TryGetValue(swarmServer.Identifier, out var registrationId))
+							request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationId.ToString());
+				}
+				else if (controllerRegistration.HasValue)
+					request.Headers.Add(SwarmConstants.RegistrationIdHeader, controllerRegistration.Value.ToString());
+
 				if (body != null)
 					request.Content = new StringContent(
 						JsonConvert.SerializeObject(body, SerializerSettings),

@@ -15,11 +15,15 @@ using System.ServiceProcess;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+
 using Octokit;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
+using Tgstation.Server.Migrator;
 
 using FileMode = System.IO.FileMode;
 
@@ -377,10 +381,14 @@ try
 
 	// TGS5 DOWNLOAD AND UNZIP
 	Console.WriteLine("Downloading TGS5...");
-	using (var tgsFiveZipMemoryStream = await SetupApplication.IOManager.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), default))
+
+	var httpClientFactory = new ConcreteHttpClientFactory();
+	using (var loggerFactory = LoggerFactory.Create(builder => { }))
 	{
+		var fileDownloader = new FileDownloader(httpClientFactory, loggerFactory.CreateLogger<FileDownloader>());
+		using var tgsFiveZipMemoryStream = await fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), default);
 		Console.WriteLine("Unzipping TGS5...");
-		await SetupApplication.IOManager.ZipToDirectory(tgsInstallPath, tgsFiveZipMemoryStream, default);
+		await serverFactory.IOManager.ZipToDirectory(tgsInstallPath, tgsFiveZipMemoryStream, default);
 	}
 
 	// TGS5 CONFIG SETUP

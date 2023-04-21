@@ -13,8 +13,9 @@ using Newtonsoft.Json.Serialization;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
@@ -49,18 +50,13 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <summary>
 		/// The <see cref="IHttpClientFactory"/> for the <see cref="GenericOAuthValidator"/>.
 		/// </summary>
-		readonly IHttpClientFactory httpClientFactory;
-
-		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="GenericOAuthValidator"/>.
-		/// </summary>
-		readonly IAssemblyInformationProvider assemblyInformationProvider;
+		readonly IAbstractHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// Gets <see cref="JsonSerializerSettings"/> that should be used.
 		/// </summary>
 		/// <returns>A new <see cref="JsonSerializerSettings"/> <see cref="object"/>.</returns>
-		protected static JsonSerializerSettings SerializerSettings() => new JsonSerializerSettings
+		protected static JsonSerializerSettings SerializerSettings() => new ()
 		{
 			ContractResolver = new DefaultContractResolver
 			{
@@ -72,17 +68,14 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// Initializes a new instance of the <see cref="GenericOAuthValidator"/> class.
 		/// </summary>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		/// <param name="oAuthConfiguration">The value of <see cref="OAuthConfiguration"/>.</param>
 		public GenericOAuthValidator(
-			IHttpClientFactory httpClientFactory,
-			IAssemblyInformationProvider assemblyInformationProvider,
+			IAbstractHttpClientFactory httpClientFactory,
 			ILogger<GenericOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
 		{
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			OAuthConfiguration = oAuthConfiguration ?? throw new ArgumentNullException(nameof(oAuthConfiguration));
 		}
@@ -109,7 +102,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				tokenRequest.Content = new FormUrlEncodedContent(tokenRequestDictionary);
 
 				var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken);
-				tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync();
+				tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync(cancellationToken);
 				tokenResponse.EnsureSuccessStatusCode();
 				var tokenResponseJson = JObject.Parse(tokenResponsePayload);
 
@@ -129,7 +122,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 					accessToken);
 
 				var userInformationResponse = await httpClient.SendAsync(userInformationRequest, cancellationToken);
-				userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync();
+				userInformationPayload = await userInformationResponse.Content.ReadAsStringAsync(cancellationToken);
 				userInformationResponse.EnsureSuccessStatusCode();
 
 				var userInformationJson = JObject.Parse(userInformationPayload);
@@ -178,16 +171,15 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected abstract OAuthTokenRequest CreateTokenRequest(string code);
 
 		/// <summary>
-		/// Create a new configured <see cref="HttpClient"/>.
+		/// Create a new configured <see cref="IHttpClient"/>.
 		/// </summary>
-		/// <returns>A new configured <see cref="HttpClient"/>.</returns>
-		HttpClient CreateHttpClient()
+		/// <returns>A new configured <see cref="IHttpClient"/>.</returns>
+		IHttpClient CreateHttpClient()
 		{
 			var httpClient = httpClientFactory.CreateClient();
 			try
 			{
 				httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-				httpClient.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
 				return httpClient;
 			}
 			catch

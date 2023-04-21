@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -31,11 +29,6 @@ namespace Tgstation.Server.Host.IO
 		/// The <see cref="TaskCreationOptions"/> used to spawn <see cref="Task"/>s for potentially long running, blocking operations.
 		/// </summary>
 		public const TaskCreationOptions BlockingTaskCreationOptions = TaskCreationOptions.None;
-
-		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DefaultIOManager"/>.
-		/// </summary>
-		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// Recursively empty a directory.
@@ -65,22 +58,6 @@ namespace Tgstation.Server.Host.IO
 
 			cancellationToken.ThrowIfCancellationRequested();
 			dir.Delete(true);
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DefaultIOManager"/> class.
-		/// </summary>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		public DefaultIOManager(IAssemblyInformationProvider assemblyInformationProvider)
-		{
-			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DefaultIOManager"/> class.
-		/// </summary>
-		protected DefaultIOManager()
-		{
 		}
 
 		/// <inheritdoc />
@@ -295,29 +272,6 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken,
 			BlockingTaskCreationOptions,
 			TaskScheduler.Current);
-
-		/// <inheritdoc />
-		public async Task<MemoryStream> DownloadFile(Uri url, CancellationToken cancellationToken)
-		{
-			using var httpClient = new HttpClient();
-			httpClient.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
-			var webRequestTask = httpClient.GetAsync(url, cancellationToken);
-			using var response = await webRequestTask;
-			response.EnsureSuccessStatusCode();
-			using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-			var memoryStream = new MemoryStream();
-			try
-			{
-				await responseStream.CopyToAsync(memoryStream, cancellationToken);
-				memoryStream.Seek(0, SeekOrigin.Begin);
-				return memoryStream;
-			}
-			catch
-			{
-				memoryStream.Dispose();
-				throw;
-			}
-		}
 
 		/// <inheritdoc />
 		public Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken) => Task.Factory.StartNew(

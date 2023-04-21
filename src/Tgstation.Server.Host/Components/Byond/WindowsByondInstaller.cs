@@ -81,9 +81,15 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
+		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
-		public WindowsByondInstaller(IProcessExecutor processExecutor, IIOManager ioManager, IOptions<GeneralConfiguration> generalConfigurationOptions, ILogger<WindowsByondInstaller> logger)
-			: base(ioManager, logger)
+		public WindowsByondInstaller(
+			IProcessExecutor processExecutor,
+			IIOManager ioManager,
+			IFileDownloader fileDownloader,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			ILogger<WindowsByondInstaller> logger)
+			: base(ioManager, fileDownloader, logger)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));

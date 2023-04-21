@@ -105,12 +105,18 @@ namespace Tgstation.Server.Tests.Instance
 			var byondInstaller = new PlatformIdentifier().IsWindows
 				? (IByondInstaller)new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
-					new DefaultIOManager(new AssemblyInformationProvider()),
+					Mock.Of<IIOManager>(),
+					new FileDownloader(
+						new ConcreteHttpClientFactory(),
+						Mock.Of<ILogger<FileDownloader>>()),
 					generalConfigOptionsMock.Object,
 					Mock.Of<ILogger<WindowsByondInstaller>>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),
-					new DefaultIOManager(new AssemblyInformationProvider()),
+					Mock.Of<IIOManager>(),
+					new FileDownloader(
+						new ConcreteHttpClientFactory(),
+						Mock.Of<ILogger<FileDownloader>>()),
 					Mock.Of<ILogger<PosixByondInstaller>>());
 
 			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;

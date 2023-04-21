@@ -49,9 +49,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
+		/// <param name="fileDownloader">The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
-		public PosixByondInstaller(IPostWriteHandler postWriteHandler, IIOManager ioManager, ILogger<PosixByondInstaller> logger)
-			: base(ioManager, logger)
+		public PosixByondInstaller(
+			IPostWriteHandler postWriteHandler,
+			IIOManager ioManager,
+			IFileDownloader fileDownloader,
+			ILogger<PosixByondInstaller> logger)
+			: base(ioManager, fileDownloader, logger)
 		{
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 
@@ -89,7 +94,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			async Task WriteAndMakeExecutable(string pathToScript, string script)
 			{
-				Logger.LogTrace("Writing script {0}:{1}{2}", pathToScript, Environment.NewLine, script);
+				Logger.LogTrace("Writing script {path}:{newLine}{scriptContents}", pathToScript, Environment.NewLine, script);
 				await IOManager.WriteAllBytes(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken);
 				postWriteHandler.HandleWrite(IOManager.ResolvePath(pathToScript));
 			}

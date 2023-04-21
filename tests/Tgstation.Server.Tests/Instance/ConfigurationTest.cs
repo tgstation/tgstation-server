@@ -103,7 +103,7 @@ namespace Tgstation.Server.Tests.Instance
 		Task SetupDMApiTests(CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
-			var ioManager = new DefaultIOManager(new AssemblyInformationProvider());
+			var ioManager = new DefaultIOManager();
 			return Task.WhenAll(
 				ioManager.CopyDirectory(
 					"../../../../DMAPI",

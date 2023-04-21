@@ -40,13 +40,20 @@ namespace Tgstation.Server.Host.Components.Byond
 		protected ILogger<ByondInstallerBase> Logger { get; }
 
 		/// <summary>
+		/// The <see cref="IFileDownloader"/> for the <see cref="ByondInstallerBase"/>.
+		/// </summary>
+		readonly IFileDownloader fileDownloader;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ByondInstallerBase"/> class.
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="IOManager"/>.</param>
+		/// <param name="fileDownloader">The value of <see cref="fileDownloader"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
-		protected ByondInstallerBase(IIOManager ioManager, ILogger<ByondInstallerBase> logger)
+		protected ByondInstallerBase(IIOManager ioManager, IFileDownloader fileDownloader, ILogger<ByondInstallerBase> logger)
 		{
 			IOManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -88,11 +95,9 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
+			Logger.LogTrace("Downloading BYOND version {major}.{minor}...", version.Major, version.Minor);
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Major, version.Minor);
-
-			Logger.LogTrace("Downloading from: {0}", url);
-
-			return IOManager.DownloadFile(new Uri(url), cancellationToken);
+			return fileDownloader.DownloadFile(new Uri(url), cancellationToken);
 		}
 	}
 }

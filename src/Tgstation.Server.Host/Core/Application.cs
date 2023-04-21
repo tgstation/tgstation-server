@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Core
 		public static IServerFactory CreateDefaultServerFactory()
 		{
 			var assemblyInformationProvider = new AssemblyInformationProvider();
-			var ioManager = new DefaultIOManager(assemblyInformationProvider);
+			var ioManager = new DefaultIOManager();
 			return new ServerFactory(
 				assemblyInformationProvider,
 				ioManager);
@@ -253,6 +253,7 @@ namespace Tgstation.Server.Host.Core
 
 			// Enable managed HTTP clients
 			services.AddHttpClient();
+			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
@@ -350,6 +351,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<IFileDownloader, FileDownloader>();
 			services.AddSingleton<FileTransferService>();
 			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
 			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());

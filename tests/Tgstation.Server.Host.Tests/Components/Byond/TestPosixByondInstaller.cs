@@ -15,14 +15,16 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(null, null, null, null));
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, null, null, null));
 			var mockIOManager = new Mock<IIOManager>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, null, null));
+			var mockFileDownloader = Mock.Of<IFileDownloader>();
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, null));
 
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
-			_ = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
+			_ = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockLogger.Object);
 		}
 
 		[TestMethod]
@@ -31,7 +33,8 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
 			var mockIOManager = new Mock<IIOManager>();
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
-			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
+			var mockFileDownloader = Mock.Of<IFileDownloader>();
+			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockLogger.Object);
 			await installer.CleanCache(default);
 		}
 
@@ -42,12 +45,13 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var mockIOManager = new Mock<IIOManager>();
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
-			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
+			var mockFileDownloader = new Mock<IFileDownloader>();
+			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader.Object, mockLogger.Object);
 
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, default));
 
 			var ourArray = Array.Empty<byte>();
-			mockIOManager.Setup(x => x.DownloadFile(It.Is<Uri>(uri => uri == new Uri("https://secure.byond.com/download/build/511/511.1385_byond_linux.zip")), default)).Returns(Task.FromResult(new MemoryStream(ourArray))).Verifiable();
+			mockFileDownloader.Setup(x => x.DownloadFile(It.Is<Uri>(uri => uri == new Uri("https://secure.byond.com/download/build/511/511.1385_byond_linux.zip")), default)).Returns(Task.FromResult(new MemoryStream(ourArray))).Verifiable();
 
 			var result = await installer.DownloadVersion(new Version(511, 1385), default);
 
@@ -61,7 +65,8 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var mockIOManager = new Mock<IIOManager>();
 			var mockPostWriteHandler = new Mock<IPostWriteHandler>();
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
-			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
+			var mockFileDownloader = Mock.Of<IFileDownloader>();
+			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockLogger.Object);
 
 			const string FakePath = "fake";
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(null, null, default));
