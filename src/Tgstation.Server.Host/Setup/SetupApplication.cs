@@ -20,16 +20,6 @@ namespace Tgstation.Server.Host.Setup
 	public class SetupApplication
 	{
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SetupApplication"/>.
-		/// </summary>
-		public static readonly IAssemblyInformationProvider AssemblyInformationProvider = new AssemblyInformationProvider();
-
-		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="SetupApplication"/>.
-		/// </summary>
-		public static readonly IIOManager IOManager = new DefaultIOManager(AssemblyInformationProvider);
-
-		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="SetupApplication"/>.
 		/// </summary>
 		protected IConfiguration Configuration { get; }
@@ -47,15 +37,21 @@ namespace Tgstation.Server.Host.Setup
 		/// Configure dependency injected services.
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
-		public void ConfigureServices(IServiceCollection services)
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> needed for configuration.</param>
+		/// <param name="ioManager">The <see cref="IIOManager"/> needed for configuration.</param>
+		public void ConfigureServices(IServiceCollection services, IAssemblyInformationProvider assemblyInformationProvider, IIOManager ioManager)
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			if (ioManager == null)
+				throw new ArgumentNullException(nameof(ioManager));
 
 			services.SetupLogging(config => config.MinimumLevel.Override("Microsoft", LogEventLevel.Warning));
 
-			services.AddSingleton(IOManager);
-			services.AddSingleton(AssemblyInformationProvider);
+			services.AddSingleton(ioManager);
+			services.AddSingleton(assemblyInformationProvider);
 
 			services.AddSingleton<IConsole, IO.Console>();
 			services.AddSingleton<IDatabaseConnectionFactory, DatabaseConnectionFactory>();

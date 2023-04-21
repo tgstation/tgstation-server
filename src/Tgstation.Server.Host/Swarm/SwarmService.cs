@@ -102,9 +102,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IServerUpdateInitiator"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="IServerUpdater"/> for the <see cref="SwarmService"/>.
 		/// </summary>
-		readonly IServerUpdateInitiator serverUpdater;
+		readonly IServerUpdater serverUpdater;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
@@ -194,7 +194,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to register ourselves as a <see cref="IRestartHandler"/> with.</param>
-		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdater"/>.</param>
+		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
@@ -204,7 +204,7 @@ namespace Tgstation.Server.Host.Swarm
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IHttpClientFactory httpClientFactory,
 			IServerControl serverControl,
-			IServerUpdateInitiator serverUpdateInitiator,
+			IServerUpdater serverUpdater,
 			IAsyncDelayer asyncDelayer,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmService> logger)
@@ -216,7 +216,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (serverControl == null)
 				throw new ArgumentNullException(nameof(serverControl));
 
-			serverUpdater = serverUpdateInitiator ?? throw new ArgumentNullException(nameof(serverUpdateInitiator));
+			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -298,7 +298,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogWarning(
 						ex,
-						"Unable to set remote abort to {0}!",
+						"Unable to set remote abort to {nodeOrController}!",
 						swarmController
 							? $"node {swarmServer.Identifier}"
 							: "controller");
@@ -324,10 +324,10 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> CommitUpdate(CancellationToken cancellationToken)
+		public async Task<SwarmCommitResult> CommitUpdate(CancellationToken cancellationToken)
 		{
 			if (!SwarmMode)
-				return true;
+				return SwarmCommitResult.ContinueUpdateNonCommitted;
 
 			logger.LogInformation("Waiting to commit update...");
 			using var httpClient = httpClientFactory.CreateClient();
@@ -350,7 +350,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogWarning(ex, "Unable to send ready-commit to swarm controller!");
 					await AbortUpdate(cancellationToken);
-					return false;
+					return SwarmCommitResult.AbortUpdate;
 				}
 			}
 
@@ -360,7 +360,7 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				logger.LogDebug("Update commit failed, no pending task completion source!");
 				await AbortUpdate(cancellationToken);
-				return false;
+				return SwarmCommitResult.AbortUpdate;
 			}
 
 			var timeoutTask = swarmController
@@ -384,14 +384,14 @@ namespace Tgstation.Server.Host.Swarm
 						? " Timed out!"
 						: String.Empty);
 				await AbortUpdate(cancellationToken);
-				return false;
+				return SwarmCommitResult.AbortUpdate;
 			}
 
 			logger.LogTrace("Update commit task complete");
 
 			// on nodes, it means we can go straight ahead
 			if (!swarmController)
-				return true;
+				return SwarmCommitResult.MustCommitUpdate;
 
 			// on the controller, we first need to signal for nodes to go ahead
 			// if anything fails at this point, there's nothing we can do
@@ -425,7 +425,7 @@ namespace Tgstation.Server.Host.Swarm
 						.Select(SendRemoteCommitUpdate));
 
 			await task;
-			return true;
+			return SwarmCommitResult.MustCommitUpdate;
 		}
 
 		/// <inheritdoc />
@@ -471,8 +471,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (swarmController)
 			{
 				await databaseContextFactory.UseContext(
-					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken))
-					;
+					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken));
 
 				result = SwarmRegistrationResult.Success;
 			}
@@ -661,9 +660,9 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
+		public Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
 		{
-			restarting = true;
+			restarting = !gracefulShutdown;
 			return Task.CompletedTask;
 		}
 
@@ -750,10 +749,10 @@ namespace Tgstation.Server.Host.Swarm
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
-			logger.LogTrace("PrepareUpdateImpl {0}...", version);
-
 			if (!SwarmMode)
 				return true;
+
+			logger.LogTrace("PrepareUpdateImpl {0}...", version);
 
 			if (version == targetUpdateVersion)
 			{
@@ -813,9 +812,9 @@ namespace Tgstation.Server.Host.Swarm
 					logger.LogTrace("Beginning local update process...");
 					updateCommitTcs = new TaskCompletionSource<bool>();
 					var updateApplyResult = await serverUpdater.BeginUpdate(
+						this,
 						version,
-						cancellationToken)
-						;
+						cancellationToken);
 					if (updateApplyResult != ServerUpdateResult.Started)
 					{
 						logger.LogWarning("Failed to prepare update! Result: {0}", updateApplyResult);

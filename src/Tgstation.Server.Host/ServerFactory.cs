@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host
 				});
 
 			var setupWizardHostBuilder = CreateDefaultBuilder()
-				.UseSetupApplication();
+				.UseSetupApplication(assemblyInformationProvider, IOManager);
 
 			IPostSetupServices<ServerFactory> postSetupServices;
 			using (var setupHost = setupWizardHostBuilder.Build())
@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host
 						})
 						.UseIIS()
 						.UseIISIntegration()
-						.UseApplication(postSetupServices)
+						.UseApplication(assemblyInformationProvider, IOManager, postSetupServices)
 						.SuppressStatusMessages(true)
 						.UseShutdownTimeout(
 							TimeSpan.FromMinutes(

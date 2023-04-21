@@ -2,7 +2,9 @@
 
 using Microsoft.Extensions.Hosting;
 
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Extensions
 {
@@ -15,8 +17,13 @@ namespace Tgstation.Server.Host.Extensions
 		/// Workaround for using the <see cref="SetupApplication"/> class for host startup.
 		/// </summary>
 		/// <param name="builder">The <see cref="IHostBuilder"/> to configure.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
+		/// <param name="ioManager">The <see cref="IIOManager"/> to use.</param>
 		/// <returns>The configured <paramref name="builder"/>.</returns>
-		public static IHostBuilder UseSetupApplication(this IHostBuilder builder)
+		public static IHostBuilder UseSetupApplication(
+			this IHostBuilder builder,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IIOManager ioManager)
 		{
 			if (builder == null)
 				throw new ArgumentNullException(nameof(builder));
@@ -24,7 +31,7 @@ namespace Tgstation.Server.Host.Extensions
 			return builder.ConfigureServices((context, services) =>
 			{
 				var setupApplication = new SetupApplication(context.Configuration);
-				setupApplication.ConfigureServices(services);
+				setupApplication.ConfigureServices(services, assemblyInformationProvider, ioManager);
 			});
 		}
 	}

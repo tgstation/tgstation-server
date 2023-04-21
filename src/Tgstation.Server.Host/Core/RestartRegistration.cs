@@ -16,10 +16,10 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="onDispose">The value of <see cref="onDispose"/>.</param>
 		public RestartRegistration(Action onDispose)
 		{
-			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
+			this.onDispose = onDispose;
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => onDispose();
+		public void Dispose() => onDispose?.Invoke();
 	}
 }

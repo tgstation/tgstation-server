@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="IServerUpdateInitiator"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
-		readonly IServerUpdateInitiator serverUpdater;
+		readonly IServerUpdateInitiator serverUpdateInitiator;
 
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="AdministrationController"/>.
@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
-		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/>.</param>
+		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdateInitiator"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
@@ -103,7 +103,7 @@ namespace Tgstation.Server.Host.Controllers
 			IAuthenticationContextFactory authenticationContextFactory,
 			IGitHubClientFactory gitHubClientFactory,
 			IServerControl serverControl,
-			IServerUpdateInitiator serverUpdater,
+			IServerUpdateInitiator serverUpdateInitiator,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			IPlatformIdentifier platformIdentifier,
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
-			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
+			this.serverUpdateInitiator = serverUpdateInitiator ?? throw new ArgumentNullException(nameof(serverUpdateInitiator));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
-				var updateResult = await serverUpdater.BeginUpdate(model.NewVersion, cancellationToken);
+				var updateResult = await serverUpdateInitiator.InitiateUpdate(model.NewVersion, cancellationToken);
 				if (updateResult == ServerUpdateResult.ReleaseMissing)
 					return Gone();
 
