@@ -65,6 +65,9 @@ namespace Tgstation.Server.Host
 
 					// CURSED
 					// https://github.com/dotnet/runtime/blob/30dc7e7aedb7aab085c7d9702afeae5bc5a43133/src/libraries/Microsoft.Extensions.Hosting/src/HostingHostBuilderExtensions.cs#L246-L249
+#if !NET6_0
+#error Validate this monstrosity works on current .NET
+#endif
 					IConfigurationSource cmdLineConfig, baseYmlConfig, environmentYmlConfig;
 					if (args.Length == 0)
 					{
@@ -120,7 +123,9 @@ namespace Tgstation.Server.Host
 						.UseIISIntegration()
 						.UseApplication(postSetupServices)
 						.SuppressStatusMessages(true)
-						.UseShutdownTimeout(TimeSpan.FromMinutes(postSetupServices.GeneralConfiguration.RestartTimeoutMinutes)));
+						.UseShutdownTimeout(
+							TimeSpan.FromMinutes(
+								postSetupServices.GeneralConfiguration.RestartTimeoutMinutes)));
 
 			if (updatePath != null)
 				hostBuilder.UseContentRoot(
