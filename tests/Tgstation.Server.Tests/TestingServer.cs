@@ -29,7 +29,8 @@ namespace Tgstation.Server.Tests
 
 		public bool RestartRequested => RealServer.RestartRequested;
 
-		string[] args;
+		readonly List<string> args;
+		readonly List<string> swarmArgs;
 
 		public IServer RealServer { get; private set; }
 
@@ -71,9 +72,9 @@ namespace Tgstation.Server.Tests
 
 			DumpOpenApiSpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
 
-			var args = new List<string>()
+			args = new List<string>()
 			{
-				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
+				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
 				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
@@ -89,13 +90,10 @@ namespace Tgstation.Server.Tests
 				"General:ByondTopicTimeout=3000"
 			};
 
+			swarmArgs = new List<string>();
 			if (swarmConfiguration != null)
 			{
-				args.Add($"Swarm:PrivateKey={swarmConfiguration.PrivateKey}");
-				args.Add($"Swarm:Identifier={swarmConfiguration.Identifier}");
-				args.Add($"Swarm:Address={swarmConfiguration.Address}");
-				if (swarmConfiguration.ControllerAddress != null)
-					args.Add($"Swarm:ControllerAddress={swarmConfiguration.ControllerAddress}");
+				UpdateSwarmArguments(swarmConfiguration);
 			}
 
 			// enable all oauth providers
@@ -121,7 +119,6 @@ namespace Tgstation.Server.Tests
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
 			UpdatePath = Path.Combine(Directory, Guid.NewGuid().ToString());
-			this.args = args.ToArray();
 		}
 
 		public void Dispose()
@@ -136,6 +133,19 @@ namespace Tgstation.Server.Tests
 					GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, false);
 					Thread.Sleep(3000);
 				}
+		}
+
+		public void UpdateSwarmArguments(SwarmConfiguration swarmConfiguration)
+		{
+			swarmArgs.Clear();
+			swarmArgs.Add($"Swarm:PrivateKey={swarmConfiguration.PrivateKey}");
+			swarmArgs.Add($"Swarm:Identifier={swarmConfiguration.Identifier}");
+			swarmArgs.Add($"Swarm:Address={swarmConfiguration.Address}");
+			if (swarmConfiguration.ControllerAddress != null)
+				swarmArgs.Add($"Swarm:ControllerAddress={swarmConfiguration.ControllerAddress}");
+
+			if (swarmConfiguration.UpdateRequiredNodeCount != 0)
+				swarmArgs.Add($"Swarm:UpdateRequiredNodeCount={swarmConfiguration.UpdateRequiredNodeCount}");
 		}
 
 		public async Task RunNoArgumentsTest(CancellationToken cancellationToken)
@@ -155,19 +165,16 @@ namespace Tgstation.Server.Tests
 		{
 			Console.WriteLine("TEST SERVER START");
 			var firstRun = RealServer == null;
+			var arrayArgs = args.Concat(swarmArgs).ToArray();
 			RealServer = await Application
 				.CreateDefaultServerFactory()
 				.CreateServer(
-					args,
+					arrayArgs,
 					UpdatePath,
 					cancellationToken);
 
 			if (firstRun)
-			{
-				var tmp = args.Skip(1).ToList();
-				tmp.Add(String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", false));
-				args = tmp.ToArray();
-			}
+				args[0] = String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", false);
 
 			await RealServer.Run(cancellationToken);
 			Console.WriteLine("TEST SERVER END");

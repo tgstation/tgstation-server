@@ -29,7 +29,6 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
@@ -382,14 +381,43 @@ namespace Tgstation.Server.Tests
 					CheckServerUpdated(node1);
 					CheckServerUpdated(node2);
 
-					// regression: test it also works from the controller
+					// test it respects the update configuration
+					controller.UpdateSwarmArguments(new SwarmConfiguration
+					{
+						Address = controllerAddress,
+						Identifier = "controller",
+						PrivateKey = PrivateKey,
+						UpdateRequiredNodeCount = 2,
+					});
 					serverTask = Task.WhenAll(
-						node1.Run(cancellationToken),
-						node2.Run(cancellationToken),
-						controller.Run(cancellationToken));
+						controller.Run(cancellationToken),
+						node1.Run(cancellationToken));
 
 					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
 					using var node1Client2 = await CreateAdminClient(node1.Url, cancellationToken);
+
+					await controllerClient2.Administration.Update(
+						new ServerUpdateRequest
+						{
+							NewVersion = testUpdateVersion
+						},
+						cancellationToken);
+
+					// wait a few seconds and check we can do it again without getting ErrorCode.UpdateInProgress
+					await Task.Delay(TimeSpan.FromSeconds(3));
+
+					await controllerClient2.Administration.Update(
+						new ServerUpdateRequest
+						{
+							NewVersion = testUpdateVersion
+						},
+						cancellationToken);
+
+					// regression: test updating also works from the controller
+					serverTask = Task.WhenAll(
+						serverTask,
+						node2.Run(cancellationToken));
+
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
 
 					await controllerClient2.Administration.Update(

@@ -471,6 +471,9 @@ namespace Tgstation.Server.Host.Swarm
 			SwarmRegistrationResult result;
 			if (swarmController)
 			{
+				if (swarmConfiguration.UpdateRequiredNodeCount > 0)
+					logger.LogInformation("Expecting connections from {expectedNodeCount} nodes", swarmConfiguration.UpdateRequiredNodeCount);
+
 				await databaseContextFactory.UseContext(
 					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken));
 
@@ -846,6 +849,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (!swarmController)
 				return true;
 
+			bool abortUpdate = false;
 			try
 			{
 				logger.LogInformation("Sending remote prepare to nodes...");
@@ -857,18 +861,32 @@ namespace Tgstation.Server.Host.Swarm
 							.Where(x => !x.Controller)
 							.Select(x => x.Identifier));
 
+					if (nodesThatNeedToBeReadyToCommit.Count < swarmConfiguration.UpdateRequiredNodeCount)
+					{
+						logger.LogWarning(
+							"Aborting update, controller expects to be in sync with {requiredNodeCount} nodes but currently only has {currentNodeCount}!",
+							swarmConfiguration.UpdateRequiredNodeCount,
+							nodesThatNeedToBeReadyToCommit.Count);
+						abortUpdate = true;
+						return false;
+					}
+
 					if (nodesThatNeedToBeReadyToCommit.Count == 0)
 					{
 						logger.LogDebug("Controller has no nodes, setting commit-ready.");
 						var commitTcs = updateCommitTcs;
 						commitTcs?.TrySetResult(true);
-						return commitTcs != null;
+						if (commitTcs != null)
+							return true;
+
+						logger.LogDebug("Update appears to have been aborted");
+						return false;
 					}
 
 					tasks = swarmServers
-							.Where(x => !x.Controller)
-							.Select(RemotePrepareUpdate)
-							.ToList();
+						.Where(x => !x.Controller)
+						.Select(RemotePrepareUpdate)
+						.ToList();
 				}
 
 				await Task.WhenAll(tasks);
@@ -879,14 +897,20 @@ namespace Tgstation.Server.Host.Swarm
 					logger.LogInformation("Distributed prepare for update to version {version} complete.", version);
 					return true;
 				}
+
+				abortUpdate = true;
+				logger.LogDebug("Distrubuted prepare failed!");
 			}
 			catch (Exception ex)
 			{
 				logger.LogWarning(ex, "Error remotely preparing updates!");
 			}
+			finally
+			{
+				if (abortUpdate)
+					await AbortUpdate(cancellationToken);
+			}
 
-			logger.LogDebug("Distrubuted prepare failed!");
-			await AbortUpdate(cancellationToken);
 			return false;
 		}
 

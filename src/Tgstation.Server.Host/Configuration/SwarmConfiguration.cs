@@ -33,5 +33,10 @@ namespace Tgstation.Server.Host.Configuration
 		/// The private key used for swarm communication.
 		/// </summary>
 		public string PrivateKey { get; set; }
+
+		/// <summary>
+		/// The number of nodes required to be connected before performing an update. Must be set on controller. Does not include controller.
+		/// </summary>
+		public uint UpdateRequiredNodeCount { get; set; }
 	}
 }
