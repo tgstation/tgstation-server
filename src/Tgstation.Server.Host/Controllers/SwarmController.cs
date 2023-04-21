@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
 			{
-				logger.LogTrace("Swarm request from {0}...", Request.HttpContext.Connection.RemoteIpAddress);
+				logger.LogTrace("Swarm request from {remoteIP}...", Request.HttpContext.Connection.RemoteIpAddress);
 				if (swarmConfiguration.PrivateKey == null)
 				{
 					logger.LogDebug("Attempted swarm request without private key configured!");
