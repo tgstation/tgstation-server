@@ -22,7 +22,7 @@
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.1\Tgstation.Server.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
