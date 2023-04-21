@@ -158,13 +158,7 @@ namespace Tgstation.Server.Host.Core
 				if (!updatePrepareResult)
 					return false;
 
-				MemoryStream updateZipData;
-				try
-				{
-					logger.LogTrace("Downloading zip package...");
-					updateZipData = await fileDownloader.DownloadFile(serverUpdateOperation.UpdateZipUrl, cancellationToken);
-				}
-				catch (Exception e1)
+				async Task TryAbort(Exception ex)
 				{
 					try
 					{
@@ -172,14 +166,40 @@ namespace Tgstation.Server.Host.Core
 					}
 					catch (Exception e2)
 					{
-						throw new AggregateException(e1, e2);
+						throw new AggregateException(ex, e2);
 					}
+				}
 
+				var stagingDirectory = $"{updatePath}-stage";
+				MemoryStream updateZipData;
+				try
+				{
+					logger.LogTrace("Downloading zip package...");
+					updateZipData = await fileDownloader.DownloadFile(serverUpdateOperation.UpdateZipUrl, cancellationToken);
+				}
+				catch (Exception ex)
+				{
+					await TryAbort(ex);
 					throw;
 				}
 
-				using (updateZipData)
+				try
 				{
+					try
+					{
+						using (updateZipData)
+						{
+							logger.LogTrace("Extracting zip package to {stagingDirectory}...", stagingDirectory);
+							await ioManager.DeleteDirectory(stagingDirectory, cancellationToken);
+							await ioManager.ZipToDirectory(stagingDirectory, updateZipData, cancellationToken);
+						}
+					}
+					catch (Exception ex)
+					{
+						await TryAbort(ex);
+						throw;
+					}
+
 					var updateCommitResult = await serverUpdateOperation.SwarmService.CommitUpdate(criticalCancellationToken);
 					if (updateCommitResult == SwarmCommitResult.AbortUpdate)
 					{
@@ -188,25 +208,22 @@ namespace Tgstation.Server.Host.Core
 					}
 
 					inMustCommitUpdate = updateCommitResult == SwarmCommitResult.MustCommitUpdate;
+					logger.LogTrace("Moving {stagingDirectory} to {updateDirectory}", stagingDirectory, updatePath);
+					await ioManager.MoveDirectory(stagingDirectory, updatePath, criticalCancellationToken);
+				}
+				catch (Exception e)
+				{
 					try
 					{
-						logger.LogTrace("Extracting zip package to {extractPath}...", updatePath);
-						await ioManager.ZipToDirectory(updatePath, updateZipData, criticalCancellationToken);
+						// important to not leave this directory around if possible
+						await ioManager.DeleteDirectory(stagingDirectory, default);
 					}
-					catch (Exception e)
+					catch (Exception e2)
 					{
-						try
-						{
-							// important to not leave this directory around if possible
-							await ioManager.DeleteDirectory(updatePath, default);
-						}
-						catch (Exception e2)
-						{
-							throw new AggregateException(e, e2);
-						}
-
-						throw;
+						throw new AggregateException(e, e2);
 					}
+
+					throw;
 				}
 
 				return true;
