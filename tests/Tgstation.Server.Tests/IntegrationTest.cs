@@ -143,6 +143,7 @@ namespace Tgstation.Server.Tests
 			}, false, 5011))
 			{
 				using var serverCts = new CancellationTokenSource();
+				serverCts.CancelAfter(TimeSpan.FromMinutes(3));
 				var cancellationToken = serverCts.Token;
 				var serverTask = controller.Run(cancellationToken);
 
