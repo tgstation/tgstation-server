@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// See <see cref="JsonSerializerSettings"/> for the swarm system.
 		/// </summary>
-		static readonly JsonSerializerSettings SerializerSettings = new ()
+		internal static JsonSerializerSettings SerializerSettings { get; } = new ()
 		{
 			ContractResolver = new DefaultContractResolver
 			{
