@@ -336,13 +336,20 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<IHostedService, PosixSignalHandler>();
 			}
 
-			// configure component/misc services
-			services.AddScoped<IPortAllocator, PortAllocator>();
+			// configure file transfer services
+			services.AddSingleton<FileTransferService>();
+			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
 			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
-			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
-			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
-			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+
+			// configure swarm service
+			services.AddSingleton<SwarmService>();
+			services.AddSingleton<ISwarmService>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<ISwarmServiceController>(x => x.GetRequiredService<SwarmService>());
+
+			// configure component services
+			services.AddScoped<IPortAllocator, PortAllocator>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
@@ -350,17 +357,16 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IRemoteDeploymentManagerFactory, RemoteDeploymentManagerFactory>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
-			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddSingleton<IFileDownloader, FileDownloader>();
-			services.AddSingleton<FileTransferService>();
-			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
-			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
-			services.AddSingleton<SwarmService>();
-			services.AddSingleton<ISwarmService>(x => x.GetRequiredService<SwarmService>());
-			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
-			services.AddSingleton<ISwarmServiceController>(x => x.GetRequiredService<SwarmService>());
 			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
+
+			// configure misc services
+			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<IFileDownloader, FileDownloader>();
+			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
+			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IRequestSwarmRegistrationParser, RequestSwarmRegistrationParser>();
 
 			// configure root services
