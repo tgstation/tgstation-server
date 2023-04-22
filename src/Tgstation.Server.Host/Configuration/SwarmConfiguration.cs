@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Configuration
 		public string PrivateKey { get; set; }
 
 		/// <summary>
-		/// The number of nodes required to be connected before performing an update. Must be set on controller. Does not include controller.
+		/// The number of nodes in addition to the controller required to be connected a server swarm before performing an update.
 		/// </summary>
 		public uint UpdateRequiredNodeCount { get; set; }
 	}

@@ -13,6 +13,11 @@ namespace Tgstation.Server.Host.Swarm
 	public interface ISwarmService
 	{
 		/// <summary>
+		/// Gets a value indicating if the expected amount of nodes are connected to the swarm.
+		/// </summary>
+		bool ExpectedNumberOfNodesConnected { get; }
+
+		/// <summary>
 		/// Signal to the swarm that an update is requested.
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> to update to.</param>

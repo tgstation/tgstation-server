@@ -233,16 +233,17 @@ namespace Tgstation.Server.Host.Controllers
 			try
 			{
 				var updateResult = await serverUpdateInitiator.InitiateUpdate(model.NewVersion, cancellationToken);
-				if (updateResult == ServerUpdateResult.ReleaseMissing)
-					return Gone();
-
-				if (updateResult == ServerUpdateResult.UpdateInProgress)
-					return BadRequest(new ErrorMessageResponse(ErrorCode.ServerUpdateInProgress));
-
-				return Accepted(new ServerUpdateResponse
+				return updateResult switch
 				{
-					NewVersion = model.NewVersion,
-				});
+					ServerUpdateResult.Started => Accepted(new ServerUpdateResponse
+					{
+						NewVersion = model.NewVersion,
+					}),
+					ServerUpdateResult.ReleaseMissing => Gone(),
+					ServerUpdateResult.UpdateInProgress => BadRequest(new ErrorMessageResponse(ErrorCode.ServerUpdateInProgress)),
+					ServerUpdateResult.SwarmIntegrityCheckFailed => StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.SwarmIntegrityCheckFailed)),
+					_ => throw new InvalidOperationException($"Unexpected ServerUpdateResult: {updateResult}"),
+				};
 			}
 			catch (RateLimitExceededException e)
 			{

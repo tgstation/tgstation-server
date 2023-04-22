@@ -67,6 +67,16 @@ namespace Tgstation.Server.Host.Swarm
 			ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
 		};
 
+		/// <inheritdoc />
+		public bool ExpectedNumberOfNodesConnected
+		{
+			get
+			{
+				lock (swarmServers)
+					return swarmServers.Count - 1 > swarmConfiguration.UpdateRequiredNodeCount;
+			}
+		}
+
 		/// <summary>
 		/// If the swarm system is enabled.
 		/// </summary>
@@ -1087,10 +1097,14 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task SendUpdatedServerListToNodes(CancellationToken cancellationToken)
 		{
-			logger.LogDebug("Sending updated server list to all nodes...");
 			List<SwarmServerResponse> currentSwarmServers;
 			lock (swarmServers)
+			{
+				serversDirty = false;
 				currentSwarmServers = swarmServers.ToList();
+			}
+
+			logger.LogDebug("Sending updated server list to all {nodeCount} nodes...", currentSwarmServers.Count);
 
 			using var httpClient = httpClientFactory.CreateClient();
 			async Task UpdateRequestForServer(SwarmServerResponse swarmServer)
@@ -1124,9 +1138,7 @@ namespace Tgstation.Server.Host.Swarm
 			await Task.WhenAll(
 				currentSwarmServers
 					.Where(x => !x.Controller)
-					.Select(UpdateRequestForServer))
-				;
-			serversDirty = false;
+					.Select(UpdateRequestForServer));
 		}
 
 		/// <summary>

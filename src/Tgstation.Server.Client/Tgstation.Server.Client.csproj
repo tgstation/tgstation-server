@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018-2023</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>Fix login refreshing not working.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated definitions for API version 9.10.0.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>

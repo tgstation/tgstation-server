@@ -89,6 +89,9 @@ namespace Tgstation.Server.Host.Core
 			if (newVersion == null)
 				throw new ArgumentNullException(nameof(newVersion));
 
+			if (!swarmService.ExpectedNumberOfNodesConnected)
+				return ServerUpdateResult.SwarmIntegrityCheckFailed;
+
 			logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
 			IEnumerable<Release> releases;
 			var gitHubClient = gitHubClientFactory.CreateClient();

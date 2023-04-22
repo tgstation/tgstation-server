@@ -70,7 +70,7 @@ TGS will only every return the response codes listed here
 - 409: Conflict. Documented in the requests that use them
 - 410: Gone. Attempted to access/modify a resource that ideally should have been ready, but isn't or no longer is
 - 422: Unprocessable Entity: Used specifically when an operation that requires a server restart is unable to be performed due to the @ref Tgstation.Server.Host.Watchdog not being present in the deployment. Should not happen with a proper server configuration. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage
-- 424: Failed Dependency: When a request that depends on the GitHub API fails for a reason other than rate limiting. Check server logs, usually this indicates a bad access token.
+- 424: Failed Dependency: When a request that depends on an external API fails for a reason other than rate limiting. The response body will contain an @ref Tgstation.Server.Api.Models.ErrorMessage model detailing the error.
 - 426: Upgrade required: Used when the client's API version is not compatible with the server's. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage
 - 429: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned. Response will contain a Retry-After header
 - 500: Server error. Please report the request and response body to the code repository
