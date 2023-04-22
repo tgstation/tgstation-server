@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Swarm
 			get
 			{
 				lock (swarmServers)
-					return swarmServers.Count - 1 > swarmConfiguration.UpdateRequiredNodeCount;
+					return swarmServers.Count - 1 >= swarmConfiguration.UpdateRequiredNodeCount;
 			}
 		}
 
