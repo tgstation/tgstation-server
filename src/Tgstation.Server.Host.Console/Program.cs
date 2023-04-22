@@ -17,7 +17,15 @@ namespace Tgstation.Server.Host.Console
 		/// <summary>
 		/// The <see cref="IWatchdogFactory"/> for the <see cref="Program"/>.
 		/// </summary>
-		internal static IWatchdogFactory WatchdogFactory { get; set; } = new WatchdogFactory();
+		internal static IWatchdogFactory WatchdogFactory { get; set; }
+
+		/// <summary>
+		/// Initializes static members of the <see cref="Program"/> class.
+		/// </summary>
+		static Program()
+		{
+			WatchdogFactory = new WatchdogFactory();
+		}
 
 		/// <summary>
 		/// Entrypoint for the application.

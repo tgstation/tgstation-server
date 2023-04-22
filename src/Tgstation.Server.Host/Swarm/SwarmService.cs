@@ -52,20 +52,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// See <see cref="JsonSerializerSettings"/> for the swarm system.
 		/// </summary>
-		internal static JsonSerializerSettings SerializerSettings { get; } = new ()
-		{
-			ContractResolver = new DefaultContractResolver
-			{
-				NamingStrategy = new CamelCaseNamingStrategy(),
-			},
-			Converters = new JsonConverter[]
-			{
-				new VersionConverter(),
-				new BoolConverter(),
-			},
-			DefaultValueHandling = DefaultValueHandling.Ignore,
-			ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-		};
+		internal static JsonSerializerSettings SerializerSettings { get; }
 
 		/// <inheritdoc />
 		public bool ExpectedNumberOfNodesConnected
@@ -186,6 +173,27 @@ namespace Tgstation.Server.Host.Swarm
 		/// If the <see cref="swarmServers"/> list has been updated and needs to be resent to clients.
 		/// </summary>
 		bool serversDirty;
+
+		/// <summary>
+		/// Initializes static members of the <see cref="SwarmService"/> class.
+		/// </summary>
+		static SwarmService()
+		{
+			SerializerSettings = new ()
+			{
+				ContractResolver = new DefaultContractResolver
+				{
+					NamingStrategy = new CamelCaseNamingStrategy(),
+				},
+				Converters = new JsonConverter[]
+				{
+					new VersionConverter(),
+					new BoolConverter(),
+				},
+				DefaultValueHandling = DefaultValueHandling.Ignore,
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+			};
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SwarmService"/> class.

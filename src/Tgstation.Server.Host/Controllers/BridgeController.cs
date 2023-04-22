@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// If the content of bridge requests and responses should be logged.
 		/// </summary>
-		internal static bool LogContent { get; set; } = true;
+		internal static bool LogContent { get; set; }
 
 		/// <summary>
 		/// Static counter for the number of requests processed.
@@ -43,6 +43,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="ILogger"/> for the <see cref="BridgeController"/>.
 		/// </summary>
 		readonly ILogger<BridgeController> logger;
+
+		/// <summary>
+		/// Initializes static members of the <see cref="BridgeController"/> class.
+		/// </summary>
+		static BridgeController()
+		{
+			LogContent = true;
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BridgeController"/> class.
