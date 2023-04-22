@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Core
 			var innerClient = httpClientFactory.CreateClient();
 			try
 			{
-				var client = new Tgstation.Server.Common.HttpClient(httpClientFactory.CreateClient());
+				var client = new Tgstation.Server.Common.HttpClient(innerClient);
 				innerClient = null; // CA2000
 				try
 				{
