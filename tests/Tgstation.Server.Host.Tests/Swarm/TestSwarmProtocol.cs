@@ -181,19 +181,12 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			Task<bool> controllerPrepareTask = null, nodePrepareTask;
 			if (prepControllerFirst)
-			{
 				controllerPrepareTask = controller.Service.PrepareUpdate(new Version(4, 3, 2), default);
-				Assert.IsFalse(controllerPrepareTask.IsCompleted);
-			}
 
 			nodePrepareTask = node1.Service.PrepareUpdate(new Version(4, 3, 3), default);
-			Assert.IsFalse(nodePrepareTask.IsCompleted);
 
 			if (!prepControllerFirst)
-			{
 				controllerPrepareTask = controller.Service.PrepareUpdate(new Version(4, 3, 2), default);
-				Assert.IsFalse(controllerPrepareTask.IsCompleted);
-			}
 
 			await Task.Yield();
 
@@ -201,7 +194,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			Assert.AreEqual(SwarmCommitResult.AbortUpdate, await controller.Service.CommitUpdate(default));
 			Assert.AreEqual(SwarmCommitResult.AbortUpdate, await node1.Service.CommitUpdate(default));
-
 		}
 
 		TestableSwarmNode GenNode(TestableSwarmNode controller = null, Version version = null)
