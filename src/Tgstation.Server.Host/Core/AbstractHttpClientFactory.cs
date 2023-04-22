@@ -43,6 +43,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
+#pragma warning disable CA2000
 		public IHttpClient CreateClient()
 		{
 			logger.LogTrace("Creating client...");
@@ -50,7 +51,7 @@ namespace Tgstation.Server.Host.Core
 			try
 			{
 				var client = new Tgstation.Server.Common.HttpClient(innerClient);
-				innerClient = null; // CA2000
+				innerClient = null;
 				try
 				{
 					client.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
@@ -68,5 +69,6 @@ namespace Tgstation.Server.Host.Core
 				throw;
 			}
 		}
+#pragma warning enable CA2000
 	}
 }
