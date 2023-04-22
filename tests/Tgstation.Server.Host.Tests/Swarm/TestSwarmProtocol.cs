@@ -197,10 +197,11 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			await Task.Yield();
 
-			var controllerResult = await controllerPrepareTask;
-			var nodeResult = await nodePrepareTask;
+			await Task.WhenAll(controllerPrepareTask, nodePrepareTask);
 
-				Assert.IsFalse(controllerResult && nodeResult);
+			Assert.AreEqual(SwarmCommitResult.AbortUpdate, await controller.Service.CommitUpdate(default));
+			Assert.AreEqual(SwarmCommitResult.AbortUpdate, await node1.Service.CommitUpdate(default));
+
 		}
 
 		TestableSwarmNode GenNode(TestableSwarmNode controller = null, Version version = null)
