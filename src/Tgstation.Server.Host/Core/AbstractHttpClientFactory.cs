@@ -43,6 +43,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
+#pragma warning disable IDE0079
 #pragma warning disable CA2000
 		public IHttpClient CreateClient()
 		{
@@ -69,6 +70,7 @@ namespace Tgstation.Server.Host.Core
 				throw;
 			}
 		}
-#pragma warning enable CA2000
+#pragma warning restore CA2000
+#pragma warning restore IDE0079
 	}
 }
