@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,23 +21,33 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Tests.Swarm
 {
-	sealed class TestableSwarmNode : IDisposable, IServerUpdateExecutor
+	sealed class TestableSwarmNode : IAsyncDisposable
 	{
-		public SwarmController Controller { get; }
+		public SwarmController Controller { get; private set; }
 
-		public SwarmService Service { get; }
+		public SwarmService Service { get; private set; }
 
 		public SwarmConfiguration Config { get; }
 
 		public SwarmRpcMapper RpcMapper { get; }
 
+		public bool UpdateCommits { get; set; }
+
+		public CancellationTokenSource CriticalCancellationTokenSource { get; private set; }
+
+		public ServerUpdateResult UpdateResult { get; set; }
+		public Task<SwarmCommitResult?> UpdateTask { get; private set; }
+
 		public bool Initialized { get; private set; }
 
+		public bool Shutdown { get; private set; }
+
 		readonly Mock<IHttpClient> mockHttpClient;
-		readonly Mock<IServerControl> mockServerControl;
 		readonly Mock<IDatabaseContextFactory> mockDBContextFactory;
 		readonly Mock<IDatabaseSeeder> mockDatabaseSeeder;
 		readonly ISetup<IDatabaseSeeder, Task> mockDatabaseSeederInitialize;
+
+		readonly Action recreateControllerAndService;
 
 		public static void Link(params TestableSwarmNode[] nodes)
 		{
@@ -82,10 +93,6 @@ namespace Tgstation.Server.Host.Tests.Swarm
 				.Setup(x => x.UseContext(It.IsNotNull<Func<IDatabaseContext, Task>>()))
 				.Callback<Func<IDatabaseContext, Task>>((func) => func(mockDatabaseContext));
 
-			mockServerControl = new Mock<IServerControl>();
-			mockServerControl.Setup(x => x.TryStartUpdate(this, It.IsNotNull<Version>())).Returns(TryStartUpdate);
-			mockServerControl.Setup(x => x.RegisterForRestart(It.IsNotNull<IRestartHandler>())).Returns(Mock.Of<IRestartRegistration>());
-
 			var mockHttpClientFactory = new Mock<IAbstractHttpClientFactory>();
 			mockHttpClient = new Mock<IHttpClient>();
 			mockHttpClientFactory.Setup(x => x.CreateClient()).Returns(mockHttpClient.Object);
@@ -94,32 +101,90 @@ namespace Tgstation.Server.Host.Tests.Swarm
 			mockAsyncDelayer.Setup(
 				x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()))
 				.Returns<TimeSpan, CancellationToken>(
-					(delay, ct) => Task.Delay(TimeSpan.FromSeconds(1), ct));
+					(delay, ct) => Task.Delay(TimeSpan.FromMilliseconds(100), ct));
 
 			var mockServerUpdater = new Mock<IServerUpdater>();
 
 			RpcMapper = new SwarmRpcMapper(mockHttpClient);
 
-			Service = new SwarmService(
-				mockDBContextFactory.Object,
-				mockDatabaseSeeder.Object,
-				mockAssemblyInformationProvider.Object,
-				mockHttpClientFactory.Object,
-				mockServerControl.Object,
-				mockServerUpdater.Object,
-				mockAsyncDelayer.Object,
-				mockOptions.Object,
-				loggerFactory.CreateLogger<SwarmService>());
 
-			Controller = new SwarmController(
-				Service,
-				RpcMapper,
-				mockAssemblyInformationProvider.Object,
-				mockOptions.Object,
-				loggerFactory.CreateLogger<SwarmController>());
+			mockServerUpdater
+				.Setup(x => x.BeginUpdate(It.IsNotNull<SwarmService>(), It.IsNotNull<Version>(), It.IsAny<CancellationToken>()))
+				.Returns(BeginUpdate);
+
+			UpdateResult = ServerUpdateResult.Started;
+			UpdateCommits = true;
+
+
+			var runCount = 0;
+			void RecreateControllerAndService()
+			{
+				var run = ++runCount;
+				Initialized = false;
+				Shutdown = false;
+
+				CriticalCancellationTokenSource?.Dispose();
+				CriticalCancellationTokenSource = new CancellationTokenSource();
+
+				var logger = new Logger<SwarmService>(loggerFactory);
+				// HAX HAX HAX
+				logger
+					.GetType()
+					.GetField("_logger", BindingFlags.NonPublic | BindingFlags.Instance)
+					.SetValue(logger, loggerFactory.CreateLogger($"SwarmService-{swarmConfiguration.Identifier}{(run != 1 ? $"-Run{run}": String.Empty)}"));
+
+				Service = new SwarmService(
+					mockDBContextFactory.Object,
+					mockDatabaseSeeder.Object,
+					mockAssemblyInformationProvider.Object,
+					mockHttpClientFactory.Object,
+					mockServerUpdater.Object,
+					mockAsyncDelayer.Object,
+					mockOptions.Object,
+					logger);
+
+				Controller = new SwarmController(
+					Service,
+					RpcMapper,
+					mockAssemblyInformationProvider.Object,
+					mockOptions.Object,
+					loggerFactory.CreateLogger<SwarmController>());
+			}
+
+			RecreateControllerAndService();
+			recreateControllerAndService = RecreateControllerAndService;
 		}
 
-		public void Dispose() => Service.Dispose();
+		public async Task SimulateReboot(CancellationToken cancellationToken)
+		{
+			await ShutdownService(cancellationToken);
+			recreateControllerAndService();
+		}
+
+		public async ValueTask DisposeAsync()
+		{
+			await ShutdownService(default);
+			RpcMapper.Dispose();
+			CriticalCancellationTokenSource.Dispose();
+		}
+
+		private async Task ShutdownService(CancellationToken cancellationToken)
+		{
+			Shutdown = true;
+			CriticalCancellationTokenSource.Cancel();
+			if (UpdateTask != null)
+				try
+				{
+					await UpdateTask;
+				}
+				catch (OperationCanceledException)
+				{
+				}
+			UpdateTask = null;
+
+			await Service.Shutdown(cancellationToken);
+			Service.Dispose();
+		}
 
 		public async Task<SwarmRegistrationResult?> TryInit(bool cancel = false)
 		{
@@ -156,14 +221,28 @@ namespace Tgstation.Server.Host.Tests.Swarm
 			return result;
 		}
 
-		bool TryStartUpdate(IServerUpdateExecutor updateExecutor, Version newVersion)
+		Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, Version version, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			if (UpdateResult == ServerUpdateResult.Started)
+			{
+				UpdateTask = ExecuteUpdate(version, cancellationToken, CriticalCancellationTokenSource.Token);
+			}
+
+			return Task.FromResult(UpdateResult);
 		}
 
-		public Task<bool> ExecuteUpdate(string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
+		async Task<SwarmCommitResult?> ExecuteUpdate(Version version, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
 		{
-			throw new NotImplementedException();
+			await Task.Yield(); // Important to simulate some actual kind of asyncronicity here
+
+			await Service.PrepareUpdate(version, cancellationToken);
+
+			if (UpdateCommits)
+			{
+				return await Service.CommitUpdate(criticalCancellationToken);
+			}
+
+			return null;
 		}
 	}
 }

@@ -18,6 +18,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.System;
 
@@ -26,7 +27,7 @@ namespace Tgstation.Server.Host.Swarm
 	/// <summary>
 	/// Helps keep servers connected to the same database in sync by coordinating updates.
 	/// </summary>
-	sealed class SwarmService : ISwarmService, ISwarmOperations, IRestartHandler, IDisposable
+	sealed class SwarmService : ISwarmService, ISwarmOperations, IDisposable
 	{
 		/// <summary>
 		/// Interval at which the swarm controller makes health checks on nodes.
@@ -102,11 +103,6 @@ namespace Tgstation.Server.Host.Swarm
 		readonly IServerUpdater serverUpdater;
 
 		/// <summary>
-		/// The <see cref="IRestartRegistration"/> for the <see cref="SwarmService"/>.
-		/// </summary>
-		readonly IRestartRegistration restartRegistration;
-
-		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
 		/// </summary>
 		readonly ILogger<SwarmService> logger;
@@ -177,11 +173,6 @@ namespace Tgstation.Server.Host.Swarm
 		DateTimeOffset? lastControllerHealthCheck;
 
 		/// <summary>
-		/// If <see cref="IRestartHandler.HandleRestart(Version, bool, CancellationToken)"/> was called.
-		/// </summary>
-		bool restarting;
-
-		/// <summary>
 		/// If the <see cref="swarmServers"/> list has been updated and needs to be resent to clients.
 		/// </summary>
 		bool serversDirty;
@@ -193,7 +184,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="serverControl">The <see cref="IServerControl"/> to register ourselves as a <see cref="IRestartHandler"/> with.</param>
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
@@ -203,7 +193,6 @@ namespace Tgstation.Server.Host.Swarm
 			IDatabaseSeeder databaseSeeder,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAbstractHttpClientFactory httpClientFactory,
-			IServerControl serverControl,
 			IServerUpdater serverUpdater,
 			IAsyncDelayer asyncDelayer,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
@@ -213,10 +202,6 @@ namespace Tgstation.Server.Host.Swarm
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
-			restartRegistration = serverControl.RegisterForRestart(this);
-
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
@@ -253,11 +238,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
-		{
-			restartRegistration.Dispose();
-			serverHealthCheckCancellationTokenSource?.Dispose();
-		}
+		public void Dispose() => serverHealthCheckCancellationTokenSource?.Dispose();
 
 		/// <inheritdoc />
 		public async Task RemoteAbortUpdate(CancellationToken cancellationToken)
@@ -278,8 +259,9 @@ namespace Tgstation.Server.Host.Swarm
 				return;
 
 			logger.LogInformation("Aborting swarm update!");
-			updateCommitTcs?.TrySetResult(false);
+			var commitTcs = updateCommitTcs;
 			updateCommitTcs = null;
+			commitTcs?.TrySetResult(false);
 			nodesThatNeedToBeReadyToCommit = null;
 			targetUpdateVersion = null;
 
@@ -332,6 +314,15 @@ namespace Tgstation.Server.Host.Swarm
 			if (!SwarmMode)
 				return SwarmCommitResult.ContinueUpdateNonCommitted;
 
+			// wait for the update commit TCS
+			var commitTcsTask = updateCommitTcs?.Task;
+			if (commitTcsTask == null)
+			{
+				logger.LogDebug("Update commit failed, no pending task completion source!");
+				await AbortUpdate(cancellationToken);
+				return SwarmCommitResult.AbortUpdate;
+			}
+
 			logger.LogInformation("Waiting to commit update...");
 			using var httpClient = httpClientFactory.CreateClient();
 			if (!swarmController)
@@ -357,20 +348,11 @@ namespace Tgstation.Server.Host.Swarm
 				}
 			}
 
-			// wait for the update commit TCS
-			var commitTcsTask = updateCommitTcs?.Task;
-			if (commitTcsTask == null)
-			{
-				logger.LogDebug("Update commit failed, no pending task completion source!");
-				await AbortUpdate(cancellationToken);
-				return SwarmCommitResult.AbortUpdate;
-			}
-
 			var timeoutTask = swarmController
 				? asyncDelayer.Delay(
 					TimeSpan.FromMinutes(UpdateCommitTimeoutMinutes),
 					cancellationToken)
-				: Extensions.TaskExtensions.InfiniteTask();
+				: Extensions.TaskExtensions.InfiniteTask().WithToken(cancellationToken);
 
 			var commitTask = Task.WhenAny(commitTcsTask, timeoutTask);
 
@@ -491,6 +473,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task Shutdown(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin Shutdown");
+
 			async Task SendUnregistrationRequest(SwarmServerResponse swarmServer)
 			{
 				using var httpClient = httpClientFactory.CreateClient();
@@ -524,15 +508,11 @@ namespace Tgstation.Server.Host.Swarm
 
 			if (!swarmController)
 			{
-				// if we restart a node, we don't want to unregister it so the controller doesn't try to update without it
-				// if we're shutting it down, though we should unregister it
-				if (!restarting)
+				if (controllerRegistration != null)
 				{
 					logger.LogInformation("Unregistering from swarm controller...");
 					await SendUnregistrationRequest(null);
 				}
-				else
-					logger.LogTrace("Not unregistering from swarm controller as we are restarting");
 
 				return;
 			}
@@ -541,8 +521,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (targetUpdateVersion != null
 				&& targetUpdateVersion < assemblyInformationProvider.Version)
 				await databaseContextFactory.UseContext(
-					db => databaseSeeder.Downgrade(db, targetUpdateVersion, cancellationToken))
-					;
+					db => databaseSeeder.Downgrade(db, targetUpdateVersion, cancellationToken));
 
 			if (SwarmMode)
 			{
@@ -664,13 +643,6 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
-		{
-			restarting = !gracefulShutdown;
-			return Task.CompletedTask;
-		}
-
-		/// <inheritdoc />
 		public async Task<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken)
 		{
 			if (!swarmController)
@@ -705,8 +677,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogTrace("All nodes ready, update commit is a go once controller is ready");
 					var commitTcs = updateCommitTcs;
-					commitTcs?.TrySetResult(true);
-					return commitTcs != null;
+					return commitTcs?.TrySetResult(true) == true;
 				}
 			}
 
@@ -1017,6 +988,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogWarning(ex, "Error during swarm controller health check! Attempting to re-register...");
 					controllerRegistration = null;
+					await AbortUpdate(cancellationToken);
 				}
 
 			SwarmRegistrationResult registrationResult;

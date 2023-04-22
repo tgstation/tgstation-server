@@ -19,40 +19,49 @@ using Newtonsoft.Json;
 using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host.Tests.Swarm
 {
-	sealed class SwarmRpcMapper : IRequestSwarmRegistrationParser
+	sealed class SwarmRpcMapper : IRequestSwarmRegistrationParser, IDisposable
 	{
-		List<(SwarmConfiguration, TestableSwarmNode)> configToControllers;
-		Guid? incomingRegistrationId;
+		public bool AsyncRequests { get; set; }
+
+		readonly Stack<Guid> incomingRegistrationIds = new();
+
+		readonly List<Exception> serverErrors = new();
+
+		List<(SwarmConfiguration, TestableSwarmNode)> configToNodes;
 
 		public SwarmRpcMapper(Mock<IHttpClient> clientMock)
 		{
 			clientMock
 				.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
 				.Returns(MapRequest);
+			AsyncRequests = true;
 		}
 
-		public Guid GetRequestRegistrationId(HttpRequest request)
+		public void Dispose()
 		{
-			Assert.IsTrue(incomingRegistrationId.HasValue);
-			var result = incomingRegistrationId.Value;
-			incomingRegistrationId = null;
-			return result;
+			if (serverErrors.Count > 1)
+				throw new AggregateException(serverErrors);
+			else if (serverErrors.Count == 1)
+				throw serverErrors[0];
 		}
 
-		public void Register(List<(SwarmConfiguration, TestableSwarmNode)> configToControllers)
+		public Guid GetRequestRegistrationId(HttpRequest request) => incomingRegistrationIds.Peek();
+
+		public void Register(List<(SwarmConfiguration, TestableSwarmNode)> configToNodes)
 		{
-			this.configToControllers = configToControllers;
+			this.configToNodes = configToNodes;
 		}
 
 		async Task<HttpResponseMessage> MapRequest(
 			HttpRequestMessage request,
 			CancellationToken cancellationToken)
 		{
-			var (config, node) = configToControllers.FirstOrDefault(
+			var (config, node) = configToNodes.FirstOrDefault(
 				pair => pair.Item1.Address.IsBaseOf(request.RequestUri));
 
 			if (config == default)
@@ -61,6 +70,11 @@ namespace Tgstation.Server.Host.Tests.Swarm
 			if (!node.Initialized)
 			{
 				throw new HttpRequestException("Can't connect to uninitialized node!");
+			}
+
+			if (node.Shutdown)
+			{
+				throw new HttpRequestException("Can't connect to shutdown node!");
 			}
 
 			var controller = node.Controller;
@@ -106,7 +120,7 @@ namespace Tgstation.Server.Host.Tests.Swarm
 				.Where(pair => pair.Item2 != null
 					&& pair.Item2.HttpMethods.Count() == 1
 					&& pair.Item2.HttpMethods.All(supportedMethod => supportedMethod.Equals(request.Method.Method))
-					&& pair.Item2.Template == route)
+					&& (pair.Item2.Template ?? String.Empty) == route)
 				.Select(pair => pair.method)
 				.SingleOrDefault();
 
@@ -114,63 +128,76 @@ namespace Tgstation.Server.Host.Tests.Swarm
 				Assert.Fail($"SwarmController has no method with attribute {targetAttribute}!");
 
 			// We're not testing OnActionExecutingAsync, that's covered by integration.
-			if (request.Headers.TryGetValues(SwarmConstants.RegistrationIdHeader, out var values) && values.Count() == 1)
-				node.RpcMapper.incomingRegistrationId = Guid.Parse(values.First());
-
-			var args = new List<object>();
-			if (isDataRequest)
-			{
-				var dataType = controllerMethod.GetParameters().First().ParameterType;
-				var json = await request.Content.ReadAsStringAsync(cancellationToken);
-				var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmService.SerializerSettings);
-				args.Add(parameter);
-			}
+			var hasRegistrationHeader = request.Headers.TryGetValues(SwarmConstants.RegistrationIdHeader, out var values) && values.Count() == 1;
+			if (hasRegistrationHeader)
+				node.RpcMapper.incomingRegistrationIds.Push(Guid.Parse(values.First()));
 
 			IActionResult result;
-
-			var response = new HttpResponseMessage();
 			try
 			{
-				if (controllerMethod.ReturnType != typeof(IActionResult))
+				var response = new HttpResponseMessage();
+				try
 				{
-					Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
-					args.Add(cancellationToken);
-					var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
-					result = await invocationTask;
+					var args = new List<object>();
+					if (isDataRequest && request.Content != null)
+					{
+						var dataType = controllerMethod.GetParameters().First().ParameterType;
+						var json = await request.Content.ReadAsStringAsync(cancellationToken);
+						var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmService.SerializerSettings);
+						args.Add(parameter);
+					}
+
+					if (AsyncRequests)
+						await Task.Yield();
+
+					if (controllerMethod.ReturnType != typeof(IActionResult))
+					{
+						Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
+						args.Add(cancellationToken);
+						var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
+						result = await invocationTask;
+					}
+					else
+					{
+						result = (IActionResult)controllerMethod.Invoke(controller, args.ToArray());
+
+						// simulate worst case, request completed but was aborted before server replied
+						cancellationToken.ThrowIfCancellationRequested();
+					}
 				}
+				catch (Exception ex)
+				{
+					if (ex is not OperationCanceledException)
+						serverErrors.Add(ex);
+					response.Dispose();
+					throw;
+				}
+
+				// manually checked all controller response types
+				// Fobid, NoContent, Conflict, StatusCode
+				if (result is ForbidResult forbidResult)
+					response.StatusCode = HttpStatusCode.Forbidden;
+				else if (result is NoContentResult noContentResult)
+					response.StatusCode = (HttpStatusCode)noContentResult.StatusCode;
+				else if (result is ConflictResult conflictResult)
+					response.StatusCode = (HttpStatusCode)conflictResult.StatusCode;
+				else if (result is ObjectResult objectResult)
+					response.StatusCode = (HttpStatusCode)objectResult.StatusCode;
+				else if (result is StatusCodeResult statusCodeResult)
+					response.StatusCode = (HttpStatusCode)statusCodeResult.StatusCode;
 				else
 				{
-					result = (IActionResult)controllerMethod.Invoke(controller, args.ToArray());
-
-					// simulate worst case, request completed but was aborted before server replied
-					cancellationToken.ThrowIfCancellationRequested();
+					response.Dispose();
+					Assert.Fail($"Unrecognized result type: {result.GetType()}");
 				}
-			}
-			catch
-			{
-				response.Dispose();
-				throw;
-			}
 
-			// manually checked all controller response types
-			// Fobid, NoContent, Conflict, StatusCode
-			if (result is ForbidResult forbidResult)
-				response.StatusCode = HttpStatusCode.Forbidden;
-			else if (result is NoContentResult noContentResult)
-				response.StatusCode = (HttpStatusCode)noContentResult.StatusCode;
-			else if (result is ConflictResult conflictResult)
-				response.StatusCode = (HttpStatusCode)conflictResult.StatusCode;
-			else if (result is ObjectResult objectResult)
-				response.StatusCode = (HttpStatusCode)objectResult.StatusCode;
-			else if (result is StatusCodeResult statusCodeResult)
-				response.StatusCode = (HttpStatusCode)statusCodeResult.StatusCode;
-			else
-			{
-				response.Dispose();
-				Assert.Fail($"Unrecognized result type: {result.GetType()}");
+				return response;
 			}
-
-			return response;
+			finally
+			{
+				if (hasRegistrationHeader)
+					node.RpcMapper.incomingRegistrationIds.Pop();
+			}
 		}
 	}
 }
