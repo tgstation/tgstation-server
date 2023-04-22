@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			try
 			{
-				logger.LogTrace("Bind test: {0}", port);
+				logger.LogTrace("Bind test: {port}", port);
 				SocketExtensions.BindTest(port, false);
 			}
 			catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
@@ -390,7 +390,7 @@ namespace Tgstation.Server.Host.Components.Session
 			try
 			{
 				logger.LogDebug(
-					"Attaching to session PID: {0}, CompileJob: {1}...",
+					"Attaching to session PID: {pid}, CompileJob: {compileJobId}...",
 					reattachInformation.ProcessId,
 					reattachInformation.Dmb.CompileJob.Id);
 

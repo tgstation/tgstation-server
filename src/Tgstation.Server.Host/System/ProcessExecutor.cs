@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public IProcess GetProcess(int id)
 		{
-			logger.LogDebug("Attaching to process {0}...", id);
+			logger.LogDebug("Attaching to process {pid}...", id);
 			global::System.Diagnostics.Process handle;
 			try
 			{
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.System
 			}
 			catch (Exception e)
 			{
-				logger.LogDebug(e, "Unable to get process {0}!", id);
+				logger.LogDebug(e, "Unable to get process {pid}!", id);
 				return null;
 			}
 
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.System
 				throw new InvalidOperationException("Requesting output/error reading requires noShellExecute to be true!");
 
 			logger.LogDebug(
-				"{0}aunching process in {1}: {2} {3}",
+				"{launchType}aunching process in {workingDirectory}: {exe} {arguments}",
 				noShellExecute ? "L" : "Shell l",
 				workingDirectory,
 				fileName,
@@ -215,21 +215,21 @@ namespace Tgstation.Server.Host.System
 
 						// Try because this can be invoked twice for weird reasons
 						if (tcs.TrySetResult(exitCode))
-							logger.LogTrace("PID {0} termination event completed", id);
+							logger.LogTrace("PID {pid} termination event completed", id);
 						else
-							logger.LogTrace("Ignoring duplicate PID {0} termination event", id);
+							logger.LogTrace("Ignoring duplicate PID {pid} termination event", id);
 					}
 					catch (InvalidOperationException ex)
 					{
 						if (!tcs.Task.IsCompleted)
 							throw;
 
-						logger.LogTrace(ex, "Ignoring expected PID {0} exit handler exception!", id);
+						logger.LogTrace(ex, "Ignoring expected PID {pid} exit handler exception!", id);
 					}
 				}
 				catch (Exception ex)
 				{
-					logger.LogError(ex, "PID {0} exit handler exception!", id);
+					logger.LogError(ex, "PID {pid} exit handler exception!", id);
 				}
 			}
 
