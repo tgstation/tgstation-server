@@ -204,7 +204,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="202">Update has been started successfully.</response>
 		/// <response code="410">The requested release version could not be found in the target GitHub repository.</response>
 		/// <response code="422">Upgrade operations are unavailable due to the launch configuration of TGS.</response>
-		/// <response code="424">A GitHub rate limit was encountered.</response>
+		/// <response code="424">A GitHub rate limit was encountered or the swarm integrity check failed.</response>
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
