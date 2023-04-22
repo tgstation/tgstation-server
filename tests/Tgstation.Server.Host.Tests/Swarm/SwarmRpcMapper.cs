@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,10 +20,8 @@ using Newtonsoft.Json;
 using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
-using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Swarm;
 
-namespace Tgstation.Server.Host.Tests.Swarm
+namespace Tgstation.Server.Host.Swarm.Tests
 {
 	sealed class SwarmRpcMapper : IRequestSwarmRegistrationParser, IDisposable
 	{
@@ -127,42 +126,47 @@ namespace Tgstation.Server.Host.Tests.Swarm
 			if (controllerMethod == default)
 				Assert.Fail($"SwarmController has no method with attribute {targetAttribute}!");
 
-			// We're not testing OnActionExecutingAsync, that's covered by integration.
-			var hasRegistrationHeader = request.Headers.TryGetValues(SwarmConstants.RegistrationIdHeader, out var values) && values.Count() == 1;
-			if (hasRegistrationHeader)
-				node.RpcMapper.incomingRegistrationIds.Push(Guid.Parse(values.First()));
-
 			IActionResult result;
+			var hasRegistrationHeader = request.Headers.TryGetValues(SwarmConstants.RegistrationIdHeader, out var values) && values.Count() == 1;
 			try
 			{
 				var response = new HttpResponseMessage();
 				try
 				{
-					var args = new List<object>();
-					if (isDataRequest && request.Content != null)
+					// We're not testing OnActionExecutingAsync, that's covered by integration.
+					if (hasRegistrationHeader)
 					{
-						var dataType = controllerMethod.GetParameters().First().ParameterType;
-						var json = await request.Content.ReadAsStringAsync(cancellationToken);
-						var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmService.SerializerSettings);
-						args.Add(parameter);
-					}
+						node.RpcMapper.incomingRegistrationIds.Push(Guid.Parse(values.First()));
+						var args = new List<object>();
+						if (isDataRequest && request.Content != null)
+						{
+							var dataType = controllerMethod.GetParameters().First().ParameterType;
+							var json = await request.Content.ReadAsStringAsync(cancellationToken);
+							var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmService.SerializerSettings);
+							args.Add(parameter);
+						}
 
-					if (AsyncRequests)
-						await Task.Yield();
+						if (AsyncRequests)
+							await Task.Yield();
 
-					if (controllerMethod.ReturnType != typeof(IActionResult))
-					{
-						Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
-						args.Add(cancellationToken);
-						var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
-						result = await invocationTask;
+						if (controllerMethod.ReturnType != typeof(IActionResult))
+						{
+							Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
+							args.Add(cancellationToken);
+							var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
+							result = await invocationTask;
+						}
+						else
+						{
+							result = (IActionResult)controllerMethod.Invoke(controller, args.ToArray());
+
+							// simulate worst case, request completed but was aborted before server replied
+							cancellationToken.ThrowIfCancellationRequested();
+						}
 					}
 					else
 					{
-						result = (IActionResult)controllerMethod.Invoke(controller, args.ToArray());
-
-						// simulate worst case, request completed but was aborted before server replied
-						cancellationToken.ThrowIfCancellationRequested();
+						result = controller.BadRequest();
 					}
 				}
 				catch (Exception ex)
@@ -177,13 +181,7 @@ namespace Tgstation.Server.Host.Tests.Swarm
 				// Fobid, NoContent, Conflict, StatusCode
 				if (result is ForbidResult forbidResult)
 					response.StatusCode = HttpStatusCode.Forbidden;
-				else if (result is NoContentResult noContentResult)
-					response.StatusCode = (HttpStatusCode)noContentResult.StatusCode;
-				else if (result is ConflictResult conflictResult)
-					response.StatusCode = (HttpStatusCode)conflictResult.StatusCode;
-				else if (result is ObjectResult objectResult)
-					response.StatusCode = (HttpStatusCode)objectResult.StatusCode;
-				else if (result is StatusCodeResult statusCodeResult)
+				else if (result is IStatusCodeActionResult statusCodeResult)
 					response.StatusCode = (HttpStatusCode)statusCodeResult.StatusCode;
 				else
 				{

@@ -16,10 +16,9 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Tests.Swarm
+namespace Tgstation.Server.Host.Swarm.Tests
 {
 	sealed class TestableSwarmNode : IAsyncDisposable
 	{

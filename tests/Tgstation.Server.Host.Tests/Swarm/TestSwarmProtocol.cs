@@ -6,9 +6,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Swarm;
 
-namespace Tgstation.Server.Host.Tests.Swarm
+namespace Tgstation.Server.Host.Swarm.Tests
 {
 	[TestClass]
 	public sealed class TestSwarmProtocol : IDisposable
