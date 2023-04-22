@@ -104,8 +104,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			var mockServerUpdater = new Mock<IServerUpdater>();
 
-			RpcMapper = new SwarmRpcMapper(mockHttpClient);
-
+			RpcMapper = new SwarmRpcMapper(mockHttpClient, loggerFactory.CreateLogger($"SwarmRpcMapper-{swarmConfiguration.Identifier}"));
 
 			mockServerUpdater
 				.Setup(x => x.BeginUpdate(It.IsNotNull<SwarmService>(), It.IsNotNull<Version>(), It.IsAny<CancellationToken>()))

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -27,26 +28,26 @@ namespace Tgstation.Server.Host.Swarm.Tests
 	{
 		public bool AsyncRequests { get; set; }
 
-		readonly Stack<Guid> incomingRegistrationIds = new();
+		readonly ILogger logger;
 
-		readonly List<Exception> serverErrors = new();
+		readonly Stack<Guid> incomingRegistrationIds = new();
 
 		List<(SwarmConfiguration, TestableSwarmNode)> configToNodes;
 
-		public SwarmRpcMapper(Mock<IHttpClient> clientMock)
+		int serverErrorCount;
+
+		public SwarmRpcMapper(Mock<IHttpClient> clientMock, ILogger logger)
 		{
 			clientMock
 				.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
 				.Returns(MapRequest);
+			this.logger = logger;
 			AsyncRequests = true;
 		}
 
 		public void Dispose()
 		{
-			if (serverErrors.Count > 1)
-				throw new AggregateException(serverErrors);
-			else if (serverErrors.Count == 1)
-				throw serverErrors[0];
+			Assert.AreEqual(0, serverErrorCount);
 		}
 
 		public Guid GetRequestRegistrationId(HttpRequest request) => incomingRegistrationIds.Peek();
@@ -172,7 +173,11 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				catch (Exception ex)
 				{
 					if (ex is not OperationCanceledException)
-						serverErrors.Add(ex);
+					{
+						logger.LogCritical(ex, "Error in request to {nodeId}!", config.Identifier);
+						++serverErrorCount;
+					}
+
 					response.Dispose();
 					throw;
 				}
