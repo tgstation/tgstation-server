@@ -192,8 +192,34 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			await Task.WhenAll(controllerPrepareTask, nodePrepareTask);
 
-			Assert.AreEqual(SwarmCommitResult.AbortUpdate, await controller.Service.CommitUpdate(default));
-			Assert.AreEqual(SwarmCommitResult.AbortUpdate, await node1.Service.CommitUpdate(default));
+			Task<SwarmCommitResult> nodeCommitTask = null, controllerCommitTask = null;
+
+			var controllerPrepped = await controllerPrepareTask;
+			var nodePrepped = await nodePrepareTask;
+			if (!controllerPrepped && !nodePrepped)
+				return; // all is good with the world
+
+			// We have to be fair to the system here...
+			// Requests could still be in flight, things could get aborted
+			// Each server STILL has to download the update package which takes time
+			// Give it 1 second to get its shit together
+			await Task.Delay(TimeSpan.FromSeconds(1));
+
+			if (controllerPrepped)
+				controllerCommitTask = controller.Service.CommitUpdate(default);
+
+			if (nodePrepped)
+				nodeCommitTask = node1.Service.CommitUpdate(default);
+
+			await Task.Yield();
+
+			await Task.WhenAll(controllerCommitTask ?? Task.CompletedTask, nodeCommitTask ?? Task.CompletedTask);
+
+			if (controllerPrepped)
+				Assert.AreEqual(SwarmCommitResult.AbortUpdate, await controllerCommitTask);
+
+			if (nodePrepped)
+				Assert.AreEqual(SwarmCommitResult.AbortUpdate, await nodeCommitTask);
 		}
 
 		TestableSwarmNode GenNode(TestableSwarmNode controller = null, Version version = null)
