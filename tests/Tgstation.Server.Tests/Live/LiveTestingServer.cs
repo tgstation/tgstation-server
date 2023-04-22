@@ -13,9 +13,9 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Setup;
 
-namespace Tgstation.Server.Tests
+namespace Tgstation.Server.Tests.Live
 {
-	sealed class TestingServer : IServer, IDisposable
+	sealed class LiveTestingServer : IServer, IDisposable
 	{
 		public Uri Url { get; }
 
@@ -34,10 +34,10 @@ namespace Tgstation.Server.Tests
 
 		public IServer RealServer { get; private set; }
 
-		public TestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
+		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
 		{
 			Directory = Environment.GetEnvironmentVariable("TGS_TEST_TEMP_DIRECTORY");
-			if (String.IsNullOrWhiteSpace(Directory))
+			if (string.IsNullOrWhiteSpace(Directory))
 			{
 				Directory = Path.Combine(Path.GetTempPath(), "TGS_INTEGRATION_TEST");
 				if (System.IO.Directory.Exists(Directory) && swarmConfiguration == null)
@@ -61,32 +61,32 @@ namespace Tgstation.Server.Tests
 			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 			var dumpOpenAPISpecPathEnvVar = Environment.GetEnvironmentVariable("TGS_TEST_DUMP_API_SPEC");
 
-			if (String.IsNullOrEmpty(DatabaseType))
+			if (string.IsNullOrEmpty(DatabaseType))
 				Assert.Inconclusive("No database type configured in env var TGS_TEST_DATABASE_TYPE!");
 
-			if (String.IsNullOrEmpty(connectionString))
+			if (string.IsNullOrEmpty(connectionString))
 				Assert.Inconclusive("No connection string configured in env var TGS_TEST_CONNECTION_STRING!");
 
-			if (String.IsNullOrEmpty(gitHubAccessToken))
+			if (string.IsNullOrEmpty(gitHubAccessToken))
 				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
 
-			DumpOpenApiSpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
+			DumpOpenApiSpecpath = !string.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
 
 			args = new List<string>()
 			{
-				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
-				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
-				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
-				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
-				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
-				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
-				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
-				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
-				String.Format(CultureInfo.InvariantCulture, "General:UserGroupLimit={0}", 47),
-				String.Format(CultureInfo.InvariantCulture, "General:HostApiDocumentation={0}", DumpOpenApiSpecpath),
-				String.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
-				String.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),
-				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
+				string.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
+				string.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
+				string.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
+				string.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
+				string.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
+				string.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
+				string.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
+				string.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
+				string.Format(CultureInfo.InvariantCulture, "General:UserGroupLimit={0}", 47),
+				string.Format(CultureInfo.InvariantCulture, "General:HostApiDocumentation={0}", DumpOpenApiSpecpath),
+				string.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
+				string.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),
+				string.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000"
 			};
 
@@ -112,8 +112,8 @@ namespace Tgstation.Server.Tests
 			File.Delete("appsettings.Development.yml");
 			File.Delete("appsettings.Development.json");
 
-			if (!String.IsNullOrEmpty(gitHubAccessToken))
-				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));
+			if (!string.IsNullOrEmpty(gitHubAccessToken))
+				args.Add(string.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));
 
 			if (DumpOpenApiSpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
@@ -130,7 +130,7 @@ namespace Tgstation.Server.Tests
 				}
 				catch
 				{
-					GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, false);
+					GC.Collect(int.MaxValue, GCCollectionMode.Forced, false);
 					Thread.Sleep(3000);
 				}
 		}
@@ -174,7 +174,7 @@ namespace Tgstation.Server.Tests
 					cancellationToken);
 
 			if (firstRun)
-				args[0] = String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", false);
+				args[0] = string.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", false);
 
 			await RealServer.Run(cancellationToken);
 			Console.WriteLine("TEST SERVER END");

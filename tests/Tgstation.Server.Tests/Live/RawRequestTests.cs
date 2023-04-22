@@ -16,7 +16,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 
-namespace Tgstation.Server.Tests
+namespace Tgstation.Server.Tests.Live
 {
 	static class RawRequestTests
 	{
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.Administration.AsSpan(1))))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, string.Concat(url.ToString(), Routes.Administration.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, String.Concat(url.ToString(), Routes.Administration.AsSpan(1))))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, string.Concat(url.ToString(), Routes.Administration.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, String.Concat(url.ToString(), Routes.DreamDaemon.AsSpan(1))))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, string.Concat(url.ToString(), Routes.DreamDaemon.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -124,7 +124,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, String.Concat(url.ToString(), Routes.DreamDaemon.AsSpan(1))))
+			using (var request = new HttpRequestMessage(HttpMethod.Post, string.Concat(url.ToString(), Routes.DreamDaemon.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -238,7 +238,7 @@ namespace Tgstation.Server.Tests
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -253,7 +253,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Put, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
+			using (var request = new HttpRequestMessage(HttpMethod.Put, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -268,7 +268,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -280,7 +280,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -293,7 +293,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(HttpStatusCode.Gone, response.StatusCode);
 			}
 
-			using (var request = new HttpRequestMessage(HttpMethod.Put, String.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
+			using (var request = new HttpRequestMessage(HttpMethod.Put, string.Concat(url.ToString(), Routes.Transfer.AsSpan(1), "?ticket=veryfaketicket")))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
@@ -315,7 +315,7 @@ namespace Tgstation.Server.Tests
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
 
-			using (var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.User.AsSpan(1))))
+			using (var request = new HttpRequestMessage(HttpMethod.Get, string.Concat(url.ToString(), Routes.User.AsSpan(1))))
 			{
 				request.Headers.Accept.Clear();
 				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));

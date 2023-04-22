@@ -9,7 +9,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client.Components;
 
-namespace Tgstation.Server.Tests.Instance
+namespace Tgstation.Server.Tests.Live.Instance
 {
 	class JobsRequiredTest
 	{
@@ -17,7 +17,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		public JobsRequiredTest(IJobsClient jobsClient)
 		{
-			this.JobsClient = jobsClient;
+			JobsClient = jobsClient;
 		}
 
 		public async Task<JobResponse> WaitForJob(JobResponse originalJob, int timeout, bool? expectFailure, ErrorCode? expectedCode, CancellationToken cancellationToken)
@@ -37,9 +37,9 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.Fail($"Job ID {job.Id} \"{job.Description}\" timed out!");
 			}
 
-			if(expectFailure.HasValue && (expectFailure.Value ^ job.ExceptionDetails != null))
+			if (expectFailure.HasValue && expectFailure.Value ^ job.ExceptionDetails != null)
 				Assert.Fail(job.ExceptionDetails
-					?? $"Expected job \"{job.Id}\" \"{job.Description}\" to fail {(expectedCode.HasValue ? $"with ErrorCode \"{expectedCode.Value}\" " : String.Empty)}but it didn't");
+					?? $"Expected job \"{job.Id}\" \"{job.Description}\" to fail {(expectedCode.HasValue ? $"with ErrorCode \"{expectedCode.Value}\" " : string.Empty)}but it didn't");
 
 			if (expectedCode.HasValue)
 				Assert.AreEqual(expectedCode.Value, job.ErrorCode, job.ExceptionDetails);

@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 
-namespace Tgstation.Server.Tests.Instance
+namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class TestBridgeHandler : Chunker, IBridgeHandler
 	{
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Tests.Instance
 				var splits = parameters.ChatMessage.Text.Split(':', StringSplitOptions.RemoveEmptyEntries);
 				Assert.AreEqual(2, splits.Length);
 				var coreMessage = splits[0];
-				Assert.IsFalse(String.IsNullOrWhiteSpace(coreMessage));
+				Assert.IsFalse(string.IsNullOrWhiteSpace(coreMessage));
 				if (coreMessage == "done")
 				{
 					Assert.IsTrue(chunksProcessed);
@@ -84,7 +84,7 @@ namespace Tgstation.Server.Tests.Instance
 				}
 
 				Assert.AreEqual("payload", coreMessage);
-				lastBridgeRequestSize = $"http://127.0.0.1:{serverPort}/Bridge?data=".Length + HttpUtility.UrlEncode(	
+				lastBridgeRequestSize = $"http://127.0.0.1:{serverPort}/Bridge?data=".Length + HttpUtility.UrlEncode(
 					JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings)).Length;
 				return new BridgeResponseHack
 				{

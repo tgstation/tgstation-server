@@ -12,7 +12,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Tests
+namespace Tgstation.Server.Tests.Live
 {
 	sealed class UsersTest
 	{
@@ -149,7 +149,7 @@ namespace Tgstation.Server.Tests
 			UserUpdateRequest testUserUpdate = new UserCreateRequest
 			{
 				Name = "TestUserWithNoPassword",
-				Password = String.Empty
+				Password = string.Empty
 			};
 
 			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Create((UserCreateRequest)testUserUpdate, cancellationToken), ErrorCode.UserPasswordLength);
@@ -273,7 +273,7 @@ namespace Tgstation.Server.Tests
 			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.List(
 				new PaginationSettings
 				{
-					PageSize = Int32.MaxValue
+					PageSize = int.MaxValue
 				}, cancellationToken), ErrorCode.ApiPageTooLarge);
 
 			await serverClient.Users.List(
