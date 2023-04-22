@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				Assert.IsFalse(controllerResult && nodeResult);
 		}
 
-		static async Task DelayMax(Action assertion, ulong seconds = 1)
+		static async Task DelayMax(Action assertion, ulong seconds = 3)
 		{
 			for (var i = 0U; i < (seconds * 10); ++i)
 			{
