@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Tests
 			IAssemblyInformationProvider assemblyInformationProvider = Mock.Of<IAssemblyInformationProvider>();
 			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, null));
 			IIOManager ioManager = Mock.Of<IIOManager>();
-			new ServerFactory(assemblyInformationProvider, ioManager);
+			_ = new ServerFactory(assemblyInformationProvider, ioManager);
 		}
 
 		[TestMethod]
