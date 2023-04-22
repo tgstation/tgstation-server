@@ -18,7 +18,7 @@ namespace Tgstation.Server.Tests
 {
 	[TestClass]
 	[TestCategory("SkipWhenLiveUnitTesting")]
-	public sealed class VersionsTest
+	public sealed class TestVersions
 	{
 		XNamespace xmlNamespace;
 
