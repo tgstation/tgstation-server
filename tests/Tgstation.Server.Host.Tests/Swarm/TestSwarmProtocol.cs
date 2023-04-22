@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Swarm.Tests
 {
@@ -175,6 +176,9 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			await using var node1 = GenNode(controller);
 
 			TestableSwarmNode.Link(controller, node1);
+
+			controller.UpdateResult = ServerUpdateResult.UpdateInProgress;
+			node1.UpdateResult = ServerUpdateResult.UpdateInProgress;
 
 			Assert.AreEqual(SwarmRegistrationResult.Success, await controller.TryInit());
 			Assert.AreEqual(SwarmRegistrationResult.Success, await node1.TryInit());
