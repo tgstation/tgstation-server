@@ -191,6 +191,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		public async Task<SwarmRegistrationResult?> TryInit(bool cancel = false)
 		{
+			logger.LogTrace("TryInit...");
 			if (Initialized)
 				Assert.Fail("Initialized twice!");
 
@@ -226,6 +227,10 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, Version version, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("BeginUpdate...");
+			if (UpdateTask?.IsCompleted == false)
+				return Task.FromResult(ServerUpdateResult.UpdateInProgress);
+
 			if (UpdateResult == ServerUpdateResult.Started)
 			{
 				UpdateTask = ExecuteUpdate(version, cancellationToken, CriticalCancellationTokenSource.Token);
@@ -236,6 +241,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		async Task<SwarmCommitResult?> ExecuteUpdate(Version version, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
 		{
+			logger.LogTrace("BeginUpdate...");
 			await Task.Yield(); // Important to simulate some actual kind of asyncronicity here
 
 			await Service.PrepareUpdate(version, cancellationToken);
