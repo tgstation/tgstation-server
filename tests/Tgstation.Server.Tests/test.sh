@@ -1,5 +1,5 @@
 #!/bin/sh
 
 echo Hello World!
-sleep 1
+sleep 3
 echo Hello Error! 1>&2
