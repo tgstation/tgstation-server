@@ -241,7 +241,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		async Task<SwarmCommitResult?> ExecuteUpdate(Version version, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
 		{
-			logger.LogTrace("BeginUpdate...");
+			logger.LogTrace("ExecuteUpdate...");
 			await Task.Yield(); // Important to simulate some actual kind of asyncronicity here
 
 			await Service.PrepareUpdate(version, cancellationToken);
