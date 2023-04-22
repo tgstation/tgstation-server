@@ -14,22 +14,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 	{
 		readonly HashSet<ushort> usedPorts = new ();
 		ILoggerFactory loggerFactory;
-
-		static async Task DelayMax(Action assertion, ulong seconds = 1)
-		{
-			for (var i = 0U; i < (seconds * 10); ++i)
-			{
-				try
-				{
-					assertion();
-					return;
-				}
-				catch (AssertFailedException) { }
-				await Task.Delay(TimeSpan.FromMilliseconds(100));
-			}
-
-			assertion();
-		}
+		ILogger<TestSwarmProtocol> logger;
 
 		[TestInitialize]
 		public void Initialize()
@@ -39,6 +24,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				builder.SetMinimumLevel(LogLevel.Trace);
 				builder.AddConsole();
 			});
+
+			logger = loggerFactory.CreateLogger<TestSwarmProtocol>();
 		}
 
 		[TestCleanup]
@@ -235,6 +222,29 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			};
 
 			return new TestableSwarmNode(loggerFactory, config, version);
+		}
+
+		async Task DelayMax(Action assertion, ulong seconds = 1)
+		{
+			for (var i = 0U; i < (seconds * 10); ++i)
+			{
+				try
+				{
+					assertion();
+					return;
+				}
+				catch (AssertFailedException) { }
+				await Task.Delay(TimeSpan.FromMilliseconds(100));
+			}
+
+			try
+			{
+				assertion();
+			}
+			catch (Exception ex)
+			{
+				logger.LogCritical(ex, "DelayMax failed!");
+			}
 		}
 	}
 }
