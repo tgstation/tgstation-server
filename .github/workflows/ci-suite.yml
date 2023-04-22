@@ -151,7 +151,7 @@ jobs:
       run: docker build . -f build/Dockerfile
 
   linux-unit-tests:
-    name: Linux Unit Tests
+    name: Linux Tests
     strategy:
       fail-fast: false
       matrix:
@@ -182,7 +182,7 @@ jobs:
         path: ./TestResults/
 
   windows-unit-tests:
-    name: Windows Unit Tests
+    name: Windows Tests
     strategy:
       fail-fast: false
       matrix:
@@ -213,7 +213,7 @@ jobs:
         path: ./TestResults/
 
   windows-integration-test:
-    name: Windows Integration Test
+    name: Windows Live Tests
     needs: dmapi-build
     env:
       TGS_TEST_DATABASE_TYPE: SqlServer
@@ -285,7 +285,7 @@ jobs:
         path: Artifacts/Service/
 
   linux-integration-tests:
-    name: Linux Integration Test
+    name: Linux Live Tests
     needs: dmapi-build
     services: # We start all dbs here so we can just code the stuff once
       postgres:
