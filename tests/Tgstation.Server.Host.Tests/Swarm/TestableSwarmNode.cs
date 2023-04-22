@@ -22,8 +22,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 {
 	sealed class TestableSwarmNode : IAsyncDisposable
 	{
-		public SwarmController Controller { get; private set; }
-
 		public SwarmService Service { get; private set; }
 
 		public SwarmConfiguration Config { get; }
@@ -106,7 +104,14 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			var mockServerUpdater = new Mock<IServerUpdater>();
 
-			RpcMapper = new SwarmRpcMapper(mockHttpClient, loggerFactory.CreateLogger($"SwarmRpcMapper-{swarmConfiguration.Identifier}"));
+			RpcMapper = new SwarmRpcMapper(
+				targetService => new SwarmController(
+					targetService,
+					mockAssemblyInformationProvider.Object,
+					mockOptions.Object,
+					loggerFactory.CreateLogger<SwarmController>()),
+				mockHttpClient,
+				loggerFactory.CreateLogger($"SwarmRpcMapper-{swarmConfiguration.Identifier}"));
 
 			mockServerUpdater
 				.Setup(x => x.BeginUpdate(It.IsNotNull<SwarmService>(), It.IsNotNull<Version>(), It.IsAny<CancellationToken>()))
@@ -144,13 +149,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					mockAsyncDelayer.Object,
 					mockOptions.Object,
 					serviceLogger);
-
-				Controller = new SwarmController(
-					Service,
-					RpcMapper,
-					mockAssemblyInformationProvider.Object,
-					mockOptions.Object,
-					loggerFactory.CreateLogger<SwarmController>());
 			}
 
 			RecreateControllerAndService();

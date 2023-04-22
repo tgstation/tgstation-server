@@ -367,7 +367,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-			services.AddSingleton<IRequestSwarmRegistrationParser, RequestSwarmRegistrationParser>();
 
 			// configure root services
 			services.AddSingleton<IJobManager, JobManager>();

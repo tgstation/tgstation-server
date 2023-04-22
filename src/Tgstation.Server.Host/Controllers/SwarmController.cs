@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using Serilog.Context;
 
 using Tgstation.Server.Host.Configuration;
@@ -29,17 +30,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get the current registration <see cref="Guid"/> from the <see cref="ControllerBase.Request"/>.
 		/// </summary>
-		internal Guid RequestRegistrationId => requestRegistrationParser.GetRequestRegistrationId(Request);
+		internal Guid RequestRegistrationId => Guid.Parse(Request.Headers[SwarmConstants.RegistrationIdHeader].First());
 
 		/// <summary>
 		/// The <see cref="ISwarmOperations"/> for the <see cref="SwarmController"/>.
 		/// </summary>
 		readonly ISwarmOperations swarmOperations;
-
-		/// <summary>
-		/// The <see cref="IRequestSwarmRegistrationParser"/> for the <see cref="SwarmController"/>.
-		/// </summary>
-		readonly IRequestSwarmRegistrationParser requestRegistrationParser;
 
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SwarmController"/>.
@@ -60,19 +56,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="SwarmController"/> class.
 		/// </summary>
 		/// <param name="swarmOperations">The value of <see cref="swarmOperations"/>.</param>
-		/// <param name="requestRegistrationParser">The value of <see cref="requestRegistrationParser"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmController(
 			ISwarmOperations swarmOperations,
-			IRequestSwarmRegistrationParser requestRegistrationParser,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmController> logger)
 		{
 			this.swarmOperations = swarmOperations ?? throw new ArgumentNullException(nameof(swarmOperations));
-			this.requestRegistrationParser = requestRegistrationParser ?? throw new ArgumentNullException(nameof(requestRegistrationParser));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger;

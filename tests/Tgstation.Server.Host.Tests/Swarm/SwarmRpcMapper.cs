@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -24,20 +25,21 @@ using Tgstation.Server.Host.Controllers;
 
 namespace Tgstation.Server.Host.Swarm.Tests
 {
-	sealed class SwarmRpcMapper : IRequestSwarmRegistrationParser, IDisposable
+	sealed class SwarmRpcMapper : IDisposable
 	{
 		public bool AsyncRequests { get; set; }
 
 		readonly ILogger logger;
 
-		readonly Stack<Guid> incomingRegistrationIds = new();
+		readonly Func<SwarmService, SwarmController> createSwarmController;
 
 		List<(SwarmConfiguration, TestableSwarmNode)> configToNodes;
 
 		int serverErrorCount;
 
-		public SwarmRpcMapper(Mock<IHttpClient> clientMock, ILogger logger)
+		public SwarmRpcMapper(Func<SwarmService, SwarmController> createSwarmController, Mock<IHttpClient> clientMock, ILogger logger)
 		{
+			this.createSwarmController = createSwarmController;
 			clientMock
 				.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
 				.Returns(MapRequest);
@@ -49,8 +51,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		{
 			Assert.AreEqual(0, serverErrorCount);
 		}
-
-		public Guid GetRequestRegistrationId(HttpRequest request) => incomingRegistrationIds.Peek();
 
 		public void Register(List<(SwarmConfiguration, TestableSwarmNode)> configToNodes)
 		{
@@ -77,7 +77,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				throw new HttpRequestException("Can't connect to shutdown node!");
 			}
 
-			var controller = node.Controller;
+			var controller = createSwarmController(node.Service);
 
 			Type targetAttribute = null;
 			bool isDataRequest = false;
@@ -128,58 +128,59 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				Assert.Fail($"SwarmController has no method with attribute {targetAttribute}!");
 
 			IActionResult result;
-			var hasRegistrationHeader = request.Headers.TryGetValues(SwarmConstants.RegistrationIdHeader, out var values) && values.Count() == 1;
+			var hasRegistrationHeader = request.Headers.TryGetValues(SwarmConstants.RegistrationIdHeader, out var values)
+				&& values.Count() == 1;
+			var response = new HttpResponseMessage();
 			try
 			{
-				var response = new HttpResponseMessage();
-				try
+				// We're not testing OnActionExecutingAsync, that's covered by integration.
+				if (hasRegistrationHeader)
 				{
-					// We're not testing OnActionExecutingAsync, that's covered by integration.
-					if (hasRegistrationHeader)
+					var mockRequest = new Mock<HttpRequest>();
+					mockRequest.SetupGet(x => x.Headers).Returns(new HeaderDictionary
 					{
-						node.RpcMapper.incomingRegistrationIds.Push(Guid.Parse(values.First()));
-						var args = new List<object>();
-						if (isDataRequest && request.Content != null)
 						{
-							var dataType = controllerMethod.GetParameters().First().ParameterType;
-							var json = await request.Content.ReadAsStringAsync(cancellationToken);
-							var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmService.SerializerSettings);
-							args.Add(parameter);
-						}
+							SwarmConstants.RegistrationIdHeader,
+							new StringValues(values.First())
+						},
+					});
+					var mockHttpContext = new Mock<HttpContext>();
+					mockHttpContext.SetupGet(x => x.Request).Returns(mockRequest.Object);
 
-						if (AsyncRequests)
-							await Task.Yield();
+					controller
+						.ControllerContext
+						.HttpContext = mockHttpContext.Object;
 
-						if (controllerMethod.ReturnType != typeof(IActionResult))
-						{
-							Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
-							args.Add(cancellationToken);
-							var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
-							result = await invocationTask;
-						}
-						else
-						{
-							result = (IActionResult)controllerMethod.Invoke(controller, args.ToArray());
+					var args = new List<object>();
+					if (isDataRequest && request.Content != null)
+					{
+						var dataType = controllerMethod.GetParameters().First().ParameterType;
+						var json = await request.Content.ReadAsStringAsync(cancellationToken);
+						var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmService.SerializerSettings);
+						args.Add(parameter);
+					}
 
-							// simulate worst case, request completed but was aborted before server replied
-							cancellationToken.ThrowIfCancellationRequested();
-						}
+					if (AsyncRequests)
+						await Task.Yield();
+
+					if (controllerMethod.ReturnType != typeof(IActionResult))
+					{
+						Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
+						args.Add(cancellationToken);
+						var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
+						result = await invocationTask;
 					}
 					else
 					{
-						result = controller.BadRequest();
+						result = (IActionResult)controllerMethod.Invoke(controller, args.ToArray());
+
+						// simulate worst case, request completed but was aborted before server replied
+						cancellationToken.ThrowIfCancellationRequested();
 					}
 				}
-				catch (Exception ex)
+				else
 				{
-					if (ex is not OperationCanceledException)
-					{
-						logger.LogCritical(ex, "Error in request to {nodeId}!", config.Identifier);
-						++serverErrorCount;
-					}
-
-					response.Dispose();
-					throw;
+					result = controller.BadRequest();
 				}
 
 				// manually checked all controller response types
@@ -196,10 +197,16 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 				return response;
 			}
-			finally
+			catch (Exception ex)
 			{
-				if (hasRegistrationHeader)
-					node.RpcMapper.incomingRegistrationIds.Pop();
+				if (ex is not OperationCanceledException)
+				{
+					logger.LogCritical(ex, "Error in request to {nodeId}!", config.Identifier);
+					++serverErrorCount;
+				}
+
+				response.Dispose();
+				throw;
 			}
 		}
 	}
