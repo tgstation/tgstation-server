@@ -46,16 +46,16 @@ namespace Tgstation.Server.Host.Core
 		public IHttpClient CreateClient()
 		{
 			logger.LogTrace("Creating client...");
-			var innerClient = httpClientFactory.CreateClient();
+			var client = new Tgstation.Server.Common.HttpClient(
+				httpClientFactory.CreateClient());
 			try
 			{
-				var client = new Tgstation.Server.Common.HttpClient(innerClient);
 				client.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
 				return client;
 			}
 			catch
 			{
-				innerClient.Dispose();
+				client.Dispose();
 				throw;
 			}
 		}
