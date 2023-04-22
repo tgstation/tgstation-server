@@ -10,21 +10,42 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Swarm.Tests
 {
 	[TestClass]
-	public sealed class TestSwarmProtocol : IDisposable
+	public sealed class TestSwarmProtocol
 	{
-		readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
-		{
-			builder.SetMinimumLevel(LogLevel.Trace);
-			builder.AddConsole();
-		});
 		readonly HashSet<ushort> usedPorts = new ();
+		ILoggerFactory loggerFactory;
 
-		public void Dispose() => loggerFactory.Dispose();
+		static async Task DelayMax(Action assertion, ulong seconds = 1)
+		{
+			for (var i = 0U; i < (seconds * 10); ++i)
+			{
+				try
+				{
+					assertion();
+					return;
+				}
+				catch (AssertFailedException) { }
+				await Task.Delay(TimeSpan.FromMilliseconds(100));
+			}
+
+			assertion();
+		}
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.SetMinimumLevel(LogLevel.Trace);
+				builder.AddConsole();
+			});
+		}
+
+		[TestCleanup]
+		public void Shutdown()
+		{
 			usedPorts.Clear();
+			loggerFactory.Dispose();
 		}
 
 		[TestMethod]
@@ -193,22 +214,6 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			var nodeResult = await nodePrepareTask;
 
 				Assert.IsFalse(controllerResult && nodeResult);
-		}
-
-		static async Task DelayMax(Action assertion, ulong seconds = 3)
-		{
-			for (var i = 0U; i < (seconds * 10); ++i)
-			{
-				try
-				{
-					assertion();
-					return;
-				}
-				catch (AssertFailedException) { }
-				await Task.Delay(TimeSpan.FromMilliseconds(100));
-			}
-
-			assertion();
 		}
 
 		TestableSwarmNode GenNode(TestableSwarmNode controller = null, Version version = null)

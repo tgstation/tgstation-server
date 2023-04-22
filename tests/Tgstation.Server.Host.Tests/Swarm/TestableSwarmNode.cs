@@ -48,6 +48,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		readonly Action recreateControllerAndService;
 
+		readonly ILogger logger;
+
 		public static void Link(params TestableSwarmNode[] nodes)
 		{
 			var configControllerSet = nodes.Select(x => (x.Config, x)).ToList();
@@ -113,10 +115,12 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			UpdateResult = ServerUpdateResult.Started;
 			UpdateCommits = true;
 
+			logger = loggerFactory.CreateLogger($"TestableSwarmNode-{swarmConfiguration.Identifier}");
 
 			var runCount = 0;
 			void RecreateControllerAndService()
 			{
+				logger.LogTrace("RecreateControllerAndService...");
 				var run = ++runCount;
 				Initialized = false;
 				Shutdown = false;
@@ -124,12 +128,12 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				CriticalCancellationTokenSource?.Dispose();
 				CriticalCancellationTokenSource = new CancellationTokenSource();
 
-				var logger = new Logger<SwarmService>(loggerFactory);
+				var serviceLogger = new Logger<SwarmService>(loggerFactory);
 				// HAX HAX HAX
-				logger
+				serviceLogger
 					.GetType()
 					.GetField("_logger", BindingFlags.NonPublic | BindingFlags.Instance)
-					.SetValue(logger, loggerFactory.CreateLogger($"SwarmService-{swarmConfiguration.Identifier}{(run != 1 ? $"-Run{run}": String.Empty)}"));
+					.SetValue(serviceLogger, loggerFactory.CreateLogger($"SwarmService-{swarmConfiguration.Identifier}{(run != 1 ? $"-Run{run}": String.Empty)}"));
 
 				Service = new SwarmService(
 					mockDBContextFactory.Object,
@@ -139,7 +143,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					mockServerUpdater.Object,
 					mockAsyncDelayer.Object,
 					mockOptions.Object,
-					logger);
+					serviceLogger);
 
 				Controller = new SwarmController(
 					Service,
@@ -155,12 +159,14 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		public async Task SimulateReboot(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("SimulateReboot...");
 			await ShutdownService(cancellationToken);
 			recreateControllerAndService();
 		}
 
 		public async ValueTask DisposeAsync()
 		{
+			logger.LogTrace("DisposeAsync...");
 			await ShutdownService(default);
 			RpcMapper.Dispose();
 			CriticalCancellationTokenSource.Dispose();
@@ -168,6 +174,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		private async Task ShutdownService(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("ShutdownService...");
 			Shutdown = true;
 			CriticalCancellationTokenSource.Cancel();
 			if (UpdateTask != null)
