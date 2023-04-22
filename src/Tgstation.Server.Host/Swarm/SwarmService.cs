@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Swarm
 	/// <summary>
 	/// Helps keep servers connected to the same database in sync by coordinating updates.
 	/// </summary>
-	sealed class SwarmService : ISwarmService, ISwarmOperations, IDisposable
+	sealed class SwarmService : ISwarmService, ISwarmServiceController, ISwarmOperations, IDisposable
 	{
 		/// <summary>
 		/// Interval at which the swarm controller makes health checks on nodes.

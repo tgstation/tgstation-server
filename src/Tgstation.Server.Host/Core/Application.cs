@@ -358,6 +358,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<SwarmService>();
 			services.AddSingleton<ISwarmService>(x => x.GetRequiredService<SwarmService>());
 			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<ISwarmServiceController>(x => x.GetRequiredService<SwarmService>());
 			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
 			services.AddSingleton<IRequestSwarmRegistrationParser, RequestSwarmRegistrationParser>();

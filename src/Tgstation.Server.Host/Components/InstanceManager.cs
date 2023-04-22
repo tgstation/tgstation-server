@@ -82,9 +82,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IServerPortProvider serverPortProvider;
 
 		/// <summary>
-		/// The <see cref="ISwarmService"/> for the <see cref="InstanceManager"/>.
+		/// The <see cref="ISwarmServiceController"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
-		readonly ISwarmService swarmService;
+		readonly ISwarmServiceController swarmServiceController;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>.
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
-		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
+		/// <param name="swarmServiceController">The value of <see cref="swarmServiceController"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Components
 			ISystemIdentityFactory systemIdentityFactory,
 			IAsyncDelayer asyncDelayer,
 			IServerPortProvider serverPortProvider,
-			ISwarmService swarmService,
+			ISwarmServiceController swarmServiceController,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<InstanceManager> logger)
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Host.Components
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
-			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
+			this.swarmServiceController = swarmServiceController ?? throw new ArgumentNullException(nameof(swarmServiceController));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -481,7 +481,7 @@ namespace Tgstation.Server.Host.Components
 				await Task.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
 				await instanceFactoryStopTask;
 
-				await swarmService.Shutdown(cancellationToken);
+				await swarmServiceController.Shutdown(cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -578,7 +578,7 @@ namespace Tgstation.Server.Host.Components
 			SwarmRegistrationResult registrationResult;
 			do
 			{
-				registrationResult = await swarmService.Initialize(cancellationToken);
+				registrationResult = await swarmServiceController.Initialize(cancellationToken);
 
 				if (registrationResult == SwarmRegistrationResult.Unauthorized)
 					throw new InvalidOperationException("Swarm private key does not match the swarm controller's!");
