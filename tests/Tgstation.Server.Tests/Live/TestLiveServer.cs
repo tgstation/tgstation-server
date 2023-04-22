@@ -424,22 +424,12 @@ namespace Tgstation.Server.Tests.Live
 					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
 					using var node1Client2 = await CreateAdminClient(node1.Url, cancellationToken);
 
-					await controllerClient2.Administration.Update(
+					await ApiAssert.ThrowsException<ApiConflictException>(() => controllerClient2.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = testUpdateVersion
 						},
-						cancellationToken);
-
-					// wait a few seconds and check we can do it again without getting ErrorCode.UpdateInProgress
-					await Task.Delay(TimeSpan.FromSeconds(3));
-
-					await controllerClient2.Administration.Update(
-						new ServerUpdateRequest
-						{
-							NewVersion = testUpdateVersion
-						},
-						cancellationToken);
+						cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
 
 					// regression: test updating also works from the controller
 					serverTask = Task.WhenAll(
@@ -492,7 +482,8 @@ namespace Tgstation.Server.Tests.Live
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
-				PrivateKey = PrivateKey
+				PrivateKey = PrivateKey,
+				UpdateRequiredNodeCount = 2,
 			}, false, 5011))
 			{
 				using var node1 = new LiveTestingServer(new SwarmConfiguration
@@ -622,30 +613,16 @@ namespace Tgstation.Server.Tests.Live
 						Task.Delay(TimeSpan.FromMinutes(1)));
 					Assert.IsTrue(node1Task.IsCompleted);
 
-					// should remain registered
+					// should have unregistered
 					controllerInfo = await controllerClient2.ServerInformation(cancellationToken);
-					Assert.AreEqual(2, controllerInfo.SwarmServers.Count);
-					Assert.IsNotNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
+					Assert.AreEqual(1, controllerInfo.SwarmServers.Count);
+					Assert.IsNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
 					// update should fail
-					await controllerClient2.Administration.Update(new ServerUpdateRequest
+					await ApiAssert.ThrowsException<ApiConflictException>(() => controllerClient2.Administration.Update(new ServerUpdateRequest
 					{
 						NewVersion = new Version(4, 6, 2)
-					}, cancellationToken);
-
-					async Task WaitForUpdateFailure()
-					{
-						ServerInformationResponse serverInformation;
-						serverInformation = await controllerClient2.ServerInformation(cancellationToken);
-						while (serverInformation.UpdateInProgress)
-						{
-							await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
-							serverInformation = await controllerClient2.ServerInformation(cancellationToken);
-						}
-					}
-
-					var updateFailureTask = WaitForUpdateFailure();
-					await Task.WhenAny(updateFailureTask, Task.Delay(TimeSpan.FromMinutes(5), cancellationToken));
+					}, cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
 
 					node2Task = node2.Run(cancellationToken);
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);

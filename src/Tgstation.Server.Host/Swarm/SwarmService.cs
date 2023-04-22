@@ -59,6 +59,9 @@ namespace Tgstation.Server.Host.Swarm
 		{
 			get
 			{
+				if (!SwarmMode)
+					return true;
+
 				lock (swarmServers)
 					return swarmServers.Count - 1 >= swarmConfiguration.UpdateRequiredNodeCount;
 			}

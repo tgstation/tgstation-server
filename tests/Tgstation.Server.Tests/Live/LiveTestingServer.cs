@@ -1,4 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Serilog.Context;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,6 +14,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Setup;
 
 namespace Tgstation.Server.Tests.Live
@@ -32,7 +36,14 @@ namespace Tgstation.Server.Tests.Live
 		readonly List<string> args;
 		readonly List<string> swarmArgs;
 
+		string swarmNodeId;
+
 		public IServer RealServer { get; private set; }
+
+		static LiveTestingServer()
+		{
+			ServiceCollectionExtensions.SerilogContextTemplate += "|Node:{node}";
+		}
 
 		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
 		{
@@ -146,6 +157,8 @@ namespace Tgstation.Server.Tests.Live
 
 			if (swarmConfiguration.UpdateRequiredNodeCount != 0)
 				swarmArgs.Add($"Swarm:UpdateRequiredNodeCount={swarmConfiguration.UpdateRequiredNodeCount}");
+
+			swarmNodeId = swarmConfiguration.Identifier;
 		}
 
 		public async Task RunNoArgumentsTest(CancellationToken cancellationToken)
@@ -163,7 +176,8 @@ namespace Tgstation.Server.Tests.Live
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
-			Console.WriteLine("TEST SERVER START");
+			var messageAddition = swarmNodeId != null ? $": {swarmNodeId}" : String.Empty;
+			Console.WriteLine("TEST SERVER START" + messageAddition);
 			var firstRun = RealServer == null;
 			var arrayArgs = args.Concat(swarmArgs).ToArray();
 			RealServer = await Application
@@ -176,8 +190,11 @@ namespace Tgstation.Server.Tests.Live
 			if (firstRun)
 				args[0] = string.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", false);
 
-			await RealServer.Run(cancellationToken);
-			Console.WriteLine("TEST SERVER END");
+			using (swarmNodeId != null
+				? LogContext.PushProperty("node", swarmNodeId)
+				: null)
+				await RealServer.Run(cancellationToken);
+			Console.WriteLine($"TEST SERVER END" + messageAddition);
 		}
 	}
 }

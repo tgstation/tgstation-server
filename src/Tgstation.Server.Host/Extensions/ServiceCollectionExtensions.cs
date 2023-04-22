@@ -23,7 +23,16 @@ namespace Tgstation.Server.Host.Extensions
 		/// <summary>
 		/// Common template used for adding our custom log context to serilog.
 		/// </summary>
-		public const string SerilogContextTemplate = "(Instance:{Instance}|Job:{Job}|Request:{Request}|User:{User}|Monitor:{Monitor}|Bridge:{Bridge}|Chat:{ChatMessage}";
+		/// <remarks>Should not be changed. Only mutable for the sake of identifying swarm nodes under a single test environment</remarks>
+		public static string SerilogContextTemplate { get; set; }
+
+		/// <summary>
+		/// Initializes static members of the <see cref="ServiceCollectionExtensions"/> class.
+		/// </summary>
+		static ServiceCollectionExtensions()
+		{
+			SerilogContextTemplate = "(Instance:{Instance}|Job:{Job}|Request:{Request}|User:{User}|Monitor:{Monitor}|Bridge:{Bridge}|Chat:{ChatMessage}";
+		}
 
 		/// <summary>
 		/// Add a standard <typeparamref name="TConfig"/> binding.
