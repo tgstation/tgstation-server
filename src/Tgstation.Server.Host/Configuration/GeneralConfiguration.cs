@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Setup;
 
@@ -156,22 +157,9 @@ namespace Tgstation.Server.Host.Configuration
 			if (DeploymentDirectoryCopyTasksPerCore == 0)
 				throw new InvalidOperationException(
 					$"{nameof(DeploymentDirectoryCopyTasksPerCore)} must be at least 1!");
-			else if (GetCopyDirectoryTaskThrottle() < 1)
+			else if (this.GetCopyDirectoryTaskThrottle() < 1)
 				throw new InvalidOperationException(
 					$"{nameof(DeploymentDirectoryCopyTasksPerCore)} is too large for the CPU core count of {Environment.ProcessorCount} and overflows a 32-bit signed integer. Please lower the value!");
-		}
-
-		/// <summary>
-		/// Gets the total number of tasks that may run simultaneously during an asynchronous directory copy operation.
-		/// </summary>
-		/// <returns>The total number of tasks that may run simultaneously during an asynchronous directory copy operation.</returns>
-		public int? GetCopyDirectoryTaskThrottle()
-		{
-			if (!DeploymentDirectoryCopyTasksPerCore.HasValue)
-				return null;
-
-			var taskThrottle = (uint)Environment.ProcessorCount * DeploymentDirectoryCopyTasksPerCore.Value;
-			return (int)taskThrottle;
 		}
 	}
 }
