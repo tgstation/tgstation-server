@@ -71,9 +71,13 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <returns>A new <see cref="IServerFactory"/> with the default settings.</returns>
 		public static IServerFactory CreateDefaultServerFactory()
-			=> new ServerFactory(
-				AssemblyInformationProvider,
-				IOManager);
+		{
+			var assemblyInformationProvider = new AssemblyInformationProvider();
+			var ioManager = new DefaultIOManager();
+			return new ServerFactory(
+				assemblyInformationProvider,
+				ioManager);
+		}
 
 		/// <summary>
 		/// Adds the <see cref="IWatchdogFactory"/> implementation.
@@ -107,10 +111,16 @@ namespace Tgstation.Server.Host.Core
 		/// Configure the <see cref="Application"/>'s services.
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> needed for configuration.</param>
+		/// <param name="ioManager">The <see cref="IIOManager"/> needed for configuration.</param>
 		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> needed for configuration.</param>
-		public void ConfigureServices(IServiceCollection services, IPostSetupServices postSetupServices)
+		public void ConfigureServices(
+			IServiceCollection services,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IIOManager ioManager,
+			IPostSetupServices postSetupServices)
 		{
-			ConfigureServices(services);
+			ConfigureServices(services, assemblyInformationProvider, ioManager);
 
 			if (postSetupServices == null)
 				throw new ArgumentNullException(nameof(postSetupServices));
@@ -157,8 +167,8 @@ namespace Tgstation.Server.Host.Core
 						return;
 
 					var logPath = postSetupServices.FileLoggingConfiguration.GetFullLogDirectory(
-						IOManager,
-						AssemblyInformationProvider,
+						ioManager,
+						assemblyInformationProvider,
 						postSetupServices.PlatformIdentifier);
 
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
@@ -169,7 +179,7 @@ namespace Tgstation.Server.Host.Core
 						+ "): [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
-					logPath = IOManager.ConcatPath(logPath, "tgs-.log");
+					logPath = ioManager.ConcatPath(logPath, "tgs-.log");
 					var rollingFileConfig = sinkConfig.File(
 						formatter,
 						logPath,
@@ -231,7 +241,7 @@ namespace Tgstation.Server.Host.Core
 
 			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
 			{
-				static string GetDocumentationFilePath(string assemblyLocation) => IOManager.ConcatPath(IOManager.GetDirectoryName(assemblyLocation), String.Concat(IOManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
+				string GetDocumentationFilePath(string assemblyLocation) => ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
 				var assemblyDocumentationPath = GetDocumentationFilePath(typeof(Application).Assembly.Location);
 				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
 				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
@@ -243,6 +253,7 @@ namespace Tgstation.Server.Host.Core
 
 			// Enable managed HTTP clients
 			services.AddHttpClient();
+			services.AddSingleton<IAbstractHttpClientFactory, AbstractHttpClientFactory>();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
@@ -325,13 +336,20 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<IHostedService, PosixSignalHandler>();
 			}
 
-			// configure component/misc services
-			services.AddScoped<IPortAllocator, PortAllocator>();
+			// configure file transfer services
+			services.AddSingleton<FileTransferService>();
+			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
 			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
-			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
-			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
-			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+
+			// configure swarm service
+			services.AddSingleton<SwarmService>();
+			services.AddSingleton<ISwarmService>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<ISwarmServiceController>(x => x.GetRequiredService<SwarmService>());
+
+			// configure component services
+			services.AddScoped<IPortAllocator, PortAllocator>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
@@ -339,14 +357,16 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IRemoteDeploymentManagerFactory, RemoteDeploymentManagerFactory>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
-			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddSingleton<FileTransferService>();
-			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
-			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
-			services.AddSingleton<SwarmService>();
-			services.AddSingleton<ISwarmService>(x => x.GetRequiredService<SwarmService>());
-			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
+
+			// configure misc services
+			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<IFileDownloader, FileDownloader>();
+			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
+			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 
 			// configure root services
 			services.AddSingleton<IJobManager, JobManager>();
@@ -364,6 +384,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
 		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
@@ -373,6 +394,7 @@ namespace Tgstation.Server.Host.Core
 			ITokenFactory tokenFactory,
 			IInstanceManager instanceManager,
 			IServerPortProvider serverPortProvider,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Application> logger)
@@ -388,6 +410,8 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(instanceManager));
 			if (serverPortProvider == null)
 				throw new ArgumentNullException(nameof(serverPortProvider));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
@@ -411,7 +435,7 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseServerErrorHandling();
 
 			// Add the X-Powered-By response header
-			applicationBuilder.UseServerBranding(AssemblyInformationProvider);
+			applicationBuilder.UseServerBranding(assemblyInformationProvider);
 
 			// 503 requests made while the application is starting
 			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>

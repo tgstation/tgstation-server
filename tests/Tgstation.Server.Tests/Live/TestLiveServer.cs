@@ -1,14 +1,4 @@
-﻿using Byond.TopicSender;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,6 +12,14 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Newtonsoft.Json;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
@@ -29,31 +27,60 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Components.Events;
-using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Tests.Instance;
+using Tgstation.Server.Tests.Live.Instance;
 
-namespace Tgstation.Server.Tests
+namespace Tgstation.Server.Tests.Live
 {
 	[TestClass]
 	[TestCategory("SkipWhenLiveUnitTesting")]
-	public sealed class IntegrationTest
+	public sealed class TestLiveServer
 	{
+		public static ushort DDPort { get; } = FreeTcpPort();
+		public static ushort DMPort { get; } = GetDMPort();
+
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+
+		static void TerminateAllDDs()
+		{
+			foreach (var proc in System.Diagnostics.Process.GetProcessesByName("DreamDaemon"))
+				using (proc)
+					proc.Kill();
+		}
+
+		static ushort GetDMPort()
+		{
+			ushort result;
+			do
+			{
+				result = FreeTcpPort();
+			} while (result == DDPort);
+			return result;
+		}
+
+		static ushort FreeTcpPort()
+		{
+			var l = new TcpListener(IPAddress.Loopback, 0);
+			l.Start();
+			try
+			{
+				return (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+			}
+			finally
+			{
+				l.Stop();
+			}
+		}
 
 		[TestMethod]
 		public async Task TestUpdateProtocolAndDisabledOAuth()
 		{
-			using var server = new TestingServer(null, false);
+			using var server = new LiveTestingServer(null, false);
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
 			var serverTask = server.Run(cancellationToken);
@@ -103,7 +130,7 @@ namespace Tgstation.Server.Tests
 			}
 			catch (RateLimitException ex)
 			{
-				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+				if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 					throw;
 
 				Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
@@ -130,12 +157,12 @@ namespace Tgstation.Server.Tests
 		public async Task TestOneServerSwarmUpdate()
 		{
 			// cleanup existing directories
-			new TestingServer(null, false).Dispose();
+			new LiveTestingServer(null, false).Dispose();
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
 			var controllerAddress = new Uri("http://localhost:5011");
-			using (var controller = new TestingServer(new SwarmConfiguration
+			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
@@ -143,6 +170,7 @@ namespace Tgstation.Server.Tests
 			}, false, 5011))
 			{
 				using var serverCts = new CancellationTokenSource();
+				serverCts.CancelAfter(TimeSpan.FromMinutes(3));
 				var cancellationToken = serverCts.Token;
 				var serverTask = controller.Run(cancellationToken);
 
@@ -175,7 +203,7 @@ namespace Tgstation.Server.Tests
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
 
-					void CheckServerUpdated(TestingServer server)
+					void CheckServerUpdated(LiveTestingServer server)
 					{
 						Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
 
@@ -191,7 +219,7 @@ namespace Tgstation.Server.Tests
 				}
 				catch (RateLimitException ex)
 				{
-					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+					if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 						throw;
 
 					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
@@ -203,13 +231,13 @@ namespace Tgstation.Server.Tests
 				}
 			}
 
-			new TestingServer(null, false).Dispose();
+			new LiveTestingServer(null, false).Dispose();
 		}
 
 		[TestMethod]
 		public async Task TestCreateServerWithNoArguments()
 		{
-			using var server = new TestingServer(null, false);
+			using var server = new LiveTestingServer(null, false);
 			await server.RunNoArgumentsTest(default);
 		}
 
@@ -217,26 +245,26 @@ namespace Tgstation.Server.Tests
 		public async Task TestSwarmSynchronizationAndUpdates()
 		{
 			// cleanup existing directories
-			new TestingServer(null, false).Dispose();
+			new LiveTestingServer(null, false).Dispose();
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
 			var controllerAddress = new Uri("http://localhost:5011");
-			using (var controller = new TestingServer(new SwarmConfiguration
+			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
 				PrivateKey = PrivateKey
 			}, false, 5011))
 			{
-				using var node1 = new TestingServer(new SwarmConfiguration
+				using var node1 = new LiveTestingServer(new SwarmConfiguration
 				{
 					Address = new Uri("http://localhost:5012"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node1",
 					PrivateKey = PrivateKey
 				}, false, 5012);
-				using var node2 = new TestingServer(new SwarmConfiguration
+				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
 					Address = new Uri("http://localhost:5013"),
 					ControllerAddress = controllerAddress,
@@ -365,7 +393,7 @@ namespace Tgstation.Server.Tests
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
 
-					void CheckServerUpdated(TestingServer server)
+					void CheckServerUpdated(LiveTestingServer server)
 					{
 						Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
 
@@ -381,14 +409,33 @@ namespace Tgstation.Server.Tests
 					CheckServerUpdated(node1);
 					CheckServerUpdated(node2);
 
-					// regression: test it also works from the controller
+					// test it respects the update configuration
+					controller.UpdateSwarmArguments(new SwarmConfiguration
+					{
+						Address = controllerAddress,
+						Identifier = "controller",
+						PrivateKey = PrivateKey,
+						UpdateRequiredNodeCount = 2,
+					});
 					serverTask = Task.WhenAll(
-						node1.Run(cancellationToken),
-						node2.Run(cancellationToken),
-						controller.Run(cancellationToken));
+						controller.Run(cancellationToken),
+						node1.Run(cancellationToken));
 
 					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
 					using var node1Client2 = await CreateAdminClient(node1.Url, cancellationToken);
+
+					await ApiAssert.ThrowsException<ApiConflictException>(() => controllerClient2.Administration.Update(
+						new ServerUpdateRequest
+						{
+							NewVersion = testUpdateVersion
+						},
+						cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
+
+					// regression: test updating also works from the controller
+					serverTask = Task.WhenAll(
+						serverTask,
+						node2.Run(cancellationToken));
+
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
 
 					await controllerClient2.Administration.Update(
@@ -407,7 +454,7 @@ namespace Tgstation.Server.Tests
 				}
 				catch (RateLimitException ex)
 				{
-					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+					if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 						throw;
 
 					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
@@ -419,33 +466,34 @@ namespace Tgstation.Server.Tests
 				}
 			}
 
-			new TestingServer(null, false).Dispose();
+			new LiveTestingServer(null, false).Dispose();
 		}
 
 		[TestMethod]
 		public async Task TestSwarmReconnection()
 		{
 			// cleanup existing directories
-			new TestingServer(null, false).Dispose();
+			new LiveTestingServer(null, false).Dispose();
 
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
 			var controllerAddress = new Uri("http://localhost:5011");
-			using (var controller = new TestingServer(new SwarmConfiguration
+			using (var controller = new LiveTestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
-				PrivateKey = PrivateKey
+				PrivateKey = PrivateKey,
+				UpdateRequiredNodeCount = 2,
 			}, false, 5011))
 			{
-				using var node1 = new TestingServer(new SwarmConfiguration
+				using var node1 = new LiveTestingServer(new SwarmConfiguration
 				{
 					Address = new Uri("http://localhost:5012"),
 					ControllerAddress = controllerAddress,
 					Identifier = "node1",
 					PrivateKey = PrivateKey
 				}, false, 5012);
-				using var node2 = new TestingServer(new SwarmConfiguration
+				using var node2 = new LiveTestingServer(new SwarmConfiguration
 				{
 					Address = new Uri("http://localhost:5013"),
 					ControllerAddress = controllerAddress,
@@ -565,30 +613,16 @@ namespace Tgstation.Server.Tests
 						Task.Delay(TimeSpan.FromMinutes(1)));
 					Assert.IsTrue(node1Task.IsCompleted);
 
-					// should remain registered
+					// should have unregistered
 					controllerInfo = await controllerClient2.ServerInformation(cancellationToken);
-					Assert.AreEqual(2, controllerInfo.SwarmServers.Count);
-					Assert.IsNotNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
+					Assert.AreEqual(1, controllerInfo.SwarmServers.Count);
+					Assert.IsNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
 					// update should fail
-					await controllerClient2.Administration.Update(new ServerUpdateRequest
+					await ApiAssert.ThrowsException<ApiConflictException>(() => controllerClient2.Administration.Update(new ServerUpdateRequest
 					{
 						NewVersion = new Version(4, 6, 2)
-					}, cancellationToken);
-
-					async Task WaitForUpdateFailure()
-					{
-						ServerInformationResponse serverInformation;
-						serverInformation = await controllerClient2.ServerInformation(cancellationToken);
-						while (serverInformation.UpdateInProgress)
-						{
-							await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
-							serverInformation = await controllerClient2.ServerInformation(cancellationToken);
-						}
-					}
-
-					var updateFailureTask = WaitForUpdateFailure();
-					await Task.WhenAny(updateFailureTask, Task.Delay(TimeSpan.FromMinutes(5), cancellationToken));
+					}, cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
 
 					node2Task = node2.Run(cancellationToken);
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
@@ -604,7 +638,7 @@ namespace Tgstation.Server.Tests
 				}
 				catch (RateLimitException ex)
 				{
-					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+					if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 						throw;
 
 					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
@@ -616,47 +650,7 @@ namespace Tgstation.Server.Tests
 				}
 			}
 
-			new TestingServer(null, false).Dispose();
-		}
-
-		static void TerminateAllDDs()
-		{
-			foreach (var proc in System.Diagnostics.Process.GetProcessesByName("DreamDaemon"))
-				using (proc)
-					proc.Kill();
-		}
-
-		async Task<IServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
-		{
-			var giveUpAt = DateTimeOffset.UtcNow.AddMinutes(2);
-			for (var I = 1; ; ++I)
-			{
-				try
-				{
-					System.Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
-					return await clientFactory.CreateFromLogin(
-						url,
-						DefaultCredentials.AdminUserName,
-						DefaultCredentials.DefaultAdminUserPassword,
-						attemptLoginRefresh: false,
-						cancellationToken: cancellationToken)
-						;
-				}
-				catch (HttpRequestException)
-				{
-					//migrating, to be expected
-					if (DateTimeOffset.UtcNow > giveUpAt)
-						throw;
-					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-				}
-				catch (ServiceUnavailableException)
-				{
-					// migrating, to be expected
-					if (DateTimeOffset.UtcNow > giveUpAt)
-						throw;
-					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-				}
-			}
+			new LiveTestingServer(null, false).Dispose();
 		}
 
 		[TestMethod]
@@ -664,7 +658,7 @@ namespace Tgstation.Server.Tests
 		{
 			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
 
-			if (String.IsNullOrEmpty(connectionString))
+			if (string.IsNullOrEmpty(connectionString))
 				Assert.Inconclusive("No connection string configured in env var TGS_TEST_CONNECTION_STRING!");
 
 			var databaseTypeString = Environment.GetEnvironmentVariable("TGS_TEST_DATABASE_TYPE");
@@ -675,7 +669,7 @@ namespace Tgstation.Server.Tests
 			DatabaseContext CreateContext()
 			{
 				string serverVersion = Environment.GetEnvironmentVariable($"{DatabaseConfiguration.Section}__{nameof(DatabaseConfiguration.ServerVersion)}");
-				if (String.IsNullOrWhiteSpace(serverVersion))
+				if (string.IsNullOrWhiteSpace(serverVersion))
 					serverVersion = null;
 				switch (databaseType)
 				{
@@ -757,8 +751,8 @@ namespace Tgstation.Server.Tests
 					Visibility = DreamDaemonVisibility.Public,
 					StartupTimeout = 1000,
 					TopicRequestTimeout = 1000,
-					AdditionalParameters = String.Empty,
-					StartProfiler =	false,
+					AdditionalParameters = string.Empty,
+					StartProfiler = false,
 					LogOutput = true,
 				},
 				DreamMakerSettings = new Host.Models.DreamMakerSettings
@@ -811,7 +805,7 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public async Task TestTgs()
+		public async Task TestStandardTgsOperation()
 		{
 			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
 			if (procs.Any())
@@ -821,7 +815,7 @@ namespace Tgstation.Server.Tests
 				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
 			}
 
-			using var server = new TestingServer(null, true);
+			using var server = new LiveTestingServer(null, true);
 
 			const int MaximumTestMinutes = 20;
 			using var hardTimeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
@@ -950,7 +944,7 @@ namespace Tgstation.Server.Tests
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
-						await jrt.WaitForJob(job, 130, job.Description.Contains("Reconnect chat bot") ? (bool?)null : (bool?)false, null, cancellationToken);
+						await jrt.WaitForJob(job, 130, job.Description.Contains("Reconnect chat bot") ? null : false, null, cancellationToken);
 					}
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -1096,77 +1090,37 @@ namespace Tgstation.Server.Tests
 			await serverTask;
 		}
 
-		public static readonly ushort DDPort = FreeTcpPort();
-		public static readonly ushort DMPort = GetDMPort();
-
-		static ushort GetDMPort()
+		async Task<IServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
 		{
-			ushort result;
-			do
+			var giveUpAt = DateTimeOffset.UtcNow.AddMinutes(2);
+			for (var I = 1; ; ++I)
 			{
-				result = FreeTcpPort();
-			} while (result == DDPort);
-			return result;
-		}
-
-		static ushort FreeTcpPort()
-		{
-			var l = new TcpListener(IPAddress.Loopback, 0);
-			l.Start();
-			try
-			{
-				return (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+				try
+				{
+					System.Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
+					return await clientFactory.CreateFromLogin(
+						url,
+						DefaultCredentials.AdminUserName,
+						DefaultCredentials.DefaultAdminUserPassword,
+						attemptLoginRefresh: false,
+						cancellationToken: cancellationToken)
+						;
+				}
+				catch (HttpRequestException)
+				{
+					//migrating, to be expected
+					if (DateTimeOffset.UtcNow > giveUpAt)
+						throw;
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				}
+				catch (ServiceUnavailableException)
+				{
+					// migrating, to be expected
+					if (DateTimeOffset.UtcNow > giveUpAt)
+						throw;
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				}
 			}
-			finally
-			{
-				l.Stop();
-			}
-		}
-
-		[TestMethod]
-		public async Task TestScriptExecution()
-		{
-			var platformIdentifier = new PlatformIdentifier();
-			var processExecutor = new ProcessExecutor(
-				Mock.Of<IProcessFeatures>(),
-				Mock.Of<IIOManager>(),
-				Mock.Of<ILogger<ProcessExecutor>>(),
-				LoggerFactory.Create(x => { }));
-
-			await using var process = await processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", String.Empty, null, true, true);
-			using var cts = new CancellationTokenSource();
-			cts.CancelAfter(3000);
-			var exitCode = await process.Lifetime.WithToken(cts.Token);
-
-			Assert.AreEqual(0, exitCode);
-			Assert.AreEqual("Hello World!", (await process.GetCombinedOutput(default)).Trim());
-		}
-
-		[TestMethod]
-		public async Task TestRepoParentLookup()
-		{
-			using var testingServer = new TestingServer(null, false);
-			LibGit2Sharp.Repository.Clone("https://github.com/Cyberboss/test", testingServer.Directory);
-			var libGit2Repo = new LibGit2Sharp.Repository(testingServer.Directory);
-			using var repo = new Repository(
-				libGit2Repo,
-				new LibGit2Commands(),
-				Mock.Of<IIOManager>(),
-				Mock.Of<IEventConsumer>(),
-				Mock.Of<ICredentialsProvider>(),
-				Mock.Of<IPostWriteHandler>(),
-				Mock.Of<IGitRemoteFeaturesFactory>(),
-				Mock.Of<ILogger<Repository>>(),
-				() => { });
-
-			const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
-			await repo.CheckoutObject(StartSha, null, null, true, new JobProgressReporter(Mock.Of<ILogger<JobProgressReporter>>(), null, (stage, progress) => { }), default);
-			var result = await repo.ShaIsParent("2f8588a3ca0f6b027704a2a04381215619de3412", default);
-			Assert.IsTrue(result);
-			Assert.AreEqual(StartSha, repo.Head);
-			result = await repo.ShaIsParent("f636418bf47d238d33b0e4a34f0072b23a8aad0e", default);
-			Assert.IsFalse(result);
-			Assert.AreEqual(StartSha, repo.Head);
 		}
 	}
 }

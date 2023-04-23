@@ -12,8 +12,6 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host
 {
@@ -60,11 +58,6 @@ namespace Tgstation.Server.Host
 		readonly object restartLock;
 
 		/// <summary>
-		/// The <see cref="ISwarmService"/> for the <see cref="Server"/>.
-		/// </summary>
-		ISwarmService swarmService;
-
-		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Server"/>.
 		/// </summary>
 		ILogger<Server> logger;
@@ -85,9 +78,19 @@ namespace Tgstation.Server.Host
 		Exception propagatedException;
 
 		/// <summary>
+		/// The <see cref="Task"/> that is used for asynchronously updating the server.
+		/// </summary>
+		Task updateTask;
+
+		/// <summary>
 		/// If the server is being shut down or restarted.
 		/// </summary>
 		bool shutdownInProgress;
+
+		/// <summary>
+		/// If there is an update in progress and this flag is set, it should stop the server immediately if it fails.
+		/// </summary>
+		bool terminateIfUpdateFails;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Server"/> class.
@@ -113,14 +116,7 @@ namespace Tgstation.Server.Host
 			{
 				if (fsWatcher != null)
 				{
-					fsWatcher.Created += (a, b) =>
-					{
-						if (b.FullPath == updatePath && File.Exists(b.FullPath))
-						{
-							logger?.LogInformation("Host watchdog appears to be requesting server termination!");
-							cancellationTokenSource.Cancel();
-						}
-					};
+					fsWatcher.Created += WatchForShutdownFileCreation;
 					fsWatcher.EnableRaisingEvents = true;
 				}
 
@@ -130,7 +126,6 @@ namespace Tgstation.Server.Host
 					{
 						try
 						{
-							swarmService = Host.Services.GetRequiredService<ISwarmService>();
 							logger = Host.Services.GetRequiredService<ILogger<Server>>();
 							using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
 							{
@@ -138,15 +133,22 @@ namespace Tgstation.Server.Host
 								generalConfiguration = generalConfigurationOptions.Value;
 								await Host.RunAsync(cancellationTokenSource.Token);
 							}
+
+							if (updateTask != null)
+								await updateTask;
 						}
 						catch (OperationCanceledException ex)
 						{
-							logger?.LogDebug(ex, "Server run cancelled!");
+							logger.LogDebug(ex, "Server run cancelled!");
 						}
 						catch (Exception ex)
 						{
 							CheckExceptionPropagation(ex);
 							throw;
+						}
+						finally
+						{
+							logger = null;
 						}
 					}
 				}
@@ -160,19 +162,18 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public bool ApplyUpdate(Version version, Uri updateZipUrl, IIOManager ioManager)
+		public bool TryStartUpdate(IServerUpdateExecutor updateExecutor, Version newVersion)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-			if (updateZipUrl == null)
-				throw new ArgumentNullException(nameof(updateZipUrl));
-			if (ioManager == null)
-				throw new ArgumentNullException(nameof(ioManager));
+			if (updateExecutor == null)
+				throw new ArgumentNullException(nameof(updateExecutor));
+			if (newVersion == null)
+				throw new ArgumentNullException(nameof(newVersion));
 
 			CheckSanity(true);
 
 			logger.LogTrace("Begin ApplyUpdate...");
 
+			CancellationToken criticalCancellationToken;
 			lock (restartLock)
 			{
 				if (UpdateInProgress || shutdownInProgress)
@@ -181,91 +182,33 @@ namespace Tgstation.Server.Host
 					return false;
 				}
 
+				if (cancellationTokenSource == null)
+					throw new InvalidOperationException("Tried to update a non-running Server!");
+
+				criticalCancellationToken = cancellationTokenSource.Token;
 				UpdateInProgress = true;
 			}
 
-			async void RunUpdate()
+			async Task RunUpdate()
 			{
-				try
+				if (await updateExecutor.ExecuteUpdate(updatePath, criticalCancellationToken, criticalCancellationToken))
 				{
-					logger.LogInformation("Updating server to version {version} ({zipUrl})...", version, updateZipUrl);
-
-					if (cancellationTokenSource == null)
-						throw new InvalidOperationException("Tried to update a non-running Server!");
-					var cancellationToken = cancellationTokenSource.Token;
-
-					var updatePrepareResult = await swarmService.PrepareUpdate(version, cancellationToken);
-					if (!updatePrepareResult)
-						return;
-
-					MemoryStream updateZipData;
-					try
-					{
-						logger.LogTrace("Downloading zip package...");
-						updateZipData = await ioManager.DownloadFile(updateZipUrl, cancellationToken);
-					}
-					catch (Exception e1)
-					{
-						try
-						{
-							await swarmService.AbortUpdate(cancellationToken);
-						}
-						catch (Exception e2)
-						{
-							throw new AggregateException(e1, e2);
-						}
-
-						throw;
-					}
-
-					using (updateZipData)
-					{
-						var updateCommitResult = await swarmService.CommitUpdate(cancellationToken);
-						if (!updateCommitResult)
-						{
-							logger.LogError("Swarm distributed commit failed, not applying update!");
-							return;
-						}
-
-						try
-						{
-							logger.LogTrace("Extracting zip package to {extractPath}...", updatePath);
-							await ioManager.ZipToDirectory(updatePath, updateZipData, cancellationToken);
-						}
-						catch (Exception e)
-						{
-							UpdateInProgress = false;
-							try
-							{
-								// important to not leave this directory around if possible
-								await ioManager.DeleteDirectory(updatePath, default);
-							}
-							catch (Exception e2)
-							{
-								throw new AggregateException(e, e2);
-							}
-
-							throw;
-						}
-					}
-
-					await Restart(version, null, true);
+					logger.LogTrace("Update complete!");
+					await Restart(newVersion, null, true);
 				}
-				catch (OperationCanceledException)
+				else if (terminateIfUpdateFails)
 				{
-					logger.LogInformation("Server update cancelled!");
+					logger.LogTrace("Stopping host due to termination request...");
+					cancellationTokenSource.Cancel();
 				}
-				catch (Exception e)
+				else
 				{
-					logger.LogError(e, "Error updating server!");
-				}
-				finally
-				{
+					logger.LogTrace("Update failed!");
 					UpdateInProgress = false;
 				}
 			}
 
-			RunUpdate();
+			updateTask = RunUpdate();
 			return true;
 		}
 
@@ -290,7 +233,8 @@ namespace Tgstation.Server.Host
 					});
 				}
 
-			return new RestartRegistration(() => { });
+			logger.LogWarning("Restart handler {handlerImplementationName} register after a shutdown had begun!", handler);
+			return new RestartRegistration(null);
 		}
 
 		/// <inheritdoc />
@@ -357,7 +301,6 @@ namespace Tgstation.Server.Host
 					return;
 				}
 
-				shutdownInProgress = true;
 				RestartRequested = !isGracefulShutdown;
 				propagatedException ??= exception;
 			}
@@ -396,6 +339,43 @@ namespace Tgstation.Server.Host
 				}
 			}
 
+			StopServerImmediate();
+		}
+
+		/// <summary>
+		/// Event handler for the <see cref="updatePath"/>'s <see cref="FileSystemWatcher"/>. Triggers shutdown if requested by host watchdog.
+		/// </summary>
+		/// <param name="sender">The <see cref="object"/> that sent the event.</param>
+		/// <param name="eventArgs">The <see cref="FileSystemEventArgs"/>.</param>
+		void WatchForShutdownFileCreation(object sender, FileSystemEventArgs eventArgs)
+		{
+			logger?.LogTrace("FileSystemWatcher triggered.");
+
+			// TODO: Refactor this to not use System.IO function here.
+			if (eventArgs.FullPath == Path.GetFullPath(updatePath) && File.Exists(eventArgs.FullPath))
+			{
+				logger?.LogInformation("Host watchdog appears to be requesting server termination!");
+				lock (restartLock)
+				{
+					if (!UpdateInProgress)
+					{
+						StopServerImmediate();
+						return;
+					}
+
+					terminateIfUpdateFails = true;
+				}
+
+				logger?.LogInformation("An update is in progress, we will wait for that to complete...");
+			}
+		}
+
+		/// <summary>
+		/// Fires off the <see cref="cancellationTokenSource"/> without any checks, shutting down everything.
+		/// </summary>
+		void StopServerImmediate()
+		{
+			shutdownInProgress = true;
 			logger.LogTrace("Stopping host...");
 			cancellationTokenSource.Cancel();
 		}

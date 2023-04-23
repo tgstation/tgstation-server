@@ -8,7 +8,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 
-namespace Tgstation.Server.Tests
+namespace Tgstation.Server.Tests.Live
 {
 	sealed class AdministrationTest
 	{
@@ -30,9 +30,9 @@ namespace Tgstation.Server.Tests
 		{
 			var logs = await client.ListLogs(null, cancellationToken);
 			Assert.AreNotEqual(0, logs.Count);
-			var logFile = logs.First();
+			var logFile = logs[0];
 			Assert.IsNotNull(logFile);
-			Assert.IsFalse(String.IsNullOrWhiteSpace(logFile.Name));
+			Assert.IsFalse(string.IsNullOrWhiteSpace(logFile.Name));
 			Assert.IsNull(logFile.FileTicket);
 
 			var downloadedTuple = await client.GetLog(logFile, cancellationToken);
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Tests
 			}
 			catch (RateLimitException)
 			{
-				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+				if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 				{
 					Assert.Inconclusive("GitHub rate limit hit while testing administration endpoint. Set environment variable TGS_TEST_GITHUB_TOKEN to fix this!");
 				}

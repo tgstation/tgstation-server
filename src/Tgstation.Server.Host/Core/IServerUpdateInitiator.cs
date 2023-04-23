@@ -15,6 +15,6 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="version">The TGS <see cref="Version"/> to update to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
-		Task<ServerUpdateResult> BeginUpdate(Version version, CancellationToken cancellationToken);
+		Task<ServerUpdateResult> InitiateUpdate(Version version, CancellationToken cancellationToken);
 	}
 }

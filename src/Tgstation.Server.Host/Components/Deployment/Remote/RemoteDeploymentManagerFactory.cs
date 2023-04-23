@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 
-			logger.LogTrace("Creating remote deployment manager for remote git provider {0}...", remoteGitProvider);
+			logger.LogTrace("Creating remote deployment manager for remote git provider {remoteGitProvider}...", remoteGitProvider);
 			return remoteGitProvider switch
 			{
 				RemoteGitProvider.GitHub => new GitHubRemoteDeploymentManager(

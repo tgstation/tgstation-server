@@ -20,6 +20,7 @@ using Newtonsoft.Json.Serialization;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Common;
 
 namespace Tgstation.Server.Client
 {
@@ -50,7 +51,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// The <see cref="HttpClientImplementation"/> for the <see cref="ApiClient"/>.
+		/// The <see cref="IHttpClient"/> for the <see cref="ApiClient"/>.
 		/// </summary>
 		readonly IHttpClient httpClient;
 

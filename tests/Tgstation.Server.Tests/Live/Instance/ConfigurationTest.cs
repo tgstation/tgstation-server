@@ -17,7 +17,7 @@ using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Tests.Instance
+namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class ConfigurationTest
 	{
@@ -32,7 +32,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		bool FileExists(IConfigurationFile file)
 		{
-			var tmp = (file.Path?.StartsWith('/') ?? false) ? '.' + file.Path : file.Path;
+			var tmp = file.Path?.StartsWith('/') ?? false ? '.' + file.Path : file.Path;
 			var path = Path.Combine(instance.Path, "Configuration", tmp);
 			var result = File.Exists(path);
 			return result;
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken);
 
-			var tmp = (TestDir.Path?.StartsWith('/') ?? false) ? '.' + TestDir.Path : TestDir.Path;
+			var tmp = TestDir.Path?.StartsWith('/') ?? false ? '.' + TestDir.Path : TestDir.Path;
 			var path = Path.Combine(instance.Path, "Configuration", tmp);
 			Assert.IsFalse(Directory.Exists(path));
 
@@ -103,7 +103,7 @@ namespace Tgstation.Server.Tests.Instance
 		Task SetupDMApiTests(CancellationToken cancellationToken)
 		{
 			// just use an I/O manager here
-			var ioManager = new DefaultIOManager(new AssemblyInformationProvider());
+			var ioManager = new DefaultIOManager();
 			return Task.WhenAll(
 				ioManager.CopyDirectory(
 					"../../../../DMAPI",

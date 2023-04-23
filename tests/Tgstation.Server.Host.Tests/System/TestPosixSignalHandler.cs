@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.System.Tests
 			processExecutor = new ProcessExecutor(
 				new PosixProcessFeatures(
 					new Lazy<IProcessExecutor>(() => processExecutor),
-					new DefaultIOManager(new AssemblyInformationProvider()),
+					new DefaultIOManager(),
 					loggerFactory.CreateLogger<PosixProcessFeatures>()),
 				Mock.Of<IIOManager>(),
 				loggerFactory.CreateLogger<ProcessExecutor>(),

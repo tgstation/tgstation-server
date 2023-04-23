@@ -504,11 +504,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
+		public Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
 		{
 			var message =
 				updateVersion == null
-				? $"TGS: {(graceful ? "Graceful r" : "R")}estart requested..."
+				? $"TGS: {(gracefulShutdown ? "Graceful shutdown" : "Restart")} requested..."
 				: $"TGS: Updating to version {updateVersion}...";
 			List<ulong> wdChannels;
 			lock (mappedChannels) // so it doesn't change while we're using it

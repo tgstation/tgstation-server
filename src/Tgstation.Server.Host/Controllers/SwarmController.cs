@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using Serilog.Context;
 
 using Tgstation.Server.Host.Configuration;
@@ -29,7 +30,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get the current registration <see cref="Guid"/> from the <see cref="ControllerBase.Request"/>.
 		/// </summary>
-		Guid RequestRegistrationId => Guid.Parse(Request.Headers[SwarmConstants.RegistrationIdHeader].First());
+		internal Guid RequestRegistrationId => Guid.Parse(Request.Headers[SwarmConstants.RegistrationIdHeader].First());
 
 		/// <summary>
 		/// The <see cref="ISwarmOperations"/> for the <see cref="SwarmController"/>.
@@ -195,7 +196,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
 			{
-				logger.LogTrace("Swarm request from {0}...", Request.HttpContext.Connection.RemoteIpAddress);
+				logger.LogTrace("Swarm request from {remoteIP}...", Request.HttpContext.Connection.RemoteIpAddress);
 				if (swarmConfiguration.PrivateKey == null)
 				{
 					logger.LogDebug("Attempted swarm request without private key configured!");

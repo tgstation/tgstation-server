@@ -10,7 +10,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 
-namespace Tgstation.Server.Tests.Instance
+namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class ChatTest
 	{
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.AreEqual(true, updatedBot.Enabled);
 
-			var channelId = UInt64.Parse(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL"));
+			var channelId = ulong.Parse(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL"));
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{

@@ -18,6 +18,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.System;
 
@@ -26,7 +27,7 @@ namespace Tgstation.Server.Host.Swarm
 	/// <summary>
 	/// Helps keep servers connected to the same database in sync by coordinating updates.
 	/// </summary>
-	sealed class SwarmService : ISwarmService, ISwarmOperations, IRestartHandler, IDisposable
+	sealed class SwarmService : ISwarmService, ISwarmServiceController, ISwarmOperations, IDisposable
 	{
 		/// <summary>
 		/// Interval at which the swarm controller makes health checks on nodes.
@@ -51,30 +52,25 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// See <see cref="JsonSerializerSettings"/> for the swarm system.
 		/// </summary>
-		static readonly JsonSerializerSettings SerializerSettings = new ()
+		internal static JsonSerializerSettings SerializerSettings { get; }
+
+		/// <inheritdoc />
+		public bool ExpectedNumberOfNodesConnected
 		{
-			ContractResolver = new DefaultContractResolver
+			get
 			{
-				NamingStrategy = new CamelCaseNamingStrategy(),
-			},
-			Converters = new JsonConverter[]
-			{
-				new VersionConverter(),
-				new BoolConverter(),
-			},
-			DefaultValueHandling = DefaultValueHandling.Ignore,
-			ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-		};
+				if (!SwarmMode)
+					return true;
+
+				lock (swarmServers)
+					return swarmServers.Count - 1 >= swarmConfiguration.UpdateRequiredNodeCount;
+			}
+		}
 
 		/// <summary>
 		/// If the swarm system is enabled.
 		/// </summary>
 		bool SwarmMode => swarmConfiguration.PrivateKey != null;
-
-		/// <summary>
-		/// Lazily constructed <see cref="IRestartRegistration"/>.
-		/// </summary>
-		readonly Lazy<IRestartRegistration> lazyRestartRegistration;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="SwarmService"/>.
@@ -92,9 +88,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IHttpClientFactory"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="IAbstractHttpClientFactory"/> for the <see cref="SwarmService"/>.
 		/// </summary>
-		readonly IHttpClientFactory httpClientFactory;
+		readonly IAbstractHttpClientFactory httpClientFactory;
 
 		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="SwarmService"/>.
@@ -102,9 +98,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="IServerUpdateInitiator"/> for the <see cref="SwarmService"/>.
+		/// The <see cref="IServerUpdater"/> for the <see cref="SwarmService"/>.
 		/// </summary>
-		readonly IServerUpdateInitiator serverUpdater;
+		readonly IServerUpdater serverUpdater;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SwarmService"/>.
@@ -177,14 +173,30 @@ namespace Tgstation.Server.Host.Swarm
 		DateTimeOffset? lastControllerHealthCheck;
 
 		/// <summary>
-		/// If <see cref="IRestartHandler.HandleRestart(Version, bool, CancellationToken)"/> was called.
-		/// </summary>
-		bool restarting;
-
-		/// <summary>
 		/// If the <see cref="swarmServers"/> list has been updated and needs to be resent to clients.
 		/// </summary>
 		bool serversDirty;
+
+		/// <summary>
+		/// Initializes static members of the <see cref="SwarmService"/> class.
+		/// </summary>
+		static SwarmService()
+		{
+			SerializerSettings = new ()
+			{
+				ContractResolver = new DefaultContractResolver
+				{
+					NamingStrategy = new CamelCaseNamingStrategy(),
+				},
+				Converters = new JsonConverter[]
+				{
+					new VersionConverter(),
+					new BoolConverter(),
+				},
+				DefaultValueHandling = DefaultValueHandling.Ignore,
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+			};
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SwarmService"/> class.
@@ -193,8 +205,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="serverControl">The <see cref="IServerControl"/> to register ourselves as a <see cref="IRestartHandler"/> with.</param>
-		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdater"/>.</param>
+		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
@@ -202,9 +213,8 @@ namespace Tgstation.Server.Host.Swarm
 			IDatabaseContextFactory databaseContextFactory,
 			IDatabaseSeeder databaseSeeder,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			IHttpClientFactory httpClientFactory,
-			IServerControl serverControl,
-			IServerUpdateInitiator serverUpdateInitiator,
+			IAbstractHttpClientFactory httpClientFactory,
+			IServerUpdater serverUpdater,
 			IAsyncDelayer asyncDelayer,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmService> logger)
@@ -213,10 +223,7 @@ namespace Tgstation.Server.Host.Swarm
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
-
-			serverUpdater = serverUpdateInitiator ?? throw new ArgumentNullException(nameof(serverUpdateInitiator));
+			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -249,8 +256,6 @@ namespace Tgstation.Server.Host.Swarm
 
 				updateSynchronizationLock = new object();
 			}
-
-			lazyRestartRegistration = new Lazy<IRestartRegistration>(() => serverControl.RegisterForRestart(this));
 		}
 
 		/// <inheritdoc />
@@ -275,8 +280,9 @@ namespace Tgstation.Server.Host.Swarm
 				return;
 
 			logger.LogInformation("Aborting swarm update!");
-			updateCommitTcs?.TrySetResult(false);
+			var commitTcs = updateCommitTcs;
 			updateCommitTcs = null;
+			commitTcs?.TrySetResult(false);
 			nodesThatNeedToBeReadyToCommit = null;
 			targetUpdateVersion = null;
 
@@ -298,7 +304,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogWarning(
 						ex,
-						"Unable to set remote abort to {0}!",
+						"Unable to set remote abort to {nodeOrController}!",
 						swarmController
 							? $"node {swarmServer.Identifier}"
 							: "controller");
@@ -324,10 +330,19 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> CommitUpdate(CancellationToken cancellationToken)
+		public async Task<SwarmCommitResult> CommitUpdate(CancellationToken cancellationToken)
 		{
 			if (!SwarmMode)
-				return true;
+				return SwarmCommitResult.ContinueUpdateNonCommitted;
+
+			// wait for the update commit TCS
+			var commitTcsTask = updateCommitTcs?.Task;
+			if (commitTcsTask == null)
+			{
+				logger.LogDebug("Update commit failed, no pending task completion source!");
+				await AbortUpdate(cancellationToken);
+				return SwarmCommitResult.AbortUpdate;
+			}
 
 			logger.LogInformation("Waiting to commit update...");
 			using var httpClient = httpClientFactory.CreateClient();
@@ -350,24 +365,15 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogWarning(ex, "Unable to send ready-commit to swarm controller!");
 					await AbortUpdate(cancellationToken);
-					return false;
+					return SwarmCommitResult.AbortUpdate;
 				}
-			}
-
-			// wait for the update commit TCS
-			var commitTcsTask = updateCommitTcs?.Task;
-			if (commitTcsTask == null)
-			{
-				logger.LogDebug("Update commit failed, no pending task completion source!");
-				await AbortUpdate(cancellationToken);
-				return false;
 			}
 
 			var timeoutTask = swarmController
 				? asyncDelayer.Delay(
 					TimeSpan.FromMinutes(UpdateCommitTimeoutMinutes),
 					cancellationToken)
-				: Extensions.TaskExtensions.InfiniteTask();
+				: Extensions.TaskExtensions.InfiniteTask().WithToken(cancellationToken);
 
 			var commitTask = Task.WhenAny(commitTcsTask, timeoutTask);
 
@@ -379,19 +385,19 @@ namespace Tgstation.Server.Host.Swarm
 			if (!commitGoAhead)
 			{
 				logger.LogDebug(
-					"Update commit failed!{0}",
+					"Update commit failed!{maybeTimeout}",
 					timeoutTask.IsCompleted
 						? " Timed out!"
 						: String.Empty);
 				await AbortUpdate(cancellationToken);
-				return false;
+				return SwarmCommitResult.AbortUpdate;
 			}
 
 			logger.LogTrace("Update commit task complete");
 
 			// on nodes, it means we can go straight ahead
 			if (!swarmController)
-				return true;
+				return SwarmCommitResult.MustCommitUpdate;
 
 			// on the controller, we first need to signal for nodes to go ahead
 			// if anything fails at this point, there's nothing we can do
@@ -413,7 +419,7 @@ namespace Tgstation.Server.Host.Swarm
 				}
 				catch (Exception ex)
 				{
-					logger.LogCritical(ex, "Failed to send update commit request to node {0}!", swarmServer.Identifier);
+					logger.LogCritical(ex, "Failed to send update commit request to node {nodeId}!", swarmServer.Identifier);
 				}
 			}
 
@@ -425,7 +431,7 @@ namespace Tgstation.Server.Host.Swarm
 						.Select(SendRemoteCommitUpdate));
 
 			await task;
-			return true;
+			return SwarmCommitResult.MustCommitUpdate;
 		}
 
 		/// <inheritdoc />
@@ -448,7 +454,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public Task<bool> PrepareUpdateFromController(Version version, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Received remote update request from {0}", !swarmController ? "controller" : "node");
+			logger.LogInformation("Received remote update request from {nodeType}", !swarmController ? "controller" : "node");
 			return PrepareUpdateImpl(version, false, cancellationToken);
 		}
 
@@ -457,7 +463,7 @@ namespace Tgstation.Server.Host.Swarm
 		{
 			if (SwarmMode)
 				logger.LogInformation(
-					"Swarm mode enabled: {0} {1}",
+					"Swarm mode enabled: {nodeType} {nodeId}",
 					swarmController
 						? "Controller"
 						: "Node",
@@ -465,14 +471,14 @@ namespace Tgstation.Server.Host.Swarm
 			else
 				logger.LogTrace("Swarm mode disabled");
 
-			_ = lazyRestartRegistration.Value;
-
 			SwarmRegistrationResult result;
 			if (swarmController)
 			{
+				if (swarmConfiguration.UpdateRequiredNodeCount > 0)
+					logger.LogInformation("Expecting connections from {expectedNodeCount} nodes", swarmConfiguration.UpdateRequiredNodeCount);
+
 				await databaseContextFactory.UseContext(
-					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken))
-					;
+					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken));
 
 				result = SwarmRegistrationResult.Success;
 			}
@@ -488,6 +494,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task Shutdown(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin Shutdown");
+
 			async Task SendUnregistrationRequest(SwarmServerResponse swarmServer)
 			{
 				using var httpClient = httpClientFactory.CreateClient();
@@ -506,7 +514,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogWarning(
 						ex,
-						"Error unregistering {0}!",
+						"Error unregistering {nodeType}!",
 						swarmController
 							? $"node {swarmServer.Identifier}"
 							: "from controller");
@@ -521,15 +529,11 @@ namespace Tgstation.Server.Host.Swarm
 
 			if (!swarmController)
 			{
-				// if we restart a node, we don't want to unregister it so the controller doesn't try to update without it
-				// if we're shutting it down, though we should unregister it
-				if (!restarting)
+				if (controllerRegistration != null)
 				{
 					logger.LogInformation("Unregistering from swarm controller...");
 					await SendUnregistrationRequest(null);
 				}
-				else
-					logger.LogTrace("Not unregistering from swarm controller as we are restarting");
 
 				return;
 			}
@@ -538,8 +542,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (targetUpdateVersion != null
 				&& targetUpdateVersion < assemblyInformationProvider.Version)
 				await databaseContextFactory.UseContext(
-					db => databaseSeeder.Downgrade(db, targetUpdateVersion, cancellationToken))
-					;
+					db => databaseSeeder.Downgrade(db, targetUpdateVersion, cancellationToken));
 
 			if (SwarmMode)
 			{
@@ -578,7 +581,7 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				this.swarmServers.Clear();
 				this.swarmServers.AddRange(swarmServers);
-				logger.LogDebug("Updated swarm server list with {0} total nodes", this.swarmServers.Count);
+				logger.LogDebug("Updated swarm server list with {nodeCount} total nodes", this.swarmServers.Count);
 			}
 		}
 
@@ -615,7 +618,7 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				if (targetUpdateVersion != null)
 				{
-					logger.LogInformation("Not registering node {0} as a distributed update is in progress.", node.Identifier);
+					logger.LogInformation("Not registering node {nodeId} as a distributed update is in progress.", node.Identifier);
 					return false;
 				}
 
@@ -626,12 +629,12 @@ namespace Tgstation.Server.Host.Swarm
 						var preExistingRegistrationKvp = registrationIds.FirstOrDefault(x => x.Value == registrationId);
 						if (preExistingRegistrationKvp.Key == node.Identifier)
 						{
-							logger.LogWarning("Node {0} has already registered!", node.Identifier);
+							logger.LogWarning("Node {nodeId} has already registered!", node.Identifier);
 							return true;
 						}
 
 						logger.LogWarning(
-							"Registration ID collision! Node {0} tried to register with {1}'s registration ID: {2}",
+							"Registration ID collision! Node {nodeId} tried to register with {otherNodeId}'s registration ID: {registrationId}",
 							node.Identifier,
 							preExistingRegistrationKvp.Key,
 							registrationId);
@@ -640,7 +643,7 @@ namespace Tgstation.Server.Host.Swarm
 
 					if (registrationIds.TryGetValue(node.Identifier, out var oldRegistration))
 					{
-						logger.LogInformation("Node {0} is re-registering without first unregistering. Indicative of restart.", node.Identifier);
+						logger.LogInformation("Node {nodeId} is re-registering without first unregistering. Indicative of restart.", node.Identifier);
 						swarmServers.RemoveAll(x => x.Identifier == node.Identifier);
 						registrationIds.Remove(node.Identifier);
 					}
@@ -655,16 +658,9 @@ namespace Tgstation.Server.Host.Swarm
 				}
 			}
 
-			logger.LogInformation("Registered node {0} ({1}) with ID {2}", node.Identifier, node.Address, registrationId);
+			logger.LogInformation("Registered node {nodeId} ({nodeIP}) with ID {registrationId}", node.Identifier, node.Address, registrationId);
 			MarkServersDirty();
 			return true;
-		}
-
-		/// <inheritdoc />
-		public Task HandleRestart(Version updateVersion, bool graceful, CancellationToken cancellationToken)
-		{
-			restarting = true;
-			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
@@ -690,11 +686,11 @@ namespace Tgstation.Server.Host.Swarm
 			var nodeList = nodesThatNeedToBeReadyToCommit;
 			if (nodeList == null)
 			{
-				logger.LogDebug("Ignoring ready-commit from node {0} as the update appears to have been aborted.", nodeIdentifier);
+				logger.LogDebug("Ignoring ready-commit from node {nodeId} as the update appears to have been aborted.", nodeIdentifier);
 				return false;
 			}
 
-			logger.LogDebug("Node {0} is ready to commit.", nodeIdentifier);
+			logger.LogDebug("Node {nodeId} is ready to commit.", nodeIdentifier);
 			lock (nodeList)
 			{
 				nodeList.Remove(nodeIdentifier);
@@ -702,8 +698,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogTrace("All nodes ready, update commit is a go once controller is ready");
 					var commitTcs = updateCommitTcs;
-					commitTcs?.TrySetResult(true);
-					return commitTcs != null;
+					return commitTcs?.TrySetResult(true) == true;
 				}
 			}
 
@@ -722,12 +717,12 @@ namespace Tgstation.Server.Host.Swarm
 				return;
 			}
 
-			logger.LogTrace("UnregisterNode {0}", registrationId);
+			logger.LogTrace("UnregisterNode {registrationId}", registrationId);
 			var nodeIdentifier = NodeIdentifierFromRegistration(registrationId);
 			if (nodeIdentifier == null)
 				return;
 
-			logger.LogInformation("Unregistering node {0}...", nodeIdentifier);
+			logger.LogInformation("Unregistering node {nodeId}...", nodeIdentifier);
 			await AbortUpdate(cancellationToken);
 			lock (swarmServers)
 			{
@@ -750,10 +745,10 @@ namespace Tgstation.Server.Host.Swarm
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
-			logger.LogTrace("PrepareUpdateImpl {0}...", version);
-
 			if (!SwarmMode)
 				return true;
+
+			logger.LogTrace("PrepareUpdateImpl {version}...", version);
 
 			if (version == targetUpdateVersion)
 			{
@@ -790,7 +785,7 @@ namespace Tgstation.Server.Host.Swarm
 
 					if (targetUpdateVersion != null)
 					{
-						logger.LogDebug("Aborting update preparation, version {0} already prepared!", targetUpdateVersion);
+						logger.LogWarning("Aborting update preparation, version {targetUpdateVersion} already prepared!", targetUpdateVersion);
 						shouldAbort = true;
 						return false;
 					}
@@ -800,7 +795,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				if (!swarmController && initiator)
 				{
-					logger.LogDebug("Forwarding update request to swarm controller...");
+					logger.LogInformation("Forwarding update request to swarm controller...");
 					var result = await RemotePrepareUpdate(null);
 					if (result)
 						updateCommitTcs = new TaskCompletionSource<bool>();
@@ -813,12 +808,12 @@ namespace Tgstation.Server.Host.Swarm
 					logger.LogTrace("Beginning local update process...");
 					updateCommitTcs = new TaskCompletionSource<bool>();
 					var updateApplyResult = await serverUpdater.BeginUpdate(
+						this,
 						version,
-						cancellationToken)
-						;
+						cancellationToken);
 					if (updateApplyResult != ServerUpdateResult.Started)
 					{
-						logger.LogWarning("Failed to prepare update! Result: {0}", updateApplyResult);
+						logger.LogWarning("Failed to prepare update! Result: {serverUpdateResult}", updateApplyResult);
 						shouldAbort = true;
 						return false;
 					}
@@ -829,7 +824,7 @@ namespace Tgstation.Server.Host.Swarm
 					updateCommitTcs = new TaskCompletionSource<bool>();
 				}
 
-				logger.LogDebug("Prepared for update to version {0}", version);
+				logger.LogDebug("Prepared for update to version {version}", version);
 			}
 			catch (Exception ex)
 			{
@@ -846,9 +841,10 @@ namespace Tgstation.Server.Host.Swarm
 			if (!swarmController)
 				return true;
 
+			bool abortUpdate = false;
 			try
 			{
-				logger.LogTrace("Sending remote prepare to nodes...");
+				logger.LogInformation("Sending remote prepare to nodes...");
 				List<Task<bool>> tasks;
 				lock (swarmServers)
 				{
@@ -857,18 +853,32 @@ namespace Tgstation.Server.Host.Swarm
 							.Where(x => !x.Controller)
 							.Select(x => x.Identifier));
 
+					if (nodesThatNeedToBeReadyToCommit.Count < swarmConfiguration.UpdateRequiredNodeCount)
+					{
+						logger.LogWarning(
+							"Aborting update, controller expects to be in sync with {requiredNodeCount} nodes but currently only has {currentNodeCount}!",
+							swarmConfiguration.UpdateRequiredNodeCount,
+							nodesThatNeedToBeReadyToCommit.Count);
+						abortUpdate = true;
+						return false;
+					}
+
 					if (nodesThatNeedToBeReadyToCommit.Count == 0)
 					{
-						logger.LogTrace("Controller has no nodes, setting commit-ready.");
+						logger.LogDebug("Controller has no nodes, setting commit-ready.");
 						var commitTcs = updateCommitTcs;
 						commitTcs?.TrySetResult(true);
-						return commitTcs != null;
+						if (commitTcs != null)
+							return true;
+
+						logger.LogDebug("Update appears to have been aborted");
+						return false;
 					}
 
 					tasks = swarmServers
-							.Where(x => !x.Controller)
-							.Select(RemotePrepareUpdate)
-							.ToList();
+						.Where(x => !x.Controller)
+						.Select(RemotePrepareUpdate)
+						.ToList();
 				}
 
 				await Task.WhenAll(tasks);
@@ -876,17 +886,23 @@ namespace Tgstation.Server.Host.Swarm
 				// if all succeeds...
 				if (tasks.All(x => x.Result))
 				{
-					logger.LogDebug("Distributed prepare for update to version {0} complete.", version);
+					logger.LogInformation("Distributed prepare for update to version {version} complete.", version);
 					return true;
 				}
+
+				abortUpdate = true;
+				logger.LogDebug("Distrubuted prepare failed!");
 			}
 			catch (Exception ex)
 			{
 				logger.LogWarning(ex, "Error remotely preparing updates!");
 			}
+			finally
+			{
+				if (abortUpdate)
+					await AbortUpdate(cancellationToken);
+			}
 
-			logger.LogDebug("Distrubuted prepare failed!");
-			await AbortUpdate(cancellationToken);
 			return false;
 		}
 
@@ -921,7 +937,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogWarning(
 						ex,
-						"Error during swarm server health check on node '{0}'! Unregistering...",
+						"Error during swarm server health check on node '{nodeId}'! Unregistering...",
 						swarmServer.Identifier);
 				}
 
@@ -993,12 +1009,13 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogWarning(ex, "Error during swarm controller health check! Attempting to re-register...");
 					controllerRegistration = null;
+					await AbortUpdate(cancellationToken);
 				}
 
 			SwarmRegistrationResult registrationResult;
 			for (var registrationAttempt = 1UL; ; ++registrationAttempt)
 			{
-				logger.LogInformation("Swarm re-registration attempt {0}...", registrationAttempt);
+				logger.LogInformation("Swarm re-registration attempt {attemptNumber}...", registrationAttempt);
 				registrationResult = await RegisterWithController(cancellationToken);
 
 				if (registrationResult == SwarmRegistrationResult.Success)
@@ -1030,7 +1047,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SwarmRegistrationResult"/>.</returns>
 		async Task<SwarmRegistrationResult> RegisterWithController(CancellationToken cancellationToken)
 		{
-			logger.LogInformation("Attempting to register with swarm controller at {0}...", swarmConfiguration.ControllerAddress);
+			logger.LogInformation("Attempting to register with swarm controller at {controllerAddress}...", swarmConfiguration.ControllerAddress);
 			var requestedRegistrationId = Guid.NewGuid();
 
 			using var httpClient = httpClientFactory.CreateClient();
@@ -1051,13 +1068,13 @@ namespace Tgstation.Server.Host.Swarm
 				using var response = await httpClient.SendAsync(registrationRequest, cancellationToken);
 				if (response.IsSuccessStatusCode)
 				{
-					logger.LogInformation("Sucessfully registered with ID {0}", requestedRegistrationId);
+					logger.LogInformation("Sucessfully registered with ID {registrationId}", requestedRegistrationId);
 					controllerRegistration = requestedRegistrationId;
 					lastControllerHealthCheck = DateTimeOffset.UtcNow;
 					return SwarmRegistrationResult.Success;
 				}
 
-				logger.LogWarning("Unable to register with swarm: HTTP {0}!", response.StatusCode);
+				logger.LogWarning("Unable to register with swarm: HTTP {statusCode}!", response.StatusCode);
 
 				if (response.StatusCode == HttpStatusCode.Unauthorized)
 					return SwarmRegistrationResult.Unauthorized;
@@ -1065,12 +1082,11 @@ namespace Tgstation.Server.Host.Swarm
 				if (response.StatusCode == HttpStatusCode.UpgradeRequired)
 					return SwarmRegistrationResult.VersionMismatch;
 
-				logger.LogWarning("Error registering with swarm controller: HTTP {0}", response.StatusCode);
 				try
 				{
 					var responseData = await response.Content.ReadAsStringAsync(cancellationToken);
 					if (!String.IsNullOrWhiteSpace(responseData))
-						logger.LogDebug("Response:{0}{1}", Environment.NewLine, responseData);
+						logger.LogDebug("Response:{newLine}{responseData}", Environment.NewLine, responseData);
 				}
 				catch (Exception ex)
 				{
@@ -1092,10 +1108,14 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task SendUpdatedServerListToNodes(CancellationToken cancellationToken)
 		{
-			logger.LogDebug("Sending updated server list to all nodes...");
 			List<SwarmServerResponse> currentSwarmServers;
 			lock (swarmServers)
+			{
+				serversDirty = false;
 				currentSwarmServers = swarmServers.ToList();
+			}
+
+			logger.LogDebug("Sending updated server list to all {nodeCount} nodes...", currentSwarmServers.Count);
 
 			using var httpClient = httpClientFactory.CreateClient();
 			async Task UpdateRequestForServer(SwarmServerResponse swarmServer)
@@ -1116,7 +1136,7 @@ namespace Tgstation.Server.Host.Swarm
 				}
 				catch (Exception ex) when (ex is not OperationCanceledException)
 				{
-					logger.LogWarning(ex, "Error during swarm server list update for node '{0}'! Unregistering...", swarmServer.Identifier);
+					logger.LogWarning(ex, "Error during swarm server list update for node '{nodeId}'! Unregistering...", swarmServer.Identifier);
 
 					lock (swarmServers)
 					{
@@ -1129,9 +1149,7 @@ namespace Tgstation.Server.Host.Swarm
 			await Task.WhenAll(
 				currentSwarmServers
 					.Where(x => !x.Controller)
-					.Select(UpdateRequestForServer))
-				;
-			serversDirty = false;
+					.Select(UpdateRequestForServer));
 		}
 
 		/// <summary>
@@ -1157,7 +1175,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			subroute = $"{SwarmConstants.ControllerRoute}/{subroute}";
 			logger.LogTrace(
-				"{0} {1} to swarm server {2}",
+				"{method} {route} to swarm server {nodeIdOrAddress}",
 				httpMethod,
 				subroute,
 				swarmServer.Identifier ?? swarmServer.Address.ToString());
@@ -1165,25 +1183,22 @@ namespace Tgstation.Server.Host.Swarm
 			var request = new HttpRequestMessage(
 				httpMethod,
 				swarmServer.Address + subroute[1..]);
-
-			request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
-			request.Headers.UserAgent.Clear();
-			request.Headers.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
-			request.Headers.Accept.Clear();
-			request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-			if (registrationIdOverride.HasValue)
-				request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdOverride.Value.ToString());
-			else if (swarmController)
-			{
-				lock (swarmServers)
-					if (registrationIds.TryGetValue(swarmServer.Identifier, out var registrationId))
-						request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationId.ToString());
-			}
-			else if (controllerRegistration.HasValue)
-				request.Headers.Add(SwarmConstants.RegistrationIdHeader, controllerRegistration.Value.ToString());
-
 			try
 			{
+				request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
+				request.Headers.Accept.Clear();
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				if (registrationIdOverride.HasValue)
+					request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdOverride.Value.ToString());
+				else if (swarmController)
+				{
+					lock (swarmServers)
+						if (registrationIds.TryGetValue(swarmServer.Identifier, out var registrationId))
+							request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationId.ToString());
+				}
+				else if (controllerRegistration.HasValue)
+					request.Headers.Add(SwarmConstants.RegistrationIdHeader, controllerRegistration.Value.ToString());
+
 				if (body != null)
 					request.Content = new StringContent(
 						JsonConvert.SerializeObject(body, SerializerSettings),
@@ -1240,7 +1255,7 @@ namespace Tgstation.Server.Host.Swarm
 					if (nextForceHealthCheckTask.IsCompleted && swarmController)
 					{
 						// Intentionally wait a few seconds for the other server to start up before interogating it
-						logger.LogTrace("Next health check triggering in {0}s...", SecondsToDelayForcedHealthChecks);
+						logger.LogTrace("Next health check triggering in {delaySeconds}s...", SecondsToDelayForcedHealthChecks);
 						await asyncDelayer.Delay(TimeSpan.FromSeconds(SecondsToDelayForcedHealthChecks), cancellationToken);
 					}
 					else if (!swarmController && !nextForceHealthCheckTask.IsCompleted)
@@ -1297,7 +1312,7 @@ namespace Tgstation.Server.Host.Swarm
 				var exists = registrationIds.Any(x => x.Value == registrationId);
 				if (!exists)
 				{
-					logger.LogDebug("A node that was to be looked up ({0}) disappeared from our records!", registrationId);
+					logger.LogWarning("A node that was to be looked up ({registrationId}) disappeared from our records!", registrationId);
 					return null;
 				}
 

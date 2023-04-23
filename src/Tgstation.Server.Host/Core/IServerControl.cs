@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
-
-using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -12,7 +9,7 @@ namespace Tgstation.Server.Host.Core
 	public interface IServerControl
 	{
 		/// <summary>
-		/// <see langword="true"/> if live updates are supported, <see langword="false"/>. <see cref="ApplyUpdate(Version, Uri, IIOManager)"/> and <see cref="Restart"/> will fail if this is <see langword="false"/>.
+		/// <see langword="true"/> if live updates are supported, <see langword="false"/>. <see cref="TryStartUpdate(IServerUpdateExecutor, Version)"/> and <see cref="Restart"/> will fail if this is <see langword="false"/>.
 		/// </summary>
 		bool WatchdogPresent { get; }
 
@@ -22,13 +19,12 @@ namespace Tgstation.Server.Host.Core
 		bool UpdateInProgress { get; }
 
 		/// <summary>
-		/// Run a new <see cref="Host"/> assembly and stop the current one. This will likely trigger all active <see cref="CancellationToken"/>s.
+		/// Attempt to update with a given <paramref name="updateExecutor"/>.
 		/// </summary>
-		/// <param name="version">The <see cref="Version"/> the <see cref="IServerControl"/> is updating to.</param>
-		/// <param name="updateZipUrl">The <see cref="Uri"/> that points to the .zip file that contains the new <see cref="Host"/> assembly.</param>
-		/// <param name="ioManager">The <see cref="IIOManager"/> for the operation.</param>
+		/// <param name="updateExecutor">The <see cref="IServerUpdateExecutor"/> to use for the update.</param>
+		/// <param name="newVersion">The <see cref="Version"/> the <see cref="IServerControl"/> is updating to.</param>
 		/// <returns><see langword="true"/> if the update started successfully, <see langword="false"/> if there was another update in progress.</returns>
-		bool ApplyUpdate(Version version, Uri updateZipUrl, IIOManager ioManager);
+		bool TryStartUpdate(IServerUpdateExecutor updateExecutor, Version newVersion);
 
 		/// <summary>
 		/// Register a given <paramref name="handler"/> to run before stopping the server for a restart.

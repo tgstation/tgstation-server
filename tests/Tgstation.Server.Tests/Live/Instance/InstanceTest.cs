@@ -6,7 +6,7 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components;
 
-namespace Tgstation.Server.Tests.Instance
+namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class InstanceTest
 	{

@@ -10,16 +10,15 @@
     <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Tgstation.Server.Host.Watchdog.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Host.Watchdog.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Tgstation.Server.Host.Watchdog.xml</DocumentationFile>
     <NoWarn>1701;1702;SA1652</NoWarn>
   </PropertyGroup>
 
@@ -41,5 +40,9 @@
 
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj" />
   </ItemGroup>
 </Project>

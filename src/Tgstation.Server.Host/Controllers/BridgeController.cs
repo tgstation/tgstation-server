@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// If the content of bridge requests and responses should be logged.
 		/// </summary>
-		internal static bool LogContent { get; set; } = true;
+		internal static bool LogContent { get; set; }
 
 		/// <summary>
 		/// Static counter for the number of requests processed.
@@ -43,6 +43,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="ILogger"/> for the <see cref="BridgeController"/>.
 		/// </summary>
 		readonly ILogger<BridgeController> logger;
+
+		/// <summary>
+		/// Initializes static members of the <see cref="BridgeController"/> class.
+		/// </summary>
+		static BridgeController()
+		{
+			LogContent = true;
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BridgeController"/> class.
@@ -74,7 +82,7 @@ namespace Tgstation.Server.Host.Controllers
 			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
 			if (!IPAddress.IsLoopback(remoteIP))
 			{
-				logger.LogTrace("Rejecting remote bridge request from {0}", remoteIP);
+				logger.LogTrace("Rejecting remote bridge request from {remoteIP}", remoteIP);
 				return Forbid();
 			}
 
@@ -88,12 +96,12 @@ namespace Tgstation.Server.Host.Controllers
 				catch (Exception ex)
 				{
 					if (LogContent)
-						logger.LogWarning(ex, "Error deserializing bridge request: {0}", data);
+						logger.LogWarning(ex, "Error deserializing bridge request: {badJson}", data);
 					return BadRequest();
 				}
 
 				if (LogContent)
-					logger.LogTrace("Bridge Request: {0}", data);
+					logger.LogTrace("Bridge Request: {json}", data);
 
 				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken);
 				if (response == null)
@@ -102,7 +110,7 @@ namespace Tgstation.Server.Host.Controllers
 				var responseJson = JsonConvert.SerializeObject(response, DMApiConstants.SerializerSettings);
 
 				if (LogContent)
-					logger.LogTrace("Bridge Response: {0}", responseJson);
+					logger.LogTrace("Bridge Response: {json}", responseJson);
 				return Content(responseJson, MediaTypeNames.Application.Json);
 			}
 		}

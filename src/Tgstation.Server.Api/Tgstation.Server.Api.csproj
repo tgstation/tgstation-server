@@ -16,13 +16,13 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018-2023</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
-    <PackageReleaseNotes>Added ChannelData field to ChatChannels model.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added ErrorCode.SwarmIntegrityCheckFailed.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.1\Tgstation.Server.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Tgstation.Server.Api.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NoWarn>CA1028</NoWarn>
   </PropertyGroup>

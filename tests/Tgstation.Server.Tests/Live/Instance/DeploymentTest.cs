@@ -10,8 +10,9 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Tests.Live;
 
-namespace Tgstation.Server.Tests.Instance
+namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class DeploymentTest : JobsRequiredTest
 	{
@@ -24,8 +25,8 @@ namespace Tgstation.Server.Tests.Instance
 		public DeploymentTest(IInstanceClient instanceClient, IJobsClient jobsClient) : base(jobsClient)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
-			this.dreamMakerClient = instanceClient.DreamMaker;
-			this.dreamDaemonClient = instanceClient.DreamDaemon;
+			dreamMakerClient = instanceClient.DreamMaker;
+			dreamDaemonClient = instanceClient.DreamDaemon;
 		}
 
 		public async Task RunPreRepoClone(CancellationToken cancellationToken)
@@ -50,27 +51,27 @@ namespace Tgstation.Server.Tests.Instance
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
 					ProjectName = "tests/DMAPI/ApiFree/api_free",
-					ApiValidationPort = IntegrationTest.DMPort
+					ApiValidationPort = TestLiveServer.DMPort
 				}, cancellationToken);
-				Assert.AreEqual(IntegrationTest.DMPort, updatedDM.ApiValidationPort);
+				Assert.AreEqual(TestLiveServer.DMPort, updatedDM.ApiValidationPort);
 				Assert.AreEqual("tests/DMAPI/ApiFree/api_free", updatedDM.ProjectName);
 			}
 			else
 			{
 				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
-					ApiValidationPort = IntegrationTest.DMPort
+					ApiValidationPort = TestLiveServer.DMPort
 				}, cancellationToken);
-				Assert.AreEqual(IntegrationTest.DMPort, updatedDM.ApiValidationPort);
+				Assert.AreEqual(TestLiveServer.DMPort, updatedDM.ApiValidationPort);
 			}
 
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				StartupTimeout = 15,
-				Port = IntegrationTest.DDPort
+				Port = TestLiveServer.DDPort
 			}, cancellationToken);
 			Assert.AreEqual(15U, updatedDD.StartupTimeout);
-			Assert.AreEqual(IntegrationTest.DDPort, updatedDD.Port);
+			Assert.AreEqual(TestLiveServer.DDPort, updatedDD.Port);
 
 			async Task<JobResponse> CompileAfterByondInstall()
 			{
@@ -82,11 +83,11 @@ namespace Tgstation.Server.Tests.Instance
 			await Task.WhenAll(
 				ApiAssert.ThrowsException<ConflictException>(() => dreamDaemonClient.Update(new DreamDaemonRequest
 				{
-					Port = IntegrationTest.DMPort
+					Port = TestLiveServer.DMPort
 				}, cancellationToken), ErrorCode.PortNotAvailable),
 				ApiAssert.ThrowsException<ConflictException>(() => dreamMakerClient.Update(new DreamMakerRequest
 				{
-					ApiValidationPort = IntegrationTest.DDPort
+					ApiValidationPort = TestLiveServer.DDPort
 				}, cancellationToken), ErrorCode.PortNotAvailable),
 				deployJobTask);
 

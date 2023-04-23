@@ -19,5 +19,10 @@
 		/// Another update is already in progress.
 		/// </summary>
 		UpdateInProgress,
+
+		/// <summary>
+		/// The server swarm does not contain the expected amount of nodes.
+		/// </summary>
+		SwarmIntegrityCheckFailed,
 	}
 }

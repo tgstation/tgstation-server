@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.IO.Tests
 	[TestClass]
 	public sealed class TestIOManager
 	{
-		readonly IIOManager ioManager = new DefaultIOManager(new AssemblyInformationProvider());
+		readonly IIOManager ioManager = new DefaultIOManager();
 
 		[TestMethod]
 		public async Task TestDeleteDirectory()

@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.System
 			try
 			{
 				var pointerChildHandlesList = GCHandle.ToIntPtr(gcChildhandlesList);
-				NativeMethods.EnumWindowProc childProc = new NativeMethods.EnumWindowProc(EnumWindow);
+				NativeMethods.EnumWindowProc childProc = new (EnumWindow);
 				NativeMethods.EnumChildWindows(mainWindow, childProc, pointerChildHandlesList);
 			}
 			finally

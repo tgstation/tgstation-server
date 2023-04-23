@@ -51,8 +51,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current)
-				;
+				TaskScheduler.Current);
 
 			return repo;
 		}

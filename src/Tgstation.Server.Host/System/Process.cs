@@ -110,7 +110,7 @@ namespace Tgstation.Server.Host.System
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 
-			logger.LogTrace("Created process ID: {0}", Id);
+			logger.LogTrace("Created process ID: {pid}", Id);
 		}
 
 		/// <inheritdoc />
@@ -139,20 +139,20 @@ namespace Tgstation.Server.Host.System
 		{
 			if (handle.HasExited)
 			{
-				logger.LogTrace("PID {0} already exited", Id);
+				logger.LogTrace("PID {pid} already exited", Id);
 				return;
 			}
 
 			try
 			{
-				logger.LogTrace("Terminating PID {0}...", Id);
+				logger.LogTrace("Terminating PID {pid}...", Id);
 				handle.Kill();
 				if (!handle.WaitForExit(5000))
-					logger.LogWarning("WaitForExit() on PID {0} timed out!", Id);
+					logger.LogWarning("WaitForExit() on PID {pid} timed out!", Id);
 			}
 			catch (Exception e)
 			{
-				logger.LogDebug(e, "PID {0} termination exception!", Id);
+				logger.LogDebug(e, "PID {pid} termination exception!", Id);
 			}
 		}
 
@@ -177,11 +177,11 @@ namespace Tgstation.Server.Host.System
 			try
 			{
 				processFeatures.SuspendProcess(handle);
-				logger.LogTrace("Suspended PID {0}", Id);
+				logger.LogTrace("Suspended PID {pid}", Id);
 			}
 			catch (Exception e)
 			{
-				logger.LogError(e, "Failed to suspend PID {0}!", Id);
+				logger.LogError(e, "Failed to suspend PID {pid}!", Id);
 				throw;
 			}
 		}
@@ -192,11 +192,11 @@ namespace Tgstation.Server.Host.System
 			try
 			{
 				processFeatures.ResumeProcess(handle);
-				logger.LogTrace("Resumed PID {0}", Id);
+				logger.LogTrace("Resumed PID {pid}", Id);
 			}
 			catch (Exception e)
 			{
-				logger.LogError(e, "Failed to resume PID {0}!", Id);
+				logger.LogError(e, "Failed to resume PID {pid}!", Id);
 				throw;
 			}
 		}
@@ -205,7 +205,7 @@ namespace Tgstation.Server.Host.System
 		public async Task<string> GetExecutingUsername(CancellationToken cancellationToken)
 		{
 			var result = await processFeatures.GetExecutingUsername(handle, cancellationToken);
-			logger.LogTrace("PID {0} Username: {1}", Id, result);
+			logger.LogTrace("PID {pid} Username: {username}", Id, result);
 			return result;
 		}
 
@@ -215,7 +215,7 @@ namespace Tgstation.Server.Host.System
 			if (outputFile == null)
 				throw new ArgumentNullException(nameof(outputFile));
 
-			logger.LogTrace("Dumping PID {0} to {1}...", Id, outputFile);
+			logger.LogTrace("Dumping PID {pid} to {dumpFilePath}...", Id, outputFile);
 			return processFeatures.CreateDump(handle, outputFile, cancellationToken);
 		}
 
@@ -227,7 +227,7 @@ namespace Tgstation.Server.Host.System
 		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
 		{
 			var exitCode = await lifetimeTask;
-			logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
+			logger.LogTrace("PID {pid} exited with code {exitCode}", Id, exitCode);
 			return exitCode;
 		}
 	}

@@ -19,7 +19,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host.Controllers;
 
-namespace Tgstation.Server.Tests
+namespace Tgstation.Server.Tests.Live
 {
 	sealed class InstanceManagerTest
 	{
@@ -33,8 +33,8 @@ namespace Tgstation.Server.Tests
 		public InstanceManagerTest(IServerClient serverClient, string testRootPath)
 		{
 			this.serverClient = serverClient ?? throw new ArgumentNullException(nameof(serverClient));
-			this.instanceManagerClient = serverClient.Instances;
-			this.usersClient = serverClient.Users;
+			instanceManagerClient = serverClient.Instances;
+			usersClient = serverClient.Users;
 			this.testRootPath = testRootPath ?? throw new ArgumentNullException(nameof(testRootPath));
 		}
 
@@ -46,7 +46,7 @@ namespace Tgstation.Server.Tests
 			ChatBotLimit = 2
 		}, cancellationToken);
 
-		static TRequestType FromResponse<TRequestType>(InstanceResponse response) where TRequestType : Api.Models.Instance, new() => new ()
+		static TRequestType FromResponse<TRequestType>(InstanceResponse response) where TRequestType : Api.Models.Instance, new() => new()
 		{
 			Id = response.Id,
 			Path = response.Path,
@@ -181,7 +181,7 @@ namespace Tgstation.Server.Tests
 			var token = serverClient.Token.Bearer;
 			// check that 400s are returned appropriately
 			using var httpClient = new HttpClient();
-			using var request = new HttpRequestMessage(HttpMethod.Get, String.Concat(url.ToString(), Routes.ListRoute(Routes.InstanceManager).AsSpan(1), "?pageSize=2"));
+			using var request = new HttpRequestMessage(HttpMethod.Get, string.Concat(url.ToString(), Routes.ListRoute(Routes.InstanceManager).AsSpan(1), "?pageSize=2"));
 			request.Headers.Accept.Clear();
 			request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RegressionTest1256", "1.0.0"));
 			request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));

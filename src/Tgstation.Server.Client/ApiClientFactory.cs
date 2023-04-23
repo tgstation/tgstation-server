@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Common;
 
 namespace Tgstation.Server.Client
 {
@@ -13,7 +14,7 @@ namespace Tgstation.Server.Client
 			ApiHeaders apiHeaders,
 			ApiHeaders? tokenRefreshHeaders,
 			bool authless) => new ApiClient(
-				new HttpClientImplementation(),
+				new HttpClient(),
 				url,
 				apiHeaders,
 				tokenRefreshHeaders,

@@ -1,4 +1,4 @@
-﻿	using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 
-namespace Tgstation.Server.Tests.Instance
+namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class RepositoryTest : JobsRequiredTest
 	{

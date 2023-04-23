@@ -13,18 +13,9 @@ namespace Tgstation.Server.Host.Swarm
 	public interface ISwarmService
 	{
 		/// <summary>
-		/// Attempt to register with the swarm controller if not one, sets up the database otherwise.
+		/// Gets a value indicating if the expected amount of nodes are connected to the swarm.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SwarmRegistrationResult"/>.</returns>
-		Task<SwarmRegistrationResult> Initialize(CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Deregister with the swarm controller or put clients into querying state.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Shutdown(CancellationToken cancellationToken);
+		bool ExpectedNumberOfNodesConnected { get; }
 
 		/// <summary>
 		/// Signal to the swarm that an update is requested.
@@ -38,8 +29,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// Signal to the swarm that an update is ready to be applied.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the update should proceed, <see langword="false"/> otherwise.</returns>
-		Task<bool> CommitUpdate(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SwarmCommitResult"/>.</returns>
+		Task<SwarmCommitResult> CommitUpdate(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gets the list of <see cref="SwarmServerResponse"/>s in the swarm, including the current one.

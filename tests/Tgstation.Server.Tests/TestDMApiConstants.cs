@@ -10,7 +10,7 @@ using Tgstation.Server.Host.Components.Interop;
 namespace Tgstation.Server.Tests
 {
 	[TestClass]
-	public sealed class DMApiConstantsTests
+	public sealed class TestDMApiConstants
 	{
 		string[] definesFileLines;
 
@@ -21,13 +21,13 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public void TestDMApiConstants()
-		{
-			// we only test a few things because they are sourced by BYOND and we want to validate them
-			CheckLine("DMAPI5_BRIDGE_REQUEST_LIMIT", DMApiConstants.MaximumBridgeRequestLength);
-			CheckLine("DMAPI5_TOPIC_REQUEST_LIMIT", DMApiConstants.MaximumTopicRequestLength);
-			CheckLine("DMAPI5_TOPIC_RESPONSE_LIMIT", DMApiConstants.MaximumTopicResponseLength);
-		}
+		public void TestBridgeRequestLimit() => CheckLine("DMAPI5_BRIDGE_REQUEST_LIMIT", DMApiConstants.MaximumBridgeRequestLength);
+
+		[TestMethod]
+		public void TestTopicRequestLimit() => CheckLine("DMAPI5_TOPIC_REQUEST_LIMIT", DMApiConstants.MaximumTopicRequestLength);
+
+		[TestMethod]
+		public void TestTopicResponseLimit() => CheckLine("DMAPI5_TOPIC_RESPONSE_LIMIT", DMApiConstants.MaximumTopicResponseLength);
 
 		void CheckLine(string defineName, object expectedValue)
 		{

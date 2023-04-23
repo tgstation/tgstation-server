@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Common;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
@@ -14,7 +15,7 @@ namespace Tgstation.Server.Host
 	/// <summary>
 	/// Entrypoint for the <see cref="Process"/>.
 	/// </summary>
-	static class Program
+	sealed class Program
 	{
 		/// <summary>
 		/// The expected host watchdog <see cref="Version"/>.
@@ -24,9 +25,15 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The <see cref="IServerFactory"/> to use.
 		/// </summary>
-#pragma warning disable SA1401 // Fields should be private
-		internal static IServerFactory ServerFactory = Application.CreateDefaultServerFactory();
-#pragma warning restore SA1401 // Fields should be private
+		internal IServerFactory ServerFactory { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Program"/> class.
+		/// </summary>
+		public Program()
+		{
+			ServerFactory = Application.CreateDefaultServerFactory();
+		}
 
 		/// <summary>
 		/// Entrypoint for the <see cref="Program"/>.
@@ -36,25 +43,41 @@ namespace Tgstation.Server.Host
 		public static async Task<int> Main(string[] args)
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
-			var listArgs = new List<string>(args);
 			string updatePath = null;
-			if (listArgs.Count > 0)
+			if (args.Length > 0)
 			{
+				var listArgs = new List<string>(args);
 				updatePath = listArgs.First();
 				listArgs.RemoveAt(0);
 
 				// second arg should be host watchdog version
-				if (listArgs.Count > 0
-					&& Version.TryParse(listArgs.First(), out var hostWatchdogVersion)
-					&& hostWatchdogVersion.Major != HostWatchdogVersion.Major)
-					throw new InvalidOperationException(
-						$"Incompatible host watchdog version ({hostWatchdogVersion}) for server ({HostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!");
+				if (listArgs.Count > 0)
+				{
+					var expectedHostWatchdogVersion = HostWatchdogVersion;
+					if (Version.TryParse(listArgs.First(), out var actualHostWatchdogVersion)
+						&& actualHostWatchdogVersion.Major != expectedHostWatchdogVersion.Major)
+						throw new InvalidOperationException(
+							$"Incompatible host watchdog version ({actualHostWatchdogVersion}) for server ({expectedHostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!");
+				}
 
 				if (listArgs.Remove("--attach-debugger"))
 					Debugger.Launch();
+
+				args = listArgs.ToArray();
 			}
 
-			var updatedArgsArray = listArgs.ToArray();
+			var program = new Program();
+			return (int)await program.Main(args, updatePath);
+		}
+
+		/// <summary>
+		/// Executes the <see cref="Program"/>.
+		/// </summary>
+		/// <param name="args">The command line arguments, minus the <paramref name="updatePath"/>.</param>
+		/// <param name="updatePath">The path to extract server updates to be applied to.</param>
+		/// <returns>The <see cref="HostExitCode"/>.</returns>
+		internal async Task<HostExitCode> Main(string[] args, string updatePath)
+		{
 			try
 			{
 				using var shutdownNotifier = new ProgramShutdownTokenSource();
@@ -62,26 +85,25 @@ namespace Tgstation.Server.Host
 				IServer server;
 				try
 				{
-					server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken);
+					server = await ServerFactory.CreateServer(
+						args,
+						updatePath,
+						cancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
 					// Console cancelled
-					return 0;
+					return HostExitCode.CompleteExecution;
 				}
 
 				if (server == null)
-					return 0;
+					return HostExitCode.CompleteExecution;
 
-				try
-				{
-					await server.Run(cancellationToken);
-				}
-				catch (OperationCanceledException)
-				{
-				}
+				await server.Run(cancellationToken);
 
-				return server.RestartRequested ? 1 : 0;
+				return server.RestartRequested
+					? HostExitCode.RestartRequested
+					: HostExitCode.CompleteExecution;
 			}
 			catch (Exception e)
 			{
@@ -89,7 +111,7 @@ namespace Tgstation.Server.Host
 				{
 					// DCT: None available, operation should always run
 					await ServerFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), default);
-					return 2;
+					return HostExitCode.Error;
 				}
 
 				// If you hit an exception debug break on this line it caused the application to crash
