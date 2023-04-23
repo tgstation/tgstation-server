@@ -437,14 +437,11 @@ namespace Tgstation.Server.Host.Core
 			// Add the X-Powered-By response header
 			applicationBuilder.UseServerBranding(assemblyInformationProvider);
 
-			// 503 requests made while the application is starting
-			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
-			{
-				await instanceManager.Ready.WithToken(cancellationToken);
-			});
-
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
+
+			// 503 requests made while the application is starting
+			applicationBuilder.UseAsyncInitialization(instanceManager.Ready.WithToken);
 
 			if (generalConfiguration.HostApiDocumentation)
 			{

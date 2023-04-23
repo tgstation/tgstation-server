@@ -103,6 +103,7 @@ namespace Tgstation.Server.Host.Extensions
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
+
 			applicationBuilder.Use(async (context, next) =>
 			{
 				var logger = GetLogger(context);
@@ -124,8 +125,7 @@ namespace Tgstation.Server.Host.Extensions
 					.ExecuteResultAsync(new ActionContext
 					{
 						HttpContext = context,
-					})
-					;
+					});
 				}
 			});
 		}
