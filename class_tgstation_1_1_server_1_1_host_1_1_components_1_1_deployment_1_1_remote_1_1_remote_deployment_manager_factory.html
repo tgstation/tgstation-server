@@ -356,7 +356,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   65</span>            <span class="keywordflow">if</span> (metadata == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   66</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(metadata));</div>
 <div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a24ada6ddbccfe71376f89ca591d033ae">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating remote deployment manager for remote git provider {0}...&quot;</span>, remoteGitProvider);</div>
+<div class="line"><span class="lineno">   68</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a24ada6ddbccfe71376f89ca591d033ae">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating remote deployment manager for remote git provider {remoteGitProvider}...&quot;</span>, remoteGitProvider);</div>
 <div class="line"><span class="lineno">   69</span>            <span class="keywordflow">return</span> remoteGitProvider <span class="keywordflow">switch</span></div>
 <div class="line"><span class="lineno">   70</span>            {</div>
 <div class="line"><span class="lineno">   71</span>                RemoteGitProvider.GitHub =&gt; <span class="keyword">new</span> GitHubRemoteDeploymentManager(</div>

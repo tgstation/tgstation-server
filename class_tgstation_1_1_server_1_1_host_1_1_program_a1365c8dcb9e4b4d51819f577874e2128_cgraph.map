@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.Program.Main" name="Tgstation.Server.Host.Program.Main">
-<area shape="rect" id="node1" title="Entrypoint for the Program." alt="" coords="5,74,236,99"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a5c1d467090dd65442f83cbdfbf5222da" title="Create a IServer. A Task&lt;TResult&gt; resulting in a new IServer if it should be run, null otherwise." alt="" coords="299,37,488,77"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#a2b5c3521d783dd9eee7a3e4f2e03fc9f" title="Runs the IServer." alt="" coords="284,102,503,127"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8" title="Gets the directory portion of a given path ." alt="" coords="551,5,751,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="567,69,735,109"/>
+<area shape="rect" id="node1" title="Entrypoint for the Program." alt="" coords="5,20,236,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#a0f021e24c9b45b38c58eaf1ca6ed716e" title="Initializes a new instance of the Program class." alt="" coords="284,13,487,53"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f" title="Create the default IServerFactory." alt="" coords="535,5,741,60"/>
 </map>

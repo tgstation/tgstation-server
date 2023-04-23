@@ -371,7 +371,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   83</span>            <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   84</span>            {</div>
 <div class="line"><span class="lineno">   85</span>                var pointerChildHandlesList = GCHandle.ToIntPtr(gcChildhandlesList);</div>
-<div class="line"><span class="lineno">   86</span>                NativeMethods.EnumWindowProc childProc = <span class="keyword">new</span> NativeMethods.EnumWindowProc(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a8ebd64b49b87ea79d0b6b6fd5d4290b4">EnumWindow</a>);</div>
+<div class="line"><span class="lineno">   86</span>                NativeMethods.EnumWindowProc childProc = <span class="keyword">new</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a8ebd64b49b87ea79d0b6b6fd5d4290b4">EnumWindow</a>);</div>
 <div class="line"><span class="lineno">   87</span>                NativeMethods.EnumChildWindows(mainWindow, childProc, pointerChildHandlesList);</div>
 <div class="line"><span class="lineno">   88</span>            }</div>
 <div class="line"><span class="lineno">   89</span>            <span class="keywordflow">finally</span></div>
@@ -383,7 +383,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">   95</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_html_a8ebd64b49b87ea79d0b6b6fd5d4290b4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a8ebd64b49b87ea79d0b6b6fd5d4290b4">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.EnumWindow</a></div><div class="ttdeci">static bool EnumWindow(IntPtr hWnd, IntPtr lParam)</div><div class="ttdoc">Callback for NativeMethods.EnumChildWindows(IntPtr, NativeMethods.EnumWindowProc, IntPtr).</div><div class="ttdef"><b>Definition:</b> <a href="_windows_network_prompt_reaper_8cs_source.html#l00061">WindowsNetworkPromptReaper.cs:61</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a6b4b37ca121784ecd63c477cc022415d">Tgstation.Server.Host.NativeMethods.EnumChildWindows()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00061">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.EnumWindow()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a865bfe43e7d4085326ccf40500eb4222">Tgstation.Server.Host.NativeMethods.EnumWindowProc()</a>.</p>
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a6b4b37ca121784ecd63c477cc022415d">Tgstation.Server.Host.NativeMethods.EnumChildWindows()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00061">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.EnumWindow()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>.</p>
 <div class="dynheader">
@@ -391,10 +391,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_adcd1b50a331c6d1876e3f91c1794d66e_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_adcd1b50a331c6d1876e3f91c1794d66e_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_adcd1b50a331c6d1876e3f91c1794d66e_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_adcd1b50a331c6d1876e3f91c1794d66e_cgraph">
-<area shape="rect" title="Get all the child windows handles of a given mainWindow ." alt="" coords="5,62,252,117"/>
+<area shape="rect" title="Get all the child windows handles of a given mainWindow ." alt="" coords="5,30,252,85"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a6b4b37ca121784ecd63c477cc022415d" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;enumchildwindows." alt="" coords="349,5,540,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a8ebd64b49b87ea79d0b6b6fd5d4290b4" title="Callback for NativeMethods.EnumChildWindows(IntPtr, NativeMethods.EnumWindowProc, IntPtr)." alt="" coords="300,69,589,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a865bfe43e7d4085326ccf40500eb4222" title="See https://msdn.microsoft.com/en&#45;us/library/ms633493(v=VS.85).aspx." alt="" coords="350,133,539,173"/>
 </map>
 </div>
 <div class="dynheader">
@@ -584,9 +583,8 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#aab504dccd83453d3af13a7e4feceb7a9" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;getwindowtextw." alt="" coords="315,213,505,253"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a346862e4a517dcfe04a256ec49e7ecea" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;getwindowthreadprocessid." alt="" coords="289,277,531,317"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a23bd1ebb88ecd7ec9ae0ae7b867a05e7" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;sendmessage." alt="" coords="315,341,505,381"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a6b4b37ca121784ecd63c477cc022415d" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;enumchildwindows." alt="" coords="631,77,821,117"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a8ebd64b49b87ea79d0b6b6fd5d4290b4" title="Callback for NativeMethods.EnumChildWindows(IntPtr, NativeMethods.EnumWindowProc, IntPtr)." alt="" coords="581,141,871,181"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a865bfe43e7d4085326ccf40500eb4222" title="See https://msdn.microsoft.com/en&#45;us/library/ms633493(v=VS.85).aspx." alt="" coords="631,205,821,245"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a6b4b37ca121784ecd63c477cc022415d" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;enumchildwindows." alt="" coords="631,109,821,149"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a8ebd64b49b87ea79d0b6b6fd5d4290b4" title="Callback for NativeMethods.EnumChildWindows(IntPtr, NativeMethods.EnumWindowProc, IntPtr)." alt="" coords="581,173,871,213"/>
 </map>
 </div>
 <div class="dynheader">
@@ -641,9 +639,8 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#aab504dccd83453d3af13a7e4feceb7a9" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;getwindowtextw." alt="" coords="638,213,827,253"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a346862e4a517dcfe04a256ec49e7ecea" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;getwindowthreadprocessid." alt="" coords="612,277,853,317"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a23bd1ebb88ecd7ec9ae0ae7b867a05e7" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;sendmessage." alt="" coords="638,341,827,381"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a6b4b37ca121784ecd63c477cc022415d" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;enumchildwindows." alt="" coords="953,77,1144,117"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a8ebd64b49b87ea79d0b6b6fd5d4290b4" title="Callback for NativeMethods.EnumChildWindows(IntPtr, NativeMethods.EnumWindowProc, IntPtr)." alt="" coords="904,141,1193,181"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a865bfe43e7d4085326ccf40500eb4222" title="See https://msdn.microsoft.com/en&#45;us/library/ms633493(v=VS.85).aspx." alt="" coords="954,205,1143,245"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a6b4b37ca121784ecd63c477cc022415d" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;enumchildwindows." alt="" coords="953,109,1144,149"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a8ebd64b49b87ea79d0b6b6fd5d4290b4" title="Callback for NativeMethods.EnumChildWindows(IntPtr, NativeMethods.EnumWindowProc, IntPtr)." alt="" coords="904,173,1193,213"/>
 </map>
 </div>
 

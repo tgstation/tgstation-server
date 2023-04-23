@@ -96,23 +96,23 @@ Inheritance diagram for Tgstation.Server.Host.Core.IServerUpdateInitiator:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac8909b69744276b792b9fcde8dc938f1"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ac8909b69744276b792b9fcde8dc938f1">BeginUpdate</a> (Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ac8909b69744276b792b9fcde8dc938f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ac8909b69744276b792b9fcde8dc938f1">More...</a><br /></td></tr>
-<tr class="separator:ac8909b69744276b792b9fcde8dc938f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a377c29ffe5e8aebbbe6d5099b9fb80d7"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#a377c29ffe5e8aebbbe6d5099b9fb80d7">InitiateUpdate</a> (Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a377c29ffe5e8aebbbe6d5099b9fb80d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#a377c29ffe5e8aebbbe6d5099b9fb80d7">More...</a><br /></td></tr>
+<tr class="separator:a377c29ffe5e8aebbbe6d5099b9fb80d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Initiates server self updates.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_server_update_initiator_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_server_update_initiator_8cs_source.html">IServerUpdateInitiator.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac8909b69744276b792b9fcde8dc938f1" name="ac8909b69744276b792b9fcde8dc938f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8909b69744276b792b9fcde8dc938f1">&#9670;&#160;</a></span>BeginUpdate()</h2>
+<a id="a377c29ffe5e8aebbbe6d5099b9fb80d7" name="a377c29ffe5e8aebbbe6d5099b9fb80d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a377c29ffe5e8aebbbe6d5099b9fb80d7">&#9670;&#160;</a></span>InitiateUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt; Tgstation.Server.Host.Core.IServerUpdateInitiator.BeginUpdate </td>
+          <td class="memname">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt; Tgstation.Server.Host.Core.IServerUpdateInitiator.InitiateUpdate </td>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -141,19 +141,16 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c" title="The result of a call to start a server update.">ServerUpdateResult</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a07a3f42eb176bad4755b004b8866ac36">Tgstation.Server.Host.Core.ServerUpdateInitiator</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a72ba66e53900e2a5fb65c684c3af1991">Tgstation.Server.Host.Core.ServerUpdateInitiator</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00748">Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00216">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_ac8909b69744276b792b9fcde8dc938f1_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_ac8909b69744276b792b9fcde8dc938f1_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_ac8909b69744276b792b9fcde8dc938f1_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_ac8909b69744276b792b9fcde8dc938f1_icgraph">
-<area shape="rect" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="607,69,833,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a14174e2fb66cd4f745788dff7499c79d" title="Implementation of PrepareUpdate(Version, CancellationToken),." alt="" coords="336,37,559,77"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa27ac5eabff66919186c66da2dc8ecf" title="Attempt to perform a server upgrade." alt="" coords="339,101,555,141"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aab9d1c55e4338f1d19ca436702a92884" title="Signal to the swarm that an update is requested. A Task&lt;TResult&gt; resulting in true if the update shou..." alt="" coords="48,5,245,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aad1f2d1cf257ebd22ce3a34c47389a44" title="Notify the node of an update request from the controller. A Task&lt;TResult&gt; resulting in true if the no..." alt="" coords="5,69,288,109"/>
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_a377c29ffe5e8aebbbe6d5099b9fb80d7_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_a377c29ffe5e8aebbbe6d5099b9fb80d7_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_a377c29ffe5e8aebbbe6d5099b9fb80d7_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_a377c29ffe5e8aebbbe6d5099b9fb80d7_icgraph">
+<area shape="rect" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="269,5,460,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa27ac5eabff66919186c66da2dc8ecf" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,53"/>
 </map>
 </div>
 

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Setup.SetupApplication.ConfigureHostedService" name="Tgstation.Server.Host.Setup.SetupApplication.ConfigureHostedService">
 <area shape="rect" id="node1" title="Configures the IHostedService." alt="" coords="281,5,500,60"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html#a1225384501e2dfd8dd509a1f96ea2fa6" title="Configure dependency injected services." alt="" coords="5,13,233,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html#a06dbb5c5ccb268f1f47b5819450c1290" title="Configure dependency injected services." alt="" coords="5,13,233,53"/>
 </map>

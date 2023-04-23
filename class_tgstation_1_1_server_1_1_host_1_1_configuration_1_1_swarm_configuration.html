@@ -121,6 +121,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a3ea78e469837542cb2d9f2f2930f7092"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a3ea78e469837542cb2d9f2f2930f7092">PrivateKey</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a3ea78e469837542cb2d9f2f2930f7092"><td class="mdescLeft">&#160;</td><td class="mdescRight">The private key used for swarm communication.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a3ea78e469837542cb2d9f2f2930f7092">More...</a><br /></td></tr>
 <tr class="separator:a3ea78e469837542cb2d9f2f2930f7092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a593f38583fa9edb1f322bb9cd768cb22"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a593f38583fa9edb1f322bb9cd768cb22">UpdateRequiredNodeCount</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a593f38583fa9edb1f322bb9cd768cb22"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of nodes in addition to the controller required to be connected a server swarm before performing an update.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a593f38583fa9edb1f322bb9cd768cb22">More...</a><br /></td></tr>
+<tr class="separator:a593f38583fa9edb1f322bb9cd768cb22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html">Tgstation.Server.Api.Models.Internal.SwarmServer</a></td></tr>
 <tr class="memitem:a8281eb2111f784db1485ecca5bdb1f66 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server"><td class="memItemLeft" align="right" valign="top">virtual ? Uri&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#a8281eb2111f784db1485ecca5bdb1f66">Address</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a8281eb2111f784db1485ecca5bdb1f66 inherit properties_class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server"><td class="mdescLeft">&#160;</td><td class="mdescRight">The public address of the server.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#a8281eb2111f784db1485ecca5bdb1f66">More...</a><br /></td></tr>
@@ -191,7 +194,7 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   23</span>            <span class="keyword">set</span> =&gt; base.Address = value;</div>
 <div class="line"><span class="lineno">   24</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00201">Tgstation.Server.Host.Swarm.SwarmService.SwarmService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00212">Tgstation.Server.Host.Swarm.SwarmService.SwarmService()</a>.</p>
 
 </div>
 </div>
@@ -220,7 +223,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_swarm_configuration_8cs_source.html#l00030">30</a> of file <a class="el" href="_swarm_configuration_8cs_source.html">SwarmConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00272">Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate()</a>, <a class="el" href="_swarm_service_8cs_source.html#l01146">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01031">Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00277">Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate()</a>, <a class="el" href="_swarm_service_8cs_source.html#l01164">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01048">Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController()</a>.</p>
 
 </div>
 </div>
@@ -249,7 +252,36 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_swarm_configuration_8cs_source.html#l00035">35</a> of file <a class="el" href="_swarm_configuration_8cs_source.html">SwarmConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00194">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01146">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00195">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01164">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a593f38583fa9edb1f322bb9cd768cb22" name="a593f38583fa9edb1f322bb9cd768cb22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a593f38583fa9edb1f322bb9cd768cb22">&#9670;&#160;</a></span>UpdateRequiredNodeCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint Tgstation.Server.Host.Configuration.SwarmConfiguration.UpdateRequiredNodeCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of nodes in addition to the controller required to be connected a server swarm before performing an update.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_configuration_8cs_source.html#l00040">40</a> of file <a class="el" href="_swarm_configuration_8cs_source.html">SwarmConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00462">Tgstation.Server.Host.Swarm.SwarmService.Initialize()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00743">Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl()</a>.</p>
 
 </div>
 </div>

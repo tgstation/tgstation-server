@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Core.IServerUpdater.BeginUpdate" name="Tgstation.Server.Host.Core.IServerUpdater.BeginUpdate">
+<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="607,37,795,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a14174e2fb66cd4f745788dff7499c79d" title="Implementation of PrepareUpdate(Version, CancellationToken),." alt="" coords="336,37,559,77"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aab9d1c55e4338f1d19ca436702a92884" title="Signal to the swarm that an update is requested. A Task&lt;TResult&gt; resulting in true if the update shou..." alt="" coords="48,5,245,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aad1f2d1cf257ebd22ce3a34c47389a44" title="Notify the node of an update request from the controller. A Task&lt;TResult&gt; resulting in true if the no..." alt="" coords="5,69,288,109"/>
+</map>

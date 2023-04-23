@@ -77,7 +77,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#properties">Properties</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller-members.html">List of all members</a>  </div>
@@ -141,16 +140,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa86b93e0e2196a8c883997c6ccd80a9b"><td class="memItemLeft" align="right" valign="top">override async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#aa86b93e0e2196a8c883997c6ccd80a9b">OnActionExecutionAsync</a> (ActionExecutingContext context, ActionExecutionDelegate next)</td></tr>
 <tr class="separator:aa86b93e0e2196a8c883997c6ccd80a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
-Properties</h2></td></tr>
-<tr class="memitem:abe903fd4ce48894e9d5e4bc632a4c4e0"><td class="memItemLeft" align="right" valign="top">Guid&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0">RequestRegistrationId</a><code> [get]</code></td></tr>
-<tr class="memdesc:abe903fd4ce48894e9d5e4bc632a4c4e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current registration Guid from the ControllerBase.Request.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0">More...</a><br /></td></tr>
-<tr class="separator:abe903fd4ce48894e9d5e4bc632a4c4e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a26fce6c0c9aebd0086ef4cb1ba3d942f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a> ()</td></tr>
-<tr class="memdesc:a26fce6c0c9aebd0086ef4cb1ba3d942f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0" title="Get the current registration Guid from the ControllerBase.Request.">RequestRegistrationId</a> is valid.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">More...</a><br /></td></tr>
+<tr class="memdesc:a26fce6c0c9aebd0086ef4cb1ba3d942f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check that the RequestRegistrationId is valid.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">More...</a><br /></td></tr>
 <tr class="separator:a26fce6c0c9aebd0086ef4cb1ba3d942f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
@@ -171,7 +164,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >For swarm server communication.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00027">27</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00028">28</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3554793054745b845cdaf6385ab29ee0" name="a3554793054745b845cdaf6385ab29ee0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3554793054745b845cdaf6385ab29ee0">&#9670;&#160;</a></span>SwarmController()</h2>
@@ -222,19 +215,19 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00061">61</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   66</span>        {</div>
-<div class="line"><span class="lineno">   67</span>            this.swarmOperations = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>));</div>
-<div class="line"><span class="lineno">   68</span>            this.assemblyInformationProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3b75126b441bc6bb8f7d313ba7f7285e">assemblyInformationProvider</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3b75126b441bc6bb8f7d313ba7f7285e">assemblyInformationProvider</a>));</div>
-<div class="line"><span class="lineno">   69</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">swarmConfiguration</a> = swarmConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(swarmConfigurationOptions));</div>
-<div class="line"><span class="lineno">   70</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>;</div>
-<div class="line"><span class="lineno">   71</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a16304a5cba8be41beb3cb5515b34cc47"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a></div><div class="ttdeci">readonly ISwarmOperations swarmOperations</div><div class="ttdoc">The ISwarmOperations for the SwarmController.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00037">SwarmController.cs:37</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a3b75126b441bc6bb8f7d313ba7f7285e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3b75126b441bc6bb8f7d313ba7f7285e">Tgstation.Server.Host.Controllers.SwarmController.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the SwarmController.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00042">SwarmController.cs:42</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a6439cd2a46d7f3da9820521acf961c4a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">Tgstation.Server.Host.Controllers.SwarmController.swarmConfiguration</a></div><div class="ttdeci">readonly SwarmConfiguration swarmConfiguration</div><div class="ttdoc">The SwarmConfiguration for the SwarmController.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00052">SwarmController.cs:52</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a7ff0d7c3d2de7abd754afae49196a64c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">Tgstation.Server.Host.Controllers.SwarmController.logger</a></div><div class="ttdeci">readonly ILogger&lt; SwarmController &gt; logger</div><div class="ttdoc">The ILogger for the SwarmController.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00047">SwarmController.cs:47</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00062">62</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>        {</div>
+<div class="line"><span class="lineno">   68</span>            this.swarmOperations = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>));</div>
+<div class="line"><span class="lineno">   69</span>            this.assemblyInformationProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3b75126b441bc6bb8f7d313ba7f7285e">assemblyInformationProvider</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3b75126b441bc6bb8f7d313ba7f7285e">assemblyInformationProvider</a>));</div>
+<div class="line"><span class="lineno">   70</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">swarmConfiguration</a> = swarmConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(swarmConfigurationOptions));</div>
+<div class="line"><span class="lineno">   71</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>;</div>
+<div class="line"><span class="lineno">   72</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a16304a5cba8be41beb3cb5515b34cc47"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a></div><div class="ttdeci">readonly ISwarmOperations swarmOperations</div><div class="ttdoc">The ISwarmOperations for the SwarmController.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00038">SwarmController.cs:38</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a3b75126b441bc6bb8f7d313ba7f7285e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3b75126b441bc6bb8f7d313ba7f7285e">Tgstation.Server.Host.Controllers.SwarmController.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the SwarmController.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00043">SwarmController.cs:43</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a6439cd2a46d7f3da9820521acf961c4a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">Tgstation.Server.Host.Controllers.SwarmController.swarmConfiguration</a></div><div class="ttdeci">readonly SwarmConfiguration swarmConfiguration</div><div class="ttdoc">The SwarmConfiguration for the SwarmController.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00053">SwarmController.cs:53</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a7ff0d7c3d2de7abd754afae49196a64c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">Tgstation.Server.Host.Controllers.SwarmController.logger</a></div><div class="ttdeci">readonly ILogger&lt; SwarmController &gt; logger</div><div class="ttdoc">The ILogger for the SwarmController.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00048">SwarmController.cs:48</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_swarm_controller_8cs_source.html#l00042">Tgstation.Server.Host.Controllers.SwarmController.assemblyInformationProvider</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00047">Tgstation.Server.Host.Controllers.SwarmController.logger</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.SwarmController.swarmConfiguration</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>.</p>
+<p class="reference">References <a class="el" href="_swarm_controller_8cs_source.html#l00043">Tgstation.Server.Host.Controllers.SwarmController.assemblyInformationProvider</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00048">Tgstation.Server.Host.Controllers.SwarmController.logger</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00053">Tgstation.Server.Host.Controllers.SwarmController.swarmConfiguration</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>.</p>
 
 </div>
 </div>
@@ -264,18 +257,18 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00184">184</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  185</span>        {</div>
-<div class="line"><span class="lineno">  186</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
-<div class="line"><span class="lineno">  187</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  188</span> </div>
-<div class="line"><span class="lineno">  189</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a8aa73fdd6c4f5a735629d90cae70f0cb">RemoteAbortUpdate</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  190</span>            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  191</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00185">185</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  186</span>        {</div>
+<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
+<div class="line"><span class="lineno">  188</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  189</span> </div>
+<div class="line"><span class="lineno">  190</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a8aa73fdd6c4f5a735629d90cae70f0cb">RemoteAbortUpdate</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">  192</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_a26fce6c0c9aebd0086ef4cb1ba3d942f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration</a></div><div class="ttdeci">bool ValidateRegistration()</div><div class="ttdoc">Check that the RequestRegistrationId is valid.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_html_a8aa73fdd6c4f5a735629d90cae70f0cb"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a8aa73fdd6c4f5a735629d90cae70f0cb">Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteAbortUpdate</a></div><div class="ttdeci">Task RemoteAbortUpdate(CancellationToken cancellationToken)</div><div class="ttdoc">Remotely abort an uncommitted update.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a8aa73fdd6c4f5a735629d90cae70f0cb">Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteAbortUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a8aa73fdd6c4f5a735629d90cae70f0cb">Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteAbortUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -314,20 +307,19 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00167">167</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  168</span>        {</div>
-<div class="line"><span class="lineno">  169</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
-<div class="line"><span class="lineno">  170</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  171</span> </div>
-<div class="line"><span class="lineno">  172</span>            var result = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#adfd2d301a0354f98dd5720f6bf914a74">RemoteCommitRecieved</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0">RequestRegistrationId</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  173</span>            <span class="keywordflow">if</span> (!result)</div>
-<div class="line"><span class="lineno">  174</span>                <span class="keywordflow">return</span> Conflict();</div>
-<div class="line"><span class="lineno">  175</span>            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  176</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller_html_abe903fd4ce48894e9d5e4bc632a4c4e0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0">Tgstation.Server.Host.Controllers.SwarmController.RequestRegistrationId</a></div><div class="ttdeci">Guid RequestRegistrationId</div><div class="ttdoc">Get the current registration Guid from the ControllerBase.Request.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_controller_8cs_source.html#l00032">SwarmController.cs:32</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00168">168</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  169</span>        {</div>
+<div class="line"><span class="lineno">  170</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
+<div class="line"><span class="lineno">  171</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>            var result = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#adfd2d301a0354f98dd5720f6bf914a74">RemoteCommitRecieved</a>(RequestRegistrationId, cancellationToken);</div>
+<div class="line"><span class="lineno">  174</span>            <span class="keywordflow">if</span> (!result)</div>
+<div class="line"><span class="lineno">  175</span>                <span class="keywordflow">return</span> Conflict();</div>
+<div class="line"><span class="lineno">  176</span>            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">  177</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_html_adfd2d301a0354f98dd5720f6bf914a74"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#adfd2d301a0354f98dd5720f6bf914a74">Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteCommitRecieved</a></div><div class="ttdeci">Task&lt; bool &gt; RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken)</div><div class="ttdoc">Notify the controller that the node with the given registrationId  is ready to commit or notify the n...</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#adfd2d301a0354f98dd5720f6bf914a74">Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteCommitRecieved()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00032">Tgstation.Server.Host.Controllers.SwarmController.RequestRegistrationId</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#adfd2d301a0354f98dd5720f6bf914a74">Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteCommitRecieved()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -359,13 +351,13 @@ Here is the call graph for this function:</div>
 <p>Health check endpoint.  </p>
 <dl class="section return"><dt>Returns</dt><dd>The IActionResult of the operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00113">113</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  114</span>        {</div>
-<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
-<div class="line"><span class="lineno">  116</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  119</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00114">114</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  115</span>        {</div>
+<div class="line"><span class="lineno">  116</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
+<div class="line"><span class="lineno">  117</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">  120</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
 <div class="dynheader">
@@ -408,58 +400,58 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00194">194</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  195</span>        {</div>
-<div class="line"><span class="lineno">  196</span>            <span class="keyword">using</span> (LogContext.PushProperty(<span class="stringliteral">&quot;Request&quot;</span>, $<span class="stringliteral">&quot;{Request.Method} {Request.Path}&quot;</span>))</div>
-<div class="line"><span class="lineno">  197</span>            {</div>
-<div class="line"><span class="lineno">  198</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogTrace(<span class="stringliteral">&quot;Swarm request from {0}...&quot;</span>, Request.HttpContext.Connection.RemoteIpAddress);</div>
-<div class="line"><span class="lineno">  199</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">swarmConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a3ea78e469837542cb2d9f2f2930f7092">PrivateKey</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  200</span>                {</div>
-<div class="line"><span class="lineno">  201</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogDebug(<span class="stringliteral">&quot;Attempted swarm request without private key configured!&quot;</span>);</div>
-<div class="line"><span class="lineno">  202</span>                    await Forbid().ExecuteResultAsync(context);</div>
-<div class="line"><span class="lineno">  203</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  204</span>                }</div>
-<div class="line"><span class="lineno">  205</span> </div>
-<div class="line"><span class="lineno">  206</span>                <span class="keywordflow">if</span> (!(Request.Headers.TryGetValue(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a327007f5bb9edde6ff3eca8e0da3027a">ApiKeyHeader</a>, out var apiKeyHeaderValues)</div>
-<div class="line"><span class="lineno">  207</span>                    &amp;&amp; apiKeyHeaderValues.Count == 1</div>
-<div class="line"><span class="lineno">  208</span>                    &amp;&amp; apiKeyHeaderValues.First() == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">swarmConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a3ea78e469837542cb2d9f2f2930f7092">PrivateKey</a>))</div>
-<div class="line"><span class="lineno">  209</span>                {</div>
-<div class="line"><span class="lineno">  210</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogDebug(<span class="stringliteral">&quot;Unauthorized swarm request!&quot;</span>);</div>
-<div class="line"><span class="lineno">  211</span>                    await Unauthorized().ExecuteResultAsync(context);</div>
-<div class="line"><span class="lineno">  212</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  213</span>                }</div>
-<div class="line"><span class="lineno">  214</span> </div>
-<div class="line"><span class="lineno">  215</span>                <span class="keywordflow">if</span> (!(Request.Headers.TryGetValue(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#ac044806cbe7ad3fc7361aa4c83479335">RegistrationIdHeader</a>, out var registrationHeaderValues)</div>
-<div class="line"><span class="lineno">  216</span>                    &amp;&amp; registrationHeaderValues.Count == 1</div>
-<div class="line"><span class="lineno">  217</span>                    &amp;&amp; Guid.TryParse(registrationHeaderValues.First(), out var registrationId)))</div>
-<div class="line"><span class="lineno">  218</span>                {</div>
-<div class="line"><span class="lineno">  219</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogDebug(<span class="stringliteral">&quot;Swarm request without registration ID!&quot;</span>);</div>
-<div class="line"><span class="lineno">  220</span>                    await BadRequest().ExecuteResultAsync(context);</div>
-<div class="line"><span class="lineno">  221</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  222</span>                }</div>
-<div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>                <span class="comment">// we validate the registration itself on a case-by-case basis</span></div>
-<div class="line"><span class="lineno">  225</span>                <span class="keywordflow">if</span> (ModelState?.IsValid == <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  226</span>                {</div>
-<div class="line"><span class="lineno">  227</span>                    var errors = ModelState</div>
-<div class="line"><span class="lineno">  228</span>                        .SelectMany(x =&gt; x.Value.Errors)</div>
-<div class="line"><span class="lineno">  229</span>                        .Select(x =&gt; x.Exception);</div>
-<div class="line"><span class="lineno">  230</span> </div>
-<div class="line"><span class="lineno">  231</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogDebug(<span class="keyword">new</span> AggregateException(errors), <span class="stringliteral">&quot;Swarm request model validation failed!&quot;</span>);</div>
-<div class="line"><span class="lineno">  232</span>                    await BadRequest().ExecuteResultAsync(context);</div>
-<div class="line"><span class="lineno">  233</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  234</span>                }</div>
-<div class="line"><span class="lineno">  235</span> </div>
-<div class="line"><span class="lineno">  236</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting swarm request processing...&quot;</span>);</div>
-<div class="line"><span class="lineno">  237</span>                await base.OnActionExecutionAsync(context, next);</div>
-<div class="line"><span class="lineno">  238</span>            }</div>
-<div class="line"><span class="lineno">  239</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00195">195</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  196</span>        {</div>
+<div class="line"><span class="lineno">  197</span>            <span class="keyword">using</span> (LogContext.PushProperty(<span class="stringliteral">&quot;Request&quot;</span>, $<span class="stringliteral">&quot;{Request.Method} {Request.Path}&quot;</span>))</div>
+<div class="line"><span class="lineno">  198</span>            {</div>
+<div class="line"><span class="lineno">  199</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogTrace(<span class="stringliteral">&quot;Swarm request from {remoteIP}...&quot;</span>, Request.HttpContext.Connection.RemoteIpAddress);</div>
+<div class="line"><span class="lineno">  200</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">swarmConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a3ea78e469837542cb2d9f2f2930f7092">PrivateKey</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  201</span>                {</div>
+<div class="line"><span class="lineno">  202</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogDebug(<span class="stringliteral">&quot;Attempted swarm request without private key configured!&quot;</span>);</div>
+<div class="line"><span class="lineno">  203</span>                    await Forbid().ExecuteResultAsync(context);</div>
+<div class="line"><span class="lineno">  204</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  205</span>                }</div>
+<div class="line"><span class="lineno">  206</span> </div>
+<div class="line"><span class="lineno">  207</span>                <span class="keywordflow">if</span> (!(Request.Headers.TryGetValue(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a327007f5bb9edde6ff3eca8e0da3027a">ApiKeyHeader</a>, out var apiKeyHeaderValues)</div>
+<div class="line"><span class="lineno">  208</span>                    &amp;&amp; apiKeyHeaderValues.Count == 1</div>
+<div class="line"><span class="lineno">  209</span>                    &amp;&amp; apiKeyHeaderValues.First() == <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">swarmConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a3ea78e469837542cb2d9f2f2930f7092">PrivateKey</a>))</div>
+<div class="line"><span class="lineno">  210</span>                {</div>
+<div class="line"><span class="lineno">  211</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogDebug(<span class="stringliteral">&quot;Unauthorized swarm request!&quot;</span>);</div>
+<div class="line"><span class="lineno">  212</span>                    await Unauthorized().ExecuteResultAsync(context);</div>
+<div class="line"><span class="lineno">  213</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  214</span>                }</div>
+<div class="line"><span class="lineno">  215</span> </div>
+<div class="line"><span class="lineno">  216</span>                <span class="keywordflow">if</span> (!(Request.Headers.TryGetValue(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#ac044806cbe7ad3fc7361aa4c83479335">RegistrationIdHeader</a>, out var registrationHeaderValues)</div>
+<div class="line"><span class="lineno">  217</span>                    &amp;&amp; registrationHeaderValues.Count == 1</div>
+<div class="line"><span class="lineno">  218</span>                    &amp;&amp; Guid.TryParse(registrationHeaderValues.First(), out var registrationId)))</div>
+<div class="line"><span class="lineno">  219</span>                {</div>
+<div class="line"><span class="lineno">  220</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogDebug(<span class="stringliteral">&quot;Swarm request without registration ID!&quot;</span>);</div>
+<div class="line"><span class="lineno">  221</span>                    await BadRequest().ExecuteResultAsync(context);</div>
+<div class="line"><span class="lineno">  222</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  223</span>                }</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>                <span class="comment">// we validate the registration itself on a case-by-case basis</span></div>
+<div class="line"><span class="lineno">  226</span>                <span class="keywordflow">if</span> (ModelState?.IsValid == <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  227</span>                {</div>
+<div class="line"><span class="lineno">  228</span>                    var errors = ModelState</div>
+<div class="line"><span class="lineno">  229</span>                        .SelectMany(x =&gt; x.Value.Errors)</div>
+<div class="line"><span class="lineno">  230</span>                        .Select(x =&gt; x.Exception);</div>
+<div class="line"><span class="lineno">  231</span> </div>
+<div class="line"><span class="lineno">  232</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogDebug(<span class="keyword">new</span> AggregateException(errors), <span class="stringliteral">&quot;Swarm request model validation failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">  233</span>                    await BadRequest().ExecuteResultAsync(context);</div>
+<div class="line"><span class="lineno">  234</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  235</span>                }</div>
+<div class="line"><span class="lineno">  236</span> </div>
+<div class="line"><span class="lineno">  237</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a7ff0d7c3d2de7abd754afae49196a64c">logger</a>.LogTrace(<span class="stringliteral">&quot;Starting swarm request processing...&quot;</span>);</div>
+<div class="line"><span class="lineno">  238</span>                await base.OnActionExecutionAsync(context, next);</div>
+<div class="line"><span class="lineno">  239</span>            }</div>
+<div class="line"><span class="lineno">  240</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration_html_a3ea78e469837542cb2d9f2f2930f7092"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a3ea78e469837542cb2d9f2f2930f7092">Tgstation.Server.Host.Configuration.SwarmConfiguration.PrivateKey</a></div><div class="ttdeci">string PrivateKey</div><div class="ttdoc">The private key used for swarm communication.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_configuration_8cs_source.html#l00035">SwarmConfiguration.cs:35</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">Tgstation.Server.Host.Swarm.SwarmConstants</a></div><div class="ttdoc">Constants used by the swarm system.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_constants_8cs_source.html#l00008">SwarmConstants.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants_html_a327007f5bb9edde6ff3eca8e0da3027a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a327007f5bb9edde6ff3eca8e0da3027a">Tgstation.Server.Host.Swarm.SwarmConstants.ApiKeyHeader</a></div><div class="ttdeci">const string ApiKeyHeader</div><div class="ttdoc">The header used to pass in the Configuration.SwarmConfiguration.PrivateKey.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_constants_8cs_source.html#l00018">SwarmConstants.cs:18</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants_html_ac044806cbe7ad3fc7361aa4c83479335"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#ac044806cbe7ad3fc7361aa4c83479335">Tgstation.Server.Host.Swarm.SwarmConstants.RegistrationIdHeader</a></div><div class="ttdeci">const string RegistrationIdHeader</div><div class="ttdoc">The header used to pass in swarm registration IDs.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_constants_8cs_source.html#l00023">SwarmConstants.cs:23</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_swarm_constants_8cs_source.html#l00018">Tgstation.Server.Host.Swarm.SwarmConstants.ApiKeyHeader</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00047">Tgstation.Server.Host.Controllers.SwarmController.logger</a>, <a class="el" href="_swarm_configuration_8cs_source.html#l00035">Tgstation.Server.Host.Configuration.SwarmConfiguration.PrivateKey</a>, <a class="el" href="_swarm_constants_8cs_source.html#l00023">Tgstation.Server.Host.Swarm.SwarmConstants.RegistrationIdHeader</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.SwarmController.swarmConfiguration</a>.</p>
+<p class="reference">References <a class="el" href="_swarm_constants_8cs_source.html#l00018">Tgstation.Server.Host.Swarm.SwarmConstants.ApiKeyHeader</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00048">Tgstation.Server.Host.Controllers.SwarmController.logger</a>, <a class="el" href="_swarm_configuration_8cs_source.html#l00035">Tgstation.Server.Host.Configuration.SwarmConfiguration.PrivateKey</a>, <a class="el" href="_swarm_constants_8cs_source.html#l00023">Tgstation.Server.Host.Swarm.SwarmConstants.RegistrationIdHeader</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00053">Tgstation.Server.Host.Controllers.SwarmController.swarmConfiguration</a>.</p>
 
 </div>
 </div>
@@ -499,24 +491,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00146">146</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  147</span>        {</div>
-<div class="line"><span class="lineno">  148</span>            <span class="keywordflow">if</span> (updateRequest == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  149</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(updateRequest));</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
-<div class="line"><span class="lineno">  152</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span>            var prepareResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a037065be138bc96b88ec4315693a5f0f">PrepareUpdateFromController</a>(updateRequest.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a54ebab93978a32ff2720fd6052fc72b6">UpdateVersion</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  155</span>            <span class="keywordflow">if</span> (!prepareResult)</div>
-<div class="line"><span class="lineno">  156</span>                <span class="keywordflow">return</span> Conflict();</div>
-<div class="line"><span class="lineno">  157</span> </div>
-<div class="line"><span class="lineno">  158</span>            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  159</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00147">147</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  148</span>        {</div>
+<div class="line"><span class="lineno">  149</span>            <span class="keywordflow">if</span> (updateRequest == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  150</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(updateRequest));</div>
+<div class="line"><span class="lineno">  151</span> </div>
+<div class="line"><span class="lineno">  152</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
+<div class="line"><span class="lineno">  153</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>            var prepareResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a037065be138bc96b88ec4315693a5f0f">PrepareUpdateFromController</a>(updateRequest.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a54ebab93978a32ff2720fd6052fc72b6">UpdateVersion</a>, cancellationToken);</div>
+<div class="line"><span class="lineno">  156</span>            <span class="keywordflow">if</span> (!prepareResult)</div>
+<div class="line"><span class="lineno">  157</span>                <span class="keywordflow">return</span> Conflict();</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">  160</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request_html_a54ebab93978a32ff2720fd6052fc72b6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a54ebab93978a32ff2720fd6052fc72b6">Tgstation.Server.Host.Swarm.SwarmUpdateRequest.UpdateVersion</a></div><div class="ttdeci">Version UpdateVersion</div><div class="ttdoc">The TGS Version to update to.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_update_request_8cs_source.html#l00015">SwarmUpdateRequest.cs:15</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_html_a037065be138bc96b88ec4315693a5f0f"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a037065be138bc96b88ec4315693a5f0f">Tgstation.Server.Host.Swarm.ISwarmOperations.PrepareUpdateFromController</a></div><div class="ttdeci">Task&lt; bool &gt; PrepareUpdateFromController(Version version, CancellationToken cancellationToken)</div><div class="ttdoc">Notify the node of an update request from the controller.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a037065be138bc96b88ec4315693a5f0f">Tgstation.Server.Host.Swarm.ISwarmOperations.PrepareUpdateFromController()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
+<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a037065be138bc96b88ec4315693a5f0f">Tgstation.Server.Host.Swarm.ISwarmOperations.PrepareUpdateFromController()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -555,24 +547,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The IActionResult of the operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00079">79</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   80</span>        {</div>
-<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">if</span> (registrationRequest == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   82</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(registrationRequest));</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">if</span> (registrationRequest.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html#a81cd4d57b8337fadce441cc658fe33fa">ServerVersion</a> != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3b75126b441bc6bb8f7d313ba7f7285e">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Version</a>)</div>
-<div class="line"><span class="lineno">   85</span>                <span class="keywordflow">return</span> StatusCode((<span class="keywordtype">int</span>)HttpStatusCode.UpgradeRequired);</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>            var registrationResult = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a4a036f1af0603bb6951589706fc8b71a">RegisterNode</a>(registrationRequest, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0">RequestRegistrationId</a>);</div>
-<div class="line"><span class="lineno">   88</span>            <span class="keywordflow">if</span> (!registrationResult)</div>
-<div class="line"><span class="lineno">   89</span>                <span class="keywordflow">return</span> Conflict();</div>
-<div class="line"><span class="lineno">   90</span>            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">   91</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00080">80</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>        {</div>
+<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">if</span> (registrationRequest == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   83</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(registrationRequest));</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>            <span class="keywordflow">if</span> (registrationRequest.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html#a81cd4d57b8337fadce441cc658fe33fa">ServerVersion</a> != <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3b75126b441bc6bb8f7d313ba7f7285e">assemblyInformationProvider</a>.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Version</a>)</div>
+<div class="line"><span class="lineno">   86</span>                <span class="keywordflow">return</span> StatusCode((<span class="keywordtype">int</span>)HttpStatusCode.UpgradeRequired);</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>            var registrationResult = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a4a036f1af0603bb6951589706fc8b71a">RegisterNode</a>(registrationRequest, RequestRegistrationId);</div>
+<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">if</span> (!registrationResult)</div>
+<div class="line"><span class="lineno">   90</span>                <span class="keywordflow">return</span> Conflict();</div>
+<div class="line"><span class="lineno">   91</span>            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">   92</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request_html_a81cd4d57b8337fadce441cc658fe33fa"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html#a81cd4d57b8337fadce441cc658fe33fa">Tgstation.Server.Host.Swarm.SwarmRegistrationRequest.ServerVersion</a></div><div class="ttdeci">Version ServerVersion</div><div class="ttdoc">The TGS Version of the sending server.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_registration_request_8cs_source.html#l00017">SwarmRegistrationRequest.cs:17</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_html_a4a036f1af0603bb6951589706fc8b71a"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a4a036f1af0603bb6951589706fc8b71a">Tgstation.Server.Host.Swarm.ISwarmOperations.RegisterNode</a></div><div class="ttdeci">bool RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId)</div><div class="ttdoc">Attempt to register a given node  with the controller.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_a600df9ffd79d4f94f59dfefccbcec099"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a600df9ffd79d4f94f59dfefccbcec099">Tgstation.Server.Host.System.IAssemblyInformationProvider.Version</a></div><div class="ttdeci">Version Version</div><div class="ttdoc">The version of the assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00035">IAssemblyInformationProvider.cs:35</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_swarm_controller_8cs_source.html#l00042">Tgstation.Server.Host.Controllers.SwarmController.assemblyInformationProvider</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a4a036f1af0603bb6951589706fc8b71a">Tgstation.Server.Host.Swarm.ISwarmOperations.RegisterNode()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00032">Tgstation.Server.Host.Controllers.SwarmController.RequestRegistrationId</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00035">Tgstation.Server.Host.System.IAssemblyInformationProvider.Version</a>.</p>
+<p class="reference">References <a class="el" href="_swarm_controller_8cs_source.html#l00043">Tgstation.Server.Host.Controllers.SwarmController.assemblyInformationProvider</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a4a036f1af0603bb6951589706fc8b71a">Tgstation.Server.Host.Swarm.ISwarmOperations.RegisterNode()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00035">Tgstation.Server.Host.System.IAssemblyInformationProvider.Version</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -610,17 +602,17 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00099">99</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  100</span>        {</div>
-<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
-<div class="line"><span class="lineno">  102</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a97fe7a292801196edc4fc3295aa5c071">UnregisterNode</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0">RequestRegistrationId</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  105</span>            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  106</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00100">100</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>        {</div>
+<div class="line"><span class="lineno">  102</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
+<div class="line"><span class="lineno">  103</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a97fe7a292801196edc4fc3295aa5c071">UnregisterNode</a>(RequestRegistrationId, cancellationToken);</div>
+<div class="line"><span class="lineno">  106</span>            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">  107</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_html_a97fe7a292801196edc4fc3295aa5c071"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a97fe7a292801196edc4fc3295aa5c071">Tgstation.Server.Host.Swarm.ISwarmOperations.UnregisterNode</a></div><div class="ttdeci">Task UnregisterNode(Guid registrationId, CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to unregister a node with a given registrationId  with the controller.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_swarm_controller_8cs_source.html#l00032">Tgstation.Server.Host.Controllers.SwarmController.RequestRegistrationId</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a97fe7a292801196edc4fc3295aa5c071">Tgstation.Server.Host.Swarm.ISwarmOperations.UnregisterNode()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
+<p class="reference">References <a class="el" href="_swarm_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a97fe7a292801196edc4fc3295aa5c071">Tgstation.Server.Host.Swarm.ISwarmOperations.UnregisterNode()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -659,21 +651,21 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The IActionResult of the operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00127">127</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  128</span>        {</div>
-<div class="line"><span class="lineno">  129</span>            <span class="keywordflow">if</span> (serversUpdateRequest == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  130</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(serversUpdateRequest));</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
-<div class="line"><span class="lineno">  133</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a2ba1740a5fd62d86167cb46c1440f280">UpdateSwarmServersList</a>(serversUpdateRequest.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_servers_update_request.html#abeda4ad931a5b74bda3eb8f17b0d850e">SwarmServers</a>);</div>
-<div class="line"><span class="lineno">  136</span>            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  137</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00128">128</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  129</span>        {</div>
+<div class="line"><span class="lineno">  130</span>            <span class="keywordflow">if</span> (serversUpdateRequest == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  131</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(serversUpdateRequest));</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>            <span class="keywordflow">if</span> (!<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">ValidateRegistration</a>())</div>
+<div class="line"><span class="lineno">  134</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">swarmOperations</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a2ba1740a5fd62d86167cb46c1440f280">UpdateSwarmServersList</a>(serversUpdateRequest.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_servers_update_request.html#abeda4ad931a5b74bda3eb8f17b0d850e">SwarmServers</a>);</div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">  138</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_servers_update_request_html_abeda4ad931a5b74bda3eb8f17b0d850e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_servers_update_request.html#abeda4ad931a5b74bda3eb8f17b0d850e">Tgstation.Server.Host.Swarm.SwarmServersUpdateRequest.SwarmServers</a></div><div class="ttdeci">ICollection&lt; SwarmServerResponse &gt; SwarmServers</div><div class="ttdoc">The ICollection&lt;T&gt; of updated SwarmServerResponses.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_servers_update_request_8cs_source.html#l00017">SwarmServersUpdateRequest.cs:17</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations_html_a2ba1740a5fd62d86167cb46c1440f280"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a2ba1740a5fd62d86167cb46c1440f280">Tgstation.Server.Host.Swarm.ISwarmOperations.UpdateSwarmServersList</a></div><div class="ttdeci">void UpdateSwarmServersList(IEnumerable&lt; SwarmServerResponse &gt; swarmServers)</div><div class="ttdoc">Pass in an updated list of swarmServers  to the node.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_swarm_controller_8cs_source.html#l00037">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a2ba1740a5fd62d86167cb46c1440f280">Tgstation.Server.Host.Swarm.ISwarmOperations.UpdateSwarmServersList()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
+<p class="reference">References <a class="el" href="_swarm_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.SwarmController.swarmOperations</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#a2ba1740a5fd62d86167cb46c1440f280">Tgstation.Server.Host.Swarm.ISwarmOperations.UpdateSwarmServersList()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a26fce6c0c9aebd0086ef4cb1ba3d942f">Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -710,10 +702,10 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Check that the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0" title="Get the current registration Guid from the ControllerBase.Request.">RequestRegistrationId</a> is valid.  </p>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#abe903fd4ce48894e9d5e4bc632a4c4e0" title="Get the current registration Guid from the ControllerBase.Request.">RequestRegistrationId</a> is valid, <code>false</code> otherwise.</dd></dl>
+<p>Check that the RequestRegistrationId is valid.  </p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the RequestRegistrationId is valid, <code>false</code> otherwise.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00184">Tgstation.Server.Host.Controllers.SwarmController.AbortUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00167">Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.SwarmController.HealthCheck()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00146">Tgstation.Server.Host.Controllers.SwarmController.PrepareUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00099">Tgstation.Server.Host.Controllers.SwarmController.UnregisterNode()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00127">Tgstation.Server.Host.Controllers.SwarmController.UpdateNodeList()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00185">Tgstation.Server.Host.Controllers.SwarmController.AbortUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00168">Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00114">Tgstation.Server.Host.Controllers.SwarmController.HealthCheck()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00147">Tgstation.Server.Host.Controllers.SwarmController.PrepareUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00100">Tgstation.Server.Host.Controllers.SwarmController.UnregisterNode()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00128">Tgstation.Server.Host.Controllers.SwarmController.UpdateNodeList()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -754,9 +746,9 @@ Here is the caller graph for this function:</div>
 
 <p>The IAssemblyInformationProvider for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html" title="For swarm server communication.">SwarmController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00042">42</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00043">43</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00079">Tgstation.Server.Host.Controllers.SwarmController.Register()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.SwarmController.SwarmController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00080">Tgstation.Server.Host.Controllers.SwarmController.Register()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00062">Tgstation.Server.Host.Controllers.SwarmController.SwarmController()</a>.</p>
 
 </div>
 </div>
@@ -782,9 +774,9 @@ Here is the caller graph for this function:</div>
 
 <p>The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html" title="For swarm server communication.">SwarmController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00047">47</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00048">48</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00194">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.SwarmController.SwarmController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00195">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00062">Tgstation.Server.Host.Controllers.SwarmController.SwarmController()</a>.</p>
 
 </div>
 </div>
@@ -810,9 +802,9 @@ Here is the caller graph for this function:</div>
 
 <p>The SwarmConfiguration for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html" title="For swarm server communication.">SwarmController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00052">52</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00053">53</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00194">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.SwarmController.SwarmController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00195">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00062">Tgstation.Server.Host.Controllers.SwarmController.SwarmController()</a>.</p>
 
 </div>
 </div>
@@ -838,38 +830,9 @@ Here is the caller graph for this function:</div>
 
 <p>The ISwarmOperations for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html" title="For swarm server communication.">SwarmController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00037">37</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00038">38</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00184">Tgstation.Server.Host.Controllers.SwarmController.AbortUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00167">Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00146">Tgstation.Server.Host.Controllers.SwarmController.PrepareUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00079">Tgstation.Server.Host.Controllers.SwarmController.Register()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.SwarmController.SwarmController()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00099">Tgstation.Server.Host.Controllers.SwarmController.UnregisterNode()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00127">Tgstation.Server.Host.Controllers.SwarmController.UpdateNodeList()</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Property Documentation</h2>
-<a id="abe903fd4ce48894e9d5e4bc632a4c4e0" name="abe903fd4ce48894e9d5e4bc632a4c4e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe903fd4ce48894e9d5e4bc632a4c4e0">&#9670;&#160;</a></span>RequestRegistrationId</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Guid Tgstation.Server.Host.Controllers.SwarmController.RequestRegistrationId</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the current registration Guid from the ControllerBase.Request.  </p>
-
-<p class="definition">Definition at line <a class="el" href="_swarm_controller_8cs_source.html#l00032">32</a> of file <a class="el" href="_swarm_controller_8cs_source.html">SwarmController.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00167">Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00079">Tgstation.Server.Host.Controllers.SwarmController.Register()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00099">Tgstation.Server.Host.Controllers.SwarmController.UnregisterNode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00185">Tgstation.Server.Host.Controllers.SwarmController.AbortUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00168">Tgstation.Server.Host.Controllers.SwarmController.CommitUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00147">Tgstation.Server.Host.Controllers.SwarmController.PrepareUpdate()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00080">Tgstation.Server.Host.Controllers.SwarmController.Register()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00062">Tgstation.Server.Host.Controllers.SwarmController.SwarmController()</a>, <a class="el" href="_swarm_controller_8cs_source.html#l00100">Tgstation.Server.Host.Controllers.SwarmController.UnregisterNode()</a>, and <a class="el" href="_swarm_controller_8cs_source.html#l00128">Tgstation.Server.Host.Controllers.SwarmController.UpdateNodeList()</a>.</p>
 
 </div>
 </div>

@@ -90,6 +90,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for swarm operations. Functions may be no-op based on configuration.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html">ISwarmServiceController</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start and stop controllers for a swarm service.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html">SwarmConstants</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants used by the swarm system.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -108,11 +111,39 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:a9923552cf79abff46ddf853f47b21446"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">SwarmCommitResult</a> </td></tr>
+<tr class="memdesc:a9923552cf79abff46ddf853f47b21446"><td class="mdescLeft">&#160;</td><td class="mdescRight">How to proceed on the commit step of an update.   <a href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">More...</a><br /></td></tr>
+<tr class="separator:a9923552cf79abff46ddf853f47b21446"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfc07eda2ac8eff75a6eef3f90bdf3e0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a> </td></tr>
 <tr class="memdesc:acfc07eda2ac8eff75a6eef3f90bdf3e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of attempting to register with a swarm controller.   <a href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">More...</a><br /></td></tr>
 <tr class="separator:acfc07eda2ac8eff75a6eef3f90bdf3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a9923552cf79abff46ddf853f47b21446" name="a9923552cf79abff46ddf853f47b21446"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9923552cf79abff46ddf853f47b21446">&#9670;&#160;</a></span>SwarmCommitResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">Tgstation.Server.Host.Swarm.SwarmCommitResult</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>How to proceed on the commit step of an update.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_commit_result_8cs_source.html#l00006">6</a> of file <a class="el" href="_swarm_commit_result_8cs_source.html">SwarmCommitResult.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    7</span>    {</div>
+<div class="line"><span class="lineno">   11</span>        AbortUpdate,</div>
+<div class="line"><span class="lineno">   12</span> </div>
+<div class="line"><span class="lineno">   16</span>        ContinueUpdateNonCommitted,</div>
+<div class="line"><span class="lineno">   17</span> </div>
+<div class="line"><span class="lineno">   21</span>        MustCommitUpdate,</div>
+<div class="line"><span class="lineno">   22</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="acfc07eda2ac8eff75a6eef3f90bdf3e0" name="acfc07eda2ac8eff75a6eef3f90bdf3e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acfc07eda2ac8eff75a6eef3f90bdf3e0">&#9670;&#160;</a></span>SwarmRegistrationResult</h2>
 

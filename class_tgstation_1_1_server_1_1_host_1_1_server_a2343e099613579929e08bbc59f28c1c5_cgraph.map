@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Server.TryStartUpdate" name="Tgstation.Server.Host.Server.TryStartUpdate">
+<area shape="rect" id="node1" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="5,69,197,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used." alt="" coords="273,5,465,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a2b25c5bbbaa17232348921c7e0f84531" title="Executes a pending server update by extracting the new server to a given updatePath ." alt="" coords="245,69,492,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#ab2114beab119e090ece99d97ef0ca9c6" title="Restarts the Host. A Task representing the running operation." alt="" coords="273,133,465,173"/>
+</map>

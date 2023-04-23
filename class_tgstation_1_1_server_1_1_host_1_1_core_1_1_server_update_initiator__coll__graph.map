@@ -1,11 +1,6 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdateInitiator" name="Tgstation.Server.Host.Core.ServerUpdateInitiator">
-<area shape="rect" id="node1" title=" " alt="" coords="709,151,891,191"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html" title="Initiates server self updates." alt="" coords="332,5,481,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="316,55,497,95"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="323,119,491,159"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="316,183,497,223"/>
-<area shape="rect" id="node6" title=" " alt="" coords="277,247,536,287"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system." alt="" coords="292,311,521,351"/>
-<area shape="rect" id="node8" title=" " alt="" coords="5,293,60,319"/>
-<area shape="rect" id="node9" title=" " alt="" coords="9,343,56,368"/>
+<area shape="rect" id="node1" title=" " alt="" coords="335,55,516,95"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html" title="Initiates server self updates." alt="" coords="28,5,177,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="5,55,200,95"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html" title="Updates the server." alt="" coords="12,119,193,159"/>
 </map>

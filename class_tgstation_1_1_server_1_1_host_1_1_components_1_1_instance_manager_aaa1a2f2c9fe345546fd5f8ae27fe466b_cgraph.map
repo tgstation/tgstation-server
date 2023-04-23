@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.StopAsync" name="Tgstation.Server.Host.Components.InstanceManager.StopAsync">
 <area shape="rect" id="node1" title=" " alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ac6d9e40d5100430fb7215bd3f11b4e7a" title="Deregister with the swarm controller or put clients into querying state." alt="" coords="280,5,475,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#afd19530265daea53c5bc78e83d0d0b64" title="Deregister with the swarm controller or put clients into querying state." alt="" coords="280,5,507,45"/>
 </map>

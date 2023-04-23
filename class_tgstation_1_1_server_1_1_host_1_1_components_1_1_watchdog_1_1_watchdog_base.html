@@ -209,18 +209,18 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4">More...</a><br /></td></tr>
 <tr class="separator:a49a9acdffdc9e7cd176f803b23e97ff4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e4642f1b29fff6e830c654384f8813f"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f">HandleRestart</a> (Version updateVersion, bool graceful, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a0e4642f1b29fff6e830c654384f8813f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a19ad4bfb1203b937a7183e418dd345ed"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed">HandleRestart</a> (Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a19ad4bfb1203b937a7183e418dd345ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">updateVersion</td><td>The Version being updated to, <code>null</code> if not being changed.</td></tr>
-    <tr><td class="paramname">graceful</td><td>If <code>true</code> the restart handler perform no destructive actions.</td></tr>
+    <tr><td class="paramname">gracefulShutdown</td><td>If <code>true</code> the server should not expect to restart.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f">More...</a><br /></td></tr>
-<tr class="separator:a0e4642f1b29fff6e830c654384f8813f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed">More...</a><br /></td></tr>
+<tr class="separator:a19ad4bfb1203b937a7183e418dd345ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ca371ec92c273cd6b3ab2f6931f8a65"><td class="memItemLeft" align="right" valign="top">abstract Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a3ca371ec92c273cd6b3ab2f6931f8a65">InstanceRenamed</a> (string newInstanceName, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a3ca371ec92c273cd6b3ab2f6931f8a65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the owning <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html">Instance</a> is renamed. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -269,9 +269,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a87fbee2ac435bb743c6eddd3dbe23c6b"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a87fbee2ac435bb743c6eddd3dbe23c6b">HandleChatCommand</a> (string commandName, string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> sender, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a87fbee2ac435bb743c6eddd3dbe23c6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a chat command.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a87fbee2ac435bb743c6eddd3dbe23c6b">More...</a><br /></td></tr>
 <tr class="separator:a87fbee2ac435bb743c6eddd3dbe23c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03028e6082b0e88e2d46c4c9ea0e7af7"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a03028e6082b0e88e2d46c4c9ea0e7af7">HandleRestart</a> (Version updateVersion, bool graceful, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a03028e6082b0e88e2d46c4c9ea0e7af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a03028e6082b0e88e2d46c4c9ea0e7af7">More...</a><br /></td></tr>
-<tr class="separator:a03028e6082b0e88e2d46c4c9ea0e7af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34457208efa507589b984a24a2c65c67"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a34457208efa507589b984a24a2c65c67">HandleRestart</a> (Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a34457208efa507589b984a24a2c65c67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a34457208efa507589b984a24a2c65c67">More...</a><br /></td></tr>
+<tr class="separator:a34457208efa507589b984a24a2c65c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -1237,7 +1237,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="5,242,288,282"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a7f6314f04d25300b61c73a5fdede8cfb" title="Handles the actions to take when the monitor has to &quot;wake up&quot;. A Task&lt;TResult&gt; resulting in the Monit..." alt="" coords="1272,172,1580,212"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog. A Task representing the running operation." alt="" coords="973,236,1205,276"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="645,236,903,276"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="645,236,903,276"/>
 </map>
 </div>
 
@@ -1446,7 +1446,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="11,127,282,167"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="5,248,288,288"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog. A Task representing the running operation." alt="" coords="349,312,581,352"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="18,312,275,352"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="18,312,275,352"/>
 </map>
 </div>
 
@@ -1645,7 +1645,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="11,127,282,167"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="5,248,288,288"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog. A Task representing the running operation." alt="" coords="349,312,581,352"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="18,312,275,352"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="18,312,275,352"/>
 </map>
 </div>
 
@@ -1862,8 +1862,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a0e4642f1b29fff6e830c654384f8813f" name="a0e4642f1b29fff6e830c654384f8813f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e4642f1b29fff6e830c654384f8813f">&#9670;&#160;</a></span>HandleRestart()</h2>
+<a id="a19ad4bfb1203b937a7183e418dd345ed" name="a19ad4bfb1203b937a7183e418dd345ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19ad4bfb1203b937a7183e418dd345ed">&#9670;&#160;</a></span>HandleRestart()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1878,7 +1878,7 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>graceful</em>, </td>
+          <td class="paramname"><em>gracefulShutdown</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1897,7 +1897,7 @@ Here is the caller graph for this function:</div>
 <p>Handle a restart of the server. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">updateVersion</td><td>The Version being updated to, <code>null</code> if not being changed.</td></tr>
-    <tr><td class="paramname">graceful</td><td>If <code>true</code> the restart handler perform no destructive actions.</td></tr>
+    <tr><td class="paramname">gracefulShutdown</td><td>If <code>true</code> the server should not expect to restart.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -1905,11 +1905,11 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a03028e6082b0e88e2d46c4c9ea0e7af7">Tgstation.Server.Host.Core.IRestartHandler</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a34457208efa507589b984a24a2c65c67">Tgstation.Server.Host.Core.IRestartHandler</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_watchdog_base_8cs_source.html#l00405">405</a> of file <a class="el" href="_watchdog_base_8cs_source.html">WatchdogBase.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  406</span>        {</div>
-<div class="line"><span class="lineno">  407</span>            <span class="keywordflow">if</span> (graceful)</div>
+<div class="line"><span class="lineno">  407</span>            <span class="keywordflow">if</span> (gracefulShutdown)</div>
 <div class="line"><span class="lineno">  408</span>            {</div>
 <div class="line"><span class="lineno">  409</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4">Terminate</a>(<span class="keyword">true</span>, cancellationToken);</div>
 <div class="line"><span class="lineno">  410</span> </div>
@@ -1937,8 +1937,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a0e4642f1b29fff6e830c654384f8813f_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a0e4642f1b29fff6e830c654384f8813f_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a0e4642f1b29fff6e830c654384f8813f_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a0e4642f1b29fff6e830c654384f8813f_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a19ad4bfb1203b937a7183e418dd345ed_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a19ad4bfb1203b937a7183e418dd345ed_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a19ad4bfb1203b937a7183e418dd345ed_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a19ad4bfb1203b937a7183e418dd345ed_cgraph">
 <area shape="rect" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="5,32,263,72"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1f6855c98ad2fd9d071eb31236630258" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="917,5,1203,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog. A Task representing the running operation." alt="" coords="311,60,543,100"/>
@@ -3293,7 +3293,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39d65944835fca058d4a4be46eaf81bd" title="Restarts the watchdog. A Task representing the running operation." alt="" coords="339,5,565,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog. A Task representing the running operation." alt="" coords="336,69,568,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="5,5,288,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="18,69,275,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="18,69,275,109"/>
 </map>
 </div>
 
@@ -3368,7 +3368,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a49a9acdffdc9e7cd176f803b23e97ff4_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a49a9acdffdc9e7cd176f803b23e97ff4_icgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a49a9acdffdc9e7cd176f803b23e97ff4_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base_a49a9acdffdc9e7cd176f803b23e97ff4_icgraph">
 <area shape="rect" title="Stops the watchdog. A Task representing the running operation." alt="" coords="311,5,543,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="5,5,263,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="5,5,263,45"/>
 </map>
 </div>
 
@@ -3489,7 +3489,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39d65944835fca058d4a4be46eaf81bd" title="Restarts the watchdog. A Task representing the running operation." alt="" coords="339,5,565,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog. A Task representing the running operation." alt="" coords="336,69,568,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="5,5,288,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="18,69,275,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="18,69,275,109"/>
 </map>
 </div>
 

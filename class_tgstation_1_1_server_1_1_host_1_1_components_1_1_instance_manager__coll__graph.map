@@ -15,7 +15,7 @@
 <area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys." alt="" coords="415,644,617,684"/>
 <area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="425,708,607,748"/>
 <area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="425,772,607,812"/>
-<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="419,836,613,876"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html" title="Start and stop controllers for a swarm service." alt="" coords="419,836,613,876"/>
 <area shape="rect" id="node18" title=" " alt="" coords="406,900,626,955"/>
 <area shape="rect" id="node19" title=" " alt="" coords="409,979,623,1034"/>
 <area shape="rect" id="node20" title=" " alt="" coords="431,1058,601,1098"/>

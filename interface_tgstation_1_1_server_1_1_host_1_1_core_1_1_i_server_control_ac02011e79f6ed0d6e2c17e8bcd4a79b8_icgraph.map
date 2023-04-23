@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Core.IServerControl.TryStartUpdate" name="Tgstation.Server.Host.Core.IServerControl.TryStartUpdate">
+<area shape="rect" id="node1" title="Attempt to update with a given updateExecutor ." alt="" coords="237,5,433,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#abbe150fca9be09209df0abe1f9152899" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,5,189,45"/>
+</map>

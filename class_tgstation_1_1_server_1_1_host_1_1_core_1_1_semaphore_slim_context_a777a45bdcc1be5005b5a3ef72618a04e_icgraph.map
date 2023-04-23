@@ -34,5 +34,5 @@
 <area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="5,747,288,787"/>
 <area shape="rect" id="node25" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a2a38db71313d0a37018e16b39f123083" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="1273,1027,1543,1067"/>
 <area shape="rect" id="node30" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9f739bf99678bc5adb51f0b402b531af" title=" " alt="" coords="1295,1291,1521,1331"/>
-<area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="1279,1483,1537,1523"/>
+<area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="1279,1483,1537,1523"/>
 </map>

@@ -89,10 +89,9 @@ Inheritance diagram for Tgstation.Server.Host.Core.IRestartHandler:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_core_8_i_restart_handler_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_core_8_i_restart_handler_inherit__map" id="a_tgstation_8_server_8_host_8_core_8_i_restart_handler_inherit__map">
-<area shape="rect" title="Handler for server restarts." alt="" coords="5,69,187,109"/>
+<area shape="rect" title="Handler for server restarts." alt="" coords="5,37,187,77"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="235,5,461,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="235,69,461,109"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="251,133,445,173"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="509,69,736,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of symlinks to swap out ch..." alt="" coords="784,69,1011,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the WindowsWatchdog that works on POSIX systems." alt="" coords="1059,69,1285,109"/>
@@ -101,17 +100,17 @@ Inheritance diagram for Tgstation.Server.Host.Core.IRestartHandler:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a03028e6082b0e88e2d46c4c9ea0e7af7"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a03028e6082b0e88e2d46c4c9ea0e7af7">HandleRestart</a> (Version updateVersion, bool graceful, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a03028e6082b0e88e2d46c4c9ea0e7af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a03028e6082b0e88e2d46c4c9ea0e7af7">More...</a><br /></td></tr>
-<tr class="separator:a03028e6082b0e88e2d46c4c9ea0e7af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34457208efa507589b984a24a2c65c67"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a34457208efa507589b984a24a2c65c67">HandleRestart</a> (Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a34457208efa507589b984a24a2c65c67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a restart of the server.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html#a34457208efa507589b984a24a2c65c67">More...</a><br /></td></tr>
+<tr class="separator:a34457208efa507589b984a24a2c65c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Handler for server restarts.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_restart_handler_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_restart_handler_8cs_source.html">IRestartHandler.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a03028e6082b0e88e2d46c4c9ea0e7af7" name="a03028e6082b0e88e2d46c4c9ea0e7af7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03028e6082b0e88e2d46c4c9ea0e7af7">&#9670;&#160;</a></span>HandleRestart()</h2>
+<a id="a34457208efa507589b984a24a2c65c67" name="a34457208efa507589b984a24a2c65c67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34457208efa507589b984a24a2c65c67">&#9670;&#160;</a></span>HandleRestart()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -126,7 +125,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>graceful</em>, </td>
+          <td class="paramname"><em>gracefulShutdown</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -146,14 +145,14 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">updateVersion</td><td>The Version being updated to, <code>null</code> if not being changed.</td></tr>
-    <tr><td class="paramname">graceful</td><td>If <code>true</code> the restart handler perform no destructive actions.</td></tr>
+    <tr><td class="paramname">gracefulShutdown</td><td>If <code>true</code> the server should not expect to restart.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a601755850f99304611fa1936aa6a6742">Tgstation.Server.Host.Components.Chat.ChatManager</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0e4642f1b29fff6e830c654384f8813f">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a73b60befbf39eb2bc863f0c213bbfc0d">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab422bd62876dd150acf254eca4ed7305">Tgstation.Server.Host.Components.Chat.ChatManager</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
 
 </div>
 </div>

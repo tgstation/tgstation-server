@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl" name="Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl">
-<area shape="rect" id="node1" title="Implementation of PrepareUpdate(Version, CancellationToken),." alt="" coords="5,63,228,103"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465" title="Abort an uncommitted update. A Task representing the running operation." alt="" coords="292,5,487,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="551,35,795,75"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ac8909b69744276b792b9fcde8dc938f1" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="276,120,503,160"/>
+<area shape="rect" id="node1" title="Implementation of PrepareUpdate(Version, CancellationToken),." alt="" coords="5,89,228,129"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465" title="Abort an uncommitted update. A Task representing the running operation." alt="" coords="276,59,471,99"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_abstract_http_client_factory.html#af60f3d5eb15266da12efa55872a7b21f" title="Create a IHttpClient." alt="" coords="532,5,749,60"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="519,95,763,135"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html#ace8c0282f2d5f7ce1cb015f023dd1fc9" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="279,174,467,214"/>
 </map>

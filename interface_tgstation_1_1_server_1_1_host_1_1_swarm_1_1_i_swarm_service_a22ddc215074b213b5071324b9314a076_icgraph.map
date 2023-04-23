@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.ISwarmService.Initialize" name="Tgstation.Server.Host.Swarm.ISwarmService.Initialize">
-<area shape="rect" id="node1" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="555,5,749,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a14961bdb98a47d970eee34c7949661ed" title="Initializes the connection to the TGS swarm." alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9f739bf99678bc5adb51f0b402b531af" title=" " alt="" coords="5,5,232,45"/>
-</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>tgstation-server: src/Tgstation.Server.Client/IHttpClient.cs Source File</title>
+<title>tgstation-server: src/Tgstation.Server.Common/IHttpClient.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,7 +71,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_9826fb2d31585a830723e6d7089b5d0e.html">Tgstation.Server.Client</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c79986b3cf736cf12ec68449cf9642ff.html">Tgstation.Server.Common</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,23 +80,27 @@ $(function() {
 <div class="contents">
 <a href="_i_http_client_8cs.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System;</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>System.Net.Http;</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span>System.Threading;</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span>System.Threading.Tasks;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_client.html">Tgstation.Server.Client</a></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html">   11</a></span>    <span class="keyword">interface </span><a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html">IHttpClient</a> : <a class="code hl_class" href="class_i_disposable.html">IDisposable</a></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#ad27a406c0398b4824889a0020ee291aa">   16</a></span>        TimeSpan <a class="code hl_property" href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#ad27a406c0398b4824889a0020ee291aa">Timeout</a> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#a5c7a10d6d43155794d3b88db904cd601">   24</a></span>        Task&lt;HttpResponseMessage&gt; <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#a5c7a10d6d43155794d3b88db904cd601">SendAsync</a>(HttpRequestMessage request, CancellationToken cancellationToken);</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    }</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span>System.Net.Http.Headers;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span>System.Threading;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using </span>System.Threading.Tasks;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_common.html">Tgstation.Server.Common</a></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html">   12</a></span>    <span class="keyword">public</span> <span class="keyword">interface </span><a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html">IHttpClient</a> : <a class="code hl_class" href="class_i_disposable.html">IDisposable</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7d74d8c035440ad5e24437653c2e9428">   17</a></span>        TimeSpan <a class="code hl_property" href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7d74d8c035440ad5e24437653c2e9428">Timeout</a> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7c77cab47c808bd211d540751dd9783c">   22</a></span>        HttpRequestHeaders <a class="code hl_property" href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7c77cab47c808bd211d540751dd9783c">DefaultRequestHeaders</a> { <span class="keyword">get</span>; }</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7bdb29ab38fc059f334ea67c659712b9">   30</a></span>        Task&lt;HttpResponseMessage&gt; <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7bdb29ab38fc059f334ea67c659712b9">SendAsync</a>(HttpRequestMessage request, CancellationToken cancellationToken);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
 <div class="ttc" id="aclass_i_disposable_html"><div class="ttname"><a href="class_i_disposable.html">IDisposable</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_http_client_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html">Tgstation.Server.Client.IHttpClient</a></div><div class="ttdoc">For sending HTTP requests.</div><div class="ttdef"><b>Definition:</b> <a href="_i_http_client_8cs_source.html#l00011">IHttpClient.cs:12</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_http_client_html_a5c7a10d6d43155794d3b88db904cd601"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#a5c7a10d6d43155794d3b88db904cd601">Tgstation.Server.Client.IHttpClient.SendAsync</a></div><div class="ttdeci">Task&lt; HttpResponseMessage &gt; SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)</div><div class="ttdoc">Send an HTTP request.</div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_http_client_html_ad27a406c0398b4824889a0020ee291aa"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#ad27a406c0398b4824889a0020ee291aa">Tgstation.Server.Client.IHttpClient.Timeout</a></div><div class="ttdeci">TimeSpan Timeout</div><div class="ttdoc">The request timeout.</div><div class="ttdef"><b>Definition:</b> <a href="_i_http_client_8cs_source.html#l00016">IHttpClient.cs:16</a></div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_client_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_client.html">Tgstation.Server.Client</a></div><div class="ttdef"><b>Definition:</b> <a href="_administration_client_8cs_source.html#l00012">AdministrationClient.cs:13</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_common_1_1_i_http_client_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html">Tgstation.Server.Common.IHttpClient</a></div><div class="ttdoc">For sending HTTP requests.</div><div class="ttdef"><b>Definition:</b> <a href="_i_http_client_8cs_source.html#l00012">IHttpClient.cs:13</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_common_1_1_i_http_client_html_a7bdb29ab38fc059f334ea67c659712b9"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7bdb29ab38fc059f334ea67c659712b9">Tgstation.Server.Common.IHttpClient.SendAsync</a></div><div class="ttdeci">Task&lt; HttpResponseMessage &gt; SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)</div><div class="ttdoc">Send an HTTP request.</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_common_1_1_i_http_client_html_a7c77cab47c808bd211d540751dd9783c"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7c77cab47c808bd211d540751dd9783c">Tgstation.Server.Common.IHttpClient.DefaultRequestHeaders</a></div><div class="ttdeci">HttpRequestHeaders DefaultRequestHeaders</div><div class="ttdoc">The HttpRequestHeaders used on every request.</div><div class="ttdef"><b>Definition:</b> <a href="_i_http_client_8cs_source.html#l00022">IHttpClient.cs:22</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_common_1_1_i_http_client_html_a7d74d8c035440ad5e24437653c2e9428"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_common_1_1_i_http_client.html#a7d74d8c035440ad5e24437653c2e9428">Tgstation.Server.Common.IHttpClient.Timeout</a></div><div class="ttdeci">TimeSpan Timeout</div><div class="ttdoc">The request timeout.</div><div class="ttdef"><b>Definition:</b> <a href="_i_http_client_8cs_source.html#l00017">IHttpClient.cs:17</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_common_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_common.html">Tgstation.Server.Common</a></div><div class="ttdef"><b>Definition:</b> <a href="_http_client_8cs_source.html#l00007">HttpClient.cs:8</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
