@@ -21,6 +21,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Session
@@ -290,7 +291,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			using (LogContext.PushProperty("Instance", metadata.Id))
+			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				Logger.LogTrace("Handling bridge request...");
 

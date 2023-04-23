@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Serilog.Context;
 
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
 
@@ -194,7 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
+			using (LogContext.PushProperty(SerilogContextHelper.RequestPathContextProperty, $"{Request.Method} {Request.Path}"))
 			{
 				logger.LogTrace("Swarm request from {remoteIP}...", Request.HttpContext.Connection.RemoteIpAddress);
 				if (swarmConfiguration.PrivateKey == null)

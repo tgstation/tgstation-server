@@ -820,7 +820,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ISessionController lastController = null;
 				var ranInitialDmbCheck = false;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
-					using (LogContext.PushProperty("Monitor", iteration))
+					using (LogContext.PushProperty(SerilogContextHelper.WatchdogMonitorIterationContextProperty, iteration))
 						try
 						{
 							Logger.LogTrace("Iteration {iteration} of monitor loop", iteration);

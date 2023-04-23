@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Core
 
 					var formatter = new MessageTemplateTextFormatter(
 						"{Timestamp:o} "
-						+ ServiceCollectionExtensions.SerilogContextTemplate
+						+ SerilogContextHelper.Template
 						+ "): [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
@@ -382,21 +382,21 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
-		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
 		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
 		public void Configure(
 			IApplicationBuilder applicationBuilder,
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
-			IInstanceManager instanceManager,
 			IServerPortProvider serverPortProvider,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<Application> logger)
 		{
 			if (applicationBuilder == null)
@@ -406,8 +406,6 @@ namespace Tgstation.Server.Host.Core
 
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 
-			if (instanceManager == null)
-				throw new ArgumentNullException(nameof(instanceManager));
 			if (serverPortProvider == null)
 				throw new ArgumentNullException(nameof(serverPortProvider));
 			if (assemblyInformationProvider == null)
@@ -415,6 +413,7 @@ namespace Tgstation.Server.Host.Core
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
@@ -441,7 +440,8 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseCancelledRequestSuppression();
 
 			// 503 requests made while the application is starting
-			applicationBuilder.UseAsyncInitialization(instanceManager.Ready.WithToken);
+			applicationBuilder.UseAsyncInitialization<IInstanceManager>(
+				(instanceManager, cancellationToken) => instanceManager.Ready.WithToken(cancellationToken));
 
 			if (generalConfiguration.HostApiDocumentation)
 			{

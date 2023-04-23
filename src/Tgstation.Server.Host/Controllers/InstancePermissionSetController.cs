@@ -30,20 +30,20 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InstancePermissionSetController"/> class.
 		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public InstancePermissionSetController(
-			IInstanceManager instanceManager,
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			ILogger<InstancePermissionSetController> logger)
+			ILogger<InstancePermissionSetController> logger,
+			IInstanceManager instanceManager)
 			: base(
-				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger)
+				  logger,
+				  instanceManager)
 		{
 		}
 
@@ -248,7 +248,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.PermissionSetId == id)
 				.DeleteAsync(cancellationToken)
 				;
-			return numDeleted > 0 ? (IActionResult)NoContent() : Gone();
+			return numDeleted > 0 ? NoContent() : Gone();
 		}
 	}
 }

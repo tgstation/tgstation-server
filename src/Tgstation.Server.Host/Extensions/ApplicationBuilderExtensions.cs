@@ -11,8 +11,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
+using Serilog.Context;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Extensions
@@ -22,6 +26,11 @@ namespace Tgstation.Server.Host.Extensions
 	/// </summary>
 	static class ApplicationBuilderExtensions
 	{
+		/// <summary>
+		/// If the server's swarm identifier should be pushed onto the log context for all requests.
+		/// </summary>
+		internal static bool LogSwarmIdentifier { get; set; }
+
 		/// <summary>
 		/// Return a <see cref="ConflictObjectResult"/> for <see cref="DbUpdateException"/>s.
 		/// </summary>
@@ -147,6 +156,26 @@ namespace Tgstation.Server.Host.Extensions
 				context.Response.Headers.Add("X-Powered-By", assemblyInformationProvider.VersionPrefix);
 				await next();
 			});
+		}
+
+		/// <summary>
+		/// Adds additional global <see cref="LogContext"/> to the request pipeline.
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
+		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/>.</param>
+		public static void UseAdditionalRequestLoggingContext(this IApplicationBuilder applicationBuilder, SwarmConfiguration swarmConfiguration)
+		{
+			if (applicationBuilder == null)
+				throw new ArgumentNullException(nameof(applicationBuilder));
+			if (swarmConfiguration == null)
+				throw new ArgumentNullException(nameof(swarmConfiguration));
+
+			if (LogSwarmIdentifier && swarmConfiguration.Identifier != null)
+				applicationBuilder.Use(async (context, next) =>
+				{
+					using (LogContext.PushProperty(SerilogContextHelper.SwarmIdentifierContextProperty, swarmConfiguration.Identifier))
+						await next();
+				});
 		}
 
 		/// <summary>

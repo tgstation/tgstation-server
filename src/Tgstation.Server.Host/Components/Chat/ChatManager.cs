@@ -911,7 +911,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						async Task WrapProcessMessage()
 						{
 							var localActiveProcessingTask = activeProcessingTask;
-							using (LogContext.PushProperty("ChatMessage", messageNumber))
+							using (LogContext.PushProperty(SerilogContextHelper.ChatMessageIterationContextProperty, messageNumber))
 								try
 								{
 									await ProcessMessage(completedMessageTaskKvp.Key, message, false, cancellationToken);
