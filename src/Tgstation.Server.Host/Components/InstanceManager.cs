@@ -122,6 +122,16 @@ namespace Tgstation.Server.Host.Components
 		readonly TaskCompletionSource readyTcs;
 
 		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> for <see cref="Initialize(CancellationToken)"/>.
+		/// </summary>
+		readonly CancellationTokenSource startupCancellationTokenSource;
+
+		/// <summary>
+		/// The <see cref="Task"/> returned by <see cref="Initialize(CancellationToken)"/>.
+		/// </summary>
+		Task startupTask;
+
+		/// <summary>
 		/// If the <see cref="InstanceManager"/> has been <see cref="DisposeAsync"/>'d.
 		/// </summary>
 		bool disposed;
@@ -175,6 +185,7 @@ namespace Tgstation.Server.Host.Components
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
 			readyTcs = new TaskCompletionSource();
 			instanceStateChangeSemaphore = new SemaphoreSlim(1);
+			startupCancellationTokenSource = new CancellationTokenSource();
 		}
 
 		/// <inheritdoc />
@@ -191,6 +202,7 @@ namespace Tgstation.Server.Host.Components
 				await instanceKvp.Value.Instance.DisposeAsync();
 
 			instanceStateChangeSemaphore.Dispose();
+			startupCancellationTokenSource.Dispose();
 
 			logger.LogInformation("Server shutdown");
 		}
@@ -388,73 +400,11 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task StartAsync(CancellationToken cancellationToken)
+		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			try
-			{
-				logger.LogInformation("{versionString}", assemblyInformationProvider.VersionString);
-				generalConfiguration.CheckCompatibility(logger);
-
-				CheckSystemCompatibility();
-
-				await InitializeSwarm(cancellationToken);
-
-				List<Models.Instance> dbInstances = null;
-				var instanceEnumeration = databaseContextFactory.UseContext(
-					async databaseContext => dbInstances = await databaseContext
-						.Instances
-						.AsQueryable()
-						.Where(x => x.Online.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
-						.Include(x => x.RepositorySettings)
-						.Include(x => x.ChatSettings)
-							.ThenInclude(x => x.Channels)
-						.Include(x => x.DreamDaemonSettings)
-						.ToListAsync(cancellationToken));
-
-				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
-				var jobManagerStartup = jobManager.StartAsync(cancellationToken);
-
-				await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup);
-
-				var instanceOnliningTasks = dbInstances.Select(
-					async metadata =>
-					{
-						try
-						{
-							await OnlineInstance(metadata, cancellationToken);
-						}
-						catch (Exception ex)
-						{
-							logger.LogError(ex, "Failed to online instance {instanceId}!", metadata.Id);
-						}
-					});
-
-				await Task.WhenAll(instanceOnliningTasks);
-
-				jobManager.Activate(this);
-
-				logger.LogInformation("Server ready!");
-				readyTcs.SetResult();
-			}
-			catch (OperationCanceledException ex)
-			{
-				logger.LogInformation(ex, "Cancelled instance manager initialization!");
-			}
-			catch (Exception e)
-			{
-				logger.LogCritical(e, "Instance manager startup error!");
-				try
-				{
-					await serverControl.Die(e);
-					return;
-				}
-				catch (Exception e2)
-				{
-					logger.LogCritical(e2, "Failed to kill server!");
-				}
-
-				throw;
-			}
+			cancellationToken.Register(startupCancellationTokenSource.Cancel);
+			startupTask = Initialize(startupCancellationTokenSource.Token);
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
@@ -463,6 +413,13 @@ namespace Tgstation.Server.Host.Components
 			try
 			{
 				logger.LogDebug("Stopping instance manager...");
+				if (!startupTask.IsCompleted)
+				{
+					logger.LogTrace("Interrupting startup task...");
+					startupCancellationTokenSource.Cancel();
+					await startupTask;
+				}
+
 				var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
 				await jobManager.StopAsync(cancellationToken);
 
@@ -553,10 +510,86 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <summary>
-		/// Check we have a valid system identity.
+		/// Initializes the <see cref="InstanceManager"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task Initialize(CancellationToken cancellationToken)
+		{
+			try
+			{
+				logger.LogInformation("{versionString}", assemblyInformationProvider.VersionString);
+
+				CheckSystemCompatibility();
+
+				// To let the web server startup immediately before we do any intense work
+				await Task.Yield();
+
+				await InitializeSwarm(cancellationToken);
+
+				List<Models.Instance> dbInstances = null;
+				var instanceEnumeration = databaseContextFactory.UseContext(
+					async databaseContext => dbInstances = await databaseContext
+						.Instances
+						.AsQueryable()
+						.Where(x => x.Online.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
+						.Include(x => x.RepositorySettings)
+						.Include(x => x.ChatSettings)
+							.ThenInclude(x => x.Channels)
+						.Include(x => x.DreamDaemonSettings)
+						.ToListAsync(cancellationToken));
+
+				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
+				var jobManagerStartup = jobManager.StartAsync(cancellationToken);
+
+				await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup);
+
+				var instanceOnliningTasks = dbInstances.Select(
+					async metadata =>
+					{
+						try
+						{
+							await OnlineInstance(metadata, cancellationToken);
+						}
+						catch (Exception ex)
+						{
+							logger.LogError(ex, "Failed to online instance {instanceId}!", metadata.Id);
+						}
+					});
+
+				await Task.WhenAll(instanceOnliningTasks);
+
+				jobManager.Activate(this);
+
+				logger.LogInformation("Server ready!");
+				readyTcs.SetResult();
+			}
+			catch (OperationCanceledException ex)
+			{
+				logger.LogInformation(ex, "Cancelled instance manager initialization!");
+			}
+			catch (Exception e)
+			{
+				logger.LogCritical(e, "Instance manager startup error!");
+				try
+				{
+					await serverControl.Die(e);
+					return;
+				}
+				catch (Exception e2)
+				{
+					logger.LogCritical(e2, "Failed to kill server!");
+				}
+			}
+		}
+
+		/// <summary>
+		/// Check we have a valid system and configuration.
 		/// </summary>
 		void CheckSystemCompatibility()
 		{
+			generalConfiguration.CheckCompatibility(logger);
+
 			using (var systemIdentity = systemIdentityFactory.GetCurrent())
 			{
 				if (!systemIdentity.CanCreateSymlinks)
