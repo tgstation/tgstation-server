@@ -7,6 +7,7 @@ using Moq;
 
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Tests.Live;
@@ -31,6 +32,7 @@ namespace Tgstation.Server.Tests
 				Mock.Of<IPostWriteHandler>(),
 				Mock.Of<IGitRemoteFeaturesFactory>(),
 				Mock.Of<ILogger<Repository>>(),
+				new GeneralConfiguration(),
 				() => { });
 
 			const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";

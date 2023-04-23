@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Setup;
 
@@ -117,6 +118,11 @@ namespace Tgstation.Server.Host.Configuration
 		public bool SkipAddingByondFirewallException { get; set; }
 
 		/// <summary>
+		/// A limit on the amount of tasks used for asynchronous I/O when copying directories during the deployment process as a multiplier to the machine's <see cref="Environment.ProcessorCount"/>. Too few can significantly increase deployment times, too many can make TGS unresponsive and slowdown other I/O operations on the machine.
+		/// </summary>
+		public uint? DeploymentDirectoryCopyTasksPerCore { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.
 		/// </summary>
 		public GeneralConfiguration()
@@ -147,6 +153,13 @@ namespace Tgstation.Server.Host.Configuration
 						CurrentConfigVersion);
 				else
 					logger.LogWarning("Your `ConfigVersion` is out-of-date. Please follow migration instructions from the TGS release notes.");
+
+			if (DeploymentDirectoryCopyTasksPerCore == 0)
+				throw new InvalidOperationException(
+					$"{nameof(DeploymentDirectoryCopyTasksPerCore)} must be at least 1!");
+			else if (this.GetCopyDirectoryTaskThrottle() < 1)
+				throw new InvalidOperationException(
+					$"{nameof(DeploymentDirectoryCopyTasksPerCore)} is too large for the CPU core count of {Environment.ProcessorCount} and overflows a 32-bit signed integer. Please lower the value!");
 		}
 	}
 }

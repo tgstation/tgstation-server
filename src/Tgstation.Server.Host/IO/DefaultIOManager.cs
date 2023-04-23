@@ -62,10 +62,11 @@ namespace Tgstation.Server.Host.IO
 
 		/// <inheritdoc />
 		public async Task CopyDirectory(
-			string src,
-			string dest,
 			IEnumerable<string> ignore,
 			Func<string, string, Task> postCopyCallback,
+			string src,
+			string dest,
+			int? taskThrottle,
 			CancellationToken cancellationToken)
 		{
 			if (src == null)
@@ -73,10 +74,13 @@ namespace Tgstation.Server.Host.IO
 			if (dest == null)
 				throw new ArgumentNullException(nameof(src));
 
+			if (taskThrottle.HasValue && taskThrottle < 1)
+				throw new ArgumentOutOfRangeException(nameof(taskThrottle), taskThrottle, "taskThrottle must be at least 1!");
+
 			src = ResolvePath(src);
 			dest = ResolvePath(dest);
 
-			using var semaphore = new SemaphoreSlim(100 * Environment.ProcessorCount);
+			using var semaphore = taskThrottle.HasValue ? new SemaphoreSlim(taskThrottle.Value) : null;
 			await Task.WhenAll(CopyDirectoryImpl(src, dest, ignore, postCopyCallback, semaphore, cancellationToken));
 		}
 
@@ -327,7 +331,7 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="dest">The destination directory path.</param>
 		/// <param name="ignore">Files and folders to ignore at the root level.</param>
 		/// <param name="postCopyCallback">The optional callback called for each source/dest file pair post copy.</param>
-		/// <param name="semaphore"><see cref="SemaphoreSlim"/> used to limit degree of parallelism.</param>
+		/// <param name="semaphore">Optional <see cref="SemaphoreSlim"/> used to limit degree of parallelism.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Task"/>s representing the running operations. The first <see cref="Task"/> returned is always the necessary call to <see cref="CreateDirectory(string, CancellationToken)"/>.</returns>
 		IEnumerable<Task> CopyDirectoryImpl(
@@ -377,7 +381,9 @@ namespace Tgstation.Server.Host.IO
 				async Task CopyThisFile()
 				{
 					await subdirCreationTask;
-					using var lockContext = await SemaphoreSlimContext.Lock(semaphore, cancellationToken);
+					using var lockContext = semaphore != null
+						? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
+						: null;
 					await CopyFile(sourceFile, destFile, cancellationToken);
 					if (postCopyCallback != null)
 						await postCopyCallback(sourceFile, destFile);

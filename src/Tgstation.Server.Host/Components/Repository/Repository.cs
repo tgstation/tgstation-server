@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
@@ -64,7 +66,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string Reference => libGitRepo.Head.FriendlyName;
 
 		/// <inheritdoc />
-		public Uri Origin => new Uri(libGitRepo.Network.Remotes.First().Url);
+		public Uri Origin => new (libGitRepo.Network.Remotes.First().Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>.
@@ -107,6 +109,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILogger<Repository> logger;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="Repository"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// <see cref="Action"/> to be taken when <see cref="Dispose"/> is called.
 		/// </summary>
 		readonly Action onDispose;
@@ -127,6 +134,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/>.</param>
 		public Repository(
 			LibGit2Sharp.IRepository libGitRepo,
@@ -137,6 +145,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> logger,
+			GeneralConfiguration generalConfiguration,
 			Action onDispose)
 		{
 			this.libGitRepo = libGitRepo ?? throw new ArgumentNullException(nameof(libGitRepo));
@@ -149,6 +158,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 
 			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
@@ -192,9 +202,9 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(progressReporter));
 
 			logger.LogDebug(
-				"Begin AddTestMerge: #{0} at {1} ({2}) by <{3} ({4})>",
+				"Begin AddTestMerge: #{prNumber} at {targetSha} ({comment}) by <{committerName} ({committerEmail})>",
 				testMergeParameters.Number,
-				testMergeParameters.TargetCommitSha?.Substring(0, 7),
+				testMergeParameters.TargetCommitSha?[..7],
 				testMergeParameters.Comment,
 				committerName,
 				committerEmail);
@@ -233,7 +243,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						try
 						{
-							logger.LogTrace("Fetching refspec {0}...", refSpec);
+							logger.LogTrace("Fetching refspec {refSpec}...", refSpec);
 
 							var remote = libGitRepo.Network.Remotes.First();
 							commands.Fetch(
@@ -267,15 +277,13 @@ namespace Tgstation.Server.Host.Components.Repository
 						cancellationToken.ThrowIfCancellationRequested();
 
 						var objectName = testMergeParameters.TargetCommitSha ?? localBranchName;
-						var gitObject = libGitRepo.Lookup(objectName);
-						if (gitObject == null)
-							throw new JobException($"Could not find object to merge: {objectName}");
+						var gitObject = libGitRepo.Lookup(objectName) ?? throw new JobException($"Could not find object to merge: {objectName}");
 
 						testMergeParameters.TargetCommitSha = gitObject.Sha;
 
 						cancellationToken.ThrowIfCancellationRequested();
 
-						logger.LogTrace("Merging {0} into {1}...", testMergeParameters.TargetCommitSha[..7], Reference);
+						logger.LogTrace("Merging {targetCommitSha} into {currentReference}...", testMergeParameters.TargetCommitSha[..7], Reference);
 
 						result = libGitRepo.Merge(testMergeParameters.TargetCommitSha, sig, new MergeOptions
 						{
@@ -303,7 +311,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								conflictedPaths.Add(file.FilePath);
 
 						var revertTo = originalCommit.CanonicalName ?? originalCommit.Tip.Sha;
-						logger.LogDebug("Merge conflict, aborting and reverting to {0}", revertTo);
+						logger.LogDebug("Merge conflict, aborting and reverting to {revertTarget}", revertTo);
 						progressReporter.ReportProgress(0);
 						RawCheckout(revertTo, progressReporter.CreateSection("Hard Reset to {revertTo}", 1.0), cancellationToken);
 						cancellationToken.ThrowIfCancellationRequested();
@@ -340,7 +348,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			if (result.Status != MergeStatus.UpToDate)
 			{
-				logger.LogTrace("Committing merge: \"{0}\"...", commitMessage);
+				logger.LogTrace("Committing merge: \"{commitMessage}\"...", commitMessage);
 				await Task.Factory.StartNew(
 					() => libGitRepo.Commit(commitMessage, sig, sig, new CommitOptions
 					{
@@ -391,7 +399,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(committish));
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
-			logger.LogDebug("Checkout object: {0}...", committish);
+			logger.LogDebug("Checkout object: {committish}...", committish);
 			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
@@ -497,7 +505,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (progressReporter == null)
 					throw new ArgumentNullException(nameof(progressReporter));
 
-				logger.LogDebug("Reset to sha: {0}", sha.Substring(0, 7));
+				logger.LogDebug("Reset to sha: {sha}", sha[..7]);
 
 				libGitRepo.RemoveUntrackedFiles();
 				cancellationToken.ThrowIfCancellationRequested();
@@ -522,10 +530,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
-			logger.LogTrace("Copying to {0}...", path);
+			logger.LogTrace("Copying to {path}...", path);
 			await ioMananger.CopyDirectory(
-				ioMananger.ResolvePath(),
-				path,
 				new List<string> { ".git" },
 				(src, dest) =>
 				{
@@ -534,6 +540,9 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					return Task.CompletedTask;
 				},
+				ioMananger.ResolvePath(),
+				path,
+				generalConfiguration.GetCopyDirectoryTaskThrottle(),
 				cancellationToken);
 		}
 
@@ -580,7 +589,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					trackedBranch = libGitRepo.Head.TrackedBranch;
 					logger.LogDebug(
-						"Merge origin/{0}: <{1} ({2})>",
+						"Merge origin/{trackedBranch}: <{committerName} ({committerEmail})>",
 						trackedBranch.FriendlyName,
 						committerName,
 						committerEmail);
@@ -597,7 +606,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					if (result.Status == MergeStatus.Conflicts)
 					{
-						logger.LogDebug("Merge conflict, aborting and reverting to {0}", oldHead.FriendlyName);
+						logger.LogDebug("Merge conflict, aborting and reverting to {oldHeadFriendlyName}", oldHead.FriendlyName);
 						progressReporter.ReportProgress(0);
 						libGitRepo.Reset(ResetMode.Hard, oldTip, new CheckoutOptions
 						{
@@ -654,7 +663,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			var startHead = Head;
 
-			logger.LogTrace("Configuring <{0} ({1})> as author/committer", committerName, committerEmail);
+			logger.LogTrace("Configuring <{committerName} ({committerEmail})> as author/committer", committerName, committerEmail);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -711,7 +720,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var sameHead = Head == startHead;
 			if (sameHead || !Tracking)
 			{
-				logger.LogTrace("Aborted synchronize due to {0}!", sameHead ? "lack of changes" : "not being on tracked reference");
+				logger.LogTrace("Aborted synchronize due to {abortReason}!", sameHead ? "lack of changes" : "not being on tracked reference");
 				return false;
 			}
 
@@ -785,7 +794,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				var targetCommit = libGitRepo.Lookup<Commit>(sha);
 				if (targetCommit == null)
 				{
-					logger.LogTrace("Commit {0} not found in repository", sha);
+					logger.LogTrace("Commit {sha} not found in repository", sha);
 					return false;
 				}
 
@@ -836,10 +845,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (sha == null)
 					throw new ArgumentNullException(nameof(sha));
 
-				var commit = libGitRepo.Lookup<Commit>(sha);
-				if (commit == null)
-					throw new JobException($"Commit {sha} does not exist in the repository!");
-
+				var commit = libGitRepo.Lookup<Commit>(sha) ?? throw new JobException($"Commit {sha} does not exist in the repository!");
 				return commit.Committer.When;
 			},
 			cancellationToken,
@@ -854,7 +860,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		void RawCheckout(string committish, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Checkout: {0}", committish);
+			logger.LogTrace("Checkout: {committish}", committish);
 
 			var stage = $"Checkout {committish}";
 			progressReporter = progressReporter.CreateSection(stage, 1.0);
@@ -887,7 +893,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (remoteBranch == default)
 					throw;
 
-				logger.LogDebug("Creating local branch for {0}...", remoteBranch.FriendlyName);
+				logger.LogDebug("Creating local branch for {remoteBranchFriendlyName}...", remoteBranch.FriendlyName);
 				var branch = libGitRepo.CreateBranch(committish, remoteBranch.Tip);
 
 				libGitRepo.Branches.Update(branch, branchUpdate => branchUpdate.TrackedBranch = remoteBranch.CanonicalName);
@@ -995,7 +1001,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				return;
 			}
 
-			logger.LogTrace("Updating submodules with{0} credentials...", username == null ? "out" : String.Empty);
+			logger.LogTrace("Updating submodules with{orWithout} credentials...", username == null ? "out" : String.Empty);
 
 			var factor = 1.0 / submoduleCount / 2;
 			foreach (var submodule in libGitRepo.Submodules)
@@ -1013,7 +1019,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						progressReporter.CreateSection($"Checkout submodule {submodule.Name}", factor)),
 				};
 
-				logger.LogDebug("Updating submodule {0}...", submodule.Name);
+				logger.LogDebug("Updating submodule {submoduleName}...", submodule.Name);
 				Task RawSubModuleUpdate() => Task.Factory.StartNew(
 					() => libGitRepo.Submodules.Update(submodule.Name, submoduleUpdateOptions),
 					cancellationToken,
@@ -1029,14 +1035,14 @@ namespace Tgstation.Server.Host.Components.Repository
 					// kill off the modules/ folder in .git and try again
 					progressReporter.ReportProgress(null);
 					credentialsProvider.CheckBadCredentialsException(ex);
-					logger.LogWarning(ex, "Initial update of submodule {0} failed. Deleting submodule directories and re-attempting...", submodule.Name);
+					logger.LogWarning(ex, "Initial update of submodule {submoduleName} failed. Deleting submodule directories and re-attempting...", submodule.Name);
 
 					await Task.WhenAll(
 						ioMananger.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken),
 						ioMananger.DeleteDirectory(submodule.Path, cancellationToken))
 						;
 
-					logger.LogTrace("Second update attempt for submodule {0}...", submodule.Name);
+					logger.LogTrace("Second update attempt for submodule {submoduleName}...", submodule.Name);
 					try
 					{
 						await RawSubModuleUpdate();
@@ -1048,7 +1054,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					catch (LibGit2SharpException ex2)
 					{
 						credentialsProvider.CheckBadCredentialsException(ex2);
-						logger.LogTrace(ex2, "Retried update of submodule {0} failed!", submodule.Name);
+						logger.LogTrace(ex2, "Retried update of submodule {submoduleName} failed!", submodule.Name);
 						throw new AggregateException(ex, ex2);
 					}
 				}

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -63,6 +64,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILogger<RepositoryManager> logger;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="RepositoryManager"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Used for controlling single access to the <see cref="IRepository"/>.
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -78,6 +84,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="repositoryLogger">The value of <see cref="repositoryLogger"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		public RepositoryManager(
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands commands,
@@ -86,7 +93,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> repositoryLogger,
-			ILogger<RepositoryManager> logger)
+			ILogger<RepositoryManager> logger,
+			GeneralConfiguration generalConfiguration)
 		{
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
@@ -96,6 +104,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.repositoryLogger = repositoryLogger ?? throw new ArgumentNullException(nameof(repositoryLogger));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 			semaphore = new SemaphoreSlim(1);
 		}
 
@@ -121,7 +130,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			logger.LogInformation("Begin clone {0} (Branch: {1})", url, initialBranch);
+			logger.LogInformation("Begin clone {url} (Branch: {initialBranch})", url, initialBranch);
 			lock (semaphore)
 			{
 				if (CloneInProgress)
@@ -217,6 +226,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						postWriteHandler,
 						gitRemoteFeaturesFactory,
 						repositoryLogger,
+						generalConfiguration,
 						() =>
 						{
 							logger.LogTrace("Releasing semaphore due to Repository disposal...");

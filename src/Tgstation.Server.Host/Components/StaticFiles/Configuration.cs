@@ -13,7 +13,9 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
@@ -112,6 +114,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly ILogger<Configuration> logger;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for <see cref="Configuration"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for <see cref="Configuration"/>. Also used as a <see langword="lock"/> <see cref="object"/>.
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -137,6 +144,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		public Configuration(
 			IIOManager ioManager,
 			ISynchronousIOManager synchronousIOManager,
@@ -145,7 +153,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			IPostWriteHandler postWriteHandler,
 			IPlatformIdentifier platformIdentifier,
 			IFileTransferTicketProvider fileTransferService,
-			ILogger<Configuration> logger)
+			ILogger<Configuration> logger,
+			GeneralConfiguration generalConfiguration)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
@@ -155,6 +164,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 
 			semaphore = new SemaphoreSlim(1);
 			disposeCts = new CancellationTokenSource();
@@ -180,7 +190,13 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
 				var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
 				var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
-				var copyTask = ioManager.CopyDirectory(CodeModificationsSubdirectory, destination, null, null, cancellationToken);
+				var copyTask = ioManager.CopyDirectory(
+					null,
+					null,
+					CodeModificationsSubdirectory,
+					destination,
+					generalConfiguration.GetCopyDirectoryTaskThrottle(),
+					cancellationToken);
 
 				await Task.WhenAll(dmeExistsTask, headFileExistsTask, tailFileExistsTask, copyTask);
 
