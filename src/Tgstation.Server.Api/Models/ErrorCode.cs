@@ -178,11 +178,10 @@ namespace Tgstation.Server.Api.Models
 		ConfigurationDirectoryNotEmpty,
 
 		/// <summary>
-		/// Currently unused.
+		/// The server swarm has less than the expected amount of nodes.
 		/// </summary>
-		[Obsolete("Unused", true)]
-		[Description("Unknown error code.")]
-		UnusedErrorCode1,
+		[Description("The server swarm has less than the expected amount of nodes!")]
+		SwarmIntegrityCheckFailed,
 
 		/// <summary>
 		/// One of <see cref="Internal.RepositorySettings.AccessUser"/> and <see cref="Internal.RepositorySettings.AccessToken"/> is set while the other isn't.
@@ -629,11 +628,5 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The deployment took longer than the configured timeout!")]
 		DeploymentTimeout,
-
-		/// <summary>
-		/// The server swarm has less than the expected amount of nodes.
-		/// </summary>
-		[Description("The server swarm has less than the expected amount of nodes!")]
-		SwarmIntegrityCheckFailed,
 	}
 }
