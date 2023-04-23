@@ -34,8 +34,10 @@ namespace Tgstation.Server.Tests
 
 			Assert.AreEqual(0, exitCode);
 			var result = (await process.GetCombinedOutput(default)).Trim();
-			var expected = $"Hello World!{Environment.NewLine}Hello Error!";
-			Assert.AreEqual(expected, result);
+
+			// no guarantees about order
+			Assert.IsTrue(result.Contains("Hello World!"));
+			Assert.IsTrue(result.Contains("Hello Error!"));
 		}
 
 		[TestMethod]
@@ -64,11 +66,12 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(0, exitCode);
 				}
 
-				var expected = $"Hello World!{Environment.NewLine}Hello Error!";
-
 				Assert.IsTrue(File.Exists(tempFile));
 				var result = File.ReadAllText(tempFile).Trim();
-				Assert.AreEqual(expected, result);
+
+				// no guarantees about order
+				Assert.IsTrue(result.Contains("Hello World!"));
+				Assert.IsTrue(result.Contains("Hello Error!"));
 			}
 			finally
 			{
