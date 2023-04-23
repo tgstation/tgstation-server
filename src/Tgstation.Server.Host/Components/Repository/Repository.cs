@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
@@ -107,6 +108,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILogger<Repository> logger;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="Repository"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// <see cref="Action"/> to be taken when <see cref="Dispose"/> is called.
 		/// </summary>
 		readonly Action onDispose;
@@ -127,6 +133,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/>.</param>
 		public Repository(
 			LibGit2Sharp.IRepository libGitRepo,
@@ -137,6 +144,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			IPostWriteHandler postWriteHandler,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> logger,
+			GeneralConfiguration generalConfiguration,
 			Action onDispose)
 		{
 			this.libGitRepo = libGitRepo ?? throw new ArgumentNullException(nameof(libGitRepo));
@@ -149,6 +157,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 
 			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
@@ -524,8 +533,6 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(path));
 			logger.LogTrace("Copying to {0}...", path);
 			await ioMananger.CopyDirectory(
-				ioMananger.ResolvePath(),
-				path,
 				new List<string> { ".git" },
 				(src, dest) =>
 				{
@@ -534,6 +541,9 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					return Task.CompletedTask;
 				},
+				ioMananger.ResolvePath(),
+				path,
+				generalConfiguration.GetCopyDirectoryTaskThrottle(),
 				cancellationToken);
 		}
 

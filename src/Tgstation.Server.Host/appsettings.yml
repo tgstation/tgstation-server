@@ -12,6 +12,7 @@ General:
   ValidInstancePaths:
   HostApiDocumentation: false
   SkipAddingByondFirewallException: false
+  DeploymentDirectoryCopyTasksPerCore: 100
 Session:
   HighPriorityLiveDreamDaemon: false
   LowPriorityDeploymentProcesses: true

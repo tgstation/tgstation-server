@@ -106,15 +106,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var ioManager = new DefaultIOManager();
 			return Task.WhenAll(
 				ioManager.CopyDirectory(
+					Enumerable.Empty<string>(),
+					null,
 					"../../../../DMAPI",
 					ioManager.ConcatPath(instance.Path, "Repository", "tests", "DMAPI"),
-					Enumerable.Empty<string>(),
 					null,
 					cancellationToken),
 				ioManager.CopyDirectory(
+					Enumerable.Empty<string>(),
+					null,
 					"../../../../../src/DMAPI",
 					ioManager.ConcatPath(instance.Path, "Repository", "src", "DMAPI"),
-					Enumerable.Empty<string>(),
 					null,
 					cancellationToken)
 				);

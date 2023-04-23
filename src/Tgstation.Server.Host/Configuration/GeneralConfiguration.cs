@@ -117,6 +117,11 @@ namespace Tgstation.Server.Host.Configuration
 		public bool SkipAddingByondFirewallException { get; set; }
 
 		/// <summary>
+		/// A limit on the amount of tasks used for asynchronous I/O when copying directories during the deployment process as a multiplier to the machine's <see cref="Environment.ProcessorCount"/>. Too few can significantly increase deployment times, too many can make TGS unresponsive and slowdown other I/O operations on the machine.
+		/// </summary>
+		public uint? DeploymentDirectoryCopyTasksPerCore { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> class.
 		/// </summary>
 		public GeneralConfiguration()
@@ -147,6 +152,26 @@ namespace Tgstation.Server.Host.Configuration
 						CurrentConfigVersion);
 				else
 					logger.LogWarning("Your `ConfigVersion` is out-of-date. Please follow migration instructions from the TGS release notes.");
+
+			if (DeploymentDirectoryCopyTasksPerCore == 0)
+				throw new InvalidOperationException(
+					$"{nameof(DeploymentDirectoryCopyTasksPerCore)} must be at least 1!");
+			else if (GetCopyDirectoryTaskThrottle() < 1)
+				throw new InvalidOperationException(
+					$"{nameof(DeploymentDirectoryCopyTasksPerCore)} is too large for the CPU core count of {Environment.ProcessorCount} and overflows a 32-bit signed integer. Please lower the value!");
+		}
+
+		/// <summary>
+		/// Gets the total number of tasks that may run simultaneously during an asynchronous directory copy operation.
+		/// </summary>
+		/// <returns>The total number of tasks that may run simultaneously during an asynchronous directory copy operation.</returns>
+		public int? GetCopyDirectoryTaskThrottle()
+		{
+			if (!DeploymentDirectoryCopyTasksPerCore.HasValue)
+				return null;
+
+			var taskThrottle = (uint)Environment.ProcessorCount * DeploymentDirectoryCopyTasksPerCore.Value;
+			return (int)taskThrottle;
 		}
 	}
 }
