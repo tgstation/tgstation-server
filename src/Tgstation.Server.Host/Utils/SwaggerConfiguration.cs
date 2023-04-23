@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 using Tgstation.Server.Api;
@@ -17,7 +18,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Controllers;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
 	/// Implements various filters for <see cref="Swashbuckle"/>.

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Common;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Utils
 {
 	/// <inheritdoc />
 	sealed class AbstractHttpClientFactory : IAbstractHttpClientFactory

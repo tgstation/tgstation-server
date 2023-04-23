@@ -1,5 +1,5 @@
 ﻿using Tgstation.Server.Common;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {

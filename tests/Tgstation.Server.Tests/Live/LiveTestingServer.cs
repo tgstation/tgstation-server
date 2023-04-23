@@ -16,6 +16,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Setup;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Tests.Live
 {

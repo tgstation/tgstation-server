@@ -1,6 +1,6 @@
 ﻿using Octokit;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
 	/// For creating <see cref="IGitHubClient"/>s.

@@ -13,6 +13,7 @@ using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {

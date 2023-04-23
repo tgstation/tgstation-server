@@ -12,7 +12,7 @@ using Serilog.Configuration;
 using Serilog.Sinks.Elasticsearch;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Extensions
 {

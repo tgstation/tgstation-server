@@ -7,8 +7,8 @@ using Octokit;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Repository
 {

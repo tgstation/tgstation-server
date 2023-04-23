@@ -166,9 +166,8 @@ namespace Tgstation.Server.Host.Controllers
 								progressReporter,
 								currentModel.UpdateSubmodules.Value,
 								ct)
-								;
-							if (repos == null)
-								throw new JobException(ErrorCode.RepoExists);
+							?? throw new JobException(ErrorCode.RepoExists);
+
 							var instance = new Models.Instance
 							{
 								Id = Instance.Id,
@@ -222,7 +221,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			Logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id.Value);
+			Logger.LogInformation("Instance {instanceId} repository delete initiated by user {userId}", Instance.Id, AuthenticationContext.User.Id.Value);
 
 			var job = new Job
 			{
@@ -453,7 +452,7 @@ namespace Tgstation.Server.Host.Controllers
 									? String.Format(
 										CultureInfo.InvariantCulture,
 										" at {0}",
-										x.TargetCommitSha.Substring(0, 7))
+										x.TargetCommitSha[..7])
 									: String.Empty))),
 					description != null
 						? String.Empty

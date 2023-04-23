@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Core
+﻿namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
 	/// Helpers for manipulating the <see cref="Serilog.Context.LogContext"/>.

@@ -12,9 +12,9 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Events;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Byond
 {
@@ -256,7 +256,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					ActiveVersion = activeVersion;
 				else
 				{
-					logger.LogWarning("Failed to load saved active version {0}!", activeVersionString);
+					logger.LogWarning("Failed to load saved active version {activeVersion}!", activeVersionString);
 					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken);
 				}
 			}

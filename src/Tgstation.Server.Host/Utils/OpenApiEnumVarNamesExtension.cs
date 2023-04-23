@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
 	/// Implements the "x-enum-varnames" OpenAPI 3.0 extension.

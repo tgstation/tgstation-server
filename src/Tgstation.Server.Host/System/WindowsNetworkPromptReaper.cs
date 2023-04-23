@@ -7,10 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using BetterWin32Errors;
+
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {

@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Jobs
 {
