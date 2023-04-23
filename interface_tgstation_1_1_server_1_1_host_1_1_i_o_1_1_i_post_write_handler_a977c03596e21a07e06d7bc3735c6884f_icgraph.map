@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite" name="Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite">
-<area shape="rect" id="node1" title="For handling system specific necessities after a write." alt="" coords="303,5,505,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a7c2989ee9127735cc2bb17b668071cc6" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="5,5,255,45"/>
+<area shape="rect" id="node1" title="For handling system specific necessities after a write." alt="" coords="303,37,505,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a09369ceb3b7c2c2562d546b9daebd42b" title="Copies the current working directory to a given path . A Task representing the running operation." alt="" coords="17,5,243,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a7c2989ee9127735cc2bb17b668071cc6" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="5,69,255,109"/>
 </map>

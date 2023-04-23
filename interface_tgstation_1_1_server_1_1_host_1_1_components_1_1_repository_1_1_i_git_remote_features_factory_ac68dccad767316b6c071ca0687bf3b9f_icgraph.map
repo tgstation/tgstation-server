@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Repository.IGitRemoteFeaturesFactory.CreateGitRemoteFeatures" name="Tgstation.Server.Host.Components.Repository.IGitRemoteFeaturesFactory.CreateGitRemoteFeatures">
 <area shape="rect" id="node1" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="1439,62,1688,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ae1ed9e30efb69c09f1d3c34a16b5bccb" title="Initializes a new instance of the Repository class." alt="" coords="1164,69,1391,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a68c2bad270e3619dd680e14ba886b805" title="Initializes a new instance of the Repository class." alt="" coords="1164,69,1391,109"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#adf28ce0a3f52d47f8e5200e48ef6ee4d" title="Create an IInstance. A Task&lt;TResult&gt; resulting in a new IInstance." alt="" coords="859,5,1086,45"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7" title=" " alt="" coords="829,69,1116,109"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af8422c62401719f452a5c70cdb1d96d1" title="The JobEntrypoint for updating the repository." alt="" coords="859,133,1086,173"/>

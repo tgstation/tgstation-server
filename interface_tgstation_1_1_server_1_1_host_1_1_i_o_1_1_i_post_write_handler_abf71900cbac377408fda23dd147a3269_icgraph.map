@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.IO.IPostWriteHandler.NeedsPostWrite" name="Tgstation.Server.Host.IO.IPostWriteHandler.NeedsPostWrite">
+<area shape="rect" id="node1" title="Check if a given sourceFilePath &#160;will need HandleWrite(string) called on a copy of it." alt="" coords="280,5,507,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a09369ceb3b7c2c2562d546b9daebd42b" title="Copies the current working directory to a given path . A Task representing the running operation." alt="" coords="5,5,232,45"/>
+</map>

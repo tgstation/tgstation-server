@@ -3,5 +3,5 @@
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adedef4bd5627e2d13354ded256e4aecc" title="Copies a directory from src &#160;to dest ." alt="" coords="280,29,515,69"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a50b2302533637090939afbb9dee042ee" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="287,93,507,133"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a4e9c20b01d6d66f04eb106365f9d7a1a" title="Initializes a new instance of the ResolvingIOManager class." alt="" coords="264,157,531,197"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac9bf7e98e09d06a8d6f15dbb3efbf177" title="Copies a directory from src &#160;to dest . A Task representing the running operation." alt="" coords="5,29,216,69"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a179a8024de21623545e688441bb56b96" title="Copies a directory from src &#160;to dest . A Task representing the running operation." alt="" coords="5,29,216,69"/>
 </map>
