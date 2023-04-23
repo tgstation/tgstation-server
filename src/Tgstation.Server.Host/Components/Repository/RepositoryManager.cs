@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			logger.LogInformation("Begin clone {0} (Branch: {1})", url, initialBranch);
+			logger.LogInformation("Begin clone {url} (Branch: {initialBranch})", url, initialBranch);
 			lock (semaphore)
 			{
 				if (CloneInProgress)
