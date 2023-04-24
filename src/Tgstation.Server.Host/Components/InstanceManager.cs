@@ -93,14 +93,14 @@ namespace Tgstation.Server.Host.Components
 		readonly ILogger<InstanceManager> logger;
 
 		/// <summary>
-		/// Map of instance <see cref="EntityId.Id"/>s to respective <see cref="InstanceContainer"/>s. Also used as a <see langword="lock"/> <see cref="object"/>.
+		/// Map of instance <see cref="EntityId.Id"/>s to the respective <see cref="ReferenceCountingContainer{TWrapped, TReference}"/> for <see cref="IInstance"/>s. Also used as a <see langword="lock"/> <see cref="object"/>.
 		/// </summary>
-		readonly IDictionary<long, InstanceContainer> instances;
+		readonly Dictionary<long, ReferenceCountingContainer<IInstance, IInstanceReference>> instances;
 
 		/// <summary>
 		/// Map of <see cref="DMApiParameters.AccessIdentifier"/>s to their respective <see cref="IBridgeHandler"/>s.
 		/// </summary>
-		readonly IDictionary<string, IBridgeHandler> bridgeHandlers;
+		readonly Dictionary<string, IBridgeHandler> bridgeHandlers;
 
 		/// <summary>
 		/// <see cref="SemaphoreSlim"/> used to guard calls to <see cref="OnlineInstance(Models.Instance, CancellationToken)"/> and <see cref="OfflineInstance(Models.Instance, Models.User, CancellationToken)"/>.
@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host.Components
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			instances = new Dictionary<long, InstanceContainer>();
+			instances = new Dictionary<long, ReferenceCountingContainer<IInstance, IInstanceReference>>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
 			readyTcs = new TaskCompletionSource();
 			instanceStateChangeSemaphore = new SemaphoreSlim(1);
@@ -308,7 +308,7 @@ namespace Tgstation.Server.Host.Components
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 
 			logger.LogInformation("Offlining instance ID {instanceId}", metadata.Id);
-			InstanceContainer container;
+			ReferenceCountingContainer<IInstance, IInstanceReference> container;
 			lock (instances)
 			{
 				if (!instances.TryGetValue(metadata.Id.Value, out container))
@@ -375,7 +375,11 @@ namespace Tgstation.Server.Host.Components
 				try
 				{
 					lock (instances)
-						instances.Add(metadata.Id.Value, new InstanceContainer(instance));
+						instances.Add(
+							metadata.Id.Value,
+							new ReferenceCountingContainer<IInstance, IInstanceReference>(
+								instance,
+								(wrappedInstance, disposeAction) => new InstanceWrapper(wrappedInstance, disposeAction)));
 				}
 				catch (Exception ex)
 				{
