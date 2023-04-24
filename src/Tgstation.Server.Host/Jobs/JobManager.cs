@@ -329,8 +329,7 @@ namespace Tgstation.Server.Host.Jobs
 								loggerFactory.CreateLogger<JobProgressReporter>(),
 								null,
 								UpdateProgress),
-							cancellationToken)
-							;
+							cancellationToken);
 
 						logger.LogDebug("Job {jobId} completed!", job.Id);
 					}
