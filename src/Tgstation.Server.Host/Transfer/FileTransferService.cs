@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Transfer
 			if (downloadProvider == null)
 				throw new ArgumentNullException(nameof(downloadProvider));
 
-			logger.LogDebug("Creating download ticket for path {0}", downloadProvider.FilePath);
+			logger.LogDebug("Creating download ticket for path {filePath}", downloadProvider.FilePath);
 			var ticketResult = CreateTicket();
 
 			lock (downloadTickets)
@@ -131,10 +131,10 @@ namespace Tgstation.Server.Host.Transfer
 			{
 				lock (downloadTickets)
 					if (downloadTickets.Remove(ticketResult.FileTicket))
-						logger.LogTrace("Expired download ticket {0}...", ticketResult.FileTicket);
+						logger.LogTrace("Expired download ticket {ticket}...", ticketResult.FileTicket);
 			});
 
-			logger.LogTrace("Created download ticket {0}", ticketResult.FileTicket);
+			logger.LogTrace("Created download ticket {ticket}", ticketResult.FileTicket);
 
 			return ticketResult;
 		}
@@ -152,14 +152,14 @@ namespace Tgstation.Server.Host.Transfer
 			{
 				lock (uploadTickets)
 					if (uploadTickets.Remove(uploadTicket.Ticket.FileTicket))
-						logger.LogTrace("Expired upload ticket {0}...", uploadTicket.Ticket.FileTicket);
+						logger.LogTrace("Expired upload ticket {ticket}...", uploadTicket.Ticket.FileTicket);
 					else
 						return;
 
 				uploadTicket.Expire();
 			});
 
-			logger.LogTrace("Created upload ticket {0}", uploadTicket.Ticket.FileTicket);
+			logger.LogTrace("Created upload ticket {ticket}", uploadTicket.Ticket.FileTicket);
 
 			return uploadTicket;
 		}
@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Transfer
 			{
 				if (!downloadTickets.TryGetValue(ticket.FileTicket, out downloadProvider))
 				{
-					logger.LogTrace("Download ticket {0} not found!", ticket.FileTicket);
+					logger.LogTrace("Download ticket {ticket} not found!", ticket.FileTicket);
 					return Tuple.Create<FileStream, ErrorMessageResponse>(null, null);
 				}
 
@@ -185,7 +185,7 @@ namespace Tgstation.Server.Host.Transfer
 			var errorCode = downloadProvider.ActivationCallback();
 			if (errorCode.HasValue)
 			{
-				logger.LogDebug("Download ticket {0} failed activation!", ticket.FileTicket);
+				logger.LogDebug("Download ticket {ticket} failed activation!", ticket.FileTicket);
 				return Tuple.Create<FileStream, ErrorMessageResponse>(null, new ErrorMessageResponse(errorCode.Value));
 			}
 
@@ -209,7 +209,7 @@ namespace Tgstation.Server.Host.Transfer
 
 			try
 			{
-				logger.LogTrace("Ticket {0} downloading...", ticket.FileTicket);
+				logger.LogTrace("Ticket {ticket} downloading...", ticket.FileTicket);
 				return Tuple.Create<FileStream, ErrorMessageResponse>(stream, null);
 			}
 			catch
@@ -230,7 +230,7 @@ namespace Tgstation.Server.Host.Transfer
 			{
 				if (!uploadTickets.TryGetValue(ticket.FileTicket, out uploadProvider))
 				{
-					logger.LogTrace("Upload ticket {0} not found!", ticket.FileTicket);
+					logger.LogTrace("Upload ticket {ticket} not found!", ticket.FileTicket);
 					return new ErrorMessageResponse(ErrorCode.ResourceNotPresent);
 				}
 
