@@ -57,14 +57,14 @@ namespace Tgstation.Server.Host.Utils
 		/// Initialize the <see cref="ReferenceCounter{TInstance}"/>.
 		/// </summary>
 		/// <param name="instance">The reference counted <typeparamref name="TInstance"/>.</param>
-		/// <param name="onDisposed">The dispose <see cref="Action"/> to take.</param>
-		public void Initialize(TInstance instance, Action onDisposed)
+		/// <param name="referenceCleanupAction">The <see cref="Action"/> to take to clean up the reference.</param>
+		public void Initialize(TInstance instance, Action referenceCleanupAction)
 		{
 			if (instance == null)
 				throw new ArgumentNullException(nameof(instance));
 
-			if (onDisposed == null)
-				throw new ObjectDisposedException(nameof(ReferenceCounter<TInstance>));
+			if (referenceCleanupAction == null)
+				throw new ArgumentNullException(nameof(referenceCleanupAction));
 
 			lock (initDisposeLock)
 			{
@@ -72,6 +72,7 @@ namespace Tgstation.Server.Host.Utils
 					throw new InvalidOperationException($"{nameof(ReferenceCounter<TInstance>)} already initialized!");
 
 				actualInstance = instance;
+				this.referenceCleanupAction = referenceCleanupAction;
 				initialized = true;
 			}
 		}
@@ -91,7 +92,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <returns>A new <see cref="InvalidOperationException"/> to throw.</returns>
 		InvalidOperationException UninitializedOrDisposedException()
 		{
-			if (referenceCleanupAction == null)
+			if (initialized)
 				return new ObjectDisposedException(nameof(ReferenceCounter<TInstance>));
 
 			return new InvalidOperationException($"{nameof(ReferenceCounter<TInstance>)} not initialized!");
