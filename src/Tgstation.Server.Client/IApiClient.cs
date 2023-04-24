@@ -205,6 +205,18 @@ namespace Tgstation.Server.Client
 		Task<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Run an HTTP DELETE request.
+		/// </summary>
+		/// <typeparam name="TBody">The type to of the request body.</typeparam>
+		/// <typeparam name="TResult">The type of the response body.</typeparam>
+		/// <param name="route">The server route to make the request to.</param>
+		/// <param name="body">The request body.</param>
+		/// <param name="instanceId">The instance <see cref="EntityId.Id"/> to make the request to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task<TResult> Delete<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class;
+
+		/// <summary>
 		/// Downloads a file <see cref="Stream"/> for a given <paramref name="ticket"/>.
 		/// </summary>
 		/// <param name="ticket">The <see cref="FileTicketResponse"/> to download.</param>
