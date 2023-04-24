@@ -138,7 +138,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						Logger.LogError(
 							ex,
-							"Failed to un-hard link compile job #{0} ({1})",
+							"Failed to un-hard link compile job #{compileJobId} ({compileJobDirectory})",
 							hardLinkedDmb.CompileJob.Id,
 							hardLinkedDmb.CompileJob.DirectoryName);
 					}

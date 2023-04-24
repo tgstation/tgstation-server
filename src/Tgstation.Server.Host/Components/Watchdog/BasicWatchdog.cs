@@ -133,8 +133,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							CultureInfo.InvariantCulture,
 							"Server {0}! Rebooting...",
 							exitWord),
-						cancellationToken)
-						;
+						cancellationToken);
 					return MonitorAction.Restart;
 				case MonitorActivationReason.ActiveServerRebooted:
 					var rebootState = Server.RebootState;
@@ -243,8 +242,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (Server == null)
 				{
 					await ReattachFailure(
-						cancellationToken)
-						;
+						cancellationToken);
 					return;
 				}
 

@@ -741,11 +741,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						Logger.LogDebug("Relaunch successful, resuming monitor...");
 						return;
 					}
-					catch (OperationCanceledException)
-					{
-						throw;
-					}
-					catch (Exception e)
+					catch (Exception e) when (e is not OperationCanceledException)
 					{
 						launchException = e;
 					}
@@ -938,13 +934,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										Logger.LogTrace("Reason: {activationReason}", activationReason);
 										if (activationReason == MonitorActivationReason.Heartbeat)
 											nextAction = await HandleHeartbeat(
-												cancellationToken)
-												;
+												cancellationToken);
 										else
 											nextAction = await HandleMonitorWakeup(
 												activationReason,
-												cancellationToken)
-												;
+												cancellationToken);
 									}
 								}
 							}
@@ -958,12 +952,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								nextAction = MonitorAction.Continue;
 							}
 						}
-						catch (OperationCanceledException)
-						{
-							// let this bubble, other exceptions caught below
-							throw;
-						}
-						catch (Exception e)
+						catch (Exception e) when (e is not OperationCanceledException)
 						{
 							// really, this should NEVER happen
 							Logger.LogError(
