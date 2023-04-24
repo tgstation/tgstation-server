@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Map of instance <see cref="EntityId.Id"/>s to the respective <see cref="ReferenceCountingContainer{TWrapped, TReference}"/> for <see cref="IInstance"/>s. Also used as a <see langword="lock"/> <see cref="object"/>.
 		/// </summary>
-		readonly Dictionary<long, ReferenceCountingContainer<IInstance, IInstanceReference>> instances;
+		readonly Dictionary<long, ReferenceCountingContainer<IInstance, InstanceWrapper>> instances;
 
 		/// <summary>
 		/// Map of <see cref="DMApiParameters.AccessIdentifier"/>s to their respective <see cref="IBridgeHandler"/>s.
@@ -126,6 +126,11 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="CancellationTokenSource"/> for <see cref="Initialize(CancellationToken)"/>.
 		/// </summary>
 		readonly CancellationTokenSource startupCancellationTokenSource;
+
+		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> linked with the token given to <see cref="StopAsync(CancellationToken)"/>.
+		/// </summary>
+		readonly CancellationTokenSource shutdownCancellationTokenSource;
 
 		/// <summary>
 		/// The <see cref="Task"/> returned by <see cref="Initialize(CancellationToken)"/>.
@@ -182,11 +187,12 @@ namespace Tgstation.Server.Host.Components
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			instances = new Dictionary<long, ReferenceCountingContainer<IInstance, IInstanceReference>>();
+			instances = new Dictionary<long, ReferenceCountingContainer<IInstance, InstanceWrapper>>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
 			readyTcs = new TaskCompletionSource();
 			instanceStateChangeSemaphore = new SemaphoreSlim(1);
 			startupCancellationTokenSource = new CancellationTokenSource();
+			shutdownCancellationTokenSource = new CancellationTokenSource();
 		}
 
 		/// <inheritdoc />
@@ -204,6 +210,7 @@ namespace Tgstation.Server.Host.Components
 
 			instanceStateChangeSemaphore.Dispose();
 			startupCancellationTokenSource.Dispose();
+			shutdownCancellationTokenSource.Dispose();
 
 			logger.LogInformation("Server shutdown");
 		}
@@ -305,50 +312,64 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 
-			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
-
-			logger.LogInformation("Offlining instance ID {instanceId}", metadata.Id);
-			ReferenceCountingContainer<IInstance, IInstanceReference> container;
-			lock (instances)
+			using (await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken))
 			{
-				if (!instances.TryGetValue(metadata.Id.Value, out container))
+				ReferenceCountingContainer<IInstance, InstanceWrapper> container;
+				lock (instances)
 				{
-					logger.LogDebug("Not offlining removed instance {instanceId}", metadata.Id);
-					return;
+					if (!instances.TryGetValue(metadata.Id.Value, out container))
+					{
+						logger.LogDebug("Not offlining removed instance {instanceId}", metadata.Id);
+						return;
+					}
+
+					instances.Remove(metadata.Id.Value);
 				}
 
-				instances.Remove(metadata.Id.Value);
-			}
+				logger.LogInformation("Offlining instance ID {instanceId}", metadata.Id);
 
-			try
-			{
-				await container.OnZeroReferences;
+				try
+				{
+					await container.OnZeroReferences.WithToken(cancellationToken);
 
-				// we are the one responsible for cancelling his jobs
-				var tasks = new List<Task>();
-				await databaseContextFactory.UseContext(
-					async db =>
-					{
-						var jobs = await db
-							.Jobs
-							.AsQueryable()
-							.Where(x => x.Instance.Id == metadata.Id && !x.StoppedAt.HasValue)
-							.Select(x => new Models.Job
-							{
-								Id = x.Id,
-							})
-							.ToListAsync(cancellationToken);
-						foreach (var job in jobs)
-							tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));
-					});
+					// we are the one responsible for cancelling his jobs
+					var tasks = new List<Task>();
+					await databaseContextFactory.UseContext(
+						async db =>
+						{
+							var jobs = await db
+								.Jobs
+								.AsQueryable()
+								.Where(x => x.Instance.Id == metadata.Id && !x.StoppedAt.HasValue)
+								.Select(x => new Models.Job
+								{
+									Id = x.Id,
+								})
+								.ToListAsync(cancellationToken);
+							foreach (var job in jobs)
+								tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));
+						});
 
-				await Task.WhenAll(tasks);
+					await Task.WhenAll(tasks);
+				}
+				catch
+				{
+					// not too late to change your mind
+					lock (instances)
+						instances.Add(metadata.Id.Value, container);
 
-				await container.Instance.StopAsync(cancellationToken);
-			}
-			finally
-			{
-				await container.Instance.DisposeAsync();
+					throw;
+				}
+
+				try
+				{
+					// at this point we can't really stop offlining the instance just because the request was cancelled
+					await container.Instance.StopAsync(shutdownCancellationTokenSource.Token);
+				}
+				finally
+				{
+					await container.Instance.DisposeAsync();
+				}
 			}
 		}
 
@@ -377,9 +398,7 @@ namespace Tgstation.Server.Host.Components
 					lock (instances)
 						instances.Add(
 							metadata.Id.Value,
-							new ReferenceCountingContainer<IInstance, IInstanceReference>(
-								instance,
-								(wrappedInstance, disposeAction) => new InstanceWrapper(wrappedInstance, disposeAction)));
+							new ReferenceCountingContainer<IInstance, InstanceWrapper>(instance));
 				}
 				catch (Exception ex)
 				{
@@ -415,40 +434,42 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			try
-			{
-				logger.LogDebug("Stopping instance manager...");
-				if (!startupTask.IsCompleted)
+			using (cancellationToken.Register(shutdownCancellationTokenSource.Cancel))
+				try
 				{
-					logger.LogTrace("Interrupting startup task...");
-					startupCancellationTokenSource.Cancel();
-					await startupTask;
+					logger.LogDebug("Stopping instance manager...");
+
+					if (!startupTask.IsCompleted)
+					{
+						logger.LogTrace("Interrupting startup task...");
+						startupCancellationTokenSource.Cancel();
+						await startupTask;
+					}
+
+					var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
+					await jobManager.StopAsync(cancellationToken);
+
+					async Task OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
+					{
+						try
+						{
+							await instance.StopAsync(cancellationToken);
+						}
+						catch (Exception ex)
+						{
+							logger.LogError(ex, "Instance shutdown exception!");
+						}
+					}
+
+					await Task.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
+					await instanceFactoryStopTask;
+
+					await swarmServiceController.Shutdown(cancellationToken);
 				}
-
-				var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
-				await jobManager.StopAsync(cancellationToken);
-
-				async Task OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
+				catch (Exception ex)
 				{
-					try
-					{
-						await instance.StopAsync(cancellationToken);
-					}
-					catch (Exception ex)
-					{
-						logger.LogError(ex, "Instance shutdown exception!");
-					}
+					logger.LogCritical(ex, "Instance manager stop exception!");
 				}
-
-				await Task.WhenAll(instances.Select(x => OfflineInstanceImmediate(x.Value.Instance, cancellationToken)));
-				await instanceFactoryStopTask;
-
-				await swarmServiceController.Shutdown(cancellationToken);
-			}
-			catch (Exception ex)
-			{
-				logger.LogCritical(ex, "Instance manager stop exception!");
-			}
 		}
 
 		/// <inheritdoc />

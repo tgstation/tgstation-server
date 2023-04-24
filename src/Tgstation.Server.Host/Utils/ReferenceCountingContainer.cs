@@ -9,7 +9,8 @@ namespace Tgstation.Server.Host.Utils
 	/// <typeparam name="TWrapped">The type being wrapped.</typeparam>
 	/// <typeparam name="TReference">The disposable reference type returned.</typeparam>
 	sealed class ReferenceCountingContainer<TWrapped, TReference>
-		where TReference : IDisposable
+		where TWrapped : class
+		where TReference : ReferenceCounter<TWrapped>, new()
 	{
 		/// <summary>
 		/// The <typeparamref name="TWrapped"/>.
@@ -33,11 +34,6 @@ namespace Tgstation.Server.Host.Utils
 		}
 
 		/// <summary>
-		/// The factory <see cref="Func{T, TResult}"/> for generating <typeparamref name="TReference"/>s to the <see cref="Instance"/>.
-		/// </summary>
-		readonly Func<TWrapped, Action, TReference> referenceFactory;
-
-		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for <see cref="referenceCount"/>.
 		/// </summary>
 		readonly object referenceCountLock;
@@ -56,11 +52,9 @@ namespace Tgstation.Server.Host.Utils
 		/// Initializes a new instance of the <see cref="ReferenceCountingContainer{TWrapped, TReference}"/> class.
 		/// </summary>
 		/// <param name="instance">The value of <see cref="Instance"/>.</param>
-		/// <param name="referenceFactory">The value of <see cref="referenceFactory"/>.</param>
-		public ReferenceCountingContainer(TWrapped instance, Func<TWrapped, Action, TReference> referenceFactory)
+		public ReferenceCountingContainer(TWrapped instance)
 		{
 			Instance = instance ?? throw new ArgumentNullException(nameof(instance));
-			this.referenceFactory = referenceFactory ?? throw new ArgumentNullException(nameof(referenceFactory));
 
 			referenceCountLock = new object();
 		}
@@ -78,12 +72,14 @@ namespace Tgstation.Server.Host.Utils
 
 				try
 				{
-					return referenceFactory(Instance, () =>
+					var reference = new TReference();
+					reference.Initialize(Instance, () =>
 					{
 						lock (referenceCountLock)
 							if (--referenceCount == 0)
 								onZeroReferencesTcs.SetResult();
 					});
+					return reference;
 				}
 				catch
 				{
