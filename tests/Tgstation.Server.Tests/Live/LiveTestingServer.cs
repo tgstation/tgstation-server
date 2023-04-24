@@ -58,7 +58,6 @@ namespace Tgstation.Server.Tests.Live
 						System.IO.Directory.Delete(Directory, true);
 					}
 					catch { }
-
 			}
 
 			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
