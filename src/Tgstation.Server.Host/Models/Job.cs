@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <inheritdoc />
-		public JobResponse ToApi() => new JobResponse
+		public JobResponse ToApi() => new ()
 		{
 			Id = Id,
 			StartedAt = StartedAt,
