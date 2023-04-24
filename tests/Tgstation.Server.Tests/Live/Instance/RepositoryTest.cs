@@ -27,13 +27,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var workingBranch = "master";
 
-			var initalRepo = await repositoryClient.Read(cancellationToken);
-			Assert.IsNotNull(initalRepo);
-			Assert.IsNull(initalRepo.Origin);
-			Assert.IsNull(initalRepo.Reference);
-			Assert.IsNull(initalRepo.RevisionInformation);
-			Assert.IsNull(initalRepo.ActiveJob);
-
 			const string Origin = "https://github.com/tgstation/tgstation";
 			var cloneRequest = new RepositoryCreateRequest
 			{
@@ -65,6 +58,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 		public async Task AbortLongCloneAndCloneSomethingQuick(Task<JobResponse> longCloneJob, CancellationToken cancellationToken)
 		{
 			await WaitForJobProgressThenCancel(await longCloneJob, 40, cancellationToken);
+
+			var initalRepo = await repositoryClient.Read(cancellationToken);
+			Assert.IsNotNull(initalRepo);
+			Assert.IsNull(initalRepo.Origin);
+			Assert.IsNull(initalRepo.Reference);
+			Assert.IsNull(initalRepo.RevisionInformation);
+			Assert.IsNull(initalRepo.ActiveJob);
 
 			var secondRead = await repositoryClient.Read(cancellationToken);
 			Assert.IsNotNull(secondRead);
