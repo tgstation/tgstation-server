@@ -37,5 +37,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User may upload and activate custom BYOND builds.
 		/// </summary>
 		InstallCustomVersion = 1 << 4,
+
+		/// <summary>
+		/// User may delete non-active BYOND builds.
+		/// </summary>
+		DeleteInstall = 1 << 5,
 	}
 }

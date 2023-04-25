@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Api.Rights.Tests
 		[TestMethod]
 		public void TestAllRightsWorks()
 		{
-			var allByondRights = ByondRights.CancelInstall | ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.ListInstalled | ByondRights.ReadActive | ByondRights.InstallCustomVersion;
+			var allByondRights = ByondRights.CancelInstall | ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.ListInstalled | ByondRights.ReadActive | ByondRights.InstallCustomVersion | ByondRights.DeleteInstall;
 			var automaticByondRights = RightsHelper.AllRights<ByondRights>();
 
 			Assert.AreEqual(allByondRights, automaticByondRights);

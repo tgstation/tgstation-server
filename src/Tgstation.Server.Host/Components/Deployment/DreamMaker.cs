@@ -490,7 +490,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var progressTask = ProgressTask(progressReporter, estimatedDuration, progressCts.Token);
 			try
 			{
-				using var byondLock = await byond.UseExecutables(null, cancellationToken);
+				using var byondLock = await byond.UseExecutables(null, null, cancellationToken);
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
 					byondLock.Version,
@@ -512,8 +512,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				await remoteDeploymentManager.StartDeployment(
 					repository,
 					job,
-					cancellationToken)
-					;
+					cancellationToken);
 
 				logger.LogTrace("Deployment will timeout at {timeoutTime}", DateTimeOffset.UtcNow + dreamMakerSettings.Timeout.Value);
 				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout.Value);
@@ -530,8 +529,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							byondLock,
 							repository,
 							remoteDeploymentManager,
-							combinedTokenSource.Token)
-							;
+							combinedTokenSource.Token);
 					}
 					catch (OperationCanceledException) when (timeoutToken.IsCancellationRequested)
 					{
@@ -646,6 +644,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 				currentStage = "Running DreamMaker";
 				var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken);
 
+				// Session takes ownership of the lock and Disposes it so save this for later
+				var byondVersion = byondLock.Version;
+
 				// verify api
 				try
 				{
@@ -675,10 +676,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 						{
 							resolvedOutputDirectory,
 							exitCode == 0 ? "1" : "0",
-							$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
+							byondVersion.ToString(),
 						},
-						cancellationToken)
-						;
+						cancellationToken);
 					throw;
 				}
 
@@ -688,10 +688,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 					new List<string>
 					{
 						resolvedOutputDirectory,
-						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
+						byondVersion.ToString(),
 					},
-					cancellationToken)
-					;
+					cancellationToken);
 
 				logger.LogTrace("Applying static game file symlinks...");
 				currentStage = "Symlinking GameStaticFiles";

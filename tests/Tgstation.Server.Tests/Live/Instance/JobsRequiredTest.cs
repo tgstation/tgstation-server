@@ -47,7 +47,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return job;
 		}
 
-		protected async Task<JobResponse> WaitForJobProgressThenCancel(JobResponse originalJob, int timeout, CancellationToken cancellationToken)
+		protected async Task<JobResponse> WaitForJobProgress(JobResponse originalJob, int timeout, CancellationToken cancellationToken)
 		{
 			var job = originalJob;
 			do
@@ -58,16 +58,26 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 			while (!job.Progress.HasValue && timeout > 0);
 
+			if (job.ExceptionDetails != null)
+				Assert.Fail(job.ExceptionDetails);
+
+			return job;
+		}
+
+		protected async Task<JobResponse> WaitForJobProgressThenCancel(JobResponse originalJob, int timeout, CancellationToken cancellationToken)
+		{
+			var start = DateTimeOffset.UtcNow;
+			var job = await WaitForJobProgress(originalJob, timeout, cancellationToken);
+
 			if (job.StoppedAt.HasValue)
-			{
-				await JobsClient.Cancel(job, cancellationToken);
 				Assert.Fail($"Job ID {job.Id} \"{job.Description}\" completed when we wanted it to just progress!");
-			}
 
 			if (job.ExceptionDetails != null)
 				Assert.Fail(job.ExceptionDetails);
 
 			await JobsClient.Cancel(job, cancellationToken);
+
+			timeout -= (int)Math.Ceiling((DateTimeOffset.UtcNow - start).TotalSeconds);
 			return await WaitForJob(job, timeout, false, null, cancellationToken);
 		}
 	}

@@ -96,6 +96,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			await StartAndLeaveRunning(cancellationToken);
 
+			var deleteJobTask = TestDeleteByondInstallErrorCasesAndQueing(cancellationToken);
+
 			await WhiteBoxChatCommandTest(cancellationToken);
 			await SendChatOverloadCommand(cancellationToken);
 			await ValidateTopicLimits(cancellationToken);
@@ -106,8 +108,88 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
 			await CheckDMApiFail(ddInfo.ActiveCompileJob, cancellationToken);
 
+			var deleteJob = await deleteJobTask;
+
 			// And this freezes DD
 			await DumpTests(cancellationToken);
+
+			// Restart to unlock previous BYOND version
+			var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
+			await WaitForJob(deleteJob, 15, false, null, cancellationToken);
+			await WaitForJob(restartJob, 15, false, null, cancellationToken);
+		}
+
+		async Task<JobResponse> TestDeleteByondInstallErrorCasesAndQueing(CancellationToken cancellationToken)
+		{
+			var testCustomVersion = new Version(ByondTest.TestVersion.Major, ByondTest.TestVersion.Minor, 1);
+			var currentByond = await instanceClient.Byond.ActiveVersion(cancellationToken);
+			Assert.IsNotNull(currentByond);
+			Assert.AreEqual(ByondTest.TestVersion.Semver(), currentByond.Version);
+
+			// Change the active version and check we get delayed while deleting the old one because the watchdog is using it
+			var setActiveResponse = await instanceClient.Byond.SetActiveVersion(
+				new ByondVersionRequest
+				{
+					Version = testCustomVersion,
+				},
+				null,
+				cancellationToken);
+
+			Assert.IsNotNull(setActiveResponse);
+			Assert.IsNull(setActiveResponse.InstallJob);
+
+			var deleteJob = await instanceClient.Byond.DeleteVersion(
+				new ByondVersionDeleteRequest
+				{
+					Version = ByondTest.TestVersion,
+				},
+				cancellationToken);
+
+			Assert.IsNotNull(deleteJob);
+
+			deleteJob = await WaitForJobProgress(deleteJob, 15, cancellationToken);
+			Assert.IsNotNull(deleteJob);
+			Assert.IsNotNull(deleteJob.Stage);
+			Assert.IsTrue(deleteJob.Stage.Contains("Waiting"));
+
+			// then change it back and check it fails the job because it's active again
+			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
+				new ByondVersionRequest
+				{
+					Version = ByondTest.TestVersion,
+				},
+				null,
+				cancellationToken);
+
+			Assert.IsNotNull(setActiveResponse);
+			Assert.IsNull(setActiveResponse.InstallJob);
+
+			await WaitForJob(deleteJob, 5, true, ErrorCode.ByondCannotDeleteActiveVersion, cancellationToken);
+
+			// finally, queue the last delete job which should complete when the watchdog restarts with a newly deployed .dmb
+			// queue the byond change followed by the deployment for that first
+			setActiveResponse = await instanceClient.Byond.SetActiveVersion(
+				new ByondVersionRequest
+				{
+					Version = testCustomVersion,
+				},
+				null,
+				cancellationToken);
+
+			Assert.IsNotNull(setActiveResponse);
+			Assert.IsNull(setActiveResponse.InstallJob);
+
+			deleteJob = await instanceClient.Byond.DeleteVersion(
+				new ByondVersionDeleteRequest
+				{
+					Version = ByondTest.TestVersion,
+				},
+				cancellationToken);
+
+			Assert.IsNotNull(deleteJob);
+
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Safe, true, cancellationToken);
+			return deleteJob;
 		}
 
 		static async Task SendChatOverloadCommand(CancellationToken cancellationToken)
@@ -602,7 +684,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
-			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
+			Assert.AreEqual(DreamDaemonSecurity.Safe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
 			var startJob = await StartDD(cancellationToken);
 
@@ -617,7 +699,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.IsNotNull(newerCompileJob);
 			Assert.AreNotEqual(initialCompileJob.Id, newerCompileJob.Id);
-			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, newerCompileJob.MinimumSecurityLevel);
+			Assert.AreEqual(DreamDaemonSecurity.Safe, newerCompileJob.MinimumSecurityLevel);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 			daemonStatus = await TellWorldToReboot(cancellationToken);
@@ -644,7 +726,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
-			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
+			Assert.AreEqual(DreamDaemonSecurity.Safe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
 			var startJob = await StartDD(cancellationToken);
 
@@ -659,7 +741,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.IsNotNull(newerCompileJob);
 			Assert.AreNotEqual(initialCompileJob.Id, newerCompileJob.Id);
-			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, newerCompileJob.MinimumSecurityLevel);
+			Assert.AreEqual(DreamDaemonSecurity.Safe, newerCompileJob.MinimumSecurityLevel);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 			daemonStatus = await TellWorldToReboot(cancellationToken);
@@ -698,7 +780,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 				cancellationToken);
 			var byondInstallJob = await byondInstallJobTask;
 
-			Assert.IsNull(byondInstallJob.InstallJob);
+			// This used to be the case but it gets deleted now that we have and test that
+			// Assert.IsNull(byondInstallJob.InstallJob);
+			await WaitForJob(byondInstallJob.InstallJob, 60, false, null, cancellationToken);
 
 			const string DmeName = "LongRunning/long_running_test";
 

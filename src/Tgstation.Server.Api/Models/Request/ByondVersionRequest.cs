@@ -1,18 +1,10 @@
-﻿using System;
-
-namespace Tgstation.Server.Api.Models.Request
+﻿namespace Tgstation.Server.Api.Models.Request
 {
 	/// <summary>
-	/// A request to install a BYOND <see cref="Version"/>.
+	/// A request to install a BYOND <see cref="ByondVersionDeleteRequest.Version"/>.
 	/// </summary>
-	public sealed class ByondVersionRequest
+	public sealed class ByondVersionRequest : ByondVersionDeleteRequest
 	{
-		/// <summary>
-		/// The BYOND version to install.
-		/// </summary>
-		[RequestOptions(FieldPresence.Required)]
-		public Version? Version { get; set; }
-
 		/// <summary>
 		/// If a custom BYOND version is to be uploaded.
 		/// </summary>
