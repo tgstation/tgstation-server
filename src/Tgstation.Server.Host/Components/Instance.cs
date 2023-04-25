@@ -146,12 +146,15 @@ namespace Tgstation.Server.Host.Components
 		{
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
+				var chatDispose = Chat.DisposeAsync();
+				var watchdogDispose = Watchdog.DisposeAsync();
 				timerCts?.Dispose();
 				Configuration.Dispose();
-				await Chat.DisposeAsync();
-				await Watchdog.DisposeAsync();
 				dmbFactory.Dispose();
 				RepositoryManager.Dispose();
+				ByondManager.Dispose();
+				await chatDispose;
+				await watchdogDispose;
 			}
 		}
 
