@@ -224,10 +224,7 @@ namespace Tgstation.Server.Host.Components
 			lock (instances)
 			{
 				if (!instances.TryGetValue(metadata.Id.Value, out var instance))
-				{
-					logger.LogTrace("Cannot reference instance {instanceId} as it is not online or on this node!", metadata.Id);
 					return null;
-				}
 
 				return instance.AddReference();
 			}
