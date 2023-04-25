@@ -56,7 +56,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				job = await JobsClient.GetId(job, cancellationToken);
 				--timeout;
 			}
-			while (!job.Progress.HasValue && timeout > 0);
+			while (!job.Progress.HasValue && job.Stage == null && timeout > 0);
 
 			if (job.ExceptionDetails != null)
 				Assert.Fail(job.ExceptionDetails);
