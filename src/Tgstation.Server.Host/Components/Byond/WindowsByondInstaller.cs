@@ -166,8 +166,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			await IOManager.WriteAllBytes(
 				configFilePath,
 				Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode),
-				cancellationToken)
-				;
+				cancellationToken);
 		}
 
 		/// <summary>
