@@ -9,6 +9,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Helper for using the <see cref="AuthorizeAttribute"/> with the <see cref="Api.Rights"/> system.
 	/// </summary>
+#pragma warning disable CA1019
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
 	sealed class TgsAuthorizeAttribute : AuthorizeAttribute
 	{
