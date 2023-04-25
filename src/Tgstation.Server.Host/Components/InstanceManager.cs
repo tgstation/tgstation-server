@@ -250,7 +250,7 @@ namespace Tgstation.Server.Host.Components
 
 				// Delete the Game directory to clear out broken symlinks
 				var instanceGameIOManager = instanceFactory.CreateGameIOManager(instance);
-				await instanceGameIOManager.DeleteDirectory(".", cancellationToken);
+				await instanceGameIOManager.DeleteDirectory(DefaultIOManager.CurrentDirectory, cancellationToken);
 			}
 			catch (Exception ex)
 			{
