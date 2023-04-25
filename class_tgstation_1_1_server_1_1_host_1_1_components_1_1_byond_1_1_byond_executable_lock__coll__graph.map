@@ -1,8 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Byond.ByondExecutableLock" name="Tgstation.Server.Host.Components.Byond.ByondExecutableLock">
-<area shape="rect" id="node1" title=" " alt="" coords="492,85,719,125"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables." alt="" coords="152,5,307,31"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="5,5,96,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="145,55,313,95"/>
-<area shape="rect" id="node5" title=" " alt="" coords="147,120,312,145"/>
-<area shape="rect" id="node6" title=" " alt="" coords="177,169,282,195"/>
+<area shape="rect" id="node1" title=" " alt="" coords="127,152,354,192"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html" title=" " alt="" coords="5,79,252,104"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables." alt="" coords="277,79,431,104"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html" title="Represents a BYOND installation." alt="" coords="225,5,350,31"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="374,5,465,31"/>
 </map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.IInstanceCore.SetAutoUpdateInterval" name="Tgstation.Server.Host.Components.IInstanceCore.SetAutoUpdateInterval">
-<area shape="rect" id="node1" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore." alt="" coords="308,5,547,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a334385255e88789d71085f432aa71566" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A Task representing the runn..." alt="" coords="5,5,260,45"/>
-</map>

@@ -1,10 +1,12 @@
 <map id="Tgstation.Server.Host.Controllers.InstancePermissionSetController" name="Tgstation.Server.Host.Controllers.InstancePermissionSetController">
-<area shape="rect" id="node1" title="ApiController for managing InstancePermissionSets." alt="" coords="172,285,388,325"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="191,211,369,236"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="140,115,236,141"/>
-<area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="5,5,83,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="107,5,200,31"/>
-<area shape="rect" id="node6" title=" " alt="" coords="273,5,319,31"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="277,108,504,148"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="345,5,471,31"/>
+<area shape="rect" id="node1" title="ApiController for managing InstancePermissionSets." alt="" coords="300,360,516,400"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="ComponentInterfacingController for operations that require an instance." alt="" coords="319,285,497,311"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores." alt="" coords="306,211,510,236"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="177,115,273,141"/>
+<area shape="rect" id="node5" href="$class_controller.html" title=" " alt="" coords="5,5,83,31"/>
+<area shape="rect" id="node6" title=" " alt="" coords="107,5,200,31"/>
+<area shape="rect" id="node7" title=" " alt="" coords="329,5,375,31"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="597,108,824,148"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="563,5,701,31"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="725,5,851,31"/>
 </map>

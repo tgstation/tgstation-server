@@ -6,7 +6,7 @@
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="555,5,781,45"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_reference.html" title="Controller version of IInstanceCore." alt="" coords="555,69,781,109"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title=" " alt="" coords="829,5,1056,45"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html" title="Warpper around a given IInstance with a Dispose Action." alt="" coords="829,69,1056,109"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html" title="ReferenceCounter&lt;TInstance&gt; for a given IInstance." alt="" coords="829,69,1056,109"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title=" " alt="" coords="555,133,781,173"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="555,197,781,237"/>
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="829,197,1056,237"/>

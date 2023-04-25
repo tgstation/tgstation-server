@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Utils.IPortAllocator.GetAvailablePort" name="Tgstation.Server.Host.Utils.IPortAllocator.GetAvailablePort">
+<area shape="rect" id="node1" title="Gets a port not currently in use by TGS." alt="" coords="269,37,472,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a42c8f601481295270724f874272896bb" title="Update watchdog settings to be applied at next server reboot." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#ae6f69ed9626e6e36e8d65b84f2b9c1d3" title="Update deployment settings." alt="" coords="5,69,221,109"/>
+</map>

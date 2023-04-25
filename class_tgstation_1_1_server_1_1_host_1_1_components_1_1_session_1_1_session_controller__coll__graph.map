@@ -1,29 +1,30 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController" name="Tgstation.Server.Host.Components.Session.SessionController">
-<area shape="rect" id="node1" title=" " alt="" coords="857,626,1084,666"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html" title="Class that deserializes chunked interop payloads." alt="" coords="519,77,590,103"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,55,260,125"/>
-<area shape="rect" id="node4" title=" " alt="" coords="111,5,154,31"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess." alt="" coords="491,188,619,213"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="81,208,185,233"/>
+<area shape="rect" id="node1" title=" " alt="" coords="857,593,1084,633"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html" title="Class that deserializes chunked interop payloads." alt="" coords="519,99,590,125"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,5,260,75"/>
+<area shape="rect" id="node4" title=" " alt="" coords="111,99,154,125"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess." alt="" coords="491,199,619,225"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime." alt="" coords="81,154,185,179"/>
 <area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process." alt="" coords="455,249,654,289"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="71,149,194,175"/>
-<area shape="rect" id="node8" href="$class_i_async_disposable.html" title=" " alt="" coords="69,283,196,308"/>
-<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="441,313,668,353"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html" title=" " alt="" coords="501,377,609,403"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="70,397,195,423"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated." alt="" coords="83,457,182,483"/>
-<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files." alt="" coords="441,478,668,518"/>
-<area shape="rect" id="node12" title=" " alt="" coords="476,671,633,696"/>
-<area shape="rect" id="node13" title=" " alt="" coords="534,720,575,745"/>
-<area shape="rect" id="node14" title=" " alt="" coords="469,769,640,795"/>
-<area shape="rect" id="node15" title=" " alt="" coords="507,819,602,844"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session." alt="" coords="441,542,668,582"/>
-<area shape="rect" id="node17" href="$class_i_disposable.html" title=" " alt="" coords="87,549,178,575"/>
-<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables." alt="" coords="441,606,668,646"/>
-<area shape="rect" id="node22" href="$class_i_hosted_service.html" title=" " alt="" coords="77,348,189,373"/>
-<area shape="rect" id="node23" title=" " alt="" coords="501,868,609,893"/>
-<area shape="rect" id="node24" title=" " alt="" coords="476,918,633,958"/>
-<area shape="rect" id="node25" title=" " alt="" coords="522,983,587,1008"/>
-<area shape="rect" id="node26" title=" " alt="" coords="531,1039,578,1064"/>
-<area shape="rect" id="node27" title=" " alt="" coords="487,1088,623,1113"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="71,210,194,235"/>
+<area shape="rect" id="node8" href="$class_i_async_disposable.html" title=" " alt="" coords="69,277,196,302"/>
+<area shape="rect" id="node22" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="441,313,668,353"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html" title=" " alt="" coords="501,575,609,601"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="70,575,195,601"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated." alt="" coords="83,645,182,670"/>
+<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files." alt="" coords="441,676,668,716"/>
+<area shape="rect" id="node12" title=" " alt="" coords="476,378,633,403"/>
+<area shape="rect" id="node13" title=" " alt="" coords="534,427,575,453"/>
+<area shape="rect" id="node14" title=" " alt="" coords="469,477,640,502"/>
+<area shape="rect" id="node15" title=" " alt="" coords="507,526,602,551"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session." alt="" coords="441,740,668,780"/>
+<area shape="rect" id="node17" href="$class_i_disposable.html" title=" " alt="" coords="87,746,178,771"/>
+<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables." alt="" coords="441,804,668,844"/>
+<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installation.html" title="Represents a BYOND installation." alt="" coords="70,813,195,838"/>
+<area shape="rect" id="node23" href="$class_i_hosted_service.html" title=" " alt="" coords="77,343,189,369"/>
+<area shape="rect" id="node24" title=" " alt="" coords="501,869,609,894"/>
+<area shape="rect" id="node25" title=" " alt="" coords="476,919,633,959"/>
+<area shape="rect" id="node26" title=" " alt="" coords="522,983,587,1009"/>
+<area shape="rect" id="node27" title=" " alt="" coords="531,1039,578,1065"/>
+<area shape="rect" id="node28" title=" " alt="" coords="487,1089,623,1114"/>
 </map>

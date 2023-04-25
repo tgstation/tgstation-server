@@ -20,6 +20,6 @@
 <area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a9f7b3bc7b210f85dbadaa04295ae0c92" title="Perform updates to the repository." alt="" coords="257,1093,473,1133"/>
 <area shape="rect" id="node21" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_group_controller.html#abea94d71996180d03d56563d7b50d5f3" title="Update a UserGroup." alt="" coords="257,1157,473,1197"/>
 <area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a0a0ef7a7cf458ec6b17bf6018cc7120f" title="Update a User." alt="" coords="257,1221,473,1261"/>
-<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#af5b97c9bb64fc4bd3d590c8fcd2ace8c" title="Performs validation a request. A Task&lt;TResult&gt; resulting in an appropriate IActionResult on validatio..." alt="" coords="251,1286,479,1341"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a050adcf275d869f1db4760d553fadb6e" title=" " alt="" coords="5,325,188,365"/>
+<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a2f0d9f496f5fc8a2193b91712e44acd8" title="Performs validation a request. A Task&lt;TResult&gt; resulting in an appropriate IActionResult on validatio..." alt="" coords="237,1286,492,1341"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,325,188,365"/>
 </map>

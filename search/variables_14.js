@@ -10,8 +10,12 @@ var searchData=
   ['updatetask_7',['updateTask',['../class_tgstation_1_1_server_1_1_host_1_1_server.html#a02fa481b526ebca1da3eee5fd76a622a',1,'Tgstation::Server::Host::Server']]],
   ['uploadtasks_8',['uploadTasks',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a7a42b6ad4e30bc7d8859bc39d6c80666',1,'Tgstation::Server::Host::Components::StaticFiles::Configuration']]],
   ['uploadtickets_9',['uploadTickets',['../class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a5bb6c573988430d4450ddbb1fa523f69',1,'Tgstation::Server::Host::Transfer::FileTransferService']]],
-  ['user_10',['User',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a12784e8b5b7ac25c0684c9d4c7c59178',1,'Tgstation::Server::Api::Routes']]],
-  ['usergroup_11',['UserGroup',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a5dc5a42a07297f8f007f215b179042fe',1,'Tgstation::Server::Api::Routes']]],
-  ['userprincipal_12',['userPrincipal',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#abf93d22395acd37f9c24aee156691f7a',1,'Tgstation::Server::Host::Security::WindowsSystemIdentity']]],
-  ['userscollection_13',['usersCollection',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6ce29a522553d19841a4dd07fcc1a545',1,'Tgstation::Server::Host::Database::DatabaseContext']]]
+  ['useinstancerequestheader_10',['useInstanceRequestHeader',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a92bb12695e2aae9efae16f28c7d61607',1,'Tgstation::Server::Host::Controllers::ComponentInterfacingController']]],
+  ['user_11',['User',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a12784e8b5b7ac25c0684c9d4c7c59178',1,'Tgstation::Server::Api::Routes']]],
+  ['useragent_12',['userAgent',['../class_tgstation_1_1_server_1_1_common_1_1_http_client_factory.html#a1bedcd9e6c3ea056ce0d3efe4696d6d0',1,'Tgstation::Server::Common::HttpClientFactory']]],
+  ['userfilessemaphore_13',['UserFilesSemaphore',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a213c5da048b3eba8a0c7a35818d5363f',1,'Tgstation::Server::Host::Components::Byond::ByondManager']]],
+  ['usergroup_14',['UserGroup',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a5dc5a42a07297f8f007f215b179042fe',1,'Tgstation::Server::Api::Routes']]],
+  ['useridcontextproperty_15',['UserIdContextProperty',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a754a75a4d032d0b5f47f182c522ac9ae',1,'Tgstation::Server::Host::Utils::SerilogContextHelper']]],
+  ['userprincipal_16',['userPrincipal',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#abf93d22395acd37f9c24aee156691f7a',1,'Tgstation::Server::Host::Security::WindowsSystemIdentity']]],
+  ['userscollection_17',['usersCollection',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6ce29a522553d19841a4dd07fcc1a545',1,'Tgstation::Server::Host::Database::DatabaseContext']]]
 ];

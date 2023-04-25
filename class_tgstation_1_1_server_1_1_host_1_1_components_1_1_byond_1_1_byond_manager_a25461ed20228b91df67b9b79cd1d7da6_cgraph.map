@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Components.Byond.ByondManager.InstallVersionFiles" name="Tgstation.Server.Host.Components.Byond.ByondManager.InstallVersionFiles">
+<area shape="rect" id="node1" title="Installs the files for a given BYOND version ." alt="" coords="5,229,263,269"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="352,5,520,45"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="345,69,527,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="345,133,527,173"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a3dece46e4e2a217266248a534ae33089" title="Download a given BYOND version ." alt="" coords="311,197,561,237"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#aaedded8b0753db439df62a1e1dd4852a" title="Does actions necessary to get an extracted BYOND installation working." alt="" coords="323,261,549,301"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="352,325,520,365"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="351,389,521,429"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a97cec04d5bb18549ae09bc89bf2d016f" title="Extract a set of zipFile &#160;to a given path ." alt="" coords="347,453,525,493"/>
+</map>

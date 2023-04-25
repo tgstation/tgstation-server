@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title=" " alt="" coords="692,233,873,273"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html" title="Updates the server." alt="" coords="337,5,447,31"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html" title="Executes server update operations." alt="" coords="314,55,470,80"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="301,105,483,145"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="301,105,483,145"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="308,169,476,209"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="308,233,476,273"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="301,297,483,337"/>

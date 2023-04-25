@@ -8,6 +8,6 @@
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a0179fc566d4995932f66a0480fa34287" title="Launch a IProcess." alt="" coords="671,69,889,109"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="696,197,864,237"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="695,341,865,381"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e" title="Asyncronously locks a semaphore ." alt="" coords="685,5,875,45"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103" title="Asyncronously locks a semaphore ." alt="" coords="685,5,875,45"/>
 <area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path ." alt="" coords="689,405,871,445"/>
 </map>

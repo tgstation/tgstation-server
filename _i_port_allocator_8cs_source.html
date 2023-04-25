@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>tgstation-server: src/Tgstation.Server.Host/Core/IPortAllocator.cs Source File</title>
+<title>tgstation-server: src/Tgstation.Server.Host/Utils/IPortAllocator.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,7 +71,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_34761767c1c3cd212f9d2f80ea0828a8.html">Tgstation.Server.Host</a></li><li class="navelem"><a class="el" href="dir_0de875c2ee7edd4009e892c5045f7b3a.html">Core</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_34761767c1c3cd212f9d2f80ea0828a8.html">Tgstation.Server.Host</a></li><li class="navelem"><a class="el" href="dir_e031aa0fb63a9784d5d0be33d19ac57a.html">Utils</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -81,16 +81,16 @@ $(function() {
 <a href="_i_port_allocator_8cs.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System.Threading;</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>System.Threading.Tasks;</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html">Tgstation.Server.Host.Core</a></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_tgstation_1_1_server_1_1_host_1_1_utils.html">Tgstation.Server.Host.Utils</a></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>{</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html">    9</a></span>    <span class="keyword">public</span> <span class="keyword">interface </span><a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html">IPortAllocator</a></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html">    9</a></span>    <span class="keyword">public</span> <span class="keyword">interface </span><a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html">IPortAllocator</a></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    {</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html#addf11004d0cff6192d6b5568209f0cad">   18</a></span>        Task&lt;ushort?&gt; <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html#addf11004d0cff6192d6b5568209f0cad">GetAvailablePort</a>(ushort basePort, <span class="keywordtype">bool</span> checkOne, CancellationToken cancellationToken);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#acbd5aa98ddbba23d010d485e2734447e">   18</a></span>        Task&lt;ushort?&gt; <a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#acbd5aa98ddbba23d010d485e2734447e">GetAvailablePort</a>(ushort basePort, <span class="keywordtype">bool</span> checkOne, CancellationToken cancellationToken);</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    }</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html">Tgstation.Server.Host.Core.IPortAllocator</a></div><div class="ttdoc">Gets unassigned ports for use by TGS.</div><div class="ttdef"><b>Definition:</b> <a href="_i_port_allocator_8cs_source.html#l00009">IPortAllocator.cs:10</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator_html_addf11004d0cff6192d6b5568209f0cad"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html#addf11004d0cff6192d6b5568209f0cad">Tgstation.Server.Host.Core.IPortAllocator.GetAvailablePort</a></div><div class="ttdeci">Task&lt; ushort?&gt; GetAvailablePort(ushort basePort, bool checkOne, CancellationToken cancellationToken)</div><div class="ttdoc">Gets a port not currently in use by TGS.</div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html">Tgstation.Server.Host.Core</a></div><div class="ttdef"><b>Definition:</b> <a href="_abstract_http_client_factory_8cs_source.html#l00009">AbstractHttpClientFactory.cs:10</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html">Tgstation.Server.Host.Utils.IPortAllocator</a></div><div class="ttdoc">Gets unassigned ports for use by TGS.</div><div class="ttdef"><b>Definition:</b> <a href="_i_port_allocator_8cs_source.html#l00009">IPortAllocator.cs:10</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator_html_acbd5aa98ddbba23d010d485e2734447e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#acbd5aa98ddbba23d010d485e2734447e">Tgstation.Server.Host.Utils.IPortAllocator.GetAvailablePort</a></div><div class="ttdeci">Task&lt; ushort?&gt; GetAvailablePort(ushort basePort, bool checkOne, CancellationToken cancellationToken)</div><div class="ttdoc">Gets a port not currently in use by TGS.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_utils_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_utils.html">Tgstation.Server.Host.Utils</a></div><div class="ttdef"><b>Definition:</b> <a href="_abstract_http_client_factory_8cs_source.html#l00009">AbstractHttpClientFactory.cs:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

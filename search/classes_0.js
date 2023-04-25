@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['abstracthttpclientfactory_0',['AbstractHttpClientFactory',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_abstract_http_client_factory.html',1,'Tgstation::Server::Host::Core']]],
+  ['abstracthttpclientfactory_0',['AbstractHttpClientFactory',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_abstract_http_client_factory.html',1,'Tgstation::Server::Host::Utils']]],
   ['administrationclient_1',['AdministrationClient',['../class_tgstation_1_1_server_1_1_client_1_1_administration_client.html',1,'Tgstation::Server::Client']]],
   ['administrationcontroller_2',['AdministrationController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['administrationresponse_3',['AdministrationResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html',1,'Tgstation::Server::Api::Models::Response']]],
@@ -14,7 +14,7 @@ var searchData=
   ['application_11',['Application',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html',1,'Tgstation::Server::Host::Core']]],
   ['applicationbuilderextensions_12',['ApplicationBuilderExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html',1,'Tgstation::Server::Host::Extensions']]],
   ['assemblyinformationprovider_13',['AssemblyInformationProvider',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html',1,'Tgstation::Server::Host::System']]],
-  ['asyncdelayer_14',['AsyncDelayer',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer.html',1,'Tgstation::Server::Host::Core']]],
+  ['asyncdelayer_14',['AsyncDelayer',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_async_delayer.html',1,'Tgstation::Server::Host::Utils']]],
   ['attribute_15',['Attribute',['../class_attribute.html',1,'']]],
   ['authenticationcontext_16',['AuthenticationContext',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html',1,'Tgstation::Server::Host::Security']]],
   ['authenticationcontextfactory_17',['AuthenticationContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html',1,'Tgstation::Server::Host::Security']]],

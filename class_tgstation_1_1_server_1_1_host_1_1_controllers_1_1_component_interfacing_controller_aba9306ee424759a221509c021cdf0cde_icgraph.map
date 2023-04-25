@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateInstanceOnlineStatus" name="Tgstation.Server.Host.Controllers.ComponentInterfacingController.ValidateInstanceOnlineStatus">
+<area shape="rect" id="node1" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="308,5,563,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a2f0d9f496f5fc8a2193b91712e44acd8" title="Performs validation a request. A Task&lt;TResult&gt; resulting in an appropriate IActionResult on validatio..." alt="" coords="5,5,260,60"/>
+</map>

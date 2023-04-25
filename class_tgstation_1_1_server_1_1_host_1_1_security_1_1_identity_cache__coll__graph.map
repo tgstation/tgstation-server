@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title=" " alt="" coords="387,105,588,145"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys." alt="" coords="70,5,175,31"/>
 <area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="77,55,168,80"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="32,105,213,145"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="32,105,213,145"/>
 <area shape="rect" id="node5" title=" " alt="" coords="5,169,240,209"/>
 <area shape="rect" id="node6" title=" " alt="" coords="23,233,223,288"/>
 </map>

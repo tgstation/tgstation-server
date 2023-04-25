@@ -11,9 +11,11 @@ var searchData=
   ['byondcommand_8',['ByondCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]],
   ['byondcontroller_9',['ByondController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['byondexecutablelock_10',['ByondExecutableLock',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html',1,'Tgstation::Server::Host::Components::Byond']]],
-  ['byondinstallerbase_11',['ByondInstallerBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html',1,'Tgstation::Server::Host::Components::Byond']]],
-  ['byondinstallresponse_12',['ByondInstallResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_byond_install_response.html',1,'Tgstation::Server::Api::Models::Response']]],
-  ['byondmanager_13',['ByondManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html',1,'Tgstation::Server::Host::Components::Byond']]],
-  ['byondresponse_14',['ByondResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_byond_response.html',1,'Tgstation::Server::Api::Models::Response']]],
-  ['byondversionrequest_15',['ByondVersionRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html',1,'Tgstation::Server::Api::Models::Request']]]
+  ['byondinstallation_11',['ByondInstallation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installation.html',1,'Tgstation::Server::Host::Components::Byond']]],
+  ['byondinstallerbase_12',['ByondInstallerBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html',1,'Tgstation::Server::Host::Components::Byond']]],
+  ['byondinstallresponse_13',['ByondInstallResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_byond_install_response.html',1,'Tgstation::Server::Api::Models::Response']]],
+  ['byondmanager_14',['ByondManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html',1,'Tgstation::Server::Host::Components::Byond']]],
+  ['byondresponse_15',['ByondResponse',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_byond_response.html',1,'Tgstation::Server::Api::Models::Response']]],
+  ['byondversiondeleterequest_16',['ByondVersionDeleteRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_delete_request.html',1,'Tgstation::Server::Api::Models::Request']]],
+  ['byondversionrequest_17',['ByondVersionRequest',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html',1,'Tgstation::Server::Api::Models::Request']]]
 ];

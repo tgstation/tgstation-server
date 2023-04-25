@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Security.OAuth.InvisionCommunityOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.InvisionCommunityOAuthValidator">
-<area shape="rect" id="node1" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="18,183,278,223"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="71,108,225,133"/>
+<area shape="rect" id="node1" title="OAuth validator for Invision Community (selfhosted)." alt="" coords="17,183,277,223"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="69,108,224,133"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,13,120,38"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="144,5,325,45"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="144,5,320,45"/>
 </map>

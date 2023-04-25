@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Common.HttpClientFactory" name="Tgstation.Server.Common.HttpClientFactory">
+<area shape="rect" id="node1" title="IAbstractHttpClientFactory that creates HttpClients." alt="" coords="6,79,181,119"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_common_1_1_i_abstract_http_client_factory.html" title="Creates IHttpClients." alt="" coords="5,5,181,31"/>
+</map>

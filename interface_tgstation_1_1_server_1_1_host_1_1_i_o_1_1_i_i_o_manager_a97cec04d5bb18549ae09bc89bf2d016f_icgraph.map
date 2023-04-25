@@ -1,4 +1,8 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.ZipToDirectory" name="Tgstation.Server.Host.IO.IIOManager.ZipToDirectory">
-<area shape="rect" id="node1" title="Extract a set of zipFile &#160;to a given path ." alt="" coords="251,5,428,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,5,203,45"/>
+<area shape="rect" id="node1" title="Extract a set of zipFile &#160;to a given path ." alt="" coords="935,37,1112,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="659,5,857,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a25461ed20228b91df67b9b79cd1d7da6" title="Installs the files for a given BYOND version ." alt="" coords="629,69,887,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a00f2e0f1ad897e7cb7f9e869d05691f6" title="Ensures a BYOND version &#160;is installed if it isn&#39;t already." alt="" coords="297,69,581,109"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a6def087723e66e640dde136d3d26b056" title="Change the active BYOND version. A Task representing the running operation." alt="" coords="8,37,247,77"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a69c3e27f95b68915afda0542a77a7664" title="Lock the current installation&#39;s location and return a IByondExecutableLock. A Task&lt;TResult&gt; resulting..." alt="" coords="5,101,249,141"/>
 </map>

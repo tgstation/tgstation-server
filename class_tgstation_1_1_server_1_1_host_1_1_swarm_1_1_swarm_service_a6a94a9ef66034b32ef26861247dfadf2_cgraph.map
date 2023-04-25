@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.CommitUpdate" name="Tgstation.Server.Host.Swarm.SwarmService.CommitUpdate">
 <area shape="rect" id="node1" title="Signal to the swarm that an update is ready to be applied. A Task&lt;TResult&gt; resulting in the SwarmComm..." alt="" coords="5,89,203,129"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465" title="Abort an uncommitted update. A Task representing the running operation." alt="" coords="251,59,445,99"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_abstract_http_client_factory.html#af60f3d5eb15266da12efa55872a7b21f" title="Create a IHttpClient." alt="" coords="507,5,724,60"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_common_1_1_i_abstract_http_client_factory.html#afc6fb17bf1b8eada226f98866b237d1f" title="Create a IHttpClient." alt="" coords="507,5,724,60"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="493,95,737,135"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="257,174,439,214"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="257,174,439,214"/>
 </map>

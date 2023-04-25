@@ -25,7 +25,7 @@ var searchData=
   ['pgtopictimeout_22',['PGTopicTimeout',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_topic_timeout.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['pgtruncateinstancenames_23',['PGTruncateInstanceNames',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['platformidentifier_24',['PlatformIdentifier',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html',1,'Tgstation::Server::Host::System']]],
-  ['portallocator_25',['PortAllocator',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_port_allocator.html',1,'Tgstation::Server::Host::Core']]],
+  ['portallocator_25',['PortAllocator',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_port_allocator.html',1,'Tgstation::Server::Host::Utils']]],
   ['posixbyondinstaller_26',['PosixByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html',1,'Tgstation::Server::Host::Components::Byond']]],
   ['posixnetworkpromptreaper_27',['PosixNetworkPromptReaper',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_network_prompt_reaper.html',1,'Tgstation::Server::Host::System']]],
   ['posixpostwritehandler_28',['PosixPostWriteHandler',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html',1,'Tgstation::Server::Host::IO']]],

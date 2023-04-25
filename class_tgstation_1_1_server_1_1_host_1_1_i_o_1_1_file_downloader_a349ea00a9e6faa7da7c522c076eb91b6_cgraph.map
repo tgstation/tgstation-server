@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.IO.FileDownloader.DownloadFile" name="Tgstation.Server.Host.IO.FileDownloader.DownloadFile">
 <area shape="rect" id="node1" title="Downloads a file from url . A Task&lt;TResult&gt; resulting in a MemoryStream of the downloaded file." alt="" coords="5,13,197,53"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_abstract_http_client_factory.html#af60f3d5eb15266da12efa55872a7b21f" title="Create a IHttpClient." alt="" coords="245,5,463,60"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_common_1_1_i_abstract_http_client_factory.html#afc6fb17bf1b8eada226f98866b237d1f" title="Create a IHttpClient." alt="" coords="245,5,463,60"/>
 </map>

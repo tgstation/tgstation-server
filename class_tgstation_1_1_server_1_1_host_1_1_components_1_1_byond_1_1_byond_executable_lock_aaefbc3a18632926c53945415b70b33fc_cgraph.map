@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Byond.ByondExecutableLock.TrustDmbPath" name="Tgstation.Server.Host.Components.Byond.ByondExecutableLock.TrustDmbPath">
-<area shape="rect" id="node1" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config. A Task representing the running ..." alt="" coords="5,101,281,141"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="341,5,509,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e" title="Asyncronously locks a semaphore ." alt="" coords="329,69,520,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ac922bdac0d00614949510725420ddd4e" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="339,133,510,173"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="339,197,510,237"/>
-</map>

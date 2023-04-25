@@ -7,7 +7,7 @@
 <area shape="rect" id="node6" title=" " alt="" coords="33,294,88,319"/>
 <area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system." alt="" coords="333,228,563,268"/>
 <area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html" title="File logging configuration options." alt="" coords="333,355,563,395"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="357,419,539,459"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="357,419,539,459"/>
 <area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="357,483,539,523"/>
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html" title="Initiates server self updates." alt="" coords="357,547,539,587"/>
 <area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="349,611,547,651"/>

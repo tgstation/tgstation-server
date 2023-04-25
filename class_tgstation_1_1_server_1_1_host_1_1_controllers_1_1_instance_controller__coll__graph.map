@@ -1,21 +1,23 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController" name="Tgstation.Server.Host.Controllers.InstanceController">
-<area shape="rect" id="node1" title="ApiController for managing Components.Instances." alt="" coords="800,433,1016,473"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="468,76,564,101"/>
-<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="44,55,121,80"/>
-<area shape="rect" id="node4" title=" " alt="" coords="36,104,129,129"/>
-<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,369,631,409"/>
-<area shape="rect" id="node5" title=" " alt="" coords="59,5,106,31"/>
-<area shape="rect" id="node6" title=" " alt="" coords="55,229,110,255"/>
-<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="401,149,631,189"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="425,433,607,473"/>
-<area shape="rect" id="node8" href="$class_i_hosted_service.html" title=" " alt="" coords="27,585,139,611"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="403,497,629,537"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="20,635,145,660"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="432,561,600,601"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="417,625,615,665"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="425,689,607,729"/>
-<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,487,160,512"/>
-<area shape="rect" id="node16" title=" " alt="" coords="61,437,104,463"/>
-<area shape="rect" id="node17" title=" " alt="" coords="7,536,159,561"/>
-<area shape="rect" id="node19" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="32,153,133,179"/>
+<area shape="rect" id="node1" title="ApiController for managing Components.Instances." alt="" coords="1171,513,1387,553"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html" title="ApiController for operations on IInstanceCores." alt="" coords="785,497,989,522"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions." alt="" coords="369,497,465,522"/>
+<area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="36,497,113,522"/>
+<area shape="rect" id="node5" title=" " alt="" coords="28,426,121,451"/>
+<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="772,325,1001,365"/>
+<area shape="rect" id="node6" title=" " alt="" coords="51,553,98,578"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances." alt="" coords="304,636,531,676"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_operations.html" title="Operations that can be performed on a given Models.Instance." alt="" coords="5,626,144,651"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="12,675,137,701"/>
+<area shape="rect" id="node10" title=" " alt="" coords="390,59,445,85"/>
+<area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="772,101,1001,141"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="795,547,978,587"/>
+<area shape="rect" id="node12" href="$class_i_hosted_service.html" title=" " alt="" coords="361,701,473,726"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="803,611,971,651"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="787,675,986,715"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="796,739,977,779"/>
+<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="340,187,495,213"/>
+<area shape="rect" id="node18" title=" " alt="" coords="396,302,439,327"/>
+<area shape="rect" id="node19" title=" " alt="" coords="341,351,493,377"/>
+<area shape="rect" id="node21" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="367,109,468,134"/>
 </map>

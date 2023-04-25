@@ -4,6 +4,6 @@
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="259,134,470,174"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afd69b7671a16d3081393af03b3a52cb5" title="Complete the current forceHealthCheckTcs." alt="" coords="532,163,757,203"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac2e22cae1e96264b6ae4f0d41bca4b70" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="255,249,475,304"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_abstract_http_client_factory.html#af60f3d5eb15266da12efa55872a7b21f" title="Create a IHttpClient." alt="" coords="536,5,753,60"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_common_1_1_i_abstract_http_client_factory.html#afc6fb17bf1b8eada226f98866b237d1f" title="Create a IHttpClient." alt="" coords="536,5,753,60"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="523,85,767,125"/>
 </map>

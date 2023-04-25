@@ -12,10 +12,12 @@ var searchData=
   ['byondcommand_2ecs_9',['ByondCommand.cs',['../_byond_command_8cs.html',1,'']]],
   ['byondcontroller_2ecs_10',['ByondController.cs',['../_byond_controller_8cs.html',1,'']]],
   ['byondexecutablelock_2ecs_11',['ByondExecutableLock.cs',['../_byond_executable_lock_8cs.html',1,'']]],
-  ['byondinstallerbase_2ecs_12',['ByondInstallerBase.cs',['../_byond_installer_base_8cs.html',1,'']]],
-  ['byondinstallresponse_2ecs_13',['ByondInstallResponse.cs',['../_byond_install_response_8cs.html',1,'']]],
-  ['byondmanager_2ecs_14',['ByondManager.cs',['../_byond_manager_8cs.html',1,'']]],
-  ['byondresponse_2ecs_15',['ByondResponse.cs',['../_byond_response_8cs.html',1,'']]],
-  ['byondrights_2ecs_16',['ByondRights.cs',['../_byond_rights_8cs.html',1,'']]],
-  ['byondversionrequest_2ecs_17',['ByondVersionRequest.cs',['../_byond_version_request_8cs.html',1,'']]]
+  ['byondinstallation_2ecs_12',['ByondInstallation.cs',['../_byond_installation_8cs.html',1,'']]],
+  ['byondinstallerbase_2ecs_13',['ByondInstallerBase.cs',['../_byond_installer_base_8cs.html',1,'']]],
+  ['byondinstallresponse_2ecs_14',['ByondInstallResponse.cs',['../_byond_install_response_8cs.html',1,'']]],
+  ['byondmanager_2ecs_15',['ByondManager.cs',['../_byond_manager_8cs.html',1,'']]],
+  ['byondresponse_2ecs_16',['ByondResponse.cs',['../_byond_response_8cs.html',1,'']]],
+  ['byondrights_2ecs_17',['ByondRights.cs',['../_byond_rights_8cs.html',1,'']]],
+  ['byondversiondeleterequest_2ecs_18',['ByondVersionDeleteRequest.cs',['../_byond_version_delete_request_8cs.html',1,'']]],
+  ['byondversionrequest_2ecs_19',['ByondVersionRequest.cs',['../_byond_version_request_8cs.html',1,'']]]
 ];

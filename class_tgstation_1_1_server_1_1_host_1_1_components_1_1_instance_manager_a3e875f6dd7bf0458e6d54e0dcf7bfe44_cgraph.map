@@ -1,5 +1,6 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility" name="Tgstation.Server.Host.Components.InstanceManager.CheckSystemCompatibility">
-<area shape="rect" id="node1" title="Check we have a valid system identity." alt="" coords="5,37,285,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#a2b6458e7e063e0ea2368fefd2df1c0e1" title="Attempt to exclusively bind to a given port ." alt="" coords="335,5,553,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="333,69,555,109"/>
+<area shape="rect" id="node1" title="Check we have a valid system and configuration." alt="" coords="5,69,285,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#a2b6458e7e063e0ea2368fefd2df1c0e1" title="Attempt to exclusively bind to a given port ." alt="" coords="353,5,570,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a0dff52d3ac52e100397122e63e1337ee" title="Validates the current ConfigVersion&#39;s compatibility and provides migration instructions." alt="" coords="333,69,589,109"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="351,133,572,173"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Setup.SetupWizard.CheckRunWizard" name="Tgstation.Server.Host.Setup.SetupWizard.CheckRunWizard">
 <area shape="rect" id="node1" title="Check if it should and run the SetupWizard if necessary." alt="" coords="5,436,203,476"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan ." alt="" coords="1107,136,1289,176"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="1107,136,1289,176"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="805,111,973,151"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a9cdbbb0a183071a732a73e338a122cd0" title="A prompt for a yes or no value." alt="" coords="1104,1347,1292,1387"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470" title="Write some text &#160;to the IConsole." alt="" coords="1360,786,1528,826"/>

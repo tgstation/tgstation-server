@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Instance.DisposeAsync" name="Tgstation.Server.Host.Components.Instance.DisposeAsync">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,232,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="280,5,527,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,37,232,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#ad943befa858b57706c8fdeac1c93a7bc" title=" " alt="" coords="290,5,517,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="280,69,527,109"/>
 </map>

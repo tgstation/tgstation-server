@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.Shutdown" name="Tgstation.Server.Host.Swarm.SwarmService.Shutdown">
 <area shape="rect" id="node1" title="Deregister with the swarm controller or put clients into querying state. A Task representing the runn..." alt="" coords="5,117,200,157"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_abstract_http_client_factory.html#af60f3d5eb15266da12efa55872a7b21f" title="Create a IHttpClient." alt="" coords="261,5,479,60"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_common_1_1_i_abstract_http_client_factory.html#afc6fb17bf1b8eada226f98866b237d1f" title="Create a IHttpClient." alt="" coords="261,5,479,60"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a83bee4040049ba8768dcb04ae7f50deb" title="Migrate a given databaseContext &#160;down." alt="" coords="265,85,475,125"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="248,149,492,189"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext." alt="" coords="251,213,489,253"/>

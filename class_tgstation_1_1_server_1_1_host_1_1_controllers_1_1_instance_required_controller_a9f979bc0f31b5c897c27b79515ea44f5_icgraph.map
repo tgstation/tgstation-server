@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.InstanceRequiredController.ValidateInstanceOnlineStatus" name="Tgstation.Server.Host.Controllers.InstanceRequiredController.ValidateInstanceOnlineStatus">
-<area shape="rect" id="node1" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="281,94,509,149"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#aa3eab217c31fa5352d73907d1c5ae2da" title="Get a specific Api.Models.Instance." alt="" coords="11,5,227,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a847401908ac387448f30eaae0d66004d" title="List Api.Models.Instances." alt="" coords="11,69,227,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a15e51b4502747b12034dc24682d555d4" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="11,133,227,173"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#af5b97c9bb64fc4bd3d590c8fcd2ace8c" title="Performs validation a request. A Task&lt;TResult&gt; resulting in an appropriate IActionResult on validatio..." alt="" coords="5,198,233,253"/>
-</map>

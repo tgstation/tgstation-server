@@ -6,7 +6,7 @@
 <area shape="rect" id="node5" title=" " alt="" coords="107,153,145,179"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="25,203,227,243"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="42,267,210,307"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="35,331,217,371"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="35,331,217,371"/>
 <area shape="rect" id="node9" title=" " alt="" coords="19,396,233,451"/>
 <area shape="rect" id="node10" title=" " alt="" coords="13,475,239,529"/>
 <area shape="rect" id="node11" title=" " alt="" coords="5,553,247,608"/>

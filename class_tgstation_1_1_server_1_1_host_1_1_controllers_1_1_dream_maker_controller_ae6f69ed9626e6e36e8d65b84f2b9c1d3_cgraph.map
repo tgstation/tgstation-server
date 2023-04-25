@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.DreamMakerController.Update" name="Tgstation.Server.Host.Controllers.DreamMakerController.Update">
 <area shape="rect" id="node1" title="Update deployment settings." alt="" coords="5,133,221,173"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html#addf11004d0cff6192d6b5568209f0cad" title="Gets a port not currently in use by TGS." alt="" coords="276,5,479,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_port_allocator.html#acbd5aa98ddbba23d010d485e2734447e" title="Gets a port not currently in use by TGS." alt="" coords="276,5,479,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType . The value of rightsType . Note that if InstancePermissionSet is..." alt="" coords="276,69,479,109"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="269,133,485,173"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a27395db5054c8a45666c3c2c6d189680" title="Read current deployment settings." alt="" coords="269,197,485,237"/>

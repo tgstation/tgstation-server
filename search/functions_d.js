@@ -7,5 +7,6 @@ var searchData=
   ['normalizeanddelete_4',['NormalizeAndDelete',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#acba7d5b4654f5a2358fef05ede3c5dd5',1,'Tgstation::Server::Host::IO::DefaultIOManager']]],
   ['normalizementions_5',['NormalizeMentions',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1',1,'Tgstation::Server::Host::Components::Chat::Providers::DiscordProvider']]],
   ['normalizepath_6',['NormalizePath',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a8b8a858eef2c16d29e1aff3603f91cce',1,'Tgstation::Server::Host::Controllers::InstanceController']]],
-  ['notfound_7',['NotFound',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f',1,'Tgstation::Server::Host::Controllers::ApiController']]]
+  ['normalizeversion_7',['NormalizeVersion',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#afe2000a3186262591541e18d769b546b',1,'Tgstation::Server::Host::Controllers::ByondController']]],
+  ['notfound_8',['NotFound',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f',1,'Tgstation::Server::Host::Controllers::ApiController']]]
 ];

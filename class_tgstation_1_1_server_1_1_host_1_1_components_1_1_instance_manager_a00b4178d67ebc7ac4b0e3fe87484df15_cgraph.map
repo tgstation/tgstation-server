@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.OnlineInstance" name="Tgstation.Server.Host.Components.InstanceManager.OnlineInstance">
 <area shape="rect" id="node1" title="Online an IInstance. A Task representing the running operation." alt="" coords="5,37,232,77"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#a85af2a0153062b03bde4bd6f1df9d846" title="Create an IInstance." alt="" coords="280,5,507,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a777a45bdcc1be5005b5a3ef72618a04e" title="Asyncronously locks a semaphore ." alt="" coords="298,69,489,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103" title="Asyncronously locks a semaphore ." alt="" coords="298,69,489,109"/>
 </map>

@@ -5,7 +5,8 @@
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a9394bb3454c134ae4c8ea53d8326e1d6" title="Create the IIOManager for a given set of instance metadata ." alt="" coords="288,149,559,189"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a7776b90becee310dbf88b39c649ed4e7" title="Creates a IWatchdog." alt="" coords="280,213,567,253"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a923eeba6faee2b5573a1fa4bc37c2216" title=" " alt="" coords="310,277,537,317"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a68c2bad270e3619dd680e14ba886b805" title="Initializes a new instance of the Repository class." alt="" coords="310,342,537,382"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="616,274,863,314"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="615,339,864,393"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a68c2bad270e3619dd680e14ba886b805" title="Initializes a new instance of the Repository class." alt="" coords="310,345,537,385"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#ad943befa858b57706c8fdeac1c93a7bc" title=" " alt="" coords="626,213,853,253"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="616,277,863,317"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="615,341,864,396"/>
 </map>

@@ -44,5 +44,6 @@ var searchData=
   ['tgstation_41',['Tgstation',['../namespace_tgstation.html',1,'']]],
   ['topic_42',['Topic',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic.html',1,'Tgstation::Server::Host::Components::Interop']]],
   ['transfer_43',['Transfer',['../namespace_tgstation_1_1_server_1_1_host_1_1_transfer.html',1,'Tgstation::Server::Host']]],
-  ['watchdog_44',['Watchdog',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html',1,'Tgstation.Server.Host.Components.Watchdog'],['../namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html',1,'Tgstation.Server.Host.Watchdog']]]
+  ['utils_44',['Utils',['../namespace_tgstation_1_1_server_1_1_host_1_1_utils.html',1,'Tgstation::Server::Host']]],
+  ['watchdog_45',['Watchdog',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html',1,'Tgstation.Server.Host.Components.Watchdog'],['../namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html',1,'Tgstation.Server.Host.Watchdog']]]
 ];

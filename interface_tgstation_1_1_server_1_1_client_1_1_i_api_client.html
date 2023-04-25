@@ -158,6 +158,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afd5d33df8898948609154c2420747a1f"><td class="memItemLeft" align="right" valign="top">Task&lt; TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#afd5d33df8898948609154c2420747a1f">Delete&lt; TResult &gt;</a> (string route, long instanceId, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:afd5d33df8898948609154c2420747a1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an HTTP DELETE request.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#afd5d33df8898948609154c2420747a1f">More...</a><br /></td></tr>
 <tr class="separator:afd5d33df8898948609154c2420747a1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46b01269a83b4789328906b87ae4a8df"><td class="memItemLeft" align="right" valign="top">Task&lt; TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a46b01269a83b4789328906b87ae4a8df">Delete&lt; TBody, TResult &gt;</a> (string route, TBody body, long instanceId, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a46b01269a83b4789328906b87ae4a8df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an HTTP DELETE request.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a46b01269a83b4789328906b87ae4a8df">More...</a><br /></td></tr>
+<tr class="separator:a46b01269a83b4789328906b87ae4a8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b743cc74073b0b373328a3d84043fa7"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a4b743cc74073b0b373328a3d84043fa7">Download</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> ticket, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a4b743cc74073b0b373328a3d84043fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a file <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a4b743cc74073b0b373328a3d84043fa7">More...</a><br /></td></tr>
 <tr class="separator:a4b743cc74073b0b373328a3d84043fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -595,6 +598,75 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a16602577e0ea7e639491f47873aa07c2">Tgstation.Server.Client.ApiClient</a>.</p>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>TBody</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
+</div>
+</div>
+<a id="a46b01269a83b4789328906b87ae4a8df" name="a46b01269a83b4789328906b87ae4a8df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46b01269a83b4789328906b87ae4a8df">&#9670;&#160;</a></span>Delete&lt; TBody, TResult &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt; TResult &gt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a6954d79598a2d4498c99e201481dc6b1">Tgstation.Server.Client.IApiClient.Delete</a>&lt; TBody, TResult &gt; </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>route</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TBody&#160;</td>
+          <td class="paramname"><em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>instanceId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run an HTTP DELETE request.  </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TBody</td><td>The type to of the request body.</td></tr>
+    <tr><td class="paramname">TResult</td><td>The type of the response body.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">route</td><td>The server route to make the request to.</td></tr>
+    <tr><td class="paramname">body</td><td>The request body.</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570" title="The ID of the entity.">EntityId.Id</a> to make the request to.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#acde6f4358dc08afba63be3362f0994b5">Tgstation.Server.Client.ApiClient</a>.</p>
 <div class="typeconstraint">
 <dl><dt><b>Type Constraints</b></dt><dd>
 <table border="0" cellspacing="2" cellpadding="0">

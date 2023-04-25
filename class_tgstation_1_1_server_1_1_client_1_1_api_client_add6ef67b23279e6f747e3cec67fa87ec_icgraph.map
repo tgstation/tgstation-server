@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Client.ApiClient.Upload" name="Tgstation.Server.Client.ApiClient.Upload">
 <area shape="rect" id="node1" title="Uploads a given uploadStream &#160;for a given ticket . A Task representing the running operation." alt="" coords="292,49,448,89"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a6f31d6fe7725559bd77fcf8290182535" title="Updates the ByondInstallResponse information. A Task&lt;TResult&gt; resulting in the updated ByondInstallRe..." alt="" coords="11,5,238,60"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a6f31d6fe7725559bd77fcf8290182535" title="Updates the active BYOND version. A Task&lt;TResult&gt; resulting in the updated ByondInstallResponse infor..." alt="" coords="11,5,238,60"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a985fa888edbcb5c868c6250a8f4d8897" title="Overwrite a file . A Task&lt;TResult&gt; resulting in the new ConfigurationFileResponse." alt="" coords="5,85,244,125"/>
 </map>

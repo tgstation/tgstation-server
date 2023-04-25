@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.CommentOnTestMergeSource" name="Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager.CommentOnTestMergeSource">
 <area shape="rect" id="node1" title="Create a comment of a given testMergeNumber &#39;s source. A Task representing the running operation." alt="" coords="5,5,300,60"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="348,13,565,53"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="348,13,565,53"/>
 </map>
