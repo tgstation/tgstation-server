@@ -11,10 +11,10 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 
 using Tgstation.Server.Host.Components.Repository;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {

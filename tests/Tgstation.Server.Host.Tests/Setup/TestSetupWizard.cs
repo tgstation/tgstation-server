@@ -14,10 +14,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Setup.Tests
 {

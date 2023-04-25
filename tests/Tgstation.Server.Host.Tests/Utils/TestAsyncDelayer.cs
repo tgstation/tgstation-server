@@ -1,9 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core.Tests
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Tgstation.Server.Host.Utils.Tests
 {
 	[TestClass]
 	public sealed class TestAsyncDelayer

@@ -263,15 +263,15 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 
 			// get the byond lock
-			var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken);
+			var byondLock = currentByondLock ?? await byond.UseExecutables(
+				Version.Parse(dmbProvider.CompileJob.ByondVersion),
+				gameIOManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName),
+				cancellationToken);
 			try
 			{
 				logger.LogDebug(
 					"Launching session with CompileJob {compileJobId}...",
 					dmbProvider.CompileJob.Id);
-
-				if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
-					await byondLock.TrustDmbPath(gameIOManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken);
 
 				PortBindTest(launchParameters.Port.Value);
 				await CheckPagerIsNotRunning(cancellationToken);
@@ -385,7 +385,10 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogTrace("Begin session reattach...");
 			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);
-			var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken);
+			var byondLock = await byond.UseExecutables(
+				Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion),
+				null, // Doesn't matter if it's trusted or not on reattach
+				cancellationToken);
 
 			try
 			{

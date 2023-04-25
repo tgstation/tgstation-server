@@ -6,7 +6,7 @@ using Octokit;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Utils
 {
 	/// <inheritdoc />
 	sealed class GitHubClientFactory : IGitHubClientFactory
@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Core
 				new ProductHeaderValue(
 					assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,
 					assemblyInformationProvider.ProductInfoHeaderValue.Product.Version));
-			if (!String.IsNullOrWhiteSpace(accessToken))
+			if (!string.IsNullOrWhiteSpace(accessToken))
 				client.Credentials = new Credentials(accessToken);
 
 			return client;

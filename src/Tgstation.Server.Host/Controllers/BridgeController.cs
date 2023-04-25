@@ -12,6 +12,7 @@ using Serilog.Context;
 
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -86,7 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 			}
 
-			using (LogContext.PushProperty("Bridge", Interlocked.Increment(ref requestsProcessed)))
+			using (LogContext.PushProperty(SerilogContextHelper.BridgeRequestIterationContextProperty, Interlocked.Increment(ref requestsProcessed)))
 			{
 				BridgeParameters request;
 				try

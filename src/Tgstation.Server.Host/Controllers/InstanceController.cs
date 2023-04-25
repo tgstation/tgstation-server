@@ -19,13 +19,13 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// </summary>
 	[Route(Routes.InstanceManager)]
 #pragma warning disable CA1506 // TODO: Decomplexify
-	public sealed class InstanceController : ApiController
+	public sealed class InstanceController : ComponentInterfacingController
 	{
 		/// <summary>
 		/// File name to allow attaching instances.
@@ -50,11 +50,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="IJobManager"/> for the <see cref="InstanceController"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
-
-		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="InstanceController"/>.
-		/// </summary>
-		readonly IInstanceManager instanceManager;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="InstanceController"/>.
@@ -84,35 +79,34 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InstanceController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ComponentInterfacingController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ComponentInterfacingController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ComponentInterfacingController"/>.</param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="ComponentInterfacingController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public InstanceController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			IJobManager jobManager,
+			ILogger<InstanceController> logger,
 			IInstanceManager instanceManager,
+			IJobManager jobManager,
 			IIOManager ioManager,
 			IPortAllocator portAllocator,
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
-			IOptions<SwarmConfiguration> swarmConfigurationOptions,
-			ILogger<InstanceController> logger)
+			IOptions<SwarmConfiguration> swarmConfigurationOptions)
 			: base(
 				  databaseContext,
 				  authenticationContextFactory,
 				  logger,
-				  true)
+				  instanceManager)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
@@ -367,7 +361,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel == default(Models.Instance))
 				return Gone();
 
-			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, originalModel))
+			if (ValidateInstanceOnlineStatus(originalModel))
 				await DatabaseContext.Save(cancellationToken);
 
 			var userRights = (InstanceManagerRights)AuthenticationContext.GetRight(RightsType.InstanceManager);
@@ -436,22 +430,25 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (renamed)
 			{
-				using var componentInstance = instanceManager.GetInstanceReference(originalModel);
-				if (componentInstance != null)
+				// ignoring retval because we don't care if it's offline
+				await WithComponentInstance(async componentInstance =>
+				{
 					await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken);
+					return null;
+				});
 			}
 
 			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
 			{
 				if (originalOnline && model.Online == false)
-					await instanceManager.OfflineInstance(originalModel, AuthenticationContext.User, cancellationToken);
+					await InstanceOperations.OfflineInstance(originalModel, AuthenticationContext.User, cancellationToken);
 				else if (!originalOnline && model.Online == true)
 				{
 					// force autostart false here because we don't want any long running jobs right now
 					// remember to document this
 					originalModel.DreamDaemonSettings.AutoStart = false;
-					await instanceManager.OnlineInstance(originalModel, cancellationToken);
+					await InstanceOperations.OnlineInstance(originalModel, cancellationToken);
 				}
 			}
 			catch (Exception e)
@@ -488,7 +485,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, ct) // core will be null here since the instance is offline
-						=> instanceManager.MoveInstance(originalModel, originalModelPath, ct),
+						=> InstanceOperations.MoveInstance(originalModel, originalModelPath, ct),
 					cancellationToken)
 					;
 				api.MoveJob = job.ToApi();
@@ -496,9 +493,12 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
 			{
-				using var componentInstance = instanceManager.GetInstanceReference(originalModel);
-				if (componentInstance != null)
+				// ignoring retval because we don't care if it's offline
+				await WithComponentInstance(async componentInstance =>
+				{
 					await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value);
+					return null;
+				});
 			}
 
 			await CheckAccessible(api, cancellationToken);
@@ -559,7 +559,7 @@ namespace Tgstation.Server.Host.Controllers
 							.OrderBy(x => x.Id))),
 				async instance =>
 				{
-					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
+					needsUpdate |= ValidateInstanceOnlineStatus(instance);
 					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id)?.ToApi();
 					await CheckAccessible(instance, cancellationToken);
 				},
@@ -606,7 +606,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (instance == null)
 				return Gone();
 
-			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance))
+			if (ValidateInstanceOnlineStatus(instance))
 				await DatabaseContext.Save(cancellationToken);
 
 			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value &&

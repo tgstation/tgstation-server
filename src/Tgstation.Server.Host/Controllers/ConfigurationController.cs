@@ -34,22 +34,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConfigurationController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public ConfigurationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
+			ILogger<ConfigurationController> logger,
 			IInstanceManager instanceManager,
-			IIOManager ioManager,
-			ILogger<ConfigurationController> logger)
+			IIOManager ioManager)
 			: base(
-				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger)
+				  logger,
+				  instanceManager)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 		}

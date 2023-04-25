@@ -9,10 +9,10 @@ using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Byond
 {
@@ -166,8 +166,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			await IOManager.WriteAllBytes(
 				configFilePath,
 				Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode),
-				cancellationToken)
-				;
+				cancellationToken);
 		}
 
 		/// <summary>

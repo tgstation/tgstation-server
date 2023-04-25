@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Types of <see cref="Response.ErrorMessageResponse"/>s that the API may return.
 	/// </summary>
-	/// <remarks>Entries marked with the <see cref="ObsoleteAttribute"/> are no longer in use but kept for reference.</remarks>
+	/// <remarks>Entries marked with the <see cref="ObsoleteAttribute"/> are no longer in use but kept for placeholders until they can be recycled in the next major API version.</remarks>
 	public enum ErrorCode : uint
 	{
 		/// <summary>
@@ -178,11 +178,10 @@ namespace Tgstation.Server.Api.Models
 		ConfigurationDirectoryNotEmpty,
 
 		/// <summary>
-		/// Currently unused.
+		/// The server swarm has less than the expected amount of nodes.
 		/// </summary>
-		[Obsolete("Unused", true)]
-		[Description("Unknown error code.")]
-		UnusedErrorCode1,
+		[Description("The server swarm has less than the expected amount of nodes!")]
+		SwarmIntegrityCheckFailed,
 
 		/// <summary>
 		/// One of <see cref="Internal.RepositorySettings.AccessUser"/> and <see cref="Internal.RepositorySettings.AccessToken"/> is set while the other isn't.
@@ -227,11 +226,10 @@ namespace Tgstation.Server.Api.Models
 		RepoMismatchShaAndUpdate,
 
 		/// <summary>
-		/// Currently unused.
+		/// Could not delete a BYOND version due to it being set as the active version for the instance.
 		/// </summary>
-		[Obsolete("Unused", true)]
-		[Description("Unknown error code.")]
-		UnusedErrorCode2,
+		[Description("Could not delete BYOND version due to it being selected as the instance's active version.")]
+		ByondCannotDeleteActiveVersion,
 
 		/// <summary>
 		/// <see cref="Request.RepositoryUpdateRequest.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
@@ -630,10 +628,6 @@ namespace Tgstation.Server.Api.Models
 		[Description("The deployment took longer than the configured timeout!")]
 		DeploymentTimeout,
 
-		/// <summary>
-		/// The server swarm has less than the expected amount of nodes.
-		/// </summary>
-		[Description("The server swarm has less than the expected amount of nodes!")]
-		SwarmIntegrityCheckFailed,
+		// This comment is here to remind you that there is one more unused error code above and you should use it first
 	}
 }

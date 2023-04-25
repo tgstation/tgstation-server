@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
-	/// Wrapper for managing <see cref="IInstance"/>s.
+	/// Wrapper for managing some <typeparamref name="TWrapped"/>.
 	/// </summary>
-	sealed class InstanceContainer
+	/// <typeparam name="TWrapped">The type being wrapped.</typeparam>
+	/// <typeparam name="TReference">The disposable reference type returned.</typeparam>
+	sealed class ReferenceCountingContainer<TWrapped, TReference>
+		where TWrapped : class
+		where TReference : ReferenceCounter<TWrapped>, new()
 	{
 		/// <summary>
-		/// The <see cref="IInstance"/>.
+		/// The <typeparamref name="TWrapped"/>.
 		/// </summary>
-		public IInstance Instance { get; }
+		public TWrapped Instance { get; }
 
 		/// <summary>
-		/// A <see cref="Task"/> that completes when there are no <see cref="IInstanceReference"/>s active for the <see cref="Instance"/>.
+		/// A <see cref="Task"/> that completes when there are no <typeparamref name="TReference"/>s active for the <see cref="Instance"/>.
 		/// </summary>
 		public Task OnZeroReferences
 		{
@@ -40,15 +44,15 @@ namespace Tgstation.Server.Host.Components
 		TaskCompletionSource onZeroReferencesTcs;
 
 		/// <summary>
-		/// Count of active <see cref="IInstanceReference"/>s.
+		/// Count of active <see cref="Instance"/>s.
 		/// </summary>
 		ulong referenceCount;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="InstanceContainer"/> class.
+		/// Initializes a new instance of the <see cref="ReferenceCountingContainer{TWrapped, TReference}"/> class.
 		/// </summary>
 		/// <param name="instance">The value of <see cref="Instance"/>.</param>
-		public InstanceContainer(IInstance instance)
+		public ReferenceCountingContainer(TWrapped instance)
 		{
 			Instance = instance ?? throw new ArgumentNullException(nameof(instance));
 
@@ -56,10 +60,10 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <summary>
-		/// Create a new <see cref="IInstanceReference"/>.
+		/// Create a new <typeparamref name="TReference"/> to the <see cref="Instance"/>.
 		/// </summary>
-		/// <returns>A new <see cref="IInstanceReference"/>.</returns>
-		public IInstanceReference AddReference()
+		/// <returns>A new <typeparamref name="TReference"/>.</returns>
+		public TReference AddReference()
 		{
 			lock (referenceCountLock)
 			{
@@ -68,12 +72,14 @@ namespace Tgstation.Server.Host.Components
 
 				try
 				{
-					return new InstanceWrapper(Instance, () =>
+					var reference = new TReference();
+					reference.Initialize(Instance, () =>
 					{
 						lock (referenceCountLock)
 							if (--referenceCount == 0)
 								onZeroReferencesTcs.SetResult();
 					});
+					return reference;
 				}
 				catch
 				{

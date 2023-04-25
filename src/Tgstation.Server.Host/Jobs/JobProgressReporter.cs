@@ -14,7 +14,18 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// The name of the current stage.
 		/// </summary>
-		public string StageName { get; set; }
+		public string StageName
+		{
+			get => stageName;
+			set
+			{
+				if (stageName == value)
+					return;
+
+				stageName = value;
+				callback(stageName, lastProgress);
+			}
+		}
 
 		/// <summary>
 		/// The <see cref="ILogger{TCategoryName}"/> for the <see cref="JobProgressReporter"/>.
@@ -25,6 +36,16 @@ namespace Tgstation.Server.Host.Jobs
 		/// Progress reporter callback taking a description of what the job is currently doing and the (optional) progress of the job on a scale from 0.0-1.0.
 		/// </summary>
 		readonly Action<string, double?> callback;
+
+		/// <summary>
+		/// Backing field for <see cref="StageName"/>.
+		/// </summary>
+		string stageName;
+
+		/// <summary>
+		/// The last progress value pushed into the <see cref="callback"/>.
+		/// </summary>
+		double? lastProgress;
 
 		/// <summary>
 		/// The total progress reported so far in this section.
@@ -66,6 +87,7 @@ namespace Tgstation.Server.Host.Jobs
 					sectionProgression = progress.Value;
 
 			callback(StageName, clampedProgress);
+			lastProgress = clampedProgress;
 		}
 
 		/// <summary>

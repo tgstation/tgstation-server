@@ -44,24 +44,24 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RepositoryController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public RepositoryController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
+			ILogger<RepositoryController> logger,
 			IInstanceManager instanceManager,
 			ILoggerFactory loggerFactory,
-			IJobManager jobManager,
-			ILogger<RepositoryController> logger)
+			IJobManager jobManager)
 			: base(
-				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger)
+				  logger,
+				  instanceManager)
 		{
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
@@ -166,9 +166,8 @@ namespace Tgstation.Server.Host.Controllers
 								progressReporter,
 								currentModel.UpdateSubmodules.Value,
 								ct)
-								;
-							if (repos == null)
-								throw new JobException(ErrorCode.RepoExists);
+							?? throw new JobException(ErrorCode.RepoExists);
+
 							var instance = new Models.Instance
 							{
 								Id = Instance.Id,
@@ -222,7 +221,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			Logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id.Value);
+			Logger.LogInformation("Instance {instanceId} repository delete initiated by user {userId}", Instance.Id, AuthenticationContext.User.Id.Value);
 
 			var job = new Job
 			{
@@ -453,7 +452,7 @@ namespace Tgstation.Server.Host.Controllers
 									? String.Format(
 										CultureInfo.InvariantCulture,
 										" at {0}",
-										x.TargetCommitSha.Substring(0, 7))
+										x.TargetCommitSha[..7])
 									: String.Empty))),
 					description != null
 						? String.Empty

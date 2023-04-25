@@ -21,9 +21,9 @@ using Octokit;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
-using Tgstation.Server.Migrator;
 
 using FileMode = System.IO.FileMode;
 
@@ -264,6 +264,7 @@ try
 		new ProductInfoHeaderValue(
 			assemblyName.Name!,
 			assemblyName.Version!.Semver().ToString());
+	var httpClientFactory = new HttpClientFactory(productInfoHeaderValue);
 	if (!runtimeInstalled)
 	{
 		// RUNTIME DONWLOAD
@@ -279,9 +280,9 @@ try
 
 		Console.WriteLine($"Downloading {downloadUri} to {Path.GetFullPath(dotnetDownloadFilePath)}...");
 
-		using var httpClient = new HttpClient();
-		httpClient.DefaultRequestHeaders.UserAgent.Add(productInfoHeaderValue);
-		var webRequestTask = httpClient.GetAsync(downloadUri);
+		using var httpClient = httpClientFactory.CreateClient();
+		using var request = new HttpRequestMessage(HttpMethod.Get, downloadUri);
+		var webRequestTask = httpClient.SendAsync(request, default);
 		using var response = await webRequestTask;
 		response.EnsureSuccessStatusCode();
 		using (var responseStream = await response.Content.ReadAsStreamAsync())
@@ -382,7 +383,6 @@ try
 	// TGS5 DOWNLOAD AND UNZIP
 	Console.WriteLine("Downloading TGS5...");
 
-	var httpClientFactory = new ConcreteHttpClientFactory();
 	using (var loggerFactory = LoggerFactory.Create(builder => { }))
 	{
 		var fileDownloader = new FileDownloader(httpClientFactory, loggerFactory.CreateLogger<FileDownloader>());

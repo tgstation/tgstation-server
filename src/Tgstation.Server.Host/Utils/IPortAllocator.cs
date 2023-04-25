@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Utils
 {
 	/// <summary>
 	/// Gets unassigned ports for use by TGS.

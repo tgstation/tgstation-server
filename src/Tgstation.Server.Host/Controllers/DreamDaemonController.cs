@@ -16,11 +16,11 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Session;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Utils;
 
 #pragma warning disable API1001 // Action method returns a success result without a corresponding ProducesResponseType. Somehow this happens ONLY IN THIS CONTROLLER???
 
@@ -45,24 +45,24 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DreamDaemonController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public DreamDaemonController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			IJobManager jobManager,
+			ILogger<DreamDaemonController> logger,
 			IInstanceManager instanceManager,
-			IPortAllocator portAllocator,
-			ILogger<DreamDaemonController> logger)
+			IJobManager jobManager,
+			IPortAllocator portAllocator)
 			: base(
-				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger)
+				  logger,
+				  instanceManager)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));

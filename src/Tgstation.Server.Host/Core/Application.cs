@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 
 using Cyberboss.AspNetCore.AsyncInitializer;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -17,12 +18,15 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+
 using Newtonsoft.Json;
+
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 
 using Tgstation.Server.Api;
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
@@ -47,6 +51,7 @@ using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -175,7 +180,7 @@ namespace Tgstation.Server.Host.Core
 
 					var formatter = new MessageTemplateTextFormatter(
 						"{Timestamp:o} "
-						+ ServiceCollectionExtensions.SerilogContextTemplate
+						+ SerilogContextHelper.Template
 						+ "): [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
@@ -382,21 +387,21 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/>.</param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/>.</param>
-		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
 		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SwarmConfiguration"/> to use.</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/>.</param>
 		public void Configure(
 			IApplicationBuilder applicationBuilder,
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
-			IInstanceManager instanceManager,
 			IServerPortProvider serverPortProvider,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<Application> logger)
 		{
 			if (applicationBuilder == null)
@@ -406,8 +411,6 @@ namespace Tgstation.Server.Host.Core
 
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 
-			if (instanceManager == null)
-				throw new ArgumentNullException(nameof(instanceManager));
 			if (serverPortProvider == null)
 				throw new ArgumentNullException(nameof(serverPortProvider));
 			if (assemblyInformationProvider == null)
@@ -415,6 +418,7 @@ namespace Tgstation.Server.Host.Core
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
@@ -437,14 +441,12 @@ namespace Tgstation.Server.Host.Core
 			// Add the X-Powered-By response header
 			applicationBuilder.UseServerBranding(assemblyInformationProvider);
 
-			// 503 requests made while the application is starting
-			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
-			{
-				await instanceManager.Ready.WithToken(cancellationToken);
-			});
-
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
+
+			// 503 requests made while the application is starting
+			applicationBuilder.UseAsyncInitialization<IInstanceManager>(
+				(instanceManager, cancellationToken) => instanceManager.Ready.WithToken(cancellationToken));
 
 			if (generalConfiguration.HostApiDocumentation)
 			{

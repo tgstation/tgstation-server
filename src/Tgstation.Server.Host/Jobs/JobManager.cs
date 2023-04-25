@@ -12,6 +12,7 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Jobs
 {
@@ -290,7 +291,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task RunJob(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
 		{
-			using (LogContext.PushProperty("Job", job.Id))
+			using (LogContext.PushProperty(SerilogContextHelper.JobIdContextProperty, job.Id))
 				try
 				{
 					void LogException(Exception ex) => logger.LogDebug(ex, "Job {jobId} exited with error!", job.Id);
@@ -328,8 +329,7 @@ namespace Tgstation.Server.Host.Jobs
 								loggerFactory.CreateLogger<JobProgressReporter>(),
 								null,
 								UpdateProgress),
-							cancellationToken)
-							;
+							cancellationToken);
 
 						logger.LogDebug("Job {jobId} completed!", job.Id);
 					}

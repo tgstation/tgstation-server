@@ -14,8 +14,8 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Setup;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Tests.Live
 {
@@ -42,7 +42,7 @@ namespace Tgstation.Server.Tests.Live
 
 		static LiveTestingServer()
 		{
-			ServiceCollectionExtensions.SerilogContextTemplate += "|Node:{node}";
+			SerilogContextHelper.AddSwarmNodeIdentifierToTemplate();
 		}
 
 		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
@@ -57,7 +57,6 @@ namespace Tgstation.Server.Tests.Live
 						System.IO.Directory.Delete(Directory, true);
 					}
 					catch { }
-
 			}
 
 			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
@@ -191,7 +190,7 @@ namespace Tgstation.Server.Tests.Live
 				args[0] = string.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", false);
 
 			using (swarmNodeId != null
-				? LogContext.PushProperty("node", swarmNodeId)
+				? LogContext.PushProperty(SerilogContextHelper.SwarmIdentifierContextProperty, swarmNodeId)
 				: null)
 				await RealServer.Run(cancellationToken);
 			Console.WriteLine($"TEST SERVER END" + messageAddition);

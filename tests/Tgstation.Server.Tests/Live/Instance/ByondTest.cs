@@ -1,17 +1,20 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -51,6 +54,50 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await firstInstall;
 			await TestInstallFakeVersion(cancellationToken);
 			await TestCustomInstalls(cancellationToken);
+			await TestDeletes(cancellationToken);
+		}
+
+		async Task TestDeletes(CancellationToken cancellationToken)
+		{
+			var nonExistentUninstallResponseTask = Assert.ThrowsExceptionAsync<ConflictException>(() => byondClient.DeleteVersion(
+				new ByondVersionDeleteRequest
+				{
+					Version = new(509, 1000)
+				},
+				cancellationToken));
+
+			var uninstallResponseTask = byondClient.DeleteVersion(
+				new ByondVersionDeleteRequest
+				{
+					Version = TestVersion
+				},
+				cancellationToken);
+
+			var badBecauseActiveResponseTask = ApiAssert.ThrowsException<ConflictException>(() => byondClient.DeleteVersion(
+				new ByondVersionDeleteRequest
+				{
+					Version = new(TestVersion.Major, TestVersion.Minor, 1)
+				},
+				cancellationToken), ErrorCode.ByondCannotDeleteActiveVersion);
+
+			await badBecauseActiveResponseTask;
+
+			var uninstallJob = await uninstallResponseTask;
+			Assert.IsNotNull(uninstallJob);
+
+			// Has to wait on deployment test possibly
+			var uninstallTask = WaitForJob(uninstallJob, 120, false, null, cancellationToken);
+
+			await nonExistentUninstallResponseTask;
+
+			await uninstallTask;
+			var byondDir = Path.Combine(metadata.Path, "Byond", TestVersion.ToString());
+			Assert.IsFalse(Directory.Exists(byondDir));
+
+			var newVersions = await byondClient.InstalledVersions(null, cancellationToken);
+			Assert.IsNotNull(newVersions);
+			Assert.AreEqual(1, newVersions.Count);
+			Assert.AreEqual(new Version(TestVersion.Major, TestVersion.Minor, 1), newVersions[0].Version);
 		}
 
 		async Task TestInstallFakeVersion(CancellationToken cancellationToken)
@@ -83,7 +130,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var dreamMakerDir = Path.Combine(metadata.Path, "Byond", newModel.Version.ToString(), "byond", "bin");
 
 			Assert.IsTrue(Directory.Exists(dreamMakerDir), $"Directory {dreamMakerDir} does not exist!");
-			Assert.IsTrue(File.Exists(Path.Combine(dreamMakerDir, dreamMaker)), $"Missing DreamMaker executable! Dir contents: {string.Join(", ", Directory.GetFileSystemEntries(dreamMakerDir))}");
+			Assert.IsTrue(
+				File.Exists(
+					Path.Combine(dreamMakerDir, dreamMaker)),
+				$"Missing DreamMaker executable! Dir contents: {string.Join(", ", Directory.GetFileSystemEntries(dreamMakerDir))}");
 		}
 
 		async Task TestNoVersion(CancellationToken cancellationToken)
@@ -102,21 +152,22 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var generalConfigOptionsMock = new Mock<IOptions<GeneralConfiguration>>();
 			generalConfigOptionsMock.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
 
-			var byondInstaller = new PlatformIdentifier().IsWindows
-				? (IByondInstaller)new WindowsByondInstaller(
+			var assemblyInformationProvider = new AssemblyInformationProvider();
+			var fileDownloader = new FileDownloader(
+				new HttpClientFactory(assemblyInformationProvider.ProductInfoHeaderValue),
+				Mock.Of<ILogger<FileDownloader>>());
+
+			IByondInstaller byondInstaller = new PlatformIdentifier().IsWindows
+				? new WindowsByondInstaller(
 					Mock.Of<IProcessExecutor>(),
 					Mock.Of<IIOManager>(),
-					new FileDownloader(
-						new ConcreteHttpClientFactory(),
-						Mock.Of<ILogger<FileDownloader>>()),
+					fileDownloader,
 					generalConfigOptionsMock.Object,
 					Mock.Of<ILogger<WindowsByondInstaller>>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),
 					Mock.Of<IIOManager>(),
-					new FileDownloader(
-						new ConcreteHttpClientFactory(),
-						Mock.Of<ILogger<FileDownloader>>()),
+					fileDownloader,
 					Mock.Of<ILogger<PosixByondInstaller>>());
 
 			using var windowsByondInstaller = byondInstaller as WindowsByondInstaller;

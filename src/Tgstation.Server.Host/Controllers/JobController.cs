@@ -32,22 +32,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JobController"/> class.
 		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public JobController(
-			IInstanceManager instanceManager,
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			IJobManager jobManager,
-			ILogger<JobController> logger)
+			ILogger<JobController> logger,
+			IInstanceManager instanceManager,
+			IJobManager jobManager)
 			: base(
-				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger)
+				  logger,
+				  instanceManager)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}

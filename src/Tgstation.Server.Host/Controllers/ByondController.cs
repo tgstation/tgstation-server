@@ -38,26 +38,33 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
+		/// Remove the <see cref="Version.Build"/> from a given <paramref name="version"/> if present.
+		/// </summary>
+		/// <param name="version">The <see cref="Version"/> to normalize.</param>
+		/// <returns>The normalized <see cref="Version"/>. May be a reference to <paramref name="version"/>.</returns>
+		static Version NormalizeVersion(Version version) => version.Build == 0 ? new Version(version.Major, version.Minor) : version;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ByondController"/> class.
 		/// </summary>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public ByondController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
+			ILogger<ByondController> logger,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
-			IFileTransferTicketProvider fileTransferService,
-			ILogger<ByondController> logger)
+			IFileTransferTicketProvider fileTransferService)
 			: base(
-				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger)
+				  logger,
+				  instanceManager)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
@@ -112,7 +119,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="ByondVersionRequest.Version"/> to switch to.</param>
+		/// <param name="model">The <see cref="ByondVersionRequest"/> containing the <see cref="Version"/> to switch to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Switched active version successfully.</response>
@@ -135,6 +142,8 @@ namespace Tgstation.Server.Host.Controllers
 				|| (uploadingZip && model.Version.Build > 0))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
+			var version = NormalizeVersion(model.Version);
+
 			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights.Value;
 			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveVersion) && !uploadingZip)
 				|| (!userByondRights.HasFlag(ByondRights.InstallCustomVersion) && uploadingZip))
@@ -146,33 +155,44 @@ namespace Tgstation.Server.Host.Controllers
 				async instance =>
 				{
 					var byondManager = instance.ByondManager;
-					if (!uploadingZip && byondManager.InstalledVersions.Any(x => x == model.Version))
+					var versionAlreadyInstalled = !uploadingZip && byondManager.InstalledVersions.Any(x => x == version);
+					if (versionAlreadyInstalled)
 					{
 						Logger.LogInformation(
 							"User ID {userId} changing instance ID {instanceId} BYOND version to {newByondVersion}",
 							AuthenticationContext.User.Id,
 							Instance.Id,
-							model.Version);
-						await byondManager.ChangeVersion(model.Version, null, cancellationToken);
+							version);
+
+						try
+						{
+							await byondManager.ChangeVersion(null, version, null, false, cancellationToken);
+						}
+						catch (InvalidOperationException ex)
+						{
+							Logger.LogDebug(
+								ex,
+								"Race condition: BYOND version {version} uninstalled before we could switch to it. Creating install job instead...",
+								version);
+							versionAlreadyInstalled = false;
+						}
 					}
-					else if (model.Version.Build > 0)
-						return BadRequest(new ErrorMessageResponse(ErrorCode.ByondNonExistentCustomVersion));
-					else
+
+					if (!versionAlreadyInstalled)
 					{
-						var installingVersion = model.Version.Build <= 0
-							? new Version(model.Version.Major, model.Version.Minor)
-							: model.Version;
+						if (version.Build > 0)
+							return BadRequest(new ErrorMessageResponse(ErrorCode.ByondNonExistentCustomVersion));
 
 						Logger.LogInformation(
 							"User ID {userId} installing BYOND version to {newByondVersion} on instance ID {instanceId}",
 							AuthenticationContext.User.Id,
-							installingVersion,
+							version,
 							Instance.Id);
 
 						// run the install through the job manager
 						var job = new Job
 						{
-							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {model.Version.Major}.{model.Version.Minor}",
+							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {version}",
 							StartedBy = AuthenticationContext.User,
 							CancelRightsType = RightsType.Byond,
 							CancelRight = (ulong)ByondRights.CancelInstall,
@@ -193,10 +213,7 @@ namespace Tgstation.Server.Host.Controllers
 									if (fileUploadTicket != null)
 										using (fileUploadTicket)
 										{
-											var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken);
-											if (uploadStream == null)
-												throw new JobException(ErrorCode.FileUploadExpired);
-
+											var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken) ?? throw new JobException(ErrorCode.FileUploadExpired);
 											zipFileStream = new MemoryStream();
 											try
 											{
@@ -211,13 +228,13 @@ namespace Tgstation.Server.Host.Controllers
 
 									using (zipFileStream)
 										await core.ByondManager.ChangeVersion(
-											model.Version,
+											progressHandler,
+											version,
 											zipFileStream,
-											jobCancellationToken)
-										;
+											true,
+											jobCancellationToken);
 								},
-								cancellationToken)
-								;
+								cancellationToken);
 
 							result.InstallJob = job.ToApi();
 							result.FileTicket = fileUploadTicket?.Ticket.FileTicket;
@@ -230,8 +247,74 @@ namespace Tgstation.Server.Host.Controllers
 					}
 
 					return result.InstallJob != null ? Accepted(result) : Json(result);
-				})
-				;
+				});
+		}
+
+		/// <summary>
+		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="ByondVersionDeleteRequest"/> containing the <see cref="Version"/> to delete.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="202">Created <see cref="Job"/> to delete target version successfully.</response>
+		/// <response code="409">Attempted to delete the active BYOND <see cref="Version"/>.</response>
+		/// <response code="410">The <see cref="ByondVersionDeleteRequest.Version"/> specified was not installed.</response>
+		[HttpDelete]
+		[TgsAuthorize(ByondRights.DeleteInstall)]
+		[ProducesResponseType(typeof(JobResponse), 202)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
+		public async Task<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
+			if (model.Version == null
+				|| model.Version.Revision != -1)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
+
+			var version = NormalizeVersion(model.Version);
+
+			var notInstalledResponse = await WithComponentInstance(
+				instance =>
+				{
+					var byondManager = instance.ByondManager;
+
+					if (version == byondManager.ActiveVersion)
+						return Task.FromResult<IActionResult>(
+							Conflict(new ErrorMessageResponse(ErrorCode.ByondCannotDeleteActiveVersion)));
+
+					var versionNotInstalled = !byondManager.InstalledVersions.Any(x => x == version);
+
+					return Task.FromResult<IActionResult>(
+						versionNotInstalled
+							? Gone()
+							: null);
+				});
+
+			if (notInstalledResponse != null)
+				return notInstalledResponse;
+
+			var isCustomVersion = version.Build != -1;
+
+			// run the install through the job manager
+			var job = new Job
+			{
+				Description = $"Delete installed BYOND version {version}",
+				StartedBy = AuthenticationContext.User,
+				CancelRightsType = RightsType.Byond,
+				CancelRight = (ulong)(isCustomVersion ? ByondRights.InstallOfficialOrChangeActiveVersion : ByondRights.InstallCustomVersion),
+				Instance = Instance,
+			};
+
+			await jobManager.RegisterOperation(
+				job,
+				(instanceCore, databaseContextFactory, job, progressReporter, jobCancellationToken)
+					=> instanceCore.ByondManager.DeleteVersion(progressReporter, version, jobCancellationToken),
+				cancellationToken);
+
+			var apiResponse = job.ToApi();
+			return Accepted(apiResponse);
 		}
 	}
 }

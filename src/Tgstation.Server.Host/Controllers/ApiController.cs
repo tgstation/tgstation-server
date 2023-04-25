@@ -23,6 +23,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -171,12 +172,12 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			using (ApiHeaders?.InstanceId != null
-				? LogContext.PushProperty("Instance", ApiHeaders.InstanceId)
+				? LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, ApiHeaders.InstanceId)
 				: null)
 			using (AuthenticationContext != null
-				? LogContext.PushProperty("User", AuthenticationContext.User.Id)
+				? LogContext.PushProperty(SerilogContextHelper.UserIdContextProperty, AuthenticationContext.User.Id)
 				: null)
-			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
+			using (LogContext.PushProperty(SerilogContextHelper.RequestPathContextProperty, $"{Request.Method} {Request.Path}"))
 			{
 				if (ApiHeaders != null)
 				{

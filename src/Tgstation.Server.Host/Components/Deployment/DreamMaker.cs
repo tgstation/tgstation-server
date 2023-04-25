@@ -120,11 +120,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 		string currentDreamMakerOutput;
 
 		/// <summary>
-		/// Current stage to report on the job.
-		/// </summary>
-		string currentStage;
-
-		/// <summary>
 		/// If a compile job is running.
 		/// </summary>
 		bool deploying;
@@ -486,11 +481,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			using var progressCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
-			currentStage = "Reserving BYOND version";
+			progressReporter.StageName = "Reserving BYOND version";
 			var progressTask = ProgressTask(progressReporter, estimatedDuration, progressCts.Token);
 			try
 			{
-				using var byondLock = await byond.UseExecutables(null, cancellationToken);
+				using var byondLock = await byond.UseExecutables(null, null, cancellationToken);
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
 					byondLock.Version,
@@ -508,12 +503,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 					RepositoryOrigin = repository.Origin.ToString(),
 				};
 
-				currentStage = "Creating remote deployment notification";
+				progressReporter.StageName = "Creating remote deployment notification";
 				await remoteDeploymentManager.StartDeployment(
 					repository,
 					job,
-					cancellationToken)
-					;
+					cancellationToken);
 
 				logger.LogTrace("Deployment will timeout at {timeoutTime}", DateTimeOffset.UtcNow + dreamMakerSettings.Timeout.Value);
 				using var timeoutTokenSource = new CancellationTokenSource(dreamMakerSettings.Timeout.Value);
@@ -524,14 +518,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 					try
 					{
 						await RunCompileJob(
+							progressReporter,
 							job,
 							dreamMakerSettings,
 							launchParameters,
 							byondLock,
 							repository,
 							remoteDeploymentManager,
-							combinedTokenSource.Token)
-							;
+							combinedTokenSource.Token);
 					}
 					catch (OperationCanceledException) when (timeoutToken.IsCancellationRequested)
 					{
@@ -544,7 +538,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			catch (OperationCanceledException)
 			{
 				// DCT: Cancellation token is for job, delaying here is fine
-				currentStage = "Running CompileCancelled event";
+				progressReporter.StageName = "Running CompileCancelled event";
 				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), default);
 				throw;
 			}
@@ -558,6 +552,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Executes and populate a given <paramref name="job"/>.
 		/// </summary>
+		/// <param name="progressReporter">The <see cref="JobProgressReporter"/> for the operation.</param>
 		/// <param name="job">The <see cref="CompileJob"/> to run and populate.</param>
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/> to use.</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> to use.</param>
@@ -567,6 +562,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task RunCompileJob(
+			JobProgressReporter progressReporter,
 			Models.CompileJob job,
 			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			DreamDaemonLaunchParameters launchParameters,
@@ -582,7 +578,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				// copy the repository
 				logger.LogTrace("Copying repository to game directory");
-				currentStage = "Copying repository";
+				progressReporter.StageName = "Copying repository";
 				var resolvedOutputDirectory = ioManager.ResolvePath(outputDirectory);
 				var repoOrigin = repository.Origin;
 				using (repository)
@@ -591,7 +587,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// repository closed now
 
 				// run precompile scripts
-				currentStage = "Running PreCompile event";
+				progressReporter.StageName = "Running PreCompile event";
 				await eventConsumer.HandleEvent(
 					EventType.CompileStart,
 					new List<string>
@@ -604,7 +600,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					;
 
 				// determine the dme
-				currentStage = "Determining .dme";
+				progressReporter.StageName = "Determining .dme";
 				if (job.DmeName == null)
 				{
 					logger.LogTrace("Searching for available .dmes");
@@ -626,11 +622,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				logger.LogDebug("Selected {dmeName}.dme for compilation!", job.DmeName);
 
-				currentStage = "Modifying .dme";
+				progressReporter.StageName = "Modifying .dme";
 				await ModifyDme(job, cancellationToken);
 
 				// run precompile scripts
-				currentStage = "Running PreDreamMaker event";
+				progressReporter.StageName = "Running PreDreamMaker event";
 				await eventConsumer.HandleEvent(
 					EventType.PreDreamMaker,
 					new List<string>
@@ -639,12 +635,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 						repoOrigin.ToString(),
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
-					cancellationToken)
-					;
+					cancellationToken);
 
 				// run compiler
-				currentStage = "Running DreamMaker";
+				progressReporter.StageName = "Running DreamMaker";
 				var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken);
+
+				// Session takes ownership of the lock and Disposes it so save this for later
+				var byondVersion = byondLock.Version;
 
 				// verify api
 				try
@@ -654,7 +652,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							ErrorCode.DreamMakerExitCode,
 							new JobException($"Exit code: {exitCode}{Environment.NewLine}{Environment.NewLine}{job.Output}"));
 
-					currentStage = "Validating DMAPI";
+					progressReporter.StageName = "Validating DMAPI";
 					await VerifyApi(
 						launchParameters.StartupTimeout.Value,
 						dreamMakerSettings.ApiValidationSecurityLevel.Value,
@@ -668,33 +666,31 @@ namespace Tgstation.Server.Host.Components.Deployment
 				catch (JobException)
 				{
 					// DD never validated or compile failed
-					currentStage = "Running CompileFailure event";
+					progressReporter.StageName = "Running CompileFailure event";
 					await eventConsumer.HandleEvent(
 						EventType.CompileFailure,
 						new List<string>
 						{
 							resolvedOutputDirectory,
 							exitCode == 0 ? "1" : "0",
-							$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
+							byondVersion.ToString(),
 						},
-						cancellationToken)
-						;
+						cancellationToken);
 					throw;
 				}
 
-				currentStage = "Running CompileComplete event";
+				progressReporter.StageName = "Running CompileComplete event";
 				await eventConsumer.HandleEvent(
 					EventType.CompileComplete,
 					new List<string>
 					{
 						resolvedOutputDirectory,
-						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
+						byondVersion.ToString(),
 					},
-					cancellationToken)
-					;
+					cancellationToken);
 
 				logger.LogTrace("Applying static game file symlinks...");
-				currentStage = "Symlinking GameStaticFiles";
+				progressReporter.StageName = "Symlinking GameStaticFiles";
 
 				// symlink in the static data
 				await configuration.SymlinkStaticFilesTo(resolvedOutputDirectory, cancellationToken);
@@ -703,7 +699,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 			catch (Exception ex)
 			{
-				currentStage = "Cleaning output directory";
+				progressReporter.StageName = "Cleaning output directory";
 				await CleanupFailedCompile(job, remoteDeploymentManager, ex);
 				throw;
 			}
@@ -718,7 +714,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task ProgressTask(JobProgressReporter progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
 		{
-			progressReporter.StageName = currentStage;
 			double? lastReport = estimatedDuration.HasValue ? 0 : null;
 			progressReporter.ReportProgress(lastReport);
 
@@ -747,7 +742,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 							var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? minimumSleepInterval : remainingSleepThisInterval;
 
 							await Task.Delay(nextSleepSpan, cancellationToken);
-							progressReporter.StageName = currentStage;
 							progressReporter.ReportProgress(lastReport);
 						}
 						while (DateTimeOffset.UtcNow < nextInterval);
@@ -755,7 +749,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 					else
 						await Task.Delay(minimumSleepInterval, cancellationToken);
 
-					progressReporter.StageName = currentStage;
 					lastReport = estimatedDuration.HasValue ? sleepInterval * (iteration + 1) / estimatedDuration.Value : null;
 					progressReporter.ReportProgress(lastReport);
 				}

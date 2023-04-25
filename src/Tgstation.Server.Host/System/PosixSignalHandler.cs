@@ -8,6 +8,7 @@ using Mono.Unix;
 using Mono.Unix.Native;
 
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {

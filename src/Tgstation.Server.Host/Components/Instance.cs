@@ -19,6 +19,7 @@ using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -143,14 +144,17 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
-			using (LogContext.PushProperty("Instance", metadata.Id))
+			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
+				var chatDispose = Chat.DisposeAsync();
+				var watchdogDispose = Watchdog.DisposeAsync();
 				timerCts?.Dispose();
 				Configuration.Dispose();
-				await Chat.DisposeAsync();
-				await Watchdog.DisposeAsync();
 				dmbFactory.Dispose();
 				RepositoryManager.Dispose();
+				ByondManager.Dispose();
+				await chatDispose;
+				await watchdogDispose;
 			}
 		}
 
@@ -166,7 +170,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			using (LogContext.PushProperty("Instance", metadata.Id))
+			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				await Task.WhenAll(
 				SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value),
@@ -186,7 +190,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			using (LogContext.PushProperty("Instance", metadata.Id))
+			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				logger.LogDebug("Stopping instance...");
 				await SetAutoUpdateInterval(0);
@@ -309,7 +313,7 @@ namespace Tgstation.Server.Host.Components
 					{
 						if (currentRevInfo == null)
 						{
-							logger.LogTrace("Loading revision info for commit {0}...", startSha.Substring(0, 7));
+							logger.LogTrace("Loading revision info for commit {sha}...", startSha[..7]);
 							currentRevInfo = await databaseContext
 							.RevisionInformations
 								.AsQueryable()
@@ -552,7 +556,7 @@ namespace Tgstation.Server.Host.Components
 
 						await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);
 					}
-					catch (Exception e) when (!(e is OperationCanceledException))
+					catch (Exception e) when (e is not OperationCanceledException)
 					{
 						logger.LogWarning(e, "Error in auto update loop!");
 						continue;

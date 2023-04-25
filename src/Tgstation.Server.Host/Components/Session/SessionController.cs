@@ -22,6 +22,7 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Session
 {
@@ -229,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 			else
 				logger.LogTrace(
-					"Not registering session with {0} DMAPI version for interop!",
+					"Not registering session with {reasonWhyDmApiIsBad} DMAPI version for interop!",
 					reattachInformation.Dmb.CompileJob.DMApiVersion == null
 						? "no"
 						: $"incompatible ({reattachInformation.Dmb.CompileJob.DMApiVersion})");
@@ -250,7 +251,7 @@ namespace Tgstation.Server.Host.Components.Session
 				apiValidate);
 
 			logger.LogDebug(
-				"Created session controller. CommsKey: {0}, Port: {1}",
+				"Created session controller. CommsKey: {accessIdentifier}, Port: {port}",
 				reattachInformation.AccessIdentifier,
 				reattachInformation.Port);
 		}
@@ -290,7 +291,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			using (LogContext.PushProperty("Instance", metadata.Id))
+			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
 				Logger.LogTrace("Handling bridge request...");
 
@@ -329,14 +330,14 @@ namespace Tgstation.Server.Host.Components.Session
 			if (Lifetime.IsCompleted)
 			{
 				Logger.LogWarning(
-					"Attempted to send a command to an inactive SessionController: {0}",
+					"Attempted to send a command to an inactive SessionController: {commandType}",
 					parameters.CommandType);
 				return null;
 			}
 
 			if (!DMApiAvailable)
 			{
-				Logger.LogTrace("Not sending topic request {0} to server without/with incompatible DMAPI!", parameters.CommandType);
+				Logger.LogTrace("Not sending topic request {commandType} to server without/with incompatible DMAPI!", parameters.CommandType);
 				return null;
 			}
 
@@ -450,7 +451,7 @@ namespace Tgstation.Server.Host.Components.Session
 			if (RebootState == newRebootState)
 				return true;
 
-			Logger.LogTrace("Changing reboot state to {0}", newRebootState);
+			Logger.LogTrace("Changing reboot state to {newRebootState}", newRebootState);
 
 			ReattachInformation.RebootState = newRebootState;
 			var result = await SendCommand(
@@ -528,7 +529,7 @@ namespace Tgstation.Server.Host.Components.Session
 				toAwait = Task.WhenAny(toAwait, Task.Delay(TimeSpan.FromSeconds(startupTimeout.Value)));
 
 			Logger.LogTrace(
-				"Waiting for LaunchResult based on {0}{1}...",
+				"Waiting for LaunchResult based on {launchResultCompletionCause}{possibleTimeout}...",
 				useBridgeRequestForLaunchResult ? "initial bridge request" : "process startup",
 				startupTimeout.HasValue ? $" with a timeout of {startupTimeout.Value}s" : String.Empty);
 
@@ -540,7 +541,7 @@ namespace Tgstation.Server.Host.Components.Session
 				StartupTime = startupTask.IsCompleted ? (DateTimeOffset.UtcNow - startTime) : null,
 			};
 
-			Logger.LogTrace("Launch result: {0}", result);
+			Logger.LogTrace("Launch result: {launchResult}", result);
 
 			if (!result.ExitCode.HasValue && reattached && !disposed)
 			{
@@ -548,16 +549,18 @@ namespace Tgstation.Server.Host.Components.Session
 					new TopicParameters(
 						assemblyInformationProvider.Version,
 						ReattachInformation.RuntimeInformation.ServerPort),
-					reattachTopicCts.Token)
-					;
+					reattachTopicCts.Token);
 
 				if (reattachResponse != null)
 				{
 					if (reattachResponse?.CustomCommands != null)
 						chatTrackingContext.CustomCommands = reattachResponse.CustomCommands;
 					else if (reattachResponse != null)
-						Logger.LogWarning(
-							"DMAPI Interop v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
+						Logger.Log(
+							CompileJob.DMApiVersion >= new Version(5, 2, 0)
+								? LogLevel.Warning
+								: LogLevel.Debug,
+							"DMAPI Interop v{interopVersion} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
 							CompileJob.DMApiVersion.Semver());
 				}
 			}
@@ -683,7 +686,7 @@ namespace Tgstation.Server.Host.Components.Session
 							return BridgeError("Invalid minimumSecurityLevel!");
 					}
 
-					Logger.LogTrace("ApiValidationStatus set to {0}", apiValidationStatus);
+					Logger.LogTrace("ApiValidationStatus set to {apiValidationStatus}", apiValidationStatus);
 
 					response.RuntimeInformation = new RuntimeInformation(
 						chatTrackingContext,
@@ -746,7 +749,7 @@ namespace Tgstation.Server.Host.Components.Session
 			parameters.AccessIdentifier = ReattachInformation.AccessIdentifier;
 
 			var fullCommandString = GenerateQueryString(parameters, out var json);
-			Logger.LogTrace("Topic request: {0}", json);
+			Logger.LogTrace("Topic request: {json}", json);
 			var fullCommandByteCount = Encoding.UTF8.GetByteCount(fullCommandString);
 			if (fullCommandByteCount <= DMApiConstants.MaximumTopicRequestLength)
 				return await SendRawTopic(fullCommandString, cancellationToken);

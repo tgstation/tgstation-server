@@ -34,6 +34,10 @@ namespace Tgstation.Server.Client.Components
 		public Task<ByondResponse> ActiveVersion(CancellationToken cancellationToken) => ApiClient.Read<ByondResponse>(Routes.Byond, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
+		public Task<JobResponse> DeleteVersion(ByondVersionDeleteRequest deleteRequest, CancellationToken cancellationToken)
+			=> ApiClient.Delete<ByondVersionDeleteRequest, JobResponse>(Routes.Byond, deleteRequest, instance.Id!.Value, cancellationToken);
+
+		/// <inheritdoc />
 		public Task<IReadOnlyList<ByondResponse>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
 			=> ReadPaged<ByondResponse>(paginationSettings, Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
 

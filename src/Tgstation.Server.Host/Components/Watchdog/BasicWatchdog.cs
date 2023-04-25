@@ -15,6 +15,7 @@ using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -132,8 +133,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							CultureInfo.InvariantCulture,
 							"Server {0}! Rebooting...",
 							exitWord),
-						cancellationToken)
-						;
+						cancellationToken);
 					return MonitorAction.Restart;
 				case MonitorActivationReason.ActiveServerRebooted:
 					var rebootState = Server.RebootState;
@@ -242,8 +242,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (Server == null)
 				{
 					await ReattachFailure(
-						cancellationToken)
-						;
+						cancellationToken);
 					return;
 				}
 

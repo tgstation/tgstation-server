@@ -17,6 +17,7 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Swarm.Tests
 {

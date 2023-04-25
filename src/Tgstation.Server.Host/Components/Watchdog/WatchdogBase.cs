@@ -21,6 +21,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -740,11 +741,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						Logger.LogDebug("Relaunch successful, resuming monitor...");
 						return;
 					}
-					catch (OperationCanceledException)
-					{
-						throw;
-					}
-					catch (Exception e)
+					catch (Exception e) when (e is not OperationCanceledException)
 					{
 						launchException = e;
 					}
@@ -820,7 +817,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ISessionController lastController = null;
 				var ranInitialDmbCheck = false;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
-					using (LogContext.PushProperty("Monitor", iteration))
+					using (LogContext.PushProperty(SerilogContextHelper.WatchdogMonitorIterationContextProperty, iteration))
 						try
 						{
 							Logger.LogTrace("Iteration {iteration} of monitor loop", iteration);
@@ -937,13 +934,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										Logger.LogTrace("Reason: {activationReason}", activationReason);
 										if (activationReason == MonitorActivationReason.Heartbeat)
 											nextAction = await HandleHeartbeat(
-												cancellationToken)
-												;
+												cancellationToken);
 										else
 											nextAction = await HandleMonitorWakeup(
 												activationReason,
-												cancellationToken)
-												;
+												cancellationToken);
 									}
 								}
 							}
@@ -957,12 +952,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								nextAction = MonitorAction.Continue;
 							}
 						}
-						catch (OperationCanceledException)
-						{
-							// let this bubble, other exceptions caught below
-							throw;
-						}
-						catch (Exception e)
+						catch (Exception e) when (e is not OperationCanceledException)
 						{
 							// really, this should NEVER happen
 							Logger.LogError(

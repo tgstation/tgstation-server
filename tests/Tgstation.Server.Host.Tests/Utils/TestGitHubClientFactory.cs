@@ -1,15 +1,18 @@
-using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Octokit;
-using System;
+﻿using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
+
+using Octokit;
 
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Core.Tests
+namespace Tgstation.Server.Host.Utils.Tests
 {
 	[TestClass]
 	public sealed class TestGitHubClientFactory

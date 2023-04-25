@@ -15,6 +15,7 @@ using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Chat
 {
@@ -911,7 +912,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						async Task WrapProcessMessage()
 						{
 							var localActiveProcessingTask = activeProcessingTask;
-							using (LogContext.PushProperty("ChatMessage", messageNumber))
+							using (LogContext.PushProperty(SerilogContextHelper.ChatMessageIterationContextProperty, messageNumber))
 								try
 								{
 									await ProcessMessage(completedMessageTaskKvp.Key, message, false, cancellationToken);

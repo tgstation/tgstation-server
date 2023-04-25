@@ -9,10 +9,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Utils
 {
 	/// <inheritdoc />
 	sealed class PortAllocator : IPortAllocator
@@ -81,7 +82,7 @@ namespace Tgstation.Server.Host.Core
 			ushort port = 0;
 			try
 			{
-				for (port = basePort; port < UInt16.MaxValue; ++port)
+				for (port = basePort; port < ushort.MaxValue; ++port)
 				{
 					if (checkOne && port != basePort)
 						break;

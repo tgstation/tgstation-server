@@ -8,8 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {

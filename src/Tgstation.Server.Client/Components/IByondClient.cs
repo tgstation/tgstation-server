@@ -29,12 +29,20 @@ namespace Tgstation.Server.Client.Components
 		Task<IReadOnlyList<ByondResponse>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Updates the <see cref="ByondInstallResponse"/> information.
+		/// Updates the active BYOND version.
 		/// </summary>
 		/// <param name="installRequest">The <see cref="ByondVersionRequest"/>.</param>
 		/// <param name="zipFileStream">The <see cref="Stream"/> for the .zip file if <see cref="ByondVersionRequest.UploadCustomZip"/> is <see langword="true"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ByondInstallResponse"/> information.</returns>
 		Task<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream? zipFileStream, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Starts a jobs to delete a specific BYOND version.
+		/// </summary>
+		/// <param name="deleteRequest">The <see cref="ByondVersionDeleteRequest"/> specifying the version to delete.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="JobResponse"/> for the delete job.</returns>
+		Task<JobResponse> DeleteVersion(ByondVersionDeleteRequest deleteRequest, CancellationToken cancellationToken);
 	}
 }
