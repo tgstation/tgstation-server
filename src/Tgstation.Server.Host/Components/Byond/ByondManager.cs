@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// <see cref="SemaphoreSlim"/> for writing to files in the user's BYOND directory.
 		/// </summary>
-		static readonly SemaphoreSlim UserFilesSemaphore;
+		static readonly SemaphoreSlim UserFilesSemaphore = new (1);
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ByondManager"/>.
@@ -98,14 +98,6 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <see cref="TaskCompletionSource"/> that notifes when the <see cref="ActiveVersion"/> changes.
 		/// </summary>
 		TaskCompletionSource activeVersionChanged;
-
-		/// <summary>
-		/// Initializes static members of the <see cref="ByondManager"/> class.
-		/// </summary>
-		static ByondManager()
-		{
-			UserFilesSemaphore = new SemaphoreSlim(1);
-		}
 
 		/// <summary>
 		/// Validates a given <paramref name="version"/> parameter.
