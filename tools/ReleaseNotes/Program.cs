@@ -16,6 +16,9 @@ namespace ReleaseNotes
 	/// </summary>
 	static class Program
 	{
+		const string RepoOwner = "tgstation";
+		const string RepoName = "tgstation-server";
+
 		/// <summary>
 		/// The entrypoint for the <see cref="Program"/>
 		/// </summary>
@@ -28,7 +31,9 @@ namespace ReleaseNotes
 			}
 
 			var versionString = args[0];
-			if (!Version.TryParse(versionString, out var version) || version.Revision != -1)
+			var ensureRelease = versionString == "--ensure-release";
+
+			if ((!Version.TryParse(versionString, out var version) || version.Revision != -1) && !ensureRelease)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
@@ -38,22 +43,22 @@ namespace ReleaseNotes
 
 			const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
-			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone)
+			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone && !ensureRelease)
 			{
 				Console.WriteLine("Missing " + ReleaseNotesEnvVar + " environment variable!");
 				return 3;
 			}
 
+			var client = new GitHubClient(new Octokit.ProductHeaderValue("tgs_release_notes"));
+			if (!String.IsNullOrWhiteSpace(githubToken))
+			{
+				client.Credentials = new Credentials(githubToken);
+			}
+
 			try
 			{
-				var client = new GitHubClient(new Octokit.ProductHeaderValue("tgs_release_notes"));
-				if (!String.IsNullOrWhiteSpace(githubToken))
-				{
-					client.Credentials = new Credentials(githubToken);
-				}
-
-				const string RepoOwner = "tgstation";
-				const string RepoName = "tgstation-server";
+				if (ensureRelease)
+					return await EnsureRelease(client);
 
 				var releasesTask = client.Repository.Release.GetAll(RepoOwner, RepoName);
 
@@ -441,6 +446,38 @@ namespace ReleaseNotes
 				Console.WriteLine(e);
 				return 4;
 			}
+		}
+
+		class ExtendedReleaseUpdate : ReleaseUpdate
+		{
+			public bool? MakeLatest { get; set; }
+		}
+
+		static async Task<int> EnsureRelease(IGitHubClient client)
+		{
+			Console.WriteLine("Ensuring latest release is a GitHub release...");
+			var latestRelease = await client.Repository.Release.GetLatest(RepoOwner, RepoName);
+
+			const string TagPrefix = "tgstation-server-v";
+			static bool IsServerRelease(Release release) => release.TagName.StartsWith(TagPrefix);
+
+			if (!IsServerRelease(latestRelease))
+			{
+				var allReleases = await client.Repository.Release.GetAll(RepoOwner, RepoName);
+				var orderedReleases = allReleases
+					.Where(IsServerRelease)
+					.OrderByDescending(x => Version.Parse(x.TagName.Substring(TagPrefix.Length)));
+				latestRelease = orderedReleases
+					.First();
+
+				// this should set it as latest
+				await client.Repository.Release.Edit(RepoOwner, RepoName, latestRelease.Id, new ExtendedReleaseUpdate
+				{
+					MakeLatest = true
+				});
+			}
+
+			return 0;
 		}
 	}
 }
