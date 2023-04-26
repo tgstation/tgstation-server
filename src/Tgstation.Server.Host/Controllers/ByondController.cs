@@ -251,7 +251,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
+		/// Attempts to delete the BYOND version specified in a given <paramref name="model"/> from the instance.
 		/// </summary>
 		/// <param name="model">The <see cref="ByondVersionDeleteRequest"/> containing the <see cref="Version"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
