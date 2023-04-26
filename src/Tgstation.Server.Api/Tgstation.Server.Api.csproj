@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018-2023</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
-    <PackageReleaseNotes>Added ByondRights.DeleteInstall, ErrorCode.SwarmIntegrityCheckFailed, ErrorCode.ByondCannotDeleteActiveVersion, and Models.Request.ByondVersionDeleteRequest.</PackageReleaseNotes>
+    <PackageReleaseNotes>Minor documentation correction.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
