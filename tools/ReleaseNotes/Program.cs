@@ -466,7 +466,7 @@ namespace ReleaseNotes
 				var allReleases = await client.Repository.Release.GetAll(RepoOwner, RepoName);
 				var orderedReleases = allReleases
 					.Where(IsServerRelease)
-					.OrderByDescending(x => Version.Parse(x.TagName.Substring(TagPrefix.Length)));
+					.OrderByDescending(x => Version.Parse(x.TagName[TagPrefix.Length..]));
 				latestRelease = orderedReleases
 					.First();
 
