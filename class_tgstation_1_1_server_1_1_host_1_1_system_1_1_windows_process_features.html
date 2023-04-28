@@ -368,7 +368,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   44</span>            <span class="keywordflow">foreach</span> (ProcessThread thread <span class="keywordflow">in</span> process.Threads)</div>
 <div class="line"><span class="lineno">   45</span>            {</div>
 <div class="line"><span class="lineno">   46</span>                var threadId = (uint)thread.Id;</div>
-<div class="line"><span class="lineno">   47</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#ab681d2fdbe35e71f4180b450634db0cf">logger</a>.LogTrace(<span class="stringliteral">&quot;Suspending thread {threadId}...&quot;</span>, threadId);</div>
+<div class="line"><span class="lineno">   47</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#ab681d2fdbe35e71f4180b450634db0cf">logger</a>.LogTrace(<span class="stringliteral">&quot;Resuming thread {threadId}...&quot;</span>, threadId);</div>
 <div class="line"><span class="lineno">   48</span>                var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, <span class="keyword">false</span>, threadId);</div>
 <div class="line"><span class="lineno">   49</span>                <span class="keywordflow">if</span> (pOpenThread == IntPtr.Zero)</div>
 <div class="line"><span class="lineno">   50</span>                {</div>
@@ -438,7 +438,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   74</span>            <span class="keywordflow">foreach</span> (ProcessThread thread <span class="keywordflow">in</span> process.Threads)</div>
 <div class="line"><span class="lineno">   75</span>            {</div>
 <div class="line"><span class="lineno">   76</span>                var threadId = (uint)thread.Id;</div>
-<div class="line"><span class="lineno">   77</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#ab681d2fdbe35e71f4180b450634db0cf">logger</a>.LogTrace(<span class="stringliteral">&quot;Resuming thread {threadId}...&quot;</span>, threadId);</div>
+<div class="line"><span class="lineno">   77</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#ab681d2fdbe35e71f4180b450634db0cf">logger</a>.LogTrace(<span class="stringliteral">&quot;Suspending thread {threadId}...&quot;</span>, threadId);</div>
 <div class="line"><span class="lineno">   78</span>                var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, <span class="keyword">false</span>, threadId);</div>
 <div class="line"><span class="lineno">   79</span>                <span class="keywordflow">if</span> (pOpenThread == IntPtr.Zero)</div>
 <div class="line"><span class="lineno">   80</span>                {</div>
