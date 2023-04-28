@@ -1117,7 +1117,13 @@ namespace Tgstation.Server.Host.Swarm
 				currentSwarmServers = swarmServers.ToList();
 			}
 
-			logger.LogDebug("Sending updated server list to all {nodeCount} nodes...", currentSwarmServers.Count);
+			if (currentSwarmServers.Count == 1)
+			{
+				logger.LogTrace("Skipping server list broadcast as no nodes are connected!");
+				return;
+			}
+
+			logger.LogDebug("Sending updated server list to all {nodeCount} nodes...", currentSwarmServers.Count - 1);
 
 			using var httpClient = httpClientFactory.CreateClient();
 			async Task UpdateRequestForServer(SwarmServerResponse swarmServer)

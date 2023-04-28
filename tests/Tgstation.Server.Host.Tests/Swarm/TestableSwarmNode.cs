@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		public ServerUpdateResult UpdateResult { get; set; }
 		public Task<SwarmCommitResult?> UpdateTask { get; private set; }
 
-		public bool Initialized { get; private set; }
+		public bool WebServerOpen { get; private set; }
 
 		public bool Shutdown { get; private set; }
 
@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			{
 				logger.LogTrace("RecreateControllerAndService...");
 				var run = ++runCount;
-				Initialized = false;
+				WebServerOpen = false;
 				Shutdown = false;
 
 				CriticalCancellationTokenSource?.Dispose();
@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		public async Task<SwarmRegistrationResult?> TryInit(bool cancel = false)
 		{
 			logger.LogTrace("TryInit...");
-			if (Initialized)
+			if (WebServerOpen)
 				Assert.Fail("Initialized twice!");
 
 			if (!cancel)
@@ -211,8 +211,16 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			}
 			else
 			{
-				result = await Invoke();
-				Initialized = true;
+				try
+				{
+					WebServerOpen = true;
+					result = await Invoke();
+				}
+				catch
+				{
+					WebServerOpen = false;
+					throw;
+				}
 			}
 
 			if (Config.ControllerAddress == null)
