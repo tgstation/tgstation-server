@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.System
 			foreach (ProcessThread thread in process.Threads)
 			{
 				var threadId = (uint)thread.Id;
-				logger.LogTrace("Suspending thread {threadId}...", threadId);
+				logger.LogTrace("Resuming thread {threadId}...", threadId);
 				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
 				if (pOpenThread == IntPtr.Zero)
 				{
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.System
 			foreach (ProcessThread thread in process.Threads)
 			{
 				var threadId = (uint)thread.Id;
-				logger.LogTrace("Resuming thread {threadId}...", threadId);
+				logger.LogTrace("Suspending thread {threadId}...", threadId);
 				var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, threadId);
 				if (pOpenThread == IntPtr.Zero)
 				{
