@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			if (config == default)
 				Assert.Fail($"Invalid node address: {request.RequestUri}");
 
-			if (!node.Initialized)
+			if (!node.WebServerOpen)
 			{
 				throw new HttpRequestException("Can't connect to uninitialized node!");
 			}
