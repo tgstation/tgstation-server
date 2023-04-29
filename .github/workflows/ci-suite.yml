@@ -55,6 +55,9 @@ jobs:
     needs: security-checkpoint
     runs-on: ubuntu-latest
     if: always() && (needs.security-check.result == 'success' || needs.security-check.result == 'skipped')
+    steps:
+    - name: GitHub Requires at Least One Step for a Job
+      run: exit 0
 
   analyze:
     name: Code Scanning
