@@ -1,9 +1,9 @@
 name: 'Master Merge'
 
 on:
-    push:
-      branches:
-        - master
+  push:
+    branches:
+    - master
 
 jobs:
   master-merge:
