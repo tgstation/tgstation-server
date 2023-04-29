@@ -25,7 +25,7 @@ env:
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
 concurrency:
-  group: "ci-${{ github.event.number || github.head_ref }}-${{ github.event_name }}"
+  group: "ci-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
 jobs:
