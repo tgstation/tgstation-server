@@ -32,7 +32,7 @@ jobs:
   security-checkpoint:
     name: Check CI Clearance
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request_target' && github.pull_request.head.repo.id != github.pull_request.base.repo.id
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id
     steps:
     - name: Comment on new Fork PR
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared')
@@ -54,7 +54,7 @@ jobs:
     name: Start CI Run Gate
     needs: security-checkpoint
     runs-on: ubuntu-latest
-    if: always() && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.pull_request.head.repo.id == github.pull_request.base.repo.id)))
+    if: always() && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id)))
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
