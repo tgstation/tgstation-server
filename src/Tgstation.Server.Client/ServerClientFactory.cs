@@ -17,12 +17,20 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="IApiClientFactory"/> for the <see cref="ServerClientFactory"/>.
 		/// </summary>
-		static readonly IApiClientFactory ApiClientFactory = new ApiClientFactory();
+		internal static IApiClientFactory ApiClientFactory { get; set; }
 
 		/// <summary>
 		/// The <see cref="ProductHeaderValue"/> for the <see cref="ServerClientFactory"/>.
 		/// </summary>
 		readonly ProductHeaderValue productHeaderValue;
+
+		/// <summary>
+		/// Initializes static members of the <see cref="ServerClientFactory"/> class.
+		/// </summary>
+		static ServerClientFactory()
+		{
+			ApiClientFactory = new ApiClientFactory();
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerClientFactory"/> class.
