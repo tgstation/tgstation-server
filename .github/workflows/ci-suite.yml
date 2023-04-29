@@ -21,7 +21,7 @@ env:
   TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
   TGS_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
   TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
-  TGS_TEST_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
 concurrency:
@@ -690,7 +690,7 @@ jobs:
       uses: juitnow/github-action-create-release@v1
       id: create_release
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         tag_name: api-v${{ env.TGS_API_VERSION }}
         release_name: tgstation-server API v${{ env.TGS_API_VERSION }}
@@ -700,7 +700,7 @@ jobs:
     - name: Upload OpenApi Spec
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./swagger/swagger.json
@@ -739,7 +739,7 @@ jobs:
       uses: juitnow/github-action-create-release@v1
       id: create_release
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
         release_name: tgstation-server DMAPI v${{ env.TGS_DM_VERSION }}
@@ -749,7 +749,7 @@ jobs:
     - name: Upload DMAPI Artifact
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./DMAPI.zip
