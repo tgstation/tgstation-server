@@ -232,8 +232,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								StartupTimeout = x.StartupTimeout,
 								LogOutput = x.LogOutput,
 							})
-							.FirstOrDefaultAsync(cancellationToken)
-							;
+							.FirstOrDefaultAsync(cancellationToken);
 						if (ddSettings == default)
 							throw new JobException(ErrorCode.InstanceMissingDreamDaemonSettings);
 

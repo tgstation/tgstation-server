@@ -31,7 +31,6 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Tests.Live;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -56,12 +55,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine("TEST: START WATCHDOG TESTS");
 
 			await Task.WhenAll(
-				// Increase startup timeout, disable heartbeats
+				// Increase startup timeout, disable heartbeats, enable map threads because we've tested without for years
 				instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					StartupTimeout = 15,
 					HeartbeatSeconds = 0,
-					Port = TestLiveServer.DDPort
+					Port = TestLiveServer.DDPort,
+					MapThreads = 2,
 				}, cancellationToken),
 				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{

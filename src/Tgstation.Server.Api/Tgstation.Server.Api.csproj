@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018-2023</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
-    <PackageReleaseNotes>Minor documentation correction.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added support for -map-threads DreamDaemon parameter.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>

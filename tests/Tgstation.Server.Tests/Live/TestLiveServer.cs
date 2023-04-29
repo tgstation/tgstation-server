@@ -754,6 +754,7 @@ namespace Tgstation.Server.Tests.Live
 					AdditionalParameters = string.Empty,
 					StartProfiler = false,
 					LogOutput = true,
+					MapThreads = 69,
 				},
 				DreamMakerSettings = new Host.Models.DreamMakerSettings
 				{

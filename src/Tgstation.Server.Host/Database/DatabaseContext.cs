@@ -379,22 +379,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddReattachInfoInitialCompileJob);
+		internal static readonly Type MSLatestMigration = typeof(MSAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddReattachInfoInitialCompileJob);
+		internal static readonly Type MYLatestMigration = typeof(MYAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddReattachInfoInitialCompileJob);
+		internal static readonly Type PGLatestMigration = typeof(PGAddMapThreads);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddReattachInfoInitialCompileJob);
+		internal static readonly Type SLLatestMigration = typeof(SLAddMapThreads);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -425,6 +425,15 @@ namespace Tgstation.Server.Host.Database
 
 			string BadDatabaseType() => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 
+			if (targetVersion < new Version(5, 13, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddReattachInfoInitialCompileJob),
+					DatabaseType.PostgresSql => nameof(PGAddReattachInfoInitialCompileJob),
+					DatabaseType.SqlServer => nameof(MSAddReattachInfoInitialCompileJob),
+					DatabaseType.Sqlite => nameof(SLAddReattachInfoInitialCompileJob),
+					_ => BadDatabaseType(),
+				};
 			if (targetVersion < new Version(5, 7, 3))
 				targetMigration = currentDatabaseType switch
 				{

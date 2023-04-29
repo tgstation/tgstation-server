@@ -18,6 +18,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public bool SupportsCli { get; }
 
+		/// <inheritdoc />
+		public bool SupportsMapThreads => Version.Major >= 515 && Version.Minor >= 1605;
+
 		/// <summary>
 		/// The <see cref="Task"/> that completes when the BYOND version finished installing.
 		/// </summary>

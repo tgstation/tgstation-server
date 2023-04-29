@@ -24,7 +24,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 {
 	sealed class ByondTest : JobsRequiredTest
 	{
-		public static readonly Version TestVersion = new(514, 1588);
+		public static readonly Version TestVersion = new(515, 1605);
 
 		readonly IByondClient byondClient;
 

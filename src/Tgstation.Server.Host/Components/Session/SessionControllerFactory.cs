@@ -488,7 +488,7 @@ namespace Tgstation.Server.Host.Components.Session
 			// important to run on all ports to allow port changing
 			var arguments = String.Format(
 				CultureInfo.InvariantCulture,
-				"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6} -params \"{7}\"",
+				"{0} -port {1} -ports 1-65535 {2}-close -verbose -{3} -{4}{5}{6}{7} -params \"{8}\"",
 				dmbProvider.DmbName,
 				launchParameters.Port.Value,
 				launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
@@ -501,6 +501,9 @@ namespace Tgstation.Server.Host.Components.Session
 						: String.Empty, // Windows doesn't output anything to dd.exe if -logself is set?
 				launchParameters.StartProfiler.Value
 					? " -profile"
+					: String.Empty,
+				byondLock.SupportsMapThreads && launchParameters.MapThreads.Value != 0
+					? $" -map-threads {launchParameters.MapThreads.Value}"
 					: String.Empty,
 				parameters);
 

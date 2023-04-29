@@ -26,5 +26,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// If <see cref="DreamDaemonPath"/> supports being run as a command-line application.
 		/// </summary>
 		bool SupportsCli { get; }
+
+		/// <summary>
+		/// If <see cref="DreamDaemonPath"/> supports the -map-threads parameter.
+		/// </summary>
+		bool SupportsMapThreads { get; }
 	}
 }

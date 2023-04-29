@@ -726,6 +726,7 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalParameters = String.Empty,
 					StartProfiler = false,
 					LogOutput = false,
+					MapThreads = 0,
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{

@@ -151,7 +151,8 @@ namespace Tgstation.Server.Host.Controllers
 			| DreamDaemonRights.SetAdditionalParameters
 			| DreamDaemonRights.SetVisibility
 			| DreamDaemonRights.SetProfiler
-			| DreamDaemonRights.SetLogOutput)]
+			| DreamDaemonRights.SetLogOutput
+			| DreamDaemonRights.SetMapThreads)]
 		[ProducesResponseType(typeof(DreamDaemonResponse), 200)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
@@ -226,7 +227,8 @@ namespace Tgstation.Server.Host.Controllers
 						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
 						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
 						|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler)
-						|| CheckModified(x => x.LogOutput, DreamDaemonRights.SetLogOutput))
+						|| CheckModified(x => x.LogOutput, DreamDaemonRights.SetLogOutput)
+						|| CheckModified(x => x.MapThreads, DreamDaemonRights.SetMapThreads))
 						return Forbid();
 
 					await DatabaseContext.Save(cancellationToken);
@@ -368,6 +370,7 @@ namespace Tgstation.Server.Host.Controllers
 					result.AdditionalParameters = settings.AdditionalParameters;
 					result.StartProfiler = settings.StartProfiler;
 					result.LogOutput = settings.LogOutput;
+					result.MapThreads = settings.MapThreads;
 				}
 
 				if (revision)
