@@ -25,7 +25,7 @@ using Tgstation.Server.Common;
 namespace Tgstation.Server.Client
 {
 	/// <inheritdoc />
-	sealed class ApiClient : IApiClient
+	class ApiClient : IApiClient
 	{
 		/// <summary>
 		/// PATCH <see cref="HttpMethod"/>.
@@ -248,7 +248,9 @@ namespace Tgstation.Server.Client
 
 			using (memoryStream)
 			{
+#pragma warning disable CA2000 // Dispose objects before losing scope
 				var streamContent = new StreamContent(uploadStream ?? memoryStream);
+#pragma warning restore CA2000 // Dispose objects before losing scope
 				try
 				{
 					await RunRequest<object>(
@@ -259,82 +261,13 @@ namespace Tgstation.Server.Client
 						false,
 						cancellationToken)
 						.ConfigureAwait(false);
-					streamContent = null; // CA2000
+					streamContent = null;
 				}
 				finally
 				{
 					streamContent?.Dispose();
 				}
 			}
-		}
-
-		/// <summary>
-		/// Attempt to refresh the bearer token in the <see cref="headers"/>.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the refresh was successful, <see langword="false"/> otherwise.</returns>
-		async Task<bool> RefreshToken(CancellationToken cancellationToken)
-		{
-			if (tokenRefreshHeaders == null)
-				return false;
-
-			var startingToken = headers.Token;
-			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
-			try
-			{
-				if (startingToken != headers.Token)
-					return true;
-
-				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
-				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
-			}
-			catch (ClientException)
-			{
-				return false;
-			}
-			finally
-			{
-				semaphoreSlim.Release();
-			}
-
-			return true;
-		}
-
-		/// <summary>
-		/// Main request method.
-		/// </summary>
-		/// <typeparam name="TBody">The body <see cref="Type"/>.</typeparam>
-		/// <typeparam name="TResult">The resulting POCO type.</typeparam>
-		/// <param name="route">The route to run.</param>
-		/// <param name="body">The body of the request.</param>
-		/// <param name="method">The method of the request.</param>
-		/// <param name="instanceId">The optional instance <see cref="EntityId.Id"/> for the request.</param>
-		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success.</returns>
-		Task<TResult> RunRequest<TBody, TResult>(
-			string route,
-			TBody? body,
-			HttpMethod method,
-			long? instanceId,
-			bool tokenRefresh,
-			CancellationToken cancellationToken)
-			where TBody : class
-		{
-			HttpContent? content = null;
-			if (body != null)
-				content = new StringContent(
-					JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),
-					Encoding.UTF8,
-					ApiHeaders.ApplicationJsonMime);
-
-			return RunRequest<TResult>(
-				route,
-				content,
-				method,
-				instanceId,
-				tokenRefresh,
-				cancellationToken);
 		}
 
 		/// <summary>
@@ -348,7 +281,7 @@ namespace Tgstation.Server.Client
 		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success.</returns>
-		async Task<TResult> RunRequest<TResult>(
+		protected virtual async Task<TResult> RunRequest<TResult>(
 			string route,
 			HttpContent? content,
 			HttpMethod method,
@@ -426,6 +359,77 @@ namespace Tgstation.Server.Client
 					throw new UnrecognizedResponseException(response);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Attempt to refresh the bearer token in the <see cref="headers"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the refresh was successful, <see langword="false"/> otherwise.</returns>
+		async Task<bool> RefreshToken(CancellationToken cancellationToken)
+		{
+			if (tokenRefreshHeaders == null)
+				return false;
+
+			var startingToken = headers.Token;
+			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
+				if (startingToken != headers.Token)
+					return true;
+
+				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken).ConfigureAwait(false);
+				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
+			}
+			catch (ClientException)
+			{
+				return false;
+			}
+			finally
+			{
+				semaphoreSlim.Release();
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Main request method.
+		/// </summary>
+		/// <typeparam name="TBody">The body <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TResult">The resulting POCO type.</typeparam>
+		/// <param name="route">The route to run.</param>
+		/// <param name="body">The body of the request.</param>
+		/// <param name="method">The method of the request.</param>
+		/// <param name="instanceId">The optional instance <see cref="EntityId.Id"/> for the request.</param>
+		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success.</returns>
+		async Task<TResult> RunRequest<TBody, TResult>(
+			string route,
+			TBody? body,
+			HttpMethod method,
+			long? instanceId,
+			bool tokenRefresh,
+			CancellationToken cancellationToken)
+			where TBody : class
+		{
+			HttpContent? content = null;
+			if (body != null)
+				content = new StringContent(
+					JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),
+					Encoding.UTF8,
+					ApiHeaders.ApplicationJsonMime);
+
+			using (content)
+				return await RunRequest<TResult>(
+					route,
+					content,
+					method,
+					instanceId,
+					tokenRefresh,
+					cancellationToken)
+					.ConfigureAwait(false);
 		}
 	}
 }

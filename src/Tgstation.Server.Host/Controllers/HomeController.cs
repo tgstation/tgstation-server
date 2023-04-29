@@ -261,8 +261,7 @@ namespace Tgstation.Server.Host.Controllers
 							return BadRequest(new ErrorMessageResponse(ErrorCode.OAuthProviderDisabled));
 
 						externalUserId = await validator
-							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)
-							;
+							.ValidateResponseCode(ApiHeaders.Token, cancellationToken);
 
 						Logger.LogTrace("External {oAuthProvider} UID: {externalUserId}", oAuthProvider, externalUserId);
 					}
