@@ -32,7 +32,7 @@ jobs:
   security-checkpoint:
     name: Check CI Clearance
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id && github.event.pull_request.state == 'open'
     steps:
     - name: Comment on new Fork PR
       if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'CI Cleared')

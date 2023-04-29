@@ -4,8 +4,7 @@
 name: "Auto-Approve Dominion's PRs"
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  pull_request_target:
     branches:
     - dev
     - master
