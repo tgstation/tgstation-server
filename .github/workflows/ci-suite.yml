@@ -29,6 +29,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  dump-github-context:
+    name: Dump GitHub Context
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump GitHub Context
+      run: echo "${{ toJson(github) }}"
+
   security-checkpoint:
     name: Check CI Clearance
     runs-on: ubuntu-latest
