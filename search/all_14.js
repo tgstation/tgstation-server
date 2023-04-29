@@ -82,7 +82,7 @@ var searchData=
   ['tgsfirewalledddfile_79',['TgsFirewalledDDFile',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ae81cb597487269875a3a758b669873fd',1,'Tgstation::Server::Host::Components::Byond::WindowsByondInstaller']]],
   ['tgssystemusername_80',['TgsSystemUserName',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d',1,'Tgstation::Server::Host::Models::User']]],
   ['tgstation_81',['Tgstation',['../namespace_tgstation.html',1,'']]],
-  ['tgstation_2dserver_3a_82',['tgstation-server:',['../index.html',1,'']]],
+  ['tgstation_2dserver_82',['tgstation-server',['../index.html',1,'']]],
   ['threadaccess_83',['ThreadAccess',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a14e5ef215cf77a3126bf7107d43bc52a',1,'Tgstation::Server::Host::NativeMethods']]],
   ['thumbnail_84',['Thumbnail',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#a8e836bff6c7dd6b9470745dd0d62fd8c',1,'Tgstation::Server::Host::Components::Interop::ChatEmbed']]],
   ['ticket_85',['Ticket',['../class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#a0e0a5406bc12caa666097d4158634395',1,'Tgstation.Server.Host.Transfer.FileUploadProvider.Ticket()'],['../interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a9280f7e40585c53c6dae9ac62671014a',1,'Tgstation.Server.Host.Transfer.IFileUploadTicket.Ticket()']]],
