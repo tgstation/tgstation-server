@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018-2023</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>Updated to latest API library patch.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added missing Dispose() call to the StringContents for requests with bodies and added missing ConfigureAwait(false) to async call.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
