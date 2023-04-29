@@ -238,10 +238,14 @@ namespace Tgstation.Server.Host.Components.Byond
 			Logger.LogInformation("Adding Windows Firewall exception for {path}...", dreamDaemonPath);
 			try
 			{
+				// I really wish we could add the instance name here but
+				// 1. It'd make IByondInstaller need to be transient per-instance and WindowsByondInstaller relys on being a singleton for its DX installer call
+				// 2. The instance could be renamed, so it'd have to be an unfriendly ID anyway.
+				var arguments = $"advfirewall firewall add rule name=\"TGS DreamDaemon {version}\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow";
 				await using var netshProcess = await processExecutor.LaunchProcess(
 					"netsh.exe",
 					IOManager.ResolvePath(),
-					$"advfirewall firewall add rule name=\"TGS DreamDaemon\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow",
+					arguments,
 					readStandardHandles: true,
 					noShellExecute: true);
 
