@@ -53,24 +53,10 @@ namespace Tgstation.Server.Tests.Live
 
 		async Task TestRead(CancellationToken cancellationToken)
 		{
-			AdministrationResponse model;
-			try
-			{
-				model = await client.Read(cancellationToken);
-			}
-			catch (RateLimitException)
-			{
-				if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
-				{
-					Assert.Inconclusive("GitHub rate limit hit while testing administration endpoint. Set environment variable TGS_TEST_GITHUB_TOKEN to fix this!");
-				}
+			var model = await client.Read(cancellationToken);
 
-				// CI fails all the time b/c of this, ignore it
-				return;
-			}
-
-			//we've released a few 4.x versions now, check the release checker is at least somewhat functional
-			Assert.IsTrue(4 <= model.LatestVersion.Major);
+			//we've released a few 5.x versions now, check the release checker is at least somewhat functional
+			Assert.IsTrue(4 < model.LatestVersion.Major);
 		}
 	}
 }
