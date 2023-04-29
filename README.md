@@ -1,4 +1,4 @@
-# tgstation-server:
+# tgstation-server
 
 ![CI](https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
