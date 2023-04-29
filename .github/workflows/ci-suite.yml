@@ -47,7 +47,7 @@ jobs:
         labels: CI Cleared
 
     - name: Fail Clearance Check if PR has Unlabeled new Commits from Fork
-      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared')
+      if: (github.event.action == 'synchronize' || github.event.action == 'reopened') || ((github.event.action == 'opened' || github.event.action == 'labeled') && !contains(github.event.pull_request.labels.*.name, 'CI Cleared'))
       run: exit 1
 
   start-ci-run-gate:
