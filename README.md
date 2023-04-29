@@ -35,6 +35,7 @@ Should you want a clean start, be sure to first uninstall the service by running
 If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
 
 
+
 #### Linux (Native)
 
 We recommend using Docker for Linux installations, see below. The content of this parent section may be skipped if you choose to do so.
