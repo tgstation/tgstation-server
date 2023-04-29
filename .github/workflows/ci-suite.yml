@@ -31,7 +31,6 @@ concurrency:
 jobs:
   security-checkpoint:
     name: Check CI Clearance
-    needs: security-checkpoint
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request_target' && github.pull_request.head.repo.id != github.repository.id
     steps:
