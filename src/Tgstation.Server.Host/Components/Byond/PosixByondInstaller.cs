@@ -68,12 +68,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override string GetDreamDaemonName(Version version, out bool supportsCli)
+		public override string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads)
 		{
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
 			supportsCli = true;
+			supportsMapThreads = version >= MapThreadsVersion;
 			return DreamDaemonExecutableName + ShellScriptExtension;
 		}
 
@@ -103,7 +104,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var task = Task.WhenAll(
 				WriteAndMakeExecutable(
-					IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out var _)),
+					IOManager.ConcatPath(basePath, GetDreamDaemonName(version, out _, out _)),
 					dreamDaemonScript),
 				WriteAndMakeExecutable(
 					IOManager.ConcatPath(basePath, DreamMakerName),

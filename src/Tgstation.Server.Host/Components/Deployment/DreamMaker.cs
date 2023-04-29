@@ -796,6 +796,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				HeartbeatSeconds = 0, // not used
 				StartProfiler = false,
 				LogOutput = logOutput,
+				MapThreads = 1, // lowest possible amount
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider

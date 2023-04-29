@@ -46,6 +46,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		const string TgsFirewalledDDFile = "TGSFirewalledDD";
 
+		/// <summary>
+		/// The first version of BYOND to ship with dd.exe on the Windows build.
+		/// </summary>
+		public static Version DDExeVersion => new (515, 1598);
+
 		/// <inheritdoc />
 		public override string DreamMakerName => "dm.exe";
 
@@ -104,12 +109,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override string GetDreamDaemonName(Version version, out bool supportsCli)
+		public override string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads)
 		{
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
-			supportsCli = version.Major >= 515 && version.Minor >= 1598;
+			supportsCli = version >= DDExeVersion;
+			supportsMapThreads = version >= MapThreadsVersion;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
 		}
 
@@ -139,8 +145,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (generalConfiguration.SkipAddingByondFirewallException)
 				return;
 
-			GetDreamDaemonName(version, out var usesDDExe);
-			if (!usesDDExe)
+			if (version < DDExeVersion)
 				return;
 
 			if (await IOManager.FileExists(IOManager.ConcatPath(path, TgsFirewalledDDFile), cancellationToken))
@@ -222,7 +227,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task AddDreamDaemonToFirewall(Version version, string path, CancellationToken cancellationToken)
 		{
-			var dreamDaemonName = GetDreamDaemonName(version, out var supportsCli);
+			var dreamDaemonName = GetDreamDaemonName(version, out var usesDDExe, out var _);
 
 			var dreamDaemonPath = IOManager.ResolvePath(
 				IOManager.ConcatPath(
@@ -253,7 +258,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				if (exitCode != 0)
 					throw new JobException(ErrorCode.ByondDreamDaemonFirewallFail, new JobException($"Invalid exit code: {exitCode}"));
 
-				if (supportsCli)
+				if (usesDDExe)
 					await IOManager.WriteAllBytes(
 						IOManager.ConcatPath(path, TgsFirewalledDDFile),
 						Array.Empty<byte>(),

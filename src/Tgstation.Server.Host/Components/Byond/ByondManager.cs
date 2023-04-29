@@ -594,12 +594,16 @@ namespace Tgstation.Server.Host.Components.Byond
 				ioManager.ResolvePath(
 					ioManager.ConcatPath(
 						binPathForVersion,
-						byondInstaller.GetDreamDaemonName(version, out var supportsCli))),
+						byondInstaller.GetDreamDaemonName(
+							version,
+							out var supportsCli,
+							out var supportsMapThreads))),
 				ioManager.ResolvePath(
 					ioManager.ConcatPath(
 						binPathForVersion,
 						byondInstaller.DreamMakerName)),
-				supportsCli);
+				supportsCli,
+				supportsMapThreads);
 
 			var installationContainer = new ReferenceCountingContainer<ByondInstallation, ByondExecutableLock>(installation);
 

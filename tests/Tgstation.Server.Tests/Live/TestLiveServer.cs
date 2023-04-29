@@ -813,6 +813,8 @@ namespace Tgstation.Server.Tests.Live
 			{
 				foreach (var proc in procs)
 					proc.Dispose();
+
+				// Inconclusive and not fail because we don't want to unexpectedly kill a dev's BYOND.exe
 				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
 			}
 
