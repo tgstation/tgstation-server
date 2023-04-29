@@ -34,7 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Dump GitHub Context
-      run: echo "${{ toJson(github) }}"
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
 
   security-checkpoint:
     name: Check CI Clearance
