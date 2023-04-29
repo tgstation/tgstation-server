@@ -405,7 +405,7 @@ namespace Tgstation.Server.Client
 		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success.</returns>
-		Task<TResult> RunRequest<TBody, TResult>(
+		async Task<TResult> RunRequest<TBody, TResult>(
 			string route,
 			TBody? body,
 			HttpMethod method,
@@ -422,13 +422,14 @@ namespace Tgstation.Server.Client
 					ApiHeaders.ApplicationJsonMime);
 
 			using (content)
-				return RunRequest<TResult>(
+				return await RunRequest<TResult>(
 					route,
 					content,
 					method,
 					instanceId,
 					tokenRefresh,
-					cancellationToken);
+					cancellationToken)
+					.ConfigureAwait(false);
 		}
 	}
 }
