@@ -438,14 +438,17 @@ namespace Tgstation.Server.Tests.Live
 					CheckServerUpdated(node1);
 					CheckServerUpdated(node2);
 				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
+					throw;
+				}
 				finally
 				{
 					serverCts.Cancel();
 					await serverTask;
 				}
 			}
-
-			new LiveTestingServer(null, false).Dispose();
 		}
 
 		[TestMethod]
