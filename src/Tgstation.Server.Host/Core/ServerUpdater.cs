@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -7,8 +6,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
-using Octokit;
 
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
@@ -94,17 +91,20 @@ namespace Tgstation.Server.Host.Core
 				return ServerUpdateResult.SwarmIntegrityCheckFailed;
 
 			logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
-			IEnumerable<Release> releases;
 			var gitHubClient = gitHubClientFactory.CreateClient();
-			releases = await gitHubClient
+			var releases = await gitHubClient
 				.Repository
 				.Release
 				.GetAll(updatesConfiguration.GitHubRepositoryId)
 				.WithToken(cancellationToken);
 
-			releases = releases.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
+			logger.LogTrace("Received {releaseCount} total releases from GitHub", releases.Count);
 
-			logger.LogTrace("Release query complete!");
+			releases = releases
+				.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
+				.ToList();
+
+			logger.LogTrace("Filtered to {releaseCount} releases matching a TGS version", releases.Count);
 
 			foreach (var release in releases)
 				if (Version.TryParse(
@@ -136,6 +136,8 @@ namespace Tgstation.Server.Host.Core
 
 					return ServerUpdateResult.Started;
 				}
+				else
+					logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
 
 			return ServerUpdateResult.ReleaseMissing;
 		}

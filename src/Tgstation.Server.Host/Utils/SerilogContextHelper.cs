@@ -74,7 +74,7 @@
 		/// </summary>
 		public static void AddSwarmNodeIdentifierToTemplate()
 		{
-			Template = $"{DefaultTemplate}|Node:{SwarmIdentifierContextProperty}";
+			Template = $"{DefaultTemplate}|Node:{{{SwarmIdentifierContextProperty}}}";
 		}
 	}
 }
