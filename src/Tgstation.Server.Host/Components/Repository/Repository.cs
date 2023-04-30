@@ -846,7 +846,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					throw new ArgumentNullException(nameof(sha));
 
 				var commit = libGitRepo.Lookup<Commit>(sha) ?? throw new JobException($"Commit {sha} does not exist in the repository!");
-				return commit.Committer.When;
+				return commit.Committer.When.ToUniversalTime();
 			},
 			cancellationToken,
 			DefaultIOManager.BlockingTaskCreationOptions,
