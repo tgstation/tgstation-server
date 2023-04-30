@@ -1,6 +1,6 @@
 General:
   MinimumPasswordLength: 15
-  GitHubAccessToken:
+  GitHubAccessToken: null
   SetupWizardMode: AutoDetect
   ByondTopicTimeout: 5000
   RestartTimeoutMinutes: 1
