@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Utils
 							assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,
 							assemblyInformationProvider.ProductInfoHeaderValue.Product.Version));
 
-					if (accessToken == null)
+					if (accessToken != null)
 						client.Credentials = new Credentials(accessToken);
 
 					clientCache.Add(cacheKey, (client, now));
