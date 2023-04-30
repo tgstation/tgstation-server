@@ -27,7 +27,7 @@ Here's a breakdown of things in this directory
 - [Components](./Components) is where the bulk of the TGS implementation lives.
 - [Configuration](./Configuration) contains classes that partly make up the configuration yaml files (i.e. [appsettings.yml](./appsettings.yml)).
 - [Controllers](./Controllers) is where HTTP API code lives and bridges it with component code.
-- [Core](./Core) contains [Application.cs](./Core/Application.cs) and other various helpers that don't belong anywhere else.
+- [Core](./Core) contains [Application.cs](./Core/Application.cs) and other classes related to the overrarching server process.
 - [Database](./Database) contains all database related code.
 - [Extensions](./Extensions) contains helper functions implemented as C# extension methods.
 - [IO](./IO) contains classes related to interacting with the filesystem.
@@ -36,6 +36,8 @@ Here's a breakdown of things in this directory
 - [Properties](./Properties) contains some assembly metadata, mainly used to expose internals to the testing suite.
 - [Security](./Security) contains all the security related classes.
 - [Setup](./Setup) contains code to initiate and run the setup wizard.
+- [Swarm](./Swarm) contains code relating to grouping multiple TGS processes on different machines in a cohesive cluster.
 - [System](./System) contains various OS related functions.
+- [Utils](./Utils) contains various helpers that don't belong anywhere else.
 
 As a final note, all project configuration is of course in the [Tgstation.Server.Host.csproj](./Tgstation.Server.Host.csproj) file. This contains package references that are pulled in on build, as well as other things like global warning supressions, and specialized build scripts.
