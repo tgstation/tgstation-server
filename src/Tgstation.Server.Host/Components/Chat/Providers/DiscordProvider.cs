@@ -312,10 +312,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				await SendToChannel(new Snowflake(channelId));
 			}
-			catch (Exception e)
+			catch (Exception e) when (e is not OperationCanceledException)
 			{
-				if (e is OperationCanceledException)
-					cancellationToken.ThrowIfCancellationRequested();
 				Logger.LogWarning(e, "Error sending discord message!");
 			}
 		}
