@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,13 +10,19 @@ using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using MySqlConnector;
+
 using Newtonsoft.Json;
+
+using Npgsql;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -25,6 +33,7 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Live.Instance;
@@ -72,9 +81,69 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestInitialize]
-		public void Initialize()
+		public async Task Initialize()
 		{
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
+
+			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
+			if (String.IsNullOrWhiteSpace(connectionString))
+				return;
+			// In CI we've run into issues with the sql services not starting
+			// check they're ready
+			var databaseType = Enum.Parse<DatabaseType>(Environment.GetEnvironmentVariable("TGS_TEST_DATABASE_TYPE"));
+			switch (databaseType)
+			{
+				case DatabaseType.MariaDB:
+				case DatabaseType.MySql:
+					var mySqlBuilder = new MySqlConnectionStringBuilder(connectionString)
+					{
+						Database = new MySqlConnectionStringBuilder().Database
+					};
+					connectionString = mySqlBuilder.ConnectionString;
+					break;
+				case DatabaseType.PostgresSql:
+					var pgSqlBuilder = new NpgsqlConnectionStringBuilder(connectionString)
+					{
+						Database = new NpgsqlConnectionStringBuilder().Database
+					};
+					connectionString = pgSqlBuilder.ConnectionString;
+					break;
+				case DatabaseType.SqlServer:
+					var msSqlBuilder = new SqlConnectionStringBuilder(connectionString)
+					{
+						InitialCatalog = new SqlConnectionStringBuilder().InitialCatalog
+					};
+					connectionString = msSqlBuilder.ConnectionString;
+					break;
+				case DatabaseType.Sqlite:
+					return; // no test required
+				default:
+					Assert.Fail($"Unknown DatabaseType {databaseType}!");
+					return;
+			}
+
+			var connectionFactory = new DatabaseConnectionFactory();
+			using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
+
+			using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+			var cancellationToken = cts.Token;
+
+			while (true)
+			{
+				try
+				{
+					await connection.OpenAsync(cancellationToken);
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"TEST ERROR INIT: Could not connect to database. Retrying after 3s. Exception: {ex}");
+					await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+					continue;
+				}
+
+				await connection.CloseAsync();
+				break;
+			}
 		}
 
 		[TestMethod]
