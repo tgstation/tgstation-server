@@ -10,6 +10,7 @@ using Microsoft.Win32.SafeHandles;
 
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Security
 {
