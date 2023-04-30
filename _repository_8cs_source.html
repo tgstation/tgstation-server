@@ -843,7 +843,7 @@ $(function() {
 <div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(sha));</div>
 <div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span> </div>
 <div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>                var commit = libGitRepo.Lookup&lt;Commit&gt;(sha) ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>($<span class="stringliteral">&quot;Commit {sha} does not exist in the repository!&quot;</span>);</div>
-<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>                <span class="keywordflow">return</span> commit.Committer.When;</div>
+<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>                <span class="keywordflow">return</span> commit.Committer.When.ToUniversalTime();</div>
 <div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>            },</div>
 <div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>            cancellationToken,</div>
 <div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>

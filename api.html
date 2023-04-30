@@ -168,7 +168,7 @@ Response Codes</h1>
 <li>422: Unprocessable Entity: Used specifically when an operation that requires a server restart is unable to be performed due to the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html">Tgstation.Server.Host.Watchdog</a> not being present in the deployment. Should not happen with a proper server configuration. Response body contains an Tgstation.Server.Api.Models.ErrorMessage</li>
 <li>424: Failed Dependency: When a request that depends on an external API fails for a reason other than rate limiting. The response body will contain an Tgstation.Server.Api.Models.ErrorMessage model detailing the error.</li>
 <li>426: Upgrade required: Used when the client's API version is not compatible with the server's. Response body contains an Tgstation.Server.Api.Models.ErrorMessage</li>
-<li>429: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned. Response will contain a Retry-After header</li>
+<li>429: Rate limited. Used with operations that rely on GitHub.com. If a rate limit is hit for an operation this will be returned. Response will contain a Retry-After header with the amount of seconds to wait.</li>
 <li>500: Server error. Please report the request and response body to the code repository</li>
 <li>501: Not implemented. Functionality not available in the current server version</li>
 <li>503: Service unavailable. The server is either starting up or shutting down and isn't ready to respond to requests. You can try again soon and a response/lack thereof will indicate which of the two events it was</li>
