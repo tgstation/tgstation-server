@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.System.WindowsProcessFeatures.CreateDump" name="Tgstation.Server.Host.System.WindowsProcessFeatures.CreateDump">
 <area shape="rect" id="node1" title="Create a dump file for a given process . A Task representing the running operation." alt="" coords="5,5,255,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a61d55043e027524245f877070f168e45" title="See https://docs.microsoft.com/en&#45;us/windows/win32/api/minidumpapiset/nf&#45;minidumpapiset&#45;minidumpwrite..." alt="" coords="303,5,500,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a58ae40ae048891db7c2c1855e9213563" title="See https://docs.microsoft.com/en&#45;us/windows/win32/api/minidumpapiset/nf&#45;minidumpapiset&#45;minidumpwrite..." alt="" coords="303,5,537,45"/>
 </map>

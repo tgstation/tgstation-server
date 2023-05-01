@@ -36,7 +36,7 @@ var searchData=
   ['filetransferservice_2ecs_33',['FileTransferService.cs',['../_file_transfer_service_8cs.html',1,'']]],
   ['fileuploadprovider_34',['FileUploadProvider',['../class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#acdab1ea5219679a6d58c4caa3fe444df',1,'Tgstation.Server.Host.Transfer.FileUploadProvider.FileUploadProvider()'],['../class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html',1,'Tgstation.Server.Host.Transfer.FileUploadProvider']]],
   ['fileuploadprovider_2ecs_35',['FileUploadProvider.cs',['../_file_upload_provider_8cs.html',1,'']]],
-  ['findwindow_36',['FindWindow',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#aaff201757860dd95c1ab3047ac6e2ec8',1,'Tgstation::Server::Host::NativeMethods']]],
+  ['findwindow_36',['FindWindow',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#ac02947ed356d72fee50368471e9b0755',1,'Tgstation::Server::Host::System::NativeMethods']]],
   ['flush_37',['Flush',['../class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a64cc36041cfcb335065e5ee8b337f263',1,'Tgstation::Server::Client::CachedResponseStream']]],
   ['footer_38',['Footer',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_embed.html#aae5734cac6559662e08b929578dd1ce1',1,'Tgstation::Server::Host::Components::Interop::ChatEmbed']]],
   ['forbidduetomodeconflicts_39',['ForbidDueToModeConflicts',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde',1,'Tgstation::Server::Host::Controllers::ConfigurationController']]],

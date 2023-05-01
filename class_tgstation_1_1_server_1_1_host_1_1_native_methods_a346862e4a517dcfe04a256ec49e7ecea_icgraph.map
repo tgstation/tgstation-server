@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.NativeMethods.GetWindowThreadProcessId" name="Tgstation.Server.Host.NativeMethods.GetWindowThreadProcessId">
-<area shape="rect" id="node1" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;getwindowthreadprocessid." alt="" coords="609,5,851,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a5915daef37817261e058fd1d9251bd0a" title="Main loop for the WindowsNetworkPromptReaper." alt="" coords="328,5,561,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a4da1abbdff058acc086c60bac413df19" title=" " alt="" coords="5,5,280,45"/>
-</map>

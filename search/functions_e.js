@@ -11,5 +11,5 @@ var searchData=
   ['onstart_8',['OnStart',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a40bef17d85eb30f2cbad7ed81ef9c774',1,'Tgstation::Server::Host::Service::ServerService']]],
   ['onstop_9',['OnStop',['../class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a6e54a00e5d8fc3f0629277f2bb7274ba',1,'Tgstation::Server::Host::Service::ServerService']]],
   ['openapienumvarnamesextension_10',['OpenApiEnumVarNamesExtension',['../class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#a0fb92b26a90752170ecf00b093acebee',1,'Tgstation::Server::Host::Utils::OpenApiEnumVarNamesExtension']]],
-  ['openthread_11',['OpenThread',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a8680bb0a60dc39bc6652442a2fa9cdb4',1,'Tgstation::Server::Host::NativeMethods']]]
+  ['openthread_11',['OpenThread',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a2327fd6dfaab1a02b21c51a8b5db4924',1,'Tgstation::Server::Host::System::NativeMethods']]]
 ];

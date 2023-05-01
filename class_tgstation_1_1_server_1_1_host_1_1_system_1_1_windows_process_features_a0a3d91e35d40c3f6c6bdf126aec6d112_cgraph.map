@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.System.WindowsProcessFeatures.ResumeProcess" name="Tgstation.Server.Host.System.WindowsProcessFeatures.ResumeProcess">
 <area shape="rect" id="node1" title="Resume a given suspended Process." alt="" coords="5,69,279,109"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a5cc6468cad981968d6edbeec40aea81e" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="327,5,516,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a8680bb0a60dc39bc6652442a2fa9cdb4" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx." alt="" coords="327,69,516,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a318c159e4464a5d63dd81260b45d95bc" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms685086(v=vs.85).aspx." alt="" coords="327,133,516,173"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a97a77860bb8d601d2ee381c6f93ebcf5" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx." alt="" coords="328,5,527,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a2327fd6dfaab1a02b21c51a8b5db4924" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx." alt="" coords="328,69,527,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a296b0d4142b98474bde14a1d32b2e727" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms685086(v=vs.85).aspx." alt="" coords="327,133,528,173"/>
 </map>

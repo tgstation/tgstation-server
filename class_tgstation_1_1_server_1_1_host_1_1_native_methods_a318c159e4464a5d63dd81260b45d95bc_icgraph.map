@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.NativeMethods.ResumeThread" name="Tgstation.Server.Host.NativeMethods.ResumeThread">
-<area shape="rect" id="node1" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms685086(v=vs.85).aspx." alt="" coords="327,5,516,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a0a3d91e35d40c3f6c6bdf126aec6d112" title="Resume a given suspended Process." alt="" coords="5,5,279,45"/>
-</map>
