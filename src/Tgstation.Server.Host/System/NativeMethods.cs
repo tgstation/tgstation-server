@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Tgstation.Server.Host
+namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// Native Windows methods used by the code.
