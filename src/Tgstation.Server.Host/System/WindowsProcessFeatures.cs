@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.System
 {
