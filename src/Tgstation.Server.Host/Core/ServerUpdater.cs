@@ -110,31 +110,33 @@ namespace Tgstation.Server.Host.Core
 				if (Version.TryParse(
 					release.TagName.Replace(
 						updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal),
-					out var version)
-					&& version == newVersion)
+					out var version))
 				{
-					var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
-					if (asset == default)
-						continue;
-
-					serverUpdateOperation = new ServerUpdateOperation
+					if (version == newVersion)
 					{
-						TargetVersion = version,
-						UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
-						SwarmService = swarmService,
-					};
+						var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
+						if (asset == default)
+							continue;
 
-					try
-					{
-						if (!serverControl.TryStartUpdate(this, version))
-							return ServerUpdateResult.UpdateInProgress;
+						serverUpdateOperation = new ServerUpdateOperation
+						{
+							TargetVersion = version,
+							UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
+							SwarmService = swarmService,
+						};
+
+						try
+						{
+							if (!serverControl.TryStartUpdate(this, version))
+								return ServerUpdateResult.UpdateInProgress;
+						}
+						finally
+						{
+							serverUpdateOperation = null;
+						}
+
+						return ServerUpdateResult.Started;
 					}
-					finally
-					{
-						serverUpdateOperation = null;
-					}
-
-					return ServerUpdateResult.Started;
 				}
 				else
 					logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
