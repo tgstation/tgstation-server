@@ -43,7 +43,6 @@ The following dependencies are required to run tgstation-server on Linux alongsi
 
 - libc6-i386
 - libstdc++6:i386
-- libssl1.0.0
 - gdb (for using gcore to create core dumps)
 - gcc-multilib (Only on 64-bit systems)
 
