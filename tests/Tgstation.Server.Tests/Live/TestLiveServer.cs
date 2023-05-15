@@ -120,13 +120,13 @@ namespace Tgstation.Server.Tests.Live
 			}
 
 			var connectionFactory = new DatabaseConnectionFactory();
-			using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
 
 			using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
 			var cancellationToken = cts.Token;
 
 			while (true)
 			{
+				using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
 				try
 				{
 					await connection.OpenAsync(cancellationToken);
