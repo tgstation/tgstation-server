@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, default));
 
 			var ourArray = Array.Empty<byte>();
-			mockFileDownloader.Setup(x => x.DownloadFile(It.Is<Uri>(uri => uri == new Uri("https://secure.byond.com/download/build/511/511.1385_byond_linux.zip")), default)).Returns(Task.FromResult(new MemoryStream(ourArray))).Verifiable();
+			mockFileDownloader.Setup(x => x.DownloadFile(It.Is<Uri>(uri => uri == new Uri("https://secure.byond.com/download/build/511/511.1385_byond_linux.zip")), null, default)).Returns(Task.FromResult(new MemoryStream(ourArray))).Verifiable();
 
 			var result = await installer.DownloadVersion(new Version(511, 1385), default);
 
