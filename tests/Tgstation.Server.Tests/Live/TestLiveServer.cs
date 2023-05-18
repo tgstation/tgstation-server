@@ -44,6 +44,8 @@ namespace Tgstation.Server.Tests.Live
 		public static ushort DDPort { get; } = FreeTcpPort();
 		public static ushort DMPort { get; } = GetDMPort();
 
+		readonly Version TestUpdateVersion = new Version(5, 11, 0);
+
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		static void TerminateAllDDs()
@@ -252,11 +254,10 @@ namespace Tgstation.Server.Tests.Live
 					CheckInfo(controllerInfo);
 
 					// test update
-					var testUpdateVersion = new Version(4, 8, 1);
 					await controllerClient.Administration.Update(
 						new ServerUpdateRequest
 						{
-							NewVersion = testUpdateVersion
+							NewVersion = TestUpdateVersion
 						},
 						cancellationToken);
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
@@ -270,7 +271,7 @@ namespace Tgstation.Server.Tests.Live
 						Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
 
 						var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
-						Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+						Assert.AreEqual(TestUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
 						Directory.Delete(server.UpdatePath, true);
 					}
 
@@ -435,11 +436,10 @@ namespace Tgstation.Server.Tests.Live
 					await Assert.ThrowsExceptionAsync<ConflictException>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken));
 
 					// test update
-					var testUpdateVersion = new Version(4, 8, 1);
 					await node1Client.Administration.Update(
 						new ServerUpdateRequest
 						{
-							NewVersion = testUpdateVersion
+							NewVersion = TestUpdateVersion
 						},
 						cancellationToken);
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
@@ -453,7 +453,7 @@ namespace Tgstation.Server.Tests.Live
 						Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
 
 						var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
-						Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+						Assert.AreEqual(TestUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
 						Directory.Delete(server.UpdatePath, true);
 					}
 
@@ -479,7 +479,7 @@ namespace Tgstation.Server.Tests.Live
 					await ApiAssert.ThrowsException<ApiConflictException>(() => controllerClient2.Administration.Update(
 						new ServerUpdateRequest
 						{
-							NewVersion = testUpdateVersion
+							NewVersion = TestUpdateVersion
 						},
 						cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
 
@@ -493,7 +493,7 @@ namespace Tgstation.Server.Tests.Live
 					await controllerClient2.Administration.Update(
 						new ServerUpdateRequest
 						{
-							NewVersion = testUpdateVersion
+							NewVersion = TestUpdateVersion
 						},
 						cancellationToken);
 
