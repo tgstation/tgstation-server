@@ -354,18 +354,6 @@ jobs:
         Start-Sleep -Seconds 10
         dotnet test -c ${{ matrix.configuration }} --no-build --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
 
-    - name: get logs system
-      if: always()
-      run: |
-         Get-EventLog -LogName System | Format-List
-      shell: powershell
-
-    - name: get logs application
-      if: always()
-      run: |
-         Get-EventLog -LogName Application | Format-List
-      shell: powershell
-
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
       with:
