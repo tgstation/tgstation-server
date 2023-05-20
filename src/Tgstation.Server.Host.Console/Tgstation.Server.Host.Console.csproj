@@ -8,7 +8,7 @@
     <IsPackable>false</IsPackable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>$(TargetDir)\$(AssemblyName).xml</DocumentationFile>
+    <DocumentationFile>$(TargetDir)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -22,7 +22,7 @@
     <DocumentationFile>bin\$(Configuration)\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>$(TargetDir)\$(AssemblyName).xml</DocumentationFile>
+    <DocumentationFile>$(TargetDir)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
