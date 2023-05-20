@@ -85,6 +85,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 						IsAdminChannel = false,
 						IsUpdatesChannel = true,
 						IsWatchdogChannel = true,
+						IsSystemChannel = true,
 						Tag = "butt2",
 						ChannelData = channelId,
 #pragma warning disable CS0618
@@ -98,6 +99,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(updatedBot.Channels);
 			Assert.AreEqual(1, updatedBot.Channels.Count);
 			Assert.AreEqual(false, updatedBot.Channels.First().IsAdminChannel);
+			Assert.AreEqual(true, updatedBot.Channels.First().IsSystemChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsUpdatesChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);
 			Assert.AreEqual("butt2", updatedBot.Channels.First().Tag);
@@ -160,6 +162,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 						IsAdminChannel = true,
 						IsUpdatesChannel = true,
 						IsWatchdogChannel = true,
+						IsSystemChannel = true,
 						Tag = "butt",
 						ChannelData = channelId.ToString(),
 #pragma warning disable CS0618
@@ -172,6 +175,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(true, updatedBot.Enabled);
 			Assert.IsNotNull(updatedBot.Channels);
 			Assert.AreEqual(1, updatedBot.Channels.Count);
+			Assert.AreEqual(true, updatedBot.Channels.First().IsSystemChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsAdminChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsUpdatesChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);

@@ -207,6 +207,7 @@ namespace Tgstation.Server.Host.Components.Chat
 								IrcChannel = apiModel.IrcChannel,
 								IsAdminChannel = apiModel.IsAdminChannel,
 								IsUpdatesChannel = apiModel.IsUpdatesChannel,
+								IsSystemChannel = apiModel.IsSystemChannel,
 								IsWatchdogChannel = apiModel.IsWatchdogChannel,
 								Tag = apiModel.Tag,
 							})
@@ -220,6 +221,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							IsWatchdogChannel = kvp.Key.IsWatchdogChannel == true,
 							IsUpdatesChannel = kvp.Key.IsUpdatesChannel == true,
 							IsAdminChannel = kvp.Key.IsAdminChannel == true,
+							IsSystemChannel = kvp.Key.IsSystemChannel == true,
 							ProviderChannelId = channelRepresentation.RealId,
 							ProviderId = connectionId,
 							Channel = channelRepresentation,
@@ -514,7 +516,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			List<ulong> wdChannels;
 			lock (mappedChannels) // so it doesn't change while we're using it
 				wdChannels = mappedChannels
-					.Where(x => !x.Value.Channel.IsPrivateChannel)
+					.Where(x => !x.Value.IsSystemChannel)
 					.Select(x => x.Key)
 					.ToList();
 

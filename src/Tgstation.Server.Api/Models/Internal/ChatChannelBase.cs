@@ -26,6 +26,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? IsUpdatesChannel { get; set; }
 
 		/// <summary>
+		/// If the <see cref="ChatChannel"/> received system messages.
+		/// </summary>
+		[Required]
+		public bool? IsSystemChannel { get; set; }
+
+		/// <summary>
 		/// A custom tag users can define to group channels together.
 		/// </summary>
 		[ResponseOptions]

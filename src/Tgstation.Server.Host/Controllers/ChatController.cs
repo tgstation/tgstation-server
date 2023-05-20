@@ -71,6 +71,7 @@ namespace Tgstation.Server.Host.Controllers
 				IsAdminChannel = api.IsAdminChannel ?? false,
 				IsWatchdogChannel = api.IsWatchdogChannel ?? false,
 				IsUpdatesChannel = api.IsUpdatesChannel ?? false,
+				IsSystemChannel = api.IsSystemChannel ?? false,
 				Tag = api.Tag,
 			};
 
