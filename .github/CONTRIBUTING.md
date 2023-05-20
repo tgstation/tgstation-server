@@ -173,6 +173,8 @@ Whenever you make a change to a model schema that must be reflected in the datab
 
 We have a script to do this.
 
+Warning: You may need to temporarily set valid MySql credentials in [MySqlDesignTimeDbContextFactory.cs](../src/Tgstation.Server.Host/Database/Design/MySqlDesignTimeDbContextFactory.cs) for migrations to generate properly. I have no idea why. Be careful not to commit the change.
+
 1. Run `build/GenerateMigrations.sh NameOfMigration` from the project root.
 1. You should now have MY/MS/SL/PG migration files generated in `/src/Tgstation.Server.Host/Models/Migrations`. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Database.Migrations namespace.
 1. Manually review what each migration does.
