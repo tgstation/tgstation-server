@@ -65,13 +65,6 @@ RUN apt-get update \
 	&& apt-get install -y \
 		gcc-multilib \
 		gdb \
-		curl \
-	&& curl http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/multiarch-support_2.27-3ubuntu1_amd64.deb --output multiarch-support_2.27.deb \
-	&& curl http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u12_amd64.deb --output libssl1.0.0.deb \
-	&& dpkg -i multiarch-support_2.27.deb \
-	&& dpkg -i libssl1.0.0.deb \
-	&& rm multiarch-support_2.27.deb \
-	&& rm libssl1.0.0.deb \
 	&& rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000

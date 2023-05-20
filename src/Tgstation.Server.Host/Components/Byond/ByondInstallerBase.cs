@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			Logger.LogTrace("Downloading BYOND version {major}.{minor}...", version.Major, version.Minor);
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Major, version.Minor);
-			return fileDownloader.DownloadFile(new Uri(url), cancellationToken);
+			return fileDownloader.DownloadFile(new Uri(url), null, cancellationToken);
 		}
 	}
 }

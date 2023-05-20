@@ -44,6 +44,11 @@ namespace Tgstation.Server.Host.Core
 		readonly ILogger<ServerUpdater> logger;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="ServerUpdater"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// The <see cref="UpdatesConfiguration"/> for the <see cref="ServerUpdater"/>.
 		/// </summary>
 		readonly UpdatesConfiguration updatesConfiguration;
@@ -61,6 +66,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="fileDownloader">The value of <see cref="fileDownloader"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="updatesConfiguration"/>.</param>
 		public ServerUpdater(
 			IGitHubClientFactory gitHubClientFactory,
@@ -68,6 +74,7 @@ namespace Tgstation.Server.Host.Core
 			IFileDownloader fileDownloader,
 			IServerControl serverControl,
 			ILogger<ServerUpdater> logger,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<UpdatesConfiguration> updatesConfigurationOptions)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
@@ -75,6 +82,7 @@ namespace Tgstation.Server.Host.Core
 			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 		}
 
@@ -110,31 +118,33 @@ namespace Tgstation.Server.Host.Core
 				if (Version.TryParse(
 					release.TagName.Replace(
 						updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal),
-					out var version)
-					&& version == newVersion)
+					out var version))
 				{
-					var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
-					if (asset == default)
-						continue;
-
-					serverUpdateOperation = new ServerUpdateOperation
+					if (version == newVersion)
 					{
-						TargetVersion = version,
-						UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
-						SwarmService = swarmService,
-					};
+						var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
+						if (asset == default)
+							continue;
 
-					try
-					{
-						if (!serverControl.TryStartUpdate(this, version))
-							return ServerUpdateResult.UpdateInProgress;
+						serverUpdateOperation = new ServerUpdateOperation
+						{
+							TargetVersion = version,
+							UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
+							SwarmService = swarmService,
+						};
+
+						try
+						{
+							if (!serverControl.TryStartUpdate(this, version))
+								return ServerUpdateResult.UpdateInProgress;
+						}
+						finally
+						{
+							serverUpdateOperation = null;
+						}
+
+						return ServerUpdateResult.Started;
 					}
-					finally
-					{
-						serverUpdateOperation = null;
-					}
-
-					return ServerUpdateResult.Started;
 				}
 				else
 					logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
@@ -181,7 +191,11 @@ namespace Tgstation.Server.Host.Core
 				try
 				{
 					logger.LogTrace("Downloading zip package...");
-					updateZipData = await fileDownloader.DownloadFile(serverUpdateOperation.UpdateZipUrl, cancellationToken);
+					var bearerToken = generalConfiguration.GitHubAccessToken;
+					if (String.IsNullOrWhiteSpace(bearerToken))
+						bearerToken = null;
+
+					updateZipData = await fileDownloader.DownloadFile(serverUpdateOperation.UpdateZipUrl, bearerToken, cancellationToken);
 				}
 				catch (Exception ex)
 				{
