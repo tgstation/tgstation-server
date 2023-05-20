@@ -386,7 +386,7 @@ try
 	using (var loggerFactory = LoggerFactory.Create(builder => { }))
 	{
 		var fileDownloader = new FileDownloader(httpClientFactory, loggerFactory.CreateLogger<FileDownloader>());
-		using var tgsFiveZipMemoryStream = await fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), default);
+		using var tgsFiveZipMemoryStream = await fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), null, default);
 		Console.WriteLine("Unzipping TGS5...");
 		await serverFactory.IOManager.ZipToDirectory(tgsInstallPath, tgsFiveZipMemoryStream, default);
 	}
