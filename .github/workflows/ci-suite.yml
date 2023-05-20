@@ -315,7 +315,7 @@ jobs:
       matrix:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
