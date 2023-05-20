@@ -35,6 +35,12 @@
 	for(var/i in 1 to 10000000)
 		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
+
+	var/list/channels = TgsChatChannelInfo()
+	if(!length(channels))
+		text2file("Expected some chat channels!", "test_fail_reason.txt")
+		del(world)
+
 	StartAsync()
 
 /proc/dab()
@@ -133,8 +139,16 @@ var/run_bridge_test
 	// Bridge response queuing
 	var/tactics6 = data["tgs_integration_test_tactics6"]
 	if(tactics6)
+		if (length(world.TgsChatChannelInfo()))
+			return "channels_present!"
+
 		DetachedChatMessageQueuing()
 		return "queued"
+
+	var/tactics7 = data["tgs_integration_test_tactics7"]
+	if(tactics7)
+		var/list/channels = TgsChatChannelInfo()
+		return "[length(channels)]"
 
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
@@ -161,6 +175,12 @@ var/run_bridge_test
 
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
+
+	if(event_code == TGS_EVENT_WATCHDOG_DETACH)
+		var/list/channels = world.TgsChatChannelInfo()
+		if(length(channels))
+			text2file("Expected no chat channels after detach!", "test_fail_reason.txt")
+			del(world)
 
 	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
 

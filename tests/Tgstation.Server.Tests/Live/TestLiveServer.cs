@@ -840,6 +840,25 @@ namespace Tgstation.Server.Tests.Live
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
+					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
+
+					topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
+						IPAddress.Loopback,
+						$"tgs_integration_test_tactics7=1",
+						DDPort,
+						cancellationToken);
+
+					Assert.IsNotNull(topicRequestResult);
+					if(!Int32.TryParse(topicRequestResult.StringData, out var channelsPresent))
+					{
+						Assert.Fail("Expected DD to send us an int!");
+					}
+
+					var currentChatBots = await chatReadTask;
+					var connectedChannelCount = currentChatBots.Where(x => x.Enabled.Value).SelectMany(x => x.Channels).Count();
+
+					Assert.AreEqual(connectedChannelCount, channelsPresent);
+
 					await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 					dd = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 					{
