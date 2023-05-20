@@ -146,6 +146,6 @@ var searchData=
   ['itopicclientfactory_2ecs_143',['ITopicClientFactory.cs',['../_i_topic_client_factory_8cs.html',1,'']]],
   ['iusergroupsclient_2ecs_144',['IUserGroupsClient.cs',['../_i_user_groups_client_8cs.html',1,'']]],
   ['iusersclient_2ecs_145',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
-  ['iwatchdog_2ecs_146',['IWatchdog.cs',['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)']]],
-  ['iwatchdogfactory_2ecs_147',['IWatchdogFactory.cs',['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)']]]
+  ['iwatchdog_2ecs_146',['IWatchdog.cs',['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)']]],
+  ['iwatchdogfactory_2ecs_147',['IWatchdogFactory.cs',['../_tgstation_8_server_8_host_2_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)']]]
 ];

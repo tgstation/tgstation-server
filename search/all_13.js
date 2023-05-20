@@ -85,7 +85,7 @@ var searchData=
   ['serverupdateoperation_82',['serverUpdateOperation',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34',1,'Tgstation::Server::Host::Core::ServerUpdater']]],
   ['serverupdateoperation_83',['ServerUpdateOperation',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html',1,'Tgstation::Server::Host::Core']]],
   ['serverupdateoperation_2ecs_84',['ServerUpdateOperation.cs',['../_server_update_operation_8cs.html',1,'']]],
-  ['serverupdater_85',['ServerUpdater',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a632ec3c61a85d9e5f705f77650988a15',1,'Tgstation::Server::Host::Core::ServerUpdater']]],
+  ['serverupdater_85',['ServerUpdater',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae1c05bd2aba843a529e4888ff8784fad',1,'Tgstation::Server::Host::Core::ServerUpdater']]],
   ['serverupdater_86',['serverUpdater',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#aa06261ce83970f5d30f4dbafc6d1caa2',1,'Tgstation.Server.Host.Core.ServerUpdateInitiator.serverUpdater()'],['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afa69168e644928d0cce91276fe35a780',1,'Tgstation.Server.Host.Swarm.SwarmService.serverUpdater()']]],
   ['serverupdater_87',['ServerUpdater',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html',1,'Tgstation::Server::Host::Core']]],
   ['serverupdater_2ecs_88',['ServerUpdater.cs',['../_server_updater_8cs.html',1,'']]],
