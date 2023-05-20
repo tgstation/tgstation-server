@@ -384,8 +384,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					if (core.Watchdog != this)
 						throw new InvalidOperationException(Instance.DifferentCoreExceptionMessage);
+
 					using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct))
 						await LaunchNoLock(true, true, true, reattachInfo, ct);
+
+					await Chat.UpdateTrackingContexts(ct);
 				},
 				cancellationToken)
 				;

@@ -232,7 +232,6 @@ namespace Tgstation.Server.Host.Components.Chat
 					channelIdCounter += (ulong)results.Count;
 				}
 
-				Task trackingContextUpdateTask;
 				lock (mappedChannels)
 				{
 					lock (providers)
@@ -245,16 +244,9 @@ namespace Tgstation.Server.Host.Components.Chat
 						mappedChannels.Add(newId, newMapping);
 						newMapping.Channel.RealId = newId;
 					}
-
-					lock (trackingContexts)
-						trackingContextUpdateTask = Task.WhenAll(
-							trackingContexts.Select(
-								x => x.UpdateChannels(
-									mappedChannels.Select(y => y.Value.Channel).ToList(),
-									cancellationToken)));
 				}
 
-				await trackingContextUpdateTask;
+				await UpdateTrackingContexts(cancellationToken);
 			}
 			finally
 			{
@@ -470,6 +462,18 @@ namespace Tgstation.Server.Host.Components.Chat
 				trackingContexts.Add(context);
 
 			return context;
+		}
+
+		/// <inheritdoc />
+		public Task UpdateTrackingContexts(CancellationToken cancellationToken)
+		{
+			lock (mappedChannels)
+				lock (trackingContexts)
+					return Task.WhenAll(
+						trackingContexts.Select(
+							x => x.UpdateChannels(
+								mappedChannels.Select(y => y.Value.Channel).ToList(),
+								cancellationToken)));
 		}
 
 		/// <inheritdoc />

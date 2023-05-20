@@ -84,5 +84,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <returns>A new <see cref="IChatTrackingContext"/>.</returns>
 		IChatTrackingContext CreateTrackingContext();
+
+		/// <summary>
+		/// Force an update with the active channels on all active <see cref="IChatTrackingContext"/>s.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task UpdateTrackingContexts(CancellationToken cancellationToken);
 	}
 }
