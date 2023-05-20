@@ -44,7 +44,7 @@ namespace Tgstation.Server.Tests.Live
 		public static ushort DDPort { get; } = FreeTcpPort();
 		public static ushort DMPort { get; } = GetDMPort();
 
-		readonly Version TestUpdateVersion = new Version(5, 11, 0);
+		readonly Version TestUpdateVersion = new(5, 11, 0);
 
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
