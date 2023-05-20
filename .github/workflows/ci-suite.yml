@@ -849,7 +849,7 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
-    - name: Publish API to NuGet
+    - name: Publish Tgstation.Server.Api to NuGet
       uses: alirezanet/publish-nuget@v3.0.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
@@ -857,10 +857,18 @@ jobs:
         INCLUDE_SYMBOLS: true
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
-    - name: Publish Client to NuGet
+    - name: Publish Tgstation.Server.Common to NuGet
       uses: alirezanet/publish-nuget@v3.0.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
+        TAG_COMMIT: false
+        INCLUDE_SYMBOLS: true
+        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
+    - name: Publish Tgstation.Server.Client to NuGet
+      uses: alirezanet/publish-nuget@v3.0.0
+      with:
+        PROJECT_FILE_PATH: src/Tgstation.Server.Common/Tgstation.Server.Common.csproj
         TAG_COMMIT: false
         INCLUDE_SYMBOLS: true
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
