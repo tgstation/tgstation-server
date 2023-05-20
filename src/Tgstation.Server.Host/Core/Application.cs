@@ -247,7 +247,7 @@ namespace Tgstation.Server.Host.Core
 			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
 			{
 				string GetDocumentationFilePath(string assemblyLocation) => ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
-				var assemblyDocumentationPath = GetDocumentationFilePath(typeof(Application).Assembly.Location);
+				var assemblyDocumentationPath = GetDocumentationFilePath(GetType().Assembly.Location);
 				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
 				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
 				services.AddSwaggerGenNewtonsoftSupport();
