@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 
@@ -30,7 +31,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var ircTask = RunIrc(cancellationToken);
 			await RunDiscord(cancellationToken);
 			await ircTask;
+
+			var listTest = RunListTest(cancellationToken);
 			await RunLimitTests(cancellationToken);
+
+			await listTest;
 		}
 
 		async Task RunIrc(CancellationToken cancellationToken)
@@ -188,6 +193,41 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var nowBots = await chatClient.List(null, cancellationToken);
 			Assert.AreEqual(0, nowBots.Count);
+		}
+
+		async Task RunListTest(CancellationToken cancellationToken)
+		{
+			// regression test for GHSA-rv76-495p-g7cp
+			// test starts with all perms
+			var permsClient = instanceClient.CreateClient(metadata).PermissionSets;
+			var ourInstancePermissionSetTask = permsClient.Read(cancellationToken);
+
+			var ourIPS = await ourInstancePermissionSetTask;
+			Assert.IsTrue(ourIPS.ChatBotRights.Value.HasFlag(ChatBotRights.ReadConnectionString));
+
+			var results = await chatClient.List(null, cancellationToken);
+
+			Assert.IsTrue(results.Count > 0);
+			Assert.IsTrue(results.All(chatBot => chatBot.ConnectionString != null));
+
+			var result = await chatClient.GetId(results[0], cancellationToken);
+
+			Assert.IsNotNull(result.ConnectionString);
+
+			await permsClient.Update(new InstancePermissionSetRequest
+			{
+				PermissionSetId = ourIPS.PermissionSetId,
+				ChatBotRights = ourIPS.ChatBotRights.Value & (~ChatBotRights.ReadConnectionString),
+			}, cancellationToken);
+
+			results = await chatClient.List(null, cancellationToken);
+
+			Assert.IsTrue(results.Count > 0);
+			Assert.IsTrue(results.All(chatBot => chatBot.ConnectionString == null));
+
+			result = await chatClient.GetId(results[0], cancellationToken);
+
+			Assert.IsNull(result.ConnectionString);
 		}
 
 		async Task RunLimitTests(CancellationToken cancellationToken)

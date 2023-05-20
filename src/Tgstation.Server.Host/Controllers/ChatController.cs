@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 							.OrderBy(x => x.Id))),
 				chatBot =>
 				{
-					if (connectionStrings)
+					if (!connectionStrings)
 						chatBot.ConnectionString = null;
 
 					return Task.CompletedTask;
