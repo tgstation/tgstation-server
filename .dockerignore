@@ -21,6 +21,7 @@ build/**
 !build/stylecop.json
 !build/Version.props
 !build/ControlPanelVersion.props
+!build/Common.props
 docs
 src/DMAPI
 src/Tgstation.Server.Host/ClientApp
