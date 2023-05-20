@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.0</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -721,7 +721,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  220</span>                            .OrderBy(x =&gt; x.Id))),</div>
 <div class="line"><span class="lineno">  221</span>                chatBot =&gt;</div>
 <div class="line"><span class="lineno">  222</span>                {</div>
-<div class="line"><span class="lineno">  223</span>                    if (connectionStrings)</div>
+<div class="line"><span class="lineno">  223</span>                    if (!connectionStrings)</div>
 <div class="line"><span class="lineno">  224</span>                        chatBot.ConnectionString = null;</div>
 <div class="line"><span class="lineno">  225</span> </div>
 <div class="line"><span class="lineno">  226</span>                    return Task.CompletedTask;</div>
