@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Extensions
 				.ApplicationServices
 				.GetRequiredService<Application>()
 				.Configure(
-					applicationBuilder,
+					applicationBuilder, // TODO: find a way to call this func and auto-resolve the services
 					applicationBuilder.ApplicationServices.GetRequiredService<IServerControl>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<ITokenFactory>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IServerPortProvider>(),

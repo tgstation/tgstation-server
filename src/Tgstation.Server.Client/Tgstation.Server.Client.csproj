@@ -7,19 +7,18 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Cyberboss/Dominion</Authors>
     <Company>/tg/station 13</Company>
-    <Description>Client library for tgstation-server</Description>
+    <Description>Client library for tgstation-server.</Description>
     <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>tgs.png</PackageIcon>
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018-2023</Copyright>
-    <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
+    <PackageTags>json web api tgstation-server tgstation ss13 byond client http</PackageTags>
     <PackageReleaseNotes>Added missing Dispose() call to the StringContents for requests with bodies and added missing ConfigureAwait(false) to async call.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Nullable>enable</Nullable>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>

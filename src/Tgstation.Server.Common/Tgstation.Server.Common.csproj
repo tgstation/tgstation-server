@@ -4,6 +4,21 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Cyberboss/Dominion</Authors>
+    <Company>/tg/station 13</Company>
+    <Description>Common functions for tgstation-server.</Description>
+    <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>tgs.png</PackageIcon>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
+    <Copyright>2018-2023</Copyright>
+    <PackageTags>web tgstation-server tgstation ss13 byond client http</PackageTags>
+    <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Nullable>enable</Nullable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
@@ -24,5 +39,7 @@
 
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="" />
+    <None Include="../../build/tgs.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
