@@ -118,22 +118,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (Server.RebootState == Session.RebootState.Shutdown)
 					{
 						// the time for graceful shutdown is now
-						await Chat.QueueWatchdogMessage(
+						Chat.QueueWatchdogMessage(
 							String.Format(
 								CultureInfo.InvariantCulture,
 								"Server {0}! Shutting down due to graceful termination request...",
-								exitWord),
-							cancellationToken)
-							;
+								exitWord));
 						return MonitorAction.Exit;
 					}
 
-					await Chat.QueueWatchdogMessage(
+					Chat.QueueWatchdogMessage(
 						String.Format(
 							CultureInfo.InvariantCulture,
 							"Server {0}! Rebooting...",
-							exitWord),
-						cancellationToken);
+							exitWord));
 					return MonitorAction.Restart;
 				case MonitorActivationReason.ActiveServerRebooted:
 					var rebootState = Server.RebootState;
@@ -156,10 +153,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							return MonitorAction.Restart;
 						case Session.RebootState.Shutdown:
 							// graceful shutdown time
-							await Chat.QueueWatchdogMessage(
-								"Active server rebooted! Shutting down due to graceful termination request...",
-								cancellationToken)
-								;
+							Chat.QueueWatchdogMessage(
+								"Active server rebooted! Shutting down due to graceful termination request...");
 							return MonitorAction.Exit;
 						default:
 							throw new InvalidOperationException($"Invalid reboot state: {rebootState}");
@@ -200,7 +195,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		protected override async Task InitController(
-			Task chatTask,
+			Task eventTask,
 			ReattachInformation reattachInfo,
 			CancellationToken cancellationToken)
 		{
@@ -221,7 +216,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await BeforeApplyDmb(dmbToUse.CompileJob, cancellationToken);
 					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken);
 
-					await chatTask;
+					await eventTask;
 					serverLaunchTask = SessionControllerFactory.LaunchNew(
 						dmbToUse,
 						null,
@@ -231,7 +226,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				else
 				{
-					await chatTask;
+					await eventTask;
 					serverLaunchTask = SessionControllerFactory.Reattach(reattachInfo, cancellationToken);
 				}
 
@@ -299,14 +294,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual Task HandleNewDmbAvailable(CancellationToken cancellationToken)
+		protected virtual async Task HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			gracefulRebootRequired = true;
 			if (Server.CompileJob.DMApiVersion == null)
-				return Chat.QueueWatchdogMessage(
-					"A new deployment has been made but cannot be applied automatically as the currently running server has no DMAPI. Please manually reboot the server to apply the update.",
-					cancellationToken);
-			return Server.SetRebootState(Session.RebootState.Restart, cancellationToken);
+			{
+				Chat.QueueWatchdogMessage(
+					"A new deployment has been made but cannot be applied automatically as the currently running server has no DMAPI. Please manually reboot the server to apply the update.");
+				return;
+			}
+
+			await Server.SetRebootState(Session.RebootState.Restart, cancellationToken);
 		}
 
 		/// <summary>

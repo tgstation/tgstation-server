@@ -325,35 +325,33 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (channelIds == null)
 				throw new ArgumentNullException(nameof(channelIds));
 
-			var task = SendMessage(
-				channelIds,
-				null,
-				message,
-				handlerCts.Token);
-			AddMessageTask(task);
+			QueueMessageInternal(message, channelIds, false);
 		}
 
 		/// <inheritdoc />
-		public async Task QueueWatchdogMessage(string message, CancellationToken cancellationToken)
+		public void QueueWatchdogMessage(string message)
 		{
+			if (message == null)
+				throw new ArgumentNullException(nameof(message));
+
 			List<ulong> wdChannels = null;
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
 
 			if (!initialProviderConnectionsTask.IsCompleted)
 				logger.LogTrace("Waiting for initial provider connections before sending watchdog message...");
 
-			await initialProviderConnectionsTask.WithToken(cancellationToken);
-
 			// so it doesn't change while we're using it
 			lock (mappedChannels)
 				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 
-			QueueMessage(
+			// Reimplementing QueueMessage
+			QueueMessageInternal(
 				new MessageContent
 				{
 					Text = message,
 				},
-				wdChannels);
+				wdChannels,
+				true);
 		}
 
 		/// <inheritdoc />
@@ -467,13 +465,16 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public Task UpdateTrackingContexts(CancellationToken cancellationToken)
 		{
+			async Task UpdateTrackingContext(IChannelSink channelSink, IEnumerable<ChannelRepresentation> channels)
+			{
+				await initialProviderConnectionsTask.WithToken(cancellationToken);
+				await channelSink.UpdateChannels(channels, cancellationToken);
+			}
+
 			lock (mappedChannels)
 				lock (trackingContexts)
 					return Task.WhenAll(
-						trackingContexts.Select(
-							x => x.UpdateChannels(
-								mappedChannels.Select(y => y.Value.Channel).ToList(),
-								cancellationToken)));
+						trackingContexts.Select(x => UpdateTrackingContext(x, mappedChannels.Select(y => y.Value.Channel).ToList())));
 		}
 
 		/// <inheritdoc />
@@ -1013,6 +1014,30 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			lock (handlerCts)
 				messageSendTask = Wrap(messageSendTask);
+		}
+
+		/// <summary>
+		/// Adds a given <paramref name="message"/> to the send queue.
+		/// </summary>
+		/// <param name="message">The <see cref="MessageContent"/> being sent.</param>
+		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to.</param>
+		/// <param name="waitForConnections">If <see langword="true"/>, the message send will wait for <see cref="initialProviderConnectionsTask"/> to complete before running.</param>
+		void QueueMessageInternal(MessageContent message, IEnumerable<ulong> channelIds, bool waitForConnections)
+		{
+			async Task SendMessageTask()
+			{
+				var cancellationToken = handlerCts.Token;
+				if (waitForConnections)
+					await initialProviderConnectionsTask.WithToken(cancellationToken);
+
+				await SendMessage(
+					channelIds,
+					null,
+					message,
+					cancellationToken);
+			}
+
+			AddMessageTask(SendMessageTask());
 		}
 	}
 }
