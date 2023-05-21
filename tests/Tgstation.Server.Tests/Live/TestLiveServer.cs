@@ -843,6 +843,7 @@ namespace Tgstation.Server.Tests.Live
 
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 
+					// Check the DMAPI got the channels again https://github.com/tgstation/tgstation-server/issues/1490
 					topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
 						IPAddress.Loopback,
 						$"tgs_integration_test_tactics7=1",
