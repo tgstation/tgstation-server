@@ -245,13 +245,13 @@ namespace Tgstation.Server.Host.Components.Chat
 						newMapping.Channel.RealId = newId;
 					}
 				}
-
-				await UpdateTrackingContexts(cancellationToken);
 			}
 			finally
 			{
 				provider.InitialMappingComplete();
 			}
+
+			await UpdateTrackingContexts(cancellationToken);
 		}
 
 		/// <inheritdoc />
