@@ -387,8 +387,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct))
 						await LaunchNoLock(true, true, true, reattachInfo, ct);
 				},
-				cancellationToken)
-				;
+				cancellationToken);
 		}
 
 		/// <inheritdoc />

@@ -13,6 +13,5 @@
     <TgsHostWatchdogVersion>1.2.2</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.1</TgsContainerScriptVersion>
     <TgsMigratorVersion>1.0.1</TgsMigratorVersion>
-    <TgsNetVersion>net6.0</TgsNetVersion>
   </PropertyGroup>
 </Project>
