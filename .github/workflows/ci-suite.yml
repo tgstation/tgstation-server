@@ -736,15 +736,8 @@ jobs:
     runs-on: windows-latest
     if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')"
     steps:
-    - name: Checkout (Branch)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse API version
       shell: powershell
@@ -786,15 +779,8 @@ jobs:
     runs-on: windows-latest
     if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]')"
     steps:
-    - name: Checkout (Branch)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse DMAPI version
       shell: powershell
@@ -840,15 +826,8 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Publish Tgstation.Server.Api to NuGet
       uses: alirezanet/publish-nuget@v3.0.0
@@ -885,15 +864,8 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Run ReleaseNotes with --ensure-release
       run: dotnet run -c Release --project tools/ReleaseNotes --ensure-release
@@ -909,15 +881,8 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse TGS version
       shell: powershell
@@ -1028,15 +993,8 @@ jobs:
     if: "!(cancelled() || failure()) && github.event_name != 'schedule' && needs.deploy-tgs.result == 'success'"
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout (Branch)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push' || github.event_name == 'schedule'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse TGS version
       run: |
