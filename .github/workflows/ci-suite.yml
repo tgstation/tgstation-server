@@ -18,9 +18,7 @@ on:
 env:
   TGS_DOTNET_VERSION: 6.0.x
   TGS_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
-  TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
   TGS_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
-  TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
@@ -308,11 +306,11 @@ jobs:
     needs: dmapi-build
     if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
     env:
-      TGS_TEST_DATABASE_TYPE: SqlServer
       TGS_TEST_DUMP_API_SPEC: yes
     strategy:
       fail-fast: false
       matrix:
+        database-type: [ 'SqlServer' ]
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-2019
@@ -329,11 +327,15 @@ jobs:
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
 
-    - name: Set TGS_TEST_CONNECTION_STRING
+    - name: Set SqlServer Connection Info
+      if: ${{ matrix.database-type == 'SqlServer' }}
       shell: bash
       run: |
         TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
         echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
+        echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
+        echo "TGS_TEST_DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN_WINDOWS_SQLSERVER }}" >> $GITHUB_ENV
+        echo "TGS_TEST_IRC_CONNECTION_STRING=${{ secrets.IRC_CONNECTION_STRING_WINDOWS_SQLSERVER }}" >> $GITHUB_ENV
 
     - name: Checkout (Branch Push)
       uses: actions/checkout@v3
@@ -361,7 +363,7 @@ jobs:
         path: ./TestResults/
 
     - name: Store OpenAPI Spec
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
       uses: actions/upload-artifact@v3
       with:
         name: openapi-spec
@@ -456,18 +458,24 @@ jobs:
       run: |
         echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
         echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
+        echo "TGS_TEST_DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN_LINUX_SQLITE }}" >> $GITHUB_ENV
+        echo "TGS_TEST_IRC_CONNECTION_STRING=${{ secrets.IRC_CONNECTION_STRING_LINUX_SQLITE }}" >> $GITHUB_ENV
 
     - name: Set PostgresSql Connection Info
       if: ${{ matrix.database-type == 'PostgresSql' }}
       run: |
         echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
         echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+        echo "TGS_TEST_DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN_LINUX_POSTGRES }}" >> $GITHUB_ENV
+        echo "TGS_TEST_IRC_CONNECTION_STRING=${{ secrets.IRC_CONNECTION_STRING_LINUX_POSTGRES }}" >> $GITHUB_ENV
 
     - name: Set MariaDB Connection Info
       if: ${{ matrix.database-type == 'MariaDB' }}
       run: |
         echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
         echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+        echo "TGS_TEST_DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN_LINUX_MARIADB }}" >> $GITHUB_ENV
+        echo "TGS_TEST_IRC_CONNECTION_STRING=${{ secrets.IRC_CONNECTION_STRING_LINUX_MARIADB }}" >> $GITHUB_ENV
 
     - name: Set MySQL Connection Info
       if: ${{ matrix.database-type == 'MySql' }}
@@ -475,6 +483,8 @@ jobs:
         echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
         echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
         echo "Database__ServerVersion=5.7.31" >> $GITHUB_ENV
+        echo "TGS_TEST_DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN_LINUX_MYSQL }}" >> $GITHUB_ENV
+        echo "TGS_TEST_IRC_CONNECTION_STRING=${{ secrets.IRC_CONNECTION_STRING_LINUX_MYSQL }}" >> $GITHUB_ENV
 
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
