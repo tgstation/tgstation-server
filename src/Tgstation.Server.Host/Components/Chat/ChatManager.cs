@@ -465,16 +465,25 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public Task UpdateTrackingContexts(CancellationToken cancellationToken)
 		{
-			async Task UpdateTrackingContext(IChannelSink channelSink, IEnumerable<ChannelRepresentation> channels)
+			var logMessageSent = 0;
+			async Task UpdateTrackingContext(IChatTrackingContext channelSink, IEnumerable<ChannelRepresentation> channels)
 			{
 				await initialProviderConnectionsTask.WithToken(cancellationToken);
+				if (Interlocked.Exchange(ref logMessageSent, 1) == 0)
+					logger.LogTrace("Updating chat tracking contexts...");
+
 				await channelSink.UpdateChannels(channels, cancellationToken);
 			}
 
+			List<Task> tasks;
 			lock (mappedChannels)
 				lock (trackingContexts)
-					return Task.WhenAll(
-						trackingContexts.Select(x => UpdateTrackingContext(x, mappedChannels.Select(y => y.Value.Channel).ToList())));
+					tasks = trackingContexts.Select(x => UpdateTrackingContext(x, mappedChannels.Select(y => y.Value.Channel).ToList())).ToList();
+
+			if (tasks.Count > 0 && !initialProviderConnectionsTask.IsCompleted)
+				logger.LogTrace("Waiting for initial chat bot connections before updating tracking contexts...");
+
+			return Task.WhenAll(tasks);
 		}
 
 		/// <inheritdoc />
