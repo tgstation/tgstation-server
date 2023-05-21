@@ -3,6 +3,7 @@
 
   <PropertyGroup>
     <TgsNetVersion>net6.0</TgsNetVersion>
+    <TgsNugetNetVersion>netstandard2.0</TgsNugetNetVersion>
     <LangVersion>latest</LangVersion>
     <DebugType>Full</DebugType>
   </PropertyGroup>

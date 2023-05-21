@@ -22,6 +22,7 @@ build/**
 !build/Version.props
 !build/ControlPanelVersion.props
 !build/Common.props
+!build/NugetCommon.props
 docs
 src/DMAPI
 src/Tgstation.Server.Host/ClientApp
