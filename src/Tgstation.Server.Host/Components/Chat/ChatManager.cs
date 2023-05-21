@@ -245,13 +245,17 @@ namespace Tgstation.Server.Host.Components.Chat
 						newMapping.Channel.RealId = newId;
 					}
 				}
+
+				// we only want to update contexts if everything at startup has connected once already
+				// otherwise we could send an incomplete channel set to the DMAPI, which will then spout all its queued messages into it instead of all relevant chatbots
+				// The watchdog can call this if it needs to after starting up
+				if (initialProviderConnectionsTask.IsCompleted)
+					await UpdateTrackingContexts(cancellationToken);
 			}
 			finally
 			{
 				provider.InitialMappingComplete();
 			}
-
-			await UpdateTrackingContexts(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -463,27 +467,35 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task UpdateTrackingContexts(CancellationToken cancellationToken)
+		public async Task UpdateTrackingContexts(CancellationToken cancellationToken)
 		{
 			var logMessageSent = 0;
 			async Task UpdateTrackingContext(IChatTrackingContext channelSink, IEnumerable<ChannelRepresentation> channels)
 			{
-				await initialProviderConnectionsTask.WithToken(cancellationToken);
 				if (Interlocked.Exchange(ref logMessageSent, 1) == 0)
-					logger.LogTrace("Updating chat tracking contexts...");
 
 				await channelSink.UpdateChannels(channels, cancellationToken);
+			}
+
+			var waitingForInitialConnection = !initialProviderConnectionsTask.IsCompleted;
+			if (waitingForInitialConnection)
+			{
+				logger.LogTrace("Waiting for initial chat bot connections before updating tracking contexts...");
+				await initialProviderConnectionsTask.WithToken(cancellationToken);
 			}
 
 			List<Task> tasks;
 			lock (mappedChannels)
 				lock (trackingContexts)
-					tasks = trackingContexts.Select(x => UpdateTrackingContext(x, mappedChannels.Select(y => y.Value.Channel).ToList())).ToList();
+					tasks = trackingContexts.Select(x => UpdateTrackingContext(x, mappedChannels.Select(y => y.Value.Channel))).ToList();
 
-			if (tasks.Count > 0 && !initialProviderConnectionsTask.IsCompleted)
-				logger.LogTrace("Waiting for initial chat bot connections before updating tracking contexts...");
+			if (waitingForInitialConnection)
+				if (tasks.Count > 0)
+					logger.LogTrace("Updating chat tracking contexts...");
+				else
+					logger.LogTrace("No chat tracking contexts to update");
 
-			return Task.WhenAll(tasks);
+			await Task.WhenAll(tasks);
 		}
 
 		/// <inheritdoc />
