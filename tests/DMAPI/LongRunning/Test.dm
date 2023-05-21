@@ -139,7 +139,9 @@ var/run_bridge_test
 	// Bridge response queuing
 	var/tactics6 = data["tgs_integration_test_tactics6"]
 	if(tactics6)
-		if (length(world.TgsChatChannelInfo()))
+		// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
+		var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+		if (length(api.chat_channels))
 			return "channels_present!"
 
 		DetachedChatMessageQueuing()
@@ -177,8 +179,9 @@ var/run_bridge_test
 	set waitfor = FALSE
 
 	if(event_code == TGS_EVENT_WATCHDOG_DETACH)
-		var/list/channels = world.TgsChatChannelInfo()
-		if(length(channels))
+		// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
+		var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+		if(length(api.chat_channels))
 			text2file("Expected no chat channels after detach!", "test_fail_reason.txt")
 			del(world)
 

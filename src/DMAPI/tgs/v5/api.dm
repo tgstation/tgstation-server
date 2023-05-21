@@ -199,6 +199,7 @@
 
 /datum/tgs_api/v5/ChatChannelInfo()
 	RequireInitialBridgeResponse()
+	WaitForReattach(TRUE)
 	return chat_channels.Copy()
 
 /datum/tgs_api/v5/proc/DecodeChannels(chat_update_json)
