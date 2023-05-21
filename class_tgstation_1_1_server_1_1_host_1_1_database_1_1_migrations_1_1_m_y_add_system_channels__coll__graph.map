@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.MYAddSystemChannels" name="Tgstation.Server.Host.Database.Migrations.MYAddSystemChannels">
+<area shape="rect" id="node1" title="Adds the IsSystemChannel chat channel option for MYSQL." alt="" coords="5,79,232,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="81,5,156,31"/>
+</map>
