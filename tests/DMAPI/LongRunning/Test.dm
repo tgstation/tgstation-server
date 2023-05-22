@@ -2,32 +2,7 @@
 	sleep_offline = FALSE
 	loop_checks = FALSE
 
-/world/Error(exception/E, datum/e_src)
-	var/list/usrinfo = null
-	var/list/splitlines = splittext(E.desc, "\n")
-	var/list/desclines = list()
-	for(var/line in splitlines)
-		if(length(line) < 3 || findtext(line, "source file:") || findtext(line, "usr.loc:"))
-			continue
-		if(findtext(line, "usr:"))
-			if(usrinfo)
-				desclines.Add(usrinfo)
-				usrinfo = null
-			continue // Our usr info is better, replace it
-
-		if(copytext(line, 1, 3) != "  ")//3 == length("  ") + 1
-			desclines += ("  " + line) // Pad any unpadded lines, so they look pretty
-		else
-			desclines += line
-
-	if(usrinfo) //If this info isn't null, it hasn't been added yet
-		desclines.Add(usrinfo)
-
-	fdel("test_success.txt")
-	text2file("Runtime Error: [E]", "test_fail_reason.txt")
-
-/world/New()
-	text2file("SUCCESS", "test_success.txt")
+/world/proc/RunTest()
 	log << "Initial value of sleep_offline: [sleep_offline]"
 	sleep_offline = FALSE
 
@@ -38,8 +13,7 @@
 
 	var/list/channels = TgsChatChannelInfo()
 	if(!length(channels))
-		text2file("Expected some chat channels!", "test_fail_reason.txt")
-		del(world)
+		FailTest("Expected some chat channels!")
 
 	StartAsync()
 
@@ -124,8 +98,7 @@ var/run_bridge_test
 	if(tactics4)
 		var/size = isnum(tactics4) ? tactics4 : text2num(tactics4)
 		if(!isnum(size))
-			text2file("tgs_integration_test_tactics4 wasn't a number!", "test_fail_reason.txt")
-			del(world)
+			FailTest("tgs_integration_test_tactics4 wasn't a number!")
 
 		var/payload = create_payload(size)
 		return payload
@@ -182,8 +155,7 @@ var/run_bridge_test
 		// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
 		var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
 		if(length(api.chat_channels))
-			text2file("Expected no chat channels after detach!", "test_fail_reason.txt")
-			del(world)
+			FailTest("Expected no chat channels after detach!")
 
 	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
 
@@ -299,7 +271,6 @@ var/lastTgsError
 	// this actually gets doubled because it's in two fields for backwards compatibility, but that's fine
 	var/list/final_result = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(limit * 3)]")))
 	if(!final_result || lastTgsError || final_result["integrationHack"] != "ok")
-		text2file("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]", "test_fail_reason.txt")
-		del(world)
+		FailTest("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]")
 
 	api.access_identifier = old_ai
