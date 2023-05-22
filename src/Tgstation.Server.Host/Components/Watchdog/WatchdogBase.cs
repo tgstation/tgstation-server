@@ -364,7 +364,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
 			var reattachInfo = await SessionPersistor.Load(cancellationToken);
-			if (!autoStart && reattachInfo == null)
+			var reattaching = reattachInfo != null;
+			if (!autoStart && !reattaching)
 				return;
 
 			var job = new Models.Job
@@ -373,7 +374,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					Id = metadata.Id,
 				},
-				Description = $"Instance startup watchdog {(reattachInfo != null ? "reattach" : "launch")}",
+				Description = $"Instance startup watchdog {(reattaching ? "reattach" : "launch")}",
 				CancelRight = (ulong)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon,
 			};
