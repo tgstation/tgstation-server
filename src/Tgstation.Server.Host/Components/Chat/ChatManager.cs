@@ -329,7 +329,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (channelIds == null)
 				throw new ArgumentNullException(nameof(channelIds));
 
-			QueueMessageInternal(message, channelIds, false);
+			QueueMessageInternal(message, () => channelIds, false);
 		}
 
 		/// <inheritdoc />
@@ -338,15 +338,10 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
 
-			List<ulong> wdChannels = null;
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
 
 			if (!initialProviderConnectionsTask.IsCompleted)
 				logger.LogTrace("Waiting for initial provider connections before sending watchdog message...");
-
-			// so it doesn't change while we're using it
-			lock (mappedChannels)
-				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 
 			// Reimplementing QueueMessage
 			QueueMessageInternal(
@@ -354,7 +349,12 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					Text = message,
 				},
-				wdChannels,
+				() =>
+				{
+					// so it doesn't change while we're using it
+					lock (mappedChannels)
+						return mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
+				},
 				true);
 		}
 
@@ -1041,9 +1041,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Adds a given <paramref name="message"/> to the send queue.
 		/// </summary>
 		/// <param name="message">The <see cref="MessageContent"/> being sent.</param>
-		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to.</param>
+		/// <param name="channelIdsFactory">A <see cref="Func{TResult}"/> to retrieve he <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to.</param>
 		/// <param name="waitForConnections">If <see langword="true"/>, the message send will wait for <see cref="initialProviderConnectionsTask"/> to complete before running.</param>
-		void QueueMessageInternal(MessageContent message, IEnumerable<ulong> channelIds, bool waitForConnections)
+		void QueueMessageInternal(MessageContent message, Func<IEnumerable<ulong>> channelIdsFactory, bool waitForConnections)
 		{
 			async Task SendMessageTask()
 			{
@@ -1052,7 +1052,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					await initialProviderConnectionsTask.WithToken(cancellationToken);
 
 				await SendMessage(
-					channelIds,
+					channelIdsFactory(),
 					null,
 					message,
 					cancellationToken);
