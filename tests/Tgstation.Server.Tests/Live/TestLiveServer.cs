@@ -969,7 +969,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsNull(currentDD.StagedCompileJob);
 
 					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
-					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);
+					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
 					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(cancellationToken);

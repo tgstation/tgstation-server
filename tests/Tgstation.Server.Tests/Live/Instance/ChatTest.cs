@@ -13,13 +13,14 @@ using Tgstation.Server.Client.Components;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
-	sealed class ChatTest
+	sealed class ChatTest : JobsRequiredTest
 	{
 		readonly IChatBotsClient chatClient;
 		readonly IInstanceManagerClient instanceClient;
 		readonly Api.Models.Instance metadata;
 
-		public ChatTest(IChatBotsClient chatClient, IInstanceManagerClient instanceClient, Api.Models.Instance metadata)
+		public ChatTest(IChatBotsClient chatClient, IInstanceManagerClient instanceClient, IJobsClient jobsClient, Api.Models.Instance metadata)
+			: base(jobsClient)
 		{
 			this.chatClient = chatClient ?? throw new ArgumentNullException(nameof(chatClient));
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
@@ -65,6 +66,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var retrievedBot = await chatClient.GetId(firstBot, cancellationToken);
 			Assert.AreEqual(firstBot.Id, retrievedBot.Id);
 
+			var beforeChatBotEnabled = DateTimeOffset.UtcNow;
+
 			var updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
 				Id = firstBot.Id,
@@ -73,7 +76,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(true, updatedBot.Enabled);
 
-			var channelId = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL"); ;
+			var jobs = await JobsClient.List(null, cancellationToken);
+			var reconnectJob = jobs
+				.Where(x => x.StartedAt >= beforeChatBotEnabled && x.Description.Contains(updatedBot.Name))
+				.OrderByDescending(x => x.StartedAt)
+				.FirstOrDefault();
+
+			Assert.IsNotNull(reconnectJob);
+			await WaitForJob(reconnectJob, 60, false, null, cancellationToken);
+
+			var channelId = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL");
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
@@ -140,6 +152,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var retrievedBot = await chatClient.GetId(firstBot, cancellationToken);
 			Assert.AreEqual(firstBot.Id, retrievedBot.Id);
 
+			var beforeChatBotEnabled = DateTimeOffset.UtcNow;
+
 			var updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
 				Id = firstBot.Id,
@@ -147,6 +161,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 
 			Assert.AreEqual(true, updatedBot.Enabled);
+
+			var jobs = await JobsClient.List(null, cancellationToken);
+			var reconnectJob = jobs
+				.Where(x => x.StartedAt >= beforeChatBotEnabled && x.Description.Contains(updatedBot.Name))
+				.OrderByDescending(x => x.StartedAt)
+				.FirstOrDefault();
+
+			Assert.IsNotNull(reconnectJob);
+			await WaitForJob(reconnectJob, 60, false, null, cancellationToken);
 
 			var channelId = ulong.Parse(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL"));
 
