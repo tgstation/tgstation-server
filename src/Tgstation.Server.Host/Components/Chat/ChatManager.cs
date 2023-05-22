@@ -983,6 +983,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task SendMessage(IEnumerable<ulong> channelIds, Message replyTo, MessageContent message, CancellationToken cancellationToken)
 		{
+			channelIds = channelIds.ToList();
+			if (!channelIds.Any())
+				return Task.CompletedTask;
+
 			logger.LogTrace(
 				"Chat send \"{message}\"{embed} to channels: {channelIdsCommaSeperated}",
 				message.Text,
