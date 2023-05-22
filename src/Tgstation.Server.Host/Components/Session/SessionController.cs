@@ -219,7 +219,11 @@ namespace Tgstation.Server.Host.Components.Session
 
 			rebootTcs = new TaskCompletionSource();
 			primeTcs = new TaskCompletionSource();
-			initialBridgeRequestTcs = new TaskCompletionSource();
+
+			// Run this asynchronously because we want to try to avoid any effects sending topics to the server while the initial bridge request is processing
+			// It MAY be the source of a DD crash. See this gist https://gist.github.com/Cyberboss/7776bbeff3a957d76affe0eae95c9f14
+			// Worth further investigation as to if that sequence of events is a reliable crash vector and opening a BYOND bug if it is
+			initialBridgeRequestTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 			reattachTopicCts = new CancellationTokenSource();
 			synchronizationLock = new object();
 
