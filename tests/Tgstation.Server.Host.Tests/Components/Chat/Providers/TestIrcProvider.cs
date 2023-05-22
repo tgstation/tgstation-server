@@ -1,8 +1,14 @@
+﻿using System;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Threading.Tasks;
+using Serilog.Parsing;
+
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -44,6 +50,42 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			}.ToString();
 
 			await new IrcProvider(mockJobManager.Object, mockAss.Object, mockAsyncDelayer.Object, mockLogger.Object, mockBot).DisposeAsync();
+		}
+
+		static Task InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (Task)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
+
+		[TestMethod]
+		public async Task TestConnectAndDisconnect()
+		{
+			var actualToken = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
+			if (actualToken == null)
+				Assert.Inconclusive("Required environment variable TGS_TEST_IRC_CONNECTION_STRING isn't set!");
+
+			using var loggerFactory = LoggerFactory.Create(builder =>
+			{
+				builder.AddConsole();
+				builder.SetMinimumLevel(LogLevel.Trace);
+			});
+			var mockSetup = new Mock<IJobManager>();
+			mockSetup
+				.Setup(x => x.RegisterOperation(It.IsNotNull<Job>(), It.IsNotNull<JobEntrypoint>(), It.IsAny<CancellationToken>()))
+				.Callback<Job, JobEntrypoint, CancellationToken>((job, entrypoint, cancellationToken) => job.StartedBy ??= new User { })
+				.Returns(Task.CompletedTask);
+			mockSetup
+				.Setup(x => x.WaitForJobCompletion(It.IsNotNull<Job>(), It.IsAny<User>(), It.IsAny<CancellationToken>(), It.IsAny<CancellationToken>()))
+				.Returns(Task.CompletedTask);
+			var mockJobManager = mockSetup.Object;
+			await using var provider = new IrcProvider(mockJobManager, Mock.Of<IAssemblyInformationProvider>(), new AsyncDelayer(), loggerFactory.CreateLogger<IrcProvider>(), new ChatBot
+			{
+				ConnectionString = actualToken,
+				Provider = ChatProvider.Irc,
+			});
+			Assert.IsFalse(provider.Connected);
+			await InvokeConnect(provider);
+			Assert.IsTrue(provider.Connected);
+
+			await provider.Disconnect(default);
+			Assert.IsFalse(provider.Connected);
 		}
 	}
 }
