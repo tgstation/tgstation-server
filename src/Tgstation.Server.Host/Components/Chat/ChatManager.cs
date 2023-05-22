@@ -984,14 +984,15 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task SendMessage(IEnumerable<ulong> channelIds, Message replyTo, MessageContent message, CancellationToken cancellationToken)
 		{
 			channelIds = channelIds.ToList();
-			if (!channelIds.Any())
-				return Task.CompletedTask;
 
 			logger.LogTrace(
-				"Chat send \"{message}\"{embed} to channels: {channelIdsCommaSeperated}",
+				"Chat send \"{message}\"{embed} to channels: [{channelIdsCommaSeperated}]",
 				message.Text,
 				message.Embed != null ? " (with embed)" : String.Empty,
 				String.Join(", ", channelIds));
+
+			if (!channelIds.Any())
+				return Task.CompletedTask;
 
 			return Task.WhenAll(
 				channelIds.Select(x =>
