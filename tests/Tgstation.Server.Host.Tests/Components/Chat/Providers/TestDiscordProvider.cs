@@ -44,8 +44,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		[TestMethod]
 		public async Task TestConstructionAndDisposal()
 		{
-			if (testToken1 == null)
-				Assert.Inconclusive("Required environment variable TGS_TEST_DISCORD_TOKEN isn't set!");
+			var bot = new ChatBot
+			{
+				ConnectionString = "fake_token",
+				ReconnectionInterval = 1,
+			};
 
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, null, null));
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, null, null));
@@ -53,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, mockAss.Object, null, null));
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
 			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockJobManager, null, mockLogger.Object, null));
-			await new DiscordProvider(mockJobManager, mockAss.Object, mockLogger.Object, testToken1).DisposeAsync();
+			await new DiscordProvider(mockJobManager, mockAss.Object, mockLogger.Object, bot).DisposeAsync();
 		}
 
 		static Task InvokeConnect(IProvider provider, CancellationToken cancellationToken = default) => (Task)provider.GetType().GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(provider, new object[] { cancellationToken });
