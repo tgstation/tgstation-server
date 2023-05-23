@@ -397,10 +397,10 @@ namespace Tgstation.Server.Host.Components.Chat
 								gitHubRepo,
 								channelMapping.ProviderChannelId,
 								localCommitPushed,
-								handlerCts.Token)
-								;
+								handlerCts.Token);
 
-							callbacks.Add(callback);
+							lock (callbacks)
+								callbacks.Add(callback);
 						}
 						catch (Exception ex)
 						{
@@ -932,6 +932,12 @@ namespace Tgstation.Server.Host.Components.Chat
 					// process completed ones
 					foreach (var completedMessageTaskKvp in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
+						var provider = completedMessageTaskKvp.Key;
+						messageTasks.Remove(provider);
+
+						if (provider.Disposed) // valid to receive one, but don't process it
+							continue;
+
 						var message = await completedMessageTaskKvp.Value;
 						var messageNumber = Interlocked.Increment(ref messagesProcessed);
 
@@ -941,7 +947,7 @@ namespace Tgstation.Server.Host.Components.Chat
 							using (LogContext.PushProperty(SerilogContextHelper.ChatMessageIterationContextProperty, messageNumber))
 								try
 								{
-									await ProcessMessage(completedMessageTaskKvp.Key, message, false, cancellationToken);
+									await ProcessMessage(provider, message, false, cancellationToken);
 								}
 								catch (Exception ex)
 								{
@@ -952,8 +958,6 @@ namespace Tgstation.Server.Host.Components.Chat
 						}
 
 						activeProcessingTask = WrapProcessMessage();
-
-						messageTasks.Remove(completedMessageTaskKvp.Key);
 					}
 				}
 			}

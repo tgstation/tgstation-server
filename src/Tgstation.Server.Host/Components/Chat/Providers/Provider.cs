@@ -98,6 +98,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			Disposed = true;
 			await StopReconnectionTimer();
+
+			// queue a final message to shutdown the NextMessage Task
+			EnqueueMessage(null);
 			Logger.LogTrace("Disposed");
 		}
 
@@ -206,7 +209,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Queues a <paramref name="message"/> for <see cref="NextMessage(CancellationToken)"/>.
 		/// </summary>
-		/// <param name="message">The <see cref="Message"/> to queue. A value of <see langword="null"/> indicates the channel mappings a out of date.</param>
+		/// <param name="message">The <see cref="Message"/> to queue. A value of <see langword="null"/> indicates the channel mappings are out of date.</param>
 		protected void EnqueueMessage(Message message)
 		{
 			if (message == null)
