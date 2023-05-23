@@ -41,9 +41,22 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task RunIrc(CancellationToken cancellationToken)
 		{
+			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
+			if (String.IsNullOrWhiteSpace(connectionString))
+				// needs to just be valid
+				connectionString = new IrcConnectionStringBuilder
+				{
+					Address = "irc.fake.com",
+					Nickname = "irc_nick",
+					Password = "some_pw",
+					PasswordType = IrcPasswordType.Server,
+					Port = 6668,
+					UseSsl = true,
+				}.ToString();
+
 			var firstBotReq = new ChatBotCreateRequest
 			{
-				ConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING"),
+				ConnectionString = connectionString,
 				Enabled = false,
 				Name = "tgs_integration_test",
 				Provider = ChatProvider.Irc,
@@ -86,6 +99,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await WaitForJob(reconnectJob, 60, false, null, cancellationToken);
 
 			var channelId = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL");
+			if (String.IsNullOrWhiteSpace(channelId))
+				channelId = "#botbus";
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
@@ -122,14 +137,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task RunDiscord(CancellationToken cancellationToken)
 		{
+			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
+			if (String.IsNullOrWhiteSpace(connectionString))
+				// needs to just be valid
+				connectionString = new DiscordConnectionStringBuilder
+				{
+					BasedMeme = true,
+					BotToken = "some_token",
+					DeploymentBranding = true,
+					DMOutputDisplay = DiscordDMOutputDisplayType.Never,
+				}.ToString();
+
 			var firstBotReq = new ChatBotCreateRequest
 			{
-				ConnectionString =
-					new DiscordConnectionStringBuilder
-					{
-						BotToken = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN"),
-						DMOutputDisplay = DiscordDMOutputDisplayType.OnError
-					}.ToString(),
+				ConnectionString = connectionString,
 				Enabled = false,
 				Name = "r4407",
 				Provider = ChatProvider.Discord,
@@ -171,7 +192,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(reconnectJob);
 			await WaitForJob(reconnectJob, 60, false, null, cancellationToken);
 
-			var channelId = ulong.Parse(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL"));
+			var channelIdStr = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL");
+			if (String.IsNullOrWhiteSpace(channelIdStr))
+				channelIdStr = "487268744419344384";
+
+			var channelId = ulong.Parse(channelIdStr);
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{

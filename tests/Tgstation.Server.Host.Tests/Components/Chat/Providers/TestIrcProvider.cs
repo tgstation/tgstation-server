@@ -61,6 +61,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			if (actualToken == null)
 				Assert.Inconclusive("Required environment variable TGS_TEST_IRC_CONNECTION_STRING isn't set!");
 
+			if (!new IrcConnectionStringBuilder(actualToken).Valid)
+				Assert.Fail("TGS_TEST_IRC_CONNECTION_STRING is not a valid IRC connection string!");
+
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
 				builder.AddConsole();

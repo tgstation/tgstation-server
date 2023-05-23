@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
@@ -82,6 +83,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		{
 			if (testToken1 == null)
 				Assert.Inconclusive("Required environment variable TGS_TEST_DISCORD_TOKEN isn't set!");
+
+			if (!new DiscordConnectionStringBuilder(testToken1.ConnectionString).Valid)
+				Assert.Fail("TGS_TEST_DISCORD_TOKEN is not a valid Discord connection string!");
 
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
 			await using var provider = new DiscordProvider(mockJobManager, Mock.Of<IAsyncDelayer>(), mockLogger.Object, Mock.Of<IAssemblyInformationProvider>(), testToken1);

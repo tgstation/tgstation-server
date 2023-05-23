@@ -698,15 +698,17 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public async Task TestStandardTgsOperation()
 		{
-			var missingChatVarsCount = Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN")))
+			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
+			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
+			var missingChatVarsCount = Convert.ToInt32(String.IsNullOrWhiteSpace(discordConnectionString))
 				+ Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL")))
-				+ Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING")))
+				+ Convert.ToInt32(String.IsNullOrWhiteSpace(ircConnectionString))
 				+ Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL")));
 
 			const int TotalChatVars = 4;
 
 			// uncomment to force this test to run with DummyChatProviders
-			missingChatVarsCount = TotalChatVars;
+			// missingChatVarsCount = TotalChatVars;
 
 			if (missingChatVarsCount != 0)
 			{
@@ -714,6 +716,12 @@ namespace Tgstation.Server.Tests.Live
 					Assert.Fail("All TGS_TEST_* chat environment variables must be present or none at all!");
 
 				ServiceCollectionExtensions.UseChatProviderFactory<DummyChatProviderFactory>();
+			}
+			else
+			{
+				// prevalidate
+				Assert.IsTrue(new DiscordConnectionStringBuilder(discordConnectionString).Valid);
+				Assert.IsTrue(new IrcConnectionStringBuilder(ircConnectionString).Valid);
 			}
 
 			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
