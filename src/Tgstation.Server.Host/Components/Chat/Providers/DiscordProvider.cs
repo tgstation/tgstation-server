@@ -371,8 +371,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				new Snowflake(channelId),
 				"DM: Deployment in Progress...",
 				embeds: new List<IEmbed> { embed },
-				ct: cancellationToken)
-				;
+				ct: cancellationToken);
 
 			if (!messageResponse.IsSuccess)
 				Logger.LogWarning("Failed to post deploy embed to channel {channelId}: {result}", channelId, messageResponse.LogFormat());
@@ -446,8 +445,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						messageResponse.Entity.ID,
 						updatedMessage,
 						embeds: new List<IEmbed> { embed },
-						ct: cancellationToken)
-						;
+						ct: cancellationToken);
 
 					if (!editResponse.IsSuccess)
 					{
