@@ -172,53 +172,59 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken) => Task.Factory.StartNew(
-			() =>
-			{
-				// IRC doesn't allow newlines
-				// Explicitly ignore embeds
-				var messageText = message.Text;
-				messageText ??= $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
+		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
+		{
+			if (message == null)
+				throw new ArgumentNullException(nameof(message));
 
-				messageText = String.Concat(
-					messageText
-						.Where(x => x != '\r')
-						.Select(x => x == '\n' ? '|' : x));
-
-				var channelName = channelIdMap[channelId];
-				SendType sendType;
-				if (channelName == null)
+			return Task.Factory.StartNew(
+				() =>
 				{
-					channelName = queryChannelIdMap[channelId];
-					sendType = SendType.Notice;
-				}
-				else
-					sendType = SendType.Message;
+					// IRC doesn't allow newlines
+					// Explicitly ignore embeds
+					var messageText = message.Text;
+					messageText ??= $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
 
-				var messageSize = Encoding.UTF8.GetByteCount(messageText) + Encoding.UTF8.GetByteCount(channelName) + PreambleMessageLength;
-				var messageTooLong = messageSize > MessageBytesLimit;
-				if (messageTooLong)
-					messageText = $"TGS: Could not send message to IRC. Line write exceeded protocol limit of {MessageBytesLimit}B.";
+					messageText = String.Concat(
+						messageText
+							.Where(x => x != '\r')
+							.Select(x => x == '\n' ? '|' : x));
 
-				try
-				{
-					client.SendMessage(sendType, channelName, messageText);
-				}
-				catch (Exception e)
-				{
-					Logger.LogWarning(e, "Unable to send to channel {channelName}!", channelName);
-					return;
-				}
+					var channelName = channelIdMap[channelId];
+					SendType sendType;
+					if (channelName == null)
+					{
+						channelName = queryChannelIdMap[channelId];
+						sendType = SendType.Notice;
+					}
+					else
+						sendType = SendType.Message;
 
-				if (messageTooLong)
-					Logger.LogWarning(
-						"Failed to send to channel {channelId}: Message size ({messageSize}B) exceeds IRC limit of 512B",
-						channelId,
-						messageSize);
-			},
-			cancellationToken,
-			DefaultIOManager.BlockingTaskCreationOptions,
-			TaskScheduler.Current);
+					var messageSize = Encoding.UTF8.GetByteCount(messageText) + Encoding.UTF8.GetByteCount(channelName) + PreambleMessageLength;
+					var messageTooLong = messageSize > MessageBytesLimit;
+					if (messageTooLong)
+						messageText = $"TGS: Could not send message to IRC. Line write exceeded protocol limit of {MessageBytesLimit}B.";
+
+					try
+					{
+						client.SendMessage(sendType, channelName, messageText);
+					}
+					catch (Exception e)
+					{
+						Logger.LogWarning(e, "Unable to send to channel {channelName}!", channelName);
+						return;
+					}
+
+					if (messageTooLong)
+						Logger.LogWarning(
+							"Failed to send to channel {channelId}: Message size ({messageSize}B) exceeds IRC limit of 512B",
+							channelId,
+							messageSize);
+				},
+				cancellationToken,
+				DefaultIOManager.BlockingTaskCreationOptions,
+				TaskScheduler.Current);
+		}
 
 		/// <inheritdoc />
 		public override async Task<Func<string, string, Task>> SendUpdateMessage(
@@ -231,6 +237,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
+			if (revisionInformation == null)
+				throw new ArgumentNullException(nameof(revisionInformation));
+			if (byondVersion == null)
+				throw new ArgumentNullException(nameof(byondVersion));
+			if (gitHubOwner == null)
+				throw new ArgumentNullException(nameof(gitHubOwner));
+			if (gitHubRepo == null)
+				throw new ArgumentNullException(nameof(gitHubRepo));
+
 			var commitInsert = revisionInformation.CommitSha[..7];
 			string remoteCommitInsert;
 			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)

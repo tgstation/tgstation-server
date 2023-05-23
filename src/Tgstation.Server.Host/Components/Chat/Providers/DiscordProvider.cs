@@ -232,6 +232,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
+			if (message == null)
+				throw new ArgumentNullException(nameof(message));
+
 			Optional<IMessageReference> replyToReference = default;
 			Optional<IAllowedMentions> allowedMentions = default;
 			if (replyTo != null && replyTo is DiscordMessage discordMessage)
@@ -329,6 +332,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
+			if (revisionInformation == null)
+				throw new ArgumentNullException(nameof(revisionInformation));
+			if (byondVersion == null)
+				throw new ArgumentNullException(nameof(byondVersion));
+			if (gitHubOwner == null)
+				throw new ArgumentNullException(nameof(gitHubOwner));
+			if (gitHubRepo == null)
+				throw new ArgumentNullException(nameof(gitHubRepo));
+
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
 			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, gitHubOwner, gitHubRepo, localCommitPushed);
@@ -414,8 +426,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						new Snowflake(channelId),
 						updatedMessage,
 						embeds: new List<IEmbed> { embed },
-						ct: cancellationToken)
-						;
+						ct: cancellationToken);
 
 					if (!createUpdatedMessageResponse.IsSuccess)
 						Logger.LogWarning(
