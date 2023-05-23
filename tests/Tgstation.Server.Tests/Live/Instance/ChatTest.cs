@@ -92,6 +92,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(true, updatedBot.Enabled);
 
+			await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
 			var jobs = await JobsClient.List(null, cancellationToken);
 			var reconnectJob = jobs
 				.Where(x => x.StartedAt >= beforeChatBotEnabled && x.Description.Contains(updatedBot.Name))
@@ -188,6 +190,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}, cancellationToken);
 
 			Assert.AreEqual(true, updatedBot.Enabled);
+
+			await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
 
 			var jobs = await JobsClient.List(null, cancellationToken);
 			var reconnectJob = jobs
