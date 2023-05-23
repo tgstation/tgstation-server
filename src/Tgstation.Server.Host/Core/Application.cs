@@ -30,7 +30,6 @@ using Tgstation.Server.Common;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
@@ -360,7 +359,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
 			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
 			services.AddSingleton<IRemoteDeploymentManagerFactory, RemoteDeploymentManagerFactory>();
-			services.AddSingleton<IProviderFactory, ProviderFactory>();
+			services.AddChatProviderFactory();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();

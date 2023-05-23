@@ -38,15 +38,16 @@ You need the Dotnet 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server. 
 
 The recommended IDE is Visual Studio 2019 which has installation options for both of these.
 
-In order to run the integration tests you must have the following environment variables set:
+In order to run the integration tests you must have the following environment variables set. To run them more accurately, include the optional ones.
 - `TGS_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
 - `TGS_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
-- `TSG_TEST_DISCORD_TOKEN`: To a valid discord bot token.
-- `TGS_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
-- `TGS_TEST_IRC_CONNECTION_STRING`: To a valid IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
-- `TGS_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
 - `TGS_TEST_BRANCH`: Should be either `dev` or `master` depending on what you are working off of. Used for repository tests.
 - (Optional) `TGS_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
+- (Optional) The following variables are all interdependent, so if one is set they all must be.
+	- `TSG_TEST_DISCORD_TOKEN`: To a valid discord bot token.
+	- `TGS_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
+	- `TGS_TEST_IRC_CONNECTION_STRING`: To a valid IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
+	- `TGS_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
 
 ### Know your Code
 

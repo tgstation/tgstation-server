@@ -82,6 +82,7 @@ namespace Tgstation.Server.Tests.Live
 		[TestInitialize]
 		public async Task Initialize()
 		{
+			await DummyChatProvider.RandomDisconnections(true, default);
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
 
 			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
@@ -697,6 +698,24 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public async Task TestStandardTgsOperation()
 		{
+			var missingChatVarsCount = Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN")))
+				+ Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL")))
+				+ Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING")))
+				+ Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL")));
+
+			const int TotalChatVars = 4;
+
+			// uncomment to force this test to run with DummyChatProviders
+			missingChatVarsCount = TotalChatVars;
+
+			if (missingChatVarsCount != 0)
+			{
+				if (missingChatVarsCount != TotalChatVars)
+					Assert.Fail("All TGS_TEST_* chat environment variables must be present or none at all!");
+
+				ServiceCollectionExtensions.UseChatProviderFactory<DummyChatProviderFactory>();
+			}
+
 			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
 			if (procs.Any())
 			{
