@@ -1045,7 +1045,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				}
 				catch (Exception ex)
 				{
-					logger.LogWarning(ex, "Error in asynchronous chat message!");
+					logger.LogError(ex, "Error in asynchronous chat message!");
 				}
 			}
 
