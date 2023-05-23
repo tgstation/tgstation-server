@@ -53,6 +53,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Port = 6668,
 					UseSsl = true,
 				}.ToString();
+			else
+				// standardize
+				connectionString = new IrcConnectionStringBuilder(connectionString).ToString();
 
 			var firstBotReq = new ChatBotCreateRequest
 			{
@@ -147,6 +150,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 					DeploymentBranding = true,
 					DMOutputDisplay = DiscordDMOutputDisplayType.Never,
 				}.ToString();
+			else
+				// standardize
+				connectionString = new DiscordConnectionStringBuilder(connectionString).ToString();
 
 			var firstBotReq = new ChatBotCreateRequest
 			{
