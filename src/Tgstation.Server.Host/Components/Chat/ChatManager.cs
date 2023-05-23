@@ -413,12 +413,17 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			AddMessageTask(task);
 
-			return (errorMessage, dreamMakerOutput) => AddMessageTask(
-				Task.WhenAll(
+			async Task CollateTasks(string errorMessage, string dreamMakerOutput)
+			{
+				await task;
+				await Task.WhenAll(
 					callbacks.Select(
 						x => x(
 							errorMessage,
-							dreamMakerOutput))));
+							dreamMakerOutput)));
+			}
+
+			return (errorMessage, dreamMakerOutput) => AddMessageTask(CollateTasks(errorMessage, dreamMakerOutput));
 		}
 
 		/// <inheritdoc />
