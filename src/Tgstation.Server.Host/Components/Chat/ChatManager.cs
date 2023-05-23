@@ -523,13 +523,15 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					await provider.Disconnect(cancellationToken);
 				}
-				finally
+				catch (Exception ex)
 				{
-					await provider.DisposeAsync();
-					var duration = DateTimeOffset.UtcNow - startTime;
-					if (duration.TotalSeconds > 3)
-						logger.LogWarning("Disconnecting a {providerType} took {totalSeconds}s!", provider.GetType().Name, duration.TotalSeconds);
+					logger.LogError(ex, "Error disconnecting connection {connectionId}!", connectionId);
 				}
+
+				await provider.DisposeAsync();
+				var duration = DateTimeOffset.UtcNow - startTime;
+				if (duration.TotalSeconds > 3)
+					logger.LogWarning("Disconnecting a {providerType} took {totalSeconds}s!", provider.GetType().Name, duration.TotalSeconds);
 			}
 			else
 				logger.LogTrace("DeleteConnection: ID {connectionId} doesn't exist!", connectionId);
