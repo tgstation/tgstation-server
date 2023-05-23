@@ -27,6 +27,7 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -179,15 +180,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Initializes a new instance of the <see cref="DiscordProvider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="Provider"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
 		public DiscordProvider(
 			IJobManager jobManager,
-			IAssemblyInformationProvider assemblyInformationProvider,
+			IAsyncDelayer asyncDelayer,
 			ILogger<DiscordProvider> logger,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			ChatBot chatBot)
-			: base(jobManager, logger, chatBot)
+			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 

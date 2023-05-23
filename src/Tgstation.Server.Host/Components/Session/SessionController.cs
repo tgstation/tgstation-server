@@ -180,6 +180,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="chat">The value of <see cref="chat"/>.</param>
 		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="logger">The value of <see cref="Chunker.Logger"/>.</param>
 		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="Task"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
@@ -195,6 +196,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
 			IAssemblyInformationProvider assemblyInformationProvider,
+			IAsyncDelayer asyncDelayer,
 			ILogger<SessionController> logger,
 			Func<Task> postLifetimeCallback,
 			uint? startupTimeout,
@@ -250,6 +252,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			LaunchResult = GetLaunchResult(
 				assemblyInformationProvider,
+				asyncDelayer,
 				startupTimeout,
 				reattached,
 				apiValidate);
@@ -512,12 +515,14 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The <see cref="Task{TResult}"/> for <see cref="LaunchResult"/>.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/>.</param>
 		/// <param name="startupTimeout">The, optional, startup timeout in seconds.</param>
 		/// <param name="reattached">If DreamDaemon was reattached.</param>
 		/// <param name="apiValidate">If this is a DMAPI validation session.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Session.LaunchResult"/> for the operation.</returns>
 		async Task<LaunchResult> GetLaunchResult(
 			IAssemblyInformationProvider assemblyInformationProvider,
+			IAsyncDelayer asyncDelayer,
 			uint? startupTimeout,
 			bool reattached,
 			bool apiValidate)
@@ -530,7 +535,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var toAwait = Task.WhenAny(startupTask, process.Lifetime);
 
 			if (startupTimeout.HasValue)
-				toAwait = Task.WhenAny(toAwait, Task.Delay(TimeSpan.FromSeconds(startupTimeout.Value)));
+				toAwait = Task.WhenAny(toAwait, asyncDelayer.Delay(TimeSpan.FromSeconds(startupTimeout.Value), default)); // DCT: None available, task will clean up after delay
 
 			Logger.LogTrace(
 				"Waiting for LaunchResult based on {launchResultCompletionCause}{possibleTimeout}...",

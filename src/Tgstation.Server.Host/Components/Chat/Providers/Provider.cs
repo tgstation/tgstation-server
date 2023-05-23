@@ -10,6 +10,7 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -23,6 +24,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="ChatBot"/> the <see cref="Provider"/> is for.
 		/// </summary>
 		protected ChatBot ChatBot { get; }
+
+		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="Provider"/>.
+		/// </summary>
+		protected IAsyncDelayer AsyncDelayer { get; }
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Provider"/>.
@@ -68,11 +74,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Initializes a new instance of the <see cref="Provider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
 		/// <param name="chatBot">The value of <paramref name="chatBot"/>.</param>
-		protected Provider(IJobManager jobManager, ILogger<Provider> logger, ChatBot chatBot)
+		protected Provider(IJobManager jobManager, IAsyncDelayer asyncDelayer, ILogger<Provider> logger, ChatBot chatBot)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ChatBot = chatBot ?? throw new ArgumentNullException(nameof(chatBot));
 
@@ -259,7 +267,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				try
 				{
 					if (!connectNow)
-						await Task.Delay(TimeSpan.FromMinutes(reconnectInterval), cancellationToken);
+						await AsyncDelayer.Delay(TimeSpan.FromMinutes(reconnectInterval), cancellationToken);
 					else
 						connectNow = false;
 					if (!Connected)

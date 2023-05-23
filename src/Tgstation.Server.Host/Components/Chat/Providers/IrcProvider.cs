@@ -43,11 +43,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override string BotMention => client.Nickname;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="IrcProvider"/>.
-		/// </summary>
-		readonly IAsyncDelayer asyncDelayer;
-
-		/// <summary>
 		/// The <see cref="IrcFeatures"/> client.
 		/// </summary>
 		readonly IrcFeatures client;
@@ -105,23 +100,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="IrcProvider"/> class.
 		/// </summary>
-		/// <param name="jobManager">The <see cref="IJobManager"/> for the provider.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from.</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="Provider"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from.</param>
 		/// <param name="chatBot">The <see cref="Models.ChatBot"/> for the <see cref="Provider"/>.</param>
 		public IrcProvider(
 			IJobManager jobManager,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILogger<IrcProvider> logger,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			Models.ChatBot chatBot)
-			: base(jobManager, logger, chatBot)
+			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			if (assemblyInformationProvider == null)
 				throw new ArgumentNullException(nameof(assemblyInformationProvider));
-
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			var builder = chatBot.CreateConnectionStringBuilder();
 			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
@@ -641,14 +634,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				var listenTimeSpan = TimeSpan.FromMilliseconds(10);
 				for (; !recievedAck;
-					await asyncDelayer.Delay(listenTimeSpan, timeoutToken))
+					await AsyncDelayer.Delay(listenTimeSpan, timeoutToken))
 					await NonBlockingListen(cancellationToken);
 
 				client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
 				timeoutToken.ThrowIfCancellationRequested();
 
 				for (; !recievedPlus;
-					await asyncDelayer.Delay(listenTimeSpan, timeoutToken))
+					await AsyncDelayer.Delay(listenTimeSpan, timeoutToken))
 					await NonBlockingListen(cancellationToken);
 			}
 			finally
@@ -714,8 +707,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Task.WhenAll(
 					disconnectTask,
 					listenTask ?? Task.CompletedTask),
-				asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken))
-				;
+				AsyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken));
 		}
 	}
 }
