@@ -1043,6 +1043,10 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					await task;
 				}
+				catch (OperationCanceledException ex)
+				{
+					logger.LogDebug(ex, "Async chat message cancelled!");
+				}
 				catch (Exception ex)
 				{
 					logger.LogError(ex, "Error in asynchronous chat message!");
