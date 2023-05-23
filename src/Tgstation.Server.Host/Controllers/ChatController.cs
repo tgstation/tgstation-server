@@ -115,8 +115,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ChatBots
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.CountAsync(cancellationToken)
-				;
+				.CountAsync(cancellationToken);
 
 			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
