@@ -301,6 +301,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 								}
 								catch
 								{
+									// we set this here because otherwise there could be stuff waiting on to connect us forever
 									initialConnectionTcs.TrySetResult();
 									throw;
 								}
