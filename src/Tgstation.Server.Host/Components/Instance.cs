@@ -71,6 +71,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="Instance"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>.
 		/// </summary>
 		readonly ILogger<Instance> logger;
@@ -109,6 +114,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public Instance(
 			Api.Models.Instance metadata,
@@ -123,6 +129,7 @@ namespace Tgstation.Server.Host.Components
 			IJobManager jobManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IAsyncDelayer asyncDelayer,
 			ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
@@ -136,6 +143,7 @@ namespace Tgstation.Server.Host.Components
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			timerLock = new object();
@@ -488,7 +496,7 @@ namespace Tgstation.Server.Host.Components
 			while (true)
 				try
 				{
-					await Task.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken);
+					await asyncDelayer.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken);
 					logger.LogInformation("Beginning auto update...");
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), cancellationToken);
 					try

@@ -79,6 +79,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await TestDMApiFreeDeploy(cancellationToken);
 
+			// long running test likes consistency with the channels
+			await DummyChatProvider.RandomDisconnections(false, cancellationToken);
+
 			await RunLongRunningTestThenUpdate(cancellationToken);
 
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
@@ -717,9 +720,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async Task RunLongRunningTestThenUpdateWithNewDme(CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG LONG RUNNING WITH NEW DME TEST");
-			const string DmeName = "LongRunning/long_running_test";
 
-			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Trusted, true, cancellationToken);
+			var daemonStatus = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
@@ -732,7 +734,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
-			daemonStatus = await DeployTestDme(DmeName + "_copy", DreamDaemonSecurity.Safe, true, cancellationToken);
+			daemonStatus = await DeployTestDme("LongRunning/long_running_test_copy", DreamDaemonSecurity.Safe, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 

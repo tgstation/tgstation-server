@@ -11,5 +11,6 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include "../test_setup.dm"
 #include "Test.dm"
 // END_INCLUDE

@@ -27,6 +27,7 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -179,15 +180,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Initializes a new instance of the <see cref="DiscordProvider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="Provider"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
 		public DiscordProvider(
 			IJobManager jobManager,
-			IAssemblyInformationProvider assemblyInformationProvider,
+			IAsyncDelayer asyncDelayer,
 			ILogger<DiscordProvider> logger,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			ChatBot chatBot)
-			: base(jobManager, logger, chatBot)
+			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 
@@ -232,6 +235,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
+			if (message == null)
+				throw new ArgumentNullException(nameof(message));
+
 			Optional<IMessageReference> replyToReference = default;
 			Optional<IAllowedMentions> allowedMentions = default;
 			if (replyTo != null && replyTo is DiscordMessage discordMessage)
@@ -329,6 +335,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
+			if (revisionInformation == null)
+				throw new ArgumentNullException(nameof(revisionInformation));
+			if (byondVersion == null)
+				throw new ArgumentNullException(nameof(byondVersion));
+			if (gitHubOwner == null)
+				throw new ArgumentNullException(nameof(gitHubOwner));
+			if (gitHubRepo == null)
+				throw new ArgumentNullException(nameof(gitHubRepo));
+
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
 			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, gitHubOwner, gitHubRepo, localCommitPushed);
@@ -356,8 +371,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				new Snowflake(channelId),
 				"DM: Deployment in Progress...",
 				embeds: new List<IEmbed> { embed },
-				ct: cancellationToken)
-				;
+				ct: cancellationToken);
 
 			if (!messageResponse.IsSuccess)
 				Logger.LogWarning("Failed to post deploy embed to channel {channelId}: {result}", channelId, messageResponse.LogFormat());
@@ -414,8 +428,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						new Snowflake(channelId),
 						updatedMessage,
 						embeds: new List<IEmbed> { embed },
-						ct: cancellationToken)
-						;
+						ct: cancellationToken);
 
 					if (!createUpdatedMessageResponse.IsSuccess)
 						Logger.LogWarning(
@@ -432,8 +445,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						messageResponse.Entity.ID,
 						updatedMessage,
 						embeds: new List<IEmbed> { embed },
-						ct: cancellationToken)
-						;
+						ct: cancellationToken);
 
 					if (!editResponse.IsSuccess)
 					{

@@ -44,7 +44,7 @@ namespace Tgstation.Server.Tests.Live
 		public static ushort DDPort { get; } = FreeTcpPort();
 		public static ushort DMPort { get; } = GetDMPort();
 
-		readonly Version TestUpdateVersion = new Version(5, 11, 0);
+		readonly Version TestUpdateVersion = new(5, 11, 0);
 
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -82,6 +82,7 @@ namespace Tgstation.Server.Tests.Live
 		[TestInitialize]
 		public async Task Initialize()
 		{
+			await DummyChatProvider.RandomDisconnections(true, default);
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
 
 			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_CONNECTION_STRING");
@@ -697,6 +698,32 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public async Task TestStandardTgsOperation()
 		{
+			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
+			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
+			var missingChatVarsCount = Convert.ToInt32(String.IsNullOrWhiteSpace(discordConnectionString))
+				+ Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL")))
+				+ Convert.ToInt32(String.IsNullOrWhiteSpace(ircConnectionString))
+				+ Convert.ToInt32(String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL")));
+
+			const int TotalChatVars = 4;
+
+			// uncomment to force this test to run with DummyChatProviders
+			// missingChatVarsCount = TotalChatVars;
+
+			if (missingChatVarsCount != 0)
+			{
+				if (missingChatVarsCount != TotalChatVars)
+					Assert.Fail("All TGS_TEST_* chat environment variables must be present or none at all!");
+
+				ServiceCollectionExtensions.UseChatProviderFactory<DummyChatProviderFactory>();
+			}
+			else
+			{
+				// prevalidate
+				Assert.IsTrue(new DiscordConnectionStringBuilder(discordConnectionString).Valid);
+				Assert.IsTrue(new IrcConnectionStringBuilder(ircConnectionString).Valid);
+			}
+
 			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
 			if (procs.Any())
 			{
@@ -732,6 +759,7 @@ namespace Tgstation.Server.Tests.Live
 						using var httpClient = new HttpClient();
 						var webRequestTask = httpClient.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json");
 						using var response = await webRequestTask;
+						response.EnsureSuccessStatusCode();
 						using var content = await response.Content.ReadAsStreamAsync();
 						using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
 						await content.CopyToAsync(output);
@@ -839,6 +867,26 @@ namespace Tgstation.Server.Tests.Live
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+
+					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
+
+					// Check the DMAPI got the channels again https://github.com/tgstation/tgstation-server/issues/1490
+					topicRequestResult = await WatchdogTest.TopicClient.SendTopic(
+						IPAddress.Loopback,
+						$"tgs_integration_test_tactics7=1",
+						DDPort,
+						cancellationToken);
+
+					Assert.IsNotNull(topicRequestResult);
+					if(!Int32.TryParse(topicRequestResult.StringData, out var channelsPresent))
+					{
+						Assert.Fail("Expected DD to send us an int!");
+					}
+
+					var currentChatBots = await chatReadTask;
+					var connectedChannelCount = currentChatBots.Where(x => x.Enabled.Value).SelectMany(x => x.Channels).Count();
+
+					Assert.AreEqual(connectedChannelCount, channelsPresent);
 
 					await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 					dd = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
@@ -948,7 +996,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsNull(currentDD.StagedCompileJob);
 
 					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
-					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);
+					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
 					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(cancellationToken);

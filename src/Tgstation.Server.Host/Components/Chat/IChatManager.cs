@@ -57,9 +57,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Queue a chat <paramref name="message"/> to configured watchdog channels.
 		/// </summary>
 		/// <param name="message">The message being sent.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task QueueWatchdogMessage(string message, CancellationToken cancellationToken);
+		void QueueWatchdogMessage(string message);
 
 		/// <summary>
 		/// Send the message for a deployment to configured deployment channels.
@@ -84,5 +82,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <returns>A new <see cref="IChatTrackingContext"/>.</returns>
 		IChatTrackingContext CreateTrackingContext();
+
+		/// <summary>
+		/// Force an update with the active channels on all active <see cref="IChatTrackingContext"/>s.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task UpdateTrackingContexts(CancellationToken cancellationToken);
 	}
 }
