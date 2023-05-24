@@ -26,7 +26,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		public async Task RunTests(CancellationToken cancellationToken)
 		{
 			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, instanceClient.Metadata);
-			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Metadata);
+			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
 			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs);

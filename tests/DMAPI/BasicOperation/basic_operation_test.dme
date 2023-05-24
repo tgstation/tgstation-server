@@ -12,6 +12,6 @@
 
 // BEGIN_INCLUDE
 #include "Config.dm"
-#include "..\tgs_include.dm"
+#include "../test_prelude.dm"
 #include "Test.dm"
 // END_INCLUDE

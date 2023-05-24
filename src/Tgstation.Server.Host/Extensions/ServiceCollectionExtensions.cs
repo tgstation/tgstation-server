@@ -11,6 +11,7 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Sinks.Elasticsearch;
 
+using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Utils;
 
@@ -21,6 +22,30 @@ namespace Tgstation.Server.Host.Extensions
 	/// </summary>
 	static class ServiceCollectionExtensions
 	{
+		/// <summary>
+		/// The <see cref="IProviderFactory"/> implementation used in calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
+		/// </summary>
+		static Type chatProviderFactoryType = typeof(ProviderFactory);
+
+		/// <summary>
+		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
+		/// </summary>
+		/// <typeparam name="TProviderFactory">The <see cref="IProviderFactory"/> implementation to use.</typeparam>
+		public static void UseChatProviderFactory<TProviderFactory>() where TProviderFactory : IProviderFactory
+		{
+			chatProviderFactoryType = typeof(TProviderFactory);
+		}
+
+		/// <summary>
+		/// Adds a <see cref="IProviderFactory"/> implementation to the given <paramref name="serviceCollection"/>.
+		/// </summary>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <returns><paramref name="serviceCollection"/>.</returns>
+		public static IServiceCollection AddChatProviderFactory(this IServiceCollection serviceCollection)
+		{
+			return serviceCollection.AddSingleton(typeof(IProviderFactory), chatProviderFactoryType);
+		}
+
 		/// <summary>
 		/// Add a standard <typeparamref name="TConfig"/> binding.
 		/// </summary>
