@@ -11,7 +11,5 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include "Config.dm"
-#include "..\tgs_include.dm"
-#include "Test.dm"
+#include "long_running_test.dme"
 // END_INCLUDE

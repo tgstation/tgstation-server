@@ -204,6 +204,7 @@ static class Program
 						IsWatchdogChannel = providerInfo.WatchdogChannels.Any(x => NormalizeChannelId(x) == channelIdentifier),
 						IsAdminChannel = providerInfo.AdminChannels.Any(x => NormalizeChannelId(x) == channelIdentifier),
 						IsUpdatesChannel = providerInfo.DevChannels.Any(x => NormalizeChannelId(x) == channelIdentifier),
+						// system channels are too new a feature to target
 						ChannelData = channelIdentifier,
 					};
 

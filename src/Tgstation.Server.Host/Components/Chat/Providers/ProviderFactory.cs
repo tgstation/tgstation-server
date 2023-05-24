@@ -61,14 +61,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				ChatProvider.Irc => new IrcProvider(
 					jobManager,
-					assemblyInformationProvider,
 					asyncDelayer,
 					loggerFactory.CreateLogger<IrcProvider>(),
+					assemblyInformationProvider,
 					settings),
 				ChatProvider.Discord => new DiscordProvider(
 					jobManager,
-					assemblyInformationProvider,
+					asyncDelayer,
 					loggerFactory.CreateLogger<DiscordProvider>(),
+					assemblyInformationProvider,
 					settings),
 				_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid ChatProvider: {0}", settings.Provider)),
 			};

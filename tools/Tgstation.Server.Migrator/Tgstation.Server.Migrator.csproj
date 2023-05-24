@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/Common.props" />
   
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>$(TgsNetVersion)</TargetFramework>
     <RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <Version>$(TgsMigratorVersion)</Version>
-    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <NoWarn>CA1416</NoWarn>
     <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>

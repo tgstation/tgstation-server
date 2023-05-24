@@ -13,13 +13,14 @@ using Tgstation.Server.Client.Components;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
-	sealed class ChatTest
+	sealed class ChatTest : JobsRequiredTest
 	{
 		readonly IChatBotsClient chatClient;
 		readonly IInstanceManagerClient instanceClient;
 		readonly Api.Models.Instance metadata;
 
-		public ChatTest(IChatBotsClient chatClient, IInstanceManagerClient instanceClient, Api.Models.Instance metadata)
+		public ChatTest(IChatBotsClient chatClient, IInstanceManagerClient instanceClient, IJobsClient jobsClient, Api.Models.Instance metadata)
+			: base(jobsClient)
 		{
 			this.chatClient = chatClient ?? throw new ArgumentNullException(nameof(chatClient));
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
@@ -40,9 +41,25 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task RunIrc(CancellationToken cancellationToken)
 		{
+			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
+			if (String.IsNullOrWhiteSpace(connectionString))
+				// needs to just be valid
+				connectionString = new IrcConnectionStringBuilder
+				{
+					Address = "irc.fake.com",
+					Nickname = "irc_nick",
+					Password = "some_pw",
+					PasswordType = IrcPasswordType.Server,
+					Port = 6668,
+					UseSsl = true,
+				}.ToString();
+			else
+				// standardize
+				connectionString = new IrcConnectionStringBuilder(connectionString).ToString();
+
 			var firstBotReq = new ChatBotCreateRequest
 			{
-				ConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING"),
+				ConnectionString = connectionString,
 				Enabled = false,
 				Name = "tgs_integration_test",
 				Provider = ChatProvider.Irc,
@@ -65,6 +82,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var retrievedBot = await chatClient.GetId(firstBot, cancellationToken);
 			Assert.AreEqual(firstBot.Id, retrievedBot.Id);
 
+			var beforeChatBotEnabled = DateTimeOffset.UtcNow;
+
 			var updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
 				Id = firstBot.Id,
@@ -73,7 +92,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(true, updatedBot.Enabled);
 
-			var channelId = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL"); ;
+			await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
+			var jobs = await JobsClient.List(null, cancellationToken);
+			var reconnectJob = jobs
+				.Where(x => x.StartedAt >= beforeChatBotEnabled && x.Description.Contains(updatedBot.Name))
+				.OrderByDescending(x => x.StartedAt)
+				.FirstOrDefault();
+
+			Assert.IsNotNull(reconnectJob);
+			await WaitForJob(reconnectJob, 60, false, null, cancellationToken);
+
+			var channelId = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CHANNEL");
+			if (String.IsNullOrWhiteSpace(channelId))
+				channelId = "#botbus";
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
@@ -85,6 +117,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 						IsAdminChannel = false,
 						IsUpdatesChannel = true,
 						IsWatchdogChannel = true,
+						IsSystemChannel = true,
 						Tag = "butt2",
 						ChannelData = channelId,
 #pragma warning disable CS0618
@@ -98,6 +131,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(updatedBot.Channels);
 			Assert.AreEqual(1, updatedBot.Channels.Count);
 			Assert.AreEqual(false, updatedBot.Channels.First().IsAdminChannel);
+			Assert.AreEqual(true, updatedBot.Channels.First().IsSystemChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsUpdatesChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);
 			Assert.AreEqual("butt2", updatedBot.Channels.First().Tag);
@@ -110,14 +144,23 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task RunDiscord(CancellationToken cancellationToken)
 		{
+			var connectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
+			if (String.IsNullOrWhiteSpace(connectionString))
+				// needs to just be valid
+				connectionString = new DiscordConnectionStringBuilder
+				{
+					BasedMeme = true,
+					BotToken = "some_token",
+					DeploymentBranding = true,
+					DMOutputDisplay = DiscordDMOutputDisplayType.Never,
+				}.ToString();
+			else
+				// standardize
+				connectionString = new DiscordConnectionStringBuilder(connectionString).ToString();
+
 			var firstBotReq = new ChatBotCreateRequest
 			{
-				ConnectionString =
-					new DiscordConnectionStringBuilder
-					{
-						BotToken = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN"),
-						DMOutputDisplay = DiscordDMOutputDisplayType.OnError
-					}.ToString(),
+				ConnectionString = connectionString,
 				Enabled = false,
 				Name = "r4407",
 				Provider = ChatProvider.Discord,
@@ -140,6 +183,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var retrievedBot = await chatClient.GetId(firstBot, cancellationToken);
 			Assert.AreEqual(firstBot.Id, retrievedBot.Id);
 
+			var beforeChatBotEnabled = DateTimeOffset.UtcNow;
+
 			var updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
 				Id = firstBot.Id,
@@ -148,7 +193,22 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(true, updatedBot.Enabled);
 
-			var channelId = ulong.Parse(Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL"));
+			await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
+			var jobs = await JobsClient.List(null, cancellationToken);
+			var reconnectJob = jobs
+				.Where(x => x.StartedAt >= beforeChatBotEnabled && x.Description.Contains(updatedBot.Name))
+				.OrderByDescending(x => x.StartedAt)
+				.FirstOrDefault();
+
+			Assert.IsNotNull(reconnectJob);
+			await WaitForJob(reconnectJob, 60, false, null, cancellationToken);
+
+			var channelIdStr = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_CHANNEL");
+			if (String.IsNullOrWhiteSpace(channelIdStr))
+				channelIdStr = "487268744419344384";
+
+			var channelId = ulong.Parse(channelIdStr);
 
 			updatedBot = await chatClient.Update(new ChatBotUpdateRequest
 			{
@@ -160,6 +220,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 						IsAdminChannel = true,
 						IsUpdatesChannel = true,
 						IsWatchdogChannel = true,
+						IsSystemChannel = true,
 						Tag = "butt",
 						ChannelData = channelId.ToString(),
 #pragma warning disable CS0618
@@ -172,6 +233,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(true, updatedBot.Enabled);
 			Assert.IsNotNull(updatedBot.Channels);
 			Assert.AreEqual(1, updatedBot.Channels.Count);
+			Assert.AreEqual(true, updatedBot.Channels.First().IsSystemChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsAdminChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsUpdatesChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);

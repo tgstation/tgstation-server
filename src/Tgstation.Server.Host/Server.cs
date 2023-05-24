@@ -314,14 +314,14 @@ namespace Tgstation.Server.Host
 							? generalConfiguration.ShutdownTimeoutMinutes
 							: generalConfiguration.RestartTimeoutMinutes));
 				var cancellationToken = cts.Token;
-				var eventsTask = Task.WhenAll(
-					restartHandlers.Select(
-						x => x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))
-					.ToList());
-
-				logger.LogTrace("Joining restart handlers...");
 				try
 				{
+					var eventsTask = Task.WhenAll(
+						restartHandlers.Select(
+							x => x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))
+						.ToList());
+
+					logger.LogTrace("Joining restart handlers...");
 					await eventsTask;
 				}
 				catch (OperationCanceledException ex)

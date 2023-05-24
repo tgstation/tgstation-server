@@ -19,10 +19,6 @@ on:
 
 env:
   TGS_DOTNET_VERSION: 6.0.x
-  TGS_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
-  TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-  TGS_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
-  TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
@@ -233,6 +229,9 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -273,6 +272,9 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
@@ -310,11 +312,11 @@ jobs:
     needs: dmapi-build
     if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
     env:
-      TGS_TEST_DATABASE_TYPE: SqlServer
       TGS_TEST_DUMP_API_SPEC: yes
     strategy:
       fail-fast: false
       matrix:
+        database-type: [ 'SqlServer' ]
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-2019
@@ -331,11 +333,13 @@ jobs:
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
 
-    - name: Set TGS_TEST_CONNECTION_STRING
+    - name: Set SqlServer Connection Info
+      if: ${{ matrix.database-type == 'SqlServer' }}
       shell: bash
       run: |
         TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
         echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
+        echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
 
     - name: Checkout (Branch)
       uses: actions/checkout@v3
@@ -363,7 +367,7 @@ jobs:
         path: ./TestResults/
 
     - name: Store OpenAPI Spec
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
       uses: actions/upload-artifact@v3
       with:
         name: openapi-spec

@@ -71,6 +71,7 @@ namespace Tgstation.Server.Host.Controllers
 				IsAdminChannel = api.IsAdminChannel ?? false,
 				IsWatchdogChannel = api.IsWatchdogChannel ?? false,
 				IsUpdatesChannel = api.IsUpdatesChannel ?? false,
+				IsSystemChannel = api.IsSystemChannel ?? false,
 				Tag = api.Tag,
 			};
 
@@ -115,8 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ChatBots
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.CountAsync(cancellationToken)
-				;
+				.CountAsync(cancellationToken);
 
 			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
