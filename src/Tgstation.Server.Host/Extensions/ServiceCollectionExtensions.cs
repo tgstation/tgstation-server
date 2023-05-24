@@ -5,6 +5,7 @@ using System.Globalization;
 using Elastic.CommonSchema.Serilog;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
@@ -28,12 +29,28 @@ namespace Tgstation.Server.Host.Extensions
 		static Type chatProviderFactoryType = typeof(ProviderFactory);
 
 		/// <summary>
+		/// A <see cref="ServiceDescriptor"/> for an additional <see cref="ILoggerProvider"/> to use.
+		/// </summary>
+		static ServiceDescriptor additionalLoggerProvider;
+
+		/// <summary>
 		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
 		/// </summary>
 		/// <typeparam name="TProviderFactory">The <see cref="IProviderFactory"/> implementation to use.</typeparam>
 		public static void UseChatProviderFactory<TProviderFactory>() where TProviderFactory : IProviderFactory
 		{
 			chatProviderFactoryType = typeof(TProviderFactory);
+		}
+
+		/// <summary>
+		/// Add an additional <see cref="ILoggerProvider"/> to <see cref="IServiceCollection"/>s that call <see cref="SetupLogging(IServiceCollection, Action{LoggerConfiguration}, Action{LoggerSinkConfiguration}, ElasticsearchConfiguration)"/>.
+		/// </summary>
+		/// <typeparam name="TLoggerProvider">The <see cref="Type"/> of <see cref="ILoggerProvider"/> to add.</typeparam>
+		public static void UseAdditionalLoggerProvider<TLoggerProvider>() where TLoggerProvider : class, ILoggerProvider
+		{
+			if (additionalLoggerProvider != null)
+				throw new InvalidOperationException("Cannot have multiple additionalLoggerProviders!");
+			additionalLoggerProvider = ServiceDescriptor.Singleton<ILoggerProvider, TLoggerProvider>();
 		}
 
 		/// <summary>
@@ -133,6 +150,9 @@ namespace Tgstation.Server.Host.Extensions
 
 				if (Debugger.IsAttached)
 					builder.AddDebug();
+
+				if (additionalLoggerProvider != null)
+					builder.Services.TryAddEnumerable(additionalLoggerProvider);
 			});
 	}
 }

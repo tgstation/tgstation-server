@@ -698,6 +698,26 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public async Task TestStandardTgsOperation()
 		{
+			const int MaximumTestMinutes = 30;
+			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
+			var hardCancellationToken = hardCancellationTokenSource.Token;
+
+			ServiceCollectionExtensions.UseAdditionalLoggerProvider<HardFailLoggerProvider>();
+
+			var internalTask = TestTgsInternal(hardCancellationToken);
+			await Task.WhenAny(
+				internalTask,
+				HardFailLoggerProvider.FailureSource);
+
+			if (!internalTask.IsCompleted)
+			{
+				hardCancellationTokenSource.Cancel();
+				await Task.WhenAll(internalTask, HardFailLoggerProvider.FailureSource);
+			}
+		}
+
+		async Task TestTgsInternal(CancellationToken hardCancellationToken)
+		{ 
 			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
 			var missingChatVarsCount = Convert.ToInt32(String.IsNullOrWhiteSpace(discordConnectionString))
@@ -734,9 +754,6 @@ namespace Tgstation.Server.Tests.Live
 
 			using var server = new LiveTestingServer(null, true);
 
-			const int MaximumTestMinutes = 180;
-			using var hardTimeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
-			var hardCancellationToken = hardTimeoutCancellationTokenSource.Token;
 			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(hardCancellationToken);
 			var cancellationToken = serverCts.Token;
 
@@ -816,12 +833,13 @@ namespace Tgstation.Server.Tests.Live
 				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
 				if (new PlatformIdentifier().IsWindows)
 				{
-					using var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
-					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
-					blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
+					HardFailLoggerProvider.BlockFails = true;
 					try
 					{
+						using var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+						blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
+						blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
+						blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
 						// bind test run
 						await server.Run(cancellationToken);
 						Assert.Fail("Expected server task to end with a SocketException");
@@ -829,6 +847,10 @@ namespace Tgstation.Server.Tests.Live
 					catch (SocketException ex)
 					{
 						Assert.AreEqual(ex.SocketErrorCode, SocketError.AddressAlreadyInUse);
+					}
+					finally
+					{
+						HardFailLoggerProvider.BlockFails = false;
 					}
 				}
 
