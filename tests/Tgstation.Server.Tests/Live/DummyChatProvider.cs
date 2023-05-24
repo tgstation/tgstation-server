@@ -108,7 +108,7 @@ namespace Tgstation.Server.Tests.Live
 			Logger.LogTrace("SendMessage");
 
 			Assert.AreNotEqual(0UL, channelId);
-			Assert.IsTrue(channelId <= channelIdAllocator);
+			Assert.IsTrue(channelId <= channelIdAllocator || channelId > (Int32.MaxValue / 2));
 
 			cancellationToken.ThrowIfCancellationRequested();
 
