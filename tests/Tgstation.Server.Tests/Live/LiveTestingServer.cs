@@ -86,6 +86,7 @@ namespace Tgstation.Server.Tests.Live
 			args = new List<string>()
 			{
 				string.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
+				string.Format(CultureInfo.InvariantCulture, "General:ConfigVersion={0}", GeneralConfiguration.CurrentConfigVersion),
 				string.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
 				string.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				string.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
