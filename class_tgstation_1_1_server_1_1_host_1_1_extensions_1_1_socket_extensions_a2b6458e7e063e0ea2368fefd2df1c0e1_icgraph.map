@@ -6,5 +6,5 @@
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="336,5,563,45"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="17,5,244,45"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a0d2028540db88c8c5e578874399e8027" title="Create a ISessionController from a freshly launch DreamDaemon instance. A Task&lt;TResult&gt; resulting in ..." alt="" coords="304,141,595,181"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,141,256,181"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6a174232e66f5070f33b14e2cf15d48" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,141,256,181"/>
 </map>

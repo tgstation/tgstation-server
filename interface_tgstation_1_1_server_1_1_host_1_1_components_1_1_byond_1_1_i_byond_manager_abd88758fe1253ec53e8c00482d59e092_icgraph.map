@@ -8,5 +8,5 @@
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore. A Task representing the runn..." alt="" coords="280,37,507,77"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,45"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,69,232,109"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="847,133,1098,173"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6a174232e66f5070f33b14e2cf15d48" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="847,133,1098,173"/>
 </map>

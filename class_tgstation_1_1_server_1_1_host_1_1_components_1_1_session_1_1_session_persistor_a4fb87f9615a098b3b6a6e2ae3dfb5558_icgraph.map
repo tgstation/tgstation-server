@@ -2,5 +2,5 @@
 <area shape="rect" id="node1" title="Save some reattachInformation . A Task representing the running operation." alt="" coords="673,41,900,81"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afcdeb4376d24326a76bc920fe6974b35" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="304,5,625,45"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33962e2322feb32c2cc970be3a9b2ebd" title="Called to save the current Server into the WatchdogBase.SessionPersistor when initially launched." alt="" coords="331,70,598,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0abae67fe2b0edafd6b6ef7b9173862c" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,77,256,117"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6a174232e66f5070f33b14e2cf15d48" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="5,77,256,117"/>
 </map>

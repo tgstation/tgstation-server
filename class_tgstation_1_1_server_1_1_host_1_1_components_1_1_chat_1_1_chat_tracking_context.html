@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -249,27 +249,27 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00091">91</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>        {</div>
-<div class="line"><span class="lineno">   97</span>            this.customCommandHandler = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">customCommandHandler</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">customCommandHandler</a>));</div>
-<div class="line"><span class="lineno">   98</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#af0d278930e8e0b2779444e406bbfdbb6">Channels</a> = initialChannels?.ToList() ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(initialChannels));</div>
-<div class="line"><span class="lineno">   99</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>));</div>
-<div class="line"><span class="lineno">  100</span>            this.onDispose = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">onDispose</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">onDispose</a>));</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">synchronizationLock</a> = <span class="keyword">new</span> object();</div>
-<div class="line"><span class="lineno">  103</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#adc8e864fa8376e0ba8691cf7e2082a83">Active</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  104</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">customCommands</a> = Array.Empty&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html">CustomCommand</a>&gt;();</div>
-<div class="line"><span class="lineno">  105</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a0dfced9917f1bf96b1b46f511e643709"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.customCommands</a></div><div class="ttdeci">IReadOnlyCollection&lt; CustomCommand &gt; customCommands</div><div class="ttdoc">Backing field for CustomCommands.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00067">ChatTrackingContext.cs:67</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a198bebe94c736431862c137cbb3d0ea8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.customCommandHandler</a></div><div class="ttdeci">readonly ICustomCommandHandler customCommandHandler</div><div class="ttdoc">The ICustomCommandHandler for the ChatTrackingContext.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00052">ChatTrackingContext.cs:52</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a6dbfebf4e8e302c3f6434fc1ebe0e350"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.logger</a></div><div class="ttdeci">readonly ILogger&lt; ChatTrackingContext &gt; logger</div><div class="ttdoc">The ILogger for the ChatTrackingContext.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00057">ChatTrackingContext.cs:57</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_aa654791d4441face9f27fcf8cf2db03a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.onDispose</a></div><div class="ttdeci">Action onDispose</div><div class="ttdoc">The Action to run when Disposed.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00077">ChatTrackingContext.cs:77</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_ab3b8d2b85773e2d5e5f63aff3e8c27eb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a></div><div class="ttdeci">readonly object synchronizationLock</div><div class="ttdoc">lock object for modifying onDispose, channelSink, and Channels.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00062">ChatTrackingContext.cs:62</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00095">95</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  100</span>        {</div>
+<div class="line"><span class="lineno">  101</span>            this.customCommandHandler = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">customCommandHandler</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">customCommandHandler</a>));</div>
+<div class="line"><span class="lineno">  102</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#af0d278930e8e0b2779444e406bbfdbb6">Channels</a> = initialChannels?.ToList() ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(initialChannels));</div>
+<div class="line"><span class="lineno">  103</span>            this.logger = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>));</div>
+<div class="line"><span class="lineno">  104</span>            this.onDispose = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">onDispose</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">onDispose</a>));</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">synchronizationLock</a> = <span class="keyword">new</span> object();</div>
+<div class="line"><span class="lineno">  107</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#adc8e864fa8376e0ba8691cf7e2082a83">Active</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  108</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">customCommands</a> = Array.Empty&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html">CustomCommand</a>&gt;();</div>
+<div class="line"><span class="lineno">  109</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a0dfced9917f1bf96b1b46f511e643709"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.customCommands</a></div><div class="ttdeci">IReadOnlyCollection&lt; CustomCommand &gt; customCommands</div><div class="ttdoc">Backing field for CustomCommands.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00071">ChatTrackingContext.cs:71</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a198bebe94c736431862c137cbb3d0ea8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.customCommandHandler</a></div><div class="ttdeci">readonly ICustomCommandHandler customCommandHandler</div><div class="ttdoc">The ICustomCommandHandler for the ChatTrackingContext.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00056">ChatTrackingContext.cs:56</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a6dbfebf4e8e302c3f6434fc1ebe0e350"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.logger</a></div><div class="ttdeci">readonly ILogger&lt; ChatTrackingContext &gt; logger</div><div class="ttdoc">The ILogger for the ChatTrackingContext.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00061">ChatTrackingContext.cs:61</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_aa654791d4441face9f27fcf8cf2db03a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.onDispose</a></div><div class="ttdeci">Action onDispose</div><div class="ttdoc">The Action to run when Disposed.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00081">ChatTrackingContext.cs:81</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_ab3b8d2b85773e2d5e5f63aff3e8c27eb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a></div><div class="ttdeci">readonly object synchronizationLock</div><div class="ttdoc">lock object for modifying onDispose, channelSink, and Channels.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00066">ChatTrackingContext.cs:66</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_adc8e864fa8376e0ba8691cf7e2082a83"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#adc8e864fa8376e0ba8691cf7e2082a83">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Active</a></div><div class="ttdeci">bool Active</div><div class="ttdoc">If the CustomCommands should be used.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00017">ChatTrackingContext.cs:18</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_af0d278930e8e0b2779444e406bbfdbb6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#af0d278930e8e0b2779444e406bbfdbb6">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Channels</a></div><div class="ttdeci">IReadOnlyCollection&lt; ChannelRepresentation &gt; Channels</div><div class="ttdoc">IReadOnlyCollection&lt;T&gt; of ChannelRepresentations in the IChatTrackingContext.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00030">ChatTrackingContext.cs:30</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_af0d278930e8e0b2779444e406bbfdbb6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#af0d278930e8e0b2779444e406bbfdbb6">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Channels</a></div><div class="ttdeci">IReadOnlyCollection&lt; ChannelRepresentation &gt; Channels</div><div class="ttdoc">IReadOnlyCollection&lt;T&gt; of ChannelRepresentations in the IChatTrackingContext.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00034">ChatTrackingContext.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand</a></div><div class="ttdoc">Represents a command made from DM code.</div><div class="ttdef"><b>Definition:</b> <a href="_custom_command_8cs_source.html#l00012">CustomCommand.cs:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_chat_tracking_context_8cs_source.html#l00018">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Active</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00030">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Channels</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00052">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.customCommandHandler</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00067">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.customCommands</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00057">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.logger</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00077">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.onDispose</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00062">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a>.</p>
+<p class="reference">References <a class="el" href="_chat_tracking_context_8cs_source.html#l00018">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Active</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00034">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Channels</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00056">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.customCommandHandler</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00071">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.customCommands</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00061">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.logger</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00081">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.onDispose</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00066">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a>.</p>
 
 </div>
 </div>
@@ -291,16 +291,16 @@ Private Attributes</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00108">108</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>        {</div>
-<div class="line"><span class="lineno">  110</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  111</span>            {</div>
-<div class="line"><span class="lineno">  112</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">onDispose</a>?.Invoke();</div>
-<div class="line"><span class="lineno">  113</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">onDispose</a> = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  114</span>            }</div>
-<div class="line"><span class="lineno">  115</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00112">112</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  113</span>        {</div>
+<div class="line"><span class="lineno">  114</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  115</span>            {</div>
+<div class="line"><span class="lineno">  116</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">onDispose</a>?.Invoke();</div>
+<div class="line"><span class="lineno">  117</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a">onDispose</a> = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  118</span>            }</div>
+<div class="line"><span class="lineno">  119</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_chat_tracking_context_8cs_source.html#l00077">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.onDispose</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00062">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a>.</p>
+<p class="reference">References <a class="el" href="_chat_tracking_context_8cs_source.html#l00081">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.onDispose</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00066">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a>.</p>
 
 </div>
 </div>
@@ -330,22 +330,22 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#affd4bf60a56058a56804994741cceff5">Tgstation.Server.Host.Components.Chat.IChatTrackingContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00118">118</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  119</span>        {</div>
-<div class="line"><span class="lineno">  120</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  121</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a>));</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  124</span>            {</div>
-<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">if</span> (this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  126</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;channelSink already set!&quot;</span>);</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>                this.channelSink = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a>;</div>
-<div class="line"><span class="lineno">  129</span>            }</div>
-<div class="line"><span class="lineno">  130</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a5b89c6d03b5b49c2444ae5e815a537a2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.channelSink</a></div><div class="ttdeci">IChannelSink channelSink</div><div class="ttdoc">The IChannelSink if any.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00072">ChatTrackingContext.cs:72</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00122">122</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  123</span>        {</div>
+<div class="line"><span class="lineno">  124</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a>));</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  128</span>            {</div>
+<div class="line"><span class="lineno">  129</span>                <span class="keywordflow">if</span> (this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  130</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;channelSink already set!&quot;</span>);</div>
+<div class="line"><span class="lineno">  131</span> </div>
+<div class="line"><span class="lineno">  132</span>                this.channelSink = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a>;</div>
+<div class="line"><span class="lineno">  133</span>            }</div>
+<div class="line"><span class="lineno">  134</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a5b89c6d03b5b49c2444ae5e815a537a2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.channelSink</a></div><div class="ttdeci">IChannelSink channelSink</div><div class="ttdoc">The IChannelSink if any.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00076">ChatTrackingContext.cs:76</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_chat_tracking_context_8cs_source.html#l00072">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.channelSink</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00062">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a>.</p>
+<p class="reference">References <a class="el" href="_chat_tracking_context_8cs_source.html#l00076">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.channelSink</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00066">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a>.</p>
 
 </div>
 </div>
@@ -387,22 +387,22 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html#ac3f839f7d95d8ad7cd22a0fc68cb6860">Tgstation.Server.Host.Components.Chat.IChannelSink</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00133">133</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  134</span>        {</div>
-<div class="line"><span class="lineno">  135</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>.LogTrace(<span class="stringliteral">&quot;UpdateChannels...&quot;</span>);</div>
-<div class="line"><span class="lineno">  136</span>            var completed = newChannels.ToList();</div>
-<div class="line"><span class="lineno">  137</span>            Task updateTask;</div>
-<div class="line"><span class="lineno">  138</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">synchronizationLock</a>)</div>
-<div class="line"><span class="lineno">  139</span>            {</div>
-<div class="line"><span class="lineno">  140</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#af0d278930e8e0b2779444e406bbfdbb6">Channels</a> = completed;</div>
-<div class="line"><span class="lineno">  141</span>                updateTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a>?.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html#ac3f839f7d95d8ad7cd22a0fc68cb6860">UpdateChannels</a>(newChannels, cancellationToken) ?? Task.CompletedTask;</div>
-<div class="line"><span class="lineno">  142</span>            }</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>            <span class="keywordflow">return</span> updateTask;</div>
-<div class="line"><span class="lineno">  145</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00137">137</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  138</span>        {</div>
+<div class="line"><span class="lineno">  139</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>.LogTrace(<span class="stringliteral">&quot;UpdateChannels...&quot;</span>);</div>
+<div class="line"><span class="lineno">  140</span>            var completed = newChannels.ToList();</div>
+<div class="line"><span class="lineno">  141</span>            Task updateTask;</div>
+<div class="line"><span class="lineno">  142</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#ab3b8d2b85773e2d5e5f63aff3e8c27eb">synchronizationLock</a>)</div>
+<div class="line"><span class="lineno">  143</span>            {</div>
+<div class="line"><span class="lineno">  144</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#af0d278930e8e0b2779444e406bbfdbb6">Channels</a> = completed;</div>
+<div class="line"><span class="lineno">  145</span>                updateTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">channelSink</a>?.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html#ac3f839f7d95d8ad7cd22a0fc68cb6860">UpdateChannels</a>(newChannels, cancellationToken) ?? Task.CompletedTask;</div>
+<div class="line"><span class="lineno">  146</span>            }</div>
+<div class="line"><span class="lineno">  147</span> </div>
+<div class="line"><span class="lineno">  148</span>            <span class="keywordflow">return</span> updateTask;</div>
+<div class="line"><span class="lineno">  149</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink_html_ac3f839f7d95d8ad7cd22a0fc68cb6860"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html#ac3f839f7d95d8ad7cd22a0fc68cb6860">Tgstation.Server.Host.Components.Chat.IChannelSink.UpdateChannels</a></div><div class="ttdeci">Task UpdateChannels(IEnumerable&lt; ChannelRepresentation &gt; newChannels, CancellationToken cancellationToken)</div><div class="ttdoc">Called when newChannels  are set.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_chat_tracking_context_8cs_source.html#l00030">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Channels</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00072">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.channelSink</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00057">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.logger</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00062">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html#ac3f839f7d95d8ad7cd22a0fc68cb6860">Tgstation.Server.Host.Components.Chat.IChannelSink.UpdateChannels()</a>.</p>
+<p class="reference">References <a class="el" href="_chat_tracking_context_8cs_source.html#l00034">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Channels</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00076">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.channelSink</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00061">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.logger</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00066">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.synchronizationLock</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html#ac3f839f7d95d8ad7cd22a0fc68cb6860">Tgstation.Server.Host.Components.Chat.IChannelSink.UpdateChannels()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -438,7 +438,7 @@ Here is the call graph for this function:</div>
 
 <p>Backing field for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#adc8e864fa8376e0ba8691cf7e2082a83" title="If the CustomCommands should be used.">Active</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00082">82</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00086">86</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
 
 </div>
 </div>
@@ -464,9 +464,9 @@ Here is the call graph for this function:</div>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated.">IChannelSink</a> if any.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00072">72</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00076">76</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00118">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.SetChannelSink()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00133">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.UpdateChannels()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00122">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.SetChannelSink()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00137">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.UpdateChannels()</a>.</p>
 
 </div>
 </div>
@@ -492,9 +492,9 @@ Here is the call graph for this function:</div>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext.">ICustomCommandHandler</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html">ChatTrackingContext</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00052">52</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00056">56</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00091">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00095">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>.</p>
 
 </div>
 </div>
@@ -520,9 +520,9 @@ Here is the call graph for this function:</div>
 
 <p>Backing field for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a2e7fbde1557d4de1e6378ac271fb8ee7" title="IReadOnlyCollection&lt;T&gt; of CustomCommands in the IChatTrackingContext.">CustomCommands</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00067">67</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00071">71</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00091">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00095">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>.</p>
 
 </div>
 </div>
@@ -548,9 +548,9 @@ Here is the call graph for this function:</div>
 
 <p>The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html">ChatTrackingContext</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00057">57</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00061">61</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00091">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00133">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.UpdateChannels()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00095">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00137">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.UpdateChannels()</a>.</p>
 
 </div>
 </div>
@@ -576,9 +576,9 @@ Here is the call graph for this function:</div>
 
 <p>The Action to run when <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a405ff7157fc650643ebdc42571740706">Dispose</a>d.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00077">77</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00081">81</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00091">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00108">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Dispose()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00095">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00112">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Dispose()</a>.</p>
 
 </div>
 </div>
@@ -604,9 +604,9 @@ Here is the call graph for this function:</div>
 
 <p><code>lock</code> object for modifying <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#aa654791d4441face9f27fcf8cf2db03a" title="The Action to run when Disposed.">onDispose</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2" title="The IChannelSink if any.">channelSink</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#af0d278930e8e0b2779444e406bbfdbb6" title="IReadOnlyCollection&lt;T&gt; of ChannelRepresentations in the IChatTrackingContext.">Channels</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00062">62</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00066">66</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00091">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00108">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Dispose()</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00118">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.SetChannelSink()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00133">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.UpdateChannels()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00095">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00112">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.Dispose()</a>, <a class="el" href="_chat_tracking_context_8cs_source.html#l00122">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.SetChannelSink()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00137">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.UpdateChannels()</a>.</p>
 
 </div>
 </div>
@@ -642,13 +642,17 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   21</span>            {</div>
 <div class="line"><span class="lineno">   22</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a3d3ac659fdfea9e5dec63881e6d320b7">active</a> == value)</div>
 <div class="line"><span class="lineno">   23</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   24</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>.LogTrace(value ? <span class="stringliteral">&quot;Activated&quot;</span> : <span class="stringliteral">&quot;Deactivated&quot;</span>);</div>
-<div class="line"><span class="lineno">   25</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a3d3ac659fdfea9e5dec63881e6d320b7">active</a> = value;</div>
-<div class="line"><span class="lineno">   26</span>            }</div>
-<div class="line"><span class="lineno">   27</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a3d3ac659fdfea9e5dec63881e6d320b7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a3d3ac659fdfea9e5dec63881e6d320b7">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.active</a></div><div class="ttdeci">bool active</div><div class="ttdoc">Backing field for Active.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00082">ChatTrackingContext.cs:82</a></div></div>
+<div class="line"><span class="lineno">   24</span>                <span class="keywordflow">if</span> (value)</div>
+<div class="line"><span class="lineno">   25</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>.LogTrace(<span class="stringliteral">&quot;Activated&quot;</span>);</div>
+<div class="line"><span class="lineno">   26</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   27</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>.LogTrace(<span class="stringliteral">&quot;Deactivated&quot;</span>);</div>
+<div class="line"><span class="lineno">   28</span> </div>
+<div class="line"><span class="lineno">   29</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a3d3ac659fdfea9e5dec63881e6d320b7">active</a> = value;</div>
+<div class="line"><span class="lineno">   30</span>            }</div>
+<div class="line"><span class="lineno">   31</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context_html_a3d3ac659fdfea9e5dec63881e6d320b7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a3d3ac659fdfea9e5dec63881e6d320b7">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.active</a></div><div class="ttdeci">bool active</div><div class="ttdoc">Backing field for Active.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_tracking_context_8cs_source.html#l00086">ChatTrackingContext.cs:86</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00091">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00095">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>.</p>
 
 </div>
 </div>
@@ -676,10 +680,10 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#a7f7c9a94446c1b5e1afc9156705b6777">Tgstation.Server.Host.Components.Chat.IChatTrackingContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00030">30</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00034">34</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>{ <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00091">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00133">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.UpdateChannels()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_chat_tracking_context_8cs_source.html#l00095">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.ChatTrackingContext()</a>, and <a class="el" href="_chat_tracking_context_8cs_source.html#l00137">Tgstation.Server.Host.Components.Chat.ChatTrackingContext.UpdateChannels()</a>.</p>
 
 </div>
 </div>
@@ -707,21 +711,21 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#a09fedbbe7a7681b0e28fe47158af766d">Tgstation.Server.Host.Components.Chat.IChatTrackingContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00033">33</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
-<div class="line"><span class="lineno">   35</span>            <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">customCommands</a>;</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keyword">set</span></div>
-<div class="line"><span class="lineno">   37</span>            {</div>
-<div class="line"><span class="lineno">   38</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">customCommands</a> = (value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;value cannot be null!&quot;</span>))</div>
-<div class="line"><span class="lineno">   39</span>                .Select(customCommand =&gt;</div>
-<div class="line"><span class="lineno">   40</span>                {</div>
-<div class="line"><span class="lineno">   41</span>                    customCommand.SetHandler(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">customCommandHandler</a>);</div>
-<div class="line"><span class="lineno">   42</span>                    <span class="keywordflow">return</span> customCommand;</div>
-<div class="line"><span class="lineno">   43</span>                })</div>
-<div class="line"><span class="lineno">   44</span>                .ToList();</div>
-<div class="line"><span class="lineno">   45</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>.LogTrace(<span class="stringliteral">&quot;Custom commands set.&quot;</span>);</div>
-<div class="line"><span class="lineno">   46</span>            }</div>
-<div class="line"><span class="lineno">   47</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_chat_tracking_context_8cs_source.html#l00037">37</a> of file <a class="el" href="_chat_tracking_context_8cs_source.html">ChatTrackingContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>        {</div>
+<div class="line"><span class="lineno">   39</span>            <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">customCommands</a>;</div>
+<div class="line"><span class="lineno">   40</span>            <span class="keyword">set</span></div>
+<div class="line"><span class="lineno">   41</span>            {</div>
+<div class="line"><span class="lineno">   42</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">customCommands</a> = (value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;value cannot be null!&quot;</span>))</div>
+<div class="line"><span class="lineno">   43</span>                .Select(customCommand =&gt;</div>
+<div class="line"><span class="lineno">   44</span>                {</div>
+<div class="line"><span class="lineno">   45</span>                    customCommand.SetHandler(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">customCommandHandler</a>);</div>
+<div class="line"><span class="lineno">   46</span>                    <span class="keywordflow">return</span> customCommand;</div>
+<div class="line"><span class="lineno">   47</span>                })</div>
+<div class="line"><span class="lineno">   48</span>                .ToList();</div>
+<div class="line"><span class="lineno">   49</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a6dbfebf4e8e302c3f6434fc1ebe0e350">logger</a>.LogTrace(<span class="stringliteral">&quot;Custom commands set.&quot;</span>);</div>
+<div class="line"><span class="lineno">   50</span>            }</div>
+<div class="line"><span class="lineno">   51</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

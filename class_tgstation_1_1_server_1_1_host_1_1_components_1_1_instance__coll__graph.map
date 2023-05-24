@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Instance" name="Tgstation.Server.Host.Components.Instance">
-<area shape="rect" id="node1" title=" " alt="" coords="921,361,1148,401"/>
+<area shape="rect" id="node1" title=" " alt="" coords="921,397,1148,437"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="Component version of IInstanceCore." alt="" coords="501,55,577,80"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services." alt="" coords="245,5,348,31"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,117,184,143"/>
@@ -12,9 +12,10 @@
 <area shape="rect" id="node10" href="$class_i_disposable.html" title=" " alt="" coords="251,235,342,260"/>
 <area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="425,289,652,329"/>
 <area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="409,353,668,408"/>
-<area shape="rect" id="node14" title=" " alt="" coords="423,433,654,473"/>
-<area shape="rect" id="node15" title=" " alt="" coords="518,497,559,523"/>
-<area shape="rect" id="node16" title=" " alt="" coords="485,547,593,572"/>
-<area shape="rect" id="node17" title=" " alt="" coords="513,596,564,621"/>
-<area shape="rect" id="node18" title=" " alt="" coords="453,645,624,671"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="448,433,629,473"/>
+<area shape="rect" id="node15" title=" " alt="" coords="423,497,654,537"/>
+<area shape="rect" id="node16" title=" " alt="" coords="518,561,559,587"/>
+<area shape="rect" id="node17" title=" " alt="" coords="485,611,593,636"/>
+<area shape="rect" id="node18" title=" " alt="" coords="513,660,564,685"/>
+<area shape="rect" id="node19" title=" " alt="" coords="453,709,624,735"/>
 </map>

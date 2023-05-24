@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -687,14 +687,14 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  314</span>                            ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a2823acb68609f9953788b1460ca8cdd3">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2946cf246064f33a39988b01c7506ea2">ShutdownTimeoutMinutes</a></div>
 <div class="line"><span class="lineno">  315</span>                            : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a2823acb68609f9953788b1460ca8cdd3">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a34cd3d2971e5908fdcda588f4770c7f6">RestartTimeoutMinutes</a>));</div>
 <div class="line"><span class="lineno">  316</span>                var cancellationToken = cts.Token;</div>
-<div class="line"><span class="lineno">  317</span>                var eventsTask = Task.WhenAll(</div>
-<div class="line"><span class="lineno">  318</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a>.Select(</div>
-<div class="line"><span class="lineno">  319</span>                        x =&gt; x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))</div>
-<div class="line"><span class="lineno">  320</span>                    .ToList());</div>
-<div class="line"><span class="lineno">  321</span> </div>
-<div class="line"><span class="lineno">  322</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aed53aa0f4276d05a985604f291c70f29">logger</a>.LogTrace(<span class="stringliteral">&quot;Joining restart handlers...&quot;</span>);</div>
-<div class="line"><span class="lineno">  323</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  324</span>                {</div>
+<div class="line"><span class="lineno">  317</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  318</span>                {</div>
+<div class="line"><span class="lineno">  319</span>                    var eventsTask = Task.WhenAll(</div>
+<div class="line"><span class="lineno">  320</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a>.Select(</div>
+<div class="line"><span class="lineno">  321</span>                            x =&gt; x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))</div>
+<div class="line"><span class="lineno">  322</span>                        .ToList());</div>
+<div class="line"><span class="lineno">  323</span> </div>
+<div class="line"><span class="lineno">  324</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aed53aa0f4276d05a985604f291c70f29">logger</a>.LogTrace(<span class="stringliteral">&quot;Joining restart handlers...&quot;</span>);</div>
 <div class="line"><span class="lineno">  325</span>                    await eventsTask;</div>
 <div class="line"><span class="lineno">  326</span>                }</div>
 <div class="line"><span class="lineno">  327</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>

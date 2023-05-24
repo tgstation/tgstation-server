@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.ChatManager.QueueWatchdogMessage" name="Tgstation.Server.Host.Components.Chat.ChatManager.QueueWatchdogMessage">
-<area shape="rect" id="node1" title="Queue a chat message &#160;to configured watchdog channels. A Task representing the running operation." alt="" coords="5,37,287,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a6df490e4067fe694af10379fb56a7a25" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="335,37,561,77"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c" title="Adds a given task &#160;to messageSendTask." alt="" coords="609,5,847,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4b0757db783ab5cffaa03e43136eecc6" title="Asynchronously send a given message &#160;to a set of channelIds ." alt="" coords="615,69,841,109"/>
-</map>

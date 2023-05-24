@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Chat.ChatManager.UpdateTrackingContexts" name="Tgstation.Server.Host.Components.Chat.ChatManager.UpdateTrackingContexts">
+<area shape="rect" id="node1" title="Force an update with the active channels on all active IChatTrackingContexts. A Task representing the..." alt="" coords="5,5,280,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html#ac3f839f7d95d8ad7cd22a0fc68cb6860" title="Called when newChannels &#160;are set." alt="" coords="328,5,556,45"/>
+</map>

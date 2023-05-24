@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.InstanceFactory" name="Tgstation.Server.Host.Components.InstanceFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="913,757,1140,797"/>
+<area shape="rect" id="node1" title=" " alt="" coords="913,789,1140,829"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances." alt="" coords="471,16,590,41"/>
 <area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="27,45,139,71"/>
 <area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="439,66,622,106"/>
@@ -25,12 +25,13 @@
 <area shape="rect" id="node24" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html" title="Service for temporarily storing files to be downloaded or uploaded." alt="" coords="429,1269,632,1309"/>
 <area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html" title="Factory for creating IGitRemoteFeatures." alt="" coords="407,1333,654,1373"/>
 <area shape="rect" id="node26" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="401,1397,660,1452"/>
-<area shape="rect" id="node27" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="416,1590,645,1630"/>
-<area shape="rect" id="node28" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,1669,160,1695"/>
-<area shape="rect" id="node29" title=" " alt="" coords="55,1504,110,1529"/>
-<area shape="rect" id="node33" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="416,1477,645,1517"/>
-<area shape="rect" id="node30" title=" " alt="" coords="36,1620,129,1645"/>
-<area shape="rect" id="node31" title=" " alt="" coords="61,1789,104,1815"/>
-<area shape="rect" id="node32" title=" " alt="" coords="7,1571,159,1596"/>
-<area shape="rect" id="node34" title=" " alt="" coords="59,1439,106,1464"/>
+<area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="440,1477,621,1517"/>
+<area shape="rect" id="node28" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="416,1654,645,1694"/>
+<area shape="rect" id="node29" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,1733,160,1759"/>
+<area shape="rect" id="node30" title=" " alt="" coords="55,1568,110,1593"/>
+<area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="416,1541,645,1581"/>
+<area shape="rect" id="node31" title=" " alt="" coords="36,1684,129,1709"/>
+<area shape="rect" id="node32" title=" " alt="" coords="61,1853,104,1879"/>
+<area shape="rect" id="node33" title=" " alt="" coords="7,1635,159,1660"/>
+<area shape="rect" id="node35" title=" " alt="" coords="59,1503,106,1528"/>
 </map>

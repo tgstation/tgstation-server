@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.1</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -328,14 +328,14 @@ $(function() {
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>                            ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a2823acb68609f9953788b1460ca8cdd3">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2946cf246064f33a39988b01c7506ea2">ShutdownTimeoutMinutes</a></div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>                            : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a2823acb68609f9953788b1460ca8cdd3">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a34cd3d2971e5908fdcda588f4770c7f6">RestartTimeoutMinutes</a>));</div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>                var cancellationToken = cts.Token;</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                var eventsTask = Task.WhenAll(</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a>.Select(</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>                        x =&gt; x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>                    .ToList());</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span> </div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aed53aa0f4276d05a985604f291c70f29">logger</a>.LogTrace(<span class="stringliteral">&quot;Joining restart handlers...&quot;</span>);</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                {</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>                {</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>                    var eventsTask = Task.WhenAll(</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f">restartHandlers</a>.Select(</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>                            x =&gt; x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                        .ToList());</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#aed53aa0f4276d05a985604f291c70f29">logger</a>.LogTrace(<span class="stringliteral">&quot;Joining restart handlers...&quot;</span>);</div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                    await eventsTask;</div>
 <div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                }</div>
 <div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
@@ -425,7 +425,7 @@ $(function() {
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor_html_a2b25c5bbbaa17232348921c7e0f84531"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a2b25c5bbbaa17232348921c7e0f84531">Tgstation.Server.Host.Core.IServerUpdateExecutor.ExecuteUpdate</a></div><div class="ttdeci">Task&lt; bool &gt; ExecuteUpdate(string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)</div><div class="ttdoc">Executes a pending server update by extracting the new server to a given updatePath .</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_server_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html">Tgstation.Server.Host.IServer</a></div><div class="ttdoc">Represents the host.</div><div class="ttdef"><b>Definition:</b> <a href="_i_server_8cs_source.html#l00009">IServer.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html">Tgstation.Server.Host.Configuration</a></div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00003">ControlPanelConfiguration.cs:4</a></div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html">Tgstation.Server.Host.Core</a></div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00056">Application.cs:57</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html">Tgstation.Server.Host.Core</a></div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00055">Application.cs:56</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host.html">Tgstation.Server.Host</a></div><div class="ttdef"><b>Definition:</b> <a href="_host_exit_code_8cs_source.html#l00001">HostExitCode.cs:2</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
