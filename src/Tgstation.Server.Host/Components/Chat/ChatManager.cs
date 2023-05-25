@@ -729,8 +729,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						{
 							Text = "TGS: Processing error, check logs!",
 						},
-						cancellationToken)
-						;
+						cancellationToken);
 					return;
 				}
 
