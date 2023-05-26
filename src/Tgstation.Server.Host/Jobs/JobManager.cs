@@ -185,15 +185,9 @@ namespace Tgstation.Server.Host.Jobs
 			JobHandler handler;
 			lock (addCancelLock)
 			{
-				try
-				{
-					handler = CheckGetJob(job);
-				}
-				catch (InvalidOperationException)
-				{
-					// this is fine
-					return null;
-				}
+				lock (synchronizationLock)
+					if (!jobs.TryGetValue(job.Id.Value, out handler))
+						return null;
 
 				handler.Cancel(); // this will ensure the db update is only done once
 			}
@@ -265,21 +259,6 @@ namespace Tgstation.Server.Host.Jobs
 
 			logger.LogTrace("Activating job manager...");
 			activationTcs.SetResult(instanceCoreProvider);
-		}
-
-		/// <summary>
-		/// Gets the <see cref="JobHandler"/> for a given <paramref name="job"/> if it exists.
-		/// </summary>
-		/// <param name="job">The <see cref="Job"/> to get the <see cref="JobHandler"/> for.</param>
-		/// <returns>The <see cref="JobHandler"/>.</returns>
-		JobHandler CheckGetJob(Job job)
-		{
-			lock (synchronizationLock)
-			{
-				if (!jobs.TryGetValue(job.Id.Value, out JobHandler jobHandler))
-					throw new InvalidOperationException("Job not running!");
-				return jobHandler;
-			}
 		}
 
 		/// <summary>
