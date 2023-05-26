@@ -83,8 +83,6 @@ namespace Tgstation.Server.Tests.Live
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
 			this.random = random ?? throw new ArgumentNullException(nameof(random));
 
-			// this could be random but there's no point
-			channelIdAllocator = 100000;
 			logger.LogTrace("Base channel ID {baseChannelId}", channelIdAllocator);
 
 			this.randomMessageCts = new CancellationTokenSource();
@@ -108,7 +106,8 @@ namespace Tgstation.Server.Tests.Live
 			Logger.LogTrace("SendMessage");
 
 			Assert.AreNotEqual(0UL, channelId);
-			Assert.IsTrue(channelId <= channelIdAllocator || channelId > (Int32.MaxValue / 2));
+			var condition = channelId <= channelIdAllocator || channelId >= (Int32.MaxValue / 2);
+			Assert.IsTrue(condition);
 
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -172,6 +171,7 @@ namespace Tgstation.Server.Tests.Live
 			Logger.LogTrace("DisconnectImpl");
 			cancellationToken.ThrowIfCancellationRequested();
 			connected = false;
+			channelIdAllocator = 0;
 
 			if (random.Next(0, 100) > 70)
 				throw new Exception("Random disconnection failure!");
@@ -220,21 +220,22 @@ namespace Tgstation.Server.Tests.Live
 					var delay = random.Next(0, 10000);
 					await Task.Delay(delay, cancellationToken);
 
-					if (!connected)
-						continue;
-
 					// %5 chance to disconnect randomly
 					if (enableRandomDisconnections != 0 && random.Next(0, 100) > 95)
+					{
 						connected = false;
+						channelIdAllocator = 0;
+					}
+
+					if (!connected)
+						continue;
 
 					if (channelIdAllocator >= Int32.MaxValue / 2)
 						Assert.Fail("Too many channels have been allocated!");
 
-					var isPm = channelIdAllocator == 0 || random.Next(0, 100) > 20;
-					var realId = (ulong)random.Next(1, (int)channelIdAllocator);
-
-					if (isPm)
-						realId += Int32.MaxValue / 2;
+					var isPm = channelIdAllocator == 0 || random.Next(0, 100) > 80;
+					var idRandomizer = isPm ? channelIdAllocator + (Int32.MaxValue / 2) : channelIdAllocator;
+					var realId = (ulong)random.Next(isPm ? Int32.MaxValue / 2 : 1, (int)idRandomizer);
 
 					var username = $"RandomUser{i}";
 					var sender = new ChatUser

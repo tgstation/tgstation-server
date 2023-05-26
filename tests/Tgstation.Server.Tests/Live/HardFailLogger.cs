@@ -22,8 +22,9 @@ namespace Tgstation.Server.Tests.Live
 		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
 		{
 			var logMessage = formatter(state, exception);
-			if (logLevel == LogLevel.Error || (logLevel == LogLevel.Critical && logMessage != "DropDatabase configuration option set! Dropping any existing database..."))
-				failureSink(new AssertFailedException(logMessage));
+			if ((logLevel == LogLevel.Error && !logMessage.StartsWith("Error disconnecting connection "))
+				|| (logLevel == LogLevel.Critical && logMessage != "DropDatabase configuration option set! Dropping any existing database..."))
+				failureSink(new Exception(logMessage, exception));
 		}
 	}
 }
