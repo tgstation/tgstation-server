@@ -48,7 +48,7 @@ namespace Tgstation.Server.Tests.Live
 			commands = commandFactory.GenerateCommands();
 
 			var baseRng = new Random(
-				22475 // comment this out to enable true randomness, not that seeding is imperfect because Task execution order is non-deterministic
+				22475 // comment this out to enable true randomness, note that seeding is imperfect because Task execution order is non-deterministic
 				);
 			seededRng = new Dictionary<ChatProvider, Random>{
 				{ ChatProvider.Irc, new Random(baseRng.Next()) },
