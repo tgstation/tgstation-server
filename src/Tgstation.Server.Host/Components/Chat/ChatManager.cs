@@ -719,6 +719,9 @@ namespace Tgstation.Server.Host.Components.Chat
 						"Error mapping message: Provider ID: {providerId}, Channel Real ID: {realId}",
 						providerId,
 						message.User.Channel.RealId);
+					logger.LogTrace("message: {messageJson}", JsonConvert.SerializeObject(message));
+					lock (mappedChannels)
+						logger.LogTrace("mappedChannels: {mappedChannelsJson}", JsonConvert.SerializeObject(mappedChannels));
 					await SendMessage(
 						new List<ulong>
 						{
