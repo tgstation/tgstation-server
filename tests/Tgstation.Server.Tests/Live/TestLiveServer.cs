@@ -717,7 +717,7 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		async Task TestTgsInternal(CancellationToken hardCancellationToken)
-		{ 
+		{
 			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
 			var missingChatVarsCount = Convert.ToInt32(String.IsNullOrWhiteSpace(discordConnectionString))
@@ -803,7 +803,9 @@ namespace Tgstation.Server.Tests.Live
 					var rootTest = FailFast(RawRequestTests.Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
-					instance = await new InstanceManagerTest(adminClient, server.Directory).RunPreInstanceTest(cancellationToken);
+					var instanceMangagerTest = new InstanceManagerTest(adminClient, server.Directory);
+					var instancesTest = FailFast(instanceMangagerTest.RunPreTest(cancellationToken));
+					instance = await instanceMangagerTest.CreateTestInstance(cancellationToken);
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
@@ -811,7 +813,7 @@ namespace Tgstation.Server.Tests.Live
 
 					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances, GetInstanceManager(), (ushort)server.Url.Port).RunTests(cancellationToken));
 
-					await Task.WhenAll(rootTest, adminTest, instanceTests, usersTest);
+					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
@@ -1021,7 +1023,7 @@ namespace Tgstation.Server.Tests.Live
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
-					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(cancellationToken);
+					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(instance, cancellationToken);
 				}
 			}
 			catch (ApiException ex)
