@@ -898,7 +898,7 @@ namespace Tgstation.Server.Host.Components.Session
 		async Task<CombinedTopicResponse> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
 		{
 			var targetPort = ReattachInformation.Port;
-			var killedOrRebootedTask = Task.WhenAll(Lifetime, OnReboot);
+			var killedOrRebootedTask = Task.WhenAny(Lifetime, OnReboot);
 			global::Byond.TopicSender.TopicResponse byondResponse = null;
 			var firstSend = true;
 			for (var i = 4; i >= 0 && (priority || firstSend); --i)
