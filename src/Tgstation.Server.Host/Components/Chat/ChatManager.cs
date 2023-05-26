@@ -673,7 +673,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					.Any();
 			}
 
-			if (!recursed && !mappedChannel.HasValue && hasChannelZero)
+			if (!recursed && !mappedChannel.HasValue && !message.User.Channel.IsPrivateChannel && hasChannelZero)
 			{
 				logger.LogInformation("Receieved message from unmapped channel whose provider contains ID 0. Remapping...");
 				await RemapProvider(provider, cancellationToken);
