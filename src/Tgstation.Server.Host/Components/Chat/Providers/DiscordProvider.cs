@@ -611,15 +611,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					await Task.WhenAny(gatewayReadyTcs.Task, localGatewayTask);
 
-					if (localGatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)
+					cancellationToken.ThrowIfCancellationRequested();
+					if (localGatewayTask.IsCompleted)
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
 
 					var userClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
 
 					using var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);
-					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token);
+					var localCombinedCancellationToken = localCombinedCts.Token;
+					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCancellationToken);
 					if (!currentUserResult.IsSuccess)
 					{
+						localCombinedCancellationToken.ThrowIfCancellationRequested();
 						Logger.LogWarning("Unable to retrieve current user: {result}", currentUserResult.LogFormat());
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
 					}

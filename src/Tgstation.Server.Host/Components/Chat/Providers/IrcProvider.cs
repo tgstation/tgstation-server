@@ -455,11 +455,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				Logger.LogTrace("Connection established!");
 			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
+			catch (Exception e) when (e is not OperationCanceledException)
 			{
 				throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
 			}
