@@ -189,6 +189,7 @@ namespace Tgstation.Server.Host.Jobs
 					if (!jobs.TryGetValue(job.Id.Value, out handler))
 						return null;
 
+				logger.LogDebug("Cancelling job ID {jobId}...", job.Id.Value);
 				handler.Cancel(); // this will ensure the db update is only done once
 			}
 
