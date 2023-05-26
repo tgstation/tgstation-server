@@ -47,7 +47,9 @@ namespace Tgstation.Server.Tests.Live
 			commandFactory.SetWatchdog(Mock.Of<IWatchdog>());
 			commands = commandFactory.GenerateCommands();
 
-			var baseRng = new Random(22475);
+			var baseRng = new Random(
+				22475 // comment this out to enable true randomness, not that seeding is imperfect because Task execution order is non-deterministic
+				);
 			seededRng = new Dictionary<ChatProvider, Random>{
 				{ ChatProvider.Irc, new Random(baseRng.Next()) },
 				{ ChatProvider.Discord, new Random(baseRng.Next()) },
