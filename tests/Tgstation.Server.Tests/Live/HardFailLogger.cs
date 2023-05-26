@@ -24,7 +24,7 @@ namespace Tgstation.Server.Tests.Live
 			var logMessage = formatter(state, exception);
 			if ((logLevel == LogLevel.Error && !logMessage.StartsWith("Error disconnecting connection "))
 				|| (logLevel == LogLevel.Critical && logMessage != "DropDatabase configuration option set! Dropping any existing database..."))
-				failureSink(new Exception(logMessage, exception));
+				failureSink(new AssertFailedException("TGS logged an error!"));
 		}
 	}
 }
