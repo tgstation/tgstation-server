@@ -915,7 +915,7 @@ namespace Tgstation.Server.Host.Components.Session
 				}
 				catch (Exception ex)
 				{
-					Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $"{i} attempts remaining." : String.Empty);
+					Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
 				}
 
 			if (byondResponse == null)
