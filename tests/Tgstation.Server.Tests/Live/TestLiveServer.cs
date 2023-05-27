@@ -704,15 +704,34 @@ namespace Tgstation.Server.Tests.Live
 
 			ServiceCollectionExtensions.UseAdditionalLoggerProvider<HardFailLoggerProvider>();
 
+			var failureTask = HardFailLoggerProvider.FailureSource;
 			var internalTask = TestTgsInternal(hardCancellationToken);
 			await Task.WhenAny(
 				internalTask,
-				HardFailLoggerProvider.FailureSource);
+				failureTask);
 
 			if (!internalTask.IsCompleted)
 			{
 				hardCancellationTokenSource.Cancel();
-				await Task.WhenAll(internalTask, HardFailLoggerProvider.FailureSource);
+				try
+				{
+					await failureTask;
+				}
+				finally
+				{
+					try
+					{
+						await internalTask;
+					}
+					catch (OperationCanceledException)
+					{
+						Console.WriteLine("TEST CANCELLED!");
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"ADDITIONAL TEST ERROR: {ex}");
+					}
+				}
 			}
 		}
 
