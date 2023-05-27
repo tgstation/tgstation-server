@@ -930,7 +930,10 @@ namespace Tgstation.Server.Host.Components.Session
 					Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
 
 					if (i > 0)
-						await asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+					{
+						var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+						await Task.WhenAny(killedOrRebootedTask, delayTask);
+					}
 				}
 
 			if (byondResponse == null)
