@@ -25,7 +25,7 @@ namespace Tgstation.Server.Tests.Live
 			var logMessage = formatter(state, exception);
 			if ((logLevel == LogLevel.Error
 				&& !Regex.IsMatch(logMessage, "Error disconnecting connection [1-9][0-9]*!")
-				&& !(logMessage.StartsWith("An exception occurred while iterating over the results of a query for context type") && exception is TaskCanceledException))
+				&& !(logMessage.StartsWith("An exception occurred while iterating over the results of a query for context type") && (exception is TaskCanceledException || exception?.InnerException is TaskCanceledException)))
 				|| (logLevel == LogLevel.Critical && logMessage != "DropDatabase configuration option set! Dropping any existing database..."))
 				failureSink(new AssertFailedException("TGS logged an error!"));
 		}
