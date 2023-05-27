@@ -124,6 +124,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IChatManager chat;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="SessionController"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for port updates and <see cref="disposed"/>.
 		/// </summary>
 		readonly object synchronizationLock;
@@ -212,7 +217,12 @@ namespace Tgstation.Server.Host.Components.Session
 			this.chatTrackingContext = chatTrackingContext ?? throw new ArgumentNullException(nameof(chatTrackingContext));
 			if (bridgeRegistrar == null)
 				throw new ArgumentNullException(nameof(bridgeRegistrar));
+
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			portClosedForReboot = false;
 			disposed = false;
@@ -901,7 +911,9 @@ namespace Tgstation.Server.Host.Components.Session
 			var killedOrRebootedTask = Task.WhenAny(Lifetime, OnReboot);
 			global::Byond.TopicSender.TopicResponse byondResponse = null;
 			var firstSend = true;
-			for (var i = 4; i >= 0 && (priority || firstSend); --i)
+
+			const int PrioritySendAttempts = 5;
+			for (var i = PrioritySendAttempts - 1; i >= 0 && (priority || firstSend); --i)
 				try
 				{
 					firstSend = false;
@@ -916,6 +928,9 @@ namespace Tgstation.Server.Host.Components.Session
 				catch (Exception ex)
 				{
 					Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
+
+					if (i > 0)
+						await asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
 				}
 
 			if (byondResponse == null)
