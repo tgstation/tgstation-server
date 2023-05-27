@@ -40,7 +40,7 @@ namespace Tgstation.Server.Tests.Live
 
 		ulong channelIdAllocator;
 
-		static ILoggerFactory CreateLoggerFactoryForLogger(ILogger logger, out Mock<ILoggerFactory> mockLoggerFactory)
+		public static ILoggerFactory CreateLoggerFactoryForLogger(ILogger logger, out Mock<ILoggerFactory> mockLoggerFactory)
 		{
 			mockLoggerFactory = new Mock<ILoggerFactory>();
 			mockLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<string>())).Returns(() =>

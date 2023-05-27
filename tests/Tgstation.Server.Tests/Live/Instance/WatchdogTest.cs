@@ -869,13 +869,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 			return ddProc != null;
 		}
 
+		static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+		{
+			builder.AddConsole();
+			builder.SetMinimumLevel(LogLevel.Trace);
+		});
+
 		public static readonly TopicClient TopicClient = new(new SocketParameters
 		{
 			SendTimeout = TimeSpan.FromSeconds(30),
 			ReceiveTimeout = TimeSpan.FromSeconds(30),
 			ConnectTimeout = TimeSpan.FromSeconds(30),
 			DisconnectTimeout = TimeSpan.FromSeconds(30)
-		});
+		}, new Logger<TopicClient>(DummyChatProvider.CreateLoggerFactoryForLogger(loggerFactory.CreateLogger("WatchdogTest.TopicClient"), out var mockLoggerFactory)));
 
 		public async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
 		{
