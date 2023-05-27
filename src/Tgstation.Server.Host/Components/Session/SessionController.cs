@@ -929,7 +929,7 @@ namespace Tgstation.Server.Host.Components.Session
 				{
 					Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
 
-					if (i > 0)
+					if (priority && i > 0)
 					{
 						var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
 						await Task.WhenAny(killedOrRebootedTask, delayTask);
