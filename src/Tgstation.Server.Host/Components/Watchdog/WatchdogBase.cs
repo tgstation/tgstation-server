@@ -272,7 +272,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
-				if (Status == WatchdogStatus.Offline)
+				if (Status != WatchdogStatus.Online)
 					return new MessageContent
 					{
 						Text = "TGS: Server offline!",
