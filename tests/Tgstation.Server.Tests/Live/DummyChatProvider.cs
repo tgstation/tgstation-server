@@ -9,6 +9,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
+using Newtonsoft.Json;
+
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
@@ -34,6 +36,7 @@ namespace Tgstation.Server.Tests.Live
 		readonly ICryptographySuite cryptographySuite;
 		readonly CancellationTokenSource randomMessageCts;
 		readonly Task randomMessageTask;
+		readonly Dictionary<ulong, ChannelRepresentation> knownChannels;
 
 		bool connectedOnce;
 		bool connected;
@@ -85,8 +88,9 @@ namespace Tgstation.Server.Tests.Live
 
 			logger.LogTrace("Base channel ID {baseChannelId}", channelIdAllocator);
 
-			this.randomMessageCts = new CancellationTokenSource();
-			this.randomMessageTask = RandomMessageLoop(this.randomMessageCts.Token);
+			knownChannels = new Dictionary<ulong, ChannelRepresentation>();
+			randomMessageCts = new CancellationTokenSource();
+			randomMessageTask = RandomMessageLoop(this.randomMessageCts.Token);
 		}
 
 		public override async ValueTask DisposeAsync()
@@ -105,9 +109,7 @@ namespace Tgstation.Server.Tests.Live
 
 			Logger.LogTrace("SendMessage");
 
-			Assert.AreNotEqual(0UL, channelId);
-			var condition = channelId <= channelIdAllocator || channelId >= (Int32.MaxValue / 2);
-			Assert.IsTrue(condition);
+			Assert.IsTrue(knownChannels.ContainsKey(channelId));
 
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -131,8 +133,7 @@ namespace Tgstation.Server.Tests.Live
 
 			Logger.LogTrace("SendUpdateMessage");
 
-			Assert.AreNotEqual(0UL, channelId);
-			Assert.IsTrue(channelId <= channelIdAllocator);
+			Assert.IsTrue(knownChannels.ContainsKey(channelId));
 
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -171,7 +172,6 @@ namespace Tgstation.Server.Tests.Live
 			Logger.LogTrace("DisconnectImpl");
 			cancellationToken.ThrowIfCancellationRequested();
 			connected = false;
-			channelIdAllocator = 0;
 
 			if (random.Next(0, 100) > 70)
 				throw new Exception("Random disconnection failure!");
@@ -196,17 +196,41 @@ namespace Tgstation.Server.Tests.Live
 							channel,
 							new List<ChannelRepresentation>
 							{
-								new ChannelRepresentation
-								{
-									IsAdminChannel = channel.IsAdminChannel.Value,
-									ConnectionName = $"Connection_{channelIdAllocator + 1}",
-									EmbedsSupported = ChatBot.Provider.Value != Api.Models.ChatProvider.Irc,
-									FriendlyName = $"(Friendly) Channel_ID_{channelIdAllocator + 1}",
-									IsPrivateChannel = false,
-									RealId = ++channelIdAllocator,
-									Tag = channel.Tag,
-								}
+								CreateChannel(channel)
 							}))));
+		}
+
+		private ChannelRepresentation CreateChannel(ChatChannel channel)
+		{
+
+			ulong channelId;
+			if (channel.DiscordChannelId.HasValue)
+				channelId = channel.DiscordChannelId.Value;
+			else
+				channelId = (ulong)channel.IrcChannel.GetHashCode();
+
+			var entry = new ChannelRepresentation
+			{
+				IsAdminChannel = channel.IsAdminChannel.Value,
+				ConnectionName = $"Connection_{channelId}",
+				EmbedsSupported = ChatBot.Provider.Value != Api.Models.ChatProvider.Irc,
+				FriendlyName = $"(Friendly) Channel_ID_{channelId}",
+				IsPrivateChannel = false,
+				RealId = channelId,
+				Tag = channel.Tag,
+			};
+
+			knownChannels.Remove(channelId);
+			knownChannels.Add(channelId, entry);
+
+			return CloneChannel(entry);
+		}
+
+		ChannelRepresentation CloneChannel(ChannelRepresentation channel)
+		{
+			return JsonConvert.DeserializeObject<ChannelRepresentation>(
+				JsonConvert.SerializeObject(
+					channel));
 		}
 
 		async Task RandomMessageLoop(CancellationToken cancellationToken)
@@ -222,34 +246,66 @@ namespace Tgstation.Server.Tests.Live
 
 					// %5 chance to disconnect randomly
 					if (enableRandomDisconnections != 0 && random.Next(0, 100) > 95)
-					{
 						connected = false;
-						channelIdAllocator = 0;
-					}
 
 					if (!connected)
 						continue;
 
-					if (channelIdAllocator >= Int32.MaxValue / 2)
-						Assert.Fail("Too many channels have been allocated!");
-
 					var isPm = channelIdAllocator == 0 || random.Next(0, 100) > 80;
-					var idRandomizer = isPm ? channelIdAllocator + (Int32.MaxValue / 2) : channelIdAllocator;
-					var realId = (ulong)random.Next(isPm ? Int32.MaxValue / 2 : 1, (int)idRandomizer);
 
+					ChannelRepresentation channel;
 					var username = $"RandomUser{i}";
+					if (isPm)
+						// 50% chance to be a new user
+						if (random.Next(0, 100) > 50)
+						{
+							var enumerator = knownChannels
+								.Where(x => x.Value.IsPrivateChannel)
+								.ToList();
+							if (enumerator.Count == 0)
+								continue;
+
+							var index = random.Next(0, enumerator.Count);
+							channel = enumerator[index].Value;
+							username = channel.ConnectionName.Substring(0, channel.ConnectionName.Length - 11);
+						}
+						else
+						{
+							ulong channelId;
+							do
+							{
+								channelId = ++channelIdAllocator;
+							}
+							while (knownChannels.ContainsKey(channelId));
+
+							channel = new ChannelRepresentation
+							{
+								RealId = channelId,
+								IsPrivateChannel = true,
+								ConnectionName = $"{username}_Connection",
+								FriendlyName = $"{username}_Channel",
+								EmbedsSupported = ChatBot.Provider.Value != Api.Models.ChatProvider.Irc,
+
+								// isAdmin and Tag populated by manager
+							};
+
+							knownChannels.Add(channelId, channel);
+						}
+					else
+					{
+						var enumerator = knownChannels
+							.Where(x => !x.Value.IsPrivateChannel)
+							.ToList();
+						if (enumerator.Count == 0)
+							continue;
+
+						var index = random.Next(0, enumerator.Count);
+						channel = enumerator[index].Value;
+					}
+
 					var sender = new ChatUser
 					{
-						Channel = new ChannelRepresentation
-						{
-							RealId = realId,
-							IsPrivateChannel = isPm,
-							ConnectionName = isPm ? $"{username}_Connection" : $"Connection_{realId}",
-							FriendlyName = isPm ? $"{username}_Channel" : $"(Friendly) Channel_ID_{realId}",
-							EmbedsSupported = ChatBot.Provider.Value != Api.Models.ChatProvider.Irc,
-
-							// isAdmin and Tag populated by manager
-						},
+						Channel = CloneChannel(channel),
 						FriendlyName = username,
 						RealId = i + 50000,
 						Mention = $"@{username}",
