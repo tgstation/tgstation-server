@@ -272,17 +272,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken))
 			{
-				if (Status != WatchdogStatus.Online)
+				var commandObject = new ChatCommand(sender, commandName, arguments);
+				var command = new TopicParameters(commandObject);
+				var activeServer = GetActiveController();
+				if (Status != WatchdogStatus.Online || activeServer == null)
 					return new MessageContent
 					{
 						Text = "TGS: Server offline!",
 					};
 
-				var commandObject = new ChatCommand(sender, commandName, arguments);
-
-				var command = new TopicParameters(commandObject);
-
-				var activeServer = GetActiveController();
 				var commandResult = await activeServer.SendCommand(command, cancellationToken);
 
 				if (commandResult == null)
