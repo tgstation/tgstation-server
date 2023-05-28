@@ -10,7 +10,7 @@ namespace Tgstation.Server.Tests.Live
 
 		public static Task FailureSource => failureSink.Task;
 
-		static readonly TaskCompletionSource failureSink = new TaskCompletionSource();
+		static readonly TaskCompletionSource failureSink = new (TaskCreationOptions.RunContinuationsAsynchronously);
 
 		public ILogger CreateLogger(string categoryName) => new HardFailLogger(ex =>
 		{
