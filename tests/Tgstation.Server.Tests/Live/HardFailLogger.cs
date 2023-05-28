@@ -28,8 +28,8 @@ namespace Tgstation.Server.Tests.Live
 				&& !(logMessage.StartsWith("An exception occurred while iterating over the results of a query for context type") && (exception is TaskCanceledException || exception?.InnerException is TaskCanceledException)))
 				|| (logLevel == LogLevel.Critical && logMessage != "DropDatabase configuration option set! Dropping any existing database..."))
 			{
-				failureSink(new AssertFailedException("TGS logged an unexpected error!"));
 				Console.WriteLine("UNEXPECTED ERROR OCCURS NEAR HERE");
+				failureSink(new AssertFailedException("TGS logged an unexpected error!"));
 			}
 		}
 	}
