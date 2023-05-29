@@ -638,401 +638,412 @@ $(function() {
 <div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>                <span class="comment">// important, otherwise we could end up processing during shutdown</span></div>
 <div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>                cancellationToken.ThrowIfCancellationRequested();</div>
 <div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span> </div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>                providerId = providers</div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>                var providerIdNullable = providers</div>
 <div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                    .Where(x =&gt; x.Value == provider)</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                    .Select(x =&gt; x.Key)</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                    .First();</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                mappedChannel = mappedChannels</div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                    .Where(x =&gt; x.Value.ProviderId == providerId &amp;&amp; x.Value.ProviderChannelId == providerChannelId)</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                    .Select(x =&gt; (KeyValuePair&lt;ulong, ChannelMapping&gt;?)x)</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                    .FirstOrDefault();</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>                hasChannelZero = mappedChannels</div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>                    .Where(x =&gt; x.Value.ProviderId == providerId &amp;&amp; x.Value.ProviderChannelId == 0)</div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>                    .Any();</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>            }</div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span> </div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>            <span class="keywordflow">if</span> (!recursed &amp;&amp; !mappedChannel.HasValue &amp;&amp; hasChannelZero)</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            {</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>                logger.LogInformation(<span class="stringliteral">&quot;Receieved message from unmapped channel whose provider contains ID 0. Remapping...&quot;</span>);</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>                await RemapProvider(provider, cancellationToken);</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                logger.LogTrace(<span class="stringliteral">&quot;Resume processing original message...&quot;</span>);</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                await ProcessMessage(provider, message, <span class="keyword">true</span>, cancellationToken);</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                    .Select(x =&gt; (<span class="keywordtype">long</span>?)x.Key)</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                    .FirstOrDefault();</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span> </div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                <span class="keywordflow">if</span> (!providerIdNullable.HasValue)</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                {</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                    <span class="comment">// possible to have a message queued and then the provider immediately disconnects</span></div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>                    logger.LogDebug(<span class="stringliteral">&quot;Unable to process command \&quot;{command}\&quot; due to provider disconnecting&quot;</span>, message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a3a4a159c1b7b4ff0a163f4bb29ea4844">Content</a>);</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>                }</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span> </div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>                providerId = providerIdNullable.Value;</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>                mappedChannel = mappedChannels</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>                    .Where(x =&gt; x.Value.ProviderId == providerId &amp;&amp; x.Value.ProviderChannelId == providerChannelId)</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>                    .Select(x =&gt; (KeyValuePair&lt;ulong, ChannelMapping&gt;?)x)</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>                    .FirstOrDefault();</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                hasChannelZero = mappedChannels</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                    .Where(x =&gt; x.Value.ProviderId == providerId &amp;&amp; x.Value.ProviderChannelId == 0)</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>                    .Any();</div>
 <div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>            }</div>
 <div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span> </div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            <span class="keywordflow">if</span> (message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ac958a992eb0e2afa5555d09538645eac">IsPrivateChannel</a>)</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>                lock (mappedChannels)</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>                    <span class="keywordflow">if</span> (!mappedChannel.HasValue)</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>                    {</div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>                        ulong newId;</div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>                        lock (synchronizationLock)</div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>                            newId = channelIdCounter++;</div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>                        logger.LogTrace(</div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>                            <span class="stringliteral">&quot;Mapping private channel {connectionName}:{channelFriendlyName} as {newId}&quot;</span>,</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a0d68ca440d98dc89941ef3c5781f2f61">ConnectionName</a>,</div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#a73318a0ed859219085f4e1496ee5c9ee">FriendlyName</a>,</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>                            newId);</div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>                        mappedChannels.Add(newId, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html">ChannelMapping</a></div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>                        {</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>                            ProviderChannelId = message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>,</div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>                            ProviderId = providerId,</div>
-<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>                            Channel = message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>,</div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>                        });</div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span> </div>
-<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>                        logger.LogTrace(</div>
-<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>                            <span class="stringliteral">&quot;Mapping DM {connectionName}:{userId} ({userFriendlyName}) as {newId}&quot;</span>,</div>
-<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a0d68ca440d98dc89941ef3c5781f2f61">ConnectionName</a>,</div>
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae11079589a9c5466c125247cba0e3ec4">RealId</a>,</div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#a73318a0ed859219085f4e1496ee5c9ee">FriendlyName</a>,</div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>                            newId);</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>                        message.User.Channel.RealId = newId;</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>                    }</div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>                        message.User.Channel.RealId = mappedChannel.Value.Key;</div>
-<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>            {</div>
-<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>                <span class="keywordflow">if</span> (!mappedChannel.HasValue)</div>
-<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>                {</div>
-<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>                    logger.LogError(</div>
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>                        <span class="stringliteral">&quot;Error mapping message: Provider ID: {providerId}, Channel Real ID: {realId}&quot;</span>,</div>
-<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>                        providerId,</div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>                        message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>);</div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>                    await SendMessage(</div>
-<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>                        <span class="keyword">new</span> List&lt;ulong&gt;</div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>                        {</div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>,</div>
-<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>                        },</div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>                        message,</div>
-<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
-<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>                        {</div>
-<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>                            Text = <span class="stringliteral">&quot;TGS: Processing error, check logs!&quot;</span>,</div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>                        },</div>
-<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>                        cancellationToken)</div>
-<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>                        ;</div>
-<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                }</div>
-<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span> </div>
-<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>                var mappingChannelRepresentation = mappedChannel.Value.Value.Channel;</div>
-<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span> </div>
-<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                message.User.Channel.Id = mappingChannelRepresentation.Id;</div>
-<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>                message.User.Channel.Tag = mappingChannelRepresentation.Tag;</div>
-<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>                message.User.Channel.IsAdminChannel = mappingChannelRepresentation.IsAdminChannel;</div>
-<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>            }</div>
-<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span> </div>
-<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>            var trimmedMessage = message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a3a4a159c1b7b4ff0a163f4bb29ea4844">Content</a>.Trim();</div>
-<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>            <span class="keywordflow">if</span> (trimmedMessage.Length == 0)</div>
-<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            <span class="keywordflow">if</span> (!recursed &amp;&amp; !mappedChannel.HasValue &amp;&amp; !message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ac958a992eb0e2afa5555d09538645eac">IsPrivateChannel</a> &amp;&amp; hasChannelZero)</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>            {</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>                logger.LogInformation(<span class="stringliteral">&quot;Receieved message from unmapped channel whose provider contains ID 0. Remapping...&quot;</span>);</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>                await RemapProvider(provider, cancellationToken);</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>                logger.LogTrace(<span class="stringliteral">&quot;Resume processing original message...&quot;</span>);</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>                await ProcessMessage(provider, message, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>            }</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span> </div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>            <span class="keywordflow">if</span> (message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ac958a992eb0e2afa5555d09538645eac">IsPrivateChannel</a>)</div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>                lock (mappedChannels)</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>                    <span class="keywordflow">if</span> (!mappedChannel.HasValue)</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>                    {</div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>                        ulong newId;</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>                        lock (synchronizationLock)</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>                            newId = channelIdCounter++;</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>                        logger.LogTrace(</div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>                            <span class="stringliteral">&quot;Mapping private channel {connectionName}:{channelFriendlyName} as {newId}&quot;</span>,</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a0d68ca440d98dc89941ef3c5781f2f61">ConnectionName</a>,</div>
+<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#a73318a0ed859219085f4e1496ee5c9ee">FriendlyName</a>,</div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>                            newId);</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>                        mappedChannels.Add(newId, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html">ChannelMapping</a></div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>                        {</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>                            ProviderChannelId = message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>,</div>
+<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>                            ProviderId = providerId,</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>                            Channel = message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>,</div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>                        });</div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span> </div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>                        logger.LogTrace(</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>                            <span class="stringliteral">&quot;Mapping DM {connectionName}:{userId} ({userFriendlyName}) as {newId}&quot;</span>,</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a0d68ca440d98dc89941ef3c5781f2f61">ConnectionName</a>,</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae11079589a9c5466c125247cba0e3ec4">RealId</a>,</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#a73318a0ed859219085f4e1496ee5c9ee">FriendlyName</a>,</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>                            newId);</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>                        message.User.Channel.RealId = newId;</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>                    }</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>                        message.User.Channel.RealId = mappedChannel.Value.Key;</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>            {</div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>                <span class="keywordflow">if</span> (!mappedChannel.HasValue)</div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>                {</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>                    logger.LogError(</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>                        <span class="stringliteral">&quot;Error mapping message: Provider ID: {providerId}, Channel Real ID: {realId}&quot;</span>,</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>                        providerId,</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>                        message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>);</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>                    logger.LogTrace(<span class="stringliteral">&quot;message: {messageJson}&quot;</span>, JsonConvert.SerializeObject(message));</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>                    lock (mappedChannels)</div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>                        logger.LogTrace(<span class="stringliteral">&quot;mappedChannels: {mappedChannelsJson}&quot;</span>, JsonConvert.SerializeObject(mappedChannels));</div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>                    await SendMessage(</div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                        <span class="keyword">new</span> List&lt;ulong&gt;</div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>                        {</div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>,</div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>                        },</div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                        message,</div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>                        {</div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>                            Text = <span class="stringliteral">&quot;TGS: Processing error, check logs!&quot;</span>,</div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>                        },</div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>                        cancellationToken);</div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>                }</div>
 <div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span> </div>
-<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>            var splits = <span class="keyword">new</span> List&lt;string&gt;(trimmedMessage.Split(<span class="charliteral">&#39; &#39;</span>, StringSplitOptions.RemoveEmptyEntries));</div>
-<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>            var address = splits[0];</div>
-<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>            <span class="keywordflow">if</span> (address.Length &gt; 1 &amp;&amp; (address.Last() == <span class="charliteral">&#39;:&#39;</span> || address.Last() == <span class="charliteral">&#39;,&#39;</span>))</div>
-<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>                address = address[0..^1];</div>
-<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span> </div>
-<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>            address = address.ToUpperInvariant();</div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>                var mappingChannelRepresentation = mappedChannel.Value.Value.Channel;</div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span> </div>
+<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>                message.User.Channel.Id = mappingChannelRepresentation.Id;</div>
+<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>                message.User.Channel.Tag = mappingChannelRepresentation.Tag;</div>
+<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>                message.User.Channel.IsAdminChannel = mappingChannelRepresentation.IsAdminChannel;</div>
+<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>            }</div>
 <div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span> </div>
-<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>            var addressed =</div>
-<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>                address == CommonMention.ToUpperInvariant()</div>
-<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>                || address == provider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a781f872cb8143fe3ff92f3cc8d0d5abb">BotMention</a>.ToUpperInvariant();</div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>            var trimmedMessage = message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a3a4a159c1b7b4ff0a163f4bb29ea4844">Content</a>.Trim();</div>
+<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>            <span class="keywordflow">if</span> (trimmedMessage.Length == 0)</div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span> </div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>            <span class="comment">// no mention</span></div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>            <span class="keywordflow">if</span> (!addressed &amp;&amp; !message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ac958a992eb0e2afa5555d09538645eac">IsPrivateChannel</a>)</div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span> </div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>            logger.LogTrace(</div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>                <span class="stringliteral">&quot;Start processing command: {message}. User (True provider Id): {profiderId}&quot;</span>,</div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>                message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a3a4a159c1b7b4ff0a163f4bb29ea4844">Content</a>,</div>
-<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>                JsonConvert.SerializeObject(message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>));</div>
-<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>            <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>            {</div>
-<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>                <span class="keywordflow">if</span> (addressed)</div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>                    splits.RemoveAt(0);</div>
-<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span> </div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>                <span class="keywordflow">if</span> (splits.Count == 0)</div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>                {</div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>                    <span class="comment">// just a mention</span></div>
-<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>                    await SendMessage(</div>
-<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>                        <span class="keyword">new</span> List&lt;ulong&gt;</div>
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>                        {</div>
-<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>,</div>
-<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>                        },</div>
-<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>                        message,</div>
-<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
-<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>                        {</div>
-<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>                            Text = <span class="stringliteral">&quot;Hi!&quot;</span>,</div>
-<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>                        },</div>
-<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>                        cancellationToken);</div>
-<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>                }</div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span> </div>
-<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>                var command = splits[0].ToUpperInvariant();</div>
-<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>                splits.RemoveAt(0);</div>
-<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>                var arguments = String.Join(<span class="stringliteral">&quot; &quot;</span>, splits);</div>
-<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span> </div>
-<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>                <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html">ICommand</a> GetCommand(<span class="keywordtype">string</span> commandName)</div>
-<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>                {</div>
-<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>                    <span class="keywordflow">if</span> (!builtinCommands.TryGetValue(commandName, out var handler))</div>
-<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>                    {</div>
-<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>                        handler = trackingContexts</div>
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>                            .Where(x =&gt; x.CustomCommands != <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>                            .SelectMany(x =&gt; x.CustomCommands)</div>
-<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>                            .Where(x =&gt; x.Name.ToUpperInvariant() == commandName)</div>
-<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>                            .FirstOrDefault();</div>
-<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>                    }</div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>            var splits = <span class="keyword">new</span> List&lt;string&gt;(trimmedMessage.Split(<span class="charliteral">&#39; &#39;</span>, StringSplitOptions.RemoveEmptyEntries));</div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>            var address = splits[0];</div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>            <span class="keywordflow">if</span> (address.Length &gt; 1 &amp;&amp; (address.Last() == <span class="charliteral">&#39;:&#39;</span> || address.Last() == <span class="charliteral">&#39;,&#39;</span>))</div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>                address = address[0..^1];</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span> </div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>            address = address.ToUpperInvariant();</div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span> </div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>            var addressed =</div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>                address == CommonMention.ToUpperInvariant()</div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>                || address == provider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a781f872cb8143fe3ff92f3cc8d0d5abb">BotMention</a>.ToUpperInvariant();</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span> </div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>            <span class="comment">// no mention</span></div>
+<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>            <span class="keywordflow">if</span> (!addressed &amp;&amp; !message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#ac958a992eb0e2afa5555d09538645eac">IsPrivateChannel</a>)</div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span> </div>
+<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>            logger.LogTrace(</div>
+<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>                <span class="stringliteral">&quot;Start processing command: {message}. User (True provider Id): {profiderId}&quot;</span>,</div>
+<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>                message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a3a4a159c1b7b4ff0a163f4bb29ea4844">Content</a>,</div>
+<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>                JsonConvert.SerializeObject(message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>));</div>
+<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>            <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>            {</div>
+<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>                <span class="keywordflow">if</span> (addressed)</div>
+<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>                    splits.RemoveAt(0);</div>
+<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span> </div>
+<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>                <span class="keywordflow">if</span> (splits.Count == 0)</div>
+<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>                {</div>
+<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>                    <span class="comment">// just a mention</span></div>
+<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>                    await SendMessage(</div>
+<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>                        <span class="keyword">new</span> List&lt;ulong&gt;</div>
+<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>                        {</div>
+<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>                            message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48">RealId</a>,</div>
+<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>                        },</div>
+<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>                        message,</div>
+<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>                        {</div>
+<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>                            Text = <span class="stringliteral">&quot;Hi!&quot;</span>,</div>
+<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>                        },</div>
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>                        cancellationToken);</div>
+<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>                }</div>
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span> </div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>                var command = splits[0].ToUpperInvariant();</div>
+<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>                splits.RemoveAt(0);</div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>                var arguments = String.Join(<span class="stringliteral">&quot; &quot;</span>, splits);</div>
 <div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span> </div>
-<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>                    <span class="keywordflow">return</span> handler;</div>
-<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>                }</div>
-<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span> </div>
-<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>                <span class="keyword">const</span> <span class="keywordtype">string</span> UnknownCommandMessage = <span class="stringliteral">&quot;Unknown command! Type &#39;?&#39; or &#39;help&#39; for available commands.&quot;</span>;</div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span> </div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>                <span class="keywordflow">if</span> (command == <span class="stringliteral">&quot;HELP&quot;</span> || command == <span class="stringliteral">&quot;?&quot;</span>)</div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>                {</div>
-<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>                    <span class="keywordtype">string</span> helpText;</div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>                    <span class="keywordflow">if</span> (splits.Count == 0)</div>
-<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>                    {</div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>                        var allCommands = builtinCommands.Select(x =&gt; x.Value).ToList();</div>
-<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>                        allCommands.AddRange(</div>
-<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>                            trackingContexts</div>
-<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>                                .Where(x =&gt; x.CustomCommands != <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>                                .SelectMany(</div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>                                    x =&gt; x.CustomCommands));</div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>                        helpText = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Available commands (Type &#39;?&#39; or &#39;help&#39; and then a command name for more details): {0}&quot;</span>, String.Join(<span class="stringliteral">&quot;, &quot;</span>, allCommands.Select(x =&gt; x.Name)));</div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>                    }</div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>                    {</div>
-<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>                        var helpHandler = GetCommand(splits[0].ToUpperInvariant());</div>
-<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>                        <span class="keywordflow">if</span> (helpHandler != <span class="keywordflow">default</span>)</div>
-<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>                            helpText = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;{0}: {1}{2}&quot;</span>, helpHandler.Name, helpHandler.HelpText, helpHandler.AdminOnly ? <span class="stringliteral">&quot; - May only be used in admin channels&quot;</span> : String.Empty);</div>
-<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>                            helpText = UnknownCommandMessage;</div>
-<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>                    }</div>
-<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span> </div>
-<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>                    await SendMessage(</div>
-<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>                        <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
-<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>                        message,</div>
-<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
-<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>                        {</div>
-<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>                            Text = helpText,</div>
-<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>                        },</div>
-<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>                        cancellationToken);</div>
-<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>                }</div>
+<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>                <a class="code hl_interface" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html">ICommand</a> GetCommand(<span class="keywordtype">string</span> commandName)</div>
+<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>                {</div>
+<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>                    <span class="keywordflow">if</span> (!builtinCommands.TryGetValue(commandName, out var handler))</div>
+<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>                    {</div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>                        handler = trackingContexts</div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>                            .Where(x =&gt; x.CustomCommands != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>                            .SelectMany(x =&gt; x.CustomCommands)</div>
+<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>                            .Where(x =&gt; x.Name.ToUpperInvariant() == commandName)</div>
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>                            .FirstOrDefault();</div>
+<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>                    }</div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span> </div>
+<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>                    <span class="keywordflow">return</span> handler;</div>
+<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>                }</div>
+<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span> </div>
+<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>                <span class="keyword">const</span> <span class="keywordtype">string</span> UnknownCommandMessage = <span class="stringliteral">&quot;Unknown command! Type &#39;?&#39; or &#39;help&#39; for available commands.&quot;</span>;</div>
+<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span> </div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>                <span class="keywordflow">if</span> (command == <span class="stringliteral">&quot;HELP&quot;</span> || command == <span class="stringliteral">&quot;?&quot;</span>)</div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>                {</div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>                    <span class="keywordtype">string</span> helpText;</div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>                    <span class="keywordflow">if</span> (splits.Count == 0)</div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>                    {</div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>                        var allCommands = builtinCommands.Select(x =&gt; x.Value).ToList();</div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>                        allCommands.AddRange(</div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>                            trackingContexts</div>
+<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>                                .Where(x =&gt; x.CustomCommands != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>                                .SelectMany(</div>
+<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>                                    x =&gt; x.CustomCommands));</div>
+<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>                        helpText = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Available commands (Type &#39;?&#39; or &#39;help&#39; and then a command name for more details): {0}&quot;</span>, String.Join(<span class="stringliteral">&quot;, &quot;</span>, allCommands.Select(x =&gt; x.Name)));</div>
+<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>                    }</div>
+<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>                    {</div>
+<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>                        var helpHandler = GetCommand(splits[0].ToUpperInvariant());</div>
+<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>                        <span class="keywordflow">if</span> (helpHandler != <span class="keywordflow">default</span>)</div>
+<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>                            helpText = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;{0}: {1}{2}&quot;</span>, helpHandler.Name, helpHandler.HelpText, helpHandler.AdminOnly ? <span class="stringliteral">&quot; - May only be used in admin channels&quot;</span> : String.Empty);</div>
+<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>                            helpText = UnknownCommandMessage;</div>
+<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>                    }</div>
 <div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span> </div>
-<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span>                var commandHandler = GetCommand(command);</div>
-<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span> </div>
-<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>                <span class="keywordflow">if</span> (commandHandler == <span class="keywordflow">default</span>)</div>
-<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>                {</div>
-<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>                    await SendMessage(</div>
-<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>                        <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
-<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>                        message,</div>
-<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
-<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>                        {</div>
-<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>                            Text = UnknownCommandMessage,</div>
-<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>                        },</div>
-<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>                        cancellationToken);</div>
-<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>                }</div>
-<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span> </div>
-<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>                <span class="keywordflow">if</span> (commandHandler.AdminOnly &amp;&amp; !message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a5e3306682c350b0cfac4507762b6d8b1">IsAdminChannel</a>)</div>
-<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>                {</div>
-<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>                    await SendMessage(</div>
-<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>                        <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
-<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>                        message,</div>
-<div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
-<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>                        {</div>
-<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>                            Text = <span class="stringliteral">&quot;Use this command in an admin channel!&quot;</span>,</div>
-<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>                        },</div>
-<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>                        cancellationToken);</div>
-<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>                }</div>
-<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span> </div>
-<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>                var result = await commandHandler.Invoke(arguments, message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>, cancellationToken);</div>
-<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>                <span class="keywordflow">if</span> (result != <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>                    await SendMessage(<span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, message, result, cancellationToken);</div>
-<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span>            }</div>
-<div class="line"><a id="l00876" name="l00876"></a><span class="lineno">  876</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span>            {</div>
-<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span>                logger.LogTrace(ex, <span class="stringliteral">&quot;Command processing canceled!&quot;</span>);</div>
-<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>            }</div>
-<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>            {</div>
-<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>                <span class="comment">// error bc custom commands should reply about why it failed</span></div>
-<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>                logger.LogError(e, <span class="stringliteral">&quot;Error processing chat command&quot;</span>);</div>
-<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>                await SendMessage(</div>
-<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>                    <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
-<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>                    message,</div>
-<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
-<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>                    {</div>
-<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span>                        Text = <span class="stringliteral">&quot;TGS: Internal error processing command! Check server logs!&quot;</span>,</div>
-<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span>                    },</div>
-<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>                    cancellationToken)</div>
-<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>                    ;</div>
-<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>            }</div>
-<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>            {</div>
-<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>                logger.LogTrace(<span class="stringliteral">&quot;Done processing command.&quot;</span>);</div>
-<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span>            }</div>
-<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>        }</div>
-<div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span> </div>
-<div class="line"><a id="l00906" name="l00906"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">  906</a></span>        async Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">MonitorMessages</a>(CancellationToken cancellationToken)</div>
-<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>        {</div>
-<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>            logger.LogTrace(<span class="stringliteral">&quot;Starting processing loop...&quot;</span>);</div>
-<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>            var messageTasks = <span class="keyword">new</span> Dictionary&lt;IProvider, Task&lt;Message&gt;&gt;();</div>
-<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>            Task activeProcessingTask = Task.CompletedTask;</div>
-<div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span>            <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00912" name="l00912"></a><span class="lineno">  912</span>            {</div>
-<div class="line"><a id="l00913" name="l00913"></a><span class="lineno">  913</span>                Task updatedTask = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00914" name="l00914"></a><span class="lineno">  914</span>                <span class="keywordflow">while</span> (!cancellationToken.IsCancellationRequested)</div>
-<div class="line"><a id="l00915" name="l00915"></a><span class="lineno">  915</span>                {</div>
-<div class="line"><a id="l00916" name="l00916"></a><span class="lineno">  916</span>                    <span class="keywordflow">if</span> (updatedTask?.IsCompleted != <span class="keyword">false</span>)</div>
-<div class="line"><a id="l00917" name="l00917"></a><span class="lineno">  917</span>                        lock (synchronizationLock)</div>
-<div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span>                            updatedTask = connectionsUpdated.Task;</div>
-<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span> </div>
-<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>                    <span class="comment">// prune disconnected providers</span></div>
-<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>                    <span class="keywordflow">foreach</span> (var disposedProviderMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; x.Key.Disposed).ToList())</div>
-<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>                        messageTasks.Remove(disposedProviderMessageTaskKvp.Key);</div>
-<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span> </div>
-<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>                    <span class="comment">// add new ones</span></div>
-<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>                    lock (providers)</div>
-<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>                        <span class="keywordflow">foreach</span> (var providerKvp <span class="keywordflow">in</span> providers)</div>
-<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>                            <span class="keywordflow">if</span> (!messageTasks.ContainsKey(providerKvp.Value))</div>
-<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>                                messageTasks.Add(providerKvp.Value, providerKvp.Value.NextMessage(cancellationToken));</div>
-<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span> </div>
-<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>                    <span class="keywordflow">if</span> (messageTasks.Count == 0)</div>
-<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>                    {</div>
-<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>                        logger.LogTrace(<span class="stringliteral">&quot;No providers active, pausing messsage monitoring...&quot;</span>);</div>
-<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>                        await updatedTask.WithToken(cancellationToken);</div>
-<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>                        logger.LogTrace(<span class="stringliteral">&quot;Resuming message monitoring...&quot;</span>);</div>
-<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>                    }</div>
-<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span> </div>
-<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>                    <span class="comment">// wait for a message</span></div>
-<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>                    await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x =&gt; x.Value)));</div>
+<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span>                    await SendMessage(</div>
+<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>                        <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
+<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>                        message,</div>
+<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>                        {</div>
+<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>                            Text = helpText,</div>
+<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>                        },</div>
+<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>                        cancellationToken);</div>
+<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>                }</div>
+<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span> </div>
+<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>                var commandHandler = GetCommand(command);</div>
+<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span> </div>
+<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>                <span class="keywordflow">if</span> (commandHandler == <span class="keywordflow">default</span>)</div>
+<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>                {</div>
+<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>                    await SendMessage(</div>
+<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>                        <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
+<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>                        message,</div>
+<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>                        {</div>
+<div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span>                            Text = UnknownCommandMessage,</div>
+<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>                        },</div>
+<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>                        cancellationToken);</div>
+<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>                }</div>
+<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span> </div>
+<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>                <span class="keywordflow">if</span> (commandHandler.AdminOnly &amp;&amp; !message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Channel</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a5e3306682c350b0cfac4507762b6d8b1">IsAdminChannel</a>)</div>
+<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span>                {</div>
+<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>                    await SendMessage(</div>
+<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>                        <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
+<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>                        message,</div>
+<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span>                        <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><a id="l00876" name="l00876"></a><span class="lineno">  876</span>                        {</div>
+<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span>                            Text = <span class="stringliteral">&quot;Use this command in an admin channel!&quot;</span>,</div>
+<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span>                        },</div>
+<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>                        cancellationToken);</div>
+<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>                }</div>
+<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span> </div>
+<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>                var result = await commandHandler.Invoke(arguments, message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html#a92a51d88c16a6182343cb66e36f3bf89">User</a>, cancellationToken);</div>
+<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>                <span class="keywordflow">if</span> (result != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>                    await SendMessage(<span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId }, message, result, cancellationToken);</div>
+<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>            }</div>
+<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>            {</div>
+<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>                logger.LogTrace(ex, <span class="stringliteral">&quot;Command processing canceled!&quot;</span>);</div>
+<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span>            }</div>
+<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>            {</div>
+<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>                <span class="comment">// error bc custom commands should reply about why it failed</span></div>
+<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>                logger.LogError(e, <span class="stringliteral">&quot;Error processing chat command&quot;</span>);</div>
+<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>                await SendMessage(</div>
+<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>                    <span class="keyword">new</span> List&lt;ulong&gt; { message.User.Channel.RealId },</div>
+<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span>                    message,</div>
+<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a></div>
+<div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span>                    {</div>
+<div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>                        Text = <span class="stringliteral">&quot;TGS: Internal error processing command! Check server logs!&quot;</span>,</div>
+<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>                    },</div>
+<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span>                    cancellationToken)</div>
+<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span>                    ;</div>
+<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>            }</div>
+<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>            {</div>
+<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>                logger.LogTrace(<span class="stringliteral">&quot;Done processing command.&quot;</span>);</div>
+<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>            }</div>
+<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>        }</div>
+<div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span> </div>
+<div class="line"><a id="l00917" name="l00917"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">  917</a></span>        async Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">MonitorMessages</a>(CancellationToken cancellationToken)</div>
+<div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span>        {</div>
+<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span>            logger.LogTrace(<span class="stringliteral">&quot;Starting processing loop...&quot;</span>);</div>
+<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>            var messageTasks = <span class="keyword">new</span> Dictionary&lt;IProvider, Task&lt;Message&gt;&gt;();</div>
+<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>            Task activeProcessingTask = Task.CompletedTask;</div>
+<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>            <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>            {</div>
+<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>                Task updatedTask = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>                <span class="keywordflow">while</span> (!cancellationToken.IsCancellationRequested)</div>
+<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>                {</div>
+<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>                    <span class="keywordflow">if</span> (updatedTask?.IsCompleted != <span class="keyword">false</span>)</div>
+<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>                        lock (synchronizationLock)</div>
+<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>                            updatedTask = connectionsUpdated.Task;</div>
+<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span> </div>
+<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>                    <span class="comment">// prune disconnected providers</span></div>
+<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>                    <span class="keywordflow">foreach</span> (var disposedProviderMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; x.Key.Disposed).ToList())</div>
+<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>                        messageTasks.Remove(disposedProviderMessageTaskKvp.Key);</div>
+<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span> </div>
+<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>                    <span class="comment">// add new ones</span></div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>                    lock (providers)</div>
+<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>                        <span class="keywordflow">foreach</span> (var providerKvp <span class="keywordflow">in</span> providers)</div>
+<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>                            <span class="keywordflow">if</span> (!messageTasks.ContainsKey(providerKvp.Value))</div>
+<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>                                messageTasks.Add(providerKvp.Value, providerKvp.Value.NextMessage(cancellationToken));</div>
 <div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span> </div>
-<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>                    <span class="comment">// process completed ones</span></div>
-<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>                    <span class="keywordflow">foreach</span> (var completedMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; x.Value.IsCompleted).ToList())</div>
-<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>                    {</div>
-<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>                        var provider = completedMessageTaskKvp.Key;</div>
-<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>                        messageTasks.Remove(provider);</div>
-<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span> </div>
-<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>                        <span class="keywordflow">if</span> (provider.Disposed) <span class="comment">// valid to receive one, but don&#39;t process it</span></div>
-<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span> </div>
-<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>                        var message = await completedMessageTaskKvp.Value;</div>
-<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>                        var messageNumber = Interlocked.Increment(ref messagesProcessed);</div>
-<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span> </div>
-<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>                        async Task WrapProcessMessage()</div>
-<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>                        {</div>
-<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>                            var localActiveProcessingTask = activeProcessingTask;</div>
-<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>                            <span class="keyword">using</span> (LogContext.PushProperty(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html">SerilogContextHelper</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a0193caaad82bc334ee4d5e1976a556c1">ChatMessageIterationContextProperty</a>, messageNumber))</div>
-<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>                                <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>                                {</div>
-<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>                                    await ProcessMessage(provider, message, <span class="keyword">false</span>, cancellationToken);</div>
-<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>                                }</div>
-<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>                                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>                                {</div>
-<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>                                    logger.LogError(ex, <span class="stringliteral">&quot;Error processing message {messageNumber}!&quot;</span>, messageNumber);</div>
-<div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>                                }</div>
-<div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span> </div>
-<div class="line"><a id="l00966" name="l00966"></a><span class="lineno">  966</span>                            await localActiveProcessingTask;</div>
-<div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span>                        }</div>
-<div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span> </div>
-<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>                        activeProcessingTask = WrapProcessMessage();</div>
-<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>                    }</div>
-<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>                }</div>
-<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>            }</div>
-<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>            {</div>
-<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>                logger.LogTrace(ex, <span class="stringliteral">&quot;Message processing loop cancelled!&quot;</span>);</div>
-<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>            }</div>
-<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>            {</div>
-<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span>                logger.LogError(e, <span class="stringliteral">&quot;Message loop crashed!&quot;</span>);</div>
-<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>            }</div>
-<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span>            {</div>
-<div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>                await activeProcessingTask;</div>
-<div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span>            }</div>
-<div class="line"><a id="l00985" name="l00985"></a><span class="lineno">  985</span> </div>
-<div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span>            logger.LogTrace(<span class="stringliteral">&quot;Leaving message processing loop&quot;</span>);</div>
-<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>        }</div>
-<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span> </div>
-<div class="line"><a id="l00997" name="l00997"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4b0757db783ab5cffaa03e43136eecc6">  997</a></span>        Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4b0757db783ab5cffaa03e43136eecc6">SendMessage</a>(IEnumerable&lt;ulong&gt; channelIds, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Message</a> replyTo, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> message, CancellationToken cancellationToken)</div>
-<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>        {</div>
-<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>            channelIds = channelIds.ToList();</div>
-<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span> </div>
-<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span>            logger.LogTrace(</div>
-<div class="line"><a id="l01002" name="l01002"></a><span class="lineno"> 1002</span>                <span class="stringliteral">&quot;Chat send \&quot;{message}\&quot;{embed} to channels: [{channelIdsCommaSeperated}]&quot;</span>,</div>
-<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span>                message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html#afc1d8f1a06bc8ce61a1d86b168ee123f">Text</a>,</div>
-<div class="line"><a id="l01004" name="l01004"></a><span class="lineno"> 1004</span>                message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html#a4a3e59ac62b7e273e35d5ee5bf6d658f">Embed</a> != <span class="keyword">null</span> ? <span class="stringliteral">&quot; (with embed)&quot;</span> : String.Empty,</div>
-<div class="line"><a id="l01005" name="l01005"></a><span class="lineno"> 1005</span>                String.Join(<span class="stringliteral">&quot;, &quot;</span>, channelIds));</div>
-<div class="line"><a id="l01006" name="l01006"></a><span class="lineno"> 1006</span> </div>
-<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>            <span class="keywordflow">if</span> (!channelIds.Any())</div>
-<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>                <span class="keywordflow">return</span> Task.CompletedTask;</div>
-<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span> </div>
-<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>            <span class="keywordflow">return</span> Task.WhenAll(</div>
-<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>                channelIds.Select(x =&gt;</div>
-<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>                {</div>
-<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>                    ChannelMapping channelMapping;</div>
-<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>                    lock (mappedChannels)</div>
-<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>                        if (!mappedChannels.TryGetValue(x, out channelMapping))</div>
-<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>                            return Task.CompletedTask;</div>
-<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>                    IProvider provider;</div>
-<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>                    lock (providers)</div>
-<div class="line"><a id="l01019" name="l01019"></a><span class="lineno"> 1019</span>                        if (!providers.TryGetValue(channelMapping.ProviderId, out provider))</div>
-<div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span>                            return Task.CompletedTask;</div>
-<div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span>                    return provider.SendMessage(replyTo, message, channelMapping.ProviderChannelId, cancellationToken);</div>
-<div class="line"><a id="l01022" name="l01022"></a><span class="lineno"> 1022</span>                }));</div>
-<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>        }</div>
-<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span> </div>
-<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498"> 1029</a></span>        async Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498">InitialConnection</a>()</div>
-<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>        {</div>
-<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span>            await Task.WhenAll(providers.Select(x =&gt; x.Value.InitialConnectionJob));</div>
-<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>            logger.LogTrace(<span class="stringliteral">&quot;Initial provider connection task completed&quot;</span>);</div>
-<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>        }</div>
-<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span> </div>
-<div class="line"><a id="l01039" name="l01039"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c"> 1039</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c">AddMessageTask</a>(Task task)</div>
-<div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span>        {</div>
-<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>            async Task Wrap(Task originalTask)</div>
-<div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span>            {</div>
-<div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>                await originalTask;</div>
-<div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span>                <span class="keywordflow">try</span></div>
-<div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span>                {</div>
-<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>                    await task;</div>
-<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span>                }</div>
-<div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>                {</div>
-<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>                    logger.LogDebug(ex, <span class="stringliteral">&quot;Async chat message cancelled!&quot;</span>);</div>
-<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>                }</div>
-<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>                {</div>
-<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>                    logger.LogError(ex, <span class="stringliteral">&quot;Error in asynchronous chat message!&quot;</span>);</div>
-<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                }</div>
-<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>            }</div>
-<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span> </div>
-<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>            lock (handlerCts)</div>
-<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>                messageSendTask = Wrap(messageSendTask);</div>
-<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>        }</div>
-<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span> </div>
-<div class="line"><a id="l01068" name="l01068"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a340b673aa6460c8570dc501b18fe0f5e"> 1068</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a340b673aa6460c8570dc501b18fe0f5e">QueueMessageInternal</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> message, Func&lt;IEnumerable&lt;ulong&gt;&gt; channelIdsFactory, <span class="keywordtype">bool</span> waitForConnections)</div>
-<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>        {</div>
-<div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>            async Task SendMessageTask()</div>
-<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span>            {</div>
-<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span>                var cancellationToken = handlerCts.Token;</div>
-<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>                <span class="keywordflow">if</span> (waitForConnections)</div>
-<div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span>                    await initialProviderConnectionsTask.WithToken(cancellationToken);</div>
-<div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span> </div>
-<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>                await SendMessage(</div>
-<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span>                    channelIdsFactory(),</div>
-<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>                    <span class="keyword">null</span>,</div>
-<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>                    message,</div>
-<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span>                    cancellationToken);</div>
-<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>            }</div>
-<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span> </div>
-<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>            AddMessageTask(SendMessageTask());</div>
-<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>        }</div>
-<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>    }</div>
-<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span>}</div>
+<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>                    <span class="keywordflow">if</span> (messageTasks.Count == 0)</div>
+<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>                    {</div>
+<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>                        logger.LogTrace(<span class="stringliteral">&quot;No providers active, pausing messsage monitoring...&quot;</span>);</div>
+<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>                        await updatedTask.WithToken(cancellationToken);</div>
+<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>                        logger.LogTrace(<span class="stringliteral">&quot;Resuming message monitoring...&quot;</span>);</div>
+<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>                    }</div>
+<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span> </div>
+<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>                    <span class="comment">// wait for a message</span></div>
+<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>                    await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x =&gt; x.Value)));</div>
+<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span> </div>
+<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>                    <span class="comment">// process completed ones</span></div>
+<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>                    <span class="keywordflow">foreach</span> (var completedMessageTaskKvp <span class="keywordflow">in</span> messageTasks.Where(x =&gt; x.Value.IsCompleted).ToList())</div>
+<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>                    {</div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>                        var provider = completedMessageTaskKvp.Key;</div>
+<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>                        messageTasks.Remove(provider);</div>
+<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span> </div>
+<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>                        <span class="keywordflow">if</span> (provider.Disposed) <span class="comment">// valid to receive one, but don&#39;t process it</span></div>
+<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span> </div>
+<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>                        var message = await completedMessageTaskKvp.Value;</div>
+<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>                        var messageNumber = Interlocked.Increment(ref messagesProcessed);</div>
+<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span> </div>
+<div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>                        async Task WrapProcessMessage()</div>
+<div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span>                        {</div>
+<div class="line"><a id="l00966" name="l00966"></a><span class="lineno">  966</span>                            var localActiveProcessingTask = activeProcessingTask;</div>
+<div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span>                            <span class="keyword">using</span> (LogContext.PushProperty(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html">SerilogContextHelper</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_serilog_context_helper.html#a0193caaad82bc334ee4d5e1976a556c1">ChatMessageIterationContextProperty</a>, messageNumber))</div>
+<div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span>                                <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>                                {</div>
+<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>                                    await ProcessMessage(provider, message, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>                                }</div>
+<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>                                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>                                {</div>
+<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>                                    logger.LogError(ex, <span class="stringliteral">&quot;Error processing message {messageNumber}!&quot;</span>, messageNumber);</div>
+<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>                                }</div>
+<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span> </div>
+<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>                            await localActiveProcessingTask;</div>
+<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>                        }</div>
+<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span> </div>
+<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>                        activeProcessingTask = WrapProcessMessage();</div>
+<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span>                    }</div>
+<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span>                }</div>
+<div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>            }</div>
+<div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><a id="l00985" name="l00985"></a><span class="lineno">  985</span>            {</div>
+<div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span>                logger.LogTrace(ex, <span class="stringliteral">&quot;Message processing loop cancelled!&quot;</span>);</div>
+<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>            }</div>
+<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>            {</div>
+<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>                logger.LogError(e, <span class="stringliteral">&quot;Message loop crashed!&quot;</span>);</div>
+<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>            }</div>
+<div class="line"><a id="l00992" name="l00992"></a><span class="lineno">  992</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span>            {</div>
+<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span>                await activeProcessingTask;</div>
+<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>            }</div>
+<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span> </div>
+<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>            logger.LogTrace(<span class="stringliteral">&quot;Leaving message processing loop&quot;</span>);</div>
+<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>        }</div>
+<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span> </div>
+<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4b0757db783ab5cffaa03e43136eecc6"> 1008</a></span>        Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4b0757db783ab5cffaa03e43136eecc6">SendMessage</a>(IEnumerable&lt;ulong&gt; channelIds, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Message</a> replyTo, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> message, CancellationToken cancellationToken)</div>
+<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>        {</div>
+<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>            channelIds = channelIds.ToList();</div>
+<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span> </div>
+<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>            logger.LogTrace(</div>
+<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>                <span class="stringliteral">&quot;Chat send \&quot;{message}\&quot;{embed} to channels: [{channelIdsCommaSeperated}]&quot;</span>,</div>
+<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>                message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html#afc1d8f1a06bc8ce61a1d86b168ee123f">Text</a>,</div>
+<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>                message.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html#a4a3e59ac62b7e273e35d5ee5bf6d658f">Embed</a> != <span class="keyword">null</span> ? <span class="stringliteral">&quot; (with embed)&quot;</span> : String.Empty,</div>
+<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>                String.Join(<span class="stringliteral">&quot;, &quot;</span>, channelIds));</div>
+<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span> </div>
+<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>            <span class="keywordflow">if</span> (!channelIds.Any())</div>
+<div class="line"><a id="l01019" name="l01019"></a><span class="lineno"> 1019</span>                <span class="keywordflow">return</span> Task.CompletedTask;</div>
+<div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span> </div>
+<div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span>            <span class="keywordflow">return</span> Task.WhenAll(</div>
+<div class="line"><a id="l01022" name="l01022"></a><span class="lineno"> 1022</span>                channelIds.Select(x =&gt;</div>
+<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>                {</div>
+<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span>                    ChannelMapping channelMapping;</div>
+<div class="line"><a id="l01025" name="l01025"></a><span class="lineno"> 1025</span>                    lock (mappedChannels)</div>
+<div class="line"><a id="l01026" name="l01026"></a><span class="lineno"> 1026</span>                        if (!mappedChannels.TryGetValue(x, out channelMapping))</div>
+<div class="line"><a id="l01027" name="l01027"></a><span class="lineno"> 1027</span>                            return Task.CompletedTask;</div>
+<div class="line"><a id="l01028" name="l01028"></a><span class="lineno"> 1028</span>                    IProvider provider;</div>
+<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"> 1029</span>                    lock (providers)</div>
+<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>                        if (!providers.TryGetValue(channelMapping.ProviderId, out provider))</div>
+<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span>                            return Task.CompletedTask;</div>
+<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>                    return provider.SendMessage(replyTo, message, channelMapping.ProviderChannelId, cancellationToken);</div>
+<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>                }));</div>
+<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>        }</div>
+<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span> </div>
+<div class="line"><a id="l01040" name="l01040"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498"> 1040</a></span>        async Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498">InitialConnection</a>()</div>
+<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>        {</div>
+<div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span>            await Task.WhenAll(providers.Select(x =&gt; x.Value.InitialConnectionJob));</div>
+<div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>            logger.LogTrace(<span class="stringliteral">&quot;Initial provider connection task completed&quot;</span>);</div>
+<div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span>        }</div>
+<div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span> </div>
+<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c"> 1050</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c">AddMessageTask</a>(Task task)</div>
+<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>        {</div>
+<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>            async Task Wrap(Task originalTask)</div>
+<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>            {</div>
+<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>                await originalTask;</div>
+<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                <span class="keywordflow">try</span></div>
+<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>                {</div>
+<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>                    await task;</div>
+<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>                }</div>
+<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>                <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>                {</div>
+<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span>                    logger.LogDebug(ex, <span class="stringliteral">&quot;Async chat message cancelled!&quot;</span>);</div>
+<div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span>                }</div>
+<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span>                {</div>
+<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span>                    logger.LogError(ex, <span class="stringliteral">&quot;Error in asynchronous chat message!&quot;</span>);</div>
+<div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span>                }</div>
+<div class="line"><a id="l01067" name="l01067"></a><span class="lineno"> 1067</span>            }</div>
+<div class="line"><a id="l01068" name="l01068"></a><span class="lineno"> 1068</span> </div>
+<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>            lock (handlerCts)</div>
+<div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>                messageSendTask = Wrap(messageSendTask);</div>
+<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span>        }</div>
+<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span> </div>
+<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a340b673aa6460c8570dc501b18fe0f5e"> 1079</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a340b673aa6460c8570dc501b18fe0f5e">QueueMessageInternal</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_message_content.html">MessageContent</a> message, Func&lt;IEnumerable&lt;ulong&gt;&gt; channelIdsFactory, <span class="keywordtype">bool</span> waitForConnections)</div>
+<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span>        {</div>
+<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>            async Task SendMessageTask()</div>
+<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>            {</div>
+<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>                var cancellationToken = handlerCts.Token;</div>
+<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>                <span class="keywordflow">if</span> (waitForConnections)</div>
+<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>                    await initialProviderConnectionsTask.WithToken(cancellationToken);</div>
+<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span> </div>
+<div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span>                await SendMessage(</div>
+<div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span>                    channelIdsFactory(),</div>
+<div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span>                    <span class="keyword">null</span>,</div>
+<div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span>                    message,</div>
+<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>                    cancellationToken);</div>
+<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span>            }</div>
+<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span> </div>
+<div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span>            AddMessageTask(SendMessageTask());</div>
+<div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span>        }</div>
+<div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span>    }</div>
+<div class="line"><a id="l01097" name="l01097"></a><span class="lineno"> 1097</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html">Tgstation.Server.Host.Components.Chat.ChannelMapping</a></div><div class="ttdoc">Represents a mapping of a ChannelRepresentation.RealId.</div><div class="ttdef"><b>Definition:</b> <a href="_channel_mapping_8cs_source.html#l00006">ChannelMapping.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation_html_a0d68ca440d98dc89941ef3c5781f2f61"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a0d68ca440d98dc89941ef3c5781f2f61">Tgstation.Server.Host.Components.Chat.ChannelRepresentation.ConnectionName</a></div><div class="ttdeci">string ConnectionName</div><div class="ttdoc">The name of the connection the ChannelRepresentation belongs to.</div><div class="ttdef"><b>Definition:</b> <a href="_channel_representation_8cs_source.html#l00038">ChannelRepresentation.cs:38</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation_html_a5e3306682c350b0cfac4507762b6d8b1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a5e3306682c350b0cfac4507762b6d8b1">Tgstation.Server.Host.Components.Chat.ChannelRepresentation.IsAdminChannel</a></div><div class="ttdeci">bool IsAdminChannel</div><div class="ttdoc">If this is considered a channel for admin commands.</div><div class="ttdef"><b>Definition:</b> <a href="_channel_representation_8cs_source.html#l00043">ChannelRepresentation.cs:43</a></div></div>
@@ -1047,13 +1058,13 @@ $(function() {
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a1ac2daf67a09f128290588a5181c88ba"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a1ac2daf67a09f128290588a5181c88ba">Tgstation.Server.Host.Components.Chat.ChatManager.synchronizationLock</a></div><div class="ttdeci">readonly object synchronizationLock</div><div class="ttdoc">Used for various lock statements throughout this class.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00090">ChatManager.cs:90</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a1c0349edb057491d7bb8c03612bc8753"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a1c0349edb057491d7bb8c03612bc8753">Tgstation.Server.Host.Components.Chat.ChatManager.ChatManager</a></div><div class="ttdeci">ChatManager(IProviderFactory providerFactory, ICommandFactory commandFactory, IServerControl serverControl, ILoggerFactory loggerFactory, ILogger&lt; ChatManager &gt; logger, IEnumerable&lt; Models.ChatBot &gt; initialChatBots)</div><div class="ttdoc">Initializes a new instance of the ChatManager class.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00136">ChatManager.cs:136</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a32ce1266bccc40aebf2f9c284ed6e69a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a32ce1266bccc40aebf2f9c284ed6e69a">Tgstation.Server.Host.Components.Chat.ChatManager.customCommandHandler</a></div><div class="ttdeci">ICustomCommandHandler customCommandHandler</div><div class="ttdoc">The ICustomCommandHandler for the ChangeChannels(long, IEnumerable&lt;Models.ChatChannel&gt;,...</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00095">ChatManager.cs:95</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a340b673aa6460c8570dc501b18fe0f5e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a340b673aa6460c8570dc501b18fe0f5e">Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessageInternal</a></div><div class="ttdeci">void QueueMessageInternal(MessageContent message, Func&lt; IEnumerable&lt; ulong &gt; &gt; channelIdsFactory, bool waitForConnections)</div><div class="ttdoc">Adds a given message  to the send queue.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l01068">ChatManager.cs:1068</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a340b673aa6460c8570dc501b18fe0f5e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a340b673aa6460c8570dc501b18fe0f5e">Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessageInternal</a></div><div class="ttdeci">void QueueMessageInternal(MessageContent message, Func&lt; IEnumerable&lt; ulong &gt; &gt; channelIdsFactory, bool waitForConnections)</div><div class="ttdoc">Adds a given message  to the send queue.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l01079">ChatManager.cs:1079</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a38995278392e0456fe18f7605959099a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a38995278392e0456fe18f7605959099a">Tgstation.Server.Host.Components.Chat.ChatManager.providers</a></div><div class="ttdeci">readonly IDictionary&lt; long, IProvider &gt; providers</div><div class="ttdoc">Map of IProviders in use, keyed by ChatBotSettings Api.Models.EntityId.Id.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00065">ChatManager.cs:65</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a3ca52a2da0df3c6f05614dc8e87a4ec0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a3ca52a2da0df3c6f05614dc8e87a4ec0">Tgstation.Server.Host.Components.Chat.ChatManager.activeChatBots</a></div><div class="ttdeci">readonly List&lt; Models.ChatBot &gt; activeChatBots</div><div class="ttdoc">The active Models.ChatBot for the ChatManager.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00085">ChatManager.cs:85</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a422e8e55e6988c994b23eaaf16cf0498"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498">Tgstation.Server.Host.Components.Chat.ChatManager.InitialConnection</a></div><div class="ttdeci">async Task InitialConnection()</div><div class="ttdoc">Aggregate all IProvider.InitialConnectionJobs into one &lt;sse cref=&quot;Task&quot;&gt;.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l01029">ChatManager.cs:1029</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a422e8e55e6988c994b23eaaf16cf0498"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a422e8e55e6988c994b23eaaf16cf0498">Tgstation.Server.Host.Components.Chat.ChatManager.InitialConnection</a></div><div class="ttdeci">async Task InitialConnection()</div><div class="ttdoc">Aggregate all IProvider.InitialConnectionJobs into one &lt;sse cref=&quot;Task&quot;&gt;.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l01040">ChatManager.cs:1040</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a44b2cf5f8d6c222b4357d158c0e59d65"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a44b2cf5f8d6c222b4357d158c0e59d65">Tgstation.Server.Host.Components.Chat.ChatManager.initialProviderConnectionsTask</a></div><div class="ttdeci">Task initialProviderConnectionsTask</div><div class="ttdoc">A Task that represents the IProviders initial connection.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00105">ChatManager.cs:105</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a4b0757db783ab5cffaa03e43136eecc6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4b0757db783ab5cffaa03e43136eecc6">Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage</a></div><div class="ttdeci">Task SendMessage(IEnumerable&lt; ulong &gt; channelIds, Message replyTo, MessageContent message, CancellationToken cancellationToken)</div><div class="ttdoc">Asynchronously send a given message  to a set of channelIds .</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00997">ChatManager.cs:997</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a530e8ef5a58711a9c6744021df74afb2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">Tgstation.Server.Host.Components.Chat.ChatManager.MonitorMessages</a></div><div class="ttdeci">async Task MonitorMessages(CancellationToken cancellationToken)</div><div class="ttdoc">Monitors active providers for new Messages.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00906">ChatManager.cs:906</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a4b0757db783ab5cffaa03e43136eecc6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4b0757db783ab5cffaa03e43136eecc6">Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage</a></div><div class="ttdeci">Task SendMessage(IEnumerable&lt; ulong &gt; channelIds, Message replyTo, MessageContent message, CancellationToken cancellationToken)</div><div class="ttdoc">Asynchronously send a given message  to a set of channelIds .</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l01008">ChatManager.cs:1008</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a530e8ef5a58711a9c6744021df74afb2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2">Tgstation.Server.Host.Components.Chat.ChatManager.MonitorMessages</a></div><div class="ttdeci">async Task MonitorMessages(CancellationToken cancellationToken)</div><div class="ttdoc">Monitors active providers for new Messages.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00917">ChatManager.cs:917</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a556af78ef77307e5bff2d79daa628bcb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a556af78ef77307e5bff2d79daa628bcb">Tgstation.Server.Host.Components.Chat.ChatManager.mappedChannels</a></div><div class="ttdeci">readonly IDictionary&lt; ulong, ChannelMapping &gt; mappedChannels</div><div class="ttdoc">Map of ChannelRepresentation.RealIds to ChannelMappings.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00070">ChatManager.cs:70</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a6df490e4067fe694af10379fb56a7a25"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a6df490e4067fe694af10379fb56a7a25">Tgstation.Server.Host.Components.Chat.ChatManager.QueueMessage</a></div><div class="ttdeci">void QueueMessage(MessageContent message, IEnumerable&lt; ulong &gt; channelIds)</div><div class="ttdoc">Queue a chat message  to a given set of channelIds .</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00327">ChatManager.cs:327</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_a76009f2ea5bcdd632cd599fc3857ac96"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a76009f2ea5bcdd632cd599fc3857ac96">Tgstation.Server.Host.Components.Chat.ChatManager.loggerFactory</a></div><div class="ttdeci">readonly ILoggerFactory loggerFactory</div><div class="ttdoc">The ILoggerFactory for the ChatManager.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00050">ChatManager.cs:50</a></div></div>
@@ -1062,7 +1073,7 @@ $(function() {
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_aa6a9c74750f2d7681b3e2f2a2913d0b3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa6a9c74750f2d7681b3e2f2a2913d0b3">Tgstation.Server.Host.Components.Chat.ChatManager.commandFactory</a></div><div class="ttdeci">readonly ICommandFactory commandFactory</div><div class="ttdoc">The ICommandFactory for the ChatManager.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00040">ChatManager.cs:40</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_aa8388f0bf72714eba49fd88540c8a397"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa8388f0bf72714eba49fd88540c8a397">Tgstation.Server.Host.Components.Chat.ChatManager.RemapProvider</a></div><div class="ttdeci">async Task RemapProvider(IProvider provider, CancellationToken cancellationToken)</div><div class="ttdoc">Remap the channels for a given provider .</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00615">ChatManager.cs:615</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_aadf2ea0ffdbf567ac24cc5c45f6f66b6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aadf2ea0ffdbf567ac24cc5c45f6f66b6">Tgstation.Server.Host.Components.Chat.ChatManager.CreateTrackingContext</a></div><div class="ttdeci">IChatTrackingContext CreateTrackingContext()</div><div class="ttdoc">Start tracking Commands.CustomCommands and ChannelRepresentations. A new IChatTrackingContext.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00453">ChatManager.cs:453</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ab21f39aa8eb74bc4269aa37b378cf85c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c">Tgstation.Server.Host.Components.Chat.ChatManager.AddMessageTask</a></div><div class="ttdeci">void AddMessageTask(Task task)</div><div class="ttdoc">Adds a given task  to messageSendTask.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l01039">ChatManager.cs:1039</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ab21f39aa8eb74bc4269aa37b378cf85c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab21f39aa8eb74bc4269aa37b378cf85c">Tgstation.Server.Host.Components.Chat.ChatManager.AddMessageTask</a></div><div class="ttdeci">void AddMessageTask(Task task)</div><div class="ttdoc">Adds a given task  to messageSendTask.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l01050">ChatManager.cs:1050</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ab422bd62876dd150acf254eca4ed7305"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab422bd62876dd150acf254eca4ed7305">Tgstation.Server.Host.Components.Chat.ChatManager.HandleRestart</a></div><div class="ttdeci">Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)</div><div class="ttdoc">Handle a restart of the server. A Task representing the running operation.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00543">ChatManager.cs:543</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_abc0dda9d12fd94b299931aaa8d4aa8bd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#abc0dda9d12fd94b299931aaa8d4aa8bd">Tgstation.Server.Host.Components.Chat.ChatManager.logger</a></div><div class="ttdeci">readonly ILogger&lt; ChatManager &gt; logger</div><div class="ttdoc">The ILogger for the ChatManager.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00055">ChatManager.cs:55</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_html_ac0bd122a06d9a590adc983b3aedc7417"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ac0bd122a06d9a590adc983b3aedc7417">Tgstation.Server.Host.Components.Chat.ChatManager.DisposeAsync</a></div><div class="ttdeci">async ValueTask DisposeAsync()</div><div class="ttdef"><b>Definition:</b> <a href="_chat_manager_8cs_source.html#l00168">ChatManager.cs:168</a></div></div>

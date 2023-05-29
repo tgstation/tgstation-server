@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionController.SendRawTopic" name="Tgstation.Server.Host.Components.Session.SessionController.SendRawTopic">
+<area shape="rect" id="node1" title="Send a given queryString &#160;to DreamDaemon&#39;s /world/Topic." alt="" coords="5,5,271,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="319,5,500,45"/>
+</map>
