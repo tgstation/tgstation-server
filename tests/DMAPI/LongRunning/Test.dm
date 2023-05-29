@@ -54,7 +54,10 @@
 		CheckBridgeLimits()
 
 /world/Topic(T, Addr, Master, Keys)
-	log << "Topic: [T]"
+	if(findtext(T, "tgs_integration_test_tactics3") == 0)
+		log << "Topic: [T]"
+	else
+		log << "tgs_integration_test_tactics3 <TOPIC SUPPRESSED>"
 	. =  HandleTopic(T)
 	log << "Response: [.]"
 
@@ -210,10 +213,18 @@ var/run_bridge_test
 	return response
 
 var/lastTgsError
+var/suppress_bridge_spam = FALSE
+
+/proc/TgsInfo(message)
+	if(suppress_bridge_spam && findtext(message, "Export: http://127.0.0.1:") != 0)
+		return
+	world.log << "Info: [message]"
 
 /proc/TgsError(message)
-	world.log << "Err: [message]"
 	lastTgsError = message
+	if(suppress_bridge_spam && findtext(message, "Failed bridge request: http://127.0.0.1:") != 0)
+		return
+	world.log << "Err: [message]"
 
 /proc/create_payload(size)
 	var/builder = list()
@@ -230,7 +241,9 @@ var/lastTgsError
 /proc/BridgeWithoutChunking(command, list/data)
 	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
 	var/bridge_request = api.CreateBridgeRequest(command, data)
-	return api.PerformBridgeRequest(bridge_request)
+	suppress_bridge_spam = TRUE
+	. = api.PerformBridgeRequest(bridge_request)
+	suppress_bridge_spam = FALSE
 
 /proc/CheckBridgeLimitsImpl()
 	sleep(30)
