@@ -216,6 +216,38 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestMethod]
+		public async Task TestUpdateBadVersion()
+		{
+			using var server = new LiveTestingServer(null, false, dumpOnMissingUpdate: false);
+			using var serverCts = new CancellationTokenSource();
+			var cancellationToken = serverCts.Token;
+			var serverTask = server.Run(cancellationToken);
+			try
+			{
+				var testUpdateVersion = new Version(5, 11, 20);
+				using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
+				await ApiAssert.ThrowsException<ConflictException>(() => adminClient.Administration.Update(new ServerUpdateRequest
+				{
+					NewVersion = testUpdateVersion
+				}, cancellationToken), ErrorCode.ResourceNotPresent);
+			}
+			finally
+			{
+				serverCts.Cancel();
+				try
+				{
+					await serverTask;
+				}
+				catch (OperationCanceledException) { }
+				catch (AggregateException ex)
+				{
+					if (ex.InnerException is NotSupportedException notSupportedException)
+						Assert.Inconclusive(notSupportedException.Message);
+				}
+			}
+		}
+
+		[TestMethod]
 		public async Task TestOneServerSwarmUpdate()
 		{
 			// cleanup existing directories

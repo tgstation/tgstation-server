@@ -108,13 +108,16 @@ namespace Tgstation.Server.Host.Core
 
 			logger.LogTrace("Received {releaseCount} total releases from GitHub", releases.Count);
 
-			releases = releases
+			var filteredReleases = releases
 				.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
 				.ToList();
 
-			logger.LogTrace("Filtered to {releaseCount} releases matching a TGS version", releases.Count);
+			logger.LogTrace(
+				"Filtered to {releaseCount} releases matching the configured tag prefix of \"{tagPrefix}\"",
+				filteredReleases.Count,
+				updatesConfiguration.GitTagPrefix);
 
-			foreach (var release in releases)
+			foreach (var release in filteredReleases)
 				if (Version.TryParse(
 					release.TagName.Replace(
 						updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal),
@@ -148,6 +151,12 @@ namespace Tgstation.Server.Host.Core
 				}
 				else
 					logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
+
+			if (updatesConfiguration.DumpReleasesOnNotFound)
+				logger.LogInformation(
+					"Found releases:{newline}\t{releases}",
+					Environment.NewLine,
+					String.Join($"{Environment.NewLine}\t", releases.Select(x => x.TagName).OrderBy(x => x)));
 
 			return ServerUpdateResult.ReleaseMissing;
 		}

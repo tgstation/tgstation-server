@@ -46,7 +46,7 @@ namespace Tgstation.Server.Tests.Live
 			SerilogContextHelper.AddSwarmNodeIdentifierToTemplate();
 		}
 
-		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
+		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010, bool dumpOnMissingUpdate = true)
 		{
 			Directory = Environment.GetEnvironmentVariable("TGS_TEST_TEMP_DIRECTORY");
 			if (string.IsNullOrWhiteSpace(Directory))
@@ -101,6 +101,9 @@ namespace Tgstation.Server.Tests.Live
 				string.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000"
 			};
+
+			if (dumpOnMissingUpdate)
+				args.Add("Updates:DumpReleasesOnNotFound=true");
 
 			swarmArgs = new List<string>();
 			if (swarmConfiguration != null)
