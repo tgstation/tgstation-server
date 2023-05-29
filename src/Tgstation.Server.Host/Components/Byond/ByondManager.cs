@@ -423,10 +423,10 @@ namespace Tgstation.Server.Host.Components.Byond
 			{
 				if (customVersionStream != null)
 				{
-					int customInstallationNumber = 1;
+					var customInstallationNumber = 1;
 					do
 					{
-						version = new Version(version.Major, version.Minor, customInstallationNumber);
+						version = new Version(version.Major, version.Minor, customInstallationNumber++);
 					}
 					while (installedVersions.ContainsKey(version));
 				}
