@@ -855,8 +855,8 @@ namespace Tgstation.Server.Tests.Live
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 					var instanceMangagerTest = new InstanceManagerTest(adminClient, server.Directory);
-					var instancesTest = FailFast(instanceMangagerTest.RunPreTest(cancellationToken));
 					instance = await instanceMangagerTest.CreateTestInstance(cancellationToken);
+					var instancesTest = FailFast(instanceMangagerTest.RunPreTest(cancellationToken));
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
