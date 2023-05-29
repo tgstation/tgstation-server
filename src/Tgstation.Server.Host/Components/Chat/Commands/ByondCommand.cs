@@ -61,7 +61,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				});
 			return Task.FromResult(new MessageContent
 			{
-				Text = watchdog.ActiveCompileJob.ByondVersion,
+				Text = watchdog.ActiveCompileJob?.ByondVersion ?? "None!",
 			});
 		}
 	}

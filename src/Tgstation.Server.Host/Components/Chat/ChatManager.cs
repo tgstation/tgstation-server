@@ -660,10 +660,19 @@ namespace Tgstation.Server.Host.Components.Chat
 				// important, otherwise we could end up processing during shutdown
 				cancellationToken.ThrowIfCancellationRequested();
 
-				providerId = providers
+				var providerIdNullable = providers
 					.Where(x => x.Value == provider)
-					.Select(x => x.Key)
-					.First();
+					.Select(x => (long?)x.Key)
+					.FirstOrDefault();
+
+				if (!providerIdNullable.HasValue)
+				{
+					// possible to have a message queued and then the provider immediately disconnects
+					logger.LogDebug("Unable to process command \"{command}\" due to provider disconnecting", message.Content);
+					return;
+				}
+
+				providerId = providerIdNullable.Value;
 				mappedChannel = mappedChannels
 					.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == providerChannelId)
 					.Select(x => (KeyValuePair<ulong, ChannelMapping>?)x)
@@ -673,7 +682,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					.Any();
 			}
 
-			if (!recursed && !mappedChannel.HasValue && hasChannelZero)
+			if (!recursed && !mappedChannel.HasValue && !message.User.Channel.IsPrivateChannel && hasChannelZero)
 			{
 				logger.LogInformation("Receieved message from unmapped channel whose provider contains ID 0. Remapping...");
 				await RemapProvider(provider, cancellationToken);
@@ -719,6 +728,9 @@ namespace Tgstation.Server.Host.Components.Chat
 						"Error mapping message: Provider ID: {providerId}, Channel Real ID: {realId}",
 						providerId,
 						message.User.Channel.RealId);
+					logger.LogTrace("message: {messageJson}", JsonConvert.SerializeObject(message));
+					lock (mappedChannels)
+						logger.LogTrace("mappedChannels: {mappedChannelsJson}", JsonConvert.SerializeObject(mappedChannels));
 					await SendMessage(
 						new List<ulong>
 						{
@@ -729,8 +741,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						{
 							Text = "TGS: Processing error, check logs!",
 						},
-						cancellationToken)
-						;
+						cancellationToken);
 					return;
 				}
 

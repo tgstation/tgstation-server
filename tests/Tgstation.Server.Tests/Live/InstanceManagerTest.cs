@@ -38,9 +38,20 @@ namespace Tgstation.Server.Tests.Live
 			this.testRootPath = testRootPath ?? throw new ArgumentNullException(nameof(testRootPath));
 		}
 
-		public Task<InstanceResponse> CreateTestInstance(CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
+		public async Task<InstanceResponse> CreateTestInstance(CancellationToken cancellationToken)
 		{
-			Name = TestInstanceName,
+			var instance = await CreateTestInstanceStub("LiveTestsInstance", cancellationToken);
+			return await instanceManagerClient.Update(new InstanceUpdateRequest
+			{
+				Id = instance.Id,
+				Online = true,
+				ConfigurationType = ConfigurationType.HostWrite
+			}, cancellationToken);
+		}
+
+		Task<InstanceResponse> CreateTestInstanceStub(string name, CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
+		{
+			Name = name,
 			Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
 			Online = true,
 			ChatBotLimit = 2
@@ -57,9 +68,9 @@ namespace Tgstation.Server.Tests.Live
 			Online = response.Online
 		};
 
-		public async Task<Api.Models.Instance> RunPreInstanceTest(CancellationToken cancellationToken)
+		public async Task RunPreTest(CancellationToken cancellationToken)
 		{
-			var firstTest = await CreateTestInstance(cancellationToken);
+			var firstTest = await CreateTestInstanceStub(TestInstanceName, cancellationToken);
 			//instances always start offline
 			Assert.AreEqual(false, firstTest.Online);
 			//check it exists
@@ -161,8 +172,14 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			await RegressionTest1256(cancellationToken);
+			firstTest = await instanceManagerClient.Update(new InstanceUpdateRequest
+			{
+				Id = firstTest.Id,
+				Online = false,
+			}, cancellationToken);
 
-			return firstTest;
+			Assert.AreEqual(false, firstTest.Online);
+			await instanceManagerClient.Detach(firstTest, cancellationToken);
 		}
 
 		async Task RegressionTest1256(CancellationToken cancellationToken)
@@ -197,10 +214,10 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(3, paginated.TotalPages);
 		}
 
-		public async Task RunPostTest(CancellationToken cancellationToken)
+		public async Task RunPostTest(Api.Models.Instance instance, CancellationToken cancellationToken)
 		{
 			var instances = await instanceManagerClient.List(null, cancellationToken);
-			var firstTest = instances.Single(x => x.Name == TestInstanceName);
+			var firstTest = instances.Single(x => x.Name == instance.Name);
 			var instanceClient = instanceManagerClient.CreateClient(firstTest);
 
 			Assert.IsTrue(firstTest.Accessible);

@@ -52,8 +52,15 @@ namespace Tgstation.Server.Host.IO
 			foreach (var file in dir.EnumerateFiles())
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				file.Attributes = FileAttributes.Normal;
-				file.Delete();
+				try
+				{
+					file.Attributes = FileAttributes.Normal;
+					file.Delete();
+				}
+				catch (FileNotFoundException)
+				{
+					// has happened before with .dyn.rsc.lk
+				}
 			}
 
 			cancellationToken.ThrowIfCancellationRequested();

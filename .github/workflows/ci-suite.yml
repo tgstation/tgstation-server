@@ -309,8 +309,6 @@ jobs:
     name: Windows Live Tests
     needs: dmapi-build
     if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
-    env:
-      TGS_TEST_DUMP_API_SPEC: yes
     strategy:
       fail-fast: false
       matrix:
@@ -326,6 +324,10 @@ jobs:
 
     - name: Upgrade NPM
       run: npm install -g npm
+
+    - name: Set TGS_TEST_DUMP_API_SPEC
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
+      run: echo "TGS_TEST_DUMP_API_SPEC=yes" >> $Env:GITHUB_ENV
 
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}

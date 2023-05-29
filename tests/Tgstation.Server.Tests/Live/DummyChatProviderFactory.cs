@@ -47,7 +47,15 @@ namespace Tgstation.Server.Tests.Live
 			commandFactory.SetWatchdog(Mock.Of<IWatchdog>());
 			commands = commandFactory.GenerateCommands();
 
-			var baseRng = new Random(22475);
+			const bool UseUnseededProviderRng = false;
+
+			var randomSeed = UseUnseededProviderRng
+				? new Random().Next()
+				: 22475;
+
+			logger.LogInformation("Random seed: {0}", randomSeed);
+
+			var baseRng = new Random(randomSeed);
 			seededRng = new Dictionary<ChatProvider, Random>{
 				{ ChatProvider.Irc, new Random(baseRng.Next()) },
 				{ ChatProvider.Discord, new Random(baseRng.Next()) },
