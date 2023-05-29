@@ -765,6 +765,8 @@ namespace Tgstation.Server.Tests.Live
 					}
 				}
 			}
+			else
+				await internalTask;
 		}
 
 		async Task TestTgsInternal(CancellationToken hardCancellationToken)
@@ -845,7 +847,7 @@ namespace Tgstation.Server.Tests.Live
 						}
 						catch (Exception ex)
 						{
-							System.Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
+							Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
 							serverCts.Cancel();
 							throw;
 						}
