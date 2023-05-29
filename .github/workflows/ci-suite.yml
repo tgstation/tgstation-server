@@ -1,6 +1,8 @@
 name: 'CI'
 
 on:
+  schedule:
+    - cron: 0 23 * * *
   push:
     branches:
     - dev
@@ -50,7 +52,7 @@ jobs:
     name: Start CI Run Gate
     needs: security-checkpoint
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target'))))"
+    if: "!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target'))))"
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -69,9 +71,9 @@ jobs:
     - name: Upgrade NPM
       run: npm install -g npm
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
       with:
         fetch-depth: 2
 
@@ -120,9 +122,9 @@ jobs:
         make here
         exit 0
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -156,9 +158,9 @@ jobs:
     needs: start-ci-run-gate
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -206,9 +208,9 @@ jobs:
     needs: start-ci-run-gate
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -237,9 +239,9 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -280,9 +282,9 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -341,9 +343,9 @@ jobs:
         echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
         echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -486,9 +488,9 @@ jobs:
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $GITHUB_ENV
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -555,9 +557,9 @@ jobs:
     - name: Install IBM OpenAPI Validator
       run: npm i -g ibm-openapi-validator@0.51.3
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -580,9 +582,9 @@ jobs:
     if: "!(cancelled() || failure()) && needs.linux-unit-tests.result == 'success' && needs.linux-integration-tests.result == 'success' && needs.windows-unit-tests.result == 'success' && needs.windows-integration-test.result == 'success'"
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
@@ -734,22 +736,14 @@ jobs:
         directory: ./code_coverage
         fail_ci_if_error: true
 
-
   deploy-http:
     name: Deploy HTTP API
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')"
+    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')"
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse API version
       shell: powershell
@@ -789,17 +783,10 @@ jobs:
     name: Deploy DreamMaker API
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]')"
+    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]')"
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse DMAPI version
       shell: powershell
@@ -838,22 +825,15 @@ jobs:
     name: Deploy Nuget Packages
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')"
+    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Publish Tgstation.Server.Api to NuGet
       uses: alirezanet/publish-nuget@v3.0.0
@@ -883,22 +863,15 @@ jobs:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-http]
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]')"
+    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Run ReleaseNotes with --ensure-release
       run: dotnet run -c Release --project tools/ReleaseNotes --ensure-release
@@ -907,22 +880,15 @@ jobs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-http, upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && (needs.upload-code-coverage.result == 'success' || needs.validate-openapi-spec.result == 'success') && github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
+    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && (needs.upload-code-coverage.result == 'success' || needs.validate-openapi-spec.result == 'success') && github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse TGS version
       shell: powershell
@@ -1030,18 +996,11 @@ jobs:
   deploy-docker:
     name: Deploy TGS (Docker)
     needs: [deploy-tgs]
-    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
+    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && needs.deploy-tgs.result == 'success'"
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse TGS version
       run: |
