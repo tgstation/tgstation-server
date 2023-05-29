@@ -55,6 +55,11 @@ namespace Tgstation.Server.Host.Jobs
 		readonly object addCancelLock;
 
 		/// <summary>
+		/// Prevents jobs that are registered after shutdown from activating.
+		/// </summary>
+		volatile bool noMoreJobsShouldStart;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="JobManager"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
@@ -122,10 +127,15 @@ namespace Tgstation.Server.Host.Jobs
 					{
 						lock (addCancelLock)
 						{
+							bool jobShouldStart;
 							lock (synchronizationLock)
+							{
 								jobs.Add(job.Id.Value, jobHandler);
+								jobShouldStart = !noMoreJobsShouldStart;
+							}
 
-							jobHandler.Start();
+							if (jobShouldStart)
+								jobHandler.Start();
 						}
 					}
 					catch
@@ -145,8 +155,7 @@ namespace Tgstation.Server.Host.Jobs
 					.AsQueryable()
 					.Where(y => !y.StoppedAt.HasValue)
 					.Select(y => y.Id)
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 				if (badJobIds.Count > 0)
 				{
 					logger.LogTrace("Cleaning {unfinishedJobCount} unfinished jobs...", badJobIds.Count);
@@ -160,19 +169,29 @@ namespace Tgstation.Server.Host.Jobs
 
 					await databaseContext.Save(cancellationToken);
 				}
+
+				noMoreJobsShouldStart = false;
 			});
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			var joinTasks = jobs.Select(x => CancelJob(
-				new Job
+			List<Task<Job>> joinTasks;
+			lock (addCancelLock)
+				lock (synchronizationLock)
 				{
-					Id = x.Key,
-				},
-				null,
-				true,
-				cancellationToken));
+					noMoreJobsShouldStart = true;
+					joinTasks = jobs.Select(x => CancelJob(
+						new Job
+						{
+							Id = x.Key,
+						},
+						null,
+						true,
+						cancellationToken))
+						.ToList();
+				}
+
 			await Task.WhenAll(joinTasks);
 		}
 
