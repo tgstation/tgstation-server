@@ -412,7 +412,20 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				var deleteTask = DeleteCompileJobContent(job.DirectoryName.ToString(), cleanupCts.Token);
 				var otherTask = cleanupTask;
-				await Task.WhenAll(otherTask, deleteTask, deploymentJob);
+
+				async Task WrapThrowableTasks()
+				{
+					try
+					{
+						await Task.WhenAll(deleteTask, deploymentJob);
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Error cleaning up compile job {jobGuid}!", job.DirectoryName);
+					}
+				}
+
+				await Task.WhenAll(otherTask, WrapThrowableTasks());
 			}
 
 			lock (jobLockCounts)

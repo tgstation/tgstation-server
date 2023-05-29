@@ -207,8 +207,7 @@ namespace Tgstation.Server.Host.Components
 					Configuration.StopAsync(cancellationToken),
 					ByondManager.StopAsync(cancellationToken),
 					Chat.StopAsync(cancellationToken),
-					dmbFactory.StopAsync(cancellationToken))
-					;
+					dmbFactory.StopAsync(cancellationToken));
 			}
 		}
 

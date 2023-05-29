@@ -312,16 +312,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						await jobManager.WaitForJobCompletion(job, null, cancellationToken, default);
 					}
 				}
-				catch (OperationCanceledException)
+				catch (OperationCanceledException e)
 				{
-					break;
+					Logger.LogTrace(e, "ReconnectionLoop cancelled");
 				}
 				catch (Exception e)
 				{
 					Logger.LogError(e, "Error reconnecting!");
 				}
 			}
-			while (true);
+			while (!cancellationToken.IsCancellationRequested);
+
+			Logger.LogTrace("ReconnectionLoop exiting...");
 		}
 	}
 }

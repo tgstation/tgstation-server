@@ -826,7 +826,7 @@ namespace Tgstation.Server.Host.Swarm
 					updateCommitTcs = new TaskCompletionSource<bool>();
 				}
 
-				logger.LogDebug("Prepared for update to version {version}", version);
+				logger.LogDebug("Local node prepared for update to version {version}", version);
 			}
 			catch (Exception ex)
 			{

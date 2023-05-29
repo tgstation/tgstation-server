@@ -216,6 +216,38 @@ namespace Tgstation.Server.Tests.Live
 		}
 
 		[TestMethod]
+		public async Task TestUpdateBadVersion()
+		{
+			using var server = new LiveTestingServer(null, false, dumpOnMissingUpdate: false);
+			using var serverCts = new CancellationTokenSource();
+			var cancellationToken = serverCts.Token;
+			var serverTask = server.Run(cancellationToken);
+			try
+			{
+				var testUpdateVersion = new Version(5, 11, 20);
+				using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
+				await ApiAssert.ThrowsException<ConflictException>(() => adminClient.Administration.Update(new ServerUpdateRequest
+				{
+					NewVersion = testUpdateVersion
+				}, cancellationToken), ErrorCode.ResourceNotPresent);
+			}
+			finally
+			{
+				serverCts.Cancel();
+				try
+				{
+					await serverTask;
+				}
+				catch (OperationCanceledException) { }
+				catch (AggregateException ex)
+				{
+					if (ex.InnerException is NotSupportedException notSupportedException)
+						Assert.Inconclusive(notSupportedException.Message);
+				}
+			}
+		}
+
+		[TestMethod]
 		public async Task TestOneServerSwarmUpdate()
 		{
 			// cleanup existing directories
@@ -698,6 +730,45 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public async Task TestStandardTgsOperation()
 		{
+			const int MaximumTestMinutes = 30;
+			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
+			var hardCancellationToken = hardCancellationTokenSource.Token;
+
+			ServiceCollectionExtensions.UseAdditionalLoggerProvider<HardFailLoggerProvider>();
+
+			var failureTask = HardFailLoggerProvider.FailureSource;
+			var internalTask = TestTgsInternal(hardCancellationToken);
+			await Task.WhenAny(
+				internalTask,
+				failureTask);
+
+			if (!internalTask.IsCompleted)
+			{
+				hardCancellationTokenSource.Cancel();
+				try
+				{
+					await failureTask;
+				}
+				finally
+				{
+					try
+					{
+						await internalTask;
+					}
+					catch (OperationCanceledException)
+					{
+						Console.WriteLine("TEST CANCELLED!");
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"ADDITIONAL TEST ERROR: {ex}");
+					}
+				}
+			}
+		}
+
+		async Task TestTgsInternal(CancellationToken hardCancellationToken)
+		{
 			var discordConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			var ircConnectionString = Environment.GetEnvironmentVariable("TGS_TEST_IRC_CONNECTION_STRING");
 			var missingChatVarsCount = Convert.ToInt32(String.IsNullOrWhiteSpace(discordConnectionString))
@@ -734,9 +805,6 @@ namespace Tgstation.Server.Tests.Live
 
 			using var server = new LiveTestingServer(null, true);
 
-			const int MaximumTestMinutes = 180;
-			using var hardTimeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
-			var hardCancellationToken = hardTimeoutCancellationTokenSource.Token;
 			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(hardCancellationToken);
 			var cancellationToken = serverCts.Token;
 
@@ -786,7 +854,9 @@ namespace Tgstation.Server.Tests.Live
 					var rootTest = FailFast(RawRequestTests.Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
-					instance = await new InstanceManagerTest(adminClient, server.Directory).RunPreInstanceTest(cancellationToken);
+					var instanceMangagerTest = new InstanceManagerTest(adminClient, server.Directory);
+					var instancesTest = FailFast(instanceMangagerTest.RunPreTest(cancellationToken));
+					instance = await instanceMangagerTest.CreateTestInstance(cancellationToken);
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
@@ -794,7 +864,7 @@ namespace Tgstation.Server.Tests.Live
 
 					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances, GetInstanceManager(), (ushort)server.Url.Port).RunTests(cancellationToken));
 
-					await Task.WhenAll(rootTest, adminTest, instanceTests, usersTest);
+					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
@@ -816,12 +886,13 @@ namespace Tgstation.Server.Tests.Live
 				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
 				if (new PlatformIdentifier().IsWindows)
 				{
-					using var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
-					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
-					blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
+					HardFailLoggerProvider.BlockFails = true;
 					try
 					{
+						using var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+						blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
+						blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
+						blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
 						// bind test run
 						await server.Run(cancellationToken);
 						Assert.Fail("Expected server task to end with a SocketException");
@@ -829,6 +900,10 @@ namespace Tgstation.Server.Tests.Live
 					catch (SocketException ex)
 					{
 						Assert.AreEqual(ex.SocketErrorCode, SocketError.AddressAlreadyInUse);
+					}
+					finally
+					{
+						HardFailLoggerProvider.BlockFails = false;
 					}
 				}
 
@@ -999,7 +1074,7 @@ namespace Tgstation.Server.Tests.Live
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instanceClient.Jobs, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
-					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(cancellationToken);
+					await new InstanceManagerTest(adminClient, server.Directory).RunPostTest(instance, cancellationToken);
 				}
 			}
 			catch (ApiException ex)
