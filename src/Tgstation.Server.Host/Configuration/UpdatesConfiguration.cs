@@ -39,5 +39,11 @@
 		/// Asset package containing the new <see cref="Host"/> assembly in zip form.
 		/// </summary>
 		public string UpdatePackageAssetName { get; set; } = DefaultUpdatePackageAssetName;
+
+		/// <summary>
+		/// Dump all retrieved releases from the GitHub API when a requested release is not found.
+		/// </summary>
+		/// <remarks>This is an internal config and may be adjusted or removed without a version change.</remarks>
+		public bool DumpReleasesOnNotFound { get; set; }
 	}
 }

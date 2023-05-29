@@ -97,7 +97,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var jobs = await JobsClient.List(null, cancellationToken);
 			var reconnectJob = jobs
 				.Where(x => x.StartedAt >= beforeChatBotEnabled && x.Description.Contains(updatedBot.Name))
-				.OrderByDescending(x => x.StartedAt)
+				.OrderBy(x => x.StartedAt)
 				.FirstOrDefault();
 
 			Assert.IsNotNull(reconnectJob);
@@ -198,7 +198,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var jobs = await JobsClient.List(null, cancellationToken);
 			var reconnectJob = jobs
 				.Where(x => x.StartedAt >= beforeChatBotEnabled && x.Description.Contains(updatedBot.Name))
-				.OrderByDescending(x => x.StartedAt)
+				.OrderBy(x => x.StartedAt)
 				.FirstOrDefault();
 
 			Assert.IsNotNull(reconnectJob);

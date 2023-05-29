@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Newtonsoft.Json;
+
 using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
@@ -54,6 +56,25 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// The <see cref="ChunkData"/> for a partial request.
 		/// </summary>
 		public ChunkData Chunk { get; }
+
+		/// <summary>
+		/// Whether or not the <see cref="TopicParameters"/> constitute a priority request.
+		/// </summary>
+		[JsonIgnore]
+		public bool IsPriority => CommandType switch
+		{
+			TopicCommandType.EventNotification
+			or TopicCommandType.ChangePort
+			or TopicCommandType.ChangeRebootState
+			or TopicCommandType.InstanceRenamed
+			or TopicCommandType.ChatChannelsUpdate
+			or TopicCommandType.ServerRestarted => true,
+			TopicCommandType.ChatCommand
+			or TopicCommandType.Heartbeat
+			or TopicCommandType.ReceiveChunk => false,
+			TopicCommandType.SendChunk => throw new InvalidOperationException("SendChunk topic priority should be based on the original TopicParameters!"),
+			_ => throw new InvalidOperationException($"Invalid value for {nameof(CommandType)}: {CommandType}"),
+		};
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
