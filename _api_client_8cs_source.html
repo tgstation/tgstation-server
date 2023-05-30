@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -310,117 +310,125 @@ $(function() {
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>                <span class="keywordflow">if</span> (content != <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>                    request.Content = content;</div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                headersToUse.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa">SetRequestHeaders</a>(request.Headers, instanceId);</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span> </div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>                <span class="keywordflow">if</span> (authless)</div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                    request.Headers.Remove(HeaderNames.Authorization);</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>                <span class="keywordflow">if</span> (fileDownload)</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>                    request.Headers.Accept.Add(<span class="keyword">new</span> MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));</div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span> </div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                await Task.WhenAll(requestLoggers.Select(x =&gt; x.LogRequest(request, cancellationToken))).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                {</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>                    var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>                    headersToUse.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa">SetRequestHeaders</a>(request.Headers, instanceId);</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                    <span class="keywordflow">if</span> (authless)</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>                        request.Headers.Remove(HeaderNames.Authorization);</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>                    <span class="keywordflow">if</span> (fileDownload)</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                        request.Headers.Accept.Add(<span class="keyword">new</span> MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>                response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>            }</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span> </div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>            <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>            {</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                await Task.WhenAll(requestLoggers.Select(x =&gt; x.LogResponse(response, cancellationToken))).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                <span class="comment">// just stream</span></div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>                <span class="keywordflow">if</span> (fileDownload &amp;&amp; response.IsSuccessStatusCode)</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>                    <span class="keywordflow">return</span> (TResult)(object)await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html">CachedResponseStream</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a01d1f0c4c21b7fc6ca7919f0aba80606">Create</a>(response).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>            }</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>                    await Task.WhenAll(requestLoggers.Select(x =&gt; x.LogRequest(request, cancellationToken))).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>                    response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                }</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                <span class="keywordflow">finally</span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                    <span class="comment">// prevent content param from getting disposed</span></div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                    request.Content = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>                }</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>            }</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>            <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>            {</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>                response.Dispose();</div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>            }</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span> </div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>            <span class="keyword">using</span> (response)</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>            {</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                var json = await response.Content.ReadAsStringAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                <span class="keywordflow">if</span> (!response.IsSuccessStatusCode)</div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                {</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>                    <span class="keywordflow">if</span> (!tokenRefresh</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>                        &amp;&amp; response.StatusCode == HttpStatusCode.Unauthorized</div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>                        &amp;&amp; await RefreshToken(cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>                        <span class="keywordflow">return</span> await RunRequest&lt;TResult&gt;(route, content, method, instanceId, <span class="keyword">false</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                    HandleBadResponse(response, json);</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                }</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(json))</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                    json = JsonConvert.SerializeObject(<span class="keyword">new</span> <span class="keywordtype">object</span>());</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                {</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>                    var result = JsonConvert.DeserializeObject&lt;TResult&gt;(json, serializerSettings);</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>                    <span class="keywordflow">return</span> result!;</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                }</div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>                <span class="keywordflow">catch</span> (JsonException)</div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>                {</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_client_1_1_unrecognized_response_exception.html">UnrecognizedResponseException</a>(response);</div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>                }</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>            }</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        }</div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span> </div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a32718650c2f0b8aa35ffdadbed20e281">  369</a></span>        async Task&lt;bool&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a32718650c2f0b8aa35ffdadbed20e281">RefreshToken</a>(CancellationToken cancellationToken)</div>
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        {</div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>            <span class="keywordflow">if</span> (tokenRefreshHeaders == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span> </div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>            var startingToken = headers.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a>;</div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>            await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>            <span class="keywordflow">try</span></div>
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>            {</div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>                <span class="keywordflow">if</span> (startingToken != headers.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a>)</div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>                    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span> </div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>                var token = await RunRequest&lt;object, TokenResponse&gt;(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#aa336e9d55df01b49f6d217b48563900a">Root</a>, <span class="keyword">new</span> <span class="keywordtype">object</span>(), HttpMethod.Post, <span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>                headers = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>(headers.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a0562061dc87df56fe1e6875556f535b9">UserAgent</a>!, token.Bearer!);</div>
-<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>            }</div>
-<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html">ClientException</a>)</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>                await Task.WhenAll(requestLoggers.Select(x =&gt; x.LogResponse(response, cancellationToken))).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>                <span class="comment">// just stream</span></div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>                <span class="keywordflow">if</span> (fileDownload &amp;&amp; response.IsSuccessStatusCode)</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                    <span class="keywordflow">return</span> (TResult)(object)await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html">CachedResponseStream</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a01d1f0c4c21b7fc6ca7919f0aba80606">Create</a>(response).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>            }</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>            {</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                response.Dispose();</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>            }</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>            <span class="keyword">using</span> (response)</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>            {</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                var json = await response.Content.ReadAsStringAsync().ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                <span class="keywordflow">if</span> (!response.IsSuccessStatusCode)</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                {</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                    <span class="keywordflow">if</span> (!tokenRefresh</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                        &amp;&amp; response.StatusCode == HttpStatusCode.Unauthorized</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                        &amp;&amp; await RefreshToken(cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                        <span class="keywordflow">return</span> await RunRequest&lt;TResult&gt;(route, content, method, instanceId, <span class="keyword">false</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>                    HandleBadResponse(response, json);</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>                }</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(json))</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>                    json = JsonConvert.SerializeObject(<span class="keyword">new</span> <span class="keywordtype">object</span>());</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span> </div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>                <span class="keywordflow">try</span></div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>                {</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>                    var result = JsonConvert.DeserializeObject&lt;TResult&gt;(json, serializerSettings);</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>                    <span class="keywordflow">return</span> result!;</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                }</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>                <span class="keywordflow">catch</span> (JsonException)</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>                {</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_client_1_1_unrecognized_response_exception.html">UnrecognizedResponseException</a>(response);</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>                }</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>            }</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        }</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a32718650c2f0b8aa35ffdadbed20e281">  377</a></span>        async Task&lt;bool&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a32718650c2f0b8aa35ffdadbed20e281">RefreshToken</a>(CancellationToken cancellationToken)</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>        {</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            <span class="keywordflow">if</span> (tokenRefreshHeaders == <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span> </div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>            var startingToken = headers.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a>;</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>            await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>            <span class="keywordflow">try</span></div>
 <div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>            {</div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>            }</div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>            {</div>
-<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>                semaphoreSlim.Release();</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>                <span class="keywordflow">if</span> (startingToken != headers.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a>)</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>                    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span> </div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>                var token = await RunRequest&lt;object, TokenResponse&gt;(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#aa336e9d55df01b49f6d217b48563900a">Root</a>, <span class="keyword">new</span> <span class="keywordtype">object</span>(), HttpMethod.Post, <span class="keyword">null</span>, <span class="keyword">true</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>                headers = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>(headers.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a0562061dc87df56fe1e6875556f535b9">UserAgent</a>!, token.Bearer!);</div>
 <div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>            }</div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span> </div>
-<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>        }</div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
-<div class="line"><a id="l00408" name="l00408"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a02d4288a3e73ebc856ec8eee6a574a88">  408</a></span>        async Task&lt;TResult&gt; RunRequest&lt;TBody, TResult&gt;(</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>            <span class="keywordtype">string</span> route,</div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>            TBody? body,</div>
-<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>            HttpMethod method,</div>
-<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>            <span class="keywordtype">long</span>? instanceId,</div>
-<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>            <span class="keywordtype">bool</span> tokenRefresh,</div>
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>            CancellationToken cancellationToken)</div>
-<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>            where TBody : <span class="keyword">class</span></div>
-<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>        {</div>
-<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>            HttpContent? content = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>            <span class="keywordflow">if</span> (body != <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>                content = <span class="keyword">new</span> StringContent(</div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>                    JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),</div>
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>                    Encoding.UTF8,</div>
-<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a9a69e600c1f1b0fa70b6c90b92bb9269">ApplicationJsonMime</a>);</div>
-<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span> </div>
-<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>            <span class="keyword">using</span> (content)</div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>                <span class="keywordflow">return</span> await RunRequest&lt;TResult&gt;(</div>
-<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>                    route,</div>
-<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>                    content,</div>
-<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                    method,</div>
-<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                    instanceId,</div>
-<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>                    tokenRefresh,</div>
-<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>                    cancellationToken)</div>
-<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>        }</div>
-<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>    }</div>
-<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>}</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>            <span class="keywordflow">catch</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html">ClientException</a>)</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>            {</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>            }</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>            {</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>                semaphoreSlim.Release();</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>            }</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span> </div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>        }</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a02d4288a3e73ebc856ec8eee6a574a88">  416</a></span>        async Task&lt;TResult&gt; RunRequest&lt;TBody, TResult&gt;(</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>            <span class="keywordtype">string</span> route,</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>            TBody? body,</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>            HttpMethod method,</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>            <span class="keywordtype">long</span>? instanceId,</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>            <span class="keywordtype">bool</span> tokenRefresh,</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>            CancellationToken cancellationToken)</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>            where TBody : <span class="keyword">class</span></div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>        {</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>            HttpContent? content = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>            <span class="keywordflow">if</span> (body != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>                content = <span class="keyword">new</span> StringContent(</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                    JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                    Encoding.UTF8,</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a9a69e600c1f1b0fa70b6c90b92bb9269">ApplicationJsonMime</a>);</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span> </div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>            <span class="keyword">using</span> (content)</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>                <span class="keywordflow">return</span> await RunRequest&lt;TResult&gt;(</div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>                    route,</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>                    content,</div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>                    method,</div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>                    instanceId,</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>                    tokenRefresh,</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>                    cancellationToken)</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>        }</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>    }</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>}</div>
 <div class="ttc" id="aclass_stream_html"><div class="ttname"><a href="class_stream.html">Stream</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a></div><div class="ttdoc">Represents the header that must be present for every server request.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00021">ApiHeaders.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a0562061dc87df56fe1e6875556f535b9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a0562061dc87df56fe1e6875556f535b9">Tgstation.Server.Api.ApiHeaders.UserAgent</a></div><div class="ttdeci">ProductHeaderValue? UserAgent</div><div class="ttdoc">The client's user agent as a ProductHeaderValue if valid.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00076">ApiHeaders.cs:76</a></div></div>
@@ -436,7 +444,7 @@ $(function() {
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_client_html_a015e61f9e9728ad9b47c175445ea67a1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a015e61f9e9728ad9b47c175445ea67a1">Tgstation.Server.Client.ApiClient.Timeout</a></div><div class="ttdeci">TimeSpan Timeout</div><div class="ttdoc">The request timeout.</div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00047">ApiClient.cs:48</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_client_html_a139db37d2f5069e2940421a0cd12fd93"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a139db37d2f5069e2940421a0cd12fd93">Tgstation.Server.Client.ApiClient.AddRequestLogger</a></div><div class="ttdeci">void AddRequestLogger(IRequestLogger requestLogger)</div><div class="ttdoc">Adds a requestLogger  to the request pipeline.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_client_html_a22bc1751fcba63704d2d07a83fa5a857"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a22bc1751fcba63704d2d07a83fa5a857">Tgstation.Server.Client.ApiClient.httpClient</a></div><div class="ttdeci">readonly IHttpClient httpClient</div><div class="ttdoc">The IHttpClient for the ApiClient.</div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00056">ApiClient.cs:56</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_client_html_a32718650c2f0b8aa35ffdadbed20e281"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a32718650c2f0b8aa35ffdadbed20e281">Tgstation.Server.Client.ApiClient.RefreshToken</a></div><div class="ttdeci">async Task&lt; bool &gt; RefreshToken(CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to refresh the bearer token in the headers.</div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00369">ApiClient.cs:369</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_client_html_a32718650c2f0b8aa35ffdadbed20e281"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a32718650c2f0b8aa35ffdadbed20e281">Tgstation.Server.Client.ApiClient.RefreshToken</a></div><div class="ttdeci">async Task&lt; bool &gt; RefreshToken(CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to refresh the bearer token in the headers.</div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00377">ApiClient.cs:377</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_client_html_a33675bc7469cf1e0dd8f1a21dbaa71a2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a33675bc7469cf1e0dd8f1a21dbaa71a2">Tgstation.Server.Client.ApiClient.Url</a></div><div class="ttdeci">Uri Url</div><div class="ttdoc">The Uri pointing the tgstation-server.</div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00037">ApiClient.cs:37</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_client_html_a3e8321b21d545147abfb2ecabd36f360"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a3e8321b21d545147abfb2ecabd36f360">Tgstation.Server.Client.ApiClient.Download</a></div><div class="ttdeci">Task&lt; Stream &gt; Download(FileTicketResponse ticket, CancellationToken cancellationToken)</div><div class="ttdoc">Downloads a file Stream for a given ticket . A Task&lt;TResult&gt; resulting in the downloaded Stream.</div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00225">ApiClient.cs:225</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_api_client_html_a48f8ea0a4dd7ac665735d1728899ebad"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a48f8ea0a4dd7ac665735d1728899ebad">Tgstation.Server.Client.ApiClient.headers</a></div><div class="ttdeci">ApiHeaders headers</div><div class="ttdoc">Backing field for Headers.</div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00081">ApiClient.cs:81</a></div></div>

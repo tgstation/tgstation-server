@@ -8,5 +8,6 @@ var searchData=
   ['nextport_5',['nextPort',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#acef2971a7fcc65613d54b646d2484d0b',1,'Tgstation::Server::Host::Components::Session::SessionController']]],
   ['nickname_6',['nickname',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a75457eda73c1935c8784dc7fadf9e0ba',1,'Tgstation::Server::Host::Components::Chat::Providers::IrcProvider']]],
   ['nodehealthcheckintervalminutes_7',['NodeHealthCheckIntervalMinutes',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aab43b0484345988bf98d82e6276410c2',1,'Tgstation::Server::Host::Swarm::SwarmService']]],
-  ['nodesthatneedtobereadytocommit_8',['nodesThatNeedToBeReadyToCommit',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6513605dbb89e28a9bdaf5d7bdb5daa1',1,'Tgstation::Server::Host::Swarm::SwarmService']]]
+  ['nodesthatneedtobereadytocommit_8',['nodesThatNeedToBeReadyToCommit',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6513605dbb89e28a9bdaf5d7bdb5daa1',1,'Tgstation::Server::Host::Swarm::SwarmService']]],
+  ['nomorejobsshouldstart_9',['noMoreJobsShouldStart',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a934cb5ce5814396f994db600ad98636b',1,'Tgstation::Server::Host::Jobs::JobManager']]]
 ];

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.2</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -434,10 +434,10 @@ $(function() {
 <div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>            {</div>
 <div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>                <span class="keywordflow">if</span> (customVersionStream != <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>                {</div>
-<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>                    <span class="keywordtype">int</span> customInstallationNumber = 1;</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>                    var customInstallationNumber = 1;</div>
 <div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>                    <span class="keywordflow">do</span></div>
 <div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                    {</div>
-<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                        version = <span class="keyword">new</span> Version(version.Major, version.Minor, customInstallationNumber);</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                        version = <span class="keyword">new</span> Version(version.Major, version.Minor, customInstallationNumber++);</div>
 <div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>                    }</div>
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>                    <span class="keywordflow">while</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a0be0f8120484d971f5951b1328b8d3c9">installedVersions</a>.ContainsKey(version));</div>
 <div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>                }</div>
