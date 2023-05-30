@@ -1,4 +1,5 @@
 /world/New()
+	log << "Starting test..."
 	text2file("SUCCESS", "test_success.txt")
 	world.RunTest()
 

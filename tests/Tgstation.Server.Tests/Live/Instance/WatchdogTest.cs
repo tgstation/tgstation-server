@@ -31,7 +31,6 @@ using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
-using Tgstation.Server.Tests.Live;
 
 namespace Tgstation.Server.Tests.Live.Instance
 {
@@ -61,7 +60,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					StartupTimeout = 15,
 					HeartbeatSeconds = 0,
-					Port = TestLiveServer.DDPort
+					Port = TestLiveServer.DDPort,
+					LogOutput = false,
 				}, cancellationToken),
 				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
@@ -330,11 +330,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 
-			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
+			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken, false);
 
 			daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
-				AdditionalParameters = string.Empty
+				AdditionalParameters = string.Empty,
+				LogOutput = true,
 			}, cancellationToken);
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
 		}
@@ -985,7 +986,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			while (timeout > 0);
 		}
 
-		async Task CheckDMApiFail(CompileJobResponse compileJob, CancellationToken cancellationToken)
+		async Task CheckDMApiFail(CompileJobResponse compileJob, CancellationToken cancellationToken, bool checkLogs = true)
 		{
 			var gameDir = Path.Combine(instanceClient.Metadata.Path, "Game", compileJob.DirectoryName.Value.ToString(), Path.GetDirectoryName(compileJob.DmeName));
 			var failFile = Path.Combine(gameDir, "test_fail_reason.txt");
@@ -993,11 +994,29 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				var successFile = Path.Combine(gameDir, "test_success.txt");
 				Assert.IsTrue(File.Exists(successFile));
-				return;
+			}
+			else
+			{
+				var text = await File.ReadAllTextAsync(failFile, cancellationToken);
+				Assert.Fail(text);
 			}
 
-			var text = await File.ReadAllTextAsync(failFile, cancellationToken);
-			Assert.Fail(text);
+			if (!checkLogs)
+				return;
+
+			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			if (daemonStatus.Status != WatchdogStatus.Offline)
+				return;
+
+			var outerLogsDir = Path.Combine(instanceClient.Metadata.Path, "Diagnostics", "DreamDaemonLogs");
+			var logsDir = new DirectoryInfo(outerLogsDir).GetDirectories().OrderByDescending(x => x.CreationTime).FirstOrDefault();
+			Assert.IsNotNull(logsDir);
+
+			var logfile = logsDir.GetFiles().OrderByDescending(x => x.CreationTime).FirstOrDefault();
+			Assert.IsNotNull(logfile);
+
+			var logtext = await File.ReadAllTextAsync(logfile.FullName, cancellationToken);
+			Assert.IsFalse(String.IsNullOrWhiteSpace(logtext));
 		}
 	}
 }
