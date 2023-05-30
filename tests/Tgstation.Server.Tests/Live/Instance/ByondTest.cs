@@ -59,6 +59,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task TestDeletes(CancellationToken cancellationToken)
 		{
+			var deleteThisOneBecauseItWasntPartOfTheOriginalTest = await byondClient.DeleteVersion(new ByondVersionDeleteRequest
+			{
+				Version = new(TestVersion.Major, TestVersion.Minor, 2)
+			}, cancellationToken);
+			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, 30, false, null, cancellationToken);
+
 			var nonExistentUninstallResponseTask = Assert.ThrowsExceptionAsync<ConflictException>(() => byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
@@ -182,14 +188,27 @@ namespace Tgstation.Server.Tests.Live.Instance
 					UploadCustomZip = true
 				},
 				stableBytesMs,
-				cancellationToken)
-				;
+				cancellationToken);
 
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 60, false, null, cancellationToken);
+			await WaitForJob(test.InstallJob, 30, false, null, cancellationToken);
+
+			// do it again. #1501
+			stableBytesMs.Seek(0, SeekOrigin.Begin);
+			var test2 = await byondClient.SetActiveVersion(
+				new ByondVersionRequest
+				{
+					Version = TestVersion,
+					UploadCustomZip = true
+				},
+				stableBytesMs,
+				cancellationToken);
+
+			Assert.IsNotNull(test2.InstallJob);
+			await WaitForJob(test2.InstallJob, 30, false, null, cancellationToken);
 
 			var newSettings = await byondClient.ActiveVersion(cancellationToken);
-			Assert.AreEqual(new Version(TestVersion.Major, TestVersion.Minor, 1), newSettings.Version);
+			Assert.AreEqual(new Version(TestVersion.Major, TestVersion.Minor, 2), newSettings.Version);
 
 			// test a few switches
 			var installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
@@ -199,7 +218,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(installResponse.InstallJob);
 			await ApiAssert.ThrowsException<ApiConflictException>(() => byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = new Version(TestVersion.Major, TestVersion.Minor, 2)
+				Version = new Version(TestVersion.Major, TestVersion.Minor, 3)
 			}, null, cancellationToken), ErrorCode.ByondNonExistentCustomVersion);
 
 			installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
