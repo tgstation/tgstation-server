@@ -507,9 +507,7 @@ namespace Tgstation.Server.Host.Components.Session
 				VisibilityWord(launchParameters.Visibility.Value),
 				!byondLock.SupportsCli
 					? $" -logself -log {logFilePath}"
-					: !platformIdentifier.IsWindows // Just use stdout on if CLI is supported
-						? " -logself"
-						: String.Empty, // Windows doesn't output anything to dd.exe if -logself is set?
+					: String.Empty, // DD doesn't output anything if -logself is set???
 				launchParameters.StartProfiler.Value
 					? " -profile"
 					: String.Empty,
