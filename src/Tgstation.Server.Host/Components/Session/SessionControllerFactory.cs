@@ -523,7 +523,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			try
 			{
-				if (apiValidate)
+				if (!apiValidate)
 				{
 					if (sessionConfiguration.HighPriorityLiveDreamDaemon)
 						process.AdjustPriority(true);
