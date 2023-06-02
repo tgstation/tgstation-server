@@ -49,6 +49,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task CheckDreamDaemonPriority(Task deploymentJobWaitTask, CancellationToken cancellationToken)
 		{
+			// this doesn't check dm's priority, but it really should
+
 			while (!deploymentJobWaitTask.IsCompleted)
 			{
 				var ddProcessName = new PlatformIdentifier().IsWindows && ByondTest.TestVersion >= new Version(515, 1598)
@@ -90,11 +92,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					else
 					{
 						good = true;
-						if (localProcess.PriorityClass != System.Diagnostics.ProcessPriorityClass.Normal)
-						{
-							Assert.Fail("DreamDaemon's process priority changed when it shouldn't have!");
-						}
-
+						Assert.AreEqual(System.Diagnostics.ProcessPriorityClass.Normal, localProcess.PriorityClass, "DreamDaemon's process priority changed when it shouldn't have!");
 						await Task.Delay(1, cancellationToken);
 					}
 				}
