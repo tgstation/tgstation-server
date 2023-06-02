@@ -730,6 +730,17 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public async Task TestStandardTgsOperation()
 		{
+			using(var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
+			{
+				var currentPriorityClass = currentProcess.PriorityClass;
+				if (currentPriorityClass != ProcessPriorityClass.Normal)
+				{
+					// attempt to adjust it
+					Console.WriteLine($"TEST PROCESS PRIORITY: Attempting to normalize process priority from {currentPriorityClass}...");
+					currentProcess.PriorityClass = ProcessPriorityClass.Normal;
+				}
+			}
+
 			const int MaximumTestMinutes = 30;
 			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
 			var hardCancellationToken = hardCancellationTokenSource.Token;
