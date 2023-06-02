@@ -32,6 +32,9 @@ namespace Tgstation.Server.Tests.Live
 
 		public bool DumpOpenApiSpecpath { get; }
 
+		public bool HighPriorityDreamDaemon { get; }
+		public bool LowPriorityDeployments { get; }
+
 		public bool RestartRequested => RealServer.RestartRequested;
 
 		readonly List<string> args;
@@ -72,34 +75,41 @@ namespace Tgstation.Server.Tests.Live
 			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
 			var dumpOpenAPISpecPathEnvVar = Environment.GetEnvironmentVariable("TGS_TEST_DUMP_API_SPEC");
 
-			if (string.IsNullOrEmpty(DatabaseType))
+			if (String.IsNullOrEmpty(DatabaseType))
 				Assert.Inconclusive("No database type configured in env var TGS_TEST_DATABASE_TYPE!");
 
-			if (string.IsNullOrEmpty(connectionString))
+			if (String.IsNullOrEmpty(connectionString))
 				Assert.Inconclusive("No connection string configured in env var TGS_TEST_CONNECTION_STRING!");
 
-			if (string.IsNullOrEmpty(gitHubAccessToken))
+			if (String.IsNullOrEmpty(gitHubAccessToken))
 				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
 
-			DumpOpenApiSpecpath = !string.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
+			DumpOpenApiSpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
+
+			// neither of these should really matter but it's better that we test them
+			// high prio DD might help with some topic flakiness actually
+			HighPriorityDreamDaemon = true;
+			LowPriorityDeployments = true;
 
 			args = new List<string>()
 			{
-				string.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
-				string.Format(CultureInfo.InvariantCulture, "General:ConfigVersion={0}", GeneralConfiguration.CurrentConfigVersion),
-				string.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
-				string.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
-				string.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
-				string.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
-				string.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
-				string.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
-				string.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
-				string.Format(CultureInfo.InvariantCulture, "General:UserGroupLimit={0}", 47),
-				string.Format(CultureInfo.InvariantCulture, "General:HostApiDocumentation={0}", DumpOpenApiSpecpath),
-				string.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
-				string.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),
-				string.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
-				"General:ByondTopicTimeout=3000"
+				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true), // Replaced after first Run
+				String.Format(CultureInfo.InvariantCulture, "General:ConfigVersion={0}", GeneralConfiguration.CurrentConfigVersion),
+				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
+				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
+				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
+				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
+				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
+				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
+				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
+				String.Format(CultureInfo.InvariantCulture, "General:UserGroupLimit={0}", 47),
+				String.Format(CultureInfo.InvariantCulture, "General:HostApiDocumentation={0}", DumpOpenApiSpecpath),
+				String.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
+				String.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),
+				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
+				"General:ByondTopicTimeout=3000",
+				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",
+				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
 			};
 
 			if (dumpOnMissingUpdate)

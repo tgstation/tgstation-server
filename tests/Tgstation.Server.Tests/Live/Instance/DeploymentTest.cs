@@ -20,13 +20,16 @@ namespace Tgstation.Server.Tests.Live.Instance
 		readonly IDreamDaemonClient dreamDaemonClient;
 		readonly IInstanceClient instanceClient;
 
+		readonly bool lowPriorityDeployments;
+
 		Task vpTest;
 
-		public DeploymentTest(IInstanceClient instanceClient, IJobsClient jobsClient) : base(jobsClient)
+		public DeploymentTest(IInstanceClient instanceClient, IJobsClient jobsClient, bool lowPriorityDeployments) : base(jobsClient)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 			dreamMakerClient = instanceClient.DreamMaker;
 			dreamDaemonClient = instanceClient.DreamDaemon;
+			this.lowPriorityDeployments = lowPriorityDeployments;
 		}
 
 		public async Task RunPreRepoClone(CancellationToken cancellationToken)
@@ -34,12 +37,73 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(vpTest);
 			vpTest = TestVisibilityPermission(cancellationToken);
 			var deployJob = await dreamMakerClient.Compile(cancellationToken);
-			deployJob = await WaitForJob(deployJob, 30, true, null, cancellationToken);
+			var deploymentJobWaitTask = WaitForJob(deployJob, 30, true, null, cancellationToken);
+			await CheckDreamDaemonPriority(deploymentJobWaitTask, cancellationToken);
+			deployJob = await deploymentJobWaitTask;
 			Assert.IsTrue(deployJob.ErrorCode == ErrorCode.RepoCloning || deployJob.ErrorCode == ErrorCode.RepoMissing);
 
 			var dmSettings = await dreamMakerClient.Read(cancellationToken);
 			Assert.AreEqual(true, dmSettings.RequireDMApiValidation);
 			Assert.AreEqual(null, dmSettings.ProjectName);
+		}
+
+		async Task CheckDreamDaemonPriority(Task deploymentJobWaitTask, CancellationToken cancellationToken)
+		{
+			while (!deploymentJobWaitTask.IsCompleted)
+			{
+				var ddProcessName = new PlatformIdentifier().IsWindows && ByondTest.TestVersion >= new Version(515, 1598)
+					? "dd"
+					: "DreamDaemon";
+
+				var allProcesses = System.Diagnostics.Process.GetProcessesByName(ddProcessName);
+				if (allProcesses.Length == 0)
+					continue;
+
+				if (allProcesses.Length > 1)
+					Assert.Fail("Multiple DreamDaemon-like processes running!");
+
+				using var process = allProcesses[0];
+
+				int processId;
+				try
+				{
+					processId = process.Id;
+				}
+				catch
+				{
+					return; // vOv
+				}
+
+				bool good = false;
+				while (!process.HasExited)
+				{
+					// we need to constantly reacquire the handle to invalidate caches
+					using var localProcess = System.Diagnostics.Process.GetProcessById(processId);
+					if (lowPriorityDeployments)
+					{
+						if (localProcess.PriorityClass == System.Diagnostics.ProcessPriorityClass.BelowNormal)
+						{
+							good = true;
+							break;
+						}
+					}
+					else
+					{
+						good = true;
+						if (localProcess.PriorityClass != System.Diagnostics.ProcessPriorityClass.Normal)
+						{
+							Assert.Fail("DreamDaemon's process priority changed when it shouldn't have!");
+						}
+
+						await Task.Delay(1, cancellationToken);
+					}
+				}
+
+				if (!good)
+					Assert.Fail("Did not detect DreamDaemon lowering its process priority!");
+
+				break;
+			}
 		}
 
 		public async Task RunPostRepoClone(Task byondTask, CancellationToken cancellationToken)
@@ -80,6 +144,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 
 			var deployJobTask = CompileAfterByondInstall();
+			var deployJob = await deployJobTask;
+			var deploymentJobWaitTask = WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerNeverValidated, cancellationToken);
+
+			await CheckDreamDaemonPriority(deploymentJobWaitTask, cancellationToken);
+
 			await Task.WhenAll(
 				ApiAssert.ThrowsException<ConflictException>(() => dreamDaemonClient.Update(new DreamDaemonRequest
 				{
@@ -89,11 +158,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				{
 					ApiValidationPort = TestLiveServer.DDPort
 				}, cancellationToken), ErrorCode.PortNotAvailable),
-				deployJobTask);
-
-			var deployJob = await deployJobTask;
-
-			await WaitForJob(deployJob, 40, true, ErrorCode.DreamMakerNeverValidated, cancellationToken);
+				deploymentJobWaitTask);
 
 			const string FailProject = "tests/DMAPI/BuildFail/build_fail";
 			var updated = await dreamMakerClient.Update(new DreamMakerRequest
