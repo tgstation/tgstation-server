@@ -88,6 +88,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 							good = true;
 							break;
 						}
+						else
+							Assert.AreEqual(System.Diagnostics.ProcessPriorityClass.Normal, localProcess.PriorityClass);
 					}
 					else
 					{

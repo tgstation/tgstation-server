@@ -741,6 +741,11 @@ namespace Tgstation.Server.Tests.Live
 				}
 			}
 
+			using (var currentProcess = System.Diagnostics.Process.GetCurrentProcess())
+			{
+				Assert.AreEqual(ProcessPriorityClass.Normal, currentProcess.PriorityClass);
+			}
+
 			const int MaximumTestMinutes = 30;
 			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
 			var hardCancellationToken = hardCancellationTokenSource.Token;
