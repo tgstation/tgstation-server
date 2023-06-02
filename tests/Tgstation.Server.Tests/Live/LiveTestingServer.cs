@@ -88,8 +88,10 @@ namespace Tgstation.Server.Tests.Live
 
 			// neither of these should really matter but it's better that we test them
 			// high prio DD might help with some topic flakiness actually
-			HighPriorityDreamDaemon = true;
-			LowPriorityDeployments = true;
+			// github doesn't allow nicing though
+			bool runningInGitHubActions = !String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GITHUB_RUN_ID"));
+			HighPriorityDreamDaemon = !runningInGitHubActions;
+			LowPriorityDeployments = !runningInGitHubActions;
 
 			args = new List<string>()
 			{
