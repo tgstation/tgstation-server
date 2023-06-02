@@ -26,6 +26,7 @@ using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Extensions;
@@ -103,9 +104,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			var deleteJobTask = TestDeleteByondInstallErrorCasesAndQueing(cancellationToken);
 
+			SessionController.LogTopicRequests = false;
 			await WhiteBoxChatCommandTest(cancellationToken);
 			await SendChatOverloadCommand(cancellationToken);
 			await ValidateTopicLimits(cancellationToken);
+			SessionController.LogTopicRequests = true;
 
 			// This one fucks with the access_identifer, run it in isolation
 			await WhiteBoxValidateBridgeRequestLimitAndTestChunking(cancellationToken);
