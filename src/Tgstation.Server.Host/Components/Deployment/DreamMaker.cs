@@ -814,8 +814,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
 			{
-				controller.AdjustPriority(false);
-
 				var launchResult = await controller.LaunchResult;
 
 				if (launchResult.StartupTime.HasValue)
