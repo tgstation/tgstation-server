@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.3</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.4</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -77,6 +77,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Host.Core.ServerUpdater Class Reference</div></div>
@@ -125,8 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae1c05bd2aba843a529e4888ff8784fad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae1c05bd2aba843a529e4888ff8784fad">ServerUpdater</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html">IGitHubClientFactory</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a8059477a59070ba8feebfb9a7150a2d2">gitHubClientFactory</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html">IFileDownloader</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a68a1f9a20fdfc77820238538bb1c7498">fileDownloader</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html">IServerControl</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aea1bf56c920afa4f8ecc402ecd3537c3">serverControl</a>, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html">ServerUpdater</a> &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html">UpdatesConfiguration</a> &gt; updatesConfigurationOptions)</td></tr>
 <tr class="memdesc:ae1c05bd2aba843a529e4888ff8784fad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html">ServerUpdater</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae1c05bd2aba843a529e4888ff8784fad">More...</a><br /></td></tr>
 <tr class="separator:ae1c05bd2aba843a529e4888ff8784fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbe150fca9be09209df0abe1f9152899"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#abbe150fca9be09209df0abe1f9152899">BeginUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a> swarmService, Version newVersion, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:abbe150fca9be09209df0abe1f9152899"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ac94381ec14fdde7783b8cdfe6a6c647d"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ac94381ec14fdde7783b8cdfe6a6c647d">BeginUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a> swarmService, Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac94381ec14fdde7783b8cdfe6a6c647d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">swarmService</td><td>The ISwarmService to use to coordinate the update.</td></tr>
     <tr><td class="paramname">version</td><td>The TGS Version to update to.</td></tr>
@@ -135,8 +136,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c" title="The result of a call to start a server update.">ServerUpdateResult</a>.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#abbe150fca9be09209df0abe1f9152899">More...</a><br /></td></tr>
-<tr class="separator:abbe150fca9be09209df0abe1f9152899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ac94381ec14fdde7783b8cdfe6a6c647d">More...</a><br /></td></tr>
+<tr class="separator:ac94381ec14fdde7783b8cdfe6a6c647d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b704ff1a08b3a9462a71884c52b5a25"><td class="memItemLeft" align="right" valign="top">async Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25">ExecuteUpdate</a> (string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)</td></tr>
 <tr class="memdesc:a3b704ff1a08b3a9462a71884c52b5a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a pending server update by extracting the new server to a given <em>updatePath</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -155,6 +156,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2b25c5bbbaa17232348921c7e0f84531"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a2b25c5bbbaa17232348921c7e0f84531">ExecuteUpdate</a> (string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)</td></tr>
 <tr class="memdesc:a2b25c5bbbaa17232348921c7e0f84531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a pending server update by extracting the new server to a given <em>updatePath</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a2b25c5bbbaa17232348921c7e0f84531">More...</a><br /></td></tr>
 <tr class="separator:a2b25c5bbbaa17232348921c7e0f84531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:ae718c23c45c5e831fa4df39e2bbe8617"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae718c23c45c5e831fa4df39e2bbe8617">BeginUpdateImpl</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a> swarmService, Version newVersion, bool recursed, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae718c23c45c5e831fa4df39e2bbe8617"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server version. Doesn't perform argument checking.   <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae718c23c45c5e831fa4df39e2bbe8617">More...</a><br /></td></tr>
+<tr class="separator:ae718c23c45c5e831fa4df39e2bbe8617"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -280,8 +287,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="abbe150fca9be09209df0abe1f9152899" name="abbe150fca9be09209df0abe1f9152899"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbe150fca9be09209df0abe1f9152899">&#9670;&#160;</a></span>BeginUpdate()</h2>
+<a id="ac94381ec14fdde7783b8cdfe6a6c647d" name="ac94381ec14fdde7783b8cdfe6a6c647d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac94381ec14fdde7783b8cdfe6a6c647d">&#9670;&#160;</a></span>BeginUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -296,7 +303,7 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Version&#160;</td>
-          <td class="paramname"><em>newVersion</em>, </td>
+          <td class="paramname"><em>version</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -330,74 +337,161 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   92</span>            <span class="keywordflow">if</span> (swarmService == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   93</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(swarmService));</div>
 <div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> (newVersion == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(newVersion));</div>
+<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> (version == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(version));</div>
 <div class="line"><span class="lineno">   97</span> </div>
 <div class="line"><span class="lineno">   98</span>            <span class="keywordflow">if</span> (!swarmService.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ac9d434aaf4b803b180861697e5d77bab">ExpectedNumberOfNodesConnected</a>)</div>
 <div class="line"><span class="lineno">   99</span>                <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.SwarmIntegrityCheckFailed;</div>
 <div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogDebug(<span class="stringliteral">&quot;Looking for GitHub releases version {version}...&quot;</span>, newVersion);</div>
-<div class="line"><span class="lineno">  102</span>            var gitHubClient = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a8059477a59070ba8feebfb9a7150a2d2">gitHubClientFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537">CreateClient</a>();</div>
-<div class="line"><span class="lineno">  103</span>            var releases = await gitHubClient</div>
-<div class="line"><span class="lineno">  104</span>                .Repository</div>
-<div class="line"><span class="lineno">  105</span>                .Release</div>
-<div class="line"><span class="lineno">  106</span>                .GetAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2f6c66d4e10c5fb6a758727893ea4cd0">GitHubRepositoryId</a>)</div>
-<div class="line"><span class="lineno">  107</span>                .WithToken(cancellationToken);</div>
-<div class="line"><span class="lineno">  108</span> </div>
-<div class="line"><span class="lineno">  109</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(<span class="stringliteral">&quot;Received {releaseCount} total releases from GitHub&quot;</span>, releases.Count);</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>            var filteredReleases = releases</div>
-<div class="line"><span class="lineno">  112</span>                .Where(x =&gt; x.TagName.StartsWith(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>, StringComparison.InvariantCulture))</div>
-<div class="line"><span class="lineno">  113</span>                .ToList();</div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(</div>
-<div class="line"><span class="lineno">  116</span>                <span class="stringliteral">&quot;Filtered to {releaseCount} releases matching the configured tag prefix of \&quot;{tagPrefix}\&quot;&quot;</span>,</div>
-<div class="line"><span class="lineno">  117</span>                filteredReleases.Count,</div>
-<div class="line"><span class="lineno">  118</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>);</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>            <span class="keywordflow">foreach</span> (var release <span class="keywordflow">in</span> filteredReleases)</div>
-<div class="line"><span class="lineno">  121</span>                <span class="keywordflow">if</span> (Version.TryParse(</div>
-<div class="line"><span class="lineno">  122</span>                    release.TagName.Replace(</div>
-<div class="line"><span class="lineno">  123</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>, String.Empty, StringComparison.Ordinal),</div>
-<div class="line"><span class="lineno">  124</span>                    out var version))</div>
-<div class="line"><span class="lineno">  125</span>                {</div>
-<div class="line"><span class="lineno">  126</span>                    <span class="keywordflow">if</span> (version == newVersion)</div>
-<div class="line"><span class="lineno">  127</span>                    {</div>
-<div class="line"><span class="lineno">  128</span>                        var asset = release.Assets.Where(x =&gt; x.Name.Equals(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a7f5697f355392923d10aa77a8e94dc91">UpdatePackageAssetName</a>, StringComparison.Ordinal)).FirstOrDefault();</div>
-<div class="line"><span class="lineno">  129</span>                        <span class="keywordflow">if</span> (asset == <span class="keywordflow">default</span>)</div>
-<div class="line"><span class="lineno">  130</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a> = <span class="keyword">new</span> ServerUpdateOperation</div>
-<div class="line"><span class="lineno">  133</span>                        {</div>
-<div class="line"><span class="lineno">  134</span>                            TargetVersion = version,</div>
-<div class="line"><span class="lineno">  135</span>                            UpdateZipUrl = <span class="keyword">new</span> Uri(asset.BrowserDownloadUrl),</div>
-<div class="line"><span class="lineno">  136</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a> = swarmService,</div>
-<div class="line"><span class="lineno">  137</span>                        };</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>                        <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  140</span>                        {</div>
-<div class="line"><span class="lineno">  141</span>                            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aea1bf56c920afa4f8ecc402ecd3537c3">serverControl</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8">TryStartUpdate</a>(<span class="keyword">this</span>, version))</div>
-<div class="line"><span class="lineno">  142</span>                                <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.UpdateInProgress;</div>
-<div class="line"><span class="lineno">  143</span>                        }</div>
-<div class="line"><span class="lineno">  144</span>                        <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">  145</span>                        {</div>
-<div class="line"><span class="lineno">  146</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a> = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  147</span>                        }</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>                        <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.Started;</div>
-<div class="line"><span class="lineno">  150</span>                    }</div>
-<div class="line"><span class="lineno">  151</span>                }</div>
-<div class="line"><span class="lineno">  152</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  153</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogDebug(<span class="stringliteral">&quot;Unparsable release tag: {releaseTag}&quot;</span>, release.TagName);</div>
-<div class="line"><span class="lineno">  154</span> </div>
-<div class="line"><span class="lineno">  155</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a0d854dc2f137ba9d7ba08e55e64f4be6">DumpReleasesOnNotFound</a>)</div>
-<div class="line"><span class="lineno">  156</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogInformation(</div>
-<div class="line"><span class="lineno">  157</span>                    <span class="stringliteral">&quot;Found releases:{newline}\t{releases}&quot;</span>,</div>
-<div class="line"><span class="lineno">  158</span>                    Environment.NewLine,</div>
-<div class="line"><span class="lineno">  159</span>                    String.Join($<span class="stringliteral">&quot;{Environment.NewLine}\t&quot;</span>, releases.Select(x =&gt; x.TagName).OrderBy(x =&gt; x)));</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>            <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.ReleaseMissing;</div>
-<div class="line"><span class="lineno">  162</span>        }</div>
+<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae718c23c45c5e831fa4df39e2bbe8617">BeginUpdateImpl</a>(swarmService, version, <span class="keyword">false</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  102</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_html_ae718c23c45c5e831fa4df39e2bbe8617"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae718c23c45c5e831fa4df39e2bbe8617">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl</a></div><div class="ttdeci">async Task&lt; ServerUpdateResult &gt; BeginUpdateImpl(ISwarmService swarmService, Version newVersion, bool recursed, CancellationToken cancellationToken)</div><div class="ttdoc">Start the process of downloading and applying an update to a new server version. Doesn't perform argu...</div><div class="ttdef"><b>Definition:</b> <a href="_server_updater_8cs_source.html#l00224">ServerUpdater.cs:224</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_html_ac9d434aaf4b803b180861697e5d77bab"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ac9d434aaf4b803b180861697e5d77bab">Tgstation.Server.Host.Swarm.ISwarmService.ExpectedNumberOfNodesConnected</a></div><div class="ttdeci">bool ExpectedNumberOfNodesConnected</div><div class="ttdoc">Gets a value indicating if the expected amount of nodes are connected to the swarm.</div><div class="ttdef"><b>Definition:</b> <a href="_i_swarm_service_8cs_source.html#l00018">ISwarmService.cs:18</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html_ae686e550e6b4c0a19a500e3dd9e4195c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">Tgstation.Server.Host.Core.ServerUpdateResult</a></div><div class="ttdeci">ServerUpdateResult</div><div class="ttdoc">The result of a call to start a server update.</div><div class="ttdef"><b>Definition:</b> <a href="_server_update_result_8cs_source.html#l00006">ServerUpdateResult.cs:7</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, and <a class="el" href="_i_swarm_service_8cs_source.html#l00018">Tgstation.Server.Host.Swarm.ISwarmService.ExpectedNumberOfNodesConnected</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ac94381ec14fdde7783b8cdfe6a6c647d_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ac94381ec14fdde7783b8cdfe6a6c647d_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ac94381ec14fdde7783b8cdfe6a6c647d_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ac94381ec14fdde7783b8cdfe6a6c647d_cgraph">
+<area shape="rect" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,37,189,77"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae718c23c45c5e831fa4df39e2bbe8617" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,37,447,77"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="495,5,712,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="505,69,701,109"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae718c23c45c5e831fa4df39e2bbe8617" name="ae718c23c45c5e831fa4df39e2bbe8617"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae718c23c45c5e831fa4df39e2bbe8617">&#9670;&#160;</a></span>BeginUpdateImpl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">async Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt; Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html">ISwarmService</a>&#160;</td>
+          <td class="paramname"><em>swarmService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Version&#160;</td>
+          <td class="paramname"><em>newVersion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>recursed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Start the process of downloading and applying an update to a new server version. Doesn't perform argument checking.  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swarmService</td><td>The ISwarmService to use to coordinate the update.</td></tr>
+    <tr><td class="paramname">newVersion</td><td>The TGS Version to update to.</td></tr>
+    <tr><td class="paramname">recursed</td><td>If this is a recursive call.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c" title="The result of a call to start a server update.">ServerUpdateResult</a>.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00224">224</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  225</span>        {</div>
+<div class="line"><span class="lineno">  226</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogDebug(<span class="stringliteral">&quot;Looking for GitHub releases version {version}...&quot;</span>, newVersion);</div>
+<div class="line"><span class="lineno">  227</span>            var gitHubClient = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a8059477a59070ba8feebfb9a7150a2d2">gitHubClientFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537">CreateClient</a>();</div>
+<div class="line"><span class="lineno">  228</span>            var releases = await gitHubClient</div>
+<div class="line"><span class="lineno">  229</span>                .Repository</div>
+<div class="line"><span class="lineno">  230</span>                .Release</div>
+<div class="line"><span class="lineno">  231</span>                .GetAll(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2f6c66d4e10c5fb6a758727893ea4cd0">GitHubRepositoryId</a>)</div>
+<div class="line"><span class="lineno">  232</span>                .WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  233</span> </div>
+<div class="line"><span class="lineno">  234</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(<span class="stringliteral">&quot;Received {releaseCount} total releases from GitHub&quot;</span>, releases.Count);</div>
+<div class="line"><span class="lineno">  235</span> </div>
+<div class="line"><span class="lineno">  236</span>            var filteredReleases = releases</div>
+<div class="line"><span class="lineno">  237</span>                .Where(x =&gt; x.TagName.StartsWith(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>, StringComparison.InvariantCulture))</div>
+<div class="line"><span class="lineno">  238</span>                .ToList();</div>
+<div class="line"><span class="lineno">  239</span> </div>
+<div class="line"><span class="lineno">  240</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(</div>
+<div class="line"><span class="lineno">  241</span>                <span class="stringliteral">&quot;Filtered to {releaseCount} releases matching the configured tag prefix of \&quot;{tagPrefix}\&quot;&quot;</span>,</div>
+<div class="line"><span class="lineno">  242</span>                filteredReleases.Count,</div>
+<div class="line"><span class="lineno">  243</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>);</div>
+<div class="line"><span class="lineno">  244</span> </div>
+<div class="line"><span class="lineno">  245</span>            <span class="keywordflow">foreach</span> (var release <span class="keywordflow">in</span> filteredReleases)</div>
+<div class="line"><span class="lineno">  246</span>                <span class="keywordflow">if</span> (Version.TryParse(</div>
+<div class="line"><span class="lineno">  247</span>                    release.TagName.Replace(</div>
+<div class="line"><span class="lineno">  248</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a9dce394437a9bc79041a3467e7ad75f4">GitTagPrefix</a>, String.Empty, StringComparison.Ordinal),</div>
+<div class="line"><span class="lineno">  249</span>                    out var version))</div>
+<div class="line"><span class="lineno">  250</span>                {</div>
+<div class="line"><span class="lineno">  251</span>                    <span class="keywordflow">if</span> (version == newVersion)</div>
+<div class="line"><span class="lineno">  252</span>                    {</div>
+<div class="line"><span class="lineno">  253</span>                        var asset = release.Assets.Where(x =&gt; x.Name.Equals(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a7f5697f355392923d10aa77a8e94dc91">UpdatePackageAssetName</a>, StringComparison.Ordinal)).FirstOrDefault();</div>
+<div class="line"><span class="lineno">  254</span>                        <span class="keywordflow">if</span> (asset == <span class="keywordflow">default</span>)</div>
+<div class="line"><span class="lineno">  255</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  256</span> </div>
+<div class="line"><span class="lineno">  257</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a> = <span class="keyword">new</span> ServerUpdateOperation</div>
+<div class="line"><span class="lineno">  258</span>                        {</div>
+<div class="line"><span class="lineno">  259</span>                            TargetVersion = version,</div>
+<div class="line"><span class="lineno">  260</span>                            UpdateZipUrl = <span class="keyword">new</span> Uri(asset.BrowserDownloadUrl),</div>
+<div class="line"><span class="lineno">  261</span>                            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">SwarmService</a> = swarmService,</div>
+<div class="line"><span class="lineno">  262</span>                        };</div>
+<div class="line"><span class="lineno">  263</span> </div>
+<div class="line"><span class="lineno">  264</span>                        <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  265</span>                        {</div>
+<div class="line"><span class="lineno">  266</span>                            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aea1bf56c920afa4f8ecc402ecd3537c3">serverControl</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8">TryStartUpdate</a>(<span class="keyword">this</span>, version))</div>
+<div class="line"><span class="lineno">  267</span>                                <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.UpdateInProgress;</div>
+<div class="line"><span class="lineno">  268</span>                        }</div>
+<div class="line"><span class="lineno">  269</span>                        <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">  270</span>                        {</div>
+<div class="line"><span class="lineno">  271</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a> = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  272</span>                        }</div>
+<div class="line"><span class="lineno">  273</span> </div>
+<div class="line"><span class="lineno">  274</span>                        <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.Started;</div>
+<div class="line"><span class="lineno">  275</span>                    }</div>
+<div class="line"><span class="lineno">  276</span>                }</div>
+<div class="line"><span class="lineno">  277</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  278</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogDebug(<span class="stringliteral">&quot;Unparsable release tag: {releaseTag}&quot;</span>, release.TagName);</div>
+<div class="line"><span class="lineno">  279</span> </div>
+<div class="line"><span class="lineno">  280</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#aff7e393f73d62226e59200b345b47219">updatesConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a0d854dc2f137ba9d7ba08e55e64f4be6">DumpReleasesOnNotFound</a>)</div>
+<div class="line"><span class="lineno">  281</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogInformation(</div>
+<div class="line"><span class="lineno">  282</span>                    <span class="stringliteral">&quot;Found releases:{newline}\t{releases}&quot;</span>,</div>
+<div class="line"><span class="lineno">  283</span>                    Environment.NewLine,</div>
+<div class="line"><span class="lineno">  284</span>                    String.Join($<span class="stringliteral">&quot;{Environment.NewLine}\t&quot;</span>, releases.Select(x =&gt; x.TagName).OrderBy(x =&gt; x)));</div>
+<div class="line"><span class="lineno">  285</span> </div>
+<div class="line"><span class="lineno">  286</span>            <span class="keywordflow">if</span> (!recursed)</div>
+<div class="line"><span class="lineno">  287</span>            {</div>
+<div class="line"><span class="lineno">  288</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogWarning(<span class="stringliteral">&quot;We didn&#39;t find the requested release, but GitHub has been known to just not give full results when querying all releases. We&#39;ll try one more time.&quot;</span>);</div>
+<div class="line"><span class="lineno">  289</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae718c23c45c5e831fa4df39e2bbe8617">BeginUpdateImpl</a>(swarmService, newVersion, <span class="keyword">true</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  290</span>            }</div>
+<div class="line"><span class="lineno">  291</span> </div>
+<div class="line"><span class="lineno">  292</span>            <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a>.ReleaseMissing;</div>
+<div class="line"><span class="lineno">  293</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html_a0d854dc2f137ba9d7ba08e55e64f4be6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a0d854dc2f137ba9d7ba08e55e64f4be6">Tgstation.Server.Host.Configuration.UpdatesConfiguration.DumpReleasesOnNotFound</a></div><div class="ttdeci">bool DumpReleasesOnNotFound</div><div class="ttdoc">Dump all retrieved releases from the GitHub API when a requested release is not found.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00047">UpdatesConfiguration.cs:47</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html_a2f6c66d4e10c5fb6a758727893ea4cd0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2f6c66d4e10c5fb6a758727893ea4cd0">Tgstation.Server.Host.Configuration.UpdatesConfiguration.GitHubRepositoryId</a></div><div class="ttdeci">long GitHubRepositoryId</div><div class="ttdoc">The Octokit.Repository.Id of the tgstation-server fork to recieve updates from.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00031">UpdatesConfiguration.cs:31</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html_a7f5697f355392923d10aa77a8e94dc91"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a7f5697f355392923d10aa77a8e94dc91">Tgstation.Server.Host.Configuration.UpdatesConfiguration.UpdatePackageAssetName</a></div><div class="ttdeci">string UpdatePackageAssetName</div><div class="ttdoc">Asset package containing the new Host assembly in zip form.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00041">UpdatesConfiguration.cs:41</a></div></div>
@@ -405,19 +499,28 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_html_a990b89aa48cada1664331eabd53faf34"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">Tgstation.Server.Host.Core.ServerUpdater.serverUpdateOperation</a></div><div class="ttdeci">ServerUpdateOperation serverUpdateOperation</div><div class="ttdoc">ServerUpdateOperation for an in-progress update operation.</div><div class="ttdef"><b>Definition:</b> <a href="_server_updater_8cs_source.html#l00059">ServerUpdater.cs:59</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html">Tgstation.Server.Host.Swarm.SwarmService</a></div><div class="ttdoc">Helps keep servers connected to the same database in sync by coordinating updates.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_service_8cs_source.html#l00032">SwarmService.cs:33</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control_html_ac02011e79f6ed0d6e2c17e8bcd4a79b8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8">Tgstation.Server.Host.Core.IServerControl.TryStartUpdate</a></div><div class="ttdeci">bool TryStartUpdate(IServerUpdateExecutor updateExecutor, Version newVersion)</div><div class="ttdoc">Attempt to update with a given updateExecutor .</div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_html_ac9d434aaf4b803b180861697e5d77bab"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ac9d434aaf4b803b180861697e5d77bab">Tgstation.Server.Host.Swarm.ISwarmService.ExpectedNumberOfNodesConnected</a></div><div class="ttdeci">bool ExpectedNumberOfNodesConnected</div><div class="ttdoc">Gets a value indicating if the expected amount of nodes are connected to the swarm.</div><div class="ttdef"><b>Definition:</b> <a href="_i_swarm_service_8cs_source.html#l00018">ISwarmService.cs:18</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory_html_a30a22041144ecab80ceb3d6ea658c537"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537">Tgstation.Server.Host.Utils.IGitHubClientFactory.CreateClient</a></div><div class="ttdeci">IGitHubClient CreateClient()</div><div class="ttdoc">Create a IGitHubClient client. Low rate limit unless the server's GitHubAccessToken is set to bypass ...</div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html_ae686e550e6b4c0a19a500e3dd9e4195c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">Tgstation.Server.Host.Core.ServerUpdateResult</a></div><div class="ttdeci">ServerUpdateResult</div><div class="ttdoc">The result of a call to start a server update.</div><div class="ttdef"><b>Definition:</b> <a href="_server_update_result_8cs_source.html#l00006">ServerUpdateResult.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537">Tgstation.Server.Host.Utils.IGitHubClientFactory.CreateClient()</a>, <a class="el" href="_updates_configuration_8cs_source.html#l00047">Tgstation.Server.Host.Configuration.UpdatesConfiguration.DumpReleasesOnNotFound</a>, <a class="el" href="_i_swarm_service_8cs_source.html#l00018">Tgstation.Server.Host.Swarm.ISwarmService.ExpectedNumberOfNodesConnected</a>, <a class="el" href="_server_updater_8cs_source.html#l00024">Tgstation.Server.Host.Core.ServerUpdater.gitHubClientFactory</a>, <a class="el" href="_updates_configuration_8cs_source.html#l00031">Tgstation.Server.Host.Configuration.UpdatesConfiguration.GitHubRepositoryId</a>, <a class="el" href="_updates_configuration_8cs_source.html#l00036">Tgstation.Server.Host.Configuration.UpdatesConfiguration.GitTagPrefix</a>, <a class="el" href="_server_updater_8cs_source.html#l00044">Tgstation.Server.Host.Core.ServerUpdater.logger</a>, <a class="el" href="_server_updater_8cs_source.html#l00039">Tgstation.Server.Host.Core.ServerUpdater.serverControl</a>, <a class="el" href="_server_updater_8cs_source.html#l00059">Tgstation.Server.Host.Core.ServerUpdater.serverUpdateOperation</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8">Tgstation.Server.Host.Core.IServerControl.TryStartUpdate()</a>, <a class="el" href="_updates_configuration_8cs_source.html#l00041">Tgstation.Server.Host.Configuration.UpdatesConfiguration.UpdatePackageAssetName</a>, and <a class="el" href="_server_updater_8cs_source.html#l00054">Tgstation.Server.Host.Core.ServerUpdater.updatesConfiguration</a>.</p>
+<p class="reference">References <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537">Tgstation.Server.Host.Utils.IGitHubClientFactory.CreateClient()</a>, <a class="el" href="_updates_configuration_8cs_source.html#l00047">Tgstation.Server.Host.Configuration.UpdatesConfiguration.DumpReleasesOnNotFound</a>, <a class="el" href="_server_updater_8cs_source.html#l00024">Tgstation.Server.Host.Core.ServerUpdater.gitHubClientFactory</a>, <a class="el" href="_updates_configuration_8cs_source.html#l00031">Tgstation.Server.Host.Configuration.UpdatesConfiguration.GitHubRepositoryId</a>, <a class="el" href="_updates_configuration_8cs_source.html#l00036">Tgstation.Server.Host.Configuration.UpdatesConfiguration.GitTagPrefix</a>, <a class="el" href="_server_updater_8cs_source.html#l00044">Tgstation.Server.Host.Core.ServerUpdater.logger</a>, <a class="el" href="_server_updater_8cs_source.html#l00039">Tgstation.Server.Host.Core.ServerUpdater.serverControl</a>, <a class="el" href="_server_updater_8cs_source.html#l00059">Tgstation.Server.Host.Core.ServerUpdater.serverUpdateOperation</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8">Tgstation.Server.Host.Core.IServerControl.TryStartUpdate()</a>, <a class="el" href="_updates_configuration_8cs_source.html#l00041">Tgstation.Server.Host.Configuration.UpdatesConfiguration.UpdatePackageAssetName</a>, and <a class="el" href="_server_updater_8cs_source.html#l00054">Tgstation.Server.Host.Core.ServerUpdater.updatesConfiguration</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00090">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_abbe150fca9be09209df0abe1f9152899_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_abbe150fca9be09209df0abe1f9152899_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_abbe150fca9be09209df0abe1f9152899_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_abbe150fca9be09209df0abe1f9152899_cgraph">
-<area shape="rect" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,37,189,77"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="237,5,455,45"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="248,69,444,109"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ae718c23c45c5e831fa4df39e2bbe8617_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ae718c23c45c5e831fa4df39e2bbe8617_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ae718c23c45c5e831fa4df39e2bbe8617_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ae718c23c45c5e831fa4df39e2bbe8617_cgraph">
+<area shape="rect" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="5,37,215,77"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="263,5,480,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="273,69,469,109"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ae718c23c45c5e831fa4df39e2bbe8617_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ae718c23c45c5e831fa4df39e2bbe8617_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ae718c23c45c5e831fa4df39e2bbe8617_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater_ae718c23c45c5e831fa4df39e2bbe8617_icgraph">
+<area shape="rect" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,29,447,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ac94381ec14fdde7783b8cdfe6a6c647d" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,29,189,69"/>
 </map>
 </div>
 
@@ -468,116 +571,116 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html#a2b25c5bbbaa17232348921c7e0f84531">Tgstation.Server.Host.Core.IServerUpdateExecutor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00165">165</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  166</span>        {</div>
-<div class="line"><span class="lineno">  167</span>            <span class="keywordflow">if</span> (updatePath == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  168</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(updatePath));</div>
-<div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>            var <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a> = this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>;</div>
-<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">if</span> (serverUpdateOperation == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  172</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;{nameof(serverUpdateOperation)} was null!&quot;</span>);</div>
-<div class="line"><span class="lineno">  173</span> </div>
-<div class="line"><span class="lineno">  174</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogInformation(</div>
-<div class="line"><span class="lineno">  175</span>                <span class="stringliteral">&quot;Updating server to version {version} ({zipUrl})...&quot;</span>,</div>
-<div class="line"><span class="lineno">  176</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a95a83eb349310df6688051b5309fb485">TargetVersion</a>,</div>
-<div class="line"><span class="lineno">  177</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a2410cbfd1b33cbd7eb5a0bda67de5264">UpdateZipUrl</a>);</div>
+<p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00105">105</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  106</span>        {</div>
+<div class="line"><span class="lineno">  107</span>            <span class="keywordflow">if</span> (updatePath == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  108</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(updatePath));</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>            var <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a> = this.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>;</div>
+<div class="line"><span class="lineno">  111</span>            <span class="keywordflow">if</span> (serverUpdateOperation == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  112</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;{nameof(serverUpdateOperation)} was null!&quot;</span>);</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogInformation(</div>
+<div class="line"><span class="lineno">  115</span>                <span class="stringliteral">&quot;Updating server to version {version} ({zipUrl})...&quot;</span>,</div>
+<div class="line"><span class="lineno">  116</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a95a83eb349310df6688051b5309fb485">TargetVersion</a>,</div>
+<div class="line"><span class="lineno">  117</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a2410cbfd1b33cbd7eb5a0bda67de5264">UpdateZipUrl</a>);</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>            var inMustCommitUpdate = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  120</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  121</span>            {</div>
+<div class="line"><span class="lineno">  122</span>                var updatePrepareResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a940173d7d73352a4d918532225454f4c">SwarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8c5e0f4aa46922955502a3a06bb0cfb7">PrepareUpdate</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a95a83eb349310df6688051b5309fb485">TargetVersion</a>, cancellationToken);</div>
+<div class="line"><span class="lineno">  123</span>                <span class="keywordflow">if</span> (!updatePrepareResult)</div>
+<div class="line"><span class="lineno">  124</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>                async Task TryAbort(Exception ex)</div>
+<div class="line"><span class="lineno">  127</span>                {</div>
+<div class="line"><span class="lineno">  128</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  129</span>                    {</div>
+<div class="line"><span class="lineno">  130</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a940173d7d73352a4d918532225454f4c">SwarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8612bfef4d2f9c7180fc7498f7d33985">AbortUpdate</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  131</span>                    }</div>
+<div class="line"><span class="lineno">  132</span>                    <span class="keywordflow">catch</span> (Exception e2)</div>
+<div class="line"><span class="lineno">  133</span>                    {</div>
+<div class="line"><span class="lineno">  134</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> AggregateException(ex, e2);</div>
+<div class="line"><span class="lineno">  135</span>                    }</div>
+<div class="line"><span class="lineno">  136</span>                }</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>                var stagingDirectory = $<span class="stringliteral">&quot;{updatePath}-stage&quot;</span>;</div>
+<div class="line"><span class="lineno">  139</span>                MemoryStream updateZipData;</div>
+<div class="line"><span class="lineno">  140</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  141</span>                {</div>
+<div class="line"><span class="lineno">  142</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(<span class="stringliteral">&quot;Downloading zip package...&quot;</span>);</div>
+<div class="line"><span class="lineno">  143</span>                    var bearerToken = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a6379c16d687c2202558ee460b619502b">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a97eae217a6ba8e75256e745f98f926b8">GitHubAccessToken</a>;</div>
+<div class="line"><span class="lineno">  144</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(bearerToken))</div>
+<div class="line"><span class="lineno">  145</span>                        bearerToken = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>                    updateZipData = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a68a1f9a20fdfc77820238538bb1c7498">fileDownloader</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#a19041753df6bbcfc0c0a4ff87ecb517b">DownloadFile</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a2410cbfd1b33cbd7eb5a0bda67de5264">UpdateZipUrl</a>, bearerToken, cancellationToken);</div>
+<div class="line"><span class="lineno">  148</span>                }</div>
+<div class="line"><span class="lineno">  149</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  150</span>                {</div>
+<div class="line"><span class="lineno">  151</span>                    await TryAbort(ex);</div>
+<div class="line"><span class="lineno">  152</span>                    <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  153</span>                }</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  156</span>                {</div>
+<div class="line"><span class="lineno">  157</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  158</span>                    {</div>
+<div class="line"><span class="lineno">  159</span>                        <span class="keyword">using</span> (updateZipData)</div>
+<div class="line"><span class="lineno">  160</span>                        {</div>
+<div class="line"><span class="lineno">  161</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(<span class="stringliteral">&quot;Extracting zip package to {stagingDirectory}...&quot;</span>, stagingDirectory);</div>
+<div class="line"><span class="lineno">  162</span>                            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(stagingDirectory, cancellationToken);</div>
+<div class="line"><span class="lineno">  163</span>                            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a97cec04d5bb18549ae09bc89bf2d016f">ZipToDirectory</a>(stagingDirectory, updateZipData, cancellationToken);</div>
+<div class="line"><span class="lineno">  164</span>                        }</div>
+<div class="line"><span class="lineno">  165</span>                    }</div>
+<div class="line"><span class="lineno">  166</span>                    <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">  167</span>                    {</div>
+<div class="line"><span class="lineno">  168</span>                        await TryAbort(ex);</div>
+<div class="line"><span class="lineno">  169</span>                        <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  170</span>                    }</div>
+<div class="line"><span class="lineno">  171</span> </div>
+<div class="line"><span class="lineno">  172</span>                    var updateCommitResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a940173d7d73352a4d918532225454f4c">SwarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a7fd953d39bae85f73cc7bb30d47a09a6">CommitUpdate</a>(criticalCancellationToken);</div>
+<div class="line"><span class="lineno">  173</span>                    <span class="keywordflow">if</span> (updateCommitResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">SwarmCommitResult</a>.AbortUpdate)</div>
+<div class="line"><span class="lineno">  174</span>                    {</div>
+<div class="line"><span class="lineno">  175</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogError(<span class="stringliteral">&quot;Swarm distributed commit failed, not applying update!&quot;</span>);</div>
+<div class="line"><span class="lineno">  176</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  177</span>                    }</div>
 <div class="line"><span class="lineno">  178</span> </div>
-<div class="line"><span class="lineno">  179</span>            var inMustCommitUpdate = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  180</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  181</span>            {</div>
-<div class="line"><span class="lineno">  182</span>                var updatePrepareResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a940173d7d73352a4d918532225454f4c">SwarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8c5e0f4aa46922955502a3a06bb0cfb7">PrepareUpdate</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a95a83eb349310df6688051b5309fb485">TargetVersion</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">  183</span>                <span class="keywordflow">if</span> (!updatePrepareResult)</div>
-<div class="line"><span class="lineno">  184</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  185</span> </div>
-<div class="line"><span class="lineno">  186</span>                async Task TryAbort(Exception ex)</div>
-<div class="line"><span class="lineno">  187</span>                {</div>
-<div class="line"><span class="lineno">  188</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  189</span>                    {</div>
-<div class="line"><span class="lineno">  190</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a940173d7d73352a4d918532225454f4c">SwarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8612bfef4d2f9c7180fc7498f7d33985">AbortUpdate</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  191</span>                    }</div>
-<div class="line"><span class="lineno">  192</span>                    <span class="keywordflow">catch</span> (Exception e2)</div>
-<div class="line"><span class="lineno">  193</span>                    {</div>
-<div class="line"><span class="lineno">  194</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> AggregateException(ex, e2);</div>
-<div class="line"><span class="lineno">  195</span>                    }</div>
+<div class="line"><span class="lineno">  179</span>                    inMustCommitUpdate = updateCommitResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">SwarmCommitResult</a>.MustCommitUpdate;</div>
+<div class="line"><span class="lineno">  180</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(<span class="stringliteral">&quot;Moving {stagingDirectory} to {updateDirectory}&quot;</span>, stagingDirectory, updatePath);</div>
+<div class="line"><span class="lineno">  181</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(stagingDirectory, updatePath, criticalCancellationToken);</div>
+<div class="line"><span class="lineno">  182</span>                }</div>
+<div class="line"><span class="lineno">  183</span>                <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><span class="lineno">  184</span>                {</div>
+<div class="line"><span class="lineno">  185</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  186</span>                    {</div>
+<div class="line"><span class="lineno">  187</span>                        <span class="comment">// important to not leave this directory around if possible</span></div>
+<div class="line"><span class="lineno">  188</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(stagingDirectory, <span class="keywordflow">default</span>);</div>
+<div class="line"><span class="lineno">  189</span>                    }</div>
+<div class="line"><span class="lineno">  190</span>                    <span class="keywordflow">catch</span> (Exception e2)</div>
+<div class="line"><span class="lineno">  191</span>                    {</div>
+<div class="line"><span class="lineno">  192</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> AggregateException(e, e2);</div>
+<div class="line"><span class="lineno">  193</span>                    }</div>
+<div class="line"><span class="lineno">  194</span> </div>
+<div class="line"><span class="lineno">  195</span>                    <span class="keywordflow">throw</span>;</div>
 <div class="line"><span class="lineno">  196</span>                }</div>
 <div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  198</span>                var stagingDirectory = $<span class="stringliteral">&quot;{updatePath}-stage&quot;</span>;</div>
-<div class="line"><span class="lineno">  199</span>                MemoryStream updateZipData;</div>
-<div class="line"><span class="lineno">  200</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  201</span>                {</div>
-<div class="line"><span class="lineno">  202</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(<span class="stringliteral">&quot;Downloading zip package...&quot;</span>);</div>
-<div class="line"><span class="lineno">  203</span>                    var bearerToken = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a6379c16d687c2202558ee460b619502b">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a97eae217a6ba8e75256e745f98f926b8">GitHubAccessToken</a>;</div>
-<div class="line"><span class="lineno">  204</span>                    <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(bearerToken))</div>
-<div class="line"><span class="lineno">  205</span>                        bearerToken = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  206</span> </div>
-<div class="line"><span class="lineno">  207</span>                    updateZipData = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a68a1f9a20fdfc77820238538bb1c7498">fileDownloader</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#a19041753df6bbcfc0c0a4ff87ecb517b">DownloadFile</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a2410cbfd1b33cbd7eb5a0bda67de5264">UpdateZipUrl</a>, bearerToken, cancellationToken);</div>
-<div class="line"><span class="lineno">  208</span>                }</div>
-<div class="line"><span class="lineno">  209</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  210</span>                {</div>
-<div class="line"><span class="lineno">  211</span>                    await TryAbort(ex);</div>
-<div class="line"><span class="lineno">  212</span>                    <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  213</span>                }</div>
-<div class="line"><span class="lineno">  214</span> </div>
-<div class="line"><span class="lineno">  215</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  216</span>                {</div>
-<div class="line"><span class="lineno">  217</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  218</span>                    {</div>
-<div class="line"><span class="lineno">  219</span>                        <span class="keyword">using</span> (updateZipData)</div>
-<div class="line"><span class="lineno">  220</span>                        {</div>
-<div class="line"><span class="lineno">  221</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(<span class="stringliteral">&quot;Extracting zip package to {stagingDirectory}...&quot;</span>, stagingDirectory);</div>
-<div class="line"><span class="lineno">  222</span>                            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(stagingDirectory, cancellationToken);</div>
-<div class="line"><span class="lineno">  223</span>                            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a97cec04d5bb18549ae09bc89bf2d016f">ZipToDirectory</a>(stagingDirectory, updateZipData, cancellationToken);</div>
-<div class="line"><span class="lineno">  224</span>                        }</div>
-<div class="line"><span class="lineno">  225</span>                    }</div>
-<div class="line"><span class="lineno">  226</span>                    <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">  227</span>                    {</div>
-<div class="line"><span class="lineno">  228</span>                        await TryAbort(ex);</div>
-<div class="line"><span class="lineno">  229</span>                        <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  230</span>                    }</div>
-<div class="line"><span class="lineno">  231</span> </div>
-<div class="line"><span class="lineno">  232</span>                    var updateCommitResult = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a990b89aa48cada1664331eabd53faf34">serverUpdateOperation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a940173d7d73352a4d918532225454f4c">SwarmService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a7fd953d39bae85f73cc7bb30d47a09a6">CommitUpdate</a>(criticalCancellationToken);</div>
-<div class="line"><span class="lineno">  233</span>                    <span class="keywordflow">if</span> (updateCommitResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">SwarmCommitResult</a>.AbortUpdate)</div>
-<div class="line"><span class="lineno">  234</span>                    {</div>
-<div class="line"><span class="lineno">  235</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogError(<span class="stringliteral">&quot;Swarm distributed commit failed, not applying update!&quot;</span>);</div>
-<div class="line"><span class="lineno">  236</span>                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  237</span>                    }</div>
-<div class="line"><span class="lineno">  238</span> </div>
-<div class="line"><span class="lineno">  239</span>                    inMustCommitUpdate = updateCommitResult == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">SwarmCommitResult</a>.MustCommitUpdate;</div>
-<div class="line"><span class="lineno">  240</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogTrace(<span class="stringliteral">&quot;Moving {stagingDirectory} to {updateDirectory}&quot;</span>, stagingDirectory, updatePath);</div>
-<div class="line"><span class="lineno">  241</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad8dc6ae8e69047b801a7344b17d0cc37">MoveDirectory</a>(stagingDirectory, updatePath, criticalCancellationToken);</div>
-<div class="line"><span class="lineno">  242</span>                }</div>
-<div class="line"><span class="lineno">  243</span>                <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><span class="lineno">  244</span>                {</div>
-<div class="line"><span class="lineno">  245</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  246</span>                    {</div>
-<div class="line"><span class="lineno">  247</span>                        <span class="comment">// important to not leave this directory around if possible</span></div>
-<div class="line"><span class="lineno">  248</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a5ed5bd2053f23dec7987afc1633da1c5">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(stagingDirectory, <span class="keywordflow">default</span>);</div>
-<div class="line"><span class="lineno">  249</span>                    }</div>
-<div class="line"><span class="lineno">  250</span>                    <span class="keywordflow">catch</span> (Exception e2)</div>
-<div class="line"><span class="lineno">  251</span>                    {</div>
-<div class="line"><span class="lineno">  252</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> AggregateException(e, e2);</div>
-<div class="line"><span class="lineno">  253</span>                    }</div>
-<div class="line"><span class="lineno">  254</span> </div>
-<div class="line"><span class="lineno">  255</span>                    <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  256</span>                }</div>
-<div class="line"><span class="lineno">  257</span> </div>
-<div class="line"><span class="lineno">  258</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  259</span>            }</div>
-<div class="line"><span class="lineno">  260</span>            <span class="keywordflow">catch</span> (OperationCanceledException) when (!inMustCommitUpdate)</div>
-<div class="line"><span class="lineno">  261</span>            {</div>
-<div class="line"><span class="lineno">  262</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogInformation(<span class="stringliteral">&quot;Server update cancelled!&quot;</span>);</div>
-<div class="line"><span class="lineno">  263</span>            }</div>
-<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">catch</span> (Exception ex) when (!inMustCommitUpdate)</div>
-<div class="line"><span class="lineno">  265</span>            {</div>
-<div class="line"><span class="lineno">  266</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error updating server!&quot;</span>);</div>
-<div class="line"><span class="lineno">  267</span>            }</div>
-<div class="line"><span class="lineno">  268</span>            <span class="keywordflow">catch</span> (Exception ex) when (inMustCommitUpdate)</div>
-<div class="line"><span class="lineno">  269</span>            {</div>
-<div class="line"><span class="lineno">  270</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogCritical(ex, <span class="stringliteral">&quot;Could not complete committed swarm update!&quot;</span>);</div>
-<div class="line"><span class="lineno">  271</span>            }</div>
-<div class="line"><span class="lineno">  272</span> </div>
-<div class="line"><span class="lineno">  273</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  274</span>        }</div>
+<div class="line"><span class="lineno">  198</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  199</span>            }</div>
+<div class="line"><span class="lineno">  200</span>            <span class="keywordflow">catch</span> (OperationCanceledException) when (!inMustCommitUpdate)</div>
+<div class="line"><span class="lineno">  201</span>            {</div>
+<div class="line"><span class="lineno">  202</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogInformation(<span class="stringliteral">&quot;Server update cancelled!&quot;</span>);</div>
+<div class="line"><span class="lineno">  203</span>            }</div>
+<div class="line"><span class="lineno">  204</span>            <span class="keywordflow">catch</span> (Exception ex) when (!inMustCommitUpdate)</div>
+<div class="line"><span class="lineno">  205</span>            {</div>
+<div class="line"><span class="lineno">  206</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogError(ex, <span class="stringliteral">&quot;Error updating server!&quot;</span>);</div>
+<div class="line"><span class="lineno">  207</span>            }</div>
+<div class="line"><span class="lineno">  208</span>            <span class="keywordflow">catch</span> (Exception ex) when (inMustCommitUpdate)</div>
+<div class="line"><span class="lineno">  209</span>            {</div>
+<div class="line"><span class="lineno">  210</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a78d361de3519865c4f50dbeaa4f0b26c">logger</a>.LogCritical(ex, <span class="stringliteral">&quot;Could not complete committed swarm update!&quot;</span>);</div>
+<div class="line"><span class="lineno">  211</span>            }</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  214</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a97eae217a6ba8e75256e745f98f926b8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a97eae217a6ba8e75256e745f98f926b8">Tgstation.Server.Host.Configuration.GeneralConfiguration.GitHubAccessToken</a></div><div class="ttdeci">string GitHubAccessToken</div><div class="ttdoc">A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes.</div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00082">GeneralConfiguration.cs:82</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation_html_a2410cbfd1b33cbd7eb5a0bda67de5264"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a2410cbfd1b33cbd7eb5a0bda67de5264">Tgstation.Server.Host.Core.ServerUpdateOperation.UpdateZipUrl</a></div><div class="ttdeci">Uri UpdateZipUrl</div><div class="ttdoc">The Uri pointing to the update data.</div><div class="ttdef"><b>Definition:</b> <a href="_server_update_operation_8cs_source.html#l00020">ServerUpdateOperation.cs:20</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation_html_a940173d7d73352a4d918532225454f4c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html#a940173d7d73352a4d918532225454f4c">Tgstation.Server.Host.Core.ServerUpdateOperation.SwarmService</a></div><div class="ttdeci">ISwarmService SwarmService</div><div class="ttdoc">The ISwarmService for the operation.</div><div class="ttdef"><b>Definition:</b> <a href="_server_update_operation_8cs_source.html#l00025">ServerUpdateOperation.cs:25</a></div></div>
@@ -635,7 +738,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00034">34</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00165">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00105">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
 
 </div>
 </div>
@@ -663,7 +766,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00049">49</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00165">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00105">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
 
 </div>
 </div>
@@ -691,7 +794,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00024">24</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00090">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
 
 </div>
 </div>
@@ -719,7 +822,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00029">29</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00165">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00105">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
 
 </div>
 </div>
@@ -747,7 +850,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00044">44</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00090">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate()</a>, <a class="el" href="_server_updater_8cs_source.html#l00165">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, <a class="el" href="_server_updater_8cs_source.html#l00105">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
 
 </div>
 </div>
@@ -775,7 +878,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00039">39</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00090">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
 
 </div>
 </div>
@@ -803,7 +906,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00059">59</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00090">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00165">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00105">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>.</p>
 
 </div>
 </div>
@@ -831,7 +934,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_server_updater_8cs_source.html#l00054">54</a> of file <a class="el" href="_server_updater_8cs_source.html">ServerUpdater.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00090">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00071">Tgstation.Server.Host.Core.ServerUpdater.ServerUpdater()</a>.</p>
 
 </div>
 </div>

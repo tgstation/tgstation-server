@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate" name="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate">
-<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,37,189,77"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="237,5,455,45"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="248,69,444,109"/>
-</map>
