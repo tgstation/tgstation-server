@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ using Remora.Discord.API.Abstractions.Results;
 using Remora.Discord.API.Objects;
 using Remora.Discord.Gateway;
 using Remora.Discord.Gateway.Extensions;
+using Remora.Discord.Gateway.Services;
 using Remora.Rest.Core;
 using Remora.Rest.Results;
 using Remora.Results;
@@ -206,7 +209,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			serviceProvider = new ServiceCollection()
 				.AddDiscordGateway(serviceProvider => botToken)
 				.Configure<DiscordGatewayClientOptions>(options => options.Intents |= GatewayIntents.MessageContents)
-				.AddSingleton<IDiscordResponders>(serviceProvider => this)
+				.AddSingleton(serviceProvider => (IDiscordResponders)this)
 				.AddResponder<DiscordForwardingResponder>()
 				.BuildServiceProvider();
 		}
@@ -223,7 +226,60 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			await base.DisposeAsync();
-			await serviceProvider.DisposeAsync();
+
+#if NET7_0_OR_GREATER
+#error This hack needs to be removed after updating Remora.Discord
+#endif
+
+			// https://github.com/Remora/Remora.Discord/issues/305
+			var responderDispatchService = serviceProvider.GetRequiredService<ResponderDispatchService>();
+			var serviceProviderDisposeTask = serviceProvider.DisposeAsync().AsTask();
+			var timeout = AsyncDelayer.Delay(TimeSpan.FromSeconds(10), default); // DCT: None available
+
+			await Task.WhenAny(timeout, serviceProviderDisposeTask);
+
+			if (!serviceProviderDisposeTask.IsCompleted)
+			{
+				// HACK HACK HACK, there's a potential deadlock in the ResponderDispatchService
+				Logger.LogWarning("ServiceProvider disposal stalled. Attempting workaround...");
+				var responderDispatchServiceType = responderDispatchService.GetType();
+				var dispatcherTask = (Task)responderDispatchServiceType.GetField("_dispatcher", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
+				var finalizerTask = (Task)responderDispatchServiceType.GetField("_finalizer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
+
+				var dispatcherCompleted = dispatcherTask.IsCompleted;
+				var finalizerCompleted = finalizerTask.IsCompleted;
+				if (dispatcherCompleted && !finalizerCompleted)
+				{
+					// deadlocked, force close the channel
+					var channel = (Channel<Task<IReadOnlyList<Result>>>)responderDispatchServiceType.GetField("_respondersToFinalize", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
+					if (!channel.Writer.TryComplete())
+						Logger.LogCritical("Workaround failed (channel already closed), you may be deadlocked!");
+					else
+					{
+						// drain the channel, fuck the results
+						// DCT: None available
+						await foreach (var result in channel.Reader.ReadAllAsync(default))
+							try
+							{
+								await result;
+							}
+							catch (Exception ex)
+							{
+								Logger.LogDebug(ex, "Channel draining exception!");
+							}
+
+						Logger.LogInformation("Workaround seems successful. Awaiting ServiceProvider disposal...");
+					}
+				}
+				else
+					Logger.LogCritical(
+						"Workaround failed (_dispatcher: {dispatcherCompleted}, _finalizer: {finalizerCompleted}), you may be deadlocked!",
+						dispatcherCompleted,
+						finalizerCompleted);
+			}
+
+			await serviceProviderDisposeTask;
+
 			Logger.LogTrace("ServiceProvider disposed");
 
 			// this line is purely here to shutup CA2213. It should always be null
@@ -660,6 +716,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			localGatewayCts.Cancel();
 			var gatewayResult = await localGatewayTask;
+
+			Logger.LogTrace("Gateway task complete");
 			if (!gatewayResult.IsSuccess)
 				Logger.LogWarning("Gateway issue: {result}", gatewayResult.LogFormat());
 
