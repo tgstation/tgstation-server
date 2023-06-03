@@ -86,8 +86,6 @@ namespace Tgstation.Server.Tests.Live
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
 			this.random = random ?? throw new ArgumentNullException(nameof(random));
 
-			logger.LogTrace("Base channel ID {baseChannelId}", channelIdAllocator);
-
 			knownChannels = new Dictionary<ulong, ChannelRepresentation>();
 			randomMessageCts = new CancellationTokenSource();
 			randomMessageTask = RandomMessageLoop(this.randomMessageCts.Token);
@@ -95,7 +93,6 @@ namespace Tgstation.Server.Tests.Live
 
 		public override async ValueTask DisposeAsync()
 		{
-			Logger.LogTrace("DisposeAsync Child");
 			this.randomMessageCts.Cancel();
 			this.randomMessageCts.Dispose();
 			await this.randomMessageTask;
@@ -106,8 +103,6 @@ namespace Tgstation.Server.Tests.Live
 		{
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
-
-			Logger.LogTrace("SendMessage");
 
 			Assert.IsTrue(knownChannels.ContainsKey(channelId));
 
@@ -131,8 +126,6 @@ namespace Tgstation.Server.Tests.Live
 			if (gitHubRepo == null)
 				throw new ArgumentNullException(nameof(gitHubRepo));
 
-			Logger.LogTrace("SendUpdateMessage");
-
 			Assert.IsTrue(knownChannels.ContainsKey(channelId));
 
 			cancellationToken.ThrowIfCancellationRequested();
@@ -155,7 +148,6 @@ namespace Tgstation.Server.Tests.Live
 
 		protected override Task Connect(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Connect");
 			cancellationToken.ThrowIfCancellationRequested();
 
 			// 30% chance to fail AFTER initial connection
@@ -169,7 +161,6 @@ namespace Tgstation.Server.Tests.Live
 
 		protected override Task DisconnectImpl(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("DisconnectImpl");
 			cancellationToken.ThrowIfCancellationRequested();
 			connected = false;
 
@@ -181,7 +172,6 @@ namespace Tgstation.Server.Tests.Live
 		protected override Task<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			channels = channels.ToList();
-			Logger.LogTrace("MapChannels: [{channels}]", String.Join(", ", channels.Select(channel => channel.IrcChannel ?? channel.DiscordChannelId?.ToString() ?? throw new InvalidOperationException("BAD CHANNEL"))));
 
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -202,7 +192,6 @@ namespace Tgstation.Server.Tests.Live
 
 		private ChannelRepresentation CreateChannel(ChatChannel channel)
 		{
-
 			ulong channelId;
 			if (channel.DiscordChannelId.HasValue)
 				channelId = channel.DiscordChannelId.Value;
@@ -235,7 +224,6 @@ namespace Tgstation.Server.Tests.Live
 
 		async Task RandomMessageLoop(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("RandomMessageLoop");
 			try
 			{
 				for (var i = 0UL; !cancellationToken.IsCancellationRequested; ++i)
@@ -337,11 +325,7 @@ namespace Tgstation.Server.Tests.Live
 							content = $"{content} {commands.ElementAt(random.Next(0, commands.Count)).Name}";
 						// 40% chance to attempt a custom chat command in long_running_test
 						else
-							// equal chance for each
-							if (random.Next(0, 100) > 50)
-								content = $"{content} embeds_test";
-							else
-								content = $"{content} response_overload_test";
+							content = $"{content} embeds_test"; // NEVER send the response_overload_test, it causes so much havoc in CI and we test it manually
 
 					EnqueueMessage(new Message
 					{
@@ -353,7 +337,6 @@ namespace Tgstation.Server.Tests.Live
 			}
 			catch (OperationCanceledException)
 			{
-				Logger.LogTrace("RandomMessageLoop cancelled");
 			}
 		}
 	}

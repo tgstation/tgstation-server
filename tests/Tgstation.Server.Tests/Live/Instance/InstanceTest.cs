@@ -23,13 +23,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.serverPort = serverPort;
 		}
 
-		public async Task RunTests(CancellationToken cancellationToken)
+		public async Task RunTests(CancellationToken cancellationToken, bool highPrioDD, bool lowPrioDeployment)
 		{
 			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, instanceClient.Metadata);
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
-			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs);
+			var dmTest = new DeploymentTest(instanceClient, instanceClient.Jobs, lowPrioDeployment);
 
 			var byondTask = byondTest.Run(cancellationToken, out var firstInstall);
 			var chatTask = chatTest.RunPreWatchdog(cancellationToken);
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await dmTask;
 			await byondTask;
 
-			await new WatchdogTest(instanceClient, instanceManager, serverPort).Run(cancellationToken);
+			await new WatchdogTest(instanceClient, instanceManager, serverPort, highPrioDD).Run(cancellationToken);
 		}
 	}
 }

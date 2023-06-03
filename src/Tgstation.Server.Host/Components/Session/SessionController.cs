@@ -29,6 +29,11 @@ namespace Tgstation.Server.Host.Components.Session
 	/// <inheritdoc />
 	sealed class SessionController : Chunker, ISessionController, IBridgeHandler, IChannelSink
 	{
+		/// <summary>
+		/// If calls to <see cref="SendTopicRequest(TopicParameters, CancellationToken)"/> should be trace logged.
+		/// </summary>
+		internal static bool LogTopicRequests { get; set; } = true;
+
 		/// <inheritdoc />
 		public DMApiParameters DMApiParameters => ReattachInformation;
 
@@ -365,7 +370,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 				void LogCombinedResponse()
 				{
-					if (combinedResponse != null)
+					if (LogTopicRequests && combinedResponse != null)
 						Logger.LogTrace("Topic response: {topicString}", combinedResponse.ByondTopicResponse.StringData ?? "(NO STRING DATA)");
 				}
 
@@ -768,7 +773,8 @@ namespace Tgstation.Server.Host.Components.Session
 			parameters.AccessIdentifier = ReattachInformation.AccessIdentifier;
 
 			var fullCommandString = GenerateQueryString(parameters, out var json);
-			Logger.LogTrace("Topic request: {json}", json);
+			if (LogTopicRequests)
+				Logger.LogTrace("Topic request: {json}", json);
 			var fullCommandByteCount = Encoding.UTF8.GetByteCount(fullCommandString);
 			var topicPriority = parameters.IsPriority;
 			if (fullCommandByteCount <= DMApiConstants.MaximumTopicRequestLength)

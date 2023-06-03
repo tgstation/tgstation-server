@@ -87,78 +87,18 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public async Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, Version newVersion, CancellationToken cancellationToken)
+		public async Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, Version version, CancellationToken cancellationToken)
 		{
 			if (swarmService == null)
 				throw new ArgumentNullException(nameof(swarmService));
 
-			if (newVersion == null)
-				throw new ArgumentNullException(nameof(newVersion));
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
 
 			if (!swarmService.ExpectedNumberOfNodesConnected)
 				return ServerUpdateResult.SwarmIntegrityCheckFailed;
 
-			logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
-			var gitHubClient = gitHubClientFactory.CreateClient();
-			var releases = await gitHubClient
-				.Repository
-				.Release
-				.GetAll(updatesConfiguration.GitHubRepositoryId)
-				.WithToken(cancellationToken);
-
-			logger.LogTrace("Received {releaseCount} total releases from GitHub", releases.Count);
-
-			var filteredReleases = releases
-				.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
-				.ToList();
-
-			logger.LogTrace(
-				"Filtered to {releaseCount} releases matching the configured tag prefix of \"{tagPrefix}\"",
-				filteredReleases.Count,
-				updatesConfiguration.GitTagPrefix);
-
-			foreach (var release in filteredReleases)
-				if (Version.TryParse(
-					release.TagName.Replace(
-						updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal),
-					out var version))
-				{
-					if (version == newVersion)
-					{
-						var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
-						if (asset == default)
-							continue;
-
-						serverUpdateOperation = new ServerUpdateOperation
-						{
-							TargetVersion = version,
-							UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
-							SwarmService = swarmService,
-						};
-
-						try
-						{
-							if (!serverControl.TryStartUpdate(this, version))
-								return ServerUpdateResult.UpdateInProgress;
-						}
-						finally
-						{
-							serverUpdateOperation = null;
-						}
-
-						return ServerUpdateResult.Started;
-					}
-				}
-				else
-					logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
-
-			if (updatesConfiguration.DumpReleasesOnNotFound)
-				logger.LogInformation(
-					"Found releases:{newline}\t{releases}",
-					Environment.NewLine,
-					String.Join($"{Environment.NewLine}\t", releases.Select(x => x.TagName).OrderBy(x => x)));
-
-			return ServerUpdateResult.ReleaseMissing;
+			return await BeginUpdateImpl(swarmService, version, false, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -271,6 +211,85 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			return false;
+		}
+
+		/// <summary>
+		/// Start the process of downloading and applying an update to a new server version. Doesn't perform argument checking.
+		/// </summary>
+		/// <param name="swarmService">The <see cref="ISwarmService"/> to use to coordinate the update.</param>
+		/// <param name="newVersion">The TGS <see cref="Version"/> to update to.</param>
+		/// <param name="recursed">If this is a recursive call.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
+		async Task<ServerUpdateResult> BeginUpdateImpl(ISwarmService swarmService, Version newVersion, bool recursed, CancellationToken cancellationToken)
+		{
+			logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
+			var gitHubClient = gitHubClientFactory.CreateClient();
+			var releases = await gitHubClient
+				.Repository
+				.Release
+				.GetAll(updatesConfiguration.GitHubRepositoryId)
+				.WithToken(cancellationToken);
+
+			logger.LogTrace("Received {releaseCount} total releases from GitHub", releases.Count);
+
+			var filteredReleases = releases
+				.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
+				.ToList();
+
+			logger.LogTrace(
+				"Filtered to {releaseCount} releases matching the configured tag prefix of \"{tagPrefix}\"",
+				filteredReleases.Count,
+				updatesConfiguration.GitTagPrefix);
+
+			foreach (var release in filteredReleases)
+				if (Version.TryParse(
+					release.TagName.Replace(
+						updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal),
+					out var version))
+				{
+					if (version == newVersion)
+					{
+						var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
+						if (asset == default)
+							continue;
+
+						serverUpdateOperation = new ServerUpdateOperation
+						{
+							TargetVersion = version,
+							UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
+							SwarmService = swarmService,
+						};
+
+						try
+						{
+							if (!serverControl.TryStartUpdate(this, version))
+								return ServerUpdateResult.UpdateInProgress;
+						}
+						finally
+						{
+							serverUpdateOperation = null;
+						}
+
+						return ServerUpdateResult.Started;
+					}
+				}
+				else
+					logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
+
+			if (updatesConfiguration.DumpReleasesOnNotFound)
+				logger.LogInformation(
+					"Found releases:{newline}\t{releases}",
+					Environment.NewLine,
+					String.Join($"{Environment.NewLine}\t", releases.Select(x => x.TagName).OrderBy(x => x)));
+
+			if (!recursed)
+			{
+				logger.LogWarning("We didn't find the requested release, but GitHub has been known to just not give full results when querying all releases. We'll try one more time.");
+				return await BeginUpdateImpl(swarmService, newVersion, true, cancellationToken);
+			}
+
+			return ServerUpdateResult.ReleaseMissing;
 		}
 	}
 }
