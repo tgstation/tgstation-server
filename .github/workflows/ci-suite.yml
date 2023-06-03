@@ -309,10 +309,44 @@ jobs:
     name: Windows Live Tests
     needs: dmapi-build
     if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
+    services: # We start all dbs here so we can just code the stuff once
+      postgres:
+        image: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mariadb:
+        image: mariadb
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: mariadb
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=3
+      mysql:
+        image: mysql:5.7.31
+        ports:
+          - 3307:3306
+        env:
+          MYSQL_ROOT_PASSWORD: mysql
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     strategy:
       fail-fast: false
       matrix:
-        database-type: [ 'SqlServer' ]
+        database-type: [ 'SqlServer', 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-2019
@@ -332,6 +366,35 @@ jobs:
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
+
+    - name: Set Sqlite Connection Info
+      if: ${{ matrix.database-type == 'Sqlite' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
+
+    - name: Set PostgresSql Connection Info
+      if: ${{ matrix.database-type == 'PostgresSql' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+
+    - name: Set MariaDB Connection Info
+      if: ${{ matrix.database-type == 'MariaDB' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+
+    - name: Set MySQL Connection Info
+      if: ${{ matrix.database-type == 'MySql' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+        echo "Database__ServerVersion=5.7.31" >> $GITHUB_ENV
 
     - name: Set SqlServer Connection Info
       if: ${{ matrix.database-type == 'SqlServer' }}
