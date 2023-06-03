@@ -180,6 +180,11 @@ namespace Tgstation.Server.Host.Swarm
 		bool serversDirty;
 
 		/// <summary>
+		/// If we've sent out a remote commit message for an update operation.
+		/// </summary>
+		bool updateCommitSent;
+
+		/// <summary>
 		/// Initializes static members of the <see cref="SwarmService"/> class.
 		/// </summary>
 		static SwarmService()
@@ -424,6 +429,8 @@ namespace Tgstation.Server.Host.Swarm
 					logger.LogCritical(ex, "Failed to send update commit request to node {nodeId}!", swarmServer.Identifier);
 				}
 			}
+
+			updateCommitSent = true;
 
 			Task task;
 			lock (swarmServers)
@@ -725,7 +732,12 @@ namespace Tgstation.Server.Host.Swarm
 				return;
 
 			logger.LogInformation("Unregistering node {nodeId}...", nodeIdentifier);
-			await AbortUpdate(cancellationToken);
+
+			if (!updateCommitSent)
+				await AbortUpdate(cancellationToken);
+			else
+				logger.LogTrace("Not aborting update because we have committed");
+
 			lock (swarmServers)
 			{
 				swarmServers.RemoveAll(x => x.Identifier == nodeIdentifier);
