@@ -25,6 +25,10 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);WATCHDOG_FREE_RESTART</DefineConstants>
+  </PropertyGroup>
+
   <Target Name="ClientInstall" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/ControlPanelVersion.props" Outputs="$(NpmInstallStampFile)">
     <Message Text="Pulling web control panel..." Importance="high" />
     <RemoveDir Directories="ClientApp" />
