@@ -887,7 +887,6 @@ namespace Tgstation.Server.Host.Components.Chat
 			catch (OperationCanceledException ex)
 			{
 				logger.LogTrace(ex, "Command processing canceled!");
-				throw;
 			}
 			catch (Exception e)
 			{
@@ -900,8 +899,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					{
 						Text = "TGS: Internal error processing command! Check server logs!",
 					},
-					cancellationToken)
-					;
+					cancellationToken);
 			}
 			finally
 			{
