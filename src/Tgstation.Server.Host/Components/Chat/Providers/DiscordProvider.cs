@@ -209,7 +209,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			serviceProvider = new ServiceCollection()
 				.AddDiscordGateway(serviceProvider => botToken)
 				.Configure<DiscordGatewayClientOptions>(options => options.Intents |= GatewayIntents.MessageContents)
-				.AddSingleton<IDiscordResponders>(serviceProvider => this)
+				.AddSingleton(serviceProvider => (IDiscordResponders)this)
 				.AddResponder<DiscordForwardingResponder>()
 				.BuildServiceProvider();
 		}
@@ -255,7 +255,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (!channel.Writer.TryComplete())
 						Logger.LogCritical("Workaround failed (channel already closed), you may be deadlocked!");
 					else
+					{
+						// drain the channel, fuck the results
+						// DCT: None available
+						await foreach (var result in channel.Reader.ReadAllAsync(default))
+							try
+							{
+								await result;
+							}
+							catch (Exception ex)
+							{
+								Logger.LogDebug(ex, "Channel draining exception!");
+							}
+
 						Logger.LogInformation("Workaround seems successful. Awaiting ServiceProvider disposal...");
+					}
 				}
 				else
 					Logger.LogCritical(
