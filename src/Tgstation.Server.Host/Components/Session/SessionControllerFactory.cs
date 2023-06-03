@@ -413,7 +413,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 				try
 				{
-					networkPromptReaper.RegisterProcess(process);
+					if (!byondLock.SupportsCli)
+						networkPromptReaper.RegisterProcess(process);
 
 					var chatTrackingContext = chat.CreateTrackingContext();
 					try
@@ -531,7 +532,8 @@ namespace Tgstation.Server.Host.Components.Session
 				else if (sessionConfiguration.LowPriorityDeploymentProcesses)
 					process.AdjustPriority(false);
 
-				networkPromptReaper.RegisterProcess(process);
+				if (!byondLock.SupportsCli)
+					networkPromptReaper.RegisterProcess(process);
 
 				// If this isnt a staging DD (From a Deployment), fire off an event
 				if (!apiValidate)
@@ -539,7 +541,7 @@ namespace Tgstation.Server.Host.Components.Session
 						EventType.DreamDaemonLaunch,
 						new List<string>
 						{
-									process.Id.ToString(CultureInfo.InvariantCulture),
+							process.Id.ToString(CultureInfo.InvariantCulture),
 						},
 						cancellationToken);
 
