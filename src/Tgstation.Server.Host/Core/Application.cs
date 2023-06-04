@@ -370,7 +370,10 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IFileDownloader, FileDownloader>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
+			services.AddSingleton<IGitHubServiceFactory, GitHubServiceFactory>();
+			services.AddSingleton(x => x.GetRequiredService<IGitHubServiceFactory>().CreateService());
 
 			// configure root services
 			services.AddSingleton<IJobService, JobService>();

@@ -67,7 +67,9 @@ namespace Tgstation.Server.Host.Utils
 		public IGitHubClient CreateClient() => GetOrCreateClient(generalConfiguration.GitHubAccessToken);
 
 		/// <inheritdoc />
-		public IGitHubClient CreateClient(string accessToken) => GetOrCreateClient(accessToken ?? throw new ArgumentNullException(nameof(accessToken)));
+		public IGitHubClient CreateClient(string accessToken)
+			=> GetOrCreateClient(
+				accessToken ?? throw new ArgumentNullException(nameof(accessToken)));
 
 		/// <summary>
 		/// Retrieve a <see cref="GitHubClient"/> from the <see cref="clientCache"/> or add a new one based on a given <paramref name="accessToken"/>.

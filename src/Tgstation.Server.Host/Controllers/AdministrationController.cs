@@ -19,7 +19,6 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
@@ -40,9 +39,9 @@ namespace Tgstation.Server.Host.Controllers
 		const string OctokitException = "Bad GitHub API response, check configuration!";
 
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="AdministrationController"/>.
+		/// The <see cref="IGitHubService"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
+		readonly IGitHubService gitHubService;
 
 		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="AdministrationController"/>.
@@ -75,11 +74,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
-		/// The <see cref="UpdatesConfiguration"/> for the <see cref="AdministrationController"/>.
-		/// </summary>
-		readonly UpdatesConfiguration updatesConfiguration;
-
-		/// <summary>
 		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>.
 		/// </summary>
 		readonly FileLoggingConfiguration fileLoggingConfiguration;
@@ -89,7 +83,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
+		/// <param name="gitHubService">The value of <see cref="gitHubService"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="serverUpdateInitiator">The value of <see cref="serverUpdateInitiator"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
@@ -97,12 +91,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
-		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/>.</param>
 		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/>.</param>
 		public AdministrationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			IGitHubClientFactory gitHubClientFactory,
+			IGitHubService gitHubService,
 			IServerControl serverControl,
 			IServerUpdateInitiator serverUpdateInitiator,
 			IAssemblyInformationProvider assemblyInformationProvider,
@@ -110,7 +103,6 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			IFileTransferTicketProvider fileTransferService,
 			ILogger<AdministrationController> logger,
-			IOptions<UpdatesConfiguration> updatesConfigurationOptions,
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 			: base(
 				databaseContext,
@@ -118,14 +110,13 @@ namespace Tgstation.Server.Host.Controllers
 				logger,
 				true)
 		{
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.gitHubService = gitHubService ?? throw new ArgumentNullException(nameof(gitHubService));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.serverUpdateInitiator = serverUpdateInitiator ?? throw new ArgumentNullException(nameof(serverUpdateInitiator));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
-			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 
@@ -150,26 +141,19 @@ namespace Tgstation.Server.Host.Controllers
 				Uri repoUrl = null;
 				try
 				{
-					var gitHubClient = gitHubClientFactory.CreateClient();
-					var repositoryTask = gitHubClient
-						.Repository
-						.Get(updatesConfiguration.GitHubRepositoryId)
-						.WithToken(cancellationToken);
-					var releases = (await gitHubClient
-						.Repository
-						.Release
-						.GetAll(updatesConfiguration.GitHubRepositoryId)
-						.WithToken(cancellationToken))
-						.Where(x => x.TagName.StartsWith(
-							updatesConfiguration.GitTagPrefix,
-							StringComparison.InvariantCulture));
+					var repositoryUrlTask = gitHubService.GetUpdatesRepositoryUrl(cancellationToken);
+					var releases = await gitHubService.GetTgsReleases(cancellationToken);
 
-					foreach (var release in releases)
-						if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
-							&& version.Major > 3 // Forward/backward compatible but not before TGS4
+					foreach (var kvp in releases)
+					{
+						var version = kvp.Key;
+						var release = kvp.Value;
+						if (version.Major > 3 // Forward/backward compatible but not before TGS4
 							&& (greatestVersion == null || version > greatestVersion))
 							greatestVersion = version;
-					repoUrl = new Uri((await repositoryTask).HtmlUrl);
+					}
+
+					repoUrl = await repositoryUrlTask;
 				}
 				catch (NotFoundException e)
 				{
