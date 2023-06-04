@@ -15,6 +15,7 @@ using Serilog.Sinks.Elasticsearch;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Extensions
 {
@@ -29,6 +30,11 @@ namespace Tgstation.Server.Host.Extensions
 		static Type chatProviderFactoryType = typeof(ProviderFactory);
 
 		/// <summary>
+		/// The <see cref="IGitHubServiceFactory"/> implementation used in calls to <see cref="AddGitHub(IServiceCollection)"/>.
+		/// </summary>
+		static Type gitHubServiceFactoryType = typeof(GitHubServiceFactory);
+
+		/// <summary>
 		/// A <see cref="ServiceDescriptor"/> for an additional <see cref="ILoggerProvider"/> to use.
 		/// </summary>
 		static ServiceDescriptor additionalLoggerProvider;
@@ -40,6 +46,32 @@ namespace Tgstation.Server.Host.Extensions
 		public static void UseChatProviderFactory<TProviderFactory>() where TProviderFactory : IProviderFactory
 		{
 			chatProviderFactoryType = typeof(TProviderFactory);
+		}
+
+		/// <summary>
+		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddGitHub(IServiceCollection)"/>.
+		/// </summary>
+		/// <typeparam name="TGitHubServiceFactory">The <see cref="IGitHubServiceFactory"/> implementation to use.</typeparam>
+		public static void UseGitHubServiceFactory<TGitHubServiceFactory>() where TGitHubServiceFactory : IGitHubServiceFactory
+		{
+			gitHubServiceFactoryType = typeof(TGitHubServiceFactory);
+		}
+
+		/// <summary>
+		/// Adds a <see cref="IGitHubServiceFactory"/> implementation to the given <paramref name="serviceCollection"/>.
+		/// </summary>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <returns><paramref name="serviceCollection"/>.</returns>
+		public static IServiceCollection AddGitHub(this IServiceCollection serviceCollection)
+		{
+			if (serviceCollection == null)
+				throw new ArgumentNullException(nameof(serviceCollection));
+
+			serviceCollection.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
+			serviceCollection.AddSingleton(typeof(IGitHubServiceFactory), gitHubServiceFactoryType);
+			serviceCollection.AddSingleton(x => x.GetRequiredService<IGitHubServiceFactory>().CreateService());
+
+			return serviceCollection;
 		}
 
 		/// <summary>
@@ -60,6 +92,9 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns><paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection AddChatProviderFactory(this IServiceCollection serviceCollection)
 		{
+			if (serviceCollection == null)
+				throw new ArgumentNullException(nameof(serviceCollection));
+
 			return serviceCollection.AddSingleton(typeof(IProviderFactory), chatProviderFactoryType);
 		}
 

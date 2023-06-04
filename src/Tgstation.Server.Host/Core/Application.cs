@@ -51,7 +51,6 @@ using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
-using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -372,9 +371,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 
-			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
-			services.AddSingleton<IGitHubServiceFactory, GitHubServiceFactory>();
-			services.AddSingleton(x => x.GetRequiredService<IGitHubServiceFactory>().CreateService());
+			services.AddGitHub();
 
 			// configure root services
 			services.AddSingleton<IJobService, JobService>();
