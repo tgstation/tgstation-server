@@ -118,9 +118,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// Back
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = "master" }, false, true, cancellationToken);
 
-			var prNumber = 2;
-			await TestMergeTests(updated, prNumber, cancellationToken);
-
 			// enable the good shit if possible
 			if (LiveTestUtils.RunningInGitHubActions
 				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
@@ -133,6 +130,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 					AccessUser = "Cyberboss",
 					AccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"),
 				}, cancellationToken);
+
+			var prNumber = 2;
+			await TestMergeTests(updated, prNumber, cancellationToken);
 		}
 
 		async Task<RepositoryResponse> Checkout(RepositoryUpdateRequest updated, bool expectFailure, bool isRef, CancellationToken cancellationToken)
