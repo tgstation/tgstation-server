@@ -94,6 +94,12 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 
 			if (hasRepo)
 			{
+				if (repositoryManager.CloneInProgress || repositoryManager.InUse)
+					return new MessageContent
+					{
+						Text = "Repository busy! Try again later",
+					};
+
 				string head;
 				using (var repo = await repositoryManager.LoadRepository(cancellationToken))
 				{
