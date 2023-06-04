@@ -314,7 +314,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        database-type: [ 'SqlServer' ]
+        database-type: [ 'SqlServer', 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-2019
@@ -334,6 +334,46 @@ jobs:
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
+
+    - name: Set Sqlite Connection Info
+      if: ${{ matrix.database-type == 'Sqlite' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
+
+    - name: Setup Postgres
+      uses: ankane/setup-postgres@v1
+      if: ${{ matrix.database-type == 'PostgresSql' }}
+
+    - name: Set PostgresSql Connection Info
+      if: ${{ matrix.database-type == 'PostgresSql' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=$USER;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+
+    - name: Setup MariaDB
+      uses: ankane/setup-mariadb@v1
+      if: ${{ matrix.database-type == 'MariaDB' }}
+
+    - name: Set MariaDB Connection Info
+      if: ${{ matrix.database-type == 'MariaDB' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+
+    - name: Setup MySQL
+      uses: ankane/setup-mysql@v1
+      if: ${{ matrix.database-type == 'MySql' }}
+
+    - name: Set MySQL Connection Info
+      if: ${{ matrix.database-type == 'MySql' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
 
     - name: Set SqlServer Connection Info
       if: ${{ matrix.database-type == 'SqlServer' }}
@@ -396,6 +436,13 @@ jobs:
     needs: dmapi-build
     if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
     services: # We start all dbs here so we can just code the stuff once
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          SA_PASSWORD: myPassword
+          ACCEPT_EULA: 'Y'
+        ports:
+        - 1433:1433
       postgres:
         image: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         ports:
