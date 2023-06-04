@@ -1,9 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Hosting;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Jobs
@@ -11,7 +9,7 @@ namespace Tgstation.Server.Host.Jobs
 	/// <summary>
 	/// Manages the runtime of <see cref="Job"/>s.
 	/// </summary>
-	public interface IJobManager : IHostedService
+	public interface IJobManager
 	{
 		/// <summary>
 		/// Set the <see cref="JobResponse.Progress"/> and <see cref="JobResponse.Stage"/> for a given <paramref name="apiResponse"/>.
@@ -47,11 +45,5 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <paramref name="job"/> if it was cancelled, <see langword="null"/> if it couldn't be found.</returns>
 		Task<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Activate the <see cref="IJobManager"/>.
-		/// </summary>
-		/// <param name="instanceCoreProvider">The <see cref="IInstanceCoreProvider"/> for the <see cref="IJobManager"/>.</param>
-		void Activate(IInstanceCoreProvider instanceCoreProvider);
 	}
 }

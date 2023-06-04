@@ -373,7 +373,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 
 			// configure root services
-			services.AddSingleton<IJobManager, JobManager>();
+			services.AddSingleton<IJobService, JobService>();
+			services.AddSingleton<IJobManager>(x => x.GetRequiredService<IJobService>());
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());

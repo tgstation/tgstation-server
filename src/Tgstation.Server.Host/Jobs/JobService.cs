@@ -17,22 +17,22 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <inheritdoc />
-	sealed class JobManager : IJobManager, IDisposable
+	sealed class JobService : IJobService, IDisposable
 	{
 		/// <summary>
-		/// The <see cref="IServiceProvider"/> for the <see cref="JobManager"/>.
+		/// The <see cref="IServiceProvider"/> for the <see cref="JobService"/>.
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="JobManager"/>.
+		/// The <see cref="ILoggerFactory"/> for the <see cref="JobService"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="JobManager"/>.
+		/// The <see cref="ILogger"/> for the <see cref="JobService"/>.
 		/// </summary>
-		readonly ILogger<JobManager> logger;
+		readonly ILogger<JobService> logger;
 
 		/// <summary>
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to running <see cref="JobHandler"/>s.
@@ -60,15 +60,15 @@ namespace Tgstation.Server.Host.Jobs
 		volatile bool noMoreJobsShouldStart;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="JobManager"/> class.
+		/// Initializes a new instance of the <see cref="JobService"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public JobManager(
+		public JobService(
 			IDatabaseContextFactory databaseContextFactory,
 			ILoggerFactory loggerFactory,
-			ILogger<JobManager> logger)
+			ILogger<JobService> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
