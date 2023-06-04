@@ -167,8 +167,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								url,
 								cloneOptions,
 								repositoryPath,
-								cancellationToken)
-								;
+								cancellationToken);
 						}
 						catch
 						{
