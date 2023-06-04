@@ -25,7 +25,8 @@ namespace Tgstation.Server.Tests.Live
 			var logMessage = formatter(state, exception);
 			if ((logLevel == LogLevel.Error
 				&& !logMessage.StartsWith("Error disconnecting connection ")
-				&& !(logMessage.StartsWith("An exception occurred while iterating over the results of a query for context type") && (exception is TaskCanceledException || exception?.InnerException is TaskCanceledException)))
+				&& !(logMessage.StartsWith("An exception occurred while iterating over the results of a query for context type") && (exception is OperationCanceledException || exception?.InnerException is OperationCanceledException))
+				&& !(logMessage.StartsWith("An exception occurred in the database while saving changes for context type") && (exception is OperationCanceledException || exception?.InnerException is OperationCanceledException)))
 				|| (logLevel == LogLevel.Critical && logMessage != "DropDatabase configuration option set! Dropping any existing database..."))
 			{
 				Console.WriteLine("UNEXPECTED ERROR OCCURS NEAR HERE");
