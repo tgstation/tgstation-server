@@ -170,8 +170,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.Id == Instance.Id)
 				.Select(x => x.DreamDaemonSettings)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (current == default)
 				return Gone();
@@ -182,8 +181,8 @@ namespace Tgstation.Server.Host.Controllers
 					.GetAvailablePort(
 						model.Port.Value,
 						true,
-						cancellationToken)
-					;
+						cancellationToken);
+
 				if (verifiedPort != model.Port)
 					return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 			}
