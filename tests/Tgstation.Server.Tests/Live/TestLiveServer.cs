@@ -218,7 +218,7 @@ namespace Tgstation.Server.Tests.Live
 		[TestMethod]
 		public async Task TestUpdateBadVersion()
 		{
-			using var server = new LiveTestingServer(null, false, dumpOnMissingUpdate: false);
+			using var server = new LiveTestingServer(null, false);
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
 			var serverTask = server.Run(cancellationToken);
