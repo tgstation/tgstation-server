@@ -35,7 +35,10 @@ namespace Tgstation.Server.Tests.Live
 				var url = new Uri(
 					$"https://secure.byond.com/download/build/{ByondTest.TestVersion.Major}/{ByondTest.TestVersion.Major}.{ByondTest.TestVersion.Minor}_byond{(!new PlatformIdentifier().IsWindows ? "_linux" : String.Empty)}.zip");
 
-				var path = $"~/BYOND-{ByondTest.TestVersion.Major}.{ByondTest.TestVersion.Minor}/byond.zip";
+				var path = Path.Combine(
+					Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+					$"BYOND-{ByondTest.TestVersion.Major}.{ByondTest.TestVersion.Minor}",
+					"byond.zip");
 				Assert.IsTrue(File.Exists(path));
 				System.Console.WriteLine($"CACHE PREWARMED: {url}");
 				cachedPaths.Add(url, Tuple.Create(path, false));

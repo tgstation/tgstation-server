@@ -112,15 +112,15 @@ jobs:
       uses: actions/cache@v3
       id: cache-byond
       with:
-        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
         key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-dmapibyond
 
     - name: Install BYOND
       if: steps.cache-byond.outputs.cache-hit != 'true'
       run: |
         echo "Setting up BYOND."
-        mkdir -p "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
         unzip byond.zip
         cd byond
@@ -141,10 +141,7 @@ jobs:
       run: |
         set -e
         retval=1
-        ls -l ~/
-        ls -l ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/
-        ls -l ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin
-        source ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin/byondsetup
+        source $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin/byondsetup
 
         if hash DreamMaker 2>/dev/null
         then
@@ -189,12 +186,12 @@ jobs:
     - name: gh-pages push
       if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
       run: |
-        git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" ~/tgsdox
-        pushd ~/tgsdox
+        git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+        pushd $HOME/tgsdox
         rm -r *
         popd
-        echo ./doxout/* | xargs -n 10 sudo mv -t ~/tgsdox
-        cd ~/tgsdox
+        echo ./doxout/* | xargs -n 10 sudo mv -t $HOME/tgsdox
+        cd $HOME/tgsdox
         git config --global push.default simple
         git config user.name "tgstation-server"
         git config user.email "tgstation-server@tgstation13.org"
@@ -339,17 +336,16 @@ jobs:
       uses: actions/cache@v3
       id: cache-byond
       with:
-        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
         key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
 
     - name: Download BYOND
       if: steps.cache-byond.outputs.cache-hit != 'true'
       run: |
         echo "Downloading BYOND..."
-        mkdir -p "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond.zip" -o byond.zip
-        ls -l
 
     - name: Upgrade NPM
       run: npm install -g npm
@@ -527,17 +523,16 @@ jobs:
       uses: actions/cache@v3
       id: cache-byond
       with:
-        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
         key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
 
     - name: Download BYOND
       if: steps.cache-byond.outputs.cache-hit != 'true'
       run: |
         echo "Downloading BYOND..."
-        mkdir -p "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
-        ls -l
 
     - name: Install Node 12.X
       uses: actions/setup-node@v3
