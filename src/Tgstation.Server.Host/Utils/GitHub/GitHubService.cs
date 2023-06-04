@@ -14,7 +14,7 @@ using Tgstation.Server.Host.Extensions;
 namespace Tgstation.Server.Host.Utils.GitHub
 {
 	/// <summary>
-	/// Service for interacting with GitHub. Authenticated or otherwise.
+	/// Service for interacting with the GitHub API. Authenticated or otherwise.
 	/// </summary>
 	sealed class GitHubService : IAuthenticatedGitHubService
 	{

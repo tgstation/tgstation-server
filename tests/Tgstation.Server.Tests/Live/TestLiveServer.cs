@@ -44,7 +44,7 @@ namespace Tgstation.Server.Tests.Live
 		public static ushort DDPort { get; } = FreeTcpPort();
 		public static ushort DMPort { get; } = GetDMPort();
 
-		readonly Version TestUpdateVersion = new(5, 11, 0);
+		public static readonly Version TestUpdateVersion = new(5, 11, 0);
 
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -79,9 +79,12 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		[TestInitialize]
-		public async Task Initialize()
+		[ClassInitialize]
+		public static async Task Initialize(TestContext _)
 		{
+			if (LiveTestUtils.RunningInGitHubActions || String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+				await DummyGitHubService.InitializeAndInject(default);
+
 			await DummyChatProvider.RandomDisconnections(true, default);
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
 
@@ -155,7 +158,6 @@ namespace Tgstation.Server.Tests.Live
 			var serverTask = server.Run(cancellationToken);
 			try
 			{
-				var testUpdateVersion = new Version(4, 3, 0);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					// Disabled OAuth test
@@ -178,7 +180,7 @@ namespace Tgstation.Server.Tests.Live
 					//attempt to update to stable
 					await adminClient.Administration.Update(new ServerUpdateRequest
 					{
-						NewVersion = testUpdateVersion
+						NewVersion = TestUpdateVersion
 					}, cancellationToken);
 					var serverInfo = await adminClient.ServerInformation(cancellationToken);
 					Assert.IsTrue(serverInfo.UpdateInProgress);
@@ -195,7 +197,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
 
 				var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
-				Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+				Assert.AreEqual(TestUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
 			}
 			finally
 			{

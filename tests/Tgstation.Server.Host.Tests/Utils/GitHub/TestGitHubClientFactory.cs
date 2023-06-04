@@ -18,10 +18,10 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 	[TestClass]
 	public sealed class TestGitHubClientFactory
 	{
-		ILoggerFactory loggerFactory;
+		static ILoggerFactory loggerFactory;
 
-		[TestInitialize]
-		public void Initialize()
+		[ClassInitialize]
+		public static void Initialize(TestContext _)
 		{
 			loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -30,8 +30,8 @@ namespace Tgstation.Server.Host.Utils.GitHub.Tests
 			});
 		}
 
-		[TestCleanup]
-		public void Cleanup()
+		[ClassCleanup]
+		public static void Cleanup()
 		{
 			loggerFactory.Dispose();
 		}

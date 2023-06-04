@@ -15,10 +15,10 @@ namespace Tgstation.Server.Host.System.Tests
 	[TestClass]
 	public sealed class TestProcessFeatures
 	{
-		IProcessFeatures features;
+		static IProcessFeatures features;
 
-		[TestInitialize]
-		public void Init()
+		[ClassInitialize]
+		public static void Init(TestContext _)
 		{
 			features = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 				? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())

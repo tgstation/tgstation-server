@@ -18,11 +18,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 	[TestClass]
 	public sealed class TestDiscordProvider
 	{
-		ChatBot testToken1;
-		IJobManager mockJobManager;
+		static ChatBot testToken1;
+		static IJobManager mockJobManager;
 
-		[TestInitialize]
-		public void Initialize()
+		[ClassInitialize]
+		public static void Initialize(TestContext _)
 		{
 			var actualToken = Environment.GetEnvironmentVariable("TGS_TEST_DISCORD_TOKEN");
 			if (!String.IsNullOrWhiteSpace(actualToken))

@@ -80,7 +80,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(secondRead);
 			Assert.IsNull(secondRead.ActiveJob);
 
-			const string Origin = "https://github.com/tgstation/common_core";
+			const string Origin = "https://github.com/Cyberboss/common_core";
 			var cloneRequest = new RepositoryCreateRequest
 			{
 				Origin = new Uri(Origin),
@@ -118,8 +118,19 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// Back
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = "master" }, false, true, cancellationToken);
 
-			var prNumber = 37;
+			var prNumber = 2;
 			await TestMergeTests(updated, prNumber, cancellationToken);
+
+			// enable the good shit if possible
+			if (LiveTestUtils.RunningInGitHubActions
+				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
+				|| Environment.MachineName.Equals("CYBERSTATIONXVI", StringComparison.OrdinalIgnoreCase))
+				await repositoryClient.Update(new RepositoryUpdateRequest
+				{
+					CreateGitHubDeployments = true,
+					PostTestMergeComment = true,
+					PushTestMergeCommits = true,
+				}, cancellationToken);
 		}
 
 		async Task<RepositoryResponse> Checkout(RepositoryUpdateRequest updated, bool expectFailure, bool isRef, CancellationToken cancellationToken)
@@ -174,7 +185,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.TitleAtMerge);
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.BodyAtMerge);
 			if (withMerge.RevisionInformation.PrimaryTestMerge.Url != "GITHUB API ERROR: RATE LIMITED")
-				Assert.AreEqual($"https://github.com/tgstation/common_core/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
+				Assert.AreEqual($"https://github.com/Cyberboss/common_core/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
 			Assert.AreEqual(orignCommit, withMerge.RevisionInformation.OriginCommitSha);
 			Assert.AreNotEqual(orignCommit, withMerge.RevisionInformation.CommitSha);
 
