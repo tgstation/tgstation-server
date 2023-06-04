@@ -110,7 +110,7 @@ New since TGS3 (Rewrite)</h1>
 <li>Multiple chat bots per instance: Up to 65535 as a matter of fact (who knows why I chose that number?)!</li>
 <li>Automatic Chat Bot Reconnection Intervals: Set in minutes.</li>
 <li>Better Error State Handling: The Server and Watchdog aren't your momma's boys anymore. Every error state will be automatically resolved or reported with recommended actions.</li>
-<li>Watchdog Heartbeats: An interval in seconds can now be set at which TGS will send /world/Topic() packets to DreamDaemon. If four of these are missed, the server will be rebooted. No more endless @Key Holder pings in discord (and I can finally unmute the /tg/ guild)! This feature can be disabled.</li>
+<li>Watchdog Health Checks: An interval in seconds can now be set at which TGS will send /world/Topic() packets to DreamDaemon. If four of these are missed, the server will be rebooted. No more endless @Key Holder pings in discord (and I can finally unmute the /tg/ guild)! This feature can be disabled.</li>
 <li>Better DMAPI: No longer requires injecting a .NET runtime .dll into the DreamDaemon process. DD -&gt; TGS communication is now handled securely via BYOND's native /world/Export() API ("But Cyberboss, BYOND only supports GET requests." Who said anything about respecting HTTP standards when dealing with BYOND?).</li>
 <li>Safe/Ultrasafe Security Support: Thanks to the new DMAPI, the ultrasafe and safe security levels may be used without running into BYOND's limitations. But no one really cares...</li>
 <li>Private/Invisible visibility Support: Stored per instance.</li>
@@ -185,7 +185,7 @@ Comprehensive Feature List</h1>
 </li>
 <li>The Watchdog, a DreamDaemon uptime monitor<ul>
 <li>Automatically restarts the server when crashed until told to stop</li>
-<li>"Heartbeat" system for checking DreamDaemon isn't hung</li>
+<li>"Health Check" system for checking DreamDaemon isn't hung</li>
 <li>Seamless automatic application of new deployments on /world/Reboot</li>
 <li>Automatic startup at server boot time</li>
 <li>Automatically handles Windows prompts related to trusted mode</li>

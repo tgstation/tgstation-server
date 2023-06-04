@@ -5,7 +5,7 @@ var searchData=
   ['handlercts_2',['handlerCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981',1,'Tgstation::Server::Host::Components::Chat::ChatManager']]],
   ['hardlinkeddmb_3',['hardLinkedDmb',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html#a386eb6b53076b316ea5c4f9291ec6c38',1,'Tgstation::Server::Host::Components::Watchdog::PosixWatchdog']]],
   ['headers_4',['headers',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a48f8ea0a4dd7ac665735d1728899ebad',1,'Tgstation::Server::Client::ApiClient']]],
-  ['heartbeatsmissed_5',['heartbeatsMissed',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abaf0a71134899c397cc88eb39a189ff0',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogBase']]],
+  ['healthchecksmissed_5',['healthChecksMissed',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae85241e9a900f49e703b7eda13c78564',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogBase']]],
   ['highestseenpayloadid_6',['highestSeenPayloadId',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chunker.html#ade529a2a58b313d734924351b4a9f61c',1,'Tgstation::Server::Host::Components::Interop::Chunker']]],
   ['hostbuilder_7',['hostBuilder',['../class_tgstation_1_1_server_1_1_host_1_1_server.html#ab2cb668c8f5441c3518f71d0a7555bc4',1,'Tgstation::Server::Host::Server']]],
   ['hostenvironment_8',['hostEnvironment',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a125c56cecfff0096ecca0e9de82b2f8a',1,'Tgstation::Server::Host::Controllers::ControlPanelController']]],

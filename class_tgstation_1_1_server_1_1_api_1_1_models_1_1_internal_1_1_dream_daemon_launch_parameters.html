@@ -126,10 +126,10 @@ Properties</h2></td></tr>
 <tr class="memdesc:aa3ac63088b89bf67dd5fdbe67970b03d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DreamDaemon startup timeout in seconds.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#aa3ac63088b89bf67dd5fdbe67970b03d">More...</a><br /></td></tr>
 <tr class="separator:aa3ac63088b89bf67dd5fdbe67970b03d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15ea3f57d3c8d953d2b12386469c73b2"><td class="memItemLeft" align="right" valign="top">uint?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a15ea3f57d3c8d953d2b12386469c73b2">HeartbeatSeconds</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a15ea3f57d3c8d953d2b12386469c73b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of seconds between each watchdog heartbeat. 0 disables.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a15ea3f57d3c8d953d2b12386469c73b2">More...</a><br /></td></tr>
+<tr class="memdesc:a15ea3f57d3c8d953d2b12386469c73b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of seconds between each watchdog health check. 0 disables.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a15ea3f57d3c8d953d2b12386469c73b2">More...</a><br /></td></tr>
 <tr class="separator:a15ea3f57d3c8d953d2b12386469c73b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1c8b66f8a23b32e80e2c88c1b405202"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ab1c8b66f8a23b32e80e2c88c1b405202">DumpOnHeartbeatRestart</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:ab1c8b66f8a23b32e80e2c88c1b405202"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a process core dump should be created prior to restarting the watchdog due to heartbeat failure.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ab1c8b66f8a23b32e80e2c88c1b405202">More...</a><br /></td></tr>
+<tr class="memdesc:ab1c8b66f8a23b32e80e2c88c1b405202"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a process core dump should be created prior to restarting the watchdog due to health check failure.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ab1c8b66f8a23b32e80e2c88c1b405202">More...</a><br /></td></tr>
 <tr class="separator:ab1c8b66f8a23b32e80e2c88c1b405202"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e172ad3abdcc1f6a0f24cdf08646d0a"><td class="memItemLeft" align="right" valign="top">uint?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5e172ad3abdcc1f6a0f24cdf08646d0a">TopicRequestTimeout</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a5e172ad3abdcc1f6a0f24cdf08646d0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The timeout for sending and receiving BYOND topics in milliseconds.   <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5e172ad3abdcc1f6a0f24cdf08646d0a">More...</a><br /></td></tr>
@@ -183,7 +183,7 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">  108</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5e172ad3abdcc1f6a0f24cdf08646d0a">TopicRequestTimeout</a> == otherParameters.TopicRequestTimeout</div>
 <div class="line"><span class="lineno">  109</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16">AdditionalParameters</a> == otherParameters.AdditionalParameters</div>
 <div class="line"><span class="lineno">  110</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#aa599a7221543ef48c8a27462bc3f7c34">StartProfiler</a> == otherParameters.StartProfiler</div>
-<div class="line"><span class="lineno">  111</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a3dbd92d8284bf7837808be9499105682">LogOutput</a> == otherParameters.LogOutput; <span class="comment">// We intentionally don&#39;t check StartupTimeout, heartbeat seconds, or heartbeat dump as they don&#39;t matter in terms of the watchdog</span></div>
+<div class="line"><span class="lineno">  111</span>                &amp;&amp; <a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a3dbd92d8284bf7837808be9499105682">LogOutput</a> == otherParameters.LogOutput; <span class="comment">// We intentionally don&#39;t check StartupTimeout, health check seconds, or health check dump as they don&#39;t matter in terms of the watchdog</span></div>
 <div class="line"><span class="lineno">  112</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_a00af90c86ba9ced8f7b718cea098892b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a00af90c86ba9ced8f7b718cea098892b">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.Port</a></div><div class="ttdeci">ushort? Port</div><div class="ttdoc">The port DreamDaemon uses. This should be publically accessible.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00047">DreamDaemonLaunchParameters.cs:47</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters_html_a08f11d77340868a0c8f2e1af89c7affe"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a08f11d77340868a0c8f2e1af89c7affe">Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.Visibility</a></div><div class="ttdeci">DreamDaemonVisibility? Visibility</div><div class="ttdoc">The DreamDaemonVisibility level of DreamDaemon.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_launch_parameters_8cs_source.html#l00031">DreamDaemonLaunchParameters.cs:31</a></div></div>
@@ -288,12 +288,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>If a process core dump should be created prior to restarting the watchdog due to heartbeat failure.  </p>
+<p>If a process core dump should be created prior to restarting the watchdog due to health check failure.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00069">69</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   69</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l01036">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l01036">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHealthCheck()</a>.</p>
 
 </div>
 </div>
@@ -317,7 +317,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The number of seconds between each watchdog heartbeat. 0 disables.  </p>
+<p>The number of seconds between each watchdog health check. 0 disables.  </p>
 
 <p class="definition">Definition at line <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html#l00062">62</a> of file <a class="el" href="_dream_daemon_launch_parameters_8cs_source.html">DreamDaemonLaunchParameters.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   62</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>

@@ -303,7 +303,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a7f6314f04d25300b61c73a5fdede8cfb"><td class="memItemLeft" align="right" valign="top">override async Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812">MonitorAction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a7f6314f04d25300b61c73a5fdede8cfb">HandleMonitorWakeup</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9">MonitorActivationReason</a> reason, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a7f6314f04d25300b61c73a5fdede8cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the actions to take when the monitor has to "wake up". <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">activationReason</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9" title="Reasons for the monitor to wake up.">MonitorActivationReason</a> that caused the invocation. Will never be MonitorActivationReason.Heartbeat.</td></tr>
+    <tr><td class="paramname">activationReason</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9" title="Reasons for the monitor to wake up.">MonitorActivationReason</a> that caused the invocation. Will never be MonitorActivationReason.HealthCheck.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -722,7 +722,7 @@ Private Attributes</h2></td></tr>
 
 <p>Handles the actions to take when the monitor has to "wake up". <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">activationReason</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9" title="Reasons for the monitor to wake up.">MonitorActivationReason</a> that caused the invocation. Will never be MonitorActivationReason.Heartbeat.</td></tr>
+    <tr><td class="paramname">activationReason</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9" title="Reasons for the monitor to wake up.">MonitorActivationReason</a> that caused the invocation. Will never be MonitorActivationReason.HealthCheck.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -798,7 +798,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  170</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9">MonitorActivationReason</a>.ActiveServerPrimed:</div>
 <div class="line"><span class="lineno">  171</span>                    await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1b043f3ab25e84bc675dd5455cbf3f52">HandleEvent</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a>.WorldPrime, Enumerable.Empty&lt;<span class="keywordtype">string</span>&gt;(), <span class="keyword">false</span>, cancellationToken);</div>
 <div class="line"><span class="lineno">  172</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  173</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9">MonitorActivationReason</a>.Heartbeat:</div>
+<div class="line"><span class="lineno">  173</span>                <span class="keywordflow">case</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9">MonitorActivationReason</a>.HealthCheck:</div>
 <div class="line"><span class="lineno">  174</span>                <span class="keywordflow">default</span>:</div>
 <div class="line"><span class="lineno">  175</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid activation reason: {reason}&quot;</span>);</div>
 <div class="line"><span class="lineno">  176</span>            }</div>
@@ -1333,7 +1333,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a78a34174a09d1726b92d2bc70182b657" title="Handle any TopicResponse.ChatResponses in a given topic result ." alt="" coords="1927,70,2233,110"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#af9226f864c0c82403eab7ac5f8e43002" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="2283,70,2509,110"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a875fe1589eb86e57a50a0e793b0d74f5" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1603,492,1869,547"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a97b5cac3c59bff5f5dab4bd5e4620042" title="Handles a watchdog heartbeat." alt="" coords="1257,444,1529,484"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a736a0993a11c8e6c5a00682dac054205" title="Handles a watchdog health check." alt="" coords="1247,444,1538,484"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a0ddddb5064444b1786a360d85c3c3873" title="Handles the actions to take when the monitor has to &quot;wake up&quot;." alt="" coords="1240,380,1545,420"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6d6672dfae1375d392bcd16ed604590d" title="Check for a new IDmbProvider." alt="" coords="1258,300,1527,355"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a24fd29d12e91f659010d483228be1225" title="Attempt to restart the monitor from scratch." alt="" coords="1263,710,1522,750"/>
