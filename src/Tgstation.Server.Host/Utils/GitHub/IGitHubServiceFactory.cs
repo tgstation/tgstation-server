@@ -12,10 +12,10 @@
 		public IGitHubService CreateService();
 
 		/// <summary>
-		/// Create a <see cref="IGitHubService"/>.
+		/// Create an <see cref="IAuthenticatedGitHubService"/>.
 		/// </summary>
 		/// <param name="accessToken">The access token to use for communication with GitHub.</param>
-		/// <returns>A new <see cref="IGitHubService"/>.</returns>
-		public IGitHubService CreateService(string accessToken);
+		/// <returns>A new <see cref="IAuthenticatedGitHubService"/>.</returns>
+		public IAuthenticatedGitHubService CreateService(string accessToken);
 	}
 }

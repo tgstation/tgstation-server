@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		public IGitHubService CreateService() => CreateServiceImpl(gitHubClientFactory.CreateClient());
 
 		/// <inheritdoc />
-		public IGitHubService CreateService(string accessToken)
+		public IAuthenticatedGitHubService CreateService(string accessToken)
 			=> CreateServiceImpl(
 				gitHubClientFactory.CreateClient(
 					accessToken ?? throw new ArgumentNullException(nameof(accessToken))));

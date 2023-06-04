@@ -13,8 +13,10 @@ using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Utils.GitHub
 {
-	/// <inheritdoc />
-	sealed class GitHubService : IGitHubService
+	/// <summary>
+	/// Service for interacting with GitHub. Authenticated or otherwise.
+	/// </summary>
+	sealed class GitHubService : IAuthenticatedGitHubService
 	{
 		/// <summary>
 		/// The <see cref="IGitHubClient"/> for the <see cref="GitHubService"/>.

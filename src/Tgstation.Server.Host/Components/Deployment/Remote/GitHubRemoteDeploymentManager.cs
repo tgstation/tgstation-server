@@ -73,9 +73,18 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.FirstAsync(cancellationToken));
 
 			var instanceAuthenticated = repositorySettings.AccessToken != null;
-			var gitHubService = !instanceAuthenticated
-				? gitHubServiceFactory.CreateService()
-				: gitHubServiceFactory.CreateService(repositorySettings.AccessToken);
+			IAuthenticatedGitHubService authenticatedGitHubService;
+			IGitHubService gitHubService;
+			if (instanceAuthenticated)
+			{
+				authenticatedGitHubService = gitHubServiceFactory.CreateService(repositorySettings.AccessToken);
+				gitHubService = authenticatedGitHubService;
+			}
+			else
+			{
+				authenticatedGitHubService = null;
+				gitHubService = gitHubServiceFactory.CreateService();
+			}
 
 			var repositoryIdTask = gitHubService.GetRepositoryId(
 				remoteInformation.RemoteRepositoryOwner,
@@ -91,7 +100,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				Logger.LogTrace("Creating deployment...");
 				try
 				{
-					compileJob.GitHubDeploymentId = await gitHubService.CreateDeployment(
+					compileJob.GitHubDeploymentId = await authenticatedGitHubService.CreateDeployment(
 						new NewDeployment(compileJob.RevisionInformation.CommitSha)
 						{
 							AutoMerge = false,
@@ -106,7 +115,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 
 					Logger.LogDebug("Created deployment ID {deploymentId}", compileJob.GitHubDeploymentId);
 
-					await gitHubService.CreateDeploymentStatus(
+					await authenticatedGitHubService.CreateDeploymentStatus(
 						new NewDeploymentStatus(DeploymentState.InProgress)
 						{
 							Description = "The project is being deployed",
