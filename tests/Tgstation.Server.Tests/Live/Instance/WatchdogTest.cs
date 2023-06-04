@@ -386,6 +386,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await Task.WhenAny(Task.Delay(20000, cancellationToken), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
 
+			// check DD agrees
+			var topicRequestResult = await TopicClient.SendTopic(
+				IPAddress.Loopback,
+				$"tgs_integration_test_tactics8=1",
+				TestLiveServer.DDPort,
+				cancellationToken);
+
+			Assert.IsNotNull(topicRequestResult);
+			Assert.AreEqual(TopicResponseType.StringResponse, topicRequestResult.ResponseType);
+			Assert.IsNotNull(topicRequestResult.StringData);
+			Assert.AreEqual(topicRequestResult.StringData, "received health check");
+
 			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				SoftShutdown = true

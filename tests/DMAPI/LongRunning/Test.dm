@@ -128,6 +128,10 @@ var/run_bridge_test
 		var/list/channels = TgsChatChannelInfo()
 		return "[length(channels)]"
 
+	var/tactics8 = data["tgs_integration_test_tactics8"]
+	if(tactics8)
+		return received_health_check ? "received health check" : "did not receive health check"
+
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
 	return "feck"
@@ -151,10 +155,17 @@ var/run_bridge_test
 	TgsChatBroadcast("World Rebooting")
 	TgsReboot()
 
+var/received_health_check = FALSE
+
+/datum/tgs_event_handler/impl
+	receive_health_checks = TRUE
+
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
-	if(event_code == TGS_EVENT_WATCHDOG_DETACH)
+	if(event_code == TGS_EVENT_HEALTH_CHECK)
+		received_health_check = TRUE
+	else if(event_code == TGS_EVENT_WATCHDOG_DETACH)
 		// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
 		var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
 		if(length(api.chat_channels))
