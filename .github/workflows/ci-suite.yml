@@ -141,6 +141,9 @@ jobs:
       run: |
         set -e
         retval=1
+        ls -l ~/
+        ls -l ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/
+        ls -l ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin
         source ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin/byondsetup
 
         if hash DreamMaker 2>/dev/null
