@@ -49,7 +49,17 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.IsTrue(activeJobs.Any(x => x.Id == clone.ActiveJob.Id));
 			Assert.IsTrue(allJobs.Any(x => x.Id == clone.ActiveJob.Id));
-			Assert.IsTrue(activeJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
+
+			var targetActiveJob = activeJobs.First(x => x.Id == clone.ActiveJob.Id);
+
+			if (!targetActiveJob.Progress.HasValue)
+			{
+				// give it 15 more seconds
+				targetActiveJob = await WaitForJobProgress(targetActiveJob, 15, cancellationToken);
+				allJobs = await JobsClient.List(null, cancellationToken);
+			}
+
+			Assert.IsTrue(targetActiveJob.Progress.HasValue);
 			Assert.IsTrue(allJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
 
 			return clone.ActiveJob;
