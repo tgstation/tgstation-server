@@ -15,9 +15,9 @@ using Tgstation.Server.Tests.Live.Instance;
 
 namespace Tgstation.Server.Tests.Live
 {
-	sealed class CachingFileDownloader : IFileDownloader, IDisposable
+	sealed class CachingFileDownloader : IFileDownloader
 	{
-		static readonly Dictionary<Uri, Tuple<string, bool>> cachedPaths = new Dictionary<Uri, Tuple<string, bool>>();
+		static readonly Dictionary<string, Tuple<string, bool>> cachedPaths = new Dictionary<string, Tuple<string, bool>>();
 
 		readonly ILogger<CachingFileDownloader> logger;
 
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Tests.Live
 					"byond.zip");
 				Assert.IsTrue(File.Exists(path));
 				System.Console.WriteLine($"CACHE PREWARMED: {url}");
-				cachedPaths.Add(url, Tuple.Create(path, false));
+				cachedPaths.Add(url.ToString(), Tuple.Create(path, false));
 			}
 
 			// predownload the target github release update asset
@@ -75,24 +75,19 @@ namespace Tgstation.Server.Tests.Live
 			ServiceCollectionExtensions.UseFileDownloader<CachingFileDownloader>();
 		}
 
-		public void Dispose()
+		public static void Cleanup()
 		{
-			logger.LogTrace("Dispose");
 			lock (cachedPaths)
 			{
 				foreach (var pathAndDelete in cachedPaths.Values)
 					if (pathAndDelete.Item2)
-					{
-						logger.LogTrace("Deleting {path}", pathAndDelete.Item1);
 						try
 						{
 							File.Delete(pathAndDelete.Item1);
 						}
-						catch (Exception ex)
+						catch
 						{
-							logger.LogWarning(ex, "Deletion failed");
 						}
-					}
 
 				cachedPaths.Clear();
 			}
@@ -102,7 +97,7 @@ namespace Tgstation.Server.Tests.Live
 		{
 			Tuple<string, bool> tuple;
 			lock (cachedPaths)
-				if (!cachedPaths.TryGetValue(url, out tuple))
+				if (!cachedPaths.TryGetValue(url.ToString(), out tuple))
 				{
 					logger.LogInformation("Cache miss: {url}", url);
 					tuple = null;
@@ -135,7 +130,7 @@ namespace Tgstation.Server.Tests.Live
 					await download.CopyToAsync(fs, cancellationToken);
 
 					lock (cachedPaths)
-						cachedPaths.Add(url, Tuple.Create(path, temporal));
+						cachedPaths.Add(url.ToString(), Tuple.Create(path, temporal));
 
 					logger.LogTrace("Cached to {path}", path);
 				}

@@ -151,6 +151,12 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
+		[ClassCleanup]
+		public static void Cleanup()
+		{
+			CachingFileDownloader.Cleanup();
+		}
+
 		[TestMethod]
 		public async Task TestUpdateProtocolAndDisabledOAuth()
 		{
