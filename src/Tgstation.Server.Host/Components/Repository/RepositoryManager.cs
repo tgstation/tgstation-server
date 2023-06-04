@@ -210,9 +210,10 @@ namespace Tgstation.Server.Host.Components.Repository
 			lock (semaphore)
 				if (CloneInProgress)
 					throw new JobException(ErrorCode.RepoCloning);
-			await semaphore.WaitAsync(cancellationToken);
+
 			try
 			{
+				await semaphore.WaitAsync(cancellationToken);
 				try
 				{
 					var libGit2Repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken);
