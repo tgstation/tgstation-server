@@ -14,6 +14,7 @@ using Serilog.Sinks.Elasticsearch;
 
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Utils;
 using Tgstation.Server.Host.Utils.GitHub;
 
@@ -27,17 +28,30 @@ namespace Tgstation.Server.Host.Extensions
 		/// <summary>
 		/// The <see cref="IProviderFactory"/> implementation used in calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
 		/// </summary>
-		static Type chatProviderFactoryType = typeof(ProviderFactory);
+		static Type chatProviderFactoryType;
 
 		/// <summary>
 		/// The <see cref="IGitHubServiceFactory"/> implementation used in calls to <see cref="AddGitHub(IServiceCollection)"/>.
 		/// </summary>
-		static Type gitHubServiceFactoryType = typeof(GitHubServiceFactory);
+		static Type gitHubServiceFactoryType;
+
+		/// <summary>
+		/// The <see cref="IFileDownloader"/> implementation used in calls to <see cref="AddFileDownloader(IServiceCollection)"/>.
+		/// </summary>
+		static Type fileDownloaderType;
 
 		/// <summary>
 		/// A <see cref="ServiceDescriptor"/> for an additional <see cref="ILoggerProvider"/> to use.
 		/// </summary>
 		static ServiceDescriptor additionalLoggerProvider;
+
+		/// <summary>
+		/// Initializes static members of the <see cref="ServiceCollectionExtensions"/> class.
+		/// </summary>
+		static ServiceCollectionExtensions()
+		{
+			UseDefaultServices();
+		}
 
 		/// <summary>
 		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
@@ -55,6 +69,30 @@ namespace Tgstation.Server.Host.Extensions
 		public static void UseGitHubServiceFactory<TGitHubServiceFactory>() where TGitHubServiceFactory : IGitHubServiceFactory
 		{
 			gitHubServiceFactoryType = typeof(TGitHubServiceFactory);
+		}
+
+		/// <summary>
+		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddGitHub(IServiceCollection)"/>.
+		/// </summary>
+		/// <typeparam name="TFileDownloader">The <see cref="IFileDownloader"/> implementation to use.</typeparam>
+		public static void UseFileDownloader<TFileDownloader>() where TFileDownloader : IFileDownloader
+		{
+			fileDownloaderType = typeof(TFileDownloader);
+		}
+
+		/// <summary>
+		/// Adds a <see cref="IFileDownloader"/> implementation to the given <paramref name="serviceCollection"/>.
+		/// </summary>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <returns><paramref name="serviceCollection"/>.</returns>
+		public static IServiceCollection AddFileDownloader(this IServiceCollection serviceCollection)
+		{
+			if (serviceCollection == null)
+				throw new ArgumentNullException(nameof(serviceCollection));
+
+			serviceCollection.AddSingleton(typeof(IFileDownloader), fileDownloaderType);
+
+			return serviceCollection;
 		}
 
 		/// <summary>
@@ -189,5 +227,15 @@ namespace Tgstation.Server.Host.Extensions
 				if (additionalLoggerProvider != null)
 					builder.Services.TryAddEnumerable(additionalLoggerProvider);
 			});
+
+		/// <summary>
+		/// Set the modifiable services to their default types.
+		/// </summary>
+		static void UseDefaultServices()
+		{
+			UseChatProviderFactory<ProviderFactory>();
+			UseGitHubServiceFactory<GitHubServiceFactory>();
+			UseFileDownloader<FileDownloader>();
+		}
 	}
 }
