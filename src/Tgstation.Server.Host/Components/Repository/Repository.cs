@@ -967,7 +967,8 @@ namespace Tgstation.Server.Host.Components.Repository
 				OnPackBuilderProgress = (stage, current, total) =>
 				{
 					var baseProgress = stage == PackBuilderStage.Counting ? 0 : 0.5;
-					progressReporter.ReportProgress(baseProgress + (0.5 * ((double)current / total)));
+					var addon = total > 0 && current <= total ? (0.5 * ((double)current / total)) : 0;
+					progressReporter.ReportProgress(baseProgress + addon);
 					return !cancellationToken.IsCancellationRequested;
 				},
 				OnNegotiationCompletedBeforePush = (a) =>
