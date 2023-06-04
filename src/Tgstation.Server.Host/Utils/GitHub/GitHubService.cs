@@ -45,6 +45,33 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		}
 
 		/// <inheritdoc />
+		public async Task<string> CreateOAuthAccessToken(OAuthConfiguration oAuthConfiguration, string code, CancellationToken cancellationToken)
+		{
+			if (oAuthConfiguration == null)
+				throw new ArgumentNullException(nameof(oAuthConfiguration));
+
+			if (code == null)
+				throw new ArgumentNullException(nameof(code));
+
+			logger.LogTrace("CreateOAuthAccessToken");
+
+			var response = await gitHubClient
+				.Oauth
+				.CreateAccessToken(
+					new OauthTokenRequest(
+						oAuthConfiguration.ClientId,
+						oAuthConfiguration.ClientSecret,
+						code)
+					{
+						RedirectUri = oAuthConfiguration.RedirectUrl,
+					})
+				.WithToken(cancellationToken);
+
+			var token = response.AccessToken;
+			return token;
+		}
+
+		/// <inheritdoc />
 		public async Task<Dictionary<Version, Release>> GetTgsReleases(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("GetTgsReleases");
@@ -89,6 +116,15 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			logger.LogTrace("Maps to {repostioryUrl}", repoUrl);
 
 			return repoUrl;
+		}
+
+		/// <inheritdoc />
+		public async Task<int> GetCurrentUserId(CancellationToken cancellationToken)
+		{
+			logger.LogTrace("CreateOAuthAccessToken");
+
+			var userDetails = await gitHubClient.User.Current().WithToken(cancellationToken);
+			return userDetails.Id;
 		}
 	}
 }

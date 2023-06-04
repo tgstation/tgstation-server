@@ -21,9 +21,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public OAuthProvider Provider => OAuthProvider.GitHub;
 
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="GitHubOAuthValidator"/>.
+		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="GitHubOAuthValidator"/>.
 		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
+		readonly IGitHubServiceFactory gitHubServiceFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="GitHubOAuthValidator"/>.
@@ -38,15 +38,15 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitHubOAuthValidator"/> class.
 		/// </summary>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
+		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="oAuthConfiguration">The value of <see cref="oAuthConfiguration"/>.</param>
 		public GitHubOAuthValidator(
-			IGitHubClientFactory gitHubClientFactory,
+			IGitHubServiceFactory gitHubServiceFactory,
 			ILogger<GitHubOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
 		{
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.oAuthConfiguration = oAuthConfiguration ?? throw new ArgumentNullException(nameof(oAuthConfiguration));
 		}
@@ -57,35 +57,21 @@ namespace Tgstation.Server.Host.Security.OAuth
 			if (code == null)
 				throw new ArgumentNullException(nameof(code));
 
-			var client = gitHubClientFactory.CreateClient();
 			try
 			{
 				logger.LogTrace("Validating response code...");
-				var response = await client
-					.Oauth
-					.CreateAccessToken(
-						new OauthTokenRequest(
-							oAuthConfiguration.ClientId,
-							oAuthConfiguration.ClientSecret,
-							code)
-						{
-							RedirectUri = oAuthConfiguration.RedirectUrl,
-						})
-					;
 
-				var token = response.AccessToken;
+				var gitHubService = gitHubServiceFactory.CreateService();
+				var token = await gitHubService.CreateOAuthAccessToken(oAuthConfiguration, code, cancellationToken);
 				if (token == null)
 					return null;
 
-				var authenticatedClient = gitHubClientFactory.CreateClient(token);
+				var authenticatedClient = gitHubServiceFactory.CreateService(token);
 
 				logger.LogTrace("Getting user details...");
-				var userDetails = await authenticatedClient
-					.User
-					.Current()
-					;
+				var userId = await authenticatedClient.GetCurrentUserId(cancellationToken);
 
-				return userDetails.Id.ToString(CultureInfo.InvariantCulture);
+				return userId.ToString(CultureInfo.InvariantCulture);
 			}
 			catch (RateLimitExceededException)
 			{
