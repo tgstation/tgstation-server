@@ -85,6 +85,8 @@ namespace Tgstation.Server.Tests.Live
 			if (LiveTestUtils.RunningInGitHubActions || String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 				await DummyGitHubService.InitializeAndInject(default);
 
+			await CachingFileDownloader.InitializeAndInject(default);
+
 			await DummyChatProvider.RandomDisconnections(true, default);
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
 
@@ -882,7 +884,17 @@ namespace Tgstation.Server.Tests.Live
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
-					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances, GetInstanceManager(), (ushort)server.Url.Port).RunTests(cancellationToken, server.HighPriorityDreamDaemon, server.LowPriorityDeployments));
+					var instanceTests = FailFast(
+						new InstanceTest(
+							instanceClient,
+							adminClient.Instances,
+							((Host.Server)server.RealServer).Host.Services.GetRequiredService<Host.IO.IFileDownloader>(),
+							GetInstanceManager(),
+							(ushort)server.Url.Port)
+						.RunTests(
+							cancellationToken,
+							server.HighPriorityDreamDaemon,
+							server.LowPriorityDeployments));
 
 					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
 

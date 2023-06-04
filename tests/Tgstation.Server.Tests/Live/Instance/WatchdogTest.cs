@@ -923,7 +923,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ReceiveTimeout = TimeSpan.FromSeconds(30),
 			ConnectTimeout = TimeSpan.FromSeconds(30),
 			DisconnectTimeout = TimeSpan.FromSeconds(30)
-		}, new Logger<TopicClient>(DummyChatProvider.CreateLoggerFactoryForLogger(loggerFactory.CreateLogger("WatchdogTest.TopicClient"), out var mockLoggerFactory)));
+		}, new Logger<TopicClient>(LiveTestUtils.CreateLoggerFactoryForLogger(loggerFactory.CreateLogger("WatchdogTest.TopicClient"), out var mockLoggerFactory)));
 
 		public static readonly TopicClient TopicClientNoLogger = new(new SocketParameters
 		{

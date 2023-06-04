@@ -108,6 +108,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-dmapibyond
+
     - name: Install BYOND
       if: steps.cache-byond.outputs.cache-hit != 'true'
       run: |
@@ -316,11 +323,29 @@ jobs:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-2019
+    env:
+      BYOND_MAJOR: 514
+      BYOND_MINOR: 1588
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
+
+    - name: Download BYOND
+      if: steps.cache-byond.outputs.cache-hit != 'true'
+      run: |
+        echo "Downloading BYOND..."
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond.zip" -o byond.zip
 
     - name: Upgrade NPM
       run: npm install -g npm
@@ -481,6 +506,9 @@ jobs:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
+    env:
+      BYOND_MAJOR: 514
+      BYOND_MINOR: 1588
     steps:
     - name: Disable ptrace_scope
       run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
@@ -490,6 +518,21 @@ jobs:
         sudo dpkg --add-architecture i386
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
+
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
+
+    - name: Download BYOND
+      if: steps.cache-byond.outputs.cache-hit != 'true'
+      run: |
+        echo "Downloading BYOND..."
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
 
     - name: Install Node 12.X
       uses: actions/setup-node@v3

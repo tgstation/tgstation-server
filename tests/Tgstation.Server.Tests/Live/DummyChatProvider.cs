@@ -43,21 +43,6 @@ namespace Tgstation.Server.Tests.Live
 
 		ulong channelIdAllocator;
 
-		public static ILoggerFactory CreateLoggerFactoryForLogger(ILogger logger, out Mock<ILoggerFactory> mockLoggerFactory)
-		{
-			mockLoggerFactory = new Mock<ILoggerFactory>();
-			mockLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<string>())).Returns(() =>
-			{
-				var temp = logger;
-				logger = null;
-
-				Assert.IsNotNull(temp);
-				return temp;
-			})
-			.Verifiable();
-			return mockLoggerFactory.Object;
-		}
-
 		static IAsyncDelayer CreateMockDelayer()
 		{
 			// at time of writing, this is used exclusively for the reconnection interval which works in minutes
@@ -79,7 +64,7 @@ namespace Tgstation.Server.Tests.Live
 			ICryptographySuite cryptographySuite,
 			IReadOnlyCollection<ICommand> commands,
 			Random random)
-			: base(jobManager, CreateMockDelayer(), new Logger<DummyChatProvider>(CreateLoggerFactoryForLogger(logger, out var mockLoggerFactory)), chatBot)
+			: base(jobManager, CreateMockDelayer(), new Logger<DummyChatProvider>(LiveTestUtils.CreateLoggerFactoryForLogger(logger, out var mockLoggerFactory)), chatBot)
 		{
 			mockLoggerFactory.VerifyAll();
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
