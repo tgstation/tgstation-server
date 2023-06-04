@@ -346,6 +346,7 @@ jobs:
         mkdir -p "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         cd "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond.zip" -o byond.zip
+        ls -l
 
     - name: Upgrade NPM
       run: npm install -g npm
@@ -533,6 +534,7 @@ jobs:
         mkdir -p "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         cd "~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
+        ls -l
 
     - name: Install Node 12.X
       uses: actions/setup-node@v3
