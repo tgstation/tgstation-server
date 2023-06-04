@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using Octokit;
 
 using Tgstation.Server.Host.Components.Repository;
