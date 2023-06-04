@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Hosting;
-
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Interop;
 
@@ -13,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <summary>
 	/// For managing connected chat services.
 	/// </summary>
-	public interface IChatManager : IHostedService, IAsyncDisposable
+	public interface IChatManager : IComponentService, IAsyncDisposable
 	{
 		/// <summary>
 		/// Registers a <paramref name="customCommandHandler"/> to use.
