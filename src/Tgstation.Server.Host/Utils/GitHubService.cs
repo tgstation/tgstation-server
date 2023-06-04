@@ -58,9 +58,14 @@ namespace Tgstation.Server.Host.Utils
 			var releases = allReleases
 					.Select(release =>
 					{
-						if (!release.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture)
-							|| !Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version))
+						if (!release.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
 							return null;
+
+						if (!Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version))
+						{
+							logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
+							return null;
+						}
 
 						return Tuple.Create(version, release);
 					})
