@@ -76,7 +76,7 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HeartbeatSeconds"/>
 		/// </summary>
-		SetHeartbeatInterval = 1 << 12,
+		SetHealthCheckInterval = 1 << 12,
 
 		/// <summary>
 		/// User can create DreamDaemon process dumps or change <see cref="Models.Internal.DreamDaemonLaunchParameters.DumpOnHeartbeatRestart"/>.

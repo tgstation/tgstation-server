@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			| DreamDaemonRights.SoftShutdown
 			| DreamDaemonRights.Start
 			| DreamDaemonRights.SetStartupTimeout
-			| DreamDaemonRights.SetHeartbeatInterval
+			| DreamDaemonRights.SetHealthCheckInterval
 			| DreamDaemonRights.SetTopicTimeout
 			| DreamDaemonRights.SetAdditionalParameters
 			| DreamDaemonRights.SetVisibility
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
 						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
-						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
+						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHealthCheckInterval)
 						|| CheckModified(x => x.DumpOnHeartbeatRestart, DreamDaemonRights.CreateDump)
 						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
 						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
