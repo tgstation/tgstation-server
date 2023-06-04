@@ -300,38 +300,18 @@ namespace Tgstation.Server.Host.Components
 			{
 				var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
 
-				var commandFactory = new CommandFactory(assemblyInformationProvider, byond, repoManager, databaseContextFactory, metadata);
-
-				var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
+				var dmbFactory = new DmbFactory(
+					databaseContextFactory,
+					gameIoManager,
+					remoteDeploymentManagerFactory,
+					eventConsumer,
+					loggerFactory.CreateLogger<DmbFactory>(),
+					metadata);
 				try
 				{
-					var sessionControllerFactory = new SessionControllerFactory(
-						processExecutor,
-						byond,
-						topicClientFactory,
-						cryptographySuite,
-						assemblyInformationProvider,
-						gameIoManager,
-						diagnosticsIOManager,
-						chatManager,
-						networkPromptReaper,
-						platformIdentifier,
-						bridgeRegistrar,
-						serverPortProvider,
-						eventConsumer,
-						asyncDelayer,
-						loggerFactory,
-						loggerFactory.CreateLogger<SessionControllerFactory>(),
-						sessionConfiguration,
-						metadata);
+					var commandFactory = new CommandFactory(assemblyInformationProvider, byond, repoManager, databaseContextFactory, dmbFactory, metadata);
 
-					var dmbFactory = new DmbFactory(
-						databaseContextFactory,
-						gameIoManager,
-						remoteDeploymentManagerFactory,
-						eventConsumer,
-						loggerFactory.CreateLogger<DmbFactory>(),
-						metadata);
+					var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
 					try
 					{
 						var reattachInfoHandler = new SessionPersistor(
@@ -340,6 +320,27 @@ namespace Tgstation.Server.Host.Components
 							processExecutor,
 							loggerFactory.CreateLogger<SessionPersistor>(),
 							metadata);
+
+						var sessionControllerFactory = new SessionControllerFactory(
+							processExecutor,
+							byond,
+							topicClientFactory,
+							cryptographySuite,
+							assemblyInformationProvider,
+							gameIoManager,
+							diagnosticsIOManager,
+							chatManager,
+							networkPromptReaper,
+							platformIdentifier,
+							bridgeRegistrar,
+							serverPortProvider,
+							eventConsumer,
+							asyncDelayer,
+							loggerFactory,
+							loggerFactory.CreateLogger<SessionControllerFactory>(),
+							sessionConfiguration,
+							metadata);
+
 						var watchdog = watchdogFactory.CreateWatchdog(
 							chatManager,
 							dmbFactory,
@@ -398,13 +399,13 @@ namespace Tgstation.Server.Host.Components
 					}
 					catch
 					{
-						dmbFactory.Dispose();
+						await chatManager.DisposeAsync();
 						throw;
 					}
 				}
 				catch
 				{
-					await chatManager.DisposeAsync();
+					dmbFactory.Dispose();
 					throw;
 				}
 			}
