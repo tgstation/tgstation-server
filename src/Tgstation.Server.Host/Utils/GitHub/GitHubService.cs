@@ -83,20 +83,33 @@ namespace Tgstation.Server.Host.Utils.GitHub
 
 			logger.LogTrace("{totalReleases} total releases", allReleases.Count);
 			var releases = allReleases
-					.Select(release =>
+					.Where(release =>
 					{
-						if (!release.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
-							return null;
+						if (!release.PublishedAt.HasValue)
+						{
+							logger.LogDebug("Release tag without PublishedAt: {releaseTag}", release.TagName);
+							return false;
+						}
 
+						if (!release.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
+							return false;
+
+						return true;
+					})
+					.GroupBy(release =>
+					{
 						if (!Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version))
 						{
 							logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
 							return null;
 						}
 
-						return Tuple.Create(version, release);
+						return version;
 					})
-					.Where(tuple => tuple != null)
+					.Where(grouping => grouping.Key != null)
+
+					// GitHub can return the same result twice or some other nonsense
+					.Select(grouping => Tuple.Create(grouping.Key, grouping.OrderBy(x => x.PublishedAt.Value).First()))
 					.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
 
 			logger.LogTrace("{parsedReleases} parsed releases", releases.Count);
