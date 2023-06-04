@@ -126,5 +126,140 @@ namespace Tgstation.Server.Host.Utils.GitHub
 			var userDetails = await gitHubClient.User.Current().WithToken(cancellationToken);
 			return userDetails.Id;
 		}
+
+		/// <inheritdoc />
+		public Task CommentOnIssue(string repoOwner, string repoName, string comment, int issueNumber, CancellationToken cancellationToken)
+		{
+			if (repoOwner == null)
+				throw new ArgumentNullException(nameof(repoOwner));
+
+			if (repoName == null)
+				throw new ArgumentNullException(nameof(repoName));
+
+			if (comment == null)
+				throw new ArgumentNullException(nameof(comment));
+
+			logger.LogTrace("CommentOnIssue");
+
+			return gitHubClient
+				.Issue
+				.Comment
+				.Create(
+					repoOwner,
+					repoName,
+					issueNumber,
+					comment)
+				.WithToken(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public async Task<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)
+		{
+			if (repoOwner == null)
+				throw new ArgumentNullException(nameof(repoOwner));
+
+			if (repoName == null)
+				throw new ArgumentNullException(nameof(repoName));
+
+			logger.LogTrace("GetRepositoryId");
+
+			var repo = await gitHubClient
+				.Repository
+				.Get(
+					repoOwner,
+					repoName)
+				.WithToken(cancellationToken);
+
+			return repo.Id;
+		}
+
+		/// <inheritdoc />
+		public async Task<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
+		{
+			if (newDeployment == null)
+				throw new ArgumentNullException(nameof(newDeployment));
+
+			if (repoOwner == null)
+				throw new ArgumentNullException(nameof(repoOwner));
+
+			if (repoName == null)
+				throw new ArgumentNullException(nameof(repoName));
+
+			logger.LogTrace("CreateDeployment");
+
+			var deployment = await gitHubClient
+				.Repository
+				.Deployment
+				.Create(
+					repoOwner,
+					repoName,
+					newDeployment)
+				.WithToken(cancellationToken);
+
+			return deployment.Id;
+		}
+
+		/// <inheritdoc />
+		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken)
+		{
+			if (newDeploymentStatus == null)
+				throw new ArgumentNullException(nameof(newDeploymentStatus));
+
+			if (repoOwner == null)
+				throw new ArgumentNullException(nameof(repoOwner));
+
+			if (repoName == null)
+				throw new ArgumentNullException(nameof(repoName));
+
+			logger.LogTrace("CreateDeploymentStatus");
+			return gitHubClient
+				.Repository
+				.Deployment
+				.Status
+				.Create(
+					repoOwner,
+					repoName,
+					deploymentId,
+					newDeploymentStatus)
+				.WithToken(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, int deploymentId, CancellationToken cancellationToken)
+		{
+			if (newDeploymentStatus == null)
+				throw new ArgumentNullException(nameof(newDeploymentStatus));
+
+			logger.LogTrace("CreateDeploymentStatus");
+			return gitHubClient
+				.Repository
+				.Deployment
+				.Status
+				.Create(
+					repoId,
+					deploymentId,
+					newDeploymentStatus)
+				.WithToken(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public Task<PullRequest> GetPullRequest(string repoOwner, string repoName, int pullRequestNumber, CancellationToken cancellationToken)
+		{
+			if (repoOwner == null)
+				throw new ArgumentNullException(nameof(repoOwner));
+
+			if (repoName == null)
+				throw new ArgumentNullException(nameof(repoName));
+
+			logger.LogTrace("GetPullRequest");
+			return gitHubClient
+				.Repository
+				.PullRequest
+				.Get(
+					repoOwner,
+					repoName,
+					pullRequestNumber)
+				.WithToken(cancellationToken);
+		}
 	}
 }
