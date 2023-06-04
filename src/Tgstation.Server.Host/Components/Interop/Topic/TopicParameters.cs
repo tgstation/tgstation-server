@@ -70,7 +70,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			or TopicCommandType.ChatChannelsUpdate
 			or TopicCommandType.ServerRestarted => true,
 			TopicCommandType.ChatCommand
-			or TopicCommandType.Heartbeat
+			or TopicCommandType.HealthCheck
 			or TopicCommandType.ReceiveChunk => false,
 			TopicCommandType.SendChunk => throw new InvalidOperationException("SendChunk topic priority should be based on the original TopicParameters!"),
 			_ => throw new InvalidOperationException($"Invalid value for {nameof(CommandType)}: {CommandType}"),
@@ -161,9 +161,9 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> class.
 		/// </summary>
-		/// <remarks>Constructor for <see cref="TopicCommandType.Heartbeat"/>s.</remarks>
+		/// <remarks>Constructor for <see cref="TopicCommandType.HealthCheck"/>s.</remarks>
 		public TopicParameters()
-			: this(TopicCommandType.Heartbeat)
+			: this(TopicCommandType.HealthCheck)
 		{
 		}
 

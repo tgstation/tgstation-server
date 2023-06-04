@@ -170,7 +170,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case MonitorActivationReason.ActiveServerPrimed:
 					await HandleEvent(EventType.WorldPrime, Enumerable.Empty<string>(), false, cancellationToken);
 					break;
-				case MonitorActivationReason.Heartbeat:
+				case MonitorActivationReason.HealthCheck:
 				default:
 					throw new InvalidOperationException($"Invalid activation reason: {reason}");
 			}

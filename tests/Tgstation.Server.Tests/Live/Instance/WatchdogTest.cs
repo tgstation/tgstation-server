@@ -90,8 +90,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await RunLongRunningTestThenUpdateWithNewDme(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
-			await RunHeartbeatTest(true, cancellationToken);
-			await RunHeartbeatTest(false, cancellationToken);
+			await RunHealthCheckTest(true, cancellationToken);
+			await RunHealthCheckTest(false, cancellationToken);
 
 			await InteropTestsForLongRunningDme(cancellationToken);
 
@@ -349,10 +349,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
 		}
 
-		async Task RunHeartbeatTest(bool checkDump, CancellationToken cancellationToken)
+		async Task RunHealthCheckTest(bool checkDump, CancellationToken cancellationToken)
 		{
-			System.Console.WriteLine("TEST: WATCHDOG HEARTBEAT TEST");
-			// enable heartbeats
+			System.Console.WriteLine("TEST: WATCHDOG HEALTH CHECK TEST");
+			// enable health checks
 			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				HeartbeatSeconds = 1,
@@ -365,7 +365,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			CheckDDPriority(cancellationToken);
 
-			// lock on to DD and pause it so it can't heartbeat
+			// lock on to DD and pause it so it can't health check
 			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").Where(x => !x.HasExited).ToList();
 			if (ddProcs.Count != 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
@@ -382,7 +382,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await using var ourProcessHandler = executor
 				.GetProcess(ddProc.Id);
 
-			// Ensure it's responding to heartbeats
+			// Ensure it's responding to health checks
 			await Task.WhenAny(Task.Delay(20000, cancellationToken), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
 
@@ -412,7 +412,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			}
 			while (timeout > 0);
 
-			// disable heartbeats
+			// disable health checks
 			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				HeartbeatSeconds = 0,
