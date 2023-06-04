@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.Utils
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of TGS <see cref="Release"/>s keyed by their <see cref="Version"/>.</returns>
+		/// <remarks>GitHub has been known to return incomplete results from the API with this call.</remarks>
 		Task<Dictionary<Version, Release>> GetTgsReleases(CancellationToken cancellationToken);
 	}
 }
