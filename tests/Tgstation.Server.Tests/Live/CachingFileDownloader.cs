@@ -58,7 +58,7 @@ namespace Tgstation.Server.Tests.Live
 				try
 				{
 					var url = new Uri($"https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v{TestLiveServer.TestUpdateVersion}/ServerUpdatePackage.zip");
-					await using var stream = await CacheFile(logger, url, gitHubToken, cancellationToken);
+					await using var stream = await CacheFile(logger, url, gitHubToken, !LiveTestUtils.RunningInGitHubActions, cancellationToken);
 					succeeded = true;
 					break;
 				}
@@ -106,14 +106,14 @@ namespace Tgstation.Server.Tests.Live
 				}
 
 			if (tuple == null)
-				return await CacheFile(logger, url, bearerToken, cancellationToken);
+				return await CacheFile(logger, url, bearerToken, true, cancellationToken);
 
 			logger.LogTrace("Cache hit: {url}", url);
 			var bytes = await new DefaultIOManager().ReadAllBytes(tuple.Item1, cancellationToken);
 			return new MemoryStream(bytes);
 		}
 
-		static async Task<MemoryStream> CacheFile(ILogger logger, Uri url, string bearerToken, CancellationToken cancellationToken)
+		static async Task<MemoryStream> CacheFile(ILogger logger, Uri url, string bearerToken, bool temporal, CancellationToken cancellationToken)
 		{
 			var downloader = new FileDownloader(
 				new HttpClientFactory(
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Tests.Live
 					await download.CopyToAsync(fs, cancellationToken);
 
 					lock (cachedPaths)
-						cachedPaths.Add(url, Tuple.Create(path, true));
+						cachedPaths.Add(url, Tuple.Create(path, temporal));
 
 					logger.LogTrace("Cached to {path}", path);
 				}
