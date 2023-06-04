@@ -570,7 +570,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			while (!cancellationToken.IsCancellationRequested)
 			{
 				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
-				var topicRequestResult = await TopicClient.SendTopic(
+				var topicRequestResult = await TopicClientNoLogger.SendTopic(
 					IPAddress.Loopback,
 					$"tgs_integration_test_tactics4={TopicClient.SanitizeString(currentSize.ToString())}",
 					TestLiveServer.DDPort,
