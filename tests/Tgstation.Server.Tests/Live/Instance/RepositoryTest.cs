@@ -130,6 +130,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 					CreateGitHubDeployments = true,
 					PostTestMergeComment = true,
 					PushTestMergeCommits = true,
+					AccessUser = "Cyberboss",
+					AccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"),
 				}, cancellationToken);
 		}
 
