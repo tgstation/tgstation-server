@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				}
 				catch (ApiException ex)
 				{
-					Logger.LogError(ex, "Unable to create deployment!");
+					Logger.LogWarning(ex, "Unable to create deployment!");
 				}
 			}
 
