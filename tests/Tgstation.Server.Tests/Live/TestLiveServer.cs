@@ -746,8 +746,8 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ProcessPriorityClass.Normal, currentProcess.PriorityClass);
 			}
 
-			const int MaximumTestMinutes = 30;
-			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
+			var maximumTestMinutes = LiveTestUtils.RunningInGitHubActions ? 90 : 20;
+			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(maximumTestMinutes));
 			var hardCancellationToken = hardCancellationTokenSource.Token;
 
 			ServiceCollectionExtensions.UseAdditionalLoggerProvider<HardFailLoggerProvider>();
