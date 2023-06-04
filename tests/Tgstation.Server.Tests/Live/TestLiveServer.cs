@@ -1133,9 +1133,7 @@ namespace Tgstation.Server.Tests.Live
 						url,
 						DefaultCredentials.AdminUserName,
 						DefaultCredentials.DefaultAdminUserPassword,
-						attemptLoginRefresh: false,
-						cancellationToken: cancellationToken)
-						;
+						cancellationToken: cancellationToken);
 				}
 				catch (HttpRequestException)
 				{
