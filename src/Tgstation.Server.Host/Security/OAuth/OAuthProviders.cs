@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Common;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {

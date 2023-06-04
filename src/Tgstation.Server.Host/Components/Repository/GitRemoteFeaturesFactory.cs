@@ -3,7 +3,7 @@
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Components.Repository
 {

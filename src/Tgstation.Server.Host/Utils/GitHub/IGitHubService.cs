@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Octokit;
 
-namespace Tgstation.Server.Host.Utils
+namespace Tgstation.Server.Host.Utils.GitHub
 {
 	/// <summary>
 	/// Service for interacting with GitHub.

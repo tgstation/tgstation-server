@@ -11,7 +11,7 @@ using Octokit;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Extensions;
 
-namespace Tgstation.Server.Host.Utils
+namespace Tgstation.Server.Host.Utils.GitHub
 {
 	/// <inheritdoc />
 	sealed class GitHubService : IGitHubService

@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Utils
+﻿namespace Tgstation.Server.Host.Utils.GitHub
 {
 	/// <summary>
 	/// Factory for <see cref="IGitHubService"/>s.

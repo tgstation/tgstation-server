@@ -10,7 +10,7 @@ using Octokit;
 
 using Tgstation.Server.Host.Configuration;
 
-namespace Tgstation.Server.Host.Utils.Tests
+namespace Tgstation.Server.Host.Utils.GitHub.Tests
 {
 	[TestClass]
 	public sealed class TestGitHubServiceFactory
