@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		IDmbProvider nextDmbProvider;
 
 		/// <summary>
-		/// If the <see cref="DmbFactory"/> is "started" via <see cref="Microsoft.Extensions.Hosting.IHostedService"/>.
+		/// If the <see cref="DmbFactory"/> is "started" via <see cref="IComponentService"/>.
 		/// </summary>
 		bool started;
 

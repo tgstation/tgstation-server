@@ -367,13 +367,15 @@ namespace Tgstation.Server.Host.Core
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddSingleton<IFileDownloader, FileDownloader>();
+			services.AddFileDownloader();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
+
+			services.AddGitHub();
 
 			// configure root services
-			services.AddSingleton<IJobManager, JobManager>();
+			services.AddSingleton<IJobService, JobService>();
+			services.AddSingleton<IJobManager>(x => x.GetRequiredService<IJobService>());
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());

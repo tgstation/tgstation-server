@@ -13,12 +13,12 @@ namespace Tgstation.Server.Host.Swarm.Tests
 	[TestClass]
 	public sealed class TestSwarmProtocol
 	{
-		readonly HashSet<ushort> usedPorts = new ();
-		ILoggerFactory loggerFactory;
-		ILogger<TestSwarmProtocol> logger;
+		static readonly HashSet<ushort> usedPorts = new ();
+		static ILoggerFactory loggerFactory;
+		static ILogger<TestSwarmProtocol> logger;
 
-		[TestInitialize]
-		public void Initialize()
+		[ClassInitialize]
+		public static void Initialize(TestContext _)
 		{
 			loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -29,8 +29,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			logger = loggerFactory.CreateLogger<TestSwarmProtocol>();
 		}
 
-		[TestCleanup]
-		public void Shutdown()
+		[ClassCleanup]
+		public static void Shutdown()
 		{
 			usedPorts.Clear();
 			loggerFactory.Dispose();

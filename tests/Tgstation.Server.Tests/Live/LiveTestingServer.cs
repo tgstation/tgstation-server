@@ -49,7 +49,7 @@ namespace Tgstation.Server.Tests.Live
 			SerilogContextHelper.AddSwarmNodeIdentifierToTemplate();
 		}
 
-		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010, bool dumpOnMissingUpdate = true)
+		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
 		{
 			Directory = Environment.GetEnvironmentVariable("TGS_TEST_TEMP_DIRECTORY");
 			if (string.IsNullOrWhiteSpace(Directory))
@@ -89,9 +89,8 @@ namespace Tgstation.Server.Tests.Live
 			// neither of these should really matter but it's better that we test them
 			// high prio DD might help with some topic flakiness actually
 			// github doesn't allow nicing on linux though
-			var runningInGitHubActions = !String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GITHUB_RUN_ID"));
 			var windows = new Host.System.PlatformIdentifier().IsWindows;
-			var nicingAllowed = windows || !runningInGitHubActions;
+			var nicingAllowed = windows || !LiveTestUtils.RunningInGitHubActions;
 			HighPriorityDreamDaemon = nicingAllowed;
 			LowPriorityDeployments = nicingAllowed;
 
@@ -115,9 +114,6 @@ namespace Tgstation.Server.Tests.Live
 				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",
 				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
 			};
-
-			if (dumpOnMissingUpdate)
-				args.Add("Updates:DumpReleasesOnNotFound=true");
 
 			swarmArgs = new List<string>();
 			if (swarmConfiguration != null)

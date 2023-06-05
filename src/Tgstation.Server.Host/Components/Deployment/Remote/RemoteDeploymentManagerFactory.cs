@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="RemoteDeploymentManagerFactory"/>.
 		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
+		readonly IGitHubServiceFactory gitHubServiceFactory;
 
 		/// <summary>
 		/// The <see cref="IGitRemoteFeaturesFactory"/> for the <see cref="RemoteDeploymentManagerFactory"/>.
@@ -41,19 +41,19 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// Initializes a new instance of the <see cref="RemoteDeploymentManagerFactory"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
+		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public RemoteDeploymentManagerFactory(
 			IDatabaseContextFactory databaseContextFactory,
-			IGitHubClientFactory gitHubClientFactory,
+			IGitHubServiceFactory gitHubServiceFactory,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILoggerFactory loggerFactory,
 			ILogger<RemoteDeploymentManagerFactory> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -70,7 +70,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			{
 				RemoteGitProvider.GitHub => new GitHubRemoteDeploymentManager(
 					databaseContextFactory,
-					gitHubClientFactory,
+					gitHubServiceFactory,
 					loggerFactory.CreateLogger<GitHubRemoteDeploymentManager>(),
 					metadata),
 				RemoteGitProvider.GitLab => new GitLabRemoteDeploymentManager(

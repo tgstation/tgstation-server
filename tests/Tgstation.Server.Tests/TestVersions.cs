@@ -20,12 +20,12 @@ namespace Tgstation.Server.Tests
 	[TestCategory("SkipWhenLiveUnitTesting")]
 	public sealed class TestVersions
 	{
-		XNamespace xmlNamespace;
+		static XNamespace xmlNamespace;
 
-		XElement versionsPropertyGroup;
+		static XElement versionsPropertyGroup;
 
-		[TestInitialize]
-		public void Init()
+		[ClassInitialize]
+		public static void Init(TestContext _)
 		{
 			var doc = XDocument.Load("../../../../../build/Version.props");
 			var project = doc.Root;
