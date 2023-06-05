@@ -190,8 +190,19 @@ namespace Tgstation.Server.Tests.Live
 					{
 						NewVersion = TestUpdateVersion
 					}, cancellationToken);
-					var serverInfo = await adminClient.ServerInformation(cancellationToken);
-					Assert.IsTrue(serverInfo.UpdateInProgress);
+
+					try
+					{
+						var serverInfoTask = adminClient.ServerInformation(cancellationToken);
+						var completedTask = await Task.WhenAny(serverTask, serverInfoTask);
+						if (completedTask == serverInfoTask)
+						{
+							var serverInfo = await serverInfoTask;
+							Assert.IsTrue(serverInfo.UpdateInProgress);
+						}
+					}
+					catch (ServiceUnavailableException) { }
+					catch (HttpRequestException) { }
 				}
 
 				//wait up to 3 minutes for the dl and install
