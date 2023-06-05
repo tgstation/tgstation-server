@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using LibGit2Sharp;
+
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
@@ -142,7 +143,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 				{
-					logger.LogTrace("Semaphore acquired");
+					logger.LogTrace("Semaphore acquired for clone");
 					var repositoryPath = ioManager.ResolvePath();
 					if (!await ioManager.DirectoryExists(repositoryPath, cancellationToken))
 						try
@@ -191,14 +192,14 @@ namespace Tgstation.Server.Host.Components.Repository
 						return null;
 					}
 				}
-
-				logger.LogInformation("Clone complete!");
 			}
 			finally
 			{
+				logger.LogTrace("Semaphore released after clone");
 				CloneInProgress = false;
 			}
 
+			logger.LogInformation("Clone complete!");
 			return await LoadRepository(cancellationToken);
 		}
 
@@ -215,6 +216,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				await semaphore.WaitAsync(cancellationToken);
 				try
 				{
+					logger.LogTrace("Semaphore acquired for load");
 					var libGit2Repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken);
 
 					return new Repository(
@@ -235,6 +237,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 				catch
 				{
+					logger.LogTrace("Releasing semaphore as load failed");
 					semaphore.Release();
 					throw;
 				}
@@ -250,10 +253,17 @@ namespace Tgstation.Server.Host.Components.Repository
 		public async Task DeleteRepository(CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Deleting repository...");
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			try
 			{
-				logger.LogTrace("Semaphore acquired, deleting Repository directory...");
-				await ioManager.DeleteDirectory(ioManager.ResolvePath(), cancellationToken);
+				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+				{
+					logger.LogTrace("Semaphore acquired, deleting Repository directory...");
+					await ioManager.DeleteDirectory(ioManager.ResolvePath(), cancellationToken);
+				}
+			}
+			finally
+			{
+				logger.LogTrace("Semaphore released after delete attempt");
 			}
 		}
 	}
