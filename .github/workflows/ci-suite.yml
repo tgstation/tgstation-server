@@ -616,6 +616,7 @@ jobs:
         cd src/Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/ServerUpdate
         rm ../../Artifacts/ServerUpdate/appsettings.yml
+        rm ../../Artifacts/ServerUpdate/Tgstation.Server.Host
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
