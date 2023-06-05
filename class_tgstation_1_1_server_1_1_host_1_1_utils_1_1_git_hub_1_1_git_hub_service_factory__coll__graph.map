@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory" name="Tgstation.Server.Host.Utils.GitHub.GitHubServiceFactory">
+<area shape="rect" id="node1" title=" " alt="" coords="680,85,875,125"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="315,5,469,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="299,55,485,95"/>
+<area shape="rect" id="node4" title=" " alt="" coords="337,120,447,145"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system." alt="" coords="277,170,507,210"/>
+<area shape="rect" id="node6" title=" " alt="" coords="5,152,60,177"/>
+<area shape="rect" id="node7" title=" " alt="" coords="9,201,56,227"/>
+</map>

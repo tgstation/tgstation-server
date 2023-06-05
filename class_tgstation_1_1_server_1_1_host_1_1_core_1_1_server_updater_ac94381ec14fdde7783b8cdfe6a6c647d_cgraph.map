@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate" name="Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate">
 <area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,37,189,77"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae718c23c45c5e831fa4df39e2bbe8617" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="237,37,447,77"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html#a30a22041144ecab80ceb3d6ea658c537" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="495,5,712,45"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="505,69,701,109"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#adf55539937d7e422ec825ef4c21e09fa" title="Get all valid TGS Releases from the configured update source." alt="" coords="495,5,749,45"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#ac02011e79f6ed0d6e2c17e8bcd4a79b8" title="Attempt to update with a given updateExecutor ." alt="" coords="524,69,720,109"/>
 </map>

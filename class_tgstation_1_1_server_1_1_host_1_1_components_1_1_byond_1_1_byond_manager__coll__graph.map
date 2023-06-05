@@ -1,15 +1,16 @@
 <map id="Tgstation.Server.Host.Components.Byond.ByondManager" name="Tgstation.Server.Host.Components.Byond.ByondManager">
-<area shape="rect" id="node1" title=" " alt="" coords="669,315,896,355"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation." alt="" coords="263,29,375,55"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="16,55,107,80"/>
-<area shape="rect" id="node5" title=" " alt="" coords="275,120,364,145"/>
-<area shape="rect" id="node6" title=" " alt="" coords="219,169,419,195"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="235,219,403,259"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system." alt="" coords="206,283,433,323"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="206,347,433,387"/>
-<area shape="rect" id="node10" title=" " alt="" coords="197,412,442,467"/>
-<area shape="rect" id="node11" title=" " alt="" coords="167,491,472,590"/>
-<area shape="rect" id="node12" title=" " alt="" coords="237,615,402,640"/>
-<area shape="rect" id="node13" title=" " alt="" coords="241,664,398,689"/>
+<area shape="rect" id="node1" title=" " alt="" coords="855,319,1081,359"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation." alt="" coords="449,33,561,59"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,5,303,31"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="189,55,280,80"/>
+<area shape="rect" id="node6" title=" " alt="" coords="460,124,549,149"/>
+<area shape="rect" id="node7" title=" " alt="" coords="405,173,605,199"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="421,223,589,263"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system." alt="" coords="391,287,618,327"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="391,351,618,391"/>
+<area shape="rect" id="node11" title=" " alt="" coords="382,416,627,471"/>
+<area shape="rect" id="node12" title=" " alt="" coords="352,495,657,594"/>
+<area shape="rect" id="node13" title=" " alt="" coords="422,619,587,644"/>
+<area shape="rect" id="node14" title=" " alt="" coords="426,668,583,693"/>
 </map>

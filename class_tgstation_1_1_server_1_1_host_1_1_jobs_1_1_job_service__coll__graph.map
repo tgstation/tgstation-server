@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Jobs.JobService" name="Tgstation.Server.Host.Jobs.JobService">
+<area shape="rect" id="node1" title=" " alt="" coords="753,239,936,279"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html" title="The service that manages everything to do with jobs." alt="" coords="411,25,502,51"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="186,5,283,31"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,55,303,80"/>
+<area shape="rect" id="node5" href="$class_i_hosted_service.html" title=" " alt="" coords="5,55,117,80"/>
+<area shape="rect" id="node6" href="$class_i_disposable.html" title=" " alt="" coords="411,75,502,100"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components." alt="" coords="352,125,561,165"/>
+<area shape="rect" id="node8" title=" " alt="" coords="377,189,537,215"/>
+<area shape="rect" id="node9" title=" " alt="" coords="356,239,557,279"/>
+<area shape="rect" id="node10" title=" " alt="" coords="360,304,553,359"/>
+<area shape="rect" id="node11" title=" " alt="" coords="370,383,543,423"/>
+<area shape="rect" id="node12" title=" " alt="" coords="403,448,511,473"/>
+<area shape="rect" id="node13" title=" " alt="" coords="433,497,480,523"/>
+</map>

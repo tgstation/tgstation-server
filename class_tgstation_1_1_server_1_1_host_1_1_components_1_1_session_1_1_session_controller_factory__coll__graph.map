@@ -1,26 +1,27 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="804,577,1031,617"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers." alt="" coords="384,16,555,41"/>
-<area shape="rect" id="node3" title=" " alt="" coords="41,112,96,137"/>
-<area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="355,66,584,106"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="370,193,569,233"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation." alt="" coords="356,321,583,361"/>
-<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="13,295,125,320"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="356,257,583,297"/>
-<area shape="rect" id="node7" href="$class_i_disposable.html" title=" " alt="" coords="23,345,114,371"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html" title="Factory for ITopicClients." alt="" coords="356,385,583,425"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="369,449,570,489"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="370,513,569,553"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="385,577,553,617"/>
-<area shape="rect" id="node13" href="$class_i_async_disposable.html" title=" " alt="" coords="5,245,132,271"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html" title="On Windows, DreamDaemon will show an unskippable prompt when using /world/proc/OpenPort()...." alt="" coords="370,641,569,681"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="370,705,569,745"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html" title="Registers IBridgeHandlers." alt="" coords="356,769,583,809"/>
-<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="379,833,560,873"/>
-<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="356,897,583,937"/>
-<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="379,961,560,1001"/>
-<area shape="rect" id="node20" title=" " alt="" coords="389,1025,549,1051"/>
-<area shape="rect" id="node21" title=" " alt="" coords="359,1075,579,1129"/>
-<area shape="rect" id="node23" title=" " alt="" coords="45,43,92,68"/>
-<area shape="rect" id="node24" title=" " alt="" coords="449,1153,490,1179"/>
+<area shape="rect" id="node1" title=" " alt="" coords="975,571,1201,611"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers." alt="" coords="555,11,725,36"/>
+<area shape="rect" id="node3" title=" " alt="" coords="207,80,262,105"/>
+<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_session_configuration.html" title="Configuration options for the game sessions." alt="" coords="525,123,755,163"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;." alt="" coords="541,187,739,227"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation." alt="" coords="527,315,753,355"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,291,303,316"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="527,251,753,291"/>
+<area shape="rect" id="node7" href="$class_i_hosted_service.html" title=" " alt="" coords="5,291,117,316"/>
+<area shape="rect" id="node8" href="$class_i_disposable.html" title=" " alt="" coords="189,341,280,367"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html" title="Factory for ITopicClients." alt="" coords="527,379,753,419"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions." alt="" coords="539,443,741,483"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="541,507,739,547"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="556,571,724,611"/>
+<area shape="rect" id="node14" href="$class_i_async_disposable.html" title=" " alt="" coords="171,241,298,267"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html" title="On Windows, DreamDaemon will show an unskippable prompt when using /world/proc/OpenPort()...." alt="" coords="541,635,739,675"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform." alt="" coords="541,699,739,739"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html" title="Registers IBridgeHandlers." alt="" coords="527,763,753,803"/>
+<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="549,827,731,867"/>
+<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="527,891,753,931"/>
+<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html" title="For waiting asynchronously." alt="" coords="549,955,731,995"/>
+<area shape="rect" id="node21" title=" " alt="" coords="560,1020,720,1045"/>
+<area shape="rect" id="node22" title=" " alt="" coords="530,1069,750,1124"/>
+<area shape="rect" id="node24" title=" " alt="" coords="211,157,258,183"/>
+<area shape="rect" id="node25" title=" " alt="" coords="619,1148,661,1173"/>
 </map>

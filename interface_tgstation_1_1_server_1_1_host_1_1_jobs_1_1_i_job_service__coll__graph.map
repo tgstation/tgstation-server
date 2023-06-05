@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Jobs.IJobService" name="Tgstation.Server.Host.Jobs.IJobService">
+<area shape="rect" id="node1" title="The service that manages everything to do with jobs." alt="" coords="33,152,216,192"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="5,79,103,104"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="127,79,263,104"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="139,5,251,31"/>
+</map>

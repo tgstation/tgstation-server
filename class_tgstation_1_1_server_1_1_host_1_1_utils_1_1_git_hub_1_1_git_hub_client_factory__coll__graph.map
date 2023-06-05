@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory" name="Tgstation.Server.Host.Utils.GitHub.GitHubClientFactory">
+<area shape="rect" id="node1" title=" " alt="" coords="851,264,1033,304"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="445,6,587,32"/>
+<area shape="rect" id="node3" title=" " alt="" coords="61,173,104,198"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,408,631,448"/>
+<area shape="rect" id="node4" title=" " alt="" coords="55,234,110,260"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="417,264,615,304"/>
+<area shape="rect" id="node6" title=" " alt="" coords="411,329,621,384"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,366,160,392"/>
+<area shape="rect" id="node9" title=" " alt="" coords="36,416,129,441"/>
+<area shape="rect" id="node10" title=" " alt="" coords="7,465,159,490"/>
+<area shape="rect" id="node11" title=" " alt="" coords="441,473,591,528"/>
+</map>

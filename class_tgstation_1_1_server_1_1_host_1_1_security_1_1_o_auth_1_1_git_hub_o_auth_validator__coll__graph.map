@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator">
-<area shape="rect" id="node1" title="IOAuthValidator for GitHub." alt="" coords="613,91,815,131"/>
+<area shape="rect" id="node1" title="IOAuthValidator for GitHub." alt="" coords="625,91,827,131"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="276,5,391,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients." alt="" coords="243,55,424,95"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html" title="Factory for IGitHubServices." alt="" coords="234,55,433,95"/>
 <area shape="rect" id="node4" title=" " alt="" coords="221,120,446,175"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html" title="OAuth configuration options." alt="" coords="219,199,448,239"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html" title="Base OAuth options." alt="" coords="5,207,169,232"/>

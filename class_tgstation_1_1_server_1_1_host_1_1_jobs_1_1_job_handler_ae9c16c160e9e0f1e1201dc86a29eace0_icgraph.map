@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Jobs.JobHandler.Wait" name="Tgstation.Server.Host.Jobs.JobHandler.Wait">
-<area shape="rect" id="node1" title="Wait for task to complete." alt="" coords="280,37,463,77"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a47113b5cbe6573cdf0947fc6be3f275c" title="Cancels a give job . A Task&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="27,5,210,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a91cb1783409dd1e5cd4ec7670851f05f" title="Wait for a given job &#160;to complete. A Task representing the Job." alt="" coords="5,69,232,109"/>
+<area shape="rect" id="node1" title="Wait for task to complete." alt="" coords="275,37,457,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#a9e21547ef3576e2b185d53d2dc025c50" title="Cancels a give job . A Task&lt;TResult&gt; resulting in the updated job &#160;if it was cancelled,..." alt="" coords="25,5,207,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html#af5fe657cdfef95a8172fe2c960977a87" title="Wait for a given job &#160;to complete. A Task representing the Job." alt="" coords="5,69,227,109"/>
 </map>

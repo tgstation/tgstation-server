@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration" name="Tgstation.Server.Host.Components.StaticFiles.Configuration">
-<area shape="rect" id="node1" title=" " alt="" coords="88,152,315,192"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory." alt="" coords="151,79,252,104"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="142,5,261,31"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="285,5,376,31"/>
+<area shape="rect" id="node1" title=" " alt="" coords="112,225,339,265"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory." alt="" coords="175,152,276,177"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="5,79,141,104"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="17,5,129,31"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="166,79,285,104"/>
+<area shape="rect" id="node6" href="$class_i_disposable.html" title=" " alt="" coords="309,79,400,104"/>
 </map>

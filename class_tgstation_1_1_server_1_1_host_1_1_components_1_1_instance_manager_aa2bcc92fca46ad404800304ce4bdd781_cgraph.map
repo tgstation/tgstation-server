@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.StartAsync" name="Tgstation.Server.Host.Components.InstanceManager.StartAsync">
 <area shape="rect" id="node1" title=" " alt="" coords="5,229,232,269"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="280,229,507,269"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ae2c07383e771a67abf5ced7179dee8aa" title="Activate the IJobManager." alt="" coords="603,69,786,109"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html#a23de62961f3d9eb3db05d4db8c409bac" title="Activate the IJobManager." alt="" coords="603,69,786,109"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44" title="Check we have a valid system and configuration." alt="" coords="555,133,835,173"/>
 <area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a2eb5bdeb76bf1fbfdb297219af3ede45" title="Kill the server with a fatal exception." alt="" coords="604,197,785,237"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a14961bdb98a47d970eee34c7949661ed" title="Initializes the connection to the TGS swarm." alt="" coords="581,261,808,301"/>

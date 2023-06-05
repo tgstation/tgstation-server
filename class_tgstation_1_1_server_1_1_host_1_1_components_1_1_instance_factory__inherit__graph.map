@@ -1,5 +1,6 @@
 <map id="Tgstation.Server.Host.Components.InstanceFactory" name="Tgstation.Server.Host.Components.InstanceFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="5,152,232,192"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances." alt="" coords="59,79,178,104"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="63,5,175,31"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,225,232,265"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances." alt="" coords="59,152,178,177"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="51,79,187,104"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="63,5,175,31"/>
 </map>

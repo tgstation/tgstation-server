@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion" name="Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion">
+<area shape="rect" id="node1" title="Wait for a given job &#160;to complete. A Task representing the Job." alt="" coords="5,5,227,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ae9c16c160e9e0f1e1201dc86a29eace0" title="Wait for task to complete." alt="" coords="275,5,457,45"/>
+</map>

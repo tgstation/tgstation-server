@@ -399,7 +399,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   46</span>            var repo = await Task.Factory.StartNew&lt;LibGit2Sharp.IRepository&gt;(</div>
 <div class="line"><span class="lineno">   47</span>                () =&gt;</div>
 <div class="line"><span class="lineno">   48</span>                {</div>
-<div class="line"><span class="lineno">   49</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating libgit2 repostory at {repoPath}...&quot;</span>, path);</div>
+<div class="line"><span class="lineno">   49</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating libgit2 repository at {repoPath}...&quot;</span>, path);</div>
 <div class="line"><span class="lineno">   50</span>                    <span class="keywordflow">return</span> <span class="keyword">new</span> LibGit2Sharp.Repository(path);</div>
 <div class="line"><span class="lineno">   51</span>                },</div>
 <div class="line"><span class="lineno">   52</span>                cancellationToken,</div>

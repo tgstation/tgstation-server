@@ -1,26 +1,27 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager" name="Tgstation.Server.Host.Components.Chat.ChatManager">
-<area shape="rect" id="node1" title=" " alt="" coords="615,599,841,639"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="247,29,350,55"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="13,5,125,31"/>
-<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,55,132,80"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="242,79,355,104"/>
-<area shape="rect" id="node6" title=" " alt="" coords="254,128,343,153"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders." alt="" coords="185,178,412,218"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html" title="Factory for built in ICommands." alt="" coords="185,242,412,282"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="208,306,389,346"/>
-<area shape="rect" id="node10" href="$class_i_disposable.html" title=" " alt="" coords="23,313,114,339"/>
-<area shape="rect" id="node11" title=" " alt="" coords="219,371,379,396"/>
-<area shape="rect" id="node12" title=" " alt="" coords="185,420,412,475"/>
-<area shape="rect" id="node13" title=" " alt="" coords="225,499,372,539"/>
-<area shape="rect" id="node14" title=" " alt="" coords="231,563,366,603"/>
-<area shape="rect" id="node15" title=" " alt="" coords="181,628,416,683"/>
-<area shape="rect" id="node16" title=" " alt="" coords="183,707,414,761"/>
-<area shape="rect" id="node17" title=" " alt="" coords="209,786,389,826"/>
-<area shape="rect" id="node18" title=" " alt="" coords="209,850,388,890"/>
-<area shape="rect" id="node19" title=" " alt="" coords="245,915,353,940"/>
-<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="185,965,412,1005"/>
-<area shape="rect" id="node21" title=" " alt="" coords="273,1029,324,1055"/>
-<area shape="rect" id="node22" title=" " alt="" coords="220,1079,377,1104"/>
-<area shape="rect" id="node23" title=" " alt="" coords="272,1128,325,1153"/>
-<area shape="rect" id="node24" title=" " alt="" coords="275,1177,322,1203"/>
+<area shape="rect" id="node1" title=" " alt="" coords="785,603,1012,643"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services." alt="" coords="418,33,521,59"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,5,303,31"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="rect" id="node5" href="$class_i_async_disposable.html" title=" " alt="" coords="171,55,298,80"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="413,83,526,108"/>
+<area shape="rect" id="node7" title=" " alt="" coords="425,132,514,157"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders." alt="" coords="356,182,583,222"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html" title="Factory for built in ICommands." alt="" coords="356,246,583,286"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="379,310,560,350"/>
+<area shape="rect" id="node11" href="$class_i_disposable.html" title=" " alt="" coords="189,317,280,343"/>
+<area shape="rect" id="node12" title=" " alt="" coords="389,375,549,400"/>
+<area shape="rect" id="node13" title=" " alt="" coords="356,424,583,479"/>
+<area shape="rect" id="node14" title=" " alt="" coords="396,503,543,543"/>
+<area shape="rect" id="node15" title=" " alt="" coords="402,567,537,607"/>
+<area shape="rect" id="node16" title=" " alt="" coords="352,632,587,687"/>
+<area shape="rect" id="node17" title=" " alt="" coords="354,711,585,765"/>
+<area shape="rect" id="node18" title=" " alt="" coords="379,790,559,830"/>
+<area shape="rect" id="node19" title=" " alt="" coords="380,854,559,894"/>
+<area shape="rect" id="node20" title=" " alt="" coords="415,919,523,944"/>
+<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="356,969,583,1009"/>
+<area shape="rect" id="node22" title=" " alt="" coords="444,1033,495,1059"/>
+<area shape="rect" id="node23" title=" " alt="" coords="391,1083,548,1108"/>
+<area shape="rect" id="node24" title=" " alt="" coords="443,1132,496,1157"/>
+<area shape="rect" id="node25" title=" " alt="" coords="446,1181,493,1207"/>
 </map>

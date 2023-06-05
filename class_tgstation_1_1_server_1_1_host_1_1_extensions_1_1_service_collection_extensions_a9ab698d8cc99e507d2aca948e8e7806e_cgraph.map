@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Extensions.ServiceCollectionExtensions.AddGitHub" name="Tgstation.Server.Host.Extensions.ServiceCollectionExtensions.AddGitHub">
+<area shape="rect" id="node1" title="Adds a IGitHubServiceFactory implementation to the given serviceCollection ." alt="" coords="5,13,259,53"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537" title="Create a IGitHubService." alt="" coords="307,5,545,60"/>
+</map>

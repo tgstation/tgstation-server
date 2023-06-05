@@ -114,9 +114,6 @@ Properties</h2></td></tr>
 <tr class="memitem:a7f5697f355392923d10aa77a8e94dc91"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a7f5697f355392923d10aa77a8e94dc91">UpdatePackageAssetName</a> = <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2414ab0c1cbd67d474c6484d065ec90a">DefaultUpdatePackageAssetName</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a7f5697f355392923d10aa77a8e94dc91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asset package containing the new <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a> assembly in zip form.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a7f5697f355392923d10aa77a8e94dc91">More...</a><br /></td></tr>
 <tr class="separator:a7f5697f355392923d10aa77a8e94dc91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d854dc2f137ba9d7ba08e55e64f4be6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a0d854dc2f137ba9d7ba08e55e64f4be6">DumpReleasesOnNotFound</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a0d854dc2f137ba9d7ba08e55e64f4be6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump all retrieved releases from the GitHub API when a requested release is not found.   <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a0d854dc2f137ba9d7ba08e55e64f4be6">More...</a><br /></td></tr>
-<tr class="separator:a0d854dc2f137ba9d7ba08e55e64f4be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -240,36 +237,6 @@ Static Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="a0d854dc2f137ba9d7ba08e55e64f4be6" name="a0d854dc2f137ba9d7ba08e55e64f4be6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d854dc2f137ba9d7ba08e55e64f4be6">&#9670;&#160;</a></span>DumpReleasesOnNotFound</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Tgstation.Server.Host.Configuration.UpdatesConfiguration.DumpReleasesOnNotFound</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Dump all retrieved releases from the GitHub API when a requested release is not found.  </p>
-<p >This is an internal config and may be adjusted or removed without a version change.</p>
-
-<p class="definition">Definition at line <a class="el" href="_updates_configuration_8cs_source.html#l00047">47</a> of file <a class="el" href="_updates_configuration_8cs_source.html">UpdatesConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   47</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-</div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>.</p>
-
-</div>
-</div>
 <a id="a2f6c66d4e10c5fb6a758727893ea4cd0" name="a2f6c66d4e10c5fb6a758727893ea4cd0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2f6c66d4e10c5fb6a758727893ea4cd0">&#9670;&#160;</a></span>GitHubRepositoryId</h2>
 
@@ -296,7 +263,7 @@ Static Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a7f4f5cb3301033fd4dfebde47baf9c5a">DefaultGitHubRepositoryId</a>;</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html_a7f4f5cb3301033fd4dfebde47baf9c5a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a7f4f5cb3301033fd4dfebde47baf9c5a">Tgstation.Server.Host.Configuration.UpdatesConfiguration.DefaultGitHubRepositoryId</a></div><div class="ttdeci">const long DefaultGitHubRepositoryId</div><div class="ttdoc">The tgstation/tgstation-server Octokit.Repository.Id.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00016">UpdatesConfiguration.cs:16</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00145">Tgstation.Server.Host.Controllers.AdministrationController.Read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_service_8cs_source.html#l00077">Tgstation.Server.Host.Utils.GitHub.GitHubService.GetTgsReleases()</a>, and <a class="el" href="_git_hub_service_8cs_source.html#l00122">Tgstation.Server.Host.Utils.GitHub.GitHubService.GetUpdatesRepositoryUrl()</a>.</p>
 
 </div>
 </div>
@@ -326,7 +293,7 @@ Static Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#ae004e4379b32596669db26f1bdffef84">DefaultGitTagPrefix</a>;</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html_ae004e4379b32596669db26f1bdffef84"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#ae004e4379b32596669db26f1bdffef84">Tgstation.Server.Host.Configuration.UpdatesConfiguration.DefaultGitTagPrefix</a></div><div class="ttdeci">const string DefaultGitTagPrefix</div><div class="ttdoc">The default value of GitTagPrefix.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00021">UpdatesConfiguration.cs:21</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, and <a class="el" href="_administration_controller_8cs_source.html#l00145">Tgstation.Server.Host.Controllers.AdministrationController.Read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_service_8cs_source.html#l00077">Tgstation.Server.Host.Utils.GitHub.GitHubService.GetTgsReleases()</a>.</p>
 
 </div>
 </div>
@@ -356,7 +323,7 @@ Static Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2414ab0c1cbd67d474c6484d065ec90a">DefaultUpdatePackageAssetName</a>;</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration_html_a2414ab0c1cbd67d474c6484d065ec90a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#a2414ab0c1cbd67d474c6484d065ec90a">Tgstation.Server.Host.Configuration.UpdatesConfiguration.DefaultUpdatePackageAssetName</a></div><div class="ttdeci">const string DefaultUpdatePackageAssetName</div><div class="ttdoc">The default value of UpdatePackageAssetName.</div><div class="ttdef"><b>Definition:</b> <a href="_updates_configuration_8cs_source.html#l00026">UpdatesConfiguration.cs:26</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00224">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00223">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>.</p>
 
 </div>
 </div>

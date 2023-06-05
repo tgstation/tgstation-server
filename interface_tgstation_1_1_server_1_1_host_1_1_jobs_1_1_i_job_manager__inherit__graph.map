@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Jobs.IJobManager" name="Tgstation.Server.Host.Jobs.IJobManager">
-<area shape="rect" id="node1" title="Manages the runtime of Jobs." alt="" coords="5,79,188,119"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html" title=" " alt="" coords="5,167,188,207"/>
-<area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="41,5,153,31"/>
+<area shape="rect" id="node1" title="Manages the runtime of Jobs." alt="" coords="5,5,188,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_service.html" title="The service that manages everything to do with jobs." alt="" coords="5,93,188,133"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_service.html" title=" " alt="" coords="5,181,188,221"/>
 </map>

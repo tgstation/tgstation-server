@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Jobs.JobManager.RegisterOperation" name="Tgstation.Server.Host.Jobs.JobManager.RegisterOperation">
-<area shape="rect" id="node1" title="Registers a given Job and begins running it. A Task representing a running operation." alt="" coords="5,5,205,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ab886226b72e336cfe28a37233ed807dc" title="Runner for JobHandlers." alt="" coords="253,5,436,45"/>
-</map>

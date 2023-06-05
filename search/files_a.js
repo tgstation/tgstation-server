@@ -5,8 +5,8 @@ var searchData=
   ['jobentrypoint_2ecs_2',['JobEntrypoint.cs',['../_job_entrypoint_8cs.html',1,'']]],
   ['jobexception_2ecs_3',['JobException.cs',['../_job_exception_8cs.html',1,'']]],
   ['jobhandler_2ecs_4',['JobHandler.cs',['../_job_handler_8cs.html',1,'']]],
-  ['jobmanager_2ecs_5',['JobManager.cs',['../_job_manager_8cs.html',1,'']]],
-  ['jobprogressreporter_2ecs_6',['JobProgressReporter.cs',['../_job_progress_reporter_8cs.html',1,'']]],
-  ['jobresponse_2ecs_7',['JobResponse.cs',['../_job_response_8cs.html',1,'']]],
-  ['jobsclient_2ecs_8',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]]
+  ['jobprogressreporter_2ecs_5',['JobProgressReporter.cs',['../_job_progress_reporter_8cs.html',1,'']]],
+  ['jobresponse_2ecs_6',['JobResponse.cs',['../_job_response_8cs.html',1,'']]],
+  ['jobsclient_2ecs_7',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]],
+  ['jobservice_2ecs_8',['JobService.cs',['../_job_service_8cs.html',1,'']]]
 ];

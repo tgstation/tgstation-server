@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Utils.GitHub.IGitHubService.GetPullRequest" name="Tgstation.Server.Host.Utils.GitHub.IGitHubService.GetPullRequest">
+<area shape="rect" id="node1" title="Get a given pullRequestNumber ." alt="" coords="300,13,549,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8b4819fbadce5d6dd3219554b44001c8" title="Implementation of GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)...." alt="" coords="5,5,252,60"/>
+</map>

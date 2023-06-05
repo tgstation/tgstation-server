@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Utils.GitHub.IGitHubService.GetTgsReleases" name="Tgstation.Server.Host.Utils.GitHub.IGitHubService.GetTgsReleases">
+<area shape="rect" id="node1" title="Get all valid TGS Releases from the configured update source." alt="" coords="501,61,756,101"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ae718c23c45c5e831fa4df39e2bbe8617" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="241,29,450,69"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a9b2130f890ec296f05227c77b0f8d909" title="Get AdministrationResponse server information." alt="" coords="237,93,453,133"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ac94381ec14fdde7783b8cdfe6a6c647d" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,29,189,69"/>
+</map>

@@ -942,145 +942,146 @@ $(function() {
 <div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span>                OnPackBuilderProgress = (stage, current, total) =&gt;</div>
 <div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span>                {</div>
 <div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>                    var baseProgress = stage == PackBuilderStage.Counting ? 0 : 0.5;</div>
-<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>                    progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1">ReportProgress</a>(baseProgress + (0.5 * ((<span class="keywordtype">double</span>)current / total)));</div>
-<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>                    <span class="keywordflow">return</span> !cancellationToken.IsCancellationRequested;</div>
-<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>                },</div>
-<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>                OnNegotiationCompletedBeforePush = (a) =&gt;</div>
-<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>                {</div>
-<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>                    subProgressReporter = progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541">CreateSection</a>(<span class="keyword">null</span>, 0.5);</div>
-<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>                    <span class="keywordflow">return</span> !cancellationToken.IsCancellationRequested;</div>
-<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>                },</div>
-<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>                OnPushTransferProgress = (a, sentBytes, totalBytes) =&gt;</div>
-<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span>                {</div>
-<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>                    progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1">ReportProgress</a>((<span class="keywordtype">double</span>)sentBytes / totalBytes);</div>
-<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span>                    <span class="keywordflow">return</span> !cancellationToken.IsCancellationRequested;</div>
-<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span>                },</div>
-<div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>                CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),</div>
-<div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span>            };</div>
-<div class="line"><a id="l00985" name="l00985"></a><span class="lineno">  985</span>        }</div>
-<div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span> </div>
-<div class="line"><a id="l00995" name="l00995"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8085e5ab665be1aa51b004bffcc40753">  995</a></span>        async Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8085e5ab665be1aa51b004bffcc40753">UpdateSubmodules</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, <span class="keywordtype">string</span> username, <span class="keywordtype">string</span> password, CancellationToken cancellationToken)</div>
-<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>        {</div>
-<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>            var submoduleCount = libGitRepo.Submodules.Count();</div>
-<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>            <span class="keywordflow">if</span> (submoduleCount == 0)</div>
-<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>            {</div>
-<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>                logger.LogTrace(<span class="stringliteral">&quot;No submodules, skipping update&quot;</span>);</div>
-<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01002" name="l01002"></a><span class="lineno"> 1002</span>            }</div>
-<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span> </div>
-<div class="line"><a id="l01004" name="l01004"></a><span class="lineno"> 1004</span>            logger.LogTrace(<span class="stringliteral">&quot;Updating submodules with{orWithout} credentials...&quot;</span>, username == <span class="keyword">null</span> ? <span class="stringliteral">&quot;out&quot;</span> : String.Empty);</div>
-<div class="line"><a id="l01005" name="l01005"></a><span class="lineno"> 1005</span> </div>
-<div class="line"><a id="l01006" name="l01006"></a><span class="lineno"> 1006</span>            var factor = 1.0 / submoduleCount / 2;</div>
-<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>            <span class="keywordflow">foreach</span> (var submodule <span class="keywordflow">in</span> libGitRepo.Submodules)</div>
-<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>            {</div>
-<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>                var submoduleUpdateOptions = <span class="keyword">new</span> SubmoduleUpdateOptions</div>
-<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>                {</div>
-<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>                    Init = <span class="keyword">true</span>,</div>
-<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>                    OnTransferProgress = TransferProgressHandler(</div>
-<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>                        progressReporter.CreateSection($<span class="stringliteral">&quot;Fetch submodule {submodule.Name}&quot;</span>, factor),</div>
-<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>                        cancellationToken),</div>
-<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>                    OnProgress = output =&gt; !cancellationToken.IsCancellationRequested,</div>
-<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>                    OnUpdateTips = (a, b, c) =&gt; !cancellationToken.IsCancellationRequested,</div>
-<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>                    CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),</div>
-<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>                    OnCheckoutProgress = CheckoutProgressHandler(</div>
-<div class="line"><a id="l01019" name="l01019"></a><span class="lineno"> 1019</span>                        progressReporter.CreateSection($<span class="stringliteral">&quot;Checkout submodule {submodule.Name}&quot;</span>, factor)),</div>
-<div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span>                };</div>
-<div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span> </div>
-<div class="line"><a id="l01022" name="l01022"></a><span class="lineno"> 1022</span>                logger.LogDebug(<span class="stringliteral">&quot;Updating submodule {submoduleName}...&quot;</span>, submodule.Name);</div>
-<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>                Task RawSubModuleUpdate() =&gt; Task.Factory.StartNew(</div>
-<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span>                    () =&gt; libGitRepo.Submodules.Update(submodule.Name, submoduleUpdateOptions),</div>
-<div class="line"><a id="l01025" name="l01025"></a><span class="lineno"> 1025</span>                    cancellationToken,</div>
-<div class="line"><a id="l01026" name="l01026"></a><span class="lineno"> 1026</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
-<div class="line"><a id="l01027" name="l01027"></a><span class="lineno"> 1027</span>                    TaskScheduler.Current);</div>
-<div class="line"><a id="l01028" name="l01028"></a><span class="lineno"> 1028</span>                <span class="keywordflow">try</span></div>
-<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"> 1029</span>                {</div>
-<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>                    await RawSubModuleUpdate();</div>
-<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span>                }</div>
-<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>                <span class="keywordflow">catch</span> (LibGit2SharpException ex)</div>
-<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>                {</div>
-<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>                    <span class="comment">// workaround for https://github.com/libgit2/libgit2/issues/3820</span></div>
-<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>                    <span class="comment">// kill off the modules/ folder in .git and try again</span></div>
-<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>                    progressReporter.ReportProgress(<span class="keyword">null</span>);</div>
-<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>                    credentialsProvider.CheckBadCredentialsException(ex);</div>
-<div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span>                    logger.LogWarning(ex, <span class="stringliteral">&quot;Initial update of submodule {submoduleName} failed. Deleting submodule directories and re-attempting...&quot;</span>, submodule.Name);</div>
-<div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span> </div>
-<div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span>                    await Task.WhenAll(</div>
-<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>                        ioMananger.DeleteDirectory($<span class="stringliteral">&quot;.git/modules/{submodule.Path}&quot;</span>, cancellationToken),</div>
-<div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span>                        ioMananger.DeleteDirectory(submodule.Path, cancellationToken))</div>
-<div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>                        ;</div>
-<div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span> </div>
-<div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span>                    logger.LogTrace(<span class="stringliteral">&quot;Second update attempt for submodule {submoduleName}...&quot;</span>, submodule.Name);</div>
-<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span>                    {</div>
-<div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span>                        await RawSubModuleUpdate();</div>
-<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>                    }</div>
-<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>                    <span class="keywordflow">catch</span> (UserCancelledException)</div>
-<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>                    {</div>
-<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>                        cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>                    }</div>
-<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>                    <span class="keywordflow">catch</span> (LibGit2SharpException ex2)</div>
-<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                    {</div>
-<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>                        credentialsProvider.CheckBadCredentialsException(ex2);</div>
-<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>                        logger.LogTrace(ex2, <span class="stringliteral">&quot;Retried update of submodule {submoduleName} failed!&quot;</span>, submodule.Name);</div>
-<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> AggregateException(ex, ex2);</div>
-<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>                    }</div>
-<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>                }</div>
-<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span> </div>
-<div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span>                await eventConsumer.HandleEvent(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a>.RepoSubmoduleUpdate, <span class="keyword">new</span> List&lt;string&gt; { submodule.Name }, cancellationToken);</div>
-<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>            }</div>
-<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span>        }</div>
-<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span> </div>
-<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af63b639a5a6a59e780677f9849122b1f"> 1071</a></span>        CheckoutProgressHandler <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af63b639a5a6a59e780677f9849122b1f">CheckoutProgressHandler</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter) =&gt; (a, completedSteps, totalSteps) =&gt;</div>
-<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span>        {</div>
-<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>            <span class="keywordtype">double</span>? percentage;</div>
-<div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span> </div>
-<div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span>            <span class="comment">// short circuit initialization where totalSteps is 0</span></div>
-<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>            <span class="keywordflow">if</span> (completedSteps == 0)</div>
-<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span>                percentage = 0;</div>
-<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (totalSteps &lt; completedSteps || totalSteps == 0)</div>
-<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>                percentage = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span>            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>            {</div>
-<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>                percentage = ((double)completedSteps) / totalSteps;</div>
-<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>                <span class="keywordflow">if</span> (percentage &lt; 0)</div>
-<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>                    percentage = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>            }</div>
-<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span> </div>
-<div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span>            <span class="keywordflow">if</span> (percentage == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span>                logger.LogDebug(</div>
-<div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span>                    <span class="stringliteral">&quot;Bad checkout progress values (Please tell Dominion)! Completeds: {completed}, Total: {total}&quot;</span>,</div>
-<div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span>                    completedSteps,</div>
-<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>                    totalSteps);</div>
-<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span> </div>
-<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span>            progressReporter.ReportProgress(percentage);</div>
-<div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span>        };</div>
-<div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span> </div>
-<div class="line"><a id="l01102" name="l01102"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a927f99c77d8f54ea2ab426a662254210"> 1102</a></span>        TransferProgressHandler <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a927f99c77d8f54ea2ab426a662254210">TransferProgressHandler</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, CancellationToken cancellationToken) =&gt; (transferProgress) =&gt;</div>
-<div class="line"><a id="l01103" name="l01103"></a><span class="lineno"> 1103</span>        {</div>
-<div class="line"><a id="l01104" name="l01104"></a><span class="lineno"> 1104</span>            <span class="keywordtype">double</span>? percentage;</div>
-<div class="line"><a id="l01105" name="l01105"></a><span class="lineno"> 1105</span>            var totalObjectsToProcess = transferProgress.TotalObjects * 2;</div>
-<div class="line"><a id="l01106" name="l01106"></a><span class="lineno"> 1106</span>            var processedObjects = transferProgress.IndexedObjects + transferProgress.ReceivedObjects;</div>
-<div class="line"><a id="l01107" name="l01107"></a><span class="lineno"> 1107</span>            <span class="keywordflow">if</span> (totalObjectsToProcess &lt; processedObjects || totalObjectsToProcess == 0)</div>
-<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span>                percentage = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"> 1109</span>            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span>            {</div>
-<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span>                percentage = (double)processedObjects / totalObjectsToProcess;</div>
-<div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span>                <span class="keywordflow">if</span> (percentage &lt; 0)</div>
-<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span>                    percentage = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span>            }</div>
-<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span> </div>
-<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span>            <span class="keywordflow">if</span> (percentage == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>                logger.LogDebug(</div>
-<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>                    <span class="stringliteral">&quot;Bad transfer progress values (Please tell Cyberboss)! Indexed: {indexed}, Received: {received}, Total: {total}&quot;</span>,</div>
-<div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>                    transferProgress.IndexedObjects,</div>
-<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>                    transferProgress.ReceivedObjects,</div>
-<div class="line"><a id="l01121" name="l01121"></a><span class="lineno"> 1121</span>                    transferProgress.TotalObjects);</div>
-<div class="line"><a id="l01122" name="l01122"></a><span class="lineno"> 1122</span> </div>
-<div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>            progressReporter.ReportProgress(percentage);</div>
-<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>            <span class="keywordflow">return</span> !cancellationToken.IsCancellationRequested;</div>
-<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>        };</div>
-<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>    }</div>
-<div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span>}</div>
+<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>                    var addon = total &gt; 0 &amp;&amp; current &lt;= total ? (0.5 * ((double)current / total)) : 0;</div>
+<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>                    progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1">ReportProgress</a>(baseProgress + addon);</div>
+<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>                    <span class="keywordflow">return</span> !cancellationToken.IsCancellationRequested;</div>
+<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>                },</div>
+<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>                OnNegotiationCompletedBeforePush = (a) =&gt;</div>
+<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>                {</div>
+<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>                    subProgressReporter = progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#adb508e4946effa25548d2eb63c3d1541">CreateSection</a>(<span class="keyword">null</span>, 0.5);</div>
+<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>                    <span class="keywordflow">return</span> !cancellationToken.IsCancellationRequested;</div>
+<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>                },</div>
+<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span>                OnPushTransferProgress = (a, sentBytes, totalBytes) =&gt;</div>
+<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>                {</div>
+<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span>                    progressReporter.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html#ac736a80d9d56a20711468d9b8e27e3c1">ReportProgress</a>((<span class="keywordtype">double</span>)sentBytes / totalBytes);</div>
+<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span>                    <span class="keywordflow">return</span> !cancellationToken.IsCancellationRequested;</div>
+<div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>                },</div>
+<div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span>                CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),</div>
+<div class="line"><a id="l00985" name="l00985"></a><span class="lineno">  985</span>            };</div>
+<div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span>        }</div>
+<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span> </div>
+<div class="line"><a id="l00996" name="l00996"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8085e5ab665be1aa51b004bffcc40753">  996</a></span>        async Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8085e5ab665be1aa51b004bffcc40753">UpdateSubmodules</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, <span class="keywordtype">string</span> username, <span class="keywordtype">string</span> password, CancellationToken cancellationToken)</div>
+<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>        {</div>
+<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>            var submoduleCount = libGitRepo.Submodules.Count();</div>
+<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>            <span class="keywordflow">if</span> (submoduleCount == 0)</div>
+<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>            {</div>
+<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span>                logger.LogTrace(<span class="stringliteral">&quot;No submodules, skipping update&quot;</span>);</div>
+<div class="line"><a id="l01002" name="l01002"></a><span class="lineno"> 1002</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span>            }</div>
+<div class="line"><a id="l01004" name="l01004"></a><span class="lineno"> 1004</span> </div>
+<div class="line"><a id="l01005" name="l01005"></a><span class="lineno"> 1005</span>            logger.LogTrace(<span class="stringliteral">&quot;Updating submodules with{orWithout} credentials...&quot;</span>, username == <span class="keyword">null</span> ? <span class="stringliteral">&quot;out&quot;</span> : String.Empty);</div>
+<div class="line"><a id="l01006" name="l01006"></a><span class="lineno"> 1006</span> </div>
+<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>            var factor = 1.0 / submoduleCount / 2;</div>
+<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>            <span class="keywordflow">foreach</span> (var submodule <span class="keywordflow">in</span> libGitRepo.Submodules)</div>
+<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>            {</div>
+<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>                var submoduleUpdateOptions = <span class="keyword">new</span> SubmoduleUpdateOptions</div>
+<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>                {</div>
+<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>                    Init = <span class="keyword">true</span>,</div>
+<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>                    OnTransferProgress = TransferProgressHandler(</div>
+<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>                        progressReporter.CreateSection($<span class="stringliteral">&quot;Fetch submodule {submodule.Name}&quot;</span>, factor),</div>
+<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>                        cancellationToken),</div>
+<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>                    OnProgress = output =&gt; !cancellationToken.IsCancellationRequested,</div>
+<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>                    OnUpdateTips = (a, b, c) =&gt; !cancellationToken.IsCancellationRequested,</div>
+<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>                    CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password),</div>
+<div class="line"><a id="l01019" name="l01019"></a><span class="lineno"> 1019</span>                    OnCheckoutProgress = CheckoutProgressHandler(</div>
+<div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span>                        progressReporter.CreateSection($<span class="stringliteral">&quot;Checkout submodule {submodule.Name}&quot;</span>, factor)),</div>
+<div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span>                };</div>
+<div class="line"><a id="l01022" name="l01022"></a><span class="lineno"> 1022</span> </div>
+<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>                logger.LogDebug(<span class="stringliteral">&quot;Updating submodule {submoduleName}...&quot;</span>, submodule.Name);</div>
+<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span>                Task RawSubModuleUpdate() =&gt; Task.Factory.StartNew(</div>
+<div class="line"><a id="l01025" name="l01025"></a><span class="lineno"> 1025</span>                    () =&gt; libGitRepo.Submodules.Update(submodule.Name, submoduleUpdateOptions),</div>
+<div class="line"><a id="l01026" name="l01026"></a><span class="lineno"> 1026</span>                    cancellationToken,</div>
+<div class="line"><a id="l01027" name="l01027"></a><span class="lineno"> 1027</span>                    <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
+<div class="line"><a id="l01028" name="l01028"></a><span class="lineno"> 1028</span>                    TaskScheduler.Current);</div>
+<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"> 1029</span>                <span class="keywordflow">try</span></div>
+<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>                {</div>
+<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span>                    await RawSubModuleUpdate();</div>
+<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>                }</div>
+<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>                <span class="keywordflow">catch</span> (LibGit2SharpException ex)</div>
+<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>                {</div>
+<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>                    <span class="comment">// workaround for https://github.com/libgit2/libgit2/issues/3820</span></div>
+<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>                    <span class="comment">// kill off the modules/ folder in .git and try again</span></div>
+<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>                    progressReporter.ReportProgress(<span class="keyword">null</span>);</div>
+<div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span>                    credentialsProvider.CheckBadCredentialsException(ex);</div>
+<div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span>                    logger.LogWarning(ex, <span class="stringliteral">&quot;Initial update of submodule {submoduleName} failed. Deleting submodule directories and re-attempting...&quot;</span>, submodule.Name);</div>
+<div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span> </div>
+<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>                    await Task.WhenAll(</div>
+<div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span>                        ioMananger.DeleteDirectory($<span class="stringliteral">&quot;.git/modules/{submodule.Path}&quot;</span>, cancellationToken),</div>
+<div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>                        ioMananger.DeleteDirectory(submodule.Path, cancellationToken))</div>
+<div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span>                        ;</div>
+<div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span> </div>
+<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>                    logger.LogTrace(<span class="stringliteral">&quot;Second update attempt for submodule {submoduleName}...&quot;</span>, submodule.Name);</div>
+<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span>                    {</div>
+<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>                        await RawSubModuleUpdate();</div>
+<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>                    }</div>
+<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>                    <span class="keywordflow">catch</span> (UserCancelledException)</div>
+<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>                    {</div>
+<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>                        cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>                    }</div>
+<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                    <span class="keywordflow">catch</span> (LibGit2SharpException ex2)</div>
+<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>                    {</div>
+<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>                        credentialsProvider.CheckBadCredentialsException(ex2);</div>
+<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>                        logger.LogTrace(ex2, <span class="stringliteral">&quot;Retried update of submodule {submoduleName} failed!&quot;</span>, submodule.Name);</div>
+<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>                        <span class="keywordflow">throw</span> <span class="keyword">new</span> AggregateException(ex, ex2);</div>
+<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>                    }</div>
+<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span>                }</div>
+<div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span> </div>
+<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>                await eventConsumer.HandleEvent(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a>.RepoSubmoduleUpdate, <span class="keyword">new</span> List&lt;string&gt; { submodule.Name }, cancellationToken);</div>
+<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span>            }</div>
+<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span>        }</div>
+<div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span> </div>
+<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af63b639a5a6a59e780677f9849122b1f"> 1072</a></span>        CheckoutProgressHandler <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#af63b639a5a6a59e780677f9849122b1f">CheckoutProgressHandler</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter) =&gt; (a, completedSteps, totalSteps) =&gt;</div>
+<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>        {</div>
+<div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span>            <span class="keywordtype">double</span>? percentage;</div>
+<div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span> </div>
+<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>            <span class="comment">// short circuit initialization where totalSteps is 0</span></div>
+<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span>            <span class="keywordflow">if</span> (completedSteps == 0)</div>
+<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>                percentage = 0;</div>
+<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (totalSteps &lt; completedSteps || totalSteps == 0)</div>
+<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span>                percentage = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>            {</div>
+<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>                percentage = ((double)completedSteps) / totalSteps;</div>
+<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>                <span class="keywordflow">if</span> (percentage &lt; 0)</div>
+<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>                    percentage = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span>            }</div>
+<div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span> </div>
+<div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span>            <span class="keywordflow">if</span> (percentage == <span class="keyword">null</span>)</div>
+<div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span>                logger.LogDebug(</div>
+<div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span>                    <span class="stringliteral">&quot;Bad checkout progress values (Please tell Dominion)! Completeds: {completed}, Total: {total}&quot;</span>,</div>
+<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>                    completedSteps,</div>
+<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span>                    totalSteps);</div>
+<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span> </div>
+<div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span>            progressReporter.ReportProgress(percentage);</div>
+<div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span>        };</div>
+<div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span> </div>
+<div class="line"><a id="l01103" name="l01103"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a927f99c77d8f54ea2ab426a662254210"> 1103</a></span>        TransferProgressHandler <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a927f99c77d8f54ea2ab426a662254210">TransferProgressHandler</a>(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_progress_reporter.html">JobProgressReporter</a> progressReporter, CancellationToken cancellationToken) =&gt; (transferProgress) =&gt;</div>
+<div class="line"><a id="l01104" name="l01104"></a><span class="lineno"> 1104</span>        {</div>
+<div class="line"><a id="l01105" name="l01105"></a><span class="lineno"> 1105</span>            <span class="keywordtype">double</span>? percentage;</div>
+<div class="line"><a id="l01106" name="l01106"></a><span class="lineno"> 1106</span>            var totalObjectsToProcess = transferProgress.TotalObjects * 2;</div>
+<div class="line"><a id="l01107" name="l01107"></a><span class="lineno"> 1107</span>            var processedObjects = transferProgress.IndexedObjects + transferProgress.ReceivedObjects;</div>
+<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span>            <span class="keywordflow">if</span> (totalObjectsToProcess &lt; processedObjects || totalObjectsToProcess == 0)</div>
+<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"> 1109</span>                percentage = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span>            {</div>
+<div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span>                percentage = (double)processedObjects / totalObjectsToProcess;</div>
+<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span>                <span class="keywordflow">if</span> (percentage &lt; 0)</div>
+<div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span>                    percentage = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span>            }</div>
+<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span> </div>
+<div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>            <span class="keywordflow">if</span> (percentage == <span class="keyword">null</span>)</div>
+<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>                logger.LogDebug(</div>
+<div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>                    <span class="stringliteral">&quot;Bad transfer progress values (Please tell Cyberboss)! Indexed: {indexed}, Received: {received}, Total: {total}&quot;</span>,</div>
+<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>                    transferProgress.IndexedObjects,</div>
+<div class="line"><a id="l01121" name="l01121"></a><span class="lineno"> 1121</span>                    transferProgress.ReceivedObjects,</div>
+<div class="line"><a id="l01122" name="l01122"></a><span class="lineno"> 1122</span>                    transferProgress.TotalObjects);</div>
+<div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span> </div>
+<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>            progressReporter.ReportProgress(percentage);</div>
+<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>            <span class="keywordflow">return</span> !cancellationToken.IsCancellationRequested;</div>
+<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>        };</div>
+<div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span>    }</div>
+<div class="line"><a id="l01128" name="l01128"></a><span class="lineno"> 1128</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html">Tgstation.Server.Api.Models.Internal.RepositorySettings</a></div><div class="ttdoc">Represents configurable settings for a git repository.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_repository_settings_8cs_source.html#l00008">RepositorySettings.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">Tgstation.Server.Api.Models.TestMergeParameters</a></div><div class="ttdoc">Parameters for creating a TestMerge.</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00008">TestMergeParameters.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a1b7f38a2ee2f645796ffeb89fe51b2ce"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">Tgstation.Server.Api.Models.TestMergeParameters.TargetCommitSha</a></div><div class="ttdeci">virtual ? string TargetCommitSha</div><div class="ttdoc">The sha of the test merge revision to merge. If not specified, the latest commit from the source will...</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00020">TestMergeParameters.cs:20</a></div></div>
@@ -1108,7 +1109,7 @@ $(function() {
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_a6fec03c9207024ead0f80fe2abd19ffb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a6fec03c9207024ead0f80fe2abd19ffb">Tgstation.Server.Host.Components.Repository.Repository.libGitRepo</a></div><div class="ttdeci">readonly LibGit2Sharp.IRepository libGitRepo</div><div class="ttdoc">The LibGit2Sharp.IRepository for the Repository.</div><div class="ttdef"><b>Definition:</b> <a href="_repository_8cs_source.html#l00074">Repository.cs:74</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_a72304b698a3990cdf0453548743dc286"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a72304b698a3990cdf0453548743dc286">Tgstation.Server.Host.Components.Repository.Repository.PushHeadToTemporaryBranch</a></div><div class="ttdeci">Task PushHeadToTemporaryBranch(string username, string password, JobProgressReporter progressReporter, CancellationToken cancellationToken)</div><div class="ttdoc">Force push the current repository HEAD to RemoteTemporaryBranchName;.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_a735ba12637c8458bd627954c6e3ef2ba"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a735ba12637c8458bd627954c6e3ef2ba">Tgstation.Server.Host.Components.Repository.Repository.gitRemoteFeatures</a></div><div class="ttdeci">readonly IGitRemoteFeatures gitRemoteFeatures</div><div class="ttdoc">The IGitRemoteFeatures for the Repository.</div><div class="ttdef"><b>Definition:</b> <a href="_repository_8cs_source.html#l00104">Repository.cs:104</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_a8085e5ab665be1aa51b004bffcc40753"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8085e5ab665be1aa51b004bffcc40753">Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules</a></div><div class="ttdeci">async Task UpdateSubmodules(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken)</div><div class="ttdoc">Recusively update all Submodules in the libGitRepo.</div><div class="ttdef"><b>Definition:</b> <a href="_repository_8cs_source.html#l00995">Repository.cs:995</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_a8085e5ab665be1aa51b004bffcc40753"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8085e5ab665be1aa51b004bffcc40753">Tgstation.Server.Host.Components.Repository.Repository.UpdateSubmodules</a></div><div class="ttdeci">async Task UpdateSubmodules(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken)</div><div class="ttdoc">Recusively update all Submodules in the libGitRepo.</div><div class="ttdef"><b>Definition:</b> <a href="_repository_8cs_source.html#l00996">Repository.cs:996</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_a927f99c77d8f54ea2ab426a662254210"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a927f99c77d8f54ea2ab426a662254210">Tgstation.Server.Host.Components.Repository.Repository.TransferProgressHandler</a></div><div class="ttdeci">TransferProgressHandler TransferProgressHandler(JobProgressReporter progressReporter, CancellationToken cancellationToken)</div><div class="ttdoc">Generate a LibGit2Sharp.Handlers.TransferProgressHandler from a given progressReporter  and cancellat...</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_aa52e74ecb862a3cb6c26b89970ccc402"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#aa52e74ecb862a3cb6c26b89970ccc402">Tgstation.Server.Host.Components.Repository.Repository.GeneratePushOptions</a></div><div class="ttdeci">PushOptions GeneratePushOptions(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken)</div><div class="ttdoc">Generate a standard set of PushOptions.</div><div class="ttdef"><b>Definition:</b> <a href="_repository_8cs_source.html#l00961">Repository.cs:961</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_aaaf20e963c78e114158f07652efc7986"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#aaaf20e963c78e114158f07652efc7986">Tgstation.Server.Host.Components.Repository.Repository.logger</a></div><div class="ttdeci">readonly ILogger&lt; Repository &gt; logger</div><div class="ttdoc">The ILogger for the Repository.</div><div class="ttdef"><b>Definition:</b> <a href="_repository_8cs_source.html#l00109">Repository.cs:109</a></div></div>
@@ -1172,7 +1173,7 @@ $(function() {
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_configuration_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html">Tgstation.Server.Host.Configuration</a></div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00003">ControlPanelConfiguration.cs:4</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_extensions_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_extensions.html">Tgstation.Server.Host.Extensions</a></div><div class="ttdef"><b>Definition:</b> <a href="_application_builder_extensions_8cs_source.html#l00022">ApplicationBuilderExtensions.cs:23</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_i_o_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_i_o.html">Tgstation.Server.Host.IO</a></div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00006">Console.cs:7</a></div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html">Tgstation.Server.Host.Jobs</a></div><div class="ttdef"><b>Definition:</b> <a href="_i_job_manager_8cs_source.html#l00009">IJobManager.cs:10</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html">Tgstation.Server.Host.Jobs</a></div><div class="ttdef"><b>Definition:</b> <a href="_i_job_manager_8cs_source.html#l00007">IJobManager.cs:8</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -1,24 +1,25 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog">
-<area shape="rect" id="node1" title="A IWatchdog that manages one server." alt="" coords="884,759,1111,799"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="709,425,819,450"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="269,147,353,173"/>
-<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="13,85,125,110"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="219,83,402,123"/>
-<area shape="rect" id="node5" href="$class_i_async_disposable.html" title=" " alt="" coords="5,238,132,263"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="9,139,128,165"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="7,189,130,214"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="223,197,398,222"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="254,246,367,271"/>
-<area shape="rect" id="node10" title=" " alt="" coords="290,295,331,321"/>
-<area shape="rect" id="node11" title=" " alt="" coords="228,345,393,370"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="197,395,424,435"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="220,459,401,499"/>
-<area shape="rect" id="node15" href="$class_i_disposable.html" title=" " alt="" coords="23,466,114,491"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="227,523,395,563"/>
-<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="181,587,440,642"/>
-<area shape="rect" id="node18" title=" " alt="" coords="287,854,334,879"/>
-<area shape="rect" id="node19" title=" " alt="" coords="225,666,396,691"/>
-<area shape="rect" id="node20" title=" " alt="" coords="285,715,336,741"/>
-<area shape="rect" id="node21" title=" " alt="" coords="251,765,370,790"/>
-<area shape="rect" id="node22" title=" " alt="" coords="291,33,330,58"/>
+<area shape="rect" id="node1" title="A IWatchdog that manages one server." alt="" coords="1055,758,1281,798"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="879,424,990,449"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers." alt="" coords="439,83,523,108"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_component_service.html" title="Represents a component meant to be started and stopped by its parent component." alt="" coords="167,55,303,80"/>
+<area shape="rect" id="node5" href="$class_i_hosted_service.html" title=" " alt="" coords="5,55,117,80"/>
+<area shape="rect" id="node6" href="$class_i_async_disposable.html" title=" " alt="" coords="171,104,298,129"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="175,153,294,179"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="173,5,296,31"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext." alt="" coords="394,132,569,157"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="425,181,538,207"/>
+<area shape="rect" id="node11" title=" " alt="" coords="461,231,502,256"/>
+<area shape="rect" id="node12" title=" " alt="" coords="399,280,564,305"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="368,330,595,370"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs." alt="" coords="390,394,573,434"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration." alt="" coords="391,458,572,498"/>
+<area shape="rect" id="node16" href="$class_i_disposable.html" title=" " alt="" coords="189,465,280,491"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems." alt="" coords="397,522,565,562"/>
+<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html" title="Factory for creating IRemoteDeploymentManagers." alt="" coords="352,587,611,641"/>
+<area shape="rect" id="node19" title=" " alt="" coords="458,853,505,879"/>
+<area shape="rect" id="node20" title=" " alt="" coords="396,665,567,691"/>
+<area shape="rect" id="node21" title=" " alt="" coords="456,715,507,740"/>
+<area shape="rect" id="node22" title=" " alt="" coords="422,764,541,789"/>
+<area shape="rect" id="node23" title=" " alt="" coords="462,33,501,59"/>
 </map>
