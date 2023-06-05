@@ -7,8 +7,7 @@ using Octokit;
 
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
@@ -33,20 +32,20 @@ namespace Tgstation.Server.Host.Components.Repository
 		public override string RemoteRepositoryName { get; }
 
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="GitHubRemoteFeatures"/>.
+		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="GitHubRemoteFeatures"/>.
 		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
+		readonly IGitHubServiceFactory gitHubServiceFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitHubRemoteFeatures"/> class.
 		/// </summary>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
+		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="GitRemoteFeaturesBase"/>.</param>
 		/// <param name="remoteUrl">The remote repository <see cref="Uri"/>.</param>
-		public GitHubRemoteFeatures(IGitHubClientFactory gitHubClientFactory, ILogger<GitHubRemoteFeatures> logger, Uri remoteUrl)
+		public GitHubRemoteFeatures(IGitHubServiceFactory gitHubServiceFactory, ILogger<GitHubRemoteFeatures> logger, Uri remoteUrl)
 			: base(logger, remoteUrl)
 		{
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 
 			if (remoteUrl == null)
 				throw new ArgumentNullException(nameof(remoteUrl));
@@ -63,20 +62,16 @@ namespace Tgstation.Server.Host.Components.Repository
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken)
 		{
-			var gitHubClient = repositorySettings.AccessToken != null
-				? gitHubClientFactory.CreateClient(repositorySettings.AccessToken)
-				: gitHubClientFactory.CreateClient();
+			var gitHubService = repositorySettings.AccessToken != null
+				? gitHubServiceFactory.CreateService(repositorySettings.AccessToken)
+				: gitHubServiceFactory.CreateService();
 
 			PullRequest pr = null;
 			ApiException exception = null;
 			string errorMessage = null;
 			try
 			{
-				pr = await gitHubClient
-					.PullRequest
-					.Get(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number)
-					.WithToken(cancellationToken)
-					;
+				pr = await gitHubService.GetPullRequest(RemoteRepositoryOwner, RemoteRepositoryName, parameters.Number, cancellationToken);
 			}
 			catch (RateLimitExceededException ex)
 			{

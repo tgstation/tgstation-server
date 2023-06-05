@@ -3,7 +3,7 @@
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
@@ -11,9 +11,9 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class GitRemoteFeaturesFactory : IGitRemoteFeaturesFactory
 	{
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="GitRemoteFeaturesFactory"/>.
+		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="GitRemoteFeaturesFactory"/>.
 		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
+		readonly IGitHubServiceFactory gitHubServiceFactory;
 
 		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="GitRemoteFeaturesFactory"/>.
@@ -28,15 +28,15 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitRemoteFeaturesFactory"/> class.
 		/// </summary>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
+		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public GitRemoteFeaturesFactory(
-			IGitHubClientFactory gitHubClientFactory,
+			IGitHubServiceFactory gitHubServiceFactory,
 			ILoggerFactory loggerFactory,
 			ILogger<GitRemoteFeaturesFactory> logger)
 		{
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			return remoteGitProvider switch
 			{
 				RemoteGitProvider.GitHub => new GitHubRemoteFeatures(
-					gitHubClientFactory,
+					gitHubServiceFactory,
 					loggerFactory.CreateLogger<GitHubRemoteFeatures>(),
 					primaryRemote),
 				RemoteGitProvider.GitLab => new GitLabRemoteFeatures(

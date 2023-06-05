@@ -12,10 +12,10 @@ namespace Tgstation.Server.Tests
 	[TestClass]
 	public sealed class TestDMApiConstants
 	{
-		string[] definesFileLines;
+		static string[] definesFileLines;
 
-		[TestInitialize]
-		public async Task Initialize()
+		[ClassInitialize]
+		public static async Task Initialize(TestContext _)
 		{
 			definesFileLines = await File.ReadAllLinesAsync("../../../../../src/DMAPI/tgs/v5/_defines.dm");
 		}

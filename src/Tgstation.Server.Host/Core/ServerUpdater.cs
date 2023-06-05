@@ -8,10 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Swarm;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -19,9 +18,9 @@ namespace Tgstation.Server.Host.Core
 	sealed class ServerUpdater : IServerUpdater, IServerUpdateExecutor
 	{
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="ServerUpdater"/>.
+		/// The <see cref="IGitHubService"/> for the <see cref="ServerUpdater"/>.
 		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
+		readonly IGitHubService gitHubService;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ServerUpdater"/>.
@@ -61,7 +60,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerUpdater"/> class.
 		/// </summary>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
+		/// <param name="gitHubService">The value of <see cref="gitHubService"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="fileDownloader">The value of <see cref="fileDownloader"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
@@ -69,7 +68,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="updatesConfiguration"/>.</param>
 		public ServerUpdater(
-			IGitHubClientFactory gitHubClientFactory,
+			IGitHubService gitHubService,
 			IIOManager ioManager,
 			IFileDownloader fileDownloader,
 			IServerControl serverControl,
@@ -77,7 +76,7 @@ namespace Tgstation.Server.Host.Core
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<UpdatesConfiguration> updatesConfigurationOptions)
 		{
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.gitHubService = gitHubService ?? throw new ArgumentNullException(nameof(gitHubService));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
@@ -224,64 +223,38 @@ namespace Tgstation.Server.Host.Core
 		async Task<ServerUpdateResult> BeginUpdateImpl(ISwarmService swarmService, Version newVersion, bool recursed, CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
-			var gitHubClient = gitHubClientFactory.CreateClient();
-			var releases = await gitHubClient
-				.Repository
-				.Release
-				.GetAll(updatesConfiguration.GitHubRepositoryId)
-				.WithToken(cancellationToken);
 
-			logger.LogTrace("Received {releaseCount} total releases from GitHub", releases.Count);
-
-			var filteredReleases = releases
-				.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture))
-				.ToList();
-
-			logger.LogTrace(
-				"Filtered to {releaseCount} releases matching the configured tag prefix of \"{tagPrefix}\"",
-				filteredReleases.Count,
-				updatesConfiguration.GitTagPrefix);
-
-			foreach (var release in filteredReleases)
-				if (Version.TryParse(
-					release.TagName.Replace(
-						updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal),
-					out var version))
+			var releases = await gitHubService.GetTgsReleases(cancellationToken);
+			foreach (var kvp in releases)
+			{
+				var version = kvp.Key;
+				var release = kvp.Value;
+				if (version == newVersion)
 				{
-					if (version == newVersion)
+					var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
+					if (asset == default)
+						continue;
+
+					serverUpdateOperation = new ServerUpdateOperation
 					{
-						var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
-						if (asset == default)
-							continue;
+						TargetVersion = version,
+						UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
+						SwarmService = swarmService,
+					};
 
-						serverUpdateOperation = new ServerUpdateOperation
-						{
-							TargetVersion = version,
-							UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
-							SwarmService = swarmService,
-						};
-
-						try
-						{
-							if (!serverControl.TryStartUpdate(this, version))
-								return ServerUpdateResult.UpdateInProgress;
-						}
-						finally
-						{
-							serverUpdateOperation = null;
-						}
-
-						return ServerUpdateResult.Started;
+					try
+					{
+						if (!serverControl.TryStartUpdate(this, version))
+							return ServerUpdateResult.UpdateInProgress;
 					}
-				}
-				else
-					logger.LogDebug("Unparsable release tag: {releaseTag}", release.TagName);
+					finally
+					{
+						serverUpdateOperation = null;
+					}
 
-			if (updatesConfiguration.DumpReleasesOnNotFound)
-				logger.LogInformation(
-					"Found releases:{newline}\t{releases}",
-					Environment.NewLine,
-					String.Join($"{Environment.NewLine}\t", releases.Select(x => x.TagName).OrderBy(x => x)));
+					return ServerUpdateResult.Started;
+				}
+			}
 
 			if (!recursed)
 			{

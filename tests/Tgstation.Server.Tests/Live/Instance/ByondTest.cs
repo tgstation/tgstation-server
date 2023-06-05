@@ -14,7 +14,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Common;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -27,13 +26,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 		public static readonly Version TestVersion = new(514, 1588);
 
 		readonly IByondClient byondClient;
+		readonly IFileDownloader fileDownloader;
 
 		readonly Api.Models.Instance metadata;
 
-		public ByondTest(IByondClient byondClient, IJobsClient jobsClient, Api.Models.Instance metadata)
+		public ByondTest(IByondClient byondClient, IJobsClient jobsClient, IFileDownloader fileDownloader, Api.Models.Instance metadata)
 			: base(jobsClient)
 		{
 			this.byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
+			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 		}
 
@@ -159,9 +160,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 			generalConfigOptionsMock.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
 
 			var assemblyInformationProvider = new AssemblyInformationProvider();
-			var fileDownloader = new FileDownloader(
-				new HttpClientFactory(assemblyInformationProvider.ProductInfoHeaderValue),
-				Mock.Of<ILogger<FileDownloader>>());
 
 			IByondInstaller byondInstaller = new PlatformIdentifier().IsWindows
 				? new WindowsByondInstaller(

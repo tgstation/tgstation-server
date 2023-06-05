@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var repo = await Task.Factory.StartNew<LibGit2Sharp.IRepository>(
 				() =>
 				{
-					logger.LogTrace("Creating libgit2 repostory at {repoPath}...", path);
+					logger.LogTrace("Creating libgit2 repository at {repoPath}...", path);
 					return new LibGit2Sharp.Repository(path);
 				},
 				cancellationToken,

@@ -110,6 +110,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-dmapibyond
+
     - name: Install BYOND
       if: steps.cache-byond.outputs.cache-hit != 'true'
       run: |
@@ -318,11 +325,29 @@ jobs:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-2019
+    env:
+      BYOND_MAJOR: 514
+      BYOND_MINOR: 1588
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
+
+    - name: Download BYOND
+      if: steps.cache-byond.outputs.cache-hit != 'true'
+      run: |
+        echo "Downloading BYOND..."
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond.zip" -o byond.zip
 
     - name: Upgrade NPM
       run: npm install -g npm
@@ -405,7 +430,7 @@ jobs:
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
       with:
-        name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}
+        name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./TestResults/
 
     - name: Store OpenAPI Spec
@@ -423,6 +448,7 @@ jobs:
         cd ../Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Service/lib/Default
         mv ../../Artifacts/Service/lib/Default/appsettings.yml ../../Artifacts/Service/appsettings.yml
+        rm ../../Artifacts/Service/lib/Default/Tgstation.Server.Host.exe
 
     - name: Store Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
@@ -483,6 +509,9 @@ jobs:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
+    env:
+      BYOND_MAJOR: 514
+      BYOND_MINOR: 1588
     steps:
     - name: Disable ptrace_scope
       run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
@@ -492,6 +521,21 @@ jobs:
         sudo dpkg --add-architecture i386
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
+
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
+
+    - name: Download BYOND
+      if: steps.cache-byond.outputs.cache-hit != 'true'
+      run: |
+        echo "Downloading BYOND..."
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
 
     - name: Install Node 12.X
       uses: actions/setup-node@v3
@@ -568,6 +612,7 @@ jobs:
         cd ../Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/Console/lib/Default
         mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
+        rm ../../Artifacts/Console/lib/Default/Tgstation.Server.Host
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
@@ -575,6 +620,7 @@ jobs:
         cd src/Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/ServerUpdate
         rm ../../Artifacts/ServerUpdate/appsettings.yml
+        rm ../../Artifacts/ServerUpdate/Tgstation.Server.Host
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
@@ -753,29 +799,125 @@ jobs:
         name: windows-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/windows_unit_tests_release
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Basic)
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-Basic
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic
+        name: windows-integration-test-coverage-Debug-Basic-SqlServer
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Basic)
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-Basic
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic
+        name: windows-integration-test-coverage-Release-Basic-SqlServer
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, System)
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-System
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system
+        name: windows-integration-test-coverage-Debug-System-SqlServer
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Release, System)
+    - name: Retrieve Windows Integration Test Coverage (Release, System, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-System
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_system
+        name: windows-integration-test-coverage-Release-System-SqlServer
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlserver
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic-MariaDB
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mariadb
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic-MariaDB
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mariadb
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System-MariaDB
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mariadb
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System-MariaDB
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mariadb
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic-MySql
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mysql
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic-MySql
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mysql
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System-MySql
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mysql
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System-MySql
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mysql
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic-PostgresSql
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_postgressql
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic-PostgresSql
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_postgressql
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System-PostgresSql
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_postgressql
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System-PostgresSql
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_postgressql
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic-Sqlite
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlite
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic-Sqlite
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlite
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System-Sqlite
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlite
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System-Sqlite
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
 
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v3
