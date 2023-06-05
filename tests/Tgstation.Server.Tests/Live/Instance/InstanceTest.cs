@@ -37,7 +37,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var byondTask = byondTest.Run(cancellationToken, out var firstInstall);
 			var chatTask = chatTest.RunPreWatchdog(cancellationToken);
 
-			var repoLongJob = repoTest.RunLongClone(cancellationToken);
+			var repoLongJob = await repoTest.RunLongClone(cancellationToken);
 
 			await dmTest.RunPreRepoClone(cancellationToken);
 			await repoTest.AbortLongCloneAndCloneSomethingQuick(repoLongJob, cancellationToken);

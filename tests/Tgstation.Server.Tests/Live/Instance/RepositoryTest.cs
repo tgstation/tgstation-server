@@ -23,7 +23,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.repositoryClient = repositoryClient ?? throw new ArgumentNullException(nameof(repositoryClient));
 		}
 
-		public async Task<JobResponse> RunLongClone(CancellationToken cancellationToken)
+		public async Task<Task<JobResponse>> RunLongClone(CancellationToken cancellationToken)
 		{
 			var workingBranch = "master";
 
@@ -35,34 +35,40 @@ namespace Tgstation.Server.Tests.Live.Instance
 			};
 
 			var clone = await repositoryClient.Clone(cloneRequest, cancellationToken);
-			await ApiAssert.ThrowsException<ConflictException>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
-			Assert.IsNotNull(clone);
-			Assert.AreEqual(cloneRequest.Origin, clone.Origin);
-			Assert.AreEqual(workingBranch, clone.Reference);
-			Assert.IsNull(clone.RevisionInformation);
-			Assert.IsNotNull(clone.ActiveJob);
 
-			// throwing this small jobs consistency test in here
-			await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
-			var activeJobs = await JobsClient.ListActive(null, cancellationToken);
-			var allJobs = await JobsClient.List(null, cancellationToken);
+			return Rest();
 
-			Assert.IsTrue(activeJobs.Any(x => x.Id == clone.ActiveJob.Id));
-			Assert.IsTrue(allJobs.Any(x => x.Id == clone.ActiveJob.Id));
-
-			var targetActiveJob = activeJobs.First(x => x.Id == clone.ActiveJob.Id);
-
-			if (!targetActiveJob.Progress.HasValue)
+			async Task<JobResponse> Rest()
 			{
-				// give it 15 more seconds
-				targetActiveJob = await WaitForJobProgress(targetActiveJob, 15, cancellationToken);
-				allJobs = await JobsClient.List(null, cancellationToken);
+				await ApiAssert.ThrowsException<ConflictException>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
+				Assert.IsNotNull(clone);
+				Assert.AreEqual(cloneRequest.Origin, clone.Origin);
+				Assert.AreEqual(workingBranch, clone.Reference);
+				Assert.IsNull(clone.RevisionInformation);
+				Assert.IsNotNull(clone.ActiveJob);
+
+				// throwing this small jobs consistency test in here
+				await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
+				var activeJobs = await JobsClient.ListActive(null, cancellationToken);
+				var allJobs = await JobsClient.List(null, cancellationToken);
+
+				Assert.IsTrue(activeJobs.Any(x => x.Id == clone.ActiveJob.Id));
+				Assert.IsTrue(allJobs.Any(x => x.Id == clone.ActiveJob.Id));
+
+				var targetActiveJob = activeJobs.First(x => x.Id == clone.ActiveJob.Id);
+
+				if (!targetActiveJob.Progress.HasValue)
+				{
+					// give it 15 more seconds
+					targetActiveJob = await WaitForJobProgress(targetActiveJob, 15, cancellationToken);
+					allJobs = await JobsClient.List(null, cancellationToken);
+				}
+
+				Assert.IsTrue(targetActiveJob.Progress.HasValue);
+				Assert.IsTrue(allJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
+
+				return clone.ActiveJob;
 			}
-
-			Assert.IsTrue(targetActiveJob.Progress.HasValue);
-			Assert.IsTrue(allJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
-
-			return clone.ActiveJob;
 		}
 
 		public async Task AbortLongCloneAndCloneSomethingQuick(Task<JobResponse> longCloneJob, CancellationToken cancellationToken)
