@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 								{
 									Stream zipFileStream = null;
 									if (fileUploadTicket != null)
-										using (fileUploadTicket)
+										await using (fileUploadTicket)
 										{
 											var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken) ?? throw new JobException(ErrorCode.FileUploadExpired);
 											zipFileStream = new MemoryStream();
@@ -241,7 +241,9 @@ namespace Tgstation.Server.Host.Controllers
 						}
 						catch
 						{
-							fileUploadTicket?.Dispose();
+							if (fileUploadTicket != null)
+								await fileUploadTicket.DisposeAsync();
+
 							throw;
 						}
 					}

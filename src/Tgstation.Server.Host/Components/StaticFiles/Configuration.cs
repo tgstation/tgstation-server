@@ -445,7 +445,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						var uploadCancellationToken = disposeCts.Token;
 						async Task UploadHandler()
 						{
-							using (fileTicket)
+							await using (fileTicket)
 							{
 								var fileHash = previousHash;
 								var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
@@ -468,10 +468,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken);
 
 								if (!success)
-									fileTicket.SetErrorMessage(new ErrorMessageResponse(ErrorCode.ConfigurationFileUpdated)
-									{
-										AdditionalData = fileHash,
-									});
+									fileTicket.SetError(ErrorCode.ConfigurationFileUpdated, fileHash);
 								else if (uploadStream.Length > 0)
 									postWriteHandler.HandleWrite(path);
 							}

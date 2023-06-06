@@ -344,7 +344,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<FileTransferService>();
 			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
 			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
-			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
+			services.AddTransient<IActionResultExecutor<LimitedStreamResult>, LimitedStreamResultExecutor>();
 
 			// configure swarm service
 			services.AddSingleton<SwarmService>();

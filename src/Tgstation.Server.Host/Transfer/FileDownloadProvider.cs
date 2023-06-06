@@ -18,9 +18,9 @@ namespace Tgstation.Server.Host.Transfer
 		public Func<ErrorCode?> ActivationCallback { get; }
 
 		/// <summary>
-		/// A <see cref="Func{T, TResult}"/> to specially provide a <see cref="Task{TResult}"/> returning the <see cref="FileStream"/>.
+		/// A <see cref="Func{T, TResult}"/> to specially provide a <see cref="Task{TResult}"/> returning the <see cref="Stream"/> of the file download. The caller will own the resulting <see cref="Stream"/>.
 		/// </summary>
-		public Func<CancellationToken, Task<FileStream>> FileStreamProvider { get; }
+		public Func<CancellationToken, Task<Stream>> StreamProvider { get; }
 
 		/// <summary>
 		/// The full path to the file on disk to download.
@@ -36,17 +36,17 @@ namespace Tgstation.Server.Host.Transfer
 		/// Initializes a new instance of the <see cref="FileDownloadProvider"/> class.
 		/// </summary>
 		/// <param name="activationCallback">The value of <see cref="ActivationCallback"/>.</param>
-		/// <param name="fileStreamProvider">The optional value of <see cref="FileStreamProvider"/>.</param>
+		/// <param name="streamProvider">The optional value of <see cref="StreamProvider"/>.</param>
 		/// <param name="filePath">The value of <see cref="FilePath"/>.</param>
 		/// <param name="shareWrite">The value of <see cref="ShareWrite"/>.</param>
 		public FileDownloadProvider(
 			Func<ErrorCode?> activationCallback,
-			Func<CancellationToken, Task<FileStream>> fileStreamProvider,
+			Func<CancellationToken, Task<Stream>> streamProvider,
 			string filePath,
 			bool shareWrite)
 		{
 			ActivationCallback = activationCallback ?? throw new ArgumentNullException(nameof(activationCallback));
-			FileStreamProvider = fileStreamProvider;
+			StreamProvider = streamProvider;
 			FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
 			ShareWrite = shareWrite;
 		}

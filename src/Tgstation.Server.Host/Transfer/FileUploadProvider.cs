@@ -26,10 +26,10 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> for the <see cref="Stream"/>.
 		/// </summary>
-		readonly TaskCompletionSource<Stream> taskCompletionSource;
+		readonly TaskCompletionSource<Stream> streamTcs;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetErrorMessage(ErrorMessageResponse)"/> is called.
+		/// The <see cref="TaskCompletionSource"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetError(ErrorCode, string)"/> is called.
 		/// </summary>
 		readonly TaskCompletionSource completionTcs;
 
@@ -53,24 +53,25 @@ namespace Tgstation.Server.Host.Transfer
 			Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));
 
 			ticketExpiryCts = new CancellationTokenSource();
-			taskCompletionSource = new TaskCompletionSource<Stream>();
+			streamTcs = new TaskCompletionSource<Stream>();
 			completionTcs = new TaskCompletionSource();
 			this.requireSynchronousIO = requireSynchronousIO;
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public ValueTask DisposeAsync()
 		{
 			ticketExpiryCts.Dispose();
 			completionTcs.TrySetResult();
+			return ValueTask.CompletedTask;
 		}
 
 		/// <inheritdoc />
 		public async Task<Stream> GetResult(CancellationToken cancellationToken)
 		{
-			using (cancellationToken.Register(() => taskCompletionSource.TrySetCanceled()))
-			using (ticketExpiryCts.Token.Register(() => taskCompletionSource.TrySetResult(null)))
-				return await taskCompletionSource.Task;
+			using (cancellationToken.Register(() => streamTcs.TrySetCanceled()))
+			using (ticketExpiryCts.Token.Register(() => streamTcs.TrySetResult(null)))
+				return await streamTcs.Task;
 		}
 
 		/// <summary>
@@ -104,9 +105,9 @@ namespace Tgstation.Server.Host.Transfer
 				await bufferedStream.DrainAsync(cancellationToken);
 			}
 
-			using (bufferedStream)
+			await using (bufferedStream)
 			{
-				taskCompletionSource.TrySetResult(bufferedStream ?? stream);
+				streamTcs.TrySetResult(bufferedStream ?? stream);
 
 				await completionTcs.Task.WithToken(cancellationToken);
 				return errorMessage;
@@ -114,17 +115,15 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public void SetErrorMessage(ErrorMessageResponse errorMessage)
+		public void SetError(ErrorCode errorCode, string additionalData)
 		{
-			if (errorMessage == null)
-#pragma warning disable IDE0016 // Use 'throw' expression
-				throw new ArgumentNullException(nameof(errorMessage));
-#pragma warning restore IDE0016 // Use 'throw' expression
+			if (errorMessage != null)
+				throw new InvalidOperationException("Error already set!");
 
-			if (this.errorMessage != null)
-				throw new InvalidOperationException("ErrorMessage already set!");
-
-			this.errorMessage = errorMessage;
+			errorMessage = new ErrorMessageResponse(errorCode)
+			{
+				AdditionalData = additionalData,
+			};
 			completionTcs.TrySetResult();
 		}
 	}

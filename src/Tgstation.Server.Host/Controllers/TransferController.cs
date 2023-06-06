@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">The <paramref name="ticket"/> was no longer or was never valid.</response>
 		[TgsAuthorize]
 		[HttpGet]
-		[ProducesResponseType(200, Type = typeof(LimitedFileStreamResult))]
+		[ProducesResponseType(200, Type = typeof(LimitedStreamResult))]
 		[ProducesResponseType(410, Type = typeof(ErrorMessageResponse))]
 		public async Task<IActionResult> Download([Required, FromQuery] string ticket, CancellationToken cancellationToken)
 		{
@@ -92,11 +92,11 @@ namespace Tgstation.Server.Host.Controllers
 				if (stream == null)
 					return Gone();
 
-				return new LimitedFileStreamResult(stream);
+				return new LimitedStreamResult(stream);
 			}
 			catch
 			{
-				stream.Dispose();
+				await stream.DisposeAsync();
 				throw;
 			}
 		}

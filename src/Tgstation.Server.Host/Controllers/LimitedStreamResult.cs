@@ -12,21 +12,21 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// Very similar to <see cref="FileStreamResult"/> except it's <see cref="IActionResultExecutor{TResult}"/> contains a fix for https://github.com/dotnet/aspnetcore/issues/28189.
 	/// </summary>
-	public sealed class LimitedFileStreamResult : FileResult
+	public sealed class LimitedStreamResult : FileResult
 	{
 		/// <summary>
-		/// The <see cref="global::System.IO.FileStream"/> representing the file to download.
+		/// The <see cref="Stream"/> representing the file to download.
 		/// </summary>
-		public FileStream FileStream { get; }
+		public Stream Stream { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="LimitedFileStreamResult"/> class.
+		/// Initializes a new instance of the <see cref="LimitedStreamResult"/> class.
 		/// </summary>
-		/// <param name="stream">The value of <see cref="FileStream"/>.</param>
-		public LimitedFileStreamResult(FileStream stream)
+		/// <param name="stream">The value of <see cref="Stream"/>.</param>
+		public LimitedStreamResult(Stream stream)
 			: base(MediaTypeNames.Application.Octet)
 		{
-			FileStream = stream ?? throw new ArgumentNullException(nameof(stream));
+			Stream = stream ?? throw new ArgumentNullException(nameof(stream));
 		}
 
 		/// <inheritdoc />
@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Controllers
 			var executor = context
 				.HttpContext
 				.RequestServices
-				.GetRequiredService<IActionResultExecutor<LimitedFileStreamResult>>();
+				.GetRequiredService<IActionResultExecutor<LimitedStreamResult>>();
 			return executor.ExecuteAsync(context, this);
 		}
 	}
