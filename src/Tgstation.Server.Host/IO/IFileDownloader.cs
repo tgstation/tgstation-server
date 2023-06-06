@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.IO
 	interface IFileDownloader
 	{
 		/// <summary>
-		/// Downloads a file from <paramref name="url"/>.
+		/// Downloads a file from a given <paramref name="url"/>.
 		/// </summary>
 		/// <param name="url">The URL to download.</param>
 		/// <param name="bearerToken">Optional <see cref="string"/> to use as the "Bearer" value in the optional "Authorization" header for the request.</param>
