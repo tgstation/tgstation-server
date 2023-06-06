@@ -271,7 +271,7 @@ namespace Tgstation.Server.Host.Jobs
 			}
 
 			if (noMoreJobsShouldStart && !handler.Started)
-				await Extensions.TaskExtensions.InfiniteTask().WithToken(cancellationToken);
+				await Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
 
 			Task cancelTask = null;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
