@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host.Controllers
 											}
 										}
 
-									using (zipFileStream)
+									await using (zipFileStream)
 										await core.ByondManager.ChangeVersion(
 											progressHandler,
 											version,

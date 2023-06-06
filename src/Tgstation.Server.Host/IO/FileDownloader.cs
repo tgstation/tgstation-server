@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.IO
 			var webRequestTask = httpClient.SendAsync(request, cancellationToken);
 			using var response = await webRequestTask;
 			response.EnsureSuccessStatusCode();
-			using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+			await using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
 			var memoryStream = new MemoryStream();
 			try
 			{
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.IO
 			}
 			catch
 			{
-				memoryStream.Dispose();
+				await memoryStream.DisposeAsync();
 				throw;
 			}
 		}

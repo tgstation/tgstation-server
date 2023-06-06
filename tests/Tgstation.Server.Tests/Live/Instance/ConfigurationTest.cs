@@ -50,7 +50,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			//try to delete non-empty
 			const string TestString = "Hello world!";
-			using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes(TestString));
+			await using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes(TestString));
 			var file = await configurationClient.Write(new ConfigurationFileRequest
 			{
 				Path = TestDir.Path + "/test.txt"
@@ -62,9 +62,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var updatedFileTuple = await configurationClient.Read(file, cancellationToken);
 			var updatedFile = updatedFileTuple.Item1;
 			Assert.IsNotNull(updatedFile.LastReadHash);
-			using (var downloadMemoryStream = new MemoryStream())
+			await using (var downloadMemoryStream = new MemoryStream())
 			{
-				using (var downloadStream = updatedFileTuple.Item2)
+				await using (var downloadStream = updatedFileTuple.Item2)
 				{
 					var requestStream = downloadStream as CachedResponseStream;
 					Assert.IsNotNull(requestStream);

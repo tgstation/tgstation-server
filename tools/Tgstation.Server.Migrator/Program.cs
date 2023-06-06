@@ -285,9 +285,9 @@ try
 		var webRequestTask = httpClient.SendAsync(request, default);
 		using var response = await webRequestTask;
 		response.EnsureSuccessStatusCode();
-		using (var responseStream = await response.Content.ReadAsStreamAsync())
+		await using (var responseStream = await response.Content.ReadAsStreamAsync())
 		{
-			using var fileStream = new FileStream(
+			await using var fileStream = new FileStream(
 				dotnetDownloadFilePath,
 				FileMode.Create,
 				FileAccess.Write,
@@ -386,7 +386,7 @@ try
 	using (var loggerFactory = LoggerFactory.Create(builder => { }))
 	{
 		var fileDownloader = new FileDownloader(httpClientFactory, loggerFactory.CreateLogger<FileDownloader>());
-		using var tgsFiveZipMemoryStream = await fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), null, default);
+		await using var tgsFiveZipMemoryStream = await fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), null, default);
 		Console.WriteLine("Unzipping TGS5...");
 		await serverFactory.IOManager.ZipToDirectory(tgsInstallPath, tgsFiveZipMemoryStream, default);
 	}

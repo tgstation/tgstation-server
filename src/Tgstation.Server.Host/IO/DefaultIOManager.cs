@@ -103,14 +103,14 @@ namespace Tgstation.Server.Host.IO
 				throw new ArgumentNullException(nameof(dest));
 
 			// tested to hell and back, these are the optimal buffer sizes
-			using var srcStream = new FileStream(
+			await using var srcStream = new FileStream(
 				ResolvePath(src),
 				FileMode.Open,
 				FileAccess.Read,
 				FileShare.Read | FileShare.Delete,
 				DefaultBufferSize,
 				FileOptions.Asynchronous | FileOptions.SequentialScan);
-			using var destStream = CreateAsyncSequentialWriteStream(dest);
+			await using var destStream = CreateAsyncSequentialWriteStream(dest);
 
 			// value taken from documentation
 			await srcStream.CopyToAsync(destStream, 81920, cancellationToken);
@@ -207,7 +207,7 @@ namespace Tgstation.Server.Host.IO
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
-			using var file = new FileStream(
+			await using var file = new FileStream(
 				path,
 				FileMode.Open,
 				FileAccess.Read,
@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
-			using var file = CreateAsyncSequentialWriteStream(path);
+			await using var file = CreateAsyncSequentialWriteStream(path);
 			await file.WriteAsync(contents, cancellationToken);
 		}
 

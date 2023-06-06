@@ -867,8 +867,8 @@ namespace Tgstation.Server.Tests.Live
 						var webRequestTask = httpClient.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json");
 						using var response = await webRequestTask;
 						response.EnsureSuccessStatusCode();
-						using var content = await response.Content.ReadAsStreamAsync();
-						using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
+						await using var content = await response.Content.ReadAsStreamAsync();
+						await using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
 						await content.CopyToAsync(output);
 					}
 
