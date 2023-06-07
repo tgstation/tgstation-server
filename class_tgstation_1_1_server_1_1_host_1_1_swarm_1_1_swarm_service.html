@@ -835,7 +835,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  380</span>                ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2607f4b8deb2a31d1efcbf8b651a520d">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(</div>
 <div class="line"><span class="lineno">  381</span>                    TimeSpan.FromMinutes(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a47f16358d7a62edb1ea12317e0d27e20">UpdateCommitTimeoutMinutes</a>),</div>
 <div class="line"><span class="lineno">  382</span>                    cancellationToken)</div>
-<div class="line"><span class="lineno">  383</span>                : Extensions.TaskExtensions.InfiniteTask().WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">  383</span>                : Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);</div>
 <div class="line"><span class="lineno">  384</span> </div>
 <div class="line"><span class="lineno">  385</span>            var commitTask = Task.WhenAny(commitTcsTask, timeoutTask);</div>
 <div class="line"><span class="lineno">  386</span> </div>

@@ -127,6 +127,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
+<tr class="memitem:ab3e8640594dd9ad1ed372ff8ae24dc43"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ab3e8640594dd9ad1ed372ff8ae24dc43">Started</a><code> [get]</code></td></tr>
+<tr class="memdesc:ab3e8640594dd9ad1ed372ff8ae24dc43"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the job has started.   <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ab3e8640594dd9ad1ed372ff8ae24dc43">More...</a><br /></td></tr>
+<tr class="separator:ab3e8640594dd9ad1ed372ff8ae24dc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fd90e399dd18e309edc6e5ac57e51ac"><td class="memItemLeft" align="right" valign="top">int?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a2fd90e399dd18e309edc6e5ac57e51ac">Progress</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a2fd90e399dd18e309edc6e5ac57e51ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The progress of the job.   <a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a2fd90e399dd18e309edc6e5ac57e51ac">More...</a><br /></td></tr>
 <tr class="separator:a2fd90e399dd18e309edc6e5ac57e51ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,15 +178,15 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00033">33</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
-<div class="line"><span class="lineno">   35</span>            this.jobActivator = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a1f8683a1b372b5a2e6ceaa67ea4ae96e">jobActivator</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a1f8683a1b372b5a2e6ceaa67ea4ae96e">jobActivator</a>));</div>
-<div class="line"><span class="lineno">   36</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><span class="lineno">   37</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler_html_a1f8683a1b372b5a2e6ceaa67ea4ae96e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a1f8683a1b372b5a2e6ceaa67ea4ae96e">Tgstation.Server.Host.Jobs.JobHandler.jobActivator</a></div><div class="ttdeci">readonly Func&lt; CancellationToken, Task &gt; jobActivator</div><div class="ttdoc">A Func&lt;T, TResult&gt; taking a CancellationToken and returning a Task that the JobHandler will wrap.</div><div class="ttdef"><b>Definition:</b> <a href="_job_handler_8cs_source.html#l00022">JobHandler.cs:22</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler_html_ac30004f8ba4f9497c9f81cf26c4c2d24"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">Tgstation.Server.Host.Jobs.JobHandler.cancellationTokenSource</a></div><div class="ttdeci">readonly CancellationTokenSource cancellationTokenSource</div><div class="ttdoc">The CancellationTokenSource for task.</div><div class="ttdef"><b>Definition:</b> <a href="_job_handler_8cs_source.html#l00017">JobHandler.cs:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00048">48</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
+<div class="line"><span class="lineno">   50</span>            this.jobActivator = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a1f8683a1b372b5a2e6ceaa67ea4ae96e">jobActivator</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a1f8683a1b372b5a2e6ceaa67ea4ae96e">jobActivator</a>));</div>
+<div class="line"><span class="lineno">   51</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
+<div class="line"><span class="lineno">   52</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler_html_a1f8683a1b372b5a2e6ceaa67ea4ae96e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a1f8683a1b372b5a2e6ceaa67ea4ae96e">Tgstation.Server.Host.Jobs.JobHandler.jobActivator</a></div><div class="ttdeci">readonly Func&lt; CancellationToken, Task &gt; jobActivator</div><div class="ttdoc">A Func&lt;T, TResult&gt; taking a CancellationToken and returning a Task that the JobHandler will wrap.</div><div class="ttdef"><b>Definition:</b> <a href="_job_handler_8cs_source.html#l00037">JobHandler.cs:37</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler_html_ac30004f8ba4f9497c9f81cf26c4c2d24"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">Tgstation.Server.Host.Jobs.JobHandler.cancellationTokenSource</a></div><div class="ttdeci">readonly CancellationTokenSource cancellationTokenSource</div><div class="ttdoc">The CancellationTokenSource for task.</div><div class="ttdef"><b>Definition:</b> <a href="_job_handler_8cs_source.html#l00032">JobHandler.cs:32</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_job_handler_8cs_source.html#l00017">Tgstation.Server.Host.Jobs.JobHandler.cancellationTokenSource</a>, and <a class="el" href="_job_handler_8cs_source.html#l00022">Tgstation.Server.Host.Jobs.JobHandler.jobActivator</a>.</p>
+<p class="reference">References <a class="el" href="_job_handler_8cs_source.html#l00032">Tgstation.Server.Host.Jobs.JobHandler.cancellationTokenSource</a>, and <a class="el" href="_job_handler_8cs_source.html#l00037">Tgstation.Server.Host.Jobs.JobHandler.jobActivator</a>.</p>
 
 </div>
 </div>
@@ -254,18 +257,18 @@ Here is the caller graph for this function:</div>
 
 <p>Starts the job.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00073">73</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   74</span>        {</div>
-<div class="line"><span class="lineno">   75</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">cancellationTokenSource</a>)</div>
-<div class="line"><span class="lineno">   76</span>            {</div>
-<div class="line"><span class="lineno">   77</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">task</a> != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   78</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Job already started&quot;</span>);</div>
-<div class="line"><span class="lineno">   79</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">task</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a1f8683a1b372b5a2e6ceaa67ea4ae96e">jobActivator</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">cancellationTokenSource</a>.Token);</div>
-<div class="line"><span class="lineno">   80</span>            }</div>
-<div class="line"><span class="lineno">   81</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler_html_aff63ce12f5e3649ee2b85b3753dd4da7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">Tgstation.Server.Host.Jobs.JobHandler.task</a></div><div class="ttdeci">Task task</div><div class="ttdoc">The Task being run.</div><div class="ttdef"><b>Definition:</b> <a href="_job_handler_8cs_source.html#l00027">JobHandler.cs:27</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00078">78</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>        {</div>
+<div class="line"><span class="lineno">   80</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">cancellationTokenSource</a>)</div>
+<div class="line"><span class="lineno">   81</span>            {</div>
+<div class="line"><span class="lineno">   82</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">task</a> != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   83</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Job already started&quot;</span>);</div>
+<div class="line"><span class="lineno">   84</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">task</a> = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a1f8683a1b372b5a2e6ceaa67ea4ae96e">jobActivator</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">cancellationTokenSource</a>.Token);</div>
+<div class="line"><span class="lineno">   85</span>            }</div>
+<div class="line"><span class="lineno">   86</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler_html_aff63ce12f5e3649ee2b85b3753dd4da7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">Tgstation.Server.Host.Jobs.JobHandler.task</a></div><div class="ttdeci">Task task</div><div class="ttdoc">The Task being run.</div><div class="ttdef"><b>Definition:</b> <a href="_job_handler_8cs_source.html#l00042">JobHandler.cs:42</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_job_handler_8cs_source.html#l00017">Tgstation.Server.Host.Jobs.JobHandler.cancellationTokenSource</a>, <a class="el" href="_job_handler_8cs_source.html#l00022">Tgstation.Server.Host.Jobs.JobHandler.jobActivator</a>, and <a class="el" href="_job_handler_8cs_source.html#l00027">Tgstation.Server.Host.Jobs.JobHandler.task</a>.</p>
+<p class="reference">References <a class="el" href="_job_handler_8cs_source.html#l00032">Tgstation.Server.Host.Jobs.JobHandler.cancellationTokenSource</a>, <a class="el" href="_job_handler_8cs_source.html#l00037">Tgstation.Server.Host.Jobs.JobHandler.jobActivator</a>, and <a class="el" href="_job_handler_8cs_source.html#l00042">Tgstation.Server.Host.Jobs.JobHandler.task</a>.</p>
 
 </div>
 </div>
@@ -294,15 +297,15 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00057">57</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>        {</div>
-<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">task</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   60</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Job not started!&quot;</span>);</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">task</a>.WithToken(cancellationToken);</div>
-<div class="line"><span class="lineno">   63</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00062">62</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>        {</div>
+<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">task</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   65</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Job not started!&quot;</span>);</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7">task</a>.WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">   68</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_job_handler_8cs_source.html#l00027">Tgstation.Server.Host.Jobs.JobHandler.task</a>.</p>
+<p class="reference">References <a class="el" href="_job_handler_8cs_source.html#l00042">Tgstation.Server.Host.Jobs.JobHandler.task</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00199">Tgstation.Server.Host.Jobs.JobService.CancelJob()</a>, and <a class="el" href="_job_service_8cs_source.html#l00255">Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion()</a>.</p>
 <div class="dynheader">
@@ -341,9 +344,9 @@ Here is the caller graph for this function:</div>
 
 <p>The CancellationTokenSource for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aff63ce12f5e3649ee2b85b3753dd4da7" title="The Task being run.">task</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00017">17</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00032">32</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_handler_8cs_source.html#l00033">Tgstation.Server.Host.Jobs.JobHandler.JobHandler()</a>, and <a class="el" href="_job_handler_8cs_source.html#l00073">Tgstation.Server.Host.Jobs.JobHandler.Start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_handler_8cs_source.html#l00048">Tgstation.Server.Host.Jobs.JobHandler.JobHandler()</a>, and <a class="el" href="_job_handler_8cs_source.html#l00078">Tgstation.Server.Host.Jobs.JobHandler.Start()</a>.</p>
 
 </div>
 </div>
@@ -369,9 +372,9 @@ Here is the caller graph for this function:</div>
 
 <p>A Func&lt;T, TResult&gt; taking a CancellationToken and returning a Task that the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html" title="Class for pairing Tasks with CancellationTokenSources.">JobHandler</a> will wrap.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00022">22</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00037">37</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_handler_8cs_source.html#l00033">Tgstation.Server.Host.Jobs.JobHandler.JobHandler()</a>, and <a class="el" href="_job_handler_8cs_source.html#l00073">Tgstation.Server.Host.Jobs.JobHandler.Start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_handler_8cs_source.html#l00048">Tgstation.Server.Host.Jobs.JobHandler.JobHandler()</a>, and <a class="el" href="_job_handler_8cs_source.html#l00078">Tgstation.Server.Host.Jobs.JobHandler.Start()</a>.</p>
 
 </div>
 </div>
@@ -397,9 +400,9 @@ Here is the caller graph for this function:</div>
 
 <p>The Task being run.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00027">27</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00042">42</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_job_handler_8cs_source.html#l00073">Tgstation.Server.Host.Jobs.JobHandler.Start()</a>, and <a class="el" href="_job_handler_8cs_source.html#l00057">Tgstation.Server.Host.Jobs.JobHandler.Wait()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_job_handler_8cs_source.html#l00078">Tgstation.Server.Host.Jobs.JobHandler.Start()</a>, and <a class="el" href="_job_handler_8cs_source.html#l00062">Tgstation.Server.Host.Jobs.JobHandler.Wait()</a>.</p>
 
 </div>
 </div>
@@ -426,8 +429,8 @@ Here is the caller graph for this function:</div>
 
 <p>The progress of the job.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00045">45</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00022">22</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -453,9 +456,37 @@ Here is the caller graph for this function:</div>
 
 <p>The stage of the job.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00050">50</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   50</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00027">27</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="ab3e8640594dd9ad1ed372ff8ae24dc43" name="ab3e8640594dd9ad1ed372ff8ae24dc43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3e8640594dd9ad1ed372ff8ae24dc43">&#9670;&#160;</a></span>Started</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Jobs.JobHandler.Started</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the job has started.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_job_handler_8cs_source.html#l00017">17</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_job_service_8cs_source.html#l00255">Tgstation.Server.Host.Jobs.JobService.WaitForJobCompletion()</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

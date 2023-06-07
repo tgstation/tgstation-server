@@ -748,7 +748,7 @@ $(function() {
 <div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>                            var healthCheckSeconds = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a9affc2eeae2903d1bdb0fa81a6550fc4">ActiveLaunchParameters</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a15ea3f57d3c8d953d2b12386469c73b2">HeartbeatSeconds</a>.Value;</div>
 <div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>                            var healthCheck = healthCheckSeconds == 0</div>
 <div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>                                || !controller.DMApiAvailable</div>
-<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>                                ? Extensions.TaskExtensions.InfiniteTask()</div>
+<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>                                ? Extensions.TaskExtensions.InfiniteTask</div>
 <div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>                                : Task.Delay(</div>
 <div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>                                    TimeSpan.FromSeconds(healthCheckSeconds),</div>
 <div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>                                    cancellationToken);</div>

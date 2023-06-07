@@ -1084,69 +1084,67 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  514</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a>(</div>
 <div class="line"><span class="lineno">  515</span>                            repositoryUpdateJob,</div>
 <div class="line"><span class="lineno">  516</span>                            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af8422c62401719f452a5c70cdb1d96d1">RepositoryAutoUpdateJob</a>,</div>
-<div class="line"><span class="lineno">  517</span>                            cancellationToken)</div>
-<div class="line"><span class="lineno">  518</span>                            ;</div>
-<div class="line"><span class="lineno">  519</span> </div>
-<div class="line"><span class="lineno">  520</span>                        <span class="comment">// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted</span></div>
-<div class="line"><span class="lineno">  521</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(repositoryUpdateJob, <span class="keyword">null</span>, cancellationToken, <span class="keywordflow">default</span>);</div>
-<div class="line"><span class="lineno">  522</span> </div>
-<div class="line"><span class="lineno">  523</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> compileProcessJob;</div>
-<div class="line"><span class="lineno">  524</span>                        <span class="keyword">using</span> (var repo = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ad44304880259ff6f82c328199ea6166f">LoadRepository</a>(cancellationToken))</div>
-<div class="line"><span class="lineno">  525</span>                        {</div>
-<div class="line"><span class="lineno">  526</span>                            var deploySha = repo.Head;</div>
-<div class="line"><span class="lineno">  527</span>                            <span class="keywordflow">if</span> (deploySha == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  528</span>                            {</div>
-<div class="line"><span class="lineno">  529</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogTrace(<span class="stringliteral">&quot;Aborting auto update, repository error!&quot;</span>);</div>
-<div class="line"><span class="lineno">  530</span>                                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  531</span>                            }</div>
-<div class="line"><span class="lineno">  532</span> </div>
-<div class="line"><span class="lineno">  533</span>                            <span class="keywordflow">if</span> (deploySha == <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4b1084d8d2850d408abae881013a47d9">LatestCompileJob</a>()?.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a30c14e7fc4c770ff11cd0f10be4fb4dd">RevisionInformation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>)</div>
-<div class="line"><span class="lineno">  534</span>                            {</div>
-<div class="line"><span class="lineno">  535</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogTrace(<span class="stringliteral">&quot;Aborting auto update, same revision as latest CompileJob&quot;</span>);</div>
-<div class="line"><span class="lineno">  536</span>                                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  537</span>                            }</div>
-<div class="line"><span class="lineno">  538</span> </div>
-<div class="line"><span class="lineno">  539</span>                            <span class="comment">// finally set up the job</span></div>
-<div class="line"><span class="lineno">  540</span>                            compileProcessJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
-<div class="line"><span class="lineno">  541</span>                            {</div>
-<div class="line"><span class="lineno">  542</span>                                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a> = repositoryUpdateJob.Instance,</div>
-<div class="line"><span class="lineno">  543</span>                                Description = <span class="stringliteral">&quot;Scheduled code deployment&quot;</span>,</div>
-<div class="line"><span class="lineno">  544</span>                                CancelRightsType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.DreamMaker,</div>
-<div class="line"><span class="lineno">  545</span>                                CancelRight = (ulong)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a>.CancelCompile,</div>
-<div class="line"><span class="lineno">  546</span>                            };</div>
-<div class="line"><span class="lineno">  547</span> </div>
-<div class="line"><span class="lineno">  548</span>                            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a>(</div>
-<div class="line"><span class="lineno">  549</span>                                compileProcessJob,</div>
-<div class="line"><span class="lineno">  550</span>                                (core, databaseContextFactory, job, progressReporter, jobCancellationToken) =&gt;</div>
-<div class="line"><span class="lineno">  551</span>                                {</div>
-<div class="line"><span class="lineno">  552</span>                                    <span class="keywordflow">if</span> (core != <span class="keyword">this</span>)</div>
-<div class="line"><span class="lineno">  553</span>                                        <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#acf180df4f51944cbf125d2eed9533e5d">DifferentCoreExceptionMessage</a>);</div>
-<div class="line"><span class="lineno">  554</span>                                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html">DreamMaker</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7">DeploymentProcess</a>(</div>
-<div class="line"><span class="lineno">  555</span>                                        job,</div>
-<div class="line"><span class="lineno">  556</span>                                        databaseContextFactory,</div>
-<div class="line"><span class="lineno">  557</span>                                        progressReporter,</div>
-<div class="line"><span class="lineno">  558</span>                                        jobCancellationToken);</div>
-<div class="line"><span class="lineno">  559</span>                                },</div>
-<div class="line"><span class="lineno">  560</span>                                cancellationToken)</div>
-<div class="line"><span class="lineno">  561</span>                                ;</div>
-<div class="line"><span class="lineno">  562</span>                        }</div>
-<div class="line"><span class="lineno">  563</span> </div>
-<div class="line"><span class="lineno">  564</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(compileProcessJob, <span class="keyword">null</span>, <span class="keywordflow">default</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  565</span>                    }</div>
-<div class="line"><span class="lineno">  566</span>                    <span class="keywordflow">catch</span> (Exception e) when (e is not OperationCanceledException)</div>
-<div class="line"><span class="lineno">  567</span>                    {</div>
-<div class="line"><span class="lineno">  568</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogWarning(e, <span class="stringliteral">&quot;Error in auto update loop!&quot;</span>);</div>
-<div class="line"><span class="lineno">  569</span>                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  570</span>                    }</div>
-<div class="line"><span class="lineno">  571</span>                }</div>
-<div class="line"><span class="lineno">  572</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno">  573</span>                {</div>
-<div class="line"><span class="lineno">  574</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogDebug(<span class="stringliteral">&quot;Cancelled auto update loop!&quot;</span>);</div>
-<div class="line"><span class="lineno">  575</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  576</span>                }</div>
-<div class="line"><span class="lineno">  577</span> </div>
-<div class="line"><span class="lineno">  578</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogTrace(<span class="stringliteral">&quot;Leaving auto update loop...&quot;</span>);</div>
-<div class="line"><span class="lineno">  579</span>        }</div>
+<div class="line"><span class="lineno">  517</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">  518</span> </div>
+<div class="line"><span class="lineno">  519</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(repositoryUpdateJob, <span class="keyword">null</span>, cancellationToken, cancellationToken);</div>
+<div class="line"><span class="lineno">  520</span> </div>
+<div class="line"><span class="lineno">  521</span>                        <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> compileProcessJob;</div>
+<div class="line"><span class="lineno">  522</span>                        <span class="keyword">using</span> (var repo = await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#ad44304880259ff6f82c328199ea6166f">LoadRepository</a>(cancellationToken))</div>
+<div class="line"><span class="lineno">  523</span>                        {</div>
+<div class="line"><span class="lineno">  524</span>                            var deploySha = repo.Head;</div>
+<div class="line"><span class="lineno">  525</span>                            <span class="keywordflow">if</span> (deploySha == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  526</span>                            {</div>
+<div class="line"><span class="lineno">  527</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogTrace(<span class="stringliteral">&quot;Aborting auto update, repository error!&quot;</span>);</div>
+<div class="line"><span class="lineno">  528</span>                                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  529</span>                            }</div>
+<div class="line"><span class="lineno">  530</span> </div>
+<div class="line"><span class="lineno">  531</span>                            <span class="keywordflow">if</span> (deploySha == <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4b1084d8d2850d408abae881013a47d9">LatestCompileJob</a>()?.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a30c14e7fc4c770ff11cd0f10be4fb4dd">RevisionInformation</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">CommitSha</a>)</div>
+<div class="line"><span class="lineno">  532</span>                            {</div>
+<div class="line"><span class="lineno">  533</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogTrace(<span class="stringliteral">&quot;Aborting auto update, same revision as latest CompileJob&quot;</span>);</div>
+<div class="line"><span class="lineno">  534</span>                                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  535</span>                            }</div>
+<div class="line"><span class="lineno">  536</span> </div>
+<div class="line"><span class="lineno">  537</span>                            <span class="comment">// finally set up the job</span></div>
+<div class="line"><span class="lineno">  538</span>                            compileProcessJob = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a></div>
+<div class="line"><span class="lineno">  539</span>                            {</div>
+<div class="line"><span class="lineno">  540</span>                                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a> = repositoryUpdateJob.Instance,</div>
+<div class="line"><span class="lineno">  541</span>                                Description = <span class="stringliteral">&quot;Scheduled code deployment&quot;</span>,</div>
+<div class="line"><span class="lineno">  542</span>                                CancelRightsType = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.DreamMaker,</div>
+<div class="line"><span class="lineno">  543</span>                                CancelRight = (ulong)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a>.CancelCompile,</div>
+<div class="line"><span class="lineno">  544</span>                            };</div>
+<div class="line"><span class="lineno">  545</span> </div>
+<div class="line"><span class="lineno">  546</span>                            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd">RegisterOperation</a>(</div>
+<div class="line"><span class="lineno">  547</span>                                compileProcessJob,</div>
+<div class="line"><span class="lineno">  548</span>                                (core, databaseContextFactory, job, progressReporter, jobCancellationToken) =&gt;</div>
+<div class="line"><span class="lineno">  549</span>                                {</div>
+<div class="line"><span class="lineno">  550</span>                                    <span class="keywordflow">if</span> (core != <span class="keyword">this</span>)</div>
+<div class="line"><span class="lineno">  551</span>                                        <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#acf180df4f51944cbf125d2eed9533e5d">DifferentCoreExceptionMessage</a>);</div>
+<div class="line"><span class="lineno">  552</span>                                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html">DreamMaker</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7">DeploymentProcess</a>(</div>
+<div class="line"><span class="lineno">  553</span>                                        job,</div>
+<div class="line"><span class="lineno">  554</span>                                        databaseContextFactory,</div>
+<div class="line"><span class="lineno">  555</span>                                        progressReporter,</div>
+<div class="line"><span class="lineno">  556</span>                                        jobCancellationToken);</div>
+<div class="line"><span class="lineno">  557</span>                                },</div>
+<div class="line"><span class="lineno">  558</span>                                cancellationToken)</div>
+<div class="line"><span class="lineno">  559</span>                                ;</div>
+<div class="line"><span class="lineno">  560</span>                        }</div>
+<div class="line"><span class="lineno">  561</span> </div>
+<div class="line"><span class="lineno">  562</span>                        await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a8442698876a3b1aab29cb968cd97203e">jobManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">WaitForJobCompletion</a>(compileProcessJob, <span class="keyword">null</span>, <span class="keywordflow">default</span>, cancellationToken);</div>
+<div class="line"><span class="lineno">  563</span>                    }</div>
+<div class="line"><span class="lineno">  564</span>                    <span class="keywordflow">catch</span> (Exception e) when (e is not OperationCanceledException)</div>
+<div class="line"><span class="lineno">  565</span>                    {</div>
+<div class="line"><span class="lineno">  566</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogWarning(e, <span class="stringliteral">&quot;Error in auto update loop!&quot;</span>);</div>
+<div class="line"><span class="lineno">  567</span>                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  568</span>                    }</div>
+<div class="line"><span class="lineno">  569</span>                }</div>
+<div class="line"><span class="lineno">  570</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno">  571</span>                {</div>
+<div class="line"><span class="lineno">  572</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogDebug(<span class="stringliteral">&quot;Cancelled auto update loop!&quot;</span>);</div>
+<div class="line"><span class="lineno">  573</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  574</span>                }</div>
+<div class="line"><span class="lineno">  575</span> </div>
+<div class="line"><span class="lineno">  576</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#ab4e452661f1c4a25ad903315e42e023e">logger</a>.LogTrace(<span class="stringliteral">&quot;Leaving auto update loop...&quot;</span>);</div>
+<div class="line"><span class="lineno">  577</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information_html_ac93d5aef3a8222c5b5ceed6df8e7b309"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html#ac93d5aef3a8222c5b5ceed6df8e7b309">Tgstation.Server.Api.Models.Internal.RevisionInformation.CommitSha</a></div><div class="ttdeci">string? CommitSha</div><div class="ttdoc">The revision SHA.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_revision_information_8cs_source.html#l00016">RevisionInformation.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker_html_af2b270dfd58119e53710b4cac2eca8c7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af2b270dfd58119e53710b4cac2eca8c7">Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess</a></div><div class="ttdeci">async Task DeploymentProcess(Models.Job job, IDatabaseContextFactory databaseContextFactory, JobProgressReporter progressReporter, CancellationToken cancellationToken)</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_8cs_source.html#l00196">DreamMaker.cs:196</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_html_a4b1084d8d2850d408abae881013a47d9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4b1084d8d2850d408abae881013a47d9">Tgstation.Server.Host.Components.Instance.LatestCompileJob</a></div><div class="ttdeci">CompileJob LatestCompileJob()</div><div class="ttdoc">Gets the latest CompileJob. The latest CompileJob.</div></div>
