@@ -514,11 +514,9 @@ namespace Tgstation.Server.Host.Components
 						await jobManager.RegisterOperation(
 							repositoryUpdateJob,
 							RepositoryAutoUpdateJob,
-							cancellationToken)
-							;
+							cancellationToken);
 
-						// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted
-						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, default);
+						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
 
 						Job compileProcessJob;
 						using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
