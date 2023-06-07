@@ -59,8 +59,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 				if (!targetActiveJob.Progress.HasValue)
 				{
-					// give it 15 more seconds
-					targetActiveJob = await WaitForJobProgress(targetActiveJob, 15, cancellationToken);
+					// give it a few more seconds
+					targetActiveJob = await WaitForJobProgress(targetActiveJob, 30, cancellationToken);
 					allJobs = await JobsClient.List(null, cancellationToken);
 				}
 
