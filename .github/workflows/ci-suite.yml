@@ -58,7 +58,7 @@ jobs:
   analyze:
     name: Code Scanning
     needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'" && env.TGS_RELEASE_NOTES_TOKEN != ''
     runs-on: ubuntu-latest
     steps:
     - name: Install Node 12.X
