@@ -256,12 +256,22 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
+
+			if (!cancellationToken.CanBeCanceled)
+				throw new ArgumentException("A cancellable CancellationToken should be provided!", nameof(cancellationToken));
+
 			JobHandler handler;
+			bool noMoreJobsShouldStart;
 			lock (synchronizationLock)
 			{
 				if (!jobs.TryGetValue(job.Id.Value, out handler))
 					return;
+
+				noMoreJobsShouldStart = this.noMoreJobsShouldStart;
 			}
+
+			if (noMoreJobsShouldStart && !handler.Started)
+				await Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
 
 			Task cancelTask = null;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
