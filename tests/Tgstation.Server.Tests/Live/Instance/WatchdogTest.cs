@@ -247,8 +247,10 @@ namespace Tgstation.Server.Tests.Live.Instance
 				await killTask;
 			}
 
-			// this can also happen
-			if (!(new PlatformIdentifier().IsWindows && job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_ACCESSDENIED: Access is denied.")))
+			// these can also happen
+			if (!(new PlatformIdentifier().IsWindows
+				&& (job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_ACCESSDENIED: Access is denied.")
+				|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_HANDLE: The handle is invalid."))))
 				Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 
 			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
