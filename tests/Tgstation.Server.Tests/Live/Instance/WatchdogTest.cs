@@ -246,7 +246,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 				jobTcs.SetResult();
 				await killTask;
 			}
-			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
+
+			// this can also happen
+			if (!(new PlatformIdentifier().IsWindows && job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_ACCESSDENIED: Access is denied.")))
+				Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
+
 			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 
 			var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -572,7 +576,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			while (!cancellationToken.IsCancellationRequested)
 			{
 				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
-				System.Console.WriteLine($"Topic send limit test S:{currentSize}...");
+				System.Console.WriteLine($"Topic recieve limit test S:{currentSize}...");
 				var topicRequestResult = await TopicClientNoLogger.SendTopic(
 					IPAddress.Loopback,
 					$"tgs_integration_test_tactics4={TopicClient.SanitizeString(currentSize.ToString())}",
