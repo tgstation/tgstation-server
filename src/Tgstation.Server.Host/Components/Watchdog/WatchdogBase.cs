@@ -853,7 +853,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							var healthCheckSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
 							var healthCheck = healthCheckSeconds == 0
 								|| !controller.DMApiAvailable
-								? Extensions.TaskExtensions.InfiniteTask()
+								? Extensions.TaskExtensions.InfiniteTask
 								: Task.Delay(
 									TimeSpan.FromSeconds(healthCheckSeconds),
 									cancellationToken);
