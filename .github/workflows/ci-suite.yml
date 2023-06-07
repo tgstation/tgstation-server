@@ -186,7 +186,7 @@ jobs:
         doxyfile-path: 'docs/Doxyfile'
 
     - name: gh-pages push
-      if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
+      if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev' && env.TGS_RELEASE_NOTES_TOKEN != ''
       run: |
         git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
         pushd $HOME/tgsdox
