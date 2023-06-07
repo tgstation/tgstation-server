@@ -531,7 +531,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				TopicResponse topicRequestResult = null;
 				try
 				{
-					System.Console.WriteLine($"Topic limit test S:{payloadSize}...");
+					System.Console.WriteLine($"Topic send limit test S:{currentSize}...");
 					topicRequestResult = await TopicClientNoLogger.SendTopic(
 						IPAddress.Loopback,
 						$"tgs_integration_test_tactics3={TopicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
@@ -563,6 +563,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			Assert.AreEqual(DMApiConstants.MaximumTopicRequestLength, (uint)lastSize);
 
+			System.Console.WriteLine("TEST: Receiving Topic tests topics...");
+
 			// Receive
 			baseSize = 1;
 			nextPow = 0;
@@ -570,6 +572,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			while (!cancellationToken.IsCancellationRequested)
 			{
 				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
+				System.Console.WriteLine($"Topic send limit test S:{currentSize}...");
 				var topicRequestResult = await TopicClientNoLogger.SendTopic(
 					IPAddress.Loopback,
 					$"tgs_integration_test_tactics4={TopicClient.SanitizeString(currentSize.ToString())}",
