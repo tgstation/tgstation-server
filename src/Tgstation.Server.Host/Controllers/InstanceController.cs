@@ -182,8 +182,7 @@ namespace Tgstation.Server.Host.Controllers
 								if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
 									cts.Cancel();
 							},
-							newCancellationToken)
-						;
+							newCancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
@@ -419,8 +418,7 @@ namespace Tgstation.Server.Host.Controllers
 					.ChatBots
 					.AsQueryable()
 					.Where(x => x.InstanceId == originalModel.Id)
-					.CountAsync(cancellationToken)
-					;
+					.CountAsync(cancellationToken);
 
 				if (countOfExistingChatBots > model.ChatBotLimit.Value)
 					return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
@@ -486,8 +484,7 @@ namespace Tgstation.Server.Host.Controllers
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, ct) // core will be null here since the instance is offline
 						=> InstanceOperations.MoveInstance(originalModel, originalModelPath, ct),
-					cancellationToken)
-					;
+					cancellationToken);
 				api.MoveJob = job.ToApi();
 			}
 
@@ -548,8 +545,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
-				.ToListAsync(cancellationToken)
-				;
+				.ToListAsync(cancellationToken);
 
 			var needsUpdate = false;
 			var result = await Paginated<Models.Instance, InstanceResponse>(
@@ -565,8 +561,7 @@ namespace Tgstation.Server.Host.Controllers
 				},
 				page,
 				pageSize,
-				cancellationToken)
-				;
+				cancellationToken);
 
 			if (needsUpdate)
 				await DatabaseContext.Save(cancellationToken);
@@ -625,8 +620,7 @@ namespace Tgstation.Server.Host.Controllers
 				.SelectMany(x => x.Jobs)
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			api.MoveJob = moveJob?.ToApi();
 			await CheckAccessible(api, cancellationToken);
 			return Json(api);
@@ -654,14 +648,12 @@ namespace Tgstation.Server.Host.Controllers
 			var usersInstancePermissionSet = await BaseQuery()
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (usersInstancePermissionSet == default)
 			{
 				// does the instance actually exist?
 				var instanceExists = await BaseQuery()
-					.AnyAsync(cancellationToken)
-					;
+					.AnyAsync(cancellationToken);
 
 				if (!instanceExists)
 					return Gone();
@@ -700,8 +692,7 @@ namespace Tgstation.Server.Host.Controllers
 				.GetAvailablePort(
 					Math.Min((ushort)(ddPort.Value + 1), DefaultApiValidationPort),
 					false,
-					cancellationToken)
-				;
+					cancellationToken);
 			if (!dmPort.HasValue)
 				return null;
 

@@ -965,8 +965,7 @@ namespace Tgstation.Server.Host.Swarm
 			await Task.WhenAll(
 				currentSwarmServers
 					.Where(x => !x.Controller)
-					.Select(HealthRequestForServer))
-					;
+					.Select(HealthRequestForServer));
 
 			lock (swarmServers)
 				if (swarmServers.Count != currentSwarmServers.Count)

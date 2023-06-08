@@ -127,8 +127,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Include(x => x.StartedBy)
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (job == default)
 				return NotFound();
 
@@ -162,8 +161,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
 				.Include(x => x.StartedBy)
 				.Include(x => x.CancelledBy)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (job == default)
 				return NotFound();
 			var api = job.ToApi();

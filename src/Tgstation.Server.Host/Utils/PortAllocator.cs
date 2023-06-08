@@ -67,16 +67,14 @@ namespace Tgstation.Server.Host.Utils
 				.AsQueryable()
 				.Where(x => x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => x.Port)
-				.ToListAsync(cancellationToken)
-				;
+				.ToListAsync(cancellationToken);
 
 			var dmPorts = await databaseContext
 				.DreamMakerSettings
 				.AsQueryable()
 				.Where(x => x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => x.ApiValidationPort)
-				.ToListAsync(cancellationToken)
-				;
+				.ToListAsync(cancellationToken);
 
 			var exceptions = new List<Exception>();
 			ushort port = 0;

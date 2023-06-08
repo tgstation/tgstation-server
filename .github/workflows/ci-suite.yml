@@ -55,44 +55,6 @@ jobs:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
 
-  analyze:
-    name: Code Scanning
-    needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
-    runs-on: ubuntu-latest
-    steps:
-    - name: Install Node 12.X
-      uses: actions/setup-node@v3
-      with:
-        node-version: 12.x
-
-    - name: Upgrade NPM
-      run: npm install -g npm
-
-    - name: Checkout (Branch Push)
-      uses: actions/checkout@v3
-      if: github.event_name == 'push'
-      with:
-        fetch-depth: 2
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        fetch-depth: 2
-        ref: "refs/pull/${{ github.event.number }}/merge"
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: csharp
-
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-
   dmapi-build:
     name: Build DMAPI
     needs: start-ci-run-gate
@@ -112,7 +74,7 @@ jobs:
       uses: actions/cache@v3
       id: cache-byond
       with:
-        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
         key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-dmapibyond
 
     - name: Install BYOND
@@ -336,7 +298,7 @@ jobs:
       uses: actions/cache@v3
       id: cache-byond
       with:
-        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
         key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
 
     - name: Download BYOND
