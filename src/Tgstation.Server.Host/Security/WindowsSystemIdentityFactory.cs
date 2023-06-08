@@ -79,9 +79,13 @@ namespace Tgstation.Server.Host.Security
 					{
 						throw;
 					}
-					catch (Exception e)
+					catch (Exception ex)
 					{
-						logger.LogWarning(e, "Error loading user for context type {0}!", contextType);
+						logger.LogDebug(
+							ex,
+							"Error loading user for context type {contextType} and principal \"{domainName}\"!",
+							contextType,
+							domainName);
 					}
 					finally
 					{
