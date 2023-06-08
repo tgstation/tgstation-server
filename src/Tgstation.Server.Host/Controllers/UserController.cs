@@ -219,7 +219,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.Password != null)
 			{
-				if (model.SystemIdentifier != null)
+				if (originalUser.SystemIdentifier != null)
 					return BadRequest(new ErrorMessageResponse(ErrorCode.UserMismatchPasswordSid));
 
 				var result = TrySetPassword(originalUser, model.Password, false);
