@@ -54,6 +54,11 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public bool CheckUserPassword(User user, string password)
 		{
+			if (user == null)
+				throw new ArgumentNullException(nameof(user));
+			if (password == null)
+				throw new ArgumentNullException(nameof(password));
+
 			var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 			switch (result)
 			{
