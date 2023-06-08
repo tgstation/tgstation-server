@@ -284,8 +284,7 @@ namespace Tgstation.Server.Host.Components
 						await ioManager.WriteAllBytes(
 							ioManager.ConcatPath(oldPath, InstanceController.InstanceAttachFileName),
 							Array.Empty<byte>(),
-							default)
-							;
+							default);
 					}
 					catch (Exception tripleEx)
 					{

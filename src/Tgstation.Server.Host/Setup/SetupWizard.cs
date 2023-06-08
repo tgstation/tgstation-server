@@ -176,8 +176,7 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync(
 					$"API Port (leave blank for default of {GeneralConfiguration.DefaultApiPort}): ",
 					false,
-					cancellationToken)
-					;
+					cancellationToken);
 				var portString = await console.ReadLineAsync(false, cancellationToken);
 				if (String.IsNullOrWhiteSpace(portString))
 					return null;
@@ -319,8 +318,7 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync(resolvedPath, true, cancellationToken);
 				bool writeResolved = await PromptYesNo(
 					"Would you like to save the relative path in the configuration? If not, the full path will be saved. (y/n): ",
-					cancellationToken)
-					;
+					cancellationToken);
 
 				if (writeResolved)
 					databaseName = resolvedPath;
@@ -344,23 +342,19 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync(
 					"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database, specfically *NOT* Sqlite.",
 					true,
-					cancellationToken)
-					;
+					cancellationToken);
 				await console.WriteAsync(
 					"Sqlite, by nature cannot perform several DDL operations. Because of this future compatiblility cannot be guaranteed.",
 					true,
-					cancellationToken)
-					;
+					cancellationToken);
 				await console.WriteAsync(
 					"This means that you may not be able to update to the next minor version of TGS without a clean re-installation!",
 					true,
-					cancellationToken)
-					;
+					cancellationToken);
 				await console.WriteAsync(
 					"Please consider taking the time to set up a relational database if this is meant to be a long-standing server.",
 					true,
-					cancellationToken)
-					;
+					cancellationToken);
 				await console.WriteAsync(String.Empty, true, cancellationToken);
 
 				await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken);
@@ -379,8 +373,7 @@ namespace Tgstation.Server.Host.Setup
 						DatabaseType.SqlServer,
 						DatabaseType.Sqlite),
 					false,
-					cancellationToken)
-					;
+					cancellationToken);
 				var databaseTypeString = await console.ReadLineAsync(false, cancellationToken);
 				if (Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
 					return databaseType;
@@ -1007,8 +1000,7 @@ namespace Tgstation.Server.Host.Setup
 				elasticSearchConfiguration,
 				controlPanelConfiguration,
 				swarmConfiguration,
-				cancellationToken)
-				;
+				cancellationToken);
 		}
 
 		/// <summary>

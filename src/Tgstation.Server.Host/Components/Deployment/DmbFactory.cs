@@ -145,8 +145,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					job);
 				await remoteDeploymentManager.StageDeployment(
 						newProvider.CompileJob,
-						cancellationToken)
-						;
+						cancellationToken);
 			}
 
 			lock (jobLockCounts)
@@ -188,10 +187,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.AsQueryable()
 					.Where(x => x.Job.Instance.Id == metadata.Id)
 					.OrderByDescending(x => x.Job.StoppedAt)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
-			})
-			;
+					.FirstOrDefaultAsync(cancellationToken);
+			});
 
 			if (cj == default(CompileJob))
 				return;
@@ -267,8 +264,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					ioManager.ConcatPath(
 						newProvider.Directory,
 						newProvider.DmbName),
-					cancellationToken)
-					;
+					cancellationToken);
 
 				if (!dmbExistsAtRoot)
 				{

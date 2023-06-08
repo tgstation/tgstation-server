@@ -215,8 +215,7 @@ namespace Tgstation.Server.Host.Database
 						.Users
 						.AsQueryable()
 						.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
-						.FirstOrDefaultAsync(cancellationToken)
-						;
+						.FirstOrDefaultAsync(cancellationToken);
 
 					if (tgsUser != null)
 						logger.LogError(
@@ -233,8 +232,7 @@ namespace Tgstation.Server.Host.Database
 				var allInstances = await databaseContext
 					.Instances
 					.AsQueryable()
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 				foreach (var instance in allInstances)
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
@@ -246,8 +244,7 @@ namespace Tgstation.Server.Host.Database
 					.AsQueryable()
 					.Where(x => x.TopicRequestTimeout == 0)
 					.Select(x => x.Id)
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 
 				var rowsUpdated = ids.Count;
 				foreach (var id in ids)
@@ -318,8 +315,7 @@ namespace Tgstation.Server.Host.Database
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Group)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (admin == default)
 				SeedAdminUser(databaseContext);
 

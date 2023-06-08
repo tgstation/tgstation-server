@@ -241,8 +241,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								StartupTimeout = x.StartupTimeout,
 								LogOutput = x.LogOutput,
 							})
-							.FirstOrDefaultAsync(cancellationToken)
-							;
+							.FirstOrDefaultAsync(cancellationToken);
 						if (ddSettings == default)
 							throw new JobException(ErrorCode.InstanceMissingDreamDaemonSettings);
 
@@ -250,8 +249,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							.DreamMakerSettings
 							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
-							.FirstAsync(cancellationToken)
-							;
+							.FirstAsync(cancellationToken);
 						if (dreamMakerSettings == default)
 							throw new JobException(ErrorCode.InstanceMissingDreamMakerSettings);
 
@@ -267,8 +265,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								PushTestMergeCommits = x.PushTestMergeCommits,
 								PostTestMergeComment = x.PostTestMergeComment,
 							})
-							.FirstOrDefaultAsync(cancellationToken)
-							;
+							.FirstOrDefaultAsync(cancellationToken);
 						if (repositorySettings == default)
 							throw new JobException(ErrorCode.InstanceMissingRepositorySettings);
 
@@ -291,8 +288,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								.Include(x => x.ActiveTestMerges)
 									.ThenInclude(x => x.TestMerge)
 									.ThenInclude(x => x.MergedBy)
-								.FirstOrDefaultAsync(cancellationToken)
-								;
+								.FirstOrDefaultAsync(cancellationToken);
 
 							if (revInfo == default)
 							{
@@ -319,8 +315,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							repo?.Dispose();
 							throw;
 						}
-					})
-					;
+					});
 
 				var likelyPushedTestMergeCommit =
 					repositorySettings.PushTestMergeCommits.Value
@@ -336,8 +331,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						progressReporter,
 						averageSpan,
 						likelyPushedTestMergeCommit,
-						cancellationToken)
-						;
+						cancellationToken);
 
 				var activeCompileJob = compileJobConsumer.LatestCompileJob();
 				try
@@ -379,8 +373,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 							compileJob.Job = fullJob;
 							compileJob.RevisionInformation = fullRevInfo;
-						})
-						;
+						});
 				}
 				catch (Exception ex)
 				{
@@ -447,8 +440,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					StoppedAt = x.Job.StoppedAt,
 					StartedAt = x.Job.StartedAt,
 				})
-				.ToListAsync(cancellationToken)
-				;
+				.ToListAsync(cancellationToken);
 
 			TimeSpan? averageSpan = null;
 			if (previousCompileJobs.Count != 0)
@@ -605,8 +597,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						repoOrigin.ToString(),
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
-					cancellationToken)
-					;
+					cancellationToken);
 
 				// determine the dme
 				progressReporter.StageName = "Determining .dme";
@@ -978,8 +969,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				remoteDeploymentManager.FailDeployment(
 					job,
 					FormatExceptionForUsers(exception),
-					default))
-				;
+					default));
 		}
 	}
 }

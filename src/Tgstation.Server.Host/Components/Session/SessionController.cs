@@ -444,8 +444,7 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				var commandResult = await SendCommand(
 					new TopicParameters(port),
-					cancellationToken)
-					;
+					cancellationToken);
 
 				if (commandResult?.ErrorMessage != null)
 					return false;
@@ -478,8 +477,7 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation.RebootState = newRebootState;
 			var result = await SendCommand(
 				new TopicParameters(newRebootState),
-				cancellationToken)
-				;
+				cancellationToken);
 
 			return result?.ErrorMessage == null;
 		}

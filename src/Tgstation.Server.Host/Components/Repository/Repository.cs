@@ -356,8 +356,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					}),
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current)
-					;
+					TaskScheduler.Current);
 
 				if (updateSubmodules)
 				{
@@ -412,8 +411,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current)
-				;
+				TaskScheduler.Current);
 
 			if (updateSubmodules)
 				await UpdateSubmodules(
@@ -463,8 +461,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current)
-				;
+				TaskScheduler.Current);
 		}
 
 		/// <inheritdoc />
@@ -485,8 +482,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			await ResetToSha(
 				trackedBranch.Tip.Sha,
 				progressReporter.CreateSection(null, updateSubmodules ? 2.0 / 3 : 1.0),
-				cancellationToken)
-				;
+				cancellationToken);
 
 			if (updateSubmodules)
 				await UpdateSubmodules(
@@ -619,8 +615,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current)
-				;
+				TaskScheduler.Current);
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
@@ -684,8 +679,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						ioMananger.ResolvePath(),
 					},
-					cancellationToken)
-					;
+					cancellationToken);
 			}
 			finally
 			{
@@ -702,8 +696,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					},
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current)
-					;
+					TaskScheduler.Current);
 			}
 
 			var remainingProgressFactor = 0.9;
@@ -759,8 +752,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current)
-				;
+				TaskScheduler.Current);
 		}
 
 		/// <inheritdoc />
@@ -1040,8 +1032,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					await Task.WhenAll(
 						ioMananger.DeleteDirectory($".git/modules/{submodule.Path}", cancellationToken),
-						ioMananger.DeleteDirectory(submodule.Path, cancellationToken))
-						;
+						ioMananger.DeleteDirectory(submodule.Path, cancellationToken));
 
 					logger.LogTrace("Second update attempt for submodule {submoduleName}...", submodule.Name);
 					try

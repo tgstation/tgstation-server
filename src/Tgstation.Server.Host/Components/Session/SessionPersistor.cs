@@ -140,8 +140,7 @@ namespace Tgstation.Server.Host.Components.Session
 					.AsQueryable()
 					.Where(x => x.Id == metadata.Id)
 					.Select(x => x.DreamDaemonSettings.TopicRequestTimeout)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
+					.FirstOrDefaultAsync(cancellationToken);
 
 				if (timeoutMilliseconds == default)
 				{
@@ -238,8 +237,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			if (instant)
 				await baseQuery
-					.DeleteAsync(cancellationToken)
-					;
+					.DeleteAsync(cancellationToken);
 			else
 			{
 				var results = await baseQuery.ToListAsync(cancellationToken);
