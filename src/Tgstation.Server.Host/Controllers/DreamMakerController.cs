@@ -79,8 +79,7 @@ namespace Tgstation.Server.Host.Controllers
 				.DreamMakerSettings
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			return Json(dreamMakerSettings.ToApi());
 		}
 
@@ -152,8 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 				job,
 				(core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken)
 					=> core.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),
-				cancellationToken)
-				;
+				cancellationToken);
 			return Accepted(job.ToApi());
 		}
 
@@ -188,8 +186,7 @@ namespace Tgstation.Server.Host.Controllers
 				.DreamMakerSettings
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (hostModel == null)
 				return Gone();
 
@@ -214,8 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 						.GetAvailablePort(
 							model.ApiValidationPort.Value,
 							true,
-							cancellationToken)
-							;
+							cancellationToken);
 					if (verifiedPort != model.ApiValidationPort)
 						return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 

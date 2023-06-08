@@ -50,8 +50,7 @@ namespace Tgstation.Server.Host.Controllers
 							outputStream,
 							contentLength,
 							BufferSize,
-							cancellationToken)
-							;
+							cancellationToken);
 					}
 					else
 					{
@@ -61,8 +60,7 @@ namespace Tgstation.Server.Host.Controllers
 							outputStream,
 							rangeLength,
 							BufferSize,
-							cancellationToken)
-							;
+							cancellationToken);
 					}
 				}
 				catch (OperationCanceledException)

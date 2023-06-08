@@ -94,8 +94,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core.Watchdog.Launch(innerCt),
-					cancellationToken)
-					;
+					cancellationToken);
 				return Accepted(job.ToApi());
 			});
 
@@ -241,8 +240,7 @@ namespace Tgstation.Server.Host.Controllers
 						await watchdog.ResetRebootState(cancellationToken);
 
 					return await ReadImpl(current, cancellationToken);
-				})
-				;
+				});
 		}
 #pragma warning restore CA1506
 #pragma warning restore CA1502
@@ -276,8 +274,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(
 					job,
 					(core, paramJob, databaseContextFactory, progressReporter, ct) => core.Watchdog.Restart(false, ct),
-					cancellationToken)
-					;
+					cancellationToken);
 				return Accepted(job.ToApi());
 			});
 
@@ -310,8 +307,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressReporter, ct) => core.Watchdog.CreateDump(ct),
-					cancellationToken)
-					;
+					cancellationToken);
 				return Accepted(job.ToApi());
 			});
 
@@ -336,8 +332,7 @@ namespace Tgstation.Server.Host.Controllers
 						.AsQueryable()
 						.Where(x => x.Id == Instance.Id)
 						.Select(x => x.DreamDaemonSettings)
-						.FirstOrDefaultAsync(cancellationToken)
-						;
+						.FirstOrDefaultAsync(cancellationToken);
 					if (settings == default)
 						return Gone();
 				}

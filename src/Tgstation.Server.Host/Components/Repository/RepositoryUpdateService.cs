@@ -270,8 +270,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								currentModel.CommitterEmail,
 								NextProgressReporter("Sychronize"),
 								true,
-								cancellationToken)
-								;
+								cancellationToken);
 							postUpdateSha = repo.Head;
 						}
 						else
@@ -305,8 +304,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							currentModel.AccessToken,
 							updateSubmodules,
 							NextProgressReporter("Checkout"),
-							cancellationToken)
-							;
+							cancellationToken);
 						await CallLoadRevInfo(); // we've either seen origin before or what we're checking out is on origin
 					}
 					else
@@ -321,8 +319,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							currentModel.AccessToken,
 							updateSubmodules,
 							NextProgressReporter("Reset to Origin"),
-							cancellationToken)
-							;
+							cancellationToken);
 						await repo.Sychronize(
 							currentModel.AccessUser,
 							currentModel.AccessToken,
@@ -330,8 +327,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							currentModel.CommitterEmail,
 							NextProgressReporter("Synchronize"),
 							true,
-							cancellationToken)
-							;
+							cancellationToken);
 						await CallLoadRevInfo();
 
 						// repo head is on origin so force this
@@ -545,8 +541,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						currentModel.CommitterEmail,
 						NextProgressReporter("Synchronize"),
 						false,
-						cancellationToken)
-						;
+						cancellationToken);
 					await UpdateRevInfo();
 				}
 

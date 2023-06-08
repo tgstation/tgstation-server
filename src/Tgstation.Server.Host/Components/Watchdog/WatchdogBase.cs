@@ -465,8 +465,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var notification = new EventNotification(eventType, parameters);
 			var result = await activeServer.SendCommand(
 				new TopicParameters(notification),
-				cancellationToken)
-				;
+				cancellationToken);
 
 			HandleChatResponses(result);
 		}

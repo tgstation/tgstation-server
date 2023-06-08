@@ -102,8 +102,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await GameIOManager.MoveDirectory(
 				ActiveSwappable.CompileJob.DirectoryName.ToString(),
 				ActiveSwappable.Directory,
-				cancellationToken)
-				;
+				cancellationToken);
 
 			hardLinkedDmb = ActiveSwappable;
 		}
@@ -131,8 +130,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						await GameIOManager.MoveDirectory(
 							hardLink,
 							originalPosition,
-							default)
-							;
+							default);
 					}
 					catch (Exception ex)
 					{

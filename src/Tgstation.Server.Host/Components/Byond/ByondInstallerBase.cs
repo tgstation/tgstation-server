@@ -70,8 +70,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					IOManager.ConcatPath(
 						PathToUserByondFolder,
 						CacheDirectoryName),
-					cancellationToken)
-					;
+					cancellationToken);
 			}
 			catch (OperationCanceledException)
 			{

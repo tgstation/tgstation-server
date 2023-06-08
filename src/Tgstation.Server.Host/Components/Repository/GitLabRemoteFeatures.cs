@@ -66,8 +66,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				var mr = await client
 					.MergeRequests
 					.GetAsync($"{RemoteRepositoryOwner}/{RemoteRepositoryName}", parameters.Number)
-					.WithToken(cancellationToken)
-					;
+					.WithToken(cancellationToken);
 
 				var revisionToUse = parameters.TargetCommitSha == null
 					|| mr.Sha.StartsWith(parameters.TargetCommitSha, StringComparison.OrdinalIgnoreCase)
