@@ -63,11 +63,15 @@ namespace Tgstation.Server.Host.Security
 				PrincipalContext pc = null;
 				UserPrincipal principal = null;
 
+				GetUserAndDomainName(user.SystemIdentifier, out _, out var domainName);
+
 				bool TryGetPrincipalFromContextType(ContextType contextType)
 				{
 					try
 					{
-						pc = new PrincipalContext(contextType);
+						pc = domainName != null
+							? new PrincipalContext(contextType, domainName)
+							: new PrincipalContext(contextType);
 						cancellationToken.ThrowIfCancellationRequested();
 						principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
 					}
