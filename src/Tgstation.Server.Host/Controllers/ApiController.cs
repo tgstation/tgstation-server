@@ -219,8 +219,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Generic 501 response.
 		/// </summary>
+		/// <param name="ex">The <see cref="NotImplementedException"/> that was thrown.</param>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
-		protected ObjectResult RequiresPosixSystemIdentity() => StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
+		protected ObjectResult RequiresPosixSystemIdentity(NotImplementedException ex)
+		{
+			Logger.LogTrace(ex, "System identities not implemented!");
+			return StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
+		}
 
 		/// <summary>
 		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int)"/>.

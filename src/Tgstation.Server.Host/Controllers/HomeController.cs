@@ -241,7 +241,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				catch (NotImplementedException ex)
 				{
-					Logger.LogTrace(ex, "System identities not implemented!");
+					RequiresPosixSystemIdentity(ex);
 				}
 
 			using (systemIdentity)

@@ -127,9 +127,9 @@ namespace Tgstation.Server.Host.Controllers
 					dbUser.Name = sysIdentity.Username;
 					dbUser.SystemIdentifier = sysIdentity.Uid;
 				}
-				catch (NotImplementedException)
+				catch (NotImplementedException ex)
 				{
-					return RequiresPosixSystemIdentity();
+					return RequiresPosixSystemIdentity(ex);
 				}
 			else if (!(model.Password?.Length == 0 && model.OAuthConnections?.Any() == true))
 			{

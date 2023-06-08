@@ -97,9 +97,9 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 		}
 
@@ -142,9 +142,9 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 		}
 
@@ -188,10 +188,10 @@ namespace Tgstation.Server.Host.Controllers
 									.AsQueryable()
 									.OrderBy(x => x.Path));
 						}
-						catch (NotImplementedException)
+						catch (NotImplementedException ex)
 						{
 							return new PaginatableResult<ConfigurationFileResponse>(
-								RequiresPosixSystemIdentity());
+								RequiresPosixSystemIdentity(ex));
 						}
 						catch (UnauthorizedAccessException)
 						{
@@ -262,9 +262,9 @@ namespace Tgstation.Server.Host.Controllers
 					Message = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{
@@ -302,9 +302,9 @@ namespace Tgstation.Server.Host.Controllers
 						? NoContent()
 						: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)));
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{
