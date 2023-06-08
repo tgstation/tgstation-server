@@ -298,8 +298,7 @@ namespace Tgstation.Server.Host.Controllers
 						Enabled = x.Enabled,
 						Name = x.Name,
 					})
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 
 				// Pick the DB user first
 				var user = users
@@ -322,7 +321,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (!usingSystemIdentity)
 					{
 						// DB User password check and update
-						if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
+						if (originalHash == null || !cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
 							return Unauthorized();
 						if (user.PasswordHash != originalHash)
 						{
