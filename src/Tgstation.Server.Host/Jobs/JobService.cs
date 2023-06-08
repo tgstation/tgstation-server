@@ -108,8 +108,7 @@ namespace Tgstation.Server.Host.Jobs
 					if (job.StartedBy == null)
 						job.StartedBy = await databaseContext
 							.Users
-							.GetTgsUser(cancellationToken)
-							;
+							.GetTgsUser(cancellationToken);
 					else
 						job.StartedBy = new User
 						{

@@ -383,8 +383,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
-					.WithToken(cancellationToken)
-					;
+					.WithToken(cancellationToken);
 
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -480,8 +479,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					},
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current)
-					;
+					TaskScheduler.Current);
 				await HardDisconnect(cancellationToken);
 			}
 			catch (OperationCanceledException)

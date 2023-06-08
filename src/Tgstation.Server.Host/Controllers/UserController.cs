@@ -195,8 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Include(x => x.Group)
 						.ThenInclude(x => x.PermissionSet)
 					.Include(x => x.PermissionSet)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
+					.FirstOrDefaultAsync(cancellationToken);
 
 			if (originalUser == default)
 				return NotFound();
@@ -265,8 +264,7 @@ namespace Tgstation.Server.Host.Controllers
 					.AsQueryable()
 					.Where(x => x.Id == model.Group.Id)
 					.Include(x => x.PermissionSet)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
+					.FirstOrDefaultAsync(cancellationToken);
 
 				if (originalUser.Group == default)
 					return Gone();
@@ -408,8 +406,7 @@ namespace Tgstation.Server.Host.Controllers
 					.AsQueryable()
 					.Where(x => x.Id == model.Group.Id)
 					.Include(x => x.PermissionSet)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
+					.FirstOrDefaultAsync(cancellationToken);
 			else
 				permissionSet = new Models.PermissionSet
 				{

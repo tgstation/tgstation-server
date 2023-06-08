@@ -187,8 +187,7 @@ namespace Tgstation.Server.Host.Controllers
 							.ChatBots
 							.AsQueryable()
 							.Where(x => x.Id == id)
-							.DeleteAsync(cancellationToken))
-						;
+							.DeleteAsync(cancellationToken));
 					return null;
 				})
 
@@ -363,8 +362,7 @@ namespace Tgstation.Server.Host.Controllers
 						await chat.ChangeChannels(current.Id.Value, current.Channels, cancellationToken);
 
 					return null;
-				})
-				;
+				});
 			if (earlyOut != null)
 				return earlyOut;
 

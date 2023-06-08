@@ -122,8 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 					await StatusCode(
 						HttpStatusCode.UpgradeRequired,
 						new ErrorMessageResponse(ErrorCode.ApiMismatch))
-						.ExecuteResultAsync(context)
-						;
+						.ExecuteResultAsync(context);
 					return;
 				}
 
@@ -139,8 +138,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (requireHeaders)
 				{
 					await HeadersIssue(false)
-						.ExecuteResultAsync(context)
-						;
+						.ExecuteResultAsync(context);
 					return;
 				}
 			}
@@ -395,8 +393,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				totalResults = await paginationResult.Results.CountAsync(cancellationToken);
 				pagedResults = await queriedResults
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 			}
 			else
 			{

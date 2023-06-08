@@ -84,12 +84,10 @@ namespace Tgstation.Server.Host.Controllers
 								model.Path,
 								systemIdentity,
 								model.LastReadHash,
-								cancellationToken)
-							;
+								cancellationToken);
 
 						return model.LastReadHash == null ? Accepted(newFile) : Json(newFile);
-					})
-					;
+					});
 			}
 			catch (IOException e)
 			{
@@ -129,14 +127,12 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						var result = await instance
 							.Configuration
-							.Read(filePath, systemIdentity, cancellationToken)
-							;
+							.Read(filePath, systemIdentity, cancellationToken);
 						if (result == null)
 							return Gone();
 
 						return Json(result);
-					})
-					;
+					});
 			}
 			catch (IOException e)
 			{
@@ -183,8 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							var result = await instance
 								.Configuration
-								.ListDirectory(directoryPath, systemIdentity, cancellationToken)
-								;
+								.ListDirectory(directoryPath, systemIdentity, cancellationToken);
 							if (result == null)
 								return new PaginatableResult<ConfigurationFileResponse>(Gone());
 
@@ -257,8 +252,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Configuration
 						.CreateDirectory(model.Path, systemIdentity, cancellationToken)
 							? Json(resultModel)
-							: Created(resultModel))
-					;
+							: Created(resultModel));
 			}
 			catch (IOException e)
 			{
