@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			Logger.LogInformation("Created new user {0} ({1})", dbUser.Name, dbUser.Id);
+			Logger.LogInformation("Created new user {name} ({id})", dbUser.Name, dbUser.Id);
 
 			return Created(dbUser.ToApi());
 		}
@@ -214,12 +214,21 @@ namespace Tgstation.Server.Host.Controllers
 				|| (!oAuthEdit && model.OAuthConnections != null))
 				return Forbid();
 
+			var originalUserHasSid = originalUser.SystemIdentifier != null;
+			if (originalUserHasSid && originalUser.PasswordHash != null)
+			{
+				// cleanup from https://github.com/tgstation/tgstation-server/issues/1528
+				Logger.LogDebug("System user ID {userId}'s PasswordHash is polluted, updating database.", originalUser.Id);
+				originalUser.PasswordHash = null;
+				originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;
+			}
+
 			if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.UserSidChange));
 
 			if (model.Password != null)
 			{
-				if (originalUser.SystemIdentifier != null)
+				if (originalUserHasSid)
 					return BadRequest(new ErrorMessageResponse(ErrorCode.UserMismatchPasswordSid));
 
 				var result = TrySetPassword(originalUser, model.Password, false);

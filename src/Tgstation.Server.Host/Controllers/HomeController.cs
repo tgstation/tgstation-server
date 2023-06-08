@@ -297,6 +297,7 @@ namespace Tgstation.Server.Host.Controllers
 						PasswordHash = x.PasswordHash,
 						Enabled = x.Enabled,
 						Name = x.Name,
+						SystemIdentifier = x.SystemIdentifier,
 					})
 					.ToListAsync(cancellationToken);
 
@@ -315,13 +316,13 @@ namespace Tgstation.Server.Host.Controllers
 				// FALLBACK TO THE DB USER HERE, DO NOT REVEAL A SYSTEM LOGIN!!!
 				// This of course, allows system users to discover TGS users in this (HIGHLY IMPROBABLE) case but that is not our fault
 				var originalHash = user.PasswordHash;
-				var isDbUser = originalHash != null;
-				bool usingSystemIdentity = systemIdentity != null && !isDbUser;
+				var isLikelyDbUser = originalHash != null;
+				bool usingSystemIdentity = systemIdentity != null && !isLikelyDbUser;
 				if (!oAuthLogin)
 					if (!usingSystemIdentity)
 					{
 						// DB User password check and update
-						if (originalHash == null || !cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
+						if (!isLikelyDbUser || !cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
 							return Unauthorized();
 						if (user.PasswordHash != originalHash)
 						{
@@ -335,14 +336,30 @@ namespace Tgstation.Server.Host.Controllers
 							await DatabaseContext.Save(cancellationToken);
 						}
 					}
-					else if (systemIdentity.Username != user.Name)
+					else
 					{
-						// System identity username change update
-						Logger.LogDebug("User ID {userId}'s system identity needs a refresh, updating database.", user.Id);
-						DatabaseContext.Users.Attach(user);
-						user.Name = systemIdentity.Username;
-						user.CanonicalName = Models.User.CanonicalizeName(user.Name);
-						await DatabaseContext.Save(cancellationToken);
+						var usernameMismatch = systemIdentity.Username != user.Name;
+						if (isLikelyDbUser || usernameMismatch)
+						{
+							DatabaseContext.Users.Attach(user);
+							if (isLikelyDbUser)
+							{
+								// cleanup from https://github.com/tgstation/tgstation-server/issues/1528
+								Logger.LogDebug("System user ID {userId}'s PasswordHash is polluted, updating database.", user.Id);
+								user.PasswordHash = null;
+								user.LastPasswordUpdate = DateTimeOffset.UtcNow;
+							}
+
+							if (usernameMismatch)
+							{
+								// System identity username change update
+								Logger.LogDebug("User ID {userId}'s system identity needs a refresh, updating database.", user.Id);
+								user.Name = systemIdentity.Username;
+								user.CanonicalName = Models.User.CanonicalizeName(user.Name);
+							}
+
+							await DatabaseContext.Save(cancellationToken);
+						}
 					}
 
 				// Now that the bookeeping is done, tell them to fuck off if necessary
