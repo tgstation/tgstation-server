@@ -337,41 +337,40 @@ Properties</h2></td></tr>
 <div class="line"><span class="lineno">   66</span>                var mr = await client</div>
 <div class="line"><span class="lineno">   67</span>                    .MergeRequests</div>
 <div class="line"><span class="lineno">   68</span>                    .GetAsync($<span class="stringliteral">&quot;{RemoteRepositoryOwner}/{RemoteRepositoryName}&quot;</span>, parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>)</div>
-<div class="line"><span class="lineno">   69</span>                    .WithToken(cancellationToken)</div>
-<div class="line"><span class="lineno">   70</span>                    ;</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>                var revisionToUse = parameters.TargetCommitSha == <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">   73</span>                    || mr.Sha.StartsWith(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase)</div>
-<div class="line"><span class="lineno">   74</span>                    ? mr.Sha</div>
-<div class="line"><span class="lineno">   75</span>                    : parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>;</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
-<div class="line"><span class="lineno">   78</span>                {</div>
-<div class="line"><span class="lineno">   79</span>                    Author = mr.Author.Username,</div>
-<div class="line"><span class="lineno">   80</span>                    BodyAtMerge = mr.Description,</div>
-<div class="line"><span class="lineno">   81</span>                    TitleAtMerge = mr.Title,</div>
-<div class="line"><span class="lineno">   82</span>                    Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
-<div class="line"><span class="lineno">   83</span>                    Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
-<div class="line"><span class="lineno">   84</span>                    TargetCommitSha = mr.Sha,</div>
-<div class="line"><span class="lineno">   85</span>                    Url = mr.WebUrl,</div>
-<div class="line"><span class="lineno">   86</span>                };</div>
-<div class="line"><span class="lineno">   87</span>            }</div>
-<div class="line"><span class="lineno">   88</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">   89</span>            {</div>
-<div class="line"><span class="lineno">   90</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error retrieving merge request metadata!&quot;</span>);</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
-<div class="line"><span class="lineno">   93</span>                {</div>
-<div class="line"><span class="lineno">   94</span>                    Author = ex.Message,</div>
-<div class="line"><span class="lineno">   95</span>                    BodyAtMerge = ex.Message,</div>
-<div class="line"><span class="lineno">   96</span>                    TitleAtMerge = ex.Message,</div>
-<div class="line"><span class="lineno">   97</span>                    Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
-<div class="line"><span class="lineno">   98</span>                    Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
-<div class="line"><span class="lineno">   99</span>                    TargetCommitSha = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>,</div>
-<div class="line"><span class="lineno">  100</span>                    Url = ex.Message,</div>
-<div class="line"><span class="lineno">  101</span>                };</div>
-<div class="line"><span class="lineno">  102</span>            }</div>
-<div class="line"><span class="lineno">  103</span>        }</div>
+<div class="line"><span class="lineno">   69</span>                    .WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>                var revisionToUse = parameters.TargetCommitSha == <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">   72</span>                    || mr.Sha.StartsWith(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase)</div>
+<div class="line"><span class="lineno">   73</span>                    ? mr.Sha</div>
+<div class="line"><span class="lineno">   74</span>                    : parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>;</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
+<div class="line"><span class="lineno">   77</span>                {</div>
+<div class="line"><span class="lineno">   78</span>                    Author = mr.Author.Username,</div>
+<div class="line"><span class="lineno">   79</span>                    BodyAtMerge = mr.Description,</div>
+<div class="line"><span class="lineno">   80</span>                    TitleAtMerge = mr.Title,</div>
+<div class="line"><span class="lineno">   81</span>                    Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
+<div class="line"><span class="lineno">   82</span>                    Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
+<div class="line"><span class="lineno">   83</span>                    TargetCommitSha = mr.Sha,</div>
+<div class="line"><span class="lineno">   84</span>                    Url = mr.WebUrl,</div>
+<div class="line"><span class="lineno">   85</span>                };</div>
+<div class="line"><span class="lineno">   86</span>            }</div>
+<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">   88</span>            {</div>
+<div class="line"><span class="lineno">   89</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error retrieving merge request metadata!&quot;</span>);</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
+<div class="line"><span class="lineno">   92</span>                {</div>
+<div class="line"><span class="lineno">   93</span>                    Author = ex.Message,</div>
+<div class="line"><span class="lineno">   94</span>                    BodyAtMerge = ex.Message,</div>
+<div class="line"><span class="lineno">   95</span>                    TitleAtMerge = ex.Message,</div>
+<div class="line"><span class="lineno">   96</span>                    Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
+<div class="line"><span class="lineno">   97</span>                    Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
+<div class="line"><span class="lineno">   98</span>                    TargetCommitSha = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>,</div>
+<div class="line"><span class="lineno">   99</span>                    Url = ex.Message,</div>
+<div class="line"><span class="lineno">  100</span>                };</div>
+<div class="line"><span class="lineno">  101</span>            }</div>
+<div class="line"><span class="lineno">  102</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings_html_acc5868ef8bebd88a8caa34c4f8f1fd86"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">Tgstation.Server.Api.Models.Internal.RepositorySettings.AccessToken</a></div><div class="ttdeci">string? AccessToken</div><div class="ttdoc">The token/password to access the git repository with.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_repository_settings_8cs_source.html#l00037">RepositorySettings.cs:37</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a1b7f38a2ee2f645796ffeb89fe51b2ce"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">Tgstation.Server.Api.Models.TestMergeParameters.TargetCommitSha</a></div><div class="ttdeci">virtual ? string TargetCommitSha</div><div class="ttdoc">The sha of the test merge revision to merge. If not specified, the latest commit from the source will...</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00020">TestMergeParameters.cs:20</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a556ffae15694a68aa1c78f851407eb5b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Tgstation.Server.Api.Models.TestMergeParameters.Comment</a></div><div class="ttdeci">string? Comment</div><div class="ttdoc">Optional comment about the test.</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00027">TestMergeParameters.cs:27</a></div></div>

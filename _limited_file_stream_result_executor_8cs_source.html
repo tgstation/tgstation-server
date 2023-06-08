@@ -122,31 +122,29 @@ $(function() {
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                            outputStream,</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                            contentLength,</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                            BufferSize,</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                            cancellationToken)</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                            ;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                    }</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                    {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                        result.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_file_stream_result.html#a6fb80c0ba75cea7f2ee056579a96f577">FileStream</a>.Seek(range.From.Value, SeekOrigin.Begin);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                        await StreamCopyOperation.CopyToAsync(</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                            result.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_file_stream_result.html#a6fb80c0ba75cea7f2ee056579a96f577">FileStream</a>,</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                            outputStream,</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                            rangeLength,</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                            BufferSize,</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                            cancellationToken)</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                            ;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                    }</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                }</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                {</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                    <span class="comment">// Don&#39;t throw this exception, it&#39;s most likely caused by the client disconnecting.</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                    <span class="comment">// However, if it was cancelled for any other reason we need to prevent empty responses.</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                    context.HttpContext.Abort();</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                }</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            }</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        }</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                            cancellationToken);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                    }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                    {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                        result.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_file_stream_result.html#a6fb80c0ba75cea7f2ee056579a96f577">FileStream</a>.Seek(range.From.Value, SeekOrigin.Begin);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                        await StreamCopyOperation.CopyToAsync(</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                            result.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_file_stream_result.html#a6fb80c0ba75cea7f2ee056579a96f577">FileStream</a>,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                            outputStream,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                            rangeLength,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                            BufferSize,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                            cancellationToken);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                    }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                    <span class="comment">// Don&#39;t throw this exception, it&#39;s most likely caused by the client disconnecting.</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                    <span class="comment">// However, if it was cancelled for any other reason we need to prevent empty responses.</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                    context.HttpContext.Abort();</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>}</div>
 <div class="ttc" id="aclass_file_result_executor_base_html"><div class="ttname"><a href="class_file_result_executor_base.html">FileResultExecutorBase</a></div></div>
 <div class="ttc" id="aclass_i_action_result_executor_html"><div class="ttname"><a href="class_i_action_result_executor.html">IActionResultExecutor</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_file_stream_result_executor_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_file_stream_result_executor.html">Tgstation.Server.Host.Controllers.LimitedFileStreamResultExecutor</a></div><div class="ttdoc">IActionResultExecutor&lt;TResult&gt; for LimitedFileStreamResults.</div><div class="ttdef"><b>Definition:</b> <a href="_limited_file_stream_result_executor_8cs_source.html#l00015">LimitedFileStreamResultExecutor.cs:16</a></div></div>

@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity" name="Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity">
+<area shape="rect" id="node1" title="Generic 501 response." alt="" coords="528,245,796,285"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a1fc91e4c2f717f7e87b61c84c03c2b97" title="Create a new User." alt="" coords="250,5,466,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828" title="Create a configuration directory." alt="" coords="236,93,480,133"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a67855ece28f07fcb4c4a67e06500d8d3" title="Attempt to authenticate a User using ApiController.ApiHeaders." alt="" coords="250,157,466,197"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08" title="Deletes an empty directory ." alt="" coords="237,245,479,285"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#abbe1f7166c3f34f85b4f844611b40735" title="Get the contents of a directory at a directoryPath ." alt="" coords="250,309,466,349"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a6706cf6dc4fa13b3934cf7e0e1a50b1c" title="Get the contents of a file at a filePath ." alt="" coords="250,373,466,413"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a102d0e5dc3a4206d302ea68c6918069d" title="Write to a configuration file." alt="" coords="250,437,466,477"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,157,188,197"/>
+</map>

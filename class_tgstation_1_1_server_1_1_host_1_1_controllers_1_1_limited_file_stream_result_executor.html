@@ -204,29 +204,27 @@ Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   50</span>                            outputStream,</div>
 <div class="line"><span class="lineno">   51</span>                            contentLength,</div>
 <div class="line"><span class="lineno">   52</span>                            BufferSize,</div>
-<div class="line"><span class="lineno">   53</span>                            cancellationToken)</div>
-<div class="line"><span class="lineno">   54</span>                            ;</div>
-<div class="line"><span class="lineno">   55</span>                    }</div>
-<div class="line"><span class="lineno">   56</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   57</span>                    {</div>
-<div class="line"><span class="lineno">   58</span>                        result.FileStream.Seek(range.From.Value, SeekOrigin.Begin);</div>
-<div class="line"><span class="lineno">   59</span>                        await StreamCopyOperation.CopyToAsync(</div>
-<div class="line"><span class="lineno">   60</span>                            result.FileStream,</div>
-<div class="line"><span class="lineno">   61</span>                            outputStream,</div>
-<div class="line"><span class="lineno">   62</span>                            rangeLength,</div>
-<div class="line"><span class="lineno">   63</span>                            BufferSize,</div>
-<div class="line"><span class="lineno">   64</span>                            cancellationToken)</div>
-<div class="line"><span class="lineno">   65</span>                            ;</div>
-<div class="line"><span class="lineno">   66</span>                    }</div>
-<div class="line"><span class="lineno">   67</span>                }</div>
-<div class="line"><span class="lineno">   68</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno">   69</span>                {</div>
-<div class="line"><span class="lineno">   70</span>                    <span class="comment">// Don&#39;t throw this exception, it&#39;s most likely caused by the client disconnecting.</span></div>
-<div class="line"><span class="lineno">   71</span>                    <span class="comment">// However, if it was cancelled for any other reason we need to prevent empty responses.</span></div>
-<div class="line"><span class="lineno">   72</span>                    context.HttpContext.Abort();</div>
-<div class="line"><span class="lineno">   73</span>                }</div>
-<div class="line"><span class="lineno">   74</span>            }</div>
-<div class="line"><span class="lineno">   75</span>        }</div>
+<div class="line"><span class="lineno">   53</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">   54</span>                    }</div>
+<div class="line"><span class="lineno">   55</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   56</span>                    {</div>
+<div class="line"><span class="lineno">   57</span>                        result.FileStream.Seek(range.From.Value, SeekOrigin.Begin);</div>
+<div class="line"><span class="lineno">   58</span>                        await StreamCopyOperation.CopyToAsync(</div>
+<div class="line"><span class="lineno">   59</span>                            result.FileStream,</div>
+<div class="line"><span class="lineno">   60</span>                            outputStream,</div>
+<div class="line"><span class="lineno">   61</span>                            rangeLength,</div>
+<div class="line"><span class="lineno">   62</span>                            BufferSize,</div>
+<div class="line"><span class="lineno">   63</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">   64</span>                    }</div>
+<div class="line"><span class="lineno">   65</span>                }</div>
+<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno">   67</span>                {</div>
+<div class="line"><span class="lineno">   68</span>                    <span class="comment">// Don&#39;t throw this exception, it&#39;s most likely caused by the client disconnecting.</span></div>
+<div class="line"><span class="lineno">   69</span>                    <span class="comment">// However, if it was cancelled for any other reason we need to prevent empty responses.</span></div>
+<div class="line"><span class="lineno">   70</span>                    context.HttpContext.Abort();</div>
+<div class="line"><span class="lineno">   71</span>                }</div>
+<div class="line"><span class="lineno">   72</span>            }</div>
+<div class="line"><span class="lineno">   73</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_limited_file_stream_result_8cs_source.html#l00020">Tgstation.Server.Host.Controllers.LimitedFileStreamResult.FileStream</a>.</p>
 

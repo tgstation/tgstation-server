@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity" name="Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity">
-<area shape="rect" id="node1" title="Generic 501 response." alt="" coords="297,213,565,253"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a1fc91e4c2f717f7e87b61c84c03c2b97" title="Create a new User." alt="" coords="19,5,235,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828" title="Create a configuration directory." alt="" coords="5,93,249,133"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08" title="Deletes an empty directory ." alt="" coords="6,181,249,221"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#abbe1f7166c3f34f85b4f844611b40735" title="Get the contents of a directory at a directoryPath ." alt="" coords="19,245,235,285"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a6706cf6dc4fa13b3934cf7e0e1a50b1c" title="Get the contents of a file at a filePath ." alt="" coords="19,309,235,349"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a102d0e5dc3a4206d302ea68c6918069d" title="Write to a configuration file." alt="" coords="19,373,235,413"/>
-</map>
