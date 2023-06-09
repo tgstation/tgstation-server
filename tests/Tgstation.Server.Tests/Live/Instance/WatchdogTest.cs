@@ -271,7 +271,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-			CheckDDPriority(cancellationToken);
+			CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 			Assert.AreEqual(string.Empty, daemonStatus.AdditionalParameters);
@@ -330,7 +330,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-			CheckDDPriority(cancellationToken);
+			CheckDDPriority();
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 
@@ -363,7 +363,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
-			CheckDDPriority(cancellationToken);
+			CheckDDPriority();
 
 			// lock on to DD and pause it so it can't health check
 			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").Where(x => !x.HasExited).ToList();
@@ -700,7 +700,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreEqual("Footer text", embedsResponse.Embed.Footer?.Text);
 		}
 
-		void CheckDDPriority(CancellationToken cancellationToken)
+		void CheckDDPriority()
 		{
 			var ddProcessName = new PlatformIdentifier().IsWindows && ByondTest.TestVersion >= new Version(515, 1598)
 				? "dd"
@@ -743,7 +743,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-			CheckDDPriority(cancellationToken);
+			CheckDDPriority();
 
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
@@ -786,7 +786,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-			CheckDDPriority(cancellationToken);
+			CheckDDPriority();
 
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
@@ -823,7 +823,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			await WaitForJob(startJob, 70, false, null, cancellationToken);
 
-			CheckDDPriority(cancellationToken);
+			CheckDDPriority();
 
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
 				new ByondVersionRequest
@@ -881,7 +881,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-			CheckDDPriority(cancellationToken);
+			CheckDDPriority();
 			Assert.AreEqual(TestLiveServer.DDPort, daemonStatus.CurrentPort);
 
 			// Try killing the DD process to ensure it gets set to the restoring state
@@ -935,7 +935,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ReceiveTimeout = TimeSpan.FromSeconds(30),
 			ConnectTimeout = TimeSpan.FromSeconds(30),
 			DisconnectTimeout = TimeSpan.FromSeconds(30)
-		}, new Logger<TopicClient>(LiveTestUtils.CreateLoggerFactoryForLogger(loggerFactory.CreateLogger("WatchdogTest.TopicClient"), out var mockLoggerFactory)));
+		}, new Logger<TopicClient>(LiveTestUtils.CreateLoggerFactoryForLogger(loggerFactory.CreateLogger("WatchdogTest.TopicClient"), out _)));
 
 		public static readonly TopicClient TopicClientNoLogger = new(new SocketParameters
 		{
