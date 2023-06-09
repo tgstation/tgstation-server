@@ -20,6 +20,7 @@ jobs:
   analyze:
     name: Code Scanning
     runs-on: ubuntu-latest
+    if: ${{ vars.TGS_ENABLE_CODE_QL }} == 'true'
     steps:
     - name: Install Node 12.X
       uses: actions/setup-node@v3
