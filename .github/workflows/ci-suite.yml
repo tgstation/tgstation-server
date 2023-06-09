@@ -19,6 +19,7 @@ env:
   TGS_DOTNET_VERSION: 6.0.x
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 concurrency:
   group: "ci-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
