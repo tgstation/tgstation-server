@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -77,7 +78,7 @@ namespace Tgstation.Server.Host.Controllers
 				;
 
 			if (existingPermissionSet == default)
-				return Gone();
+				return this.Gone();
 
 			if (existingPermissionSet.UserId.HasValue)
 			{
@@ -140,7 +141,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken)
 				;
 			if (originalPermissionSet == null)
-				return Gone();
+				return this.Gone();
 
 			originalPermissionSet.ByondRights = RightsHelper.Clamp(model.ByondRights ?? originalPermissionSet.ByondRights.Value);
 			originalPermissionSet.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalPermissionSet.RepositoryRights.Value);
@@ -222,7 +223,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken)
 				;
 			if (permissionSet == default)
-				return Gone();
+				return this.Gone();
 			return Json(permissionSet.ToApi());
 		}
 
@@ -248,7 +249,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.PermissionSetId == id)
 				.DeleteAsync(cancellationToken)
 				;
-			return numDeleted > 0 ? NoContent() : Gone();
+			return numDeleted > 0 ? NoContent() : this.Gone();
 		}
 	}
 }

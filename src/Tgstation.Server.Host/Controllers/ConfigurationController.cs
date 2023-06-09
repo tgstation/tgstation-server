@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -132,7 +133,7 @@ namespace Tgstation.Server.Host.Controllers
 							.Read(filePath, systemIdentity, cancellationToken)
 							;
 						if (result == null)
-							return Gone();
+							return this.Gone();
 
 						return Json(result);
 					})
@@ -186,7 +187,7 @@ namespace Tgstation.Server.Host.Controllers
 								.ListDirectory(directoryPath, systemIdentity, cancellationToken)
 								;
 							if (result == null)
-								return new PaginatableResult<ConfigurationFileResponse>(Gone());
+								return new PaginatableResult<ConfigurationFileResponse>(this.Gone());
 
 							return new PaginatableResult<ConfigurationFileResponse>(
 								result

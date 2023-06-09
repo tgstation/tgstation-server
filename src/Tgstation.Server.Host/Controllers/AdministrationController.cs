@@ -19,6 +19,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
@@ -173,7 +174,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+				return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
 				{
 					AdditionalData = e.Message,
 				});
@@ -224,9 +225,9 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						NewVersion = model.NewVersion,
 					}),
-					ServerUpdateResult.ReleaseMissing => Gone(),
+					ServerUpdateResult.ReleaseMissing => this.Gone(),
 					ServerUpdateResult.UpdateInProgress => BadRequest(new ErrorMessageResponse(ErrorCode.ServerUpdateInProgress)),
-					ServerUpdateResult.SwarmIntegrityCheckFailed => StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.SwarmIntegrityCheckFailed)),
+					ServerUpdateResult.SwarmIntegrityCheckFailed => this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.SwarmIntegrityCheckFailed)),
 					_ => throw new InvalidOperationException($"Unexpected ServerUpdateResult: {updateResult}"),
 				};
 			}
@@ -237,7 +238,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
+				return this.StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
 				{
 					AdditionalData = e.Message,
 				});

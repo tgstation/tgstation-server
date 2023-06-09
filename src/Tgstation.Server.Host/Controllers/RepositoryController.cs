@@ -18,6 +18,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -107,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 				;
 
 			if (currentModel == default)
-				return Gone();
+				return this.Gone();
 
 			currentModel.UpdateSubmodules = model.UpdateSubmodules ?? true;
 			currentModel.AccessToken = model.AccessToken;
@@ -214,7 +215,7 @@ namespace Tgstation.Server.Host.Controllers
 				;
 
 			if (currentModel == default)
-				return Gone();
+				return this.Gone();
 
 			currentModel.AccessToken = null;
 			currentModel.AccessUser = null;
@@ -262,7 +263,7 @@ namespace Tgstation.Server.Host.Controllers
 				;
 
 			if (currentModel == default)
-				return Gone();
+				return this.Gone();
 
 			var api = currentModel.ToApi();
 
@@ -351,7 +352,7 @@ namespace Tgstation.Server.Host.Controllers
 				;
 
 			if (currentModel == default)
-				return Gone();
+				return this.Gone();
 
 			bool CheckModified<T>(Expression<Func<Api.Models.Internal.RepositorySettings, T>> expression, RepositoryRights requiredRight)
 			{

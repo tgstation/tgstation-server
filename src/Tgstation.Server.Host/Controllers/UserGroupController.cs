@@ -15,6 +15,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -125,7 +126,7 @@ namespace Tgstation.Server.Host.Controllers
 				;
 
 			if (currentGroup == default)
-				return Gone();
+				return this.Gone();
 
 			if (model.PermissionSet != null)
 			{
@@ -170,7 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken)
 				;
 			if (group == default)
-				return Gone();
+				return this.Gone();
 			return Json(group.ToApi(true));
 		}
 
@@ -236,7 +237,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return groupExists
 				? Conflict(new ErrorMessageResponse(ErrorCode.UserGroupNotEmpty))
-				: Gone();
+				: this.Gone();
 		}
 	}
 }
