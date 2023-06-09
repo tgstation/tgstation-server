@@ -363,8 +363,6 @@ namespace Tgstation.Server.Host.Controllers
 						fullPath,
 						true));
 
-				var readTask = ioManager.ReadAllBytes(fullPath, cancellationToken);
-
 				return Ok(new LogFileResponse
 				{
 					Name = path,
