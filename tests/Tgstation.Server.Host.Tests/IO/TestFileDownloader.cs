@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -83,10 +84,12 @@ Please see the following for more context:
 			var downloader = CreateDownloader(out var loggerFactory);
 			using (loggerFactory)
 			{
-				await using var ms = await downloader.DownloadFile(
+				await using var ms = new MemoryStream();
+				await using (var s = await downloader.DownloadFile(
 					new Uri("https://raw.githubusercontent.com/dotnet/corefx/archive/README.md"),
 					gitHubToken,
-					default);
+					default))
+					await s.CopyToAsync(ms);
 
 				var stringData = Encoding.UTF8.GetString(ms.GetBuffer());
 				Assert.AreEqual(ExpectedData, stringData);

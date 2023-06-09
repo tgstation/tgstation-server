@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Core
 				}
 
 				var stagingDirectory = $"{updatePath}-stage";
-				MemoryStream updateZipData;
+				var updateZipData = new MemoryStream();
 				try
 				{
 					logger.LogTrace("Downloading zip package...");
@@ -143,11 +143,13 @@ namespace Tgstation.Server.Host.Core
 					if (String.IsNullOrWhiteSpace(bearerToken))
 						bearerToken = null;
 
-					updateZipData = await fileDownloader.DownloadFile(serverUpdateOperation.UpdateZipUrl, bearerToken, cancellationToken);
+					await using var download = await fileDownloader.DownloadFile(serverUpdateOperation.UpdateZipUrl, bearerToken, cancellationToken);
+					await download.CopyToAsync(updateZipData, cancellationToken);
 				}
 				catch (Exception ex)
 				{
 					await TryAbort(ex);
+					await updateZipData.DisposeAsync();
 					throw;
 				}
 
@@ -155,7 +157,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					try
 					{
-						using (updateZipData)
+						await using (updateZipData)
 						{
 							logger.LogTrace("Extracting zip package to {stagingDirectory}...", stagingDirectory);
 							await ioManager.DeleteDirectory(stagingDirectory, cancellationToken);

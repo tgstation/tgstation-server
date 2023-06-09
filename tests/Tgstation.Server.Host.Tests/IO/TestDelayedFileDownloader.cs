@@ -32,7 +32,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			var mockFileDownloader = new Mock<IFileDownloader>();
 			mockFileDownloader
 				.Setup(x => x.DownloadFile(It.IsNotNull<Uri>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-				.Returns(Task.FromResult(resultMs))
+				.Returns(Task.FromResult<Stream>(resultMs))
 				.Verifiable();
 
 			await using var downloader = new DelayedFileDownloader(mockFileDownloader.Object, new Uri("http://asdf.com"), null);
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			var mockFileDownloader = new Mock<IFileDownloader>();
 			mockFileDownloader
 				.Setup(x => x.DownloadFile(It.IsNotNull<Uri>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-				.Returns(Task.FromResult(resultMs))
+				.Returns(Task.FromResult<Stream>(resultMs))
 				.Verifiable();
 
 			await using var downloader = new DelayedFileDownloader(mockFileDownloader.Object, new Uri("http://asdf.com"), null);
@@ -71,7 +71,7 @@ namespace Tgstation.Server.Host.IO.Tests
 		public async Task TestInterruptedDownload()
 		{
 			var resultMs = new MemoryStream();
-			var tcs = new TaskCompletionSource<MemoryStream>();
+			var tcs = new TaskCompletionSource<Stream>();
 			var mockFileDownloader = new Mock<IFileDownloader>();
 			mockFileDownloader
 				.Setup(x => x.DownloadFile(It.IsNotNull<Uri>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))

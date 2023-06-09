@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.IO
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the downloaded <see cref="MemoryStream"/>.
 		/// </summary>
-		Task<MemoryStream> downloadTask;
+		Task<Stream> downloadTask;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DelayedFileDownloader"/> class.
@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()
 		{
-			Task<MemoryStream> localDownloadTask;
+			Task<Stream> localDownloadTask;
 			lock (downloadCts)
 			{
 				if (downloadTask == null)
@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.IO
 			downloadCts.Cancel();
 			downloadCts.Dispose();
 
-			MemoryStream result;
+			Stream result;
 			try
 			{
 				result = await localDownloadTask;
@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task<Stream> GetResult(CancellationToken cancellationToken)
 		{
-			Task<MemoryStream> localTask;
+			Task<Stream> localTask;
 			using (cancellationToken.Register(() => downloadCts.Cancel()))
 			{
 				lock (downloadCts)

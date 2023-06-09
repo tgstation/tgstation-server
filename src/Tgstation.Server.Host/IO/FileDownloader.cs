@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task<MemoryStream> DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken)
+		public async Task<Stream> DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken)
 		{
 			if (url == null)
 				throw new ArgumentNullException(nameof(url));
@@ -52,21 +52,18 @@ namespace Tgstation.Server.Host.IO
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, bearerToken);
 
 			var webRequestTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-			using var response = await webRequestTask;
-			response.EnsureSuccessStatusCode();
-			await using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-			var memoryStream = new MemoryStream();
+			var response = await webRequestTask;
 			try
 			{
-				await responseStream.CopyToAsync(memoryStream, cancellationToken);
-				memoryStream.Seek(0, SeekOrigin.Begin);
-				return memoryStream;
+				response.EnsureSuccessStatusCode();
 			}
 			catch
 			{
-				await memoryStream.DisposeAsync();
+				response.Dispose();
 				throw;
 			}
+
+			return await CachedResponseStream.Create(response);
 		}
 	}
 }

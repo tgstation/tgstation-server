@@ -1,13 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Client
+namespace Tgstation.Server.Common
 {
 	/// <summary>
 	/// Caches the <see cref="Stream"/> from a <see cref="HttpResponseMessage"/> for later use.
 	/// </summary>
-	sealed class CachedResponseStream : Stream
+	public sealed class CachedResponseStream : Stream
 	{
 		/// <summary>
 		/// The <see cref="HttpResponseMessage"/> for the <see cref="CachedResponseStream"/>.
@@ -26,8 +27,19 @@ namespace Tgstation.Server.Client
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="CachedResponseStream"/>.</returns>
 		public static async Task<CachedResponseStream> Create(HttpResponseMessage response)
 		{
+			if (response == null)
+				throw new ArgumentNullException(nameof(response));
+
 			var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-			return new CachedResponseStream(response, stream);
+			try
+			{
+				return new CachedResponseStream(response, stream);
+			}
+			catch
+			{
+				stream.Dispose();
+				throw;
+			}
 		}
 
 		/// <inheritdoc />

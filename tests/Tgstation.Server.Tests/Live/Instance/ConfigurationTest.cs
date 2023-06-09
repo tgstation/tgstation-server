@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 

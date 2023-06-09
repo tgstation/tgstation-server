@@ -17,7 +17,7 @@ namespace Tgstation.Server.Tests.Live
 {
 	sealed class CachingFileDownloader : IFileDownloader
 	{
-		static readonly Dictionary<string, Tuple<string, bool>> cachedPaths = new Dictionary<string, Tuple<string, bool>>();
+		static readonly Dictionary<string, Tuple<string, bool>> cachedPaths = new ();
 
 		readonly ILogger<CachingFileDownloader> logger;
 
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		public async Task<MemoryStream> DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken)
+		public async Task<Stream> DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken)
 		{
 			Tuple<string, bool> tuple;
 			lock (cachedPaths)
@@ -123,11 +123,24 @@ namespace Tgstation.Server.Tests.Live
 			var download = await downloader.DownloadFile(url, bearerToken, cancellationToken);
 			try
 			{
+				var ms = new MemoryStream();
+				try
+				{
+					await download.CopyToAsync(ms, cancellationToken);
+				}
+				catch
+				{
+					await ms.DisposeAsync();
+					throw;
+				}
+
+				ms.Seek(0, SeekOrigin.Begin);
+
 				var path = Path.GetTempFileName();
 				try
 				{
 					await using var fs = new DefaultIOManager().CreateAsyncSequentialWriteStream(path);
-					await download.CopyToAsync(fs, cancellationToken);
+					await ms.CopyToAsync(fs, cancellationToken);
 
 					lock (cachedPaths)
 						cachedPaths.Add(url.ToString(), Tuple.Create(path, temporal));
@@ -140,8 +153,8 @@ namespace Tgstation.Server.Tests.Live
 					throw;
 				}
 
-				download.Seek(0, SeekOrigin.Begin);
-				return download;
+				ms.Seek(0, SeekOrigin.Begin);
+				return ms;
 			}
 			catch
 			{
