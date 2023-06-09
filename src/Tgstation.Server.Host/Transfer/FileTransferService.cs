@@ -140,10 +140,10 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public IFileUploadTicket CreateUpload(bool requireSynchronousIO)
+		public IFileUploadTicket CreateUpload(FileUploadStreamKind streamKind)
 		{
 			logger.LogDebug("Creating upload ticket...");
-			var uploadTicket = new FileUploadProvider(CreateTicket(), requireSynchronousIO);
+			var uploadTicket = new FileUploadProvider(CreateTicket(), streamKind);
 
 			lock (uploadTickets)
 				uploadTickets.Add(uploadTicket.Ticket.FileTicket, uploadTicket);

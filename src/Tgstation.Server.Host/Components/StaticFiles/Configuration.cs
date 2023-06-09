@@ -441,7 +441,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				lock (semaphore)
 					try
 					{
-						var fileTicket = fileTransferService.CreateUpload(true);
+						var fileTicket = fileTransferService.CreateUpload(FileUploadStreamKind.ForSynchronousIO);
 						var uploadCancellationToken = disposeCts.Token;
 						async Task UploadHandler()
 						{

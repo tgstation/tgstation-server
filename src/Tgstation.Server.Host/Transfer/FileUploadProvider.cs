@@ -34,9 +34,9 @@ namespace Tgstation.Server.Host.Transfer
 		readonly TaskCompletionSource completionTcs;
 
 		/// <summary>
-		/// If synchronous IO is required. Uses a <see cref="FileBufferingReadStream"/> as a backend if set.
+		/// Determines the backing for the <see cref="Stream"/> returned from <see cref="GetResult(CancellationToken)"/>.
 		/// </summary>
-		readonly bool requireSynchronousIO;
+		readonly FileUploadStreamKind streamKind;
 
 		/// <summary>
 		/// The <see cref="ErrorMessageResponse"/> that occurred while processing the upload if any.
@@ -47,15 +47,15 @@ namespace Tgstation.Server.Host.Transfer
 		/// Initializes a new instance of the <see cref="FileUploadProvider"/> class.
 		/// </summary>
 		/// <param name="ticket">The value of <see cref="Ticket"/>.</param>
-		/// <param name="requireSynchronousIO">The value of <see cref="requireSynchronousIO"/>.</param>
-		public FileUploadProvider(FileTicketResponse ticket, bool requireSynchronousIO)
+		/// <param name="streamKind">The value of <see cref="streamKind"/>.</param>
+		public FileUploadProvider(FileTicketResponse ticket, FileUploadStreamKind streamKind)
 		{
 			Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));
 
 			ticketExpiryCts = new CancellationTokenSource();
 			streamTcs = new TaskCompletionSource<Stream>();
 			completionTcs = new TaskCompletionSource();
-			this.requireSynchronousIO = requireSynchronousIO;
+			this.streamKind = streamKind;
 		}
 
 		/// <inheritdoc />
@@ -98,11 +98,29 @@ namespace Tgstation.Server.Host.Transfer
 				return new ErrorMessageResponse(ErrorCode.ResourceNotPresent);
 
 			Stream bufferedStream = null;
-			if (requireSynchronousIO)
+			try
 			{
-				// big reads, we should buffer to disk
-				bufferedStream = new FileBufferingReadStream(stream, DefaultIOManager.DefaultBufferSize);
-				await bufferedStream.DrainAsync(cancellationToken);
+				switch (streamKind)
+				{
+					case FileUploadStreamKind.ForSynchronousIO:
+						// big reads, we should buffer to disk
+						// NOTE: We do this here ONLY because we can't use async methods in a synchronous context
+						// Ideally we should be doing 0 buffering here, but this is a compromise
+						bufferedStream = new FileBufferingReadStream(stream, DefaultIOManager.DefaultBufferSize);
+						await bufferedStream.DrainAsync(cancellationToken);
+						break;
+					case FileUploadStreamKind.None:
+						break;
+					default:
+						throw new InvalidOperationException($"Invalid FileUploadStreamKind: {streamKind}");
+				}
+			}
+			catch
+			{
+				if (bufferedStream != null)
+					await bufferedStream.DisposeAsync();
+
+				throw;
 			}
 
 			await using (bufferedStream)
