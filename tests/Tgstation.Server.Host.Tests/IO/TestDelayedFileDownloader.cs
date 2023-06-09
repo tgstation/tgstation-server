@@ -99,9 +99,6 @@ namespace Tgstation.Server.Host.IO.Tests
 			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task2);
 			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => task3);
 
-			// code coverage
-			downloader.SetError(ErrorCode.BadHeaders, null);
-
 			mockFileDownloader.VerifyAll();
 		}
 	}
