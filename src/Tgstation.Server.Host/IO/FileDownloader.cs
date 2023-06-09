@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.IO
 			if (bearerToken != null)
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, bearerToken);
 
-			var webRequestTask = httpClient.SendAsync(request, cancellationToken);
+			var webRequestTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 			using var response = await webRequestTask;
 			response.EnsureSuccessStatusCode();
 			await using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);

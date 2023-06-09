@@ -25,8 +25,9 @@ namespace Tgstation.Server.Common
 		/// Send an HTTP request.
 		/// </summary>
 		/// <param name="request">The <see cref="HttpRequestMessage"/>.</param>
+		/// <param name="completionOption">The <see cref="HttpCompletionOption"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="HttpResponseMessage"/> of the request.</returns>
-		Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken);
+		Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken);
 	}
 }

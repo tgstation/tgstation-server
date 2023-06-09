@@ -45,6 +45,7 @@ namespace Tgstation.Server.Common
 		public void Dispose() => httpClient.Dispose();
 
 		/// <inheritdoc />
-		public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) => httpClient.SendAsync(request, cancellationToken);
+		public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)
+			=> httpClient.SendAsync(request, completionOption, cancellationToken);
 	}
 }

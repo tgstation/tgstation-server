@@ -318,7 +318,7 @@ namespace Tgstation.Server.Client
 
 					await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
 
-					response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 				}
 				finally
 				{

@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				var tokenRequestDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenRequestJson);
 				tokenRequest.Content = new FormUrlEncodedContent(tokenRequestDictionary);
 
-				using var tokenResponse = await httpClient.SendAsync(tokenRequest, cancellationToken);
+				using var tokenResponse = await httpClient.SendAsync(tokenRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 				tokenResponse.EnsureSuccessStatusCode();
 				tokenResponsePayload = await tokenResponse.Content.ReadAsStringAsync(cancellationToken);
 				var tokenResponseJson = JObject.Parse(tokenResponsePayload);

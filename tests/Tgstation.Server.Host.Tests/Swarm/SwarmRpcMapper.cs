@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		{
 			this.createSwarmController = createSwarmController;
 			clientMock
-				.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
+				.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>()))
 				.Returns(MapRequest);
 			this.logger = logger;
 			AsyncRequests = true;
@@ -59,6 +59,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		async Task<HttpResponseMessage> MapRequest(
 			HttpRequestMessage request,
+			HttpCompletionOption httpCompletionOption,
 			CancellationToken cancellationToken)
 		{
 			var (config, node) = configToNodes.FirstOrDefault(

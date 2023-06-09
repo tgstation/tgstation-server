@@ -304,7 +304,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, cancellationToken);
+					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
@@ -365,7 +365,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var commitReadyResponse = await httpClient.SendAsync(commitReadyRequest, cancellationToken);
+					using var commitReadyResponse = await httpClient.SendAsync(commitReadyRequest, HttpCompletionOption.ResponseContentRead, cancellationToken);
 					commitReadyResponse.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
@@ -421,7 +421,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					// I know using the cancellationToken after this point doesn't seem very sane
 					// It's the token for Ctrl+C on server's console though, so we must respect it
-					using var response = await httpClient.SendAsync(request, cancellationToken);
+					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
@@ -516,7 +516,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, cancellationToken);
+					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
@@ -782,7 +782,7 @@ namespace Tgstation.Server.Host.Swarm
 						UpdateVersion = version,
 					});
 
-				using var response = await httpClient.SendAsync(request, cancellationToken);
+				using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
 				return response.IsSuccessStatusCode;
 			}
 
@@ -943,7 +943,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, cancellationToken);
+					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
 					response.EnsureSuccessStatusCode();
 					return;
 				}
@@ -1014,7 +1014,7 @@ namespace Tgstation.Server.Host.Swarm
 						HttpMethod.Get,
 						String.Empty,
 						null);
-					using var response = await httpClient.SendAsync(request, cancellationToken);
+					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
 					response.EnsureSuccessStatusCode();
 					logger.LogTrace("Controller health check successful");
 					return;
@@ -1079,7 +1079,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			try
 			{
-				using var response = await httpClient.SendAsync(registrationRequest, cancellationToken);
+				using var response = await httpClient.SendAsync(registrationRequest, HttpCompletionOption.ResponseContentRead, cancellationToken);
 				if (response.IsSuccessStatusCode)
 				{
 					logger.LogInformation("Sucessfully registered with ID {registrationId}", requestedRegistrationId);
@@ -1151,7 +1151,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				try
 				{
-					using var response = await httpClient.SendAsync(request, cancellationToken);
+					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex) when (ex is not OperationCanceledException)

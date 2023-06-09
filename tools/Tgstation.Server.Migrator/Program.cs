@@ -282,7 +282,7 @@ try
 
 		using var httpClient = httpClientFactory.CreateClient();
 		using var request = new HttpRequestMessage(HttpMethod.Get, downloadUri);
-		var webRequestTask = httpClient.SendAsync(request, default);
+		var webRequestTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, default);
 		using var response = await webRequestTask;
 		response.EnsureSuccessStatusCode();
 		await using (var responseStream = await response.Content.ReadAsStreamAsync())
