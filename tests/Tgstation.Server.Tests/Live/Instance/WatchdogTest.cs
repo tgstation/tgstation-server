@@ -255,7 +255,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 					&& (job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_ACCESSDENIED: Access is denied.")
 					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_HANDLE: The handle is invalid.")
 					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 3489660936: Unknown error (0xd0000008)")
-					|| job.ExceptionDetails.Contains("System.InvalidOperationException: No process is associated with this object."))))
+					|| job.ExceptionDetails.Contains("System.InvalidOperationException: No process is associated with this object.")
+					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 2147942424: The program issued a command but the command length is incorrect."))))
 					break;
 
 				var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
