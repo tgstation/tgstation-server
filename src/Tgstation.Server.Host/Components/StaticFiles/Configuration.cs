@@ -449,6 +449,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							{
 								var fileHash = previousHash;
 								var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
+								if (uploadStream == null)
+									return; // expired
+
 								bool success = false;
 								void WriteCallback()
 								{
