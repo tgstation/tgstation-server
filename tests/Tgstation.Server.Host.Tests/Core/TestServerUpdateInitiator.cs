@@ -12,7 +12,7 @@ using Tgstation.Server.Host.Swarm;
 namespace Tgstation.Server.Host.Core.Tests
 {
 	[TestClass]
-	public sealed class TestServerUpdater
+	public sealed class TestServerUpdateInitiator
 	{
 		[TestMethod]
 		public void TestConstructor()
