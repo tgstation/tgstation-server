@@ -385,10 +385,22 @@ try
 
 	using (var loggerFactory = LoggerFactory.Create(builder => { }))
 	{
-		var fileDownloader = new FileDownloader(httpClientFactory, loggerFactory.CreateLogger<FileDownloader>());
-		await using var tgsFiveZipMemoryStream = await fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), null, default);
-		Console.WriteLine("Unzipping TGS5...");
-		await serverFactory.IOManager.ZipToDirectory(tgsInstallPath, tgsFiveZipMemoryStream, default);
+		BufferedFileStreamProvider tgsFiveZipBuffer;
+		{
+			var fileDownloader = new FileDownloader(httpClientFactory, loggerFactory.CreateLogger<FileDownloader>());
+			await using var tgsFiveZipDownload = fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), null);
+			tgsFiveZipBuffer = new BufferedFileStreamProvider(
+				await tgsFiveZipDownload.GetResult(default));
+		}
+
+		await using (tgsFiveZipBuffer)
+		{
+			Console.WriteLine("Unzipping TGS5...");
+			await serverFactory.IOManager.ZipToDirectory(
+				tgsInstallPath,
+				await tgsFiveZipBuffer.GetResult(default),
+				default);
+		}
 	}
 
 	// TGS5 CONFIG SETUP

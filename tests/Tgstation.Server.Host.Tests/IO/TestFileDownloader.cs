@@ -48,12 +48,12 @@ Please see the following for more context:
 		}
 
 		[TestMethod]
-		public async Task TestDownloadThrows()
+		public void TestDownloadThrows()
 		{
 			var downloader = CreateDownloader(out var loggerFactory);
 			using (loggerFactory)
 			{
-				await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => downloader.DownloadFile(null, null, default));
+				Assert.ThrowsException<ArgumentNullException>(() => downloader.DownloadFile(null, null));
 			}
 		}
 
@@ -85,10 +85,10 @@ Please see the following for more context:
 			using (loggerFactory)
 			{
 				await using var ms = new MemoryStream();
-				await using (var s = await downloader.DownloadFile(
+				await using (var provider = downloader.DownloadFile(
 					new Uri("https://raw.githubusercontent.com/dotnet/corefx/archive/README.md"),
-					gitHubToken,
-					default))
+					gitHubToken))
+				await using (var s = await provider.GetResult(default))
 					await s.CopyToAsync(ms);
 
 				var stringData = Encoding.UTF8.GetString(ms.GetBuffer());

@@ -11,9 +11,9 @@ namespace Tgstation.Server.Common
 	public sealed class CachedResponseStream : Stream
 	{
 		/// <summary>
-		/// The <see cref="HttpResponseMessage"/> for the <see cref="CachedResponseStream"/>.
+		/// The <see cref="HttpContent"/> for the <see cref="CachedResponseStream"/>.
 		/// </summary>
-		readonly HttpResponseMessage response;
+		readonly HttpContent responseContent;
 
 		/// <summary>
 		/// The reponse content <see cref="Stream"/>.
@@ -30,15 +30,21 @@ namespace Tgstation.Server.Common
 			if (response == null)
 				throw new ArgumentNullException(nameof(response));
 
-			var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-			try
+			using (response)
 			{
-				return new CachedResponseStream(response, stream);
-			}
-			catch
-			{
-				stream.Dispose();
-				throw;
+				var content = response.Content;
+				response.Content = null;
+				try
+				{
+					return new CachedResponseStream(
+						content,
+						await content.ReadAsStreamAsync().ConfigureAwait(false));
+				}
+				catch
+				{
+					content.Dispose();
+					throw;
+				}
 			}
 		}
 
@@ -82,18 +88,19 @@ namespace Tgstation.Server.Common
 			base.Dispose(disposing);
 			if (!disposing)
 				return;
+
+			responseContent.Dispose();
 			responseStream.Dispose();
-			response.Dispose();
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CachedResponseStream"/> class.
 		/// </summary>
-		/// <param name="response">The value of <see cref="response"/>.</param>
+		/// <param name="responseContent">The value of <see cref="responseContent"/>.</param>
 		/// <param name="responseStream">The value of <see cref="responseStream"/>.</param>
-		CachedResponseStream(HttpResponseMessage response, Stream responseStream)
+		CachedResponseStream(HttpContent responseContent, Stream responseStream)
 		{
-			this.response = response;
+			this.responseContent = responseContent;
 			this.responseStream = responseStream;
 		}
 	}

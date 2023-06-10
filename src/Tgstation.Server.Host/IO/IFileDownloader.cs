@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -15,8 +12,7 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="url">The URL to download.</param>
 		/// <param name="bearerToken">Optional <see cref="string"/> to use as the "Bearer" value in the optional "Authorization" header for the request.</param>
-		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Stream"/> of the downloaded file.</returns>
-		Task<Stream> DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken);
+		/// <returns>A new <see cref="IFileStreamProvider"/> for the downloaded file.</returns>
+		IFileStreamProvider DownloadFile(Uri url, string bearerToken);
 	}
 }

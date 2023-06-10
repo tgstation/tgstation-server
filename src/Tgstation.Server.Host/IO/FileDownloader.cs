@@ -1,9 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
@@ -37,33 +34,36 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task<Stream> DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken)
+		public IFileStreamProvider DownloadFile(Uri url, string bearerToken)
 		{
 			if (url == null)
 				throw new ArgumentNullException(nameof(url));
 
 			logger.LogDebug("Starting download of {url}...", url);
-			using var httpClient = httpClientFactory.CreateClient();
-			using var request = new HttpRequestMessage(
-				HttpMethod.Get,
-				url);
-
-			if (bearerToken != null)
-				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, bearerToken);
-
-			var webRequestTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-			var response = await webRequestTask;
+			var httpClient = httpClientFactory.CreateClient();
 			try
 			{
-				response.EnsureSuccessStatusCode();
+				var request = new HttpRequestMessage(
+					HttpMethod.Get,
+					url);
+				try
+				{
+					if (bearerToken != null)
+						request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, bearerToken);
+
+					return new RequestFileStreamProvider(httpClient, request);
+				}
+				catch
+				{
+					request.Dispose();
+					throw;
+				}
 			}
 			catch
 			{
-				response.Dispose();
+				httpClient.Dispose();
 				throw;
 			}
-
-			return await CachedResponseStream.Create(response);
 		}
 	}
 }

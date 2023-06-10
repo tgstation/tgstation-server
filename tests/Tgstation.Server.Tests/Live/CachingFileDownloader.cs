@@ -93,23 +93,41 @@ namespace Tgstation.Server.Tests.Live
 			}
 		}
 
-		public async Task<Stream> DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken)
+		class ProviderPackage : IFileStreamProvider
 		{
-			Tuple<string, bool> tuple;
-			lock (cachedPaths)
-				if (!cachedPaths.TryGetValue(url.ToString(), out tuple))
-				{
-					logger.LogInformation("Cache miss: {url}", url);
-					tuple = null;
-				}
+			readonly ILogger logger;
+			readonly Uri url;
+			readonly string bearerToken;
 
-			if (tuple == null)
-				return await CacheFile(logger, url, bearerToken, true, cancellationToken);
+			public ProviderPackage(ILogger logger, Uri url, string bearerToken)
+			{
+				this.logger = logger;
+				this.url = url;
+				this.bearerToken = bearerToken;
+			}
 
-			logger.LogTrace("Cache hit: {url}", url);
-			var bytes = await new DefaultIOManager().ReadAllBytes(tuple.Item1, cancellationToken);
-			return new MemoryStream(bytes);
+			public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
+			public async Task<Stream> GetResult(CancellationToken cancellationToken)
+			{
+				Tuple<string, bool> tuple;
+				lock (cachedPaths)
+					if (!cachedPaths.TryGetValue(url.ToString(), out tuple))
+					{
+						logger.LogInformation("Cache miss: {url}", url);
+						tuple = null;
+					}
+
+				if (tuple == null)
+					return await CacheFile(logger, url, bearerToken, true, cancellationToken);
+
+				logger.LogTrace("Cache hit: {url}", url);
+				var bytes = await new DefaultIOManager().ReadAllBytes(tuple.Item1, cancellationToken);
+				return new MemoryStream(bytes);
+			}
 		}
+
+		public IFileStreamProvider DownloadFile(Uri url, string bearerToken) => new ProviderPackage(logger, url, bearerToken);
 
 		static async Task<MemoryStream> CacheFile(ILogger logger, Uri url, string bearerToken, bool temporal, CancellationToken cancellationToken)
 		{
@@ -120,41 +138,42 @@ namespace Tgstation.Server.Tests.Live
 					LiveTestUtils.CreateLoggerFactoryForLogger(
 						logger,
 						out _)));
-			var download = await downloader.DownloadFile(url, bearerToken, cancellationToken);
+			await using var download = downloader.DownloadFile(url, bearerToken);
 			try
 			{
-				var ms = new MemoryStream();
+				await using var buffer = new BufferedFileStreamProvider(
+					await download.GetResult(cancellationToken));
+
+				var ms = await buffer.GetOwnedResult(cancellationToken);
 				try
 				{
-					await download.CopyToAsync(ms, cancellationToken);
+					ms.Seek(0, SeekOrigin.Begin);
+
+					var path = Path.GetTempFileName();
+					try
+					{
+						await using var fs = new DefaultIOManager().CreateAsyncSequentialWriteStream(path);
+						await ms.CopyToAsync(fs, cancellationToken);
+
+						lock (cachedPaths)
+							cachedPaths.Add(url.ToString(), Tuple.Create(path, temporal));
+
+						logger.LogTrace("Cached to {path}", path);
+					}
+					catch
+					{
+						File.Delete(path);
+						throw;
+					}
+
+					ms.Seek(0, SeekOrigin.Begin);
+					return ms;
 				}
 				catch
 				{
 					await ms.DisposeAsync();
 					throw;
 				}
-
-				ms.Seek(0, SeekOrigin.Begin);
-
-				var path = Path.GetTempFileName();
-				try
-				{
-					await using var fs = new DefaultIOManager().CreateAsyncSequentialWriteStream(path);
-					await ms.CopyToAsync(fs, cancellationToken);
-
-					lock (cachedPaths)
-						cachedPaths.Add(url.ToString(), Tuple.Create(path, temporal));
-
-					logger.LogTrace("Cached to {path}", path);
-				}
-				catch
-				{
-					File.Delete(path);
-					throw;
-				}
-
-				ms.Seek(0, SeekOrigin.Begin);
-				return ms;
 			}
 			catch
 			{

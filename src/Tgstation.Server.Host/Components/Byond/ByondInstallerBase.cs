@@ -97,19 +97,10 @@ namespace Tgstation.Server.Host.Components.Byond
 			Logger.LogTrace("Downloading BYOND version {major}.{minor}...", version.Major, version.Minor);
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Major, version.Minor);
 
-			await using var download = await fileDownloader.DownloadFile(new Uri(url), null, cancellationToken);
-			var memoryStream = new MemoryStream();
-			try
-			{
-				await download.CopyToAsync(memoryStream, cancellationToken);
-				memoryStream.Seek(0, SeekOrigin.Begin);
-				return memoryStream;
-			}
-			catch
-			{
-				await memoryStream.DisposeAsync();
-				throw;
-			}
+			await using var download = fileDownloader.DownloadFile(new Uri(url), null);
+			await using var buffer = new BufferedFileStreamProvider(
+				await download.GetResult(cancellationToken));
+			return await buffer.GetOwnedResult(cancellationToken);
 		}
 	}
 }
