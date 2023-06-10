@@ -2,7 +2,7 @@ name: 'Code Scanning'
 
 on:
   schedule:
-    - cron: 0 23 * * *
+    - cron: 0 23 * * 1
   push:
     branches:
     - dev
@@ -20,6 +20,11 @@ jobs:
   analyze:
     name: Code Scanning
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    if: ${{ vars.TGS_ENABLE_CODE_QL }} == 'true'
     steps:
     - name: Install Node 12.X
       uses: actions/setup-node@v3
@@ -42,3 +47,5 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:csharp"

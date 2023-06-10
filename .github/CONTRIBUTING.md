@@ -41,13 +41,35 @@ The recommended IDE is Visual Studio 2019 which has installation options for bot
 In order to run the integration tests you must have the following environment variables set. To run them more accurately, include the optional ones.
 - `TGS_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
 - `TGS_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
-- `TGS_TEST_BRANCH`: Should be either `dev` or `master` depending on what you are working off of. Used for repository tests.
 - (Optional) `TGS_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
 - (Optional) The following variables are all interdependent, so if one is set they all must be.
-	- `TSG_TEST_DISCORD_TOKEN`: To a valid discord bot token.
+	- `TGS_TEST_DISCORD_TOKEN`: To a valid discord bot token.
 	- `TGS_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
 	- `TGS_TEST_IRC_CONNECTION_STRING`: To a valid IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
 	- `TGS_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
+
+### Notes About Forks
+
+For the full CI gambit, the following repository configuration must be set:
+
+- Setting `Workflow Permissions` to `Read and write permissions`: Enables CodeQL uploads and GitHub Actions comments.
+![image](https://github.com/tgstation/tgstation-server/assets/8171642/ab17fa74-364f-4e66-b7c4-b9bb24c6a599)
+- Label `CI Cleared`: To allow PRs from forks to run CI with secrets after approval.
+- Variable `TGS_ENABLE_CODE_QL` to `true`: Enables CodeQL scanning in actions.
+- Integration [CodeCov](https://github.com/apps/codecov): Enables CodeCov status checks.
+- Secret `CODECOV_TOKEN`: A CodeCov repo token to work around https://github.com/codecov/codecov-action/issues/837.
+- Secret `LIVE_TESTS_TOKEN`: A GitHub token with read access to the repository and write access to https://github.com/Cyberboss/common_core (TODO: Make the target repository here configurable). Despite it's name, it may be used across the entire test suite.
+- Secret `TGS_TEST_DISCORD_TOKEN`: See above note about test environment variables.
+- Secret `TGS_TEST_DISCORD_CHANNEL`: See above note about test environment variables.
+- Secret `TGS_TEST_IRC_CONNECTION_STRING`: See above note about test environment variables.
+- Secret `TGS_TEST_IRC_CHANNEL`: See above note about test environment variables.
+
+If you don't plan on deploying TGS, the following secrets can be omitted:
+
+- Secret `DEV_PUSH_TOKEN`: A GitHub token with write access to the repository. Enables doxygen pushes to `gh-pages` branch, and releases creation.
+- Secret `DOCKER_USERNAME`: Login username for Docker image push.
+- Secret `DOCKER_PASSWORD`: Login password for Docker image push.
+- Secret `NUGET_API_KEY`: Nuget.org API Key for client libraries push.
 
 ### Know your Code
 
@@ -222,6 +244,7 @@ We have several subcomponent APIs we ship with the core server that have their o
 
 - HTTP API
 - DreamMaker API
+- Interop API
 - Configuration File
 - Host Watchdog
 - Web Control Panel
@@ -235,19 +258,19 @@ All versions are stored in the master file [build/Version.props](../build/Versio
 The NuGet package Tgstation.Server.Client is another part of the suite which should be versioned separately. However, Tgstation.Server.Api is also a package that is published, and breaking changes can happen independantly of each other.
 
 - Consider Tgstation.Server.Client it's own product, perform major and minor bumps according to semver semantics including the Tgstation.Server.Api code (but not the version).
-- Tgstation.Server.Api is a bit tricky as breaking code changes may occur without affecting the actual HTTP contract. For this reason, all code changes that do this should be pushed out as patches, even if they contain breaking changes.
+- Tgstation.Server.Api is a bit tricky as breaking code changes may occur without affecting the actual HTTP contract. For this reason, the library itself is versioned separately from the API contract.
 
 ## Triage, Deployment, and Releasing
 
 _This section mainly applies to people with write access to the repository. Anyone is free to propose their work and maintainers will triage it appropriately._
 
-When issues affecting the server come in, they should be lebeled appropriately and either put into the `Backlog` milestone or current patch milestone depending on if it's a feature request or bug.
+When issues affecting the server come in, they should be labeled appropriately and either put into the `Backlog` milestone or current patch milestone depending on if it's a feature request or bug.
 
 After a minor release, the team should decide at that time what will go into it and setup the milestone accordingly. At this point the `Backlog` label should be removed and replaced with `Ready` and the milestone changed from `Backlog` to `vX.Y.0` with X/Y being the major/minor release versions respectively.
 
 Assign work before beginning on it. When work is started, replace the `Ready` label with the `Work In Progress` label.
 
-Word commit names descriptively. Only submit work through pull requests. When doing so, link the issue you'll be closing and set the milestone appropriately. Don't forget a changelog. **WARNING** Remember to submit patches to the `master` branch. Also at the time of this writing there appears to be an issue where GitHub won't close issues with PRs to the non-default branch. Maintainers may need to do this manually after merging.
+Word commit names descriptively. Only submit work through pull requests (With the exception of resolving conflicts in the `master` -> `dev` automatic merge). When doing so, link the issue you'll be closing and set the milestone appropriately. Don't forget a changelog. **WARNING** Remember to submit patches to the `master` branch. Also at the time of this writing there appears to be an issue where GitHub won't close issues with PRs to the non-default branch. Maintainers may need to do this manually after merging. Alternatively, add closing keywords to the commit message and let the `master` -> `dev` merge do the closing.
 
 At the time of this writing, the repository is configured to automate much of the deployment/release process.
 
@@ -257,10 +280,10 @@ That step should be taken for the latest API and client before releasing the cor
 
 Before releasing the core version, ensure the following:
 
-- For minor releases, ensure your changes are merging `dev` into `master`.
+- For minor/major releases, ensure your changes are merging `dev` into `master`.
 - Ensure all issues and pull requests in the associated milestone are closed (aside from the PR you are using to cut the release).
 
-To perform the release, merge the PR with `[TGSDeploy]` in the commit message. The build system will handle generating release notes, packaging, and pushing the build to GitHub releases. This will also make it available for servers to self update.
+To perform the release, merge the PR with `[TGSDeploy]` in the commit message. The build system will handle generating release notes, packaging, and pushing the build to GitHub releases. This will also make it available for servers to self update. Note that `[TGSDeploy]` only affects commits on the `master` branch.
 
 The build system will also handle closing the current milestone and creating new minor/patch milestones where applicable.
 
