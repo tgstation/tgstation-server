@@ -317,7 +317,7 @@ namespace Tgstation.Server.Tests.Live
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
 
-					void CheckServerUpdated(LiveTestingServer server)
+					static void CheckServerUpdated(LiveTestingServer server)
 					{
 						Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
 
@@ -864,12 +864,12 @@ namespace Tgstation.Server.Tests.Live
 						// Dump swagger to disk
 						// This is purely for CI
 						using var httpClient = new HttpClient();
-						var webRequestTask = httpClient.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json");
+						var webRequestTask = httpClient.GetAsync(server.Url.ToString() + "swagger/v1/swagger.json", cancellationToken);
 						using var response = await webRequestTask;
 						response.EnsureSuccessStatusCode();
-						await using var content = await response.Content.ReadAsStreamAsync();
+						await using var content = await response.Content.ReadAsStreamAsync(cancellationToken);
 						await using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
-						await content.CopyToAsync(output);
+						await content.CopyToAsync(output, cancellationToken);
 					}
 
 					async Task FailFast(Task task)
@@ -1078,7 +1078,7 @@ namespace Tgstation.Server.Tests.Live
 
 					while (dd.Status.Value == WatchdogStatus.Restoring)
 					{
-						await Task.Delay(TimeSpan.FromSeconds(1));
+						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 						dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					}
 
