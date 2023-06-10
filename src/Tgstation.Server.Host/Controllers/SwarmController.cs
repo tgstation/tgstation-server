@@ -86,9 +86,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// Registration endpoint.
 		/// </summary>
 		/// <param name="registrationRequest">The <see cref="SwarmRegistrationRequest"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPost(SwarmConstants.RegisterRoute)]
-		public IActionResult Register([FromBody] SwarmRegistrationRequest registrationRequest)
+		public async Task<IActionResult> Register([FromBody] SwarmRegistrationRequest registrationRequest, CancellationToken cancellationToken)
 		{
 			if (registrationRequest == null)
 				throw new ArgumentNullException(nameof(registrationRequest));
@@ -96,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (registrationRequest.ServerVersion != assemblyInformationProvider.Version)
 				return StatusCode((int)HttpStatusCode.UpgradeRequired);
 
-			var registrationResult = swarmOperations.RegisterNode(registrationRequest, RequestRegistrationId);
+			var registrationResult = await swarmOperations.RegisterNode(registrationRequest, RequestRegistrationId, cancellationToken);
 			if (!registrationResult)
 				return Conflict();
 			return NoContent();
@@ -201,15 +202,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Update abort endpoint.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpDelete(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> AbortUpdate(CancellationToken cancellationToken)
+		public async Task<IActionResult> AbortUpdate()
 		{
 			if (!ValidateRegistration())
 				return Forbid();
 
-			await swarmOperations.RemoteAbortUpdate(cancellationToken);
+			await swarmOperations.AbortUpdate();
 			return NoContent();
 		}
 

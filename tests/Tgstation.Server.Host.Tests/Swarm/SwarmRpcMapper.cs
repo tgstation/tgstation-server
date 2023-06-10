@@ -186,17 +186,20 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					if (controllerMethod.ReturnType != typeof(IActionResult))
 					{
 						Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
-						args.Add(cancellationToken);
+						var lastParam = controllerMethod.GetParameters().LastOrDefault();
+						if (lastParam?.ParameterType == typeof(CancellationToken))
+							args.Add(cancellationToken);
+
 						var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
 						result = await invocationTask;
 					}
 					else
 					{
 						result = (IActionResult)controllerMethod.Invoke(controller, args.ToArray());
-
-						// simulate worst case, request completed but was aborted before server replied
-						cancellationToken.ThrowIfCancellationRequested();
 					}
+
+					// simulate worst case, request completed but was aborted before server replied
+					cancellationToken.ThrowIfCancellationRequested();
 				}
 				else
 				{

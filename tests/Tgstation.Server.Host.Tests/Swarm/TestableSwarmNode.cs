@@ -70,10 +70,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			foreach (var node in nodes)
 			{
-				if (node.Config.ControllerAddress != null)
-					node.Config.UpdateRequiredNodeCount = 0;
-				else
-					node.Config.UpdateRequiredNodeCount = (uint)nodes.Length - 1;
+				node.Config.UpdateRequiredNodeCount = (uint)nodes.Length - 1;
 				node.RpcMapper.Register(configControllerSet);
 			}
 		}

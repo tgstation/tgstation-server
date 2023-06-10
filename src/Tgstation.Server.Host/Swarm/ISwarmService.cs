@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Swarm
 	/// <summary>
 	/// Used for swarm operations. Functions may be no-op based on configuration.
 	/// </summary>
-	public interface ISwarmService
+	public interface ISwarmService : ISwarmUpdateAborter
 	{
 		/// <summary>
 		/// Gets a value indicating if the expected amount of nodes are connected to the swarm.
@@ -39,12 +39,5 @@ namespace Tgstation.Server.Host.Swarm
 		/// </summary>
 		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmServerResponse"/>s in the swarm. If the server is not part of a swarm, <see langword="null"/> will be returned.</returns>
 		ICollection<SwarmServerResponse> GetSwarmServers();
-
-		/// <summary>
-		/// Abort an uncommitted update.
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task AbortUpdate(CancellationToken cancellationToken);
 	}
 }

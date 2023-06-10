@@ -139,9 +139,9 @@ namespace Tgstation.Server.Host.Core
 						if (!tuple.Item2)
 							await bufferedStream.DisposeAsync(); // don't leave this in memory
 					}
-					catch (Exception ex) when (ex is not OperationCanceledException)
+					catch (Exception ex)
 					{
-						await TryAbort(ex, cancellationToken);
+						await TryAbort(ex);
 						throw;
 					}
 
@@ -193,15 +193,14 @@ namespace Tgstation.Server.Host.Core
 		/// Attempt to abort a prepared swarm update.
 		/// </summary>
 		/// <param name="exception">The <see cref="Exception"/> being thrown.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		/// <exception cref="AggregateException">A new <see cref="AggregateException"/> containing <paramref name="exception"/> and the swarm abort <see cref="Exception"/> if thrown.</exception>
 		/// <remarks>Requires <see cref="serverUpdateOperation"/> to be populated.</remarks>
-		async Task TryAbort(Exception exception, CancellationToken cancellationToken)
+		async Task TryAbort(Exception exception)
 		{
 			try
 			{
-				await serverUpdateOperation.SwarmService.AbortUpdate(cancellationToken);
+				await serverUpdateOperation.SwarmService.AbortUpdate();
 			}
 			catch (Exception e2)
 			{
@@ -251,7 +250,7 @@ namespace Tgstation.Server.Host.Core
 				}
 				catch (Exception ex)
 				{
-					await TryAbort(ex, cancellationToken);
+					await TryAbort(ex);
 					throw;
 				}
 			}
