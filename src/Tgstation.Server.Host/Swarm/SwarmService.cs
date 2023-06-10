@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Common;
@@ -22,7 +21,6 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
-using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
@@ -35,31 +33,6 @@ namespace Tgstation.Server.Host.Swarm
 	/// </summary>
 	sealed class SwarmService : ISwarmService, ISwarmServiceController, ISwarmOperations, IDisposable
 	{
-		/// <summary>
-		/// Interval at which the swarm controller makes health checks on nodes.
-		/// </summary>
-		const int ControllerHealthCheckIntervalMinutes = 3;
-
-		/// <summary>
-		/// Interval at which the node makes health checks on the controller if it has not received one.
-		/// </summary>
-		const int NodeHealthCheckIntervalMinutes = 5;
-
-		/// <summary>
-		/// Number of minutes the controller waits to receive a ready-commit from all nodes before aborting an update.
-		/// </summary>
-		const int UpdateCommitTimeoutMinutes = 10;
-
-		/// <summary>
-		/// Number of seconds between <see cref="forceHealthCheckTcs"/> triggering and a health check being performed.
-		/// </summary>
-		const int SecondsToDelayForcedHealthChecks = 15;
-
-		/// <summary>
-		/// See <see cref="JsonSerializerSettings"/> for the swarm system.
-		/// </summary>
-		internal static JsonSerializerSettings SerializerSettings { get; }
-
 		/// <inheritdoc />
 		public bool ExpectedNumberOfNodesConnected
 		{
@@ -172,27 +145,6 @@ namespace Tgstation.Server.Host.Swarm
 		/// If the <see cref="swarmServers"/> list has been updated and needs to be resent to clients.
 		/// </summary>
 		bool serversDirty;
-
-		/// <summary>
-		/// Initializes static members of the <see cref="SwarmService"/> class.
-		/// </summary>
-		static SwarmService()
-		{
-			SerializerSettings = new ()
-			{
-				ContractResolver = new DefaultContractResolver
-				{
-					NamingStrategy = new CamelCaseNamingStrategy(),
-				},
-				Converters = new JsonConverter[]
-				{
-					new VersionConverter(),
-					new BoolConverter(),
-				},
-				DefaultValueHandling = DefaultValueHandling.Ignore,
-				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-			};
-		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SwarmService"/> class.
@@ -328,7 +280,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			var timeoutTask = swarmController
 				? asyncDelayer.Delay(
-					TimeSpan.FromMinutes(UpdateCommitTimeoutMinutes),
+					TimeSpan.FromMinutes(SwarmConstants.UpdateCommitTimeoutMinutes),
 					cancellationToken)
 				: Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
 
@@ -1435,7 +1387,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				if (body != null)
 					request.Content = new StringContent(
-						JsonConvert.SerializeObject(body, SerializerSettings),
+						JsonConvert.SerializeObject(body, SwarmConstants.SerializerSettings),
 						Encoding.UTF8,
 						MediaTypeNames.Application.Json);
 
@@ -1463,10 +1415,10 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					TimeSpan delay;
 					if (swarmController)
-						delay = TimeSpan.FromMinutes(ControllerHealthCheckIntervalMinutes);
+						delay = TimeSpan.FromMinutes(SwarmConstants.ControllerHealthCheckIntervalMinutes);
 					else
 					{
-						delay = TimeSpan.FromMinutes(NodeHealthCheckIntervalMinutes);
+						delay = TimeSpan.FromMinutes(SwarmConstants.NodeHealthCheckIntervalMinutes);
 						if (lastControllerHealthCheck.HasValue)
 						{
 							var recommendedTimeOfNextCheck = lastControllerHealthCheck.Value + delay;
@@ -1489,8 +1441,8 @@ namespace Tgstation.Server.Host.Swarm
 					if (nextForceHealthCheckTask.IsCompleted && swarmController)
 					{
 						// Intentionally wait a few seconds for the other server to start up before interogating it
-						logger.LogTrace("Next health check triggering in {delaySeconds}s...", SecondsToDelayForcedHealthChecks);
-						await asyncDelayer.Delay(TimeSpan.FromSeconds(SecondsToDelayForcedHealthChecks), cancellationToken);
+						logger.LogTrace("Next health check triggering in {delaySeconds}s...", SwarmConstants.SecondsToDelayForcedHealthChecks);
+						await asyncDelayer.Delay(TimeSpan.FromSeconds(SwarmConstants.SecondsToDelayForcedHealthChecks), cancellationToken);
 					}
 					else if (!swarmController && !nextForceHealthCheckTask.IsCompleted)
 					{
@@ -1500,7 +1452,7 @@ namespace Tgstation.Server.Host.Swarm
 							continue; // unregistered
 						}
 
-						if ((DateTimeOffset.UtcNow - lastControllerHealthCheck.Value).TotalMinutes < NodeHealthCheckIntervalMinutes)
+						if ((DateTimeOffset.UtcNow - lastControllerHealthCheck.Value).TotalMinutes < SwarmConstants.NodeHealthCheckIntervalMinutes)
 						{
 							logger.LogTrace("Controller seems to be active, skipping health check.");
 							continue;

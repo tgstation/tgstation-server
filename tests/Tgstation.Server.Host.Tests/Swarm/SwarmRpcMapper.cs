@@ -173,7 +173,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					{
 						var dataType = controllerMethod.GetParameters().First().ParameterType;
 						var json = await request.Content.ReadAsStringAsync(cancellationToken);
-						var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmService.SerializerSettings);
+						var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmConstants.SerializerSettings);
 						args.Add(parameter);
 					}
 
