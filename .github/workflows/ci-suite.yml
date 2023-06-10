@@ -448,7 +448,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: mariadb
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mariadb-admin ping"
           --health-interval=5s
           --health-timeout=2s
           --health-retries=3
