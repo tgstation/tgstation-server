@@ -104,8 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 				.RepositorySettings
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentModel == default)
 				return this.Gone();
@@ -179,19 +178,16 @@ namespace Tgstation.Server.Host.Controllers
 									databaseContext.Instances.Attach(instance);
 									if (await PopulateApi(api, repos, databaseContext, instance, ct))
 										await databaseContext.Save(ct);
-								})
-								;
+								});
 						},
-						cancellationToken)
-						;
+						cancellationToken);
 
 					api.Origin = model.Origin;
 					api.Reference = model.Reference;
 					api.ActiveJob = job.ToApi();
 
 					return Created(api);
-				})
-				;
+				});
 		}
 
 		/// <summary>
@@ -211,8 +207,7 @@ namespace Tgstation.Server.Host.Controllers
 				.RepositorySettings
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentModel == default)
 				return this.Gone();
@@ -234,8 +229,7 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(
 				job,
 				(core, databaseContextFactory, paramJob, progressReporter, ct) => core.RepositoryManager.DeleteRepository(ct),
-				cancellationToken)
-			;
+				cancellationToken);
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
 		}
@@ -259,8 +253,7 @@ namespace Tgstation.Server.Host.Controllers
 				.RepositorySettings
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentModel == default)
 				return this.Gone();
@@ -287,8 +280,7 @@ namespace Tgstation.Server.Host.Controllers
 					}
 
 					return Json(api);
-				})
-				;
+				});
 		}
 
 		/// <summary>
@@ -348,8 +340,7 @@ namespace Tgstation.Server.Host.Controllers
 				.RepositorySettings
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentModel == default)
 				return this.Gone();
@@ -413,8 +404,7 @@ namespace Tgstation.Server.Host.Controllers
 					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken);
 
 					return null;
-				})
-				;
+				});
 
 				if (earlyOut != null)
 					return earlyOut;

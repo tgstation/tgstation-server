@@ -125,8 +125,7 @@ namespace Tgstation.Server.Host.Controllers
 					await this.StatusCode(
 						HttpStatusCode.UpgradeRequired,
 						new ErrorMessageResponse(ErrorCode.ApiMismatch))
-						.ExecuteResultAsync(context)
-						;
+						.ExecuteResultAsync(context);
 					return;
 				}
 
@@ -142,8 +141,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (requireHeaders)
 				{
 					await HeadersIssue(false)
-						.ExecuteResultAsync(context)
-						;
+						.ExecuteResultAsync(context);
 					return;
 				}
 			}
@@ -218,8 +216,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Generic 501 response.
 		/// </summary>
+		/// <param name="ex">The <see cref="NotImplementedException"/> that was thrown.</param>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
-		protected ObjectResult RequiresPosixSystemIdentity() => this.StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
+		protected ObjectResult RequiresPosixSystemIdentity(NotImplementedException ex)
+		{
+			Logger.LogTrace(ex, "System identities not implemented!");
+			return this.StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
+		}
 
 		/// <summary>
 		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int)"/>.
@@ -384,8 +387,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				totalResults = await paginationResult.Results.CountAsync(cancellationToken);
 				pagedResults = await queriedResults
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 			}
 			else
 			{

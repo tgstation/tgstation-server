@@ -380,7 +380,7 @@ namespace Tgstation.Server.Host.Swarm
 				? asyncDelayer.Delay(
 					TimeSpan.FromMinutes(UpdateCommitTimeoutMinutes),
 					cancellationToken)
-				: Extensions.TaskExtensions.InfiniteTask().WithToken(cancellationToken);
+				: Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
 
 			var commitTask = Task.WhenAny(commitTcsTask, timeoutTask);
 
@@ -965,8 +965,7 @@ namespace Tgstation.Server.Host.Swarm
 			await Task.WhenAll(
 				currentSwarmServers
 					.Where(x => !x.Controller)
-					.Select(HealthRequestForServer))
-					;
+					.Select(HealthRequestForServer));
 
 			lock (swarmServers)
 				if (swarmServers.Count != currentSwarmServers.Count)

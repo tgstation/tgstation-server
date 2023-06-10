@@ -85,12 +85,10 @@ namespace Tgstation.Server.Host.Controllers
 								model.Path,
 								systemIdentity,
 								model.LastReadHash,
-								cancellationToken)
-							;
+								cancellationToken);
 
 						return model.LastReadHash == null ? Accepted(newFile) : Json(newFile);
-					})
-					;
+					});
 			}
 			catch (IOException e)
 			{
@@ -100,9 +98,9 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 		}
 
@@ -130,14 +128,12 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						var result = await instance
 							.Configuration
-							.Read(filePath, systemIdentity, cancellationToken)
-							;
+							.Read(filePath, systemIdentity, cancellationToken);
 						if (result == null)
 							return this.Gone();
 
 						return Json(result);
-					})
-					;
+					});
 			}
 			catch (IOException e)
 			{
@@ -147,9 +143,9 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 		}
 
@@ -184,8 +180,7 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							var result = await instance
 								.Configuration
-								.ListDirectory(directoryPath, systemIdentity, cancellationToken)
-								;
+								.ListDirectory(directoryPath, systemIdentity, cancellationToken);
 							if (result == null)
 								return new PaginatableResult<ConfigurationFileResponse>(this.Gone());
 
@@ -194,10 +189,10 @@ namespace Tgstation.Server.Host.Controllers
 									.AsQueryable()
 									.OrderBy(x => x.Path));
 						}
-						catch (NotImplementedException)
+						catch (NotImplementedException ex)
 						{
 							return new PaginatableResult<ConfigurationFileResponse>(
-								RequiresPosixSystemIdentity());
+								RequiresPosixSystemIdentity(ex));
 						}
 						catch (UnauthorizedAccessException)
 						{
@@ -258,8 +253,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Configuration
 						.CreateDirectory(model.Path, systemIdentity, cancellationToken)
 							? Json(resultModel)
-							: Created(resultModel))
-					;
+							: Created(resultModel));
 			}
 			catch (IOException e)
 			{
@@ -269,9 +263,9 @@ namespace Tgstation.Server.Host.Controllers
 					Message = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{
@@ -309,9 +303,9 @@ namespace Tgstation.Server.Host.Controllers
 						? NoContent()
 						: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)));
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{

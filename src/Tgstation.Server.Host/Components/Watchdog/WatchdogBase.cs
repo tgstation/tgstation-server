@@ -465,8 +465,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var notification = new EventNotification(eventType, parameters);
 			var result = await activeServer.SendCommand(
 				new TopicParameters(notification),
-				cancellationToken)
-				;
+				cancellationToken);
 
 			HandleChatResponses(result);
 		}
@@ -853,7 +852,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							var healthCheckSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
 							var healthCheck = healthCheckSeconds == 0
 								|| !controller.DMApiAvailable
-								? Extensions.TaskExtensions.InfiniteTask()
+								? Extensions.TaskExtensions.InfiniteTask
 								: Task.Delay(
 									TimeSpan.FromSeconds(healthCheckSeconds),
 									cancellationToken);

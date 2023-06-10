@@ -73,8 +73,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await symlinkFactory.CreateSymbolicLink(
 				ioManager.ResolvePath(baseProvider.Directory),
 				ioManager.ResolvePath(LiveGameDirectory),
-				cancellationToken)
-				;
+				cancellationToken);
 		}
 	}
 }

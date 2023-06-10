@@ -68,8 +68,7 @@ namespace Tgstation.Server.Host.Security
 				userId,
 				apiHeaders.InstanceId,
 				tokenValidatedContext.SecurityToken.ValidFrom,
-				cancellationToken)
-				;
+				cancellationToken);
 
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 

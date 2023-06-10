@@ -185,8 +185,7 @@ namespace Tgstation.Server.Host.Components
 				Configuration.StartAsync(cancellationToken),
 				ByondManager.StartAsync(cancellationToken),
 				Chat.StartAsync(cancellationToken),
-				dmbFactory.StartAsync(cancellationToken))
-				;
+				dmbFactory.StartAsync(cancellationToken));
 
 				// dependent on so many things, its just safer this way
 				await Watchdog.StartAsync(cancellationToken);
@@ -310,8 +309,7 @@ namespace Tgstation.Server.Host.Components
 						repositorySettings.AccessUser,
 						repositorySettings.AccessToken,
 						NextProgressReporter("Fetch Origin"),
-						cancellationToken)
-						;
+						cancellationToken);
 
 					var hasDbChanges = false;
 					RevisionInformation currentRevInfo = null;
@@ -385,8 +383,7 @@ namespace Tgstation.Server.Host.Components
 						repositorySettings.CommitterName,
 						repositorySettings.CommitterEmail,
 						NextProgressReporter("Merge Origin"),
-						cancellationToken)
-						;
+						cancellationToken);
 
 					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
 					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
@@ -435,16 +432,14 @@ namespace Tgstation.Server.Host.Components
 							repositorySettings.AccessToken,
 							repositorySettings.UpdateSubmodules.Value,
 							NextProgressReporter(StageName),
-							cancellationToken)
-						;
+							cancellationToken);
 
 						var currentHead = repo.Head;
 
 						currentRevInfo = await databaseContext.RevisionInformations
 							.AsQueryable()
 							.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
-							.FirstOrDefaultAsync(cancellationToken)
-							;
+							.FirstOrDefaultAsync(cancellationToken);
 
 						if (currentHead != startSha && currentRevInfo == default)
 							await UpdateRevInfo(currentHead, true, null);
@@ -514,11 +509,9 @@ namespace Tgstation.Server.Host.Components
 						await jobManager.RegisterOperation(
 							repositoryUpdateJob,
 							RepositoryAutoUpdateJob,
-							cancellationToken)
-							;
+							cancellationToken);
 
-						// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted
-						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, default);
+						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
 
 						Job compileProcessJob;
 						using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
@@ -557,8 +550,7 @@ namespace Tgstation.Server.Host.Components
 										progressReporter,
 										jobCancellationToken);
 								},
-								cancellationToken)
-								;
+								cancellationToken);
 						}
 
 						await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);

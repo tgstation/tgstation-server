@@ -74,8 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					UserId = x.UserId,
 				})
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (existingPermissionSet == default)
 				return this.Gone();
@@ -87,8 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 					.AsQueryable()
 					.Where(x => x.Id == existingPermissionSet.UserId.Value)
 					.Select(x => x.CanonicalName)
-					.FirstAsync(cancellationToken)
-					;
+					.FirstAsync(cancellationToken);
 
 				if (userCanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 					return Forbid();
@@ -138,8 +136,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == Instance.Id)
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == model.PermissionSetId)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (originalPermissionSet == null)
 				return this.Gone();
 
@@ -220,8 +217,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == Instance.Id)
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (permissionSet == default)
 				return this.Gone();
 			return Json(permissionSet.ToApi());
@@ -247,8 +243,8 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == Instance.Id)
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == id)
-				.DeleteAsync(cancellationToken)
-				;
+				.DeleteAsync(cancellationToken);
+
 			return numDeleted > 0 ? NoContent() : this.Gone();
 		}
 	}

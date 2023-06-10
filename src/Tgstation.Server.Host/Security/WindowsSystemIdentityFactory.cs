@@ -63,11 +63,15 @@ namespace Tgstation.Server.Host.Security
 				PrincipalContext pc = null;
 				UserPrincipal principal = null;
 
+				GetUserAndDomainName(user.SystemIdentifier, out _, out var domainName);
+
 				bool TryGetPrincipalFromContextType(ContextType contextType)
 				{
 					try
 					{
-						pc = new PrincipalContext(contextType);
+						pc = domainName != null
+							? new PrincipalContext(contextType, domainName)
+							: new PrincipalContext(contextType);
 						cancellationToken.ThrowIfCancellationRequested();
 						principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
 					}
@@ -75,9 +79,13 @@ namespace Tgstation.Server.Host.Security
 					{
 						throw;
 					}
-					catch (Exception e)
+					catch (Exception ex)
 					{
-						logger.LogWarning(e, "Error loading user for context type {0}!", contextType);
+						logger.LogDebug(
+							ex,
+							"Error loading user for context type {contextType} and principal \"{domainName}\"!",
+							contextType,
+							domainName);
 					}
 					finally
 					{
