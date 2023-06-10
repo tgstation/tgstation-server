@@ -544,6 +544,26 @@ namespace Tgstation.Server.Tests.Live
 
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
 
+					async Task WaitForSwarmServerUpdate2()
+					{
+						ServerInformationResponse serverInformation;
+						do
+						{
+							await Task.Delay(TimeSpan.FromSeconds(10));
+							serverInformation = await node2Client2.ServerInformation(cancellationToken);
+						}
+						while (serverInformation.SwarmServers.Count == 1);
+					}
+
+					await Task.WhenAny(
+						WaitForSwarmServerUpdate2(),
+						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
+
+					var node2Info2 = await node2Client2.ServerInformation(cancellationToken);
+					var node1Info2 = await node1Client2.ServerInformation(cancellationToken);
+					CheckInfo(node1Info2);
+					CheckInfo(node2Info2);
+
 					await controllerClient2.Administration.Update(
 						new ServerUpdateRequest
 						{

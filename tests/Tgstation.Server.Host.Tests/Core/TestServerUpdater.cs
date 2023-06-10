@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host.Core.Tests
@@ -29,7 +30,7 @@ namespace Tgstation.Server.Host.Core.Tests
 
 			var testVersion = new Version(Random.Shared.Next(), Random.Shared.Next(), Random.Shared.Next());
 
-			mockServerUpdater.Setup(x => x.BeginUpdate(mockSwarmService, testVersion, It.IsAny<CancellationToken>())).Returns(Task.FromResult(ServerUpdateResult.Started)).Verifiable();
+			mockServerUpdater.Setup(x => x.BeginUpdate(mockSwarmService, It.IsAny<IFileStreamProvider>(), testVersion, It.IsAny<CancellationToken>())).Returns(Task.FromResult(ServerUpdateResult.Started)).Verifiable();
 			var updateInitiator = new ServerUpdateInitiator(mockSwarmService, mockServerUpdater.Object);
 
 			Assert.IsTrue(updateInitiator.InitiateUpdate(testVersion, default).IsCompleted);

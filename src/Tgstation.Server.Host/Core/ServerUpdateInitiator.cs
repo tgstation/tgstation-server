@@ -32,6 +32,6 @@ namespace Tgstation.Server.Host.Core
 
 		/// <inheritdoc />
 		public Task<ServerUpdateResult> InitiateUpdate(Version version, CancellationToken cancellationToken)
-			=> serverUpdater.BeginUpdate(swarmService, version, cancellationToken);
+			=> serverUpdater.BeginUpdate(swarmService, null, version, cancellationToken);
 	}
 }

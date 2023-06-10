@@ -13,8 +13,10 @@ using Microsoft.Extensions.Options;
 using Serilog.Context;
 
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
@@ -39,6 +41,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ISwarmOperations swarmOperations;
 
 		/// <summary>
+		/// The <see cref="IFileTransferStreamHandler"/> for the <see cref="SwarmController"/>.
+		/// </summary>
+		readonly IFileTransferStreamHandler transferService;
+
+		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SwarmController"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
@@ -58,16 +65,19 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="swarmOperations">The value of <see cref="swarmOperations"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="transferService">The value of <see cref="transferService"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmController(
 			ISwarmOperations swarmOperations,
 			IAssemblyInformationProvider assemblyInformationProvider,
+			IFileTransferStreamHandler transferService,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmController> logger)
 		{
 			this.swarmOperations = swarmOperations ?? throw new ArgumentNullException(nameof(swarmOperations));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			this.transferService = transferService ?? throw new ArgumentNullException(nameof(transferService));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger;
 		}
@@ -121,6 +131,17 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
+		/// Endpoint to retrieve server update packages.
+		/// </summary>
+		/// <param name="ticket">The <see cref="Api.Models.Response.FileTicketResponse.FileTicket"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		[HttpGet(SwarmConstants.UpdateRoute)]
+		[Produces(MediaTypeNames.Application.Octet)]
+		public Task<IActionResult> GetUpdatePackage([FromQuery] string ticket, CancellationToken cancellationToken)
+			=> transferService.GenerateDownloadResponse(this, ticket, cancellationToken);
+
+		/// <summary>
 		/// Node list update endpoint.
 		/// </summary>
 		/// <param name="serversUpdateRequest">The <see cref="SwarmServersUpdateRequest"/>.</param>
@@ -153,7 +174,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!ValidateRegistration())
 				return Forbid();
 
-			var prepareResult = await swarmOperations.PrepareUpdateFromController(updateRequest.UpdateVersion, cancellationToken);
+			var prepareResult = await swarmOperations.PrepareUpdateFromController(updateRequest, cancellationToken);
 			if (!prepareResult)
 				return Conflict();
 
@@ -226,11 +247,14 @@ namespace Tgstation.Server.Host.Controllers
 				// we validate the registration itself on a case-by-case basis
 				if (ModelState?.IsValid == false)
 				{
-					var errors = ModelState
+					var errorMessages = ModelState
 						.SelectMany(x => x.Value.Errors)
-						.Select(x => x.Exception);
+						.Select(x => x.ErrorMessage);
 
-					logger.LogDebug(new AggregateException(errors), "Swarm request model validation failed!");
+					logger.LogDebug(
+						"Swarm request model validation failed!{newLine}{messages}",
+						Environment.NewLine,
+						String.Join(Environment.NewLine, errorMessages));
 					await BadRequest().ExecuteResultAsync(context);
 					return;
 				}

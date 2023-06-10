@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Swarm
 {
@@ -20,10 +21,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Signal to the swarm that an update is requested.
 		/// </summary>
+		/// <param name="fileStreamProvider">The <see cref="ISeekableFileStreamProvider"/> to relay to other nodes.</param>
 		/// <param name="version">The <see cref="Version"/> to update to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the update should proceed, <see langword="false"/> otherwise.</returns>
-		Task<bool> PrepareUpdate(Version version, CancellationToken cancellationToken);
+		Task<SwarmPrepareResult> PrepareUpdate(ISeekableFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Signal to the swarm that an update is ready to be applied.

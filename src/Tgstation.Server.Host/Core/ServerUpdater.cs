@@ -52,6 +52,11 @@ namespace Tgstation.Server.Host.Core
 		readonly UpdatesConfiguration updatesConfiguration;
 
 		/// <summary>
+		/// Lock <see cref="object"/> used when initiating an update.
+		/// </summary>
+		readonly object updateInitiationLock;
+
+		/// <summary>
 		/// <see cref="ServerUpdateOperation"/> for an in-progress update operation.
 		/// </summary>
 		ServerUpdateOperation serverUpdateOperation;
@@ -82,10 +87,12 @@ namespace Tgstation.Server.Host.Core
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
+
+			updateInitiationLock = new object();
 		}
 
 		/// <inheritdoc />
-		public async Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, Version version, CancellationToken cancellationToken)
+		public async Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
 			if (swarmService == null)
 				throw new ArgumentNullException(nameof(swarmService));
@@ -96,7 +103,7 @@ namespace Tgstation.Server.Host.Core
 			if (!swarmService.ExpectedNumberOfNodesConnected)
 				return ServerUpdateResult.SwarmIntegrityCheckFailed;
 
-			return await BeginUpdateImpl(swarmService, version, false, cancellationToken);
+			return await BeginUpdateImpl(swarmService, fileStreamProvider, version, false, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -109,64 +116,32 @@ namespace Tgstation.Server.Host.Core
 			if (serverUpdateOperation == null)
 				throw new InvalidOperationException($"{nameof(serverUpdateOperation)} was null!");
 
-			logger.LogInformation(
-				"Updating server to version {version} ({zipUrl})...",
-				serverUpdateOperation.TargetVersion,
-				serverUpdateOperation.UpdateZipUrl);
-
 			var inMustCommitUpdate = false;
 			try
 			{
-				var updatePrepareResult = await serverUpdateOperation.SwarmService.PrepareUpdate(serverUpdateOperation.TargetVersion, cancellationToken);
-				if (!updatePrepareResult)
+				var stagingDirectory = $"{updatePath}-stage";
+				var tuple = await PrepareUpdateClearStagingAndBufferStream(stagingDirectory, cancellationToken);
+				if (tuple == null)
 					return false;
 
-				async Task TryAbort(Exception ex)
-				{
-					try
-					{
-						await serverUpdateOperation.SwarmService.AbortUpdate(cancellationToken);
-					}
-					catch (Exception e2)
-					{
-						throw new AggregateException(ex, e2);
-					}
-				}
-
-				var stagingDirectory = $"{updatePath}-stage";
-				BufferedFileStreamProvider bufferedStream;
-				try
-				{
-					logger.LogTrace("Downloading zip package...");
-					var bearerToken = generalConfiguration.GitHubAccessToken;
-					if (String.IsNullOrWhiteSpace(bearerToken))
-						bearerToken = null;
-
-					await using var download = fileDownloader.DownloadFile(serverUpdateOperation.UpdateZipUrl, bearerToken);
-					bufferedStream = new BufferedFileStreamProvider(
-						await download.GetResult(cancellationToken));
-				}
-				catch (Exception ex)
-				{
-					await TryAbort(ex);
-					throw;
-				}
-
+				await using var bufferedStream = tuple.Item1;
+				var createdStagingDirectory = false;
 				try
 				{
 					try
 					{
-						await using (bufferedStream)
-						{
-							logger.LogTrace("Extracting zip package to {stagingDirectory}...", stagingDirectory);
-							await ioManager.DeleteDirectory(stagingDirectory, cancellationToken);
-							var updateZipData = await bufferedStream.GetResult(cancellationToken);
-							await ioManager.ZipToDirectory(stagingDirectory, updateZipData, cancellationToken);
-						}
+						logger.LogTrace("Extracting zip package to {stagingDirectory}...", stagingDirectory);
+						var updateZipData = await bufferedStream.GetResult(cancellationToken);
+
+						createdStagingDirectory = true;
+						await ioManager.ZipToDirectory(stagingDirectory, updateZipData, cancellationToken);
+
+						if (!tuple.Item2)
+							await bufferedStream.DisposeAsync(); // don't leave this in memory
 					}
-					catch (Exception ex)
+					catch (Exception ex) when (ex is not OperationCanceledException)
 					{
-						await TryAbort(ex);
+						await TryAbort(ex, cancellationToken);
 						throw;
 					}
 
@@ -181,7 +156,7 @@ namespace Tgstation.Server.Host.Core
 					logger.LogTrace("Moving {stagingDirectory} to {updateDirectory}", stagingDirectory, updatePath);
 					await ioManager.MoveDirectory(stagingDirectory, updatePath, criticalCancellationToken);
 				}
-				catch (Exception e)
+				catch (Exception e) when (createdStagingDirectory)
 				{
 					try
 					{
@@ -215,56 +190,169 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <summary>
+		/// Attempt to abort a prepared swarm update.
+		/// </summary>
+		/// <param name="exception">The <see cref="Exception"/> being thrown.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		/// <exception cref="AggregateException">A new <see cref="AggregateException"/> containing <paramref name="exception"/> and the swarm abort <see cref="Exception"/> if thrown.</exception>
+		/// <remarks>Requires <see cref="serverUpdateOperation"/> to be populated.</remarks>
+		async Task TryAbort(Exception exception, CancellationToken cancellationToken)
+		{
+			try
+			{
+				await serverUpdateOperation.SwarmService.AbortUpdate(cancellationToken);
+			}
+			catch (Exception e2)
+			{
+				throw new AggregateException(exception, e2);
+			}
+		}
+
+		/// <summary>
+		/// Prepares the swarm update, deletes the <paramref name="stagingDirectory"/>, and buffers the <see cref="ServerUpdateOperation.FileStreamProvider"/>.
+		/// </summary>
+		/// <param name="stagingDirectory">The directory the server update is initially extracted to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see cref="Tuple{T1, T2}"/> containing a new <see cref="BufferedFileStreamProvider"/> based on the <see cref="ServerUpdateOperation.FileStreamProvider"/> of <see cref="serverUpdateOperation"/> and <see langword="true"/> if it needs to be kept active until the swarm commit.</returns>
+		/// <remarks>Requires <see cref="serverUpdateOperation"/> to be populated.</remarks>
+		async Task<Tuple<BufferedFileStreamProvider, bool>> PrepareUpdateClearStagingAndBufferStream(string stagingDirectory, CancellationToken cancellationToken)
+		{
+			await using var fileStreamProvider = serverUpdateOperation.FileStreamProvider;
+
+			var bufferedStream = new BufferedFileStreamProvider(
+				await fileStreamProvider.GetResult(cancellationToken));
+			try
+			{
+				var updatePrepareResult = await serverUpdateOperation.SwarmService.PrepareUpdate(
+					bufferedStream,
+					serverUpdateOperation.TargetVersion,
+					cancellationToken);
+				if (updatePrepareResult == SwarmPrepareResult.Failure)
+				{
+					await bufferedStream.DisposeAsync();
+					return null;
+				}
+
+				try
+				{
+					// clear out the staging directory first
+					await ioManager.DeleteDirectory(stagingDirectory, cancellationToken);
+
+					// simply buffer the result at this point
+					await bufferedStream.GetResult(cancellationToken);
+
+					// Dispose warning avoidance
+					var localBufferedStream = bufferedStream;
+					bufferedStream = null;
+					return Tuple.Create(
+						localBufferedStream,
+						updatePrepareResult == SwarmPrepareResult.SuccessHoldProviderUntilCommit);
+				}
+				catch (Exception ex)
+				{
+					await TryAbort(ex, cancellationToken);
+					throw;
+				}
+			}
+			finally
+			{
+				if (bufferedStream != null)
+					await bufferedStream.DisposeAsync();
+			}
+		}
+
+		/// <summary>
 		/// Start the process of downloading and applying an update to a new server version. Doesn't perform argument checking.
 		/// </summary>
 		/// <param name="swarmService">The <see cref="ISwarmService"/> to use to coordinate the update.</param>
+		/// <param name="fileStreamProvider">The optional <see cref="IFileStreamProvider"/> used to retrieve the target server version. If not provided, GitHub will be used.</param>
 		/// <param name="newVersion">The TGS <see cref="Version"/> to update to.</param>
 		/// <param name="recursed">If this is a recursive call.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerUpdateResult"/>.</returns>
-		async Task<ServerUpdateResult> BeginUpdateImpl(ISwarmService swarmService, Version newVersion, bool recursed, CancellationToken cancellationToken)
+		async Task<ServerUpdateResult> BeginUpdateImpl(
+			ISwarmService swarmService,
+			IFileStreamProvider fileStreamProvider,
+			Version newVersion,
+			bool recursed,
+			CancellationToken cancellationToken)
 		{
-			logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
-
-			var releases = await gitHubService.GetTgsReleases(cancellationToken);
-			foreach (var kvp in releases)
+			ServerUpdateOperation ourUpdateOperation = null;
+			try
 			{
-				var version = kvp.Key;
-				var release = kvp.Value;
-				if (version == newVersion)
+				if (fileStreamProvider == null)
 				{
-					var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
-					if (asset == default)
-						continue;
+					logger.LogDebug("Looking for GitHub releases version {version}...", newVersion);
 
-					serverUpdateOperation = new ServerUpdateOperation
+					var releases = await gitHubService.GetTgsReleases(cancellationToken);
+					foreach (var kvp in releases)
 					{
-						TargetVersion = version,
-						UpdateZipUrl = new Uri(asset.BrowserDownloadUrl),
-						SwarmService = swarmService,
-					};
+						var version = kvp.Key;
+						var release = kvp.Value;
+						if (version == newVersion)
+						{
+							var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
+							if (asset == default)
+								continue;
 
-					try
-					{
-						if (!serverControl.TryStartUpdate(this, version))
-							return ServerUpdateResult.UpdateInProgress;
+							logger.LogTrace("Creating download provider for {assetName}...", updatesConfiguration.UpdatePackageAssetName);
+							var bearerToken = generalConfiguration.GitHubAccessToken;
+							if (String.IsNullOrWhiteSpace(bearerToken))
+								bearerToken = null;
+
+							fileStreamProvider = fileDownloader.DownloadFile(new Uri(asset.BrowserDownloadUrl), bearerToken);
+							break;
+						}
 					}
-					finally
+
+					if (fileStreamProvider == null)
 					{
-						serverUpdateOperation = null;
+						if (!recursed)
+						{
+							logger.LogWarning("We didn't find the requested release, but GitHub has been known to just not give full results when querying all releases. We'll try one more time.");
+							return await BeginUpdateImpl(swarmService, null, newVersion, true, cancellationToken);
+						}
+
+						return ServerUpdateResult.ReleaseMissing;
+					}
+				}
+
+				lock (updateInitiationLock)
+				{
+					if (serverUpdateOperation == null)
+					{
+						ourUpdateOperation = new ServerUpdateOperation(
+							fileStreamProvider,
+							swarmService,
+							newVersion);
+
+						serverUpdateOperation = ourUpdateOperation;
+
+						bool updateStarted = serverControl.TryStartUpdate(this, newVersion);
+						if (updateStarted)
+						{
+							fileStreamProvider = null; // belongs to serverUpdateOperation now
+							return ServerUpdateResult.Started;
+						}
 					}
 
-					return ServerUpdateResult.Started;
+					return ServerUpdateResult.UpdateInProgress;
 				}
 			}
-
-			if (!recursed)
+			catch
 			{
-				logger.LogWarning("We didn't find the requested release, but GitHub has been known to just not give full results when querying all releases. We'll try one more time.");
-				return await BeginUpdateImpl(swarmService, newVersion, true, cancellationToken);
-			}
+				lock (updateInitiationLock)
+					if (serverUpdateOperation == ourUpdateOperation)
+						serverUpdateOperation = null;
 
-			return ServerUpdateResult.ReleaseMissing;
+				throw;
+			}
+			finally
+			{
+				if (fileStreamProvider != null)
+					await fileStreamProvider.DisposeAsync();
+			}
 		}
 	}
 }

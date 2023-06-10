@@ -21,10 +21,10 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Notify the node of an update request from the controller.
 		/// </summary>
-		/// <param name="version">The <see cref="Version"/> of TGS to update to.</param>
+		/// <param name="updateRequest">The <see cref="SwarmUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the node is able to update, <see langword="false"/> otherwise.</returns>
-		Task<bool> PrepareUpdateFromController(Version version, CancellationToken cancellationToken);
+		Task<bool> PrepareUpdateFromController(SwarmUpdateRequest updateRequest, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Validate a given <paramref name="registrationId"/>.
