@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Common
+namespace Tgstation.Server.Common.Http
 {
 	/// <summary>
 	/// Caches the <see cref="Stream"/> from a <see cref="HttpResponseMessage"/> for later use.
@@ -36,9 +36,9 @@ namespace Tgstation.Server.Common
 				response.Content = null;
 				try
 				{
-					return new CachedResponseStream(
-						content,
-						await content.ReadAsStreamAsync().ConfigureAwait(false));
+					// don't cry about the missing CancellationToken overload: https://github.com/dotnet/runtime/issues/916
+					var responseStream = await content.ReadAsStreamAsync().ConfigureAwait(false);
+					return new CachedResponseStream(content, responseStream);
 				}
 				catch
 				{

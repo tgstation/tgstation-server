@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Common
+namespace Tgstation.Server.Common.Http
 {
 	/// <inheritdoc />
 	public sealed class HttpClient : IHttpClient

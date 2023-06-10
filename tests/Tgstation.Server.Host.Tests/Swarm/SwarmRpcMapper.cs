@@ -21,7 +21,7 @@ using Moq;
 
 using Newtonsoft.Json;
 
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Transfer;

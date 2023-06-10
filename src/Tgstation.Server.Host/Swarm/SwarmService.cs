@@ -16,7 +16,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;

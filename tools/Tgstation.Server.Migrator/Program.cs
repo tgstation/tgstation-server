@@ -21,7 +21,7 @@ using Octokit;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
 

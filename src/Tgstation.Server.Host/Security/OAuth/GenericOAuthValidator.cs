@@ -13,7 +13,7 @@ using Newtonsoft.Json.Serialization;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Security.OAuth

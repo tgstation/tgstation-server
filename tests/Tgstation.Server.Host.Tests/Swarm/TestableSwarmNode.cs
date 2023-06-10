@@ -14,7 +14,7 @@ using Moq;
 using Moq.Language.Flow;
 
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;

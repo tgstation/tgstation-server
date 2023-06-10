@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Host.IO
 {

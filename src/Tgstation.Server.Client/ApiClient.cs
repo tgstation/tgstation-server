@@ -20,7 +20,7 @@ using Newtonsoft.Json.Serialization;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Client
 {

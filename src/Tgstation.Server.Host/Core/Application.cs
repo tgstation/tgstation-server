@@ -26,7 +26,7 @@ using Serilog.Events;
 using Serilog.Formatting.Display;
 
 using Tgstation.Server.Api;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;

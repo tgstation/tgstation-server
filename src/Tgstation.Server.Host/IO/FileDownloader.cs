@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Api;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Host.IO
 {
