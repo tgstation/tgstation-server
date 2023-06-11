@@ -17,6 +17,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -172,7 +173,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (current == default)
-				return Gone();
+				return this.Gone();
 
 			if (model.Port.HasValue && model.Port.Value != current.Port.Value)
 			{
@@ -334,7 +335,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Select(x => x.DreamDaemonSettings)
 						.FirstOrDefaultAsync(cancellationToken);
 					if (settings == default)
-						return Gone();
+						return this.Gone();
 				}
 
 				var result = new DreamDaemonResponse();

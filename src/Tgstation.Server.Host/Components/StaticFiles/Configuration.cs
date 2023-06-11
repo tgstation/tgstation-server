@@ -441,14 +441,17 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				lock (semaphore)
 					try
 					{
-						var fileTicket = fileTransferService.CreateUpload(true);
+						var fileTicket = fileTransferService.CreateUpload(FileUploadStreamKind.ForSynchronousIO);
 						var uploadCancellationToken = disposeCts.Token;
 						async Task UploadHandler()
 						{
-							using (fileTicket)
+							await using (fileTicket)
 							{
 								var fileHash = previousHash;
-								using var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
+								var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
+								if (uploadStream == null)
+									return; // expired
+
 								bool success = false;
 								void WriteCallback()
 								{
@@ -468,10 +471,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken);
 
 								if (!success)
-									fileTicket.SetErrorMessage(new ErrorMessageResponse(ErrorCode.ConfigurationFileUpdated)
-									{
-										AdditionalData = fileHash,
-									});
+									fileTicket.SetError(ErrorCode.ConfigurationFileUpdated, fileHash);
 								else if (uploadStream.Length > 0)
 									postWriteHandler.HandleWrite(path);
 							}

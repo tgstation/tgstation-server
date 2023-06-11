@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http.Headers;
 
-namespace Tgstation.Server.Common
+namespace Tgstation.Server.Common.Http
 {
 	/// <summary>
 	/// <see cref="IAbstractHttpClientFactory"/> that creates <see cref="HttpClient"/>s.

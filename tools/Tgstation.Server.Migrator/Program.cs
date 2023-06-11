@@ -21,7 +21,7 @@ using Octokit;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
 
@@ -282,12 +282,12 @@ try
 
 		using var httpClient = httpClientFactory.CreateClient();
 		using var request = new HttpRequestMessage(HttpMethod.Get, downloadUri);
-		var webRequestTask = httpClient.SendAsync(request, default);
+		var webRequestTask = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, default);
 		using var response = await webRequestTask;
 		response.EnsureSuccessStatusCode();
-		using (var responseStream = await response.Content.ReadAsStreamAsync())
+		await using (var responseStream = await response.Content.ReadAsStreamAsync())
 		{
-			using var fileStream = new FileStream(
+			await using var fileStream = new FileStream(
 				dotnetDownloadFilePath,
 				FileMode.Create,
 				FileAccess.Write,
@@ -385,10 +385,22 @@ try
 
 	using (var loggerFactory = LoggerFactory.Create(builder => { }))
 	{
-		var fileDownloader = new FileDownloader(httpClientFactory, loggerFactory.CreateLogger<FileDownloader>());
-		using var tgsFiveZipMemoryStream = await fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), null, default);
-		Console.WriteLine("Unzipping TGS5...");
-		await serverFactory.IOManager.ZipToDirectory(tgsInstallPath, tgsFiveZipMemoryStream, default);
+		BufferedFileStreamProvider tgsFiveZipBuffer;
+		{
+			var fileDownloader = new FileDownloader(httpClientFactory, loggerFactory.CreateLogger<FileDownloader>());
+			await using var tgsFiveZipDownload = fileDownloader.DownloadFile(new Uri(serverServiceAsset.BrowserDownloadUrl), null);
+			tgsFiveZipBuffer = new BufferedFileStreamProvider(
+				await tgsFiveZipDownload.GetResult(default));
+		}
+
+		await using (tgsFiveZipBuffer)
+		{
+			Console.WriteLine("Unzipping TGS5...");
+			await serverFactory.IOManager.ZipToDirectory(
+				tgsInstallPath,
+				await tgsFiveZipBuffer.GetResult(default),
+				default);
+		}
 	}
 
 	// TGS5 CONFIG SETUP

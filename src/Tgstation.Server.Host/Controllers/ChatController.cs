@@ -20,6 +20,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -165,7 +166,7 @@ namespace Tgstation.Server.Host.Controllers
 					return null;
 				})
 
-				?? StatusCode(HttpStatusCode.Created, dbModel.ToApi());
+				?? this.StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 		}
 
 		/// <summary>
@@ -250,7 +251,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken);
 			if (results == default)
-				return Gone();
+				return this.Gone();
 
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 
@@ -294,7 +295,7 @@ namespace Tgstation.Server.Host.Controllers
 			var current = await query.FirstOrDefaultAsync(cancellationToken);
 
 			if (current == default)
-				return Gone();
+				return this.Gone();
 
 			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
 			{

@@ -20,6 +20,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -287,7 +288,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default)
-				return Gone();
+				return this.Gone();
 			if (originalModel.Online.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceDetachOnline));
 
@@ -358,7 +359,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.DreamDaemonSettings) // need these for onlining
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default(Models.Instance))
-				return Gone();
+				return this.Gone();
 
 			if (ValidateInstanceOnlineStatus(originalModel))
 				await DatabaseContext.Save(cancellationToken);
@@ -599,7 +600,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken);
 
 			if (instance == null)
-				return Gone();
+				return this.Gone();
 
 			if (ValidateInstanceOnlineStatus(instance))
 				await DatabaseContext.Save(cancellationToken);
@@ -656,7 +657,7 @@ namespace Tgstation.Server.Host.Controllers
 					.AnyAsync(cancellationToken);
 
 				if (!instanceExists)
-					return Gone();
+					return this.Gone();
 
 				var instanceAdminUser = InstanceAdminPermissionSet(null);
 				instanceAdminUser.InstanceId = id;

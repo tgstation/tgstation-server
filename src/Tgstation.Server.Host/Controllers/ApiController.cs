@@ -14,13 +14,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+
 using Octokit;
+
 using Serilog.Context;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Utils;
@@ -119,7 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (!ApiHeaders.Compatible())
 				{
-					await StatusCode(
+					await this.StatusCode(
 						HttpStatusCode.UpgradeRequired,
 						new ErrorMessageResponse(ErrorCode.ApiMismatch))
 						.ExecuteResultAsync(context);
@@ -205,12 +208,6 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1506
 
 		/// <summary>
-		/// Generic 410 response.
-		/// </summary>
-		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.Gone"/>.</returns>
-		protected ObjectResult Gone() => StatusCode(HttpStatusCode.Gone, new ErrorMessageResponse(ErrorCode.ResourceNotPresent));
-
-		/// <summary>
 		/// Generic 404 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
@@ -224,7 +221,7 @@ namespace Tgstation.Server.Host.Controllers
 		protected ObjectResult RequiresPosixSystemIdentity(NotImplementedException ex)
 		{
 			Logger.LogTrace(ex, "System identities not implemented!");
-			return StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
+			return this.StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
 		}
 
 		/// <summary>
@@ -233,14 +230,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
 		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
 		protected StatusCodeResult StatusCode(HttpStatusCode statusCode) => StatusCode((int)statusCode);
-
-		/// <summary>
-		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int, object)"/>.
-		/// </summary>
-		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
-		/// <param name="errorMessage">The accompanying <see cref="ErrorMessageResponse"/> payload.</param>
-		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
-		protected ObjectResult StatusCode(HttpStatusCode statusCode, object errorMessage) => StatusCode((int)statusCode, errorMessage);
 
 		/// <summary>
 		/// Generic 201 response with a given <paramref name="payload"/>.
@@ -263,7 +252,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var secondsString = Math.Ceiling(rateLimitException.GetRetryAfterTimeSpan().TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add(HeaderNames.RetryAfter, secondsString);
-			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessageResponse(ErrorCode.GitHubApiRateLimit));
+			return this.StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessageResponse(ErrorCode.GitHubApiRateLimit));
 		}
 
 		/// <summary>
@@ -298,7 +287,7 @@ namespace Tgstation.Server.Host.Controllers
 			};
 
 			if (headersException.MissingOrMalformedHeaders.HasFlag(HeaderTypes.Accept))
-				return StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
+				return this.StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
 
 			return BadRequest(errorMessage);
 		}

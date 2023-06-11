@@ -24,7 +24,7 @@ namespace Tgstation.Server.Api.Rights
 		RestartHost = 1 << 1,
 
 		/// <summary>
-		/// User can read <see cref="Models.Response.AdministrationResponse"/> and upgrade/downgrade TGS through the API.
+		/// User can read <see cref="Models.Response.AdministrationResponse"/> and upgrade/downgrade TGS using GitHub through the API.
 		/// </summary>
 		ChangeVersion = 1 << 2,
 
@@ -47,5 +47,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can modify their own <see cref="Models.Internal.UserApiBase.OAuthConnections"/>.
 		/// </summary>
 		EditOwnOAuthConnections = 1 << 6,
+
+		/// <summary>
+		/// User can upgrade/downgrade TGS using file uploads through the API.
+		/// </summary>
+		UploadVersion = 1 << 7,
 	}
 }

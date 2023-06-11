@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,12 +13,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Language.Flow;
 
-using Tgstation.Server.Common;
+using Tgstation.Server.Api.Models.Response;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Swarm.Tests
@@ -28,6 +34,8 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		public SwarmConfiguration Config { get; }
 
 		public SwarmRpcMapper RpcMapper { get; }
+
+		public FileTransferService TransferService { get; }
 
 		public bool UpdateCommits { get; set; }
 
@@ -51,7 +59,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		public static void Link(params TestableSwarmNode[] nodes)
 		{
-			var configControllerSet = nodes.Select(x => (x.Config, x)).ToList();
+			var configControllerSet = nodes.Select(x => (x.Config, x.TransferService, x)).ToList();
 
 			_ = configControllerSet.Single(x => x.Config.ControllerAddress == null);
 			Assert.IsTrue(
@@ -62,10 +70,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			foreach (var node in nodes)
 			{
-				if (node.Config.ControllerAddress != null)
-					node.Config.UpdateRequiredNodeCount = 0;
-				else
-					node.Config.UpdateRequiredNodeCount = (uint)nodes.Length - 1;
+				node.Config.UpdateRequiredNodeCount = (uint)nodes.Length - 1;
 				node.RpcMapper.Register(configControllerSet);
 			}
 		}
@@ -105,17 +110,40 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			var mockServerUpdater = new Mock<IServerUpdater>();
 
+			static ILoggerFactory CreateLoggerFactoryForLogger(ILogger logger, out Mock<ILoggerFactory> mockLoggerFactory)
+			{
+				mockLoggerFactory = new Mock<ILoggerFactory>();
+				mockLoggerFactory.Setup(x => x.CreateLogger(It.IsAny<string>())).Returns(() =>
+				{
+					var temp = logger;
+					logger = null;
+
+					Assert.IsNotNull(temp);
+					return temp;
+				})
+				.Verifiable();
+				return mockLoggerFactory.Object;
+			}
+
+			TransferService = new FileTransferService(
+				new CryptographySuite(
+					Mock.Of<IPasswordHasher<Models.User>>()),
+				Mock.Of<IIOManager>(),
+				new AsyncDelayer(), // use a real one here because otherwise tickets expire too fast
+				CreateLoggerFactoryForLogger(loggerFactory.CreateLogger($"FileTransferService-{swarmConfiguration.Identifier}"), out var mockLoggerFactory).CreateLogger<FileTransferService>());
+
 			RpcMapper = new SwarmRpcMapper(
-				targetService => new SwarmController(
+				(targetService, targetTransfer) => new SwarmController(
 					targetService,
 					mockAssemblyInformationProvider.Object,
+					targetTransfer,
 					mockOptions.Object,
 					loggerFactory.CreateLogger<SwarmController>()),
 				mockHttpClient,
 				loggerFactory.CreateLogger($"SwarmRpcMapper-{swarmConfiguration.Identifier}"));
 
 			mockServerUpdater
-				.Setup(x => x.BeginUpdate(It.IsNotNull<SwarmService>(), It.IsNotNull<Version>(), It.IsAny<CancellationToken>()))
+				.Setup(x => x.BeginUpdate(It.IsNotNull<ISwarmService>(), It.IsAny<IFileStreamProvider>(), It.IsNotNull<Version>(), It.IsAny<CancellationToken>()))
 				.Returns(BeginUpdate);
 
 			UpdateResult = ServerUpdateResult.Started;
@@ -146,8 +174,9 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					mockDatabaseSeeder.Object,
 					mockAssemblyInformationProvider.Object,
 					mockHttpClientFactory.Object,
-					mockServerUpdater.Object,
 					mockAsyncDelayer.Object,
+					mockServerUpdater.Object,
+					TransferService,
 					mockOptions.Object,
 					serviceLogger);
 			}
@@ -234,7 +263,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			return result;
 		}
 
-		Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, Version version, CancellationToken cancellationToken)
+		Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("BeginUpdate...");
 			if (UpdateTask?.IsCompleted == false)
@@ -242,20 +271,25 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 			if (UpdateResult == ServerUpdateResult.Started)
 			{
-				UpdateTask = ExecuteUpdate(version, cancellationToken, CriticalCancellationTokenSource.Token);
+				UpdateTask = ExecuteUpdate(fileStreamProvider, version, cancellationToken, CriticalCancellationTokenSource.Token);
 			}
 
 			return Task.FromResult(UpdateResult);
 		}
 
-		async Task<SwarmCommitResult?> ExecuteUpdate(Version version, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
+		async Task<SwarmCommitResult?> ExecuteUpdate(IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
 		{
 			logger.LogTrace("ExecuteUpdate...");
-			await Task.Yield(); // Important to simulate some actual kind of asyncronicity here
+			await Task.Yield(); // Important to simulate some actual kind of asynchronicity here
 
-			await Service.PrepareUpdate(version, cancellationToken);
+			var stream = await fileStreamProvider.GetResult(cancellationToken);
+			await using var buffer = new BufferedFileStreamProvider(stream);
+			var result = await Service.PrepareUpdate(buffer, version, cancellationToken);
 
-			if (UpdateCommits)
+			if (result == SwarmPrepareResult.SuccessProviderNotRequired)
+				await buffer.DisposeAsync();
+
+			if (UpdateCommits && result != SwarmPrepareResult.Failure)
 			{
 				return await Service.CommitUpdate(criticalCancellationToken);
 			}

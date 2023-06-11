@@ -3,10 +3,10 @@
 
   <PropertyGroup>
     <TargetFramework>$(TgsNugetNetVersion)</TargetFramework>
-    <Version>$(TgsCoreVersion)</Version>
+    <Version>$(TgsCommonLibraryVersion)</Version>
     <Description>Common functions for tgstation-server.</Description>
     <PackageTags>web tgstation-server tgstation ss13 byond client http</PackageTags>
-    <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added CachedResponseStream.</PackageReleaseNotes>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>

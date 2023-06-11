@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -201,7 +202,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						IFileUploadTicket fileUploadTicket = null;
 						if (uploadingZip)
-							fileUploadTicket = fileTransferService.CreateUpload(false);
+							fileUploadTicket = fileTransferService.CreateUpload(FileUploadStreamKind.None);
 
 						try
 						{
@@ -211,7 +212,7 @@ namespace Tgstation.Server.Host.Controllers
 								{
 									Stream zipFileStream = null;
 									if (fileUploadTicket != null)
-										using (fileUploadTicket)
+										await using (fileUploadTicket)
 										{
 											var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken) ?? throw new JobException(ErrorCode.FileUploadExpired);
 											zipFileStream = new MemoryStream();
@@ -226,7 +227,7 @@ namespace Tgstation.Server.Host.Controllers
 											}
 										}
 
-									using (zipFileStream)
+									await using (zipFileStream)
 										await core.ByondManager.ChangeVersion(
 											progressHandler,
 											version,
@@ -241,7 +242,9 @@ namespace Tgstation.Server.Host.Controllers
 						}
 						catch
 						{
-							fileUploadTicket?.Dispose();
+							if (fileUploadTicket != null)
+								await fileUploadTicket.DisposeAsync();
+
 							throw;
 						}
 					}
@@ -288,7 +291,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					return Task.FromResult<IActionResult>(
 						versionNotInstalled
-							? Gone()
+							? this.Gone()
 							: null);
 				});
 

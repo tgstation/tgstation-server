@@ -535,7 +535,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				else
 					versionZipStream = customVersionStream;
 
-				using (versionZipStream)
+				await using (versionZipStream)
 				{
 					if (progressReporter != null)
 						progressReporter.StageName = "Cleaning target directory";

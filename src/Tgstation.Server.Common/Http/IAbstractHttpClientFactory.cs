@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Common
+﻿namespace Tgstation.Server.Common.Http
 {
 	/// <summary>
 	/// Creates <see cref="IHttpClient"/>s.
