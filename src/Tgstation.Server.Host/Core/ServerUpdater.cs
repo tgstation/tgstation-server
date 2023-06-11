@@ -239,17 +239,18 @@ namespace Tgstation.Server.Host.Core
 
 				try
 				{
+					// simply buffer the result at this point
+					var bufferingTask = bufferedStream.EnsureBuffered(cancellationToken);
+
 					// clear out the staging directory first
 					await ioManager.DeleteDirectory(stagingDirectory, cancellationToken);
-
-					// simply buffer the result at this point
-					await bufferedStream.GetResult(cancellationToken);
 
 					// Dispose warning avoidance
 					var result = Tuple.Create(
 						bufferedStream,
 						updatePrepareResult == SwarmPrepareResult.SuccessHoldProviderUntilCommit);
 
+					await bufferingTask;
 					bufferedStream = null;
 
 					return result;

@@ -91,6 +91,13 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <summary>
+		/// Ensures the <see cref="input"/> <see cref="Stream"/> has been copied to the buffer.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		public Task EnsureBuffered(CancellationToken cancellationToken) => GetResultInternal(cancellationToken);
+
+		/// <summary>
 		/// Gets the shared <see cref="MemoryStream"/> and its <see cref="Stream.Length"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
