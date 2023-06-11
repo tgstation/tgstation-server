@@ -15,7 +15,7 @@ They will be amalgamated together in the end.
 :cl: Categories
 Categories are divided up in the release notes and set after the :cl: header.
 The default category is Core.
-The current standard categories are Core, DMAPI, HTTP API, and Host Watchdog.
+The current standard categories are Core, DreamMaker API, HTTP API, and Host Watchdog.
 /:cl:
 
 [Why]: # (If this does not close or work on an existing GitHub issue, please add a short description [two lines down] of why you think these changes would benefit the server. If you can't justify it in words, it might not be worth adding.)
