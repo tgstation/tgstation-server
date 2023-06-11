@@ -246,11 +246,13 @@ namespace Tgstation.Server.Host.Core
 					await bufferedStream.GetResult(cancellationToken);
 
 					// Dispose warning avoidance
-					var localBufferedStream = bufferedStream;
-					bufferedStream = null;
-					return Tuple.Create(
-						localBufferedStream,
+					var result = Tuple.Create(
+						bufferedStream,
 						updatePrepareResult == SwarmPrepareResult.SuccessHoldProviderUntilCommit);
+
+					bufferedStream = null;
+
+					return result;
 				}
 				catch (Exception ex)
 				{
