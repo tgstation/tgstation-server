@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.IO
 			lock (semaphore)
 			{
 				localBuffer = buffer;
-				if (buffered && localBuffer == null)
+				if (localBuffer == null)
 					return;
 
 				// important to drop the reference so it can properly GC
@@ -101,21 +101,23 @@ namespace Tgstation.Server.Host.IO
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
 					if (!buffered)
 					{
-						await input.CopyToAsync(buffer, cancellationToken);
+						MemoryStream localBuffer;
 						lock (semaphore)
-						{
-							if (buffer == null)
-								throw new ObjectDisposedException(nameof(BufferedFileStreamProvider));
+							localBuffer = buffer ?? throw new ObjectDisposedException(nameof(BufferedFileStreamProvider));
 
-							buffer.Seek(0, SeekOrigin.Begin);
-							buffered = true;
-							return (buffer, buffer.Length);
-						}
+						await input.CopyToAsync(localBuffer, cancellationToken);
+						localBuffer.Seek(0, SeekOrigin.Begin);
+						buffered = true;
+						return (localBuffer, localBuffer.Length);
 					}
 
-			return (
-				buffer ?? throw new ObjectDisposedException(nameof(BufferedFileStreamProvider)),
-				buffer.Length);
+			lock (semaphore)
+			{
+				var localBuffer = buffer ?? throw new ObjectDisposedException(nameof(BufferedFileStreamProvider));
+				return (
+					localBuffer,
+					localBuffer.Length);
+			}
 		}
 	}
 }

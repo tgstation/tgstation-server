@@ -125,6 +125,7 @@ namespace Tgstation.Server.Host.Core
 					return false;
 
 				await using var bufferedStream = tuple.Item1;
+				var needStreamUntilCommit = tuple.Item2;
 				var createdStagingDirectory = false;
 				try
 				{
@@ -136,8 +137,11 @@ namespace Tgstation.Server.Host.Core
 						createdStagingDirectory = true;
 						await ioManager.ZipToDirectory(stagingDirectory, updateZipData, cancellationToken);
 
-						if (!tuple.Item2)
+						if (!needStreamUntilCommit)
+						{
+							logger.LogTrace("Early disposing update stream provider...");
 							await bufferedStream.DisposeAsync(); // don't leave this in memory
+						}
 					}
 					catch (Exception ex)
 					{

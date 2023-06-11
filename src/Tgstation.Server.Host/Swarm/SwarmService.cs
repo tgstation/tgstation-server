@@ -811,7 +811,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				if (!swarmController && initiator)
 				{
-					var downloadTickets = CreateDownloadTickets(initiatorProvider, currentNodes);
+					var downloadTickets = await CreateDownloadTickets(initiatorProvider, currentNodes, cancellationToken);
 
 					logger.LogInformation("Forwarding update request to swarm controller...");
 					using var httpClient = httpClientFactory.CreateClient();
@@ -964,7 +964,7 @@ namespace Tgstation.Server.Host.Swarm
 				}
 
 				var downloadTicketDictionary = weAreInitiator
-					? CreateDownloadTickets(initiatorProvider, currentUpdateOperation.InvolvedServers)
+					? await CreateDownloadTickets(initiatorProvider, currentUpdateOperation.InvolvedServers, cancellationToken)
 					: updateRequest.DownloadTickets;
 
 				var sourceNode = weAreInitiator
@@ -1058,9 +1058,16 @@ namespace Tgstation.Server.Host.Swarm
 		/// </summary>
 		/// <param name="initiatorProvider">The <see cref="ISeekableFileStreamProvider"/> containing the server update package.</param>
 		/// <param name="involvedServers">An <see cref="IEnumerable{T}"/> of the involved <see cref="SwarmServerResponse"/>.</param>
-		/// <returns>A new <see cref="Dictionary{TKey, TValue}"/> of unique <see cref="FileTicketResponse"/>s keyed by their <see cref="Api.Models.Internal.SwarmServer.Identifier"/>.</returns>
-		Dictionary<string, FileTicketResponse> CreateDownloadTickets(ISeekableFileStreamProvider initiatorProvider, IReadOnlyCollection<SwarmServerResponse> involvedServers)
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="Dictionary{TKey, TValue}"/> of unique <see cref="FileTicketResponse"/>s keyed by their <see cref="Api.Models.Internal.SwarmServer.Identifier"/>.</returns>
+		async Task<Dictionary<string, FileTicketResponse>> CreateDownloadTickets(
+			ISeekableFileStreamProvider initiatorProvider,
+			IReadOnlyCollection<SwarmServerResponse> involvedServers,
+			CancellationToken cancellationToken)
 		{
+			// we need to ensure this thing is loaded before we start providing downloads or it'll create unnecessary delays
+			var bufferingTask = initiatorProvider.GetResult(cancellationToken);
+
 			var downloadProvider = new FileDownloadProvider(
 				() => initiatorProvider.Disposed
 					? Api.Models.ErrorCode.ResourceNotPresent
@@ -1081,6 +1088,7 @@ namespace Tgstation.Server.Host.Swarm
 					node.Identifier,
 					transferService.CreateDownload(downloadProvider));
 
+			await bufferingTask;
 			return downloadTickets;
 		}
 
