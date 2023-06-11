@@ -292,7 +292,15 @@ namespace Tgstation.Server.Host.IO
 				if (zipFile == null)
 					throw new ArgumentNullException(nameof(zipFile));
 
-				using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read);
+#if NET7_0_OR_GREATER
+#warning Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531
+#endif
+
+				// ZipArchive does a synchronous copy on unseekable streams we want to avoid
+				if (!zipFile.CanSeek)
+					throw new ArgumentException("Stream does not support seeking!", nameof(zipFile));
+
+				using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read, true);
 				archive.ExtractToDirectory(path);
 			},
 			cancellationToken,
