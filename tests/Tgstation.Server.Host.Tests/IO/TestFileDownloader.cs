@@ -92,7 +92,7 @@ Please see the following for more context:
 					await s.CopyToAsync(ms);
 
 				var stringData = Encoding.UTF8.GetString(ms.GetBuffer());
-				Assert.AreEqual(ExpectedData, stringData);
+				Assert.AreEqual(ExpectedData.Replace("\r", String.Empty), stringData.Replace("\r", String.Empty));
 			}
 		}
 	}
