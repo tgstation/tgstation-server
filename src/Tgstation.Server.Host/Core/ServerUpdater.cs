@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Core
 					}
 
 					inMustCommitUpdate = updateCommitResult == SwarmCommitResult.MustCommitUpdate;
-					logger.LogTrace("Moving {stagingDirectory} to {updateDirectory}", stagingDirectory, updatePath);
+					logger.LogTrace("Moving {stagingDirectory} to {updateDirectory}...", stagingDirectory, updatePath);
 					await ioManager.MoveDirectory(stagingDirectory, updatePath, criticalCancellationToken);
 				}
 				catch (Exception e) when (createdStagingDirectory)
