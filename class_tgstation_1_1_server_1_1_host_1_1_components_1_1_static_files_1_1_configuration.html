@@ -1005,28 +1005,28 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  227</span> </div>
 <div class="line"><span class="lineno">  228</span>            <span class="keywordtype">void</span> ListImpl()</div>
 <div class="line"><span class="lineno">  229</span>            {</div>
-<div class="line"><span class="lineno">  230</span>                var enumerator = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a29a360d050eedfecf24a5d7a75331f1d">synchronousIOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ab4bf2b5d0c4cd791206d970f67d46924">GetDirectories</a>(path, cancellationToken);</div>
-<div class="line"><span class="lineno">  231</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  232</span>                {</div>
+<div class="line"><span class="lineno">  230</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  231</span>                {</div>
+<div class="line"><span class="lineno">  232</span>                    var enumerator = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a29a360d050eedfecf24a5d7a75331f1d">synchronousIOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ab4bf2b5d0c4cd791206d970f67d46924">GetDirectories</a>(path, cancellationToken);</div>
 <div class="line"><span class="lineno">  233</span>                    result.AddRange(enumerator.Select(x =&gt; <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a></div>
 <div class="line"><span class="lineno">  234</span>                    {</div>
 <div class="line"><span class="lineno">  235</span>                        IsDirectory = true,</div>
 <div class="line"><span class="lineno">  236</span>                        Path = ioManager.ConcatPath(configurationRelativePath, x),</div>
 <div class="line"><span class="lineno">  237</span>                    }).OrderBy(file =&gt; file.Path));</div>
-<div class="line"><span class="lineno">  238</span>                }</div>
-<div class="line"><span class="lineno">  239</span>                <span class="keywordflow">catch</span> (IOException e)</div>
-<div class="line"><span class="lineno">  240</span>                {</div>
-<div class="line"><span class="lineno">  241</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogDebug(e, <span class="stringliteral">&quot;IOException while writing {path}!&quot;</span>, path);</div>
-<div class="line"><span class="lineno">  242</span>                    result = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  243</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  244</span>                }</div>
-<div class="line"><span class="lineno">  245</span> </div>
-<div class="line"><span class="lineno">  246</span>                enumerator = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a29a360d050eedfecf24a5d7a75331f1d">synchronousIOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a76ee03fa9595a6f3b9241d5f29e7906e">GetFiles</a>(path, cancellationToken);</div>
-<div class="line"><span class="lineno">  247</span>                result.AddRange(enumerator.Select(x =&gt; <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a></div>
-<div class="line"><span class="lineno">  248</span>                {</div>
-<div class="line"><span class="lineno">  249</span>                    IsDirectory = false,</div>
-<div class="line"><span class="lineno">  250</span>                    Path = ioManager.ConcatPath(configurationRelativePath, x),</div>
-<div class="line"><span class="lineno">  251</span>                }).OrderBy(file =&gt; file.Path));</div>
+<div class="line"><span class="lineno">  238</span> </div>
+<div class="line"><span class="lineno">  239</span>                    enumerator = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a29a360d050eedfecf24a5d7a75331f1d">synchronousIOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#a76ee03fa9595a6f3b9241d5f29e7906e">GetFiles</a>(path, cancellationToken);</div>
+<div class="line"><span class="lineno">  240</span>                    result.AddRange(enumerator.Select(x =&gt; <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a></div>
+<div class="line"><span class="lineno">  241</span>                    {</div>
+<div class="line"><span class="lineno">  242</span>                        IsDirectory = false,</div>
+<div class="line"><span class="lineno">  243</span>                        Path = ioManager.ConcatPath(configurationRelativePath, x),</div>
+<div class="line"><span class="lineno">  244</span>                    }).OrderBy(file =&gt; file.Path));</div>
+<div class="line"><span class="lineno">  245</span>                }</div>
+<div class="line"><span class="lineno">  246</span>                <span class="keywordflow">catch</span> (IOException ex)</div>
+<div class="line"><span class="lineno">  247</span>                {</div>
+<div class="line"><span class="lineno">  248</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogDebug(ex, <span class="stringliteral">&quot;IOException while enumerating direcotry!&quot;</span>);</div>
+<div class="line"><span class="lineno">  249</span>                    result = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  250</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  251</span>                }</div>
 <div class="line"><span class="lineno">  252</span>            }</div>
 <div class="line"><span class="lineno">  253</span> </div>
 <div class="line"><span class="lineno">  254</span>            <span class="keyword">using</span> (await <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103">Lock</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af64bb7e6efa9991a5a3a14993a3277e8">semaphore</a>, cancellationToken))</div>
