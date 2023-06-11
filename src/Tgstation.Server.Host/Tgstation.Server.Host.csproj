@@ -66,7 +66,7 @@
     <!-- Usage: Concise throw statements for native Win32 errors -->
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <!-- Usage: Interop with BYOND's /world/Topic -->
-    <PackageReference Include="Byond.TopicSender" Version="5.0.0" />
+    <PackageReference Include="Byond.TopicSender" Version="7.0.1" />
     <!-- Usage: 503'ing request pipeline until server is finished initializing -->
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <!-- Usage: IRC interop -->
@@ -92,8 +92,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.16" />
     <!-- Usage: MSSQL ORM plugin -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.16" />
-    <!-- Usage: Included transitively through other packages, workaround for https://github.com/coverlet-coverage/coverlet/issues/1381 -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Usage: YAML config plugin -->

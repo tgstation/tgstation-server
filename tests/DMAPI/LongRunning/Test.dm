@@ -218,7 +218,7 @@ var/received_health_check = FALSE
 
 /datum/tgs_chat_command/response_overload_test/Run(datum/tgs_chat_user/sender, params)
 	// DMAPI5_TOPIC_RESPONSE_LIMIT
-	var/limit = 65528
+	var/limit = 65529
 	// this actually gets doubled because it's in two fields for backwards compatibility, but that's fine
 	var/datum/tgs_message_content/response = new(create_payload(limit * 3))
 	return response

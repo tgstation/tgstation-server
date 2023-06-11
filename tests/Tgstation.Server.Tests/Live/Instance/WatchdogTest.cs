@@ -562,7 +562,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				try
 				{
 					System.Console.WriteLine($"Topic send limit test S:{currentSize}...");
-					topicRequestResult = await TopicClientNoLogger.SendTopic(
+					topicRequestResult = await TopicClient.SendTopic(
 						IPAddress.Loopback,
 						$"tgs_integration_test_tactics3={TopicClient.SanitizeString(JsonConvert.SerializeObject(topic, DMApiConstants.SerializerSettings))}",
 						TestLiveServer.DDPort,
@@ -603,7 +603,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			{
 				var currentSize = baseSize + (int)Math.Pow(2, nextPow);
 				System.Console.WriteLine($"Topic recieve limit test S:{currentSize}...");
-				var topicRequestResult = await TopicClientNoLogger.SendTopic(
+				var topicRequestResult = await TopicClient.SendTopic(
 					IPAddress.Loopback,
 					$"tgs_integration_test_tactics4={TopicClient.SanitizeString(currentSize.ToString())}",
 					TestLiveServer.DDPort,
@@ -956,15 +956,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			ReceiveTimeout = TimeSpan.FromSeconds(30),
 			ConnectTimeout = TimeSpan.FromSeconds(30),
 			DisconnectTimeout = TimeSpan.FromSeconds(30)
-		}, new Logger<TopicClient>(LiveTestUtils.CreateLoggerFactoryForLogger(loggerFactory.CreateLogger("WatchdogTest.TopicClient"), out var mockLoggerFactory)));
-
-		public static readonly TopicClient TopicClientNoLogger = new(new SocketParameters
-		{
-			SendTimeout = TimeSpan.FromSeconds(30),
-			ReceiveTimeout = TimeSpan.FromSeconds(30),
-			ConnectTimeout = TimeSpan.FromSeconds(30),
-			DisconnectTimeout = TimeSpan.FromSeconds(30)
-		});
+		}, loggerFactory.CreateLogger("WatchdogTest.TopicClient"));
 
 		public async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
 		{
