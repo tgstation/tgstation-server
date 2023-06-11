@@ -775,9 +775,10 @@ namespace Tgstation.Server.Host.Swarm
 			try
 			{
 				SwarmServerResponse sourceNode = null;
+				List<SwarmServerResponse> currentNodes;
 				lock (swarmServers)
 				{
-					var currentNodes = swarmServers
+					currentNodes = swarmServers
 						.Select(node =>
 						{
 							if (node.Identifier == updateRequest.SourceNode)
@@ -810,7 +811,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				if (!swarmController && initiator)
 				{
-					var downloadTickets = CreateDownloadTickets(initiatorProvider);
+					var downloadTickets = CreateDownloadTickets(initiatorProvider, currentNodes);
 
 					logger.LogInformation("Forwarding update request to swarm controller...");
 					using var httpClient = httpClientFactory.CreateClient();
@@ -963,7 +964,7 @@ namespace Tgstation.Server.Host.Swarm
 				}
 
 				var downloadTicketDictionary = weAreInitiator
-					? CreateDownloadTickets(initiatorProvider)
+					? CreateDownloadTickets(initiatorProvider, currentUpdateOperation.InvolvedServers)
 					: updateRequest.DownloadTickets;
 
 				var sourceNode = weAreInitiator
@@ -1056,8 +1057,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// Create a <see cref="FileTicketResponse"/> for downloading the content of a given <paramref name="initiatorProvider"/> for the rest of the swarm nodes.
 		/// </summary>
 		/// <param name="initiatorProvider">The <see cref="ISeekableFileStreamProvider"/> containing the server update package.</param>
+		/// <param name="involvedServers">An <see cref="IEnumerable{T}"/> of the involved <see cref="SwarmServerResponse"/>.</param>
 		/// <returns>A new <see cref="Dictionary{TKey, TValue}"/> of unique <see cref="FileTicketResponse"/>s keyed by their <see cref="Api.Models.Internal.SwarmServer.Identifier"/>.</returns>
-		Dictionary<string, FileTicketResponse> CreateDownloadTickets(ISeekableFileStreamProvider initiatorProvider)
+		Dictionary<string, FileTicketResponse> CreateDownloadTickets(ISeekableFileStreamProvider initiatorProvider, IReadOnlyCollection<SwarmServerResponse> involvedServers)
 		{
 			var downloadProvider = new FileDownloadProvider(
 				() => initiatorProvider.Disposed
@@ -1067,21 +1069,17 @@ namespace Tgstation.Server.Host.Swarm
 				"<Swarm Update Package Provider>",
 				false);
 
-			Dictionary<string, FileTicketResponse> downloadTickets;
-			lock (swarmServers)
-			{
-				logger.LogTrace("Creating download tickets...");
-				downloadTickets = new Dictionary<string, FileTicketResponse>(swarmServers.Count - 1);
-				foreach (var node in swarmServers)
-				{
-					if (node.Identifier == swarmConfiguration.Identifier)
-						continue;
+			var serversRequiringTickets = involvedServers
+				.Where(node => node.Identifier != swarmConfiguration.Identifier)
+				.ToList();
 
-					downloadTickets.Add(
-						node.Identifier,
-						transferService.CreateDownload(downloadProvider));
-				}
-			}
+			logger.LogTrace("Creating {n} download tickets for other nodes...", serversRequiringTickets.Count);
+
+			var downloadTickets = new Dictionary<string, FileTicketResponse>(serversRequiringTickets.Count);
+			foreach (var node in serversRequiringTickets)
+				downloadTickets.Add(
+					node.Identifier,
+					transferService.CreateDownload(downloadProvider));
 
 			return downloadTickets;
 		}
