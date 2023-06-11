@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteAbortUpdate" name="Tgstation.Server.Host.Swarm.ISwarmOperations.RemoteAbortUpdate">
-<area shape="rect" id="node1" title="Remotely abort an uncommitted update." alt="" coords="269,5,520,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#aa59abf6d10995a17bc7a6af93c298c40" title="Update abort endpoint." alt="" coords="5,5,221,45"/>
-</map>

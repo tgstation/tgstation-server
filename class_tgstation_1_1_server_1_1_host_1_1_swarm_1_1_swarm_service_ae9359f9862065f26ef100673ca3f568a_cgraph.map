@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate" name="Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate">
+<area shape="rect" id="node1" title="Attempt to abort an uncommitted update. A Task representing the running operation...." alt="" coords="5,49,200,89"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#af66c264a8d2bb1040d408b64071543d2" title="Sends out remote abort update requests." alt="" coords="248,49,476,89"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="543,5,749,60"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a82eee947c75e6a064ead15845d08f4fb" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="524,85,768,125"/>
+</map>

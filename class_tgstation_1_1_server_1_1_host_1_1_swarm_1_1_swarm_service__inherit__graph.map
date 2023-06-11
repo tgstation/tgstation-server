@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService" name="Tgstation.Server.Host.Swarm.SwarmService">
-<area shape="rect" id="node1" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="213,79,407,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="5,5,116,31"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html" title="Start and stop controllers for a swarm service." alt="" coords="140,5,307,31"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="331,5,462,31"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="486,5,577,31"/>
+<area shape="rect" id="node1" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="195,152,390,192"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="5,79,116,104"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="57,5,208,31"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="141,79,271,104"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html" title="Start and stop controllers for a swarm service." alt="" coords="296,79,463,104"/>
+<area shape="rect" id="node6" href="$class_i_disposable.html" title=" " alt="" coords="487,79,578,104"/>
 </map>

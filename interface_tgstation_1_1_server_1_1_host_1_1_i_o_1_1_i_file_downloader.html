@@ -96,23 +96,23 @@ Inheritance diagram for Tgstation.Server.Host.IO.IFileDownloader:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a19041753df6bbcfc0c0a4ff87ecb517b"><td class="memItemLeft" align="right" valign="top">Task&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#a19041753df6bbcfc0c0a4ff87ecb517b">DownloadFile</a> (Uri url, string bearerToken, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a19041753df6bbcfc0c0a4ff87ecb517b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a file from <em>url</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#a19041753df6bbcfc0c0a4ff87ecb517b">More...</a><br /></td></tr>
-<tr class="separator:a19041753df6bbcfc0c0a4ff87ecb517b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac81250678243dbd567a9283ea40ee2a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7">DownloadFile</a> (Uri url, string bearerToken)</td></tr>
+<tr class="memdesc:ac81250678243dbd567a9283ea40ee2a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a file from a given <em>url</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7">More...</a><br /></td></tr>
+<tr class="separator:ac81250678243dbd567a9283ea40ee2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Downloads files.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_file_downloader_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_file_downloader_8cs_source.html">IFileDownloader.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_file_downloader_8cs_source.html#l00008">8</a> of file <a class="el" href="_i_file_downloader_8cs_source.html">IFileDownloader.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a19041753df6bbcfc0c0a4ff87ecb517b" name="a19041753df6bbcfc0c0a4ff87ecb517b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19041753df6bbcfc0c0a4ff87ecb517b">&#9670;&#160;</a></span>DownloadFile()</h2>
+<a id="ac81250678243dbd567a9283ea40ee2a7" name="ac81250678243dbd567a9283ea40ee2a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac81250678243dbd567a9283ea40ee2a7">&#9670;&#160;</a></span>DownloadFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; MemoryStream &gt; Tgstation.Server.Host.IO.IFileDownloader.DownloadFile </td>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a> Tgstation.Server.Host.IO.IFileDownloader.DownloadFile </td>
           <td>(</td>
           <td class="paramtype">Uri&#160;</td>
           <td class="paramname"><em>url</em>, </td>
@@ -121,13 +121,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>bearerToken</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+          <td class="paramname"><em>bearerToken</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -137,28 +131,28 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Downloads a file from <em>url</em> .  </p>
+<p>Downloads a file from a given <em>url</em> .  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">url</td><td>The URL to download.</td></tr>
     <tr><td class="paramname">bearerToken</td><td>Optional string to use as the "Bearer" value in the optional "Authorization" header for the request.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>A CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MemoryStream of the downloaded file.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files.">IFileStreamProvider</a> for the downloaded file.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_file_downloader.html#ad460781ddda845e37e6bc98d51354f96">Tgstation.Server.Host.IO.FileDownloader</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_file_downloader.html#acad16811b7c62a9dd2256f31d15ad69f">Tgstation.Server.Host.IO.FileDownloader</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_installer_base_8cs_source.html#l00092">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion()</a>, and <a class="el" href="_server_updater_8cs_source.html#l00104">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00280">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdateImpl()</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00092">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_a19041753df6bbcfc0c0a4ff87ecb517b_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_a19041753df6bbcfc0c0a4ff87ecb517b_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_a19041753df6bbcfc0c0a4ff87ecb517b_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_a19041753df6bbcfc0c0a4ff87ecb517b_icgraph">
-<area shape="rect" title="Downloads a file from url ." alt="" coords="331,37,527,77"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a852276f34c289f0c4beaebafb6f99d65" title="Download a given BYOND version . A Task&lt;TResult&gt; resulting in a MemoryStream of the zipfile." alt="" coords="5,5,283,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="45,69,243,109"/>
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_ac81250678243dbd567a9283ea40ee2a7_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_ac81250678243dbd567a9283ea40ee2a7_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_ac81250678243dbd567a9283ea40ee2a7_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_ac81250678243dbd567a9283ea40ee2a7_icgraph">
+<area shape="rect" title="Downloads a file from a given url ." alt="" coords="563,61,759,101"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a1b6b860492eec3c1de2f26e542243c9f" title="Start the process of downloading and applying an update to a new server version. Doesn&#39;t perform argu..." alt="" coords="271,29,481,69"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a34339893f85b4a30c4fb0d5857138b07" title="Download a given BYOND version . A Task&lt;TResult&gt; resulting in a MemoryStream of the zipfile." alt="" coords="237,93,515,133"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#ab65eab64218a91f87b201b8fce889f98" title="Start the process of downloading and applying an update to a new server version . A Task&lt;TResult&gt; res..." alt="" coords="5,29,189,69"/>
 </map>
 </div>
 

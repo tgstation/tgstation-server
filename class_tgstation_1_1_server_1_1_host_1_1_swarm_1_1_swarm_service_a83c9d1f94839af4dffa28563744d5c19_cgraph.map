@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.SwarmService.SendUpdatedServerListToNodes" name="Tgstation.Server.Host.Swarm.SwarmService.SendUpdatedServerListToNodes">
-<area shape="rect" id="node1" title="Sends the controllers list of nodes to all nodes." alt="" coords="5,41,255,96"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_common_1_1_i_abstract_http_client_factory.html#afc6fb17bf1b8eada226f98866b237d1f" title="Create a IHttpClient." alt="" coords="316,5,533,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="303,85,547,125"/>
-</map>

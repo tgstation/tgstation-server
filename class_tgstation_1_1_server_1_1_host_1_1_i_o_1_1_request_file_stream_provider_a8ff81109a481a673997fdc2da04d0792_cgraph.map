@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.IO.RequestFileStreamProvider.GetResult" name="Tgstation.Server.Host.IO.RequestFileStreamProvider.GetResult">
+<area shape="rect" id="node1" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="5,37,248,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_request_file_stream_provider.html#a7c0e96de0b1928972f549ab0d2df882f" title="Initiate the download." alt="" coords="296,30,519,85"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a03ee8f58617b22421c691bf7f5a82461" title="Asyncronously creates a new CachedResponseStream." alt="" coords="567,5,801,45"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_http_client.html#ade67e5a20b9f897d763517c700523a83" title="Send an HTTP request." alt="" coords="593,69,775,109"/>
+</map>

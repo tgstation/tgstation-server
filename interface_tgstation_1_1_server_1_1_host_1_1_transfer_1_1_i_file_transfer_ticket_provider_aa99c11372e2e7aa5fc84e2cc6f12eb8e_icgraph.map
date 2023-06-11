@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateUpload" name="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateUpload">
+<area shape="rect" id="node1" title="Create a IFileUploadTicket." alt="" coords="608,37,869,77"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a30617dab4befa4172cf001391d1ca62f" title="Attempt to initiate an update." alt="" coords="269,5,560,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#aad1b13d8c14d668e2715afe8eae21fc4" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="307,69,523,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa27ac5eabff66919186c66da2dc8ecf" title="Attempt to perform a server upgrade." alt="" coords="5,5,221,45"/>
+</map>

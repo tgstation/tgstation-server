@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['cachedresponsestream_0',['CachedResponseStream',['../class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html',1,'Tgstation::Server::Client']]],
+  ['cachedresponsestream_0',['CachedResponseStream',['../class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html',1,'Tgstation::Server::Common::Http']]],
   ['channelmapping_1',['ChannelMapping',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html',1,'Tgstation::Server::Host::Components::Chat']]],
   ['channelrepresentation_2',['ChannelRepresentation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html',1,'Tgstation::Server::Host::Components::Chat']]],
   ['chatbot_3',['ChatBot',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html',1,'Tgstation::Server::Host::Models']]],
@@ -47,8 +47,9 @@ var searchData=
   ['conflictexception_44',['ConflictException',['../class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html',1,'Tgstation::Server::Client']]],
   ['console_45',['Console',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html',1,'Tgstation::Server::Host::IO']]],
   ['controller_46',['Controller',['../class_controller.html',1,'']]],
-  ['controlpanelconfiguration_47',['ControlPanelConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html',1,'Tgstation::Server::Host::Configuration']]],
-  ['controlpanelcontroller_48',['ControlPanelController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html',1,'Tgstation::Server::Host::Controllers']]],
-  ['cryptographysuite_49',['CryptographySuite',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html',1,'Tgstation::Server::Host::Security']]],
-  ['customcommand_50',['CustomCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]]
+  ['controllerbaseextensions_47',['ControllerBaseExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_controller_base_extensions.html',1,'Tgstation::Server::Host::Extensions']]],
+  ['controlpanelconfiguration_48',['ControlPanelConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html',1,'Tgstation::Server::Host::Configuration']]],
+  ['controlpanelcontroller_49',['ControlPanelController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html',1,'Tgstation::Server::Host::Controllers']]],
+  ['cryptographysuite_50',['CryptographySuite',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html',1,'Tgstation::Server::Host::Security']]],
+  ['customcommand_51',['CustomCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]]
 ];

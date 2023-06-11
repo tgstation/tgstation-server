@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Core.ServerUpdater.TryAbort" name="Tgstation.Server.Host.Core.ServerUpdater.TryAbort">
+<area shape="rect" id="node1" title="Attempt to abort a prepared swarm update." alt="" coords="525,5,707,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,5,203,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a9027b73a78741455dc7020c6b0d19860" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="251,30,477,85"/>
+</map>

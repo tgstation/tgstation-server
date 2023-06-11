@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.IO.RequestFileStreamProvider" name="Tgstation.Server.Host.IO.RequestFileStreamProvider">
+<area shape="rect" id="node1" title="A IFileStreamProvider that represents the response of HttpRequestMessages." alt="" coords="5,152,187,192"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="27,79,165,104"/>
+<area shape="rect" id="node3" href="$class_i_async_disposable.html" title=" " alt="" coords="33,5,159,31"/>
+</map>

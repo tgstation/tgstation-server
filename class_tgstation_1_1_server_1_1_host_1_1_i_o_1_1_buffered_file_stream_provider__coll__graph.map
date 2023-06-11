@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.IO.BufferedFileStreamProvider" name="Tgstation.Server.Host.IO.BufferedFileStreamProvider">
+<area shape="rect" id="node1" title="IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream." alt="" coords="675,97,856,137"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html" title="IFileStreamProvider that provides MemoryStreams." alt="" coords="368,5,559,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html" title="Interface for asynchronously consuming Streams of files." alt="" coords="181,5,319,31"/>
+<area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,31"/>
+<area shape="rect" id="node5" title=" " alt="" coords="406,55,521,80"/>
+<area shape="rect" id="node6" title=" " alt="" coords="381,104,546,129"/>
+<area shape="rect" id="node7" title=" " alt="" coords="386,153,541,179"/>
+<area shape="rect" id="node8" title=" " alt="" coords="440,203,487,228"/>
+</map>

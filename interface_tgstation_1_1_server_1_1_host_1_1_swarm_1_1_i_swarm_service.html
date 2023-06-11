@@ -90,25 +90,36 @@ Inheritance diagram for Tgstation.Server.Host.Swarm.ISwarmService:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_swarm_8_i_swarm_service_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_swarm_8_i_swarm_service_inherit__map" id="a_tgstation_8_server_8_host_8_swarm_8_i_swarm_service_inherit__map">
-<area shape="rect" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="5,5,200,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="5,93,200,133"/>
+<area shape="rect" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="5,79,200,119"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="5,167,200,207"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="27,5,178,31"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for Tgstation.Server.Host.Swarm.ISwarmService:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_swarm_8_i_swarm_service_coll__map" alt="Collaboration graph"/></div>
+<map name="a_tgstation_8_server_8_host_8_swarm_8_i_swarm_service_coll__map" id="a_tgstation_8_server_8_host_8_swarm_8_i_swarm_service_coll__map">
+<area shape="rect" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="5,79,200,119"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html" title="Allows aborting a swarm distributed update operation." alt="" coords="27,5,178,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8c5e0f4aa46922955502a3a06bb0cfb7"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8c5e0f4aa46922955502a3a06bb0cfb7">PrepareUpdate</a> (Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a8c5e0f4aa46922955502a3a06bb0cfb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to the swarm that an update is requested.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8c5e0f4aa46922955502a3a06bb0cfb7">More...</a><br /></td></tr>
-<tr class="separator:a8c5e0f4aa46922955502a3a06bb0cfb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab438cb7a5cfa70097b54c82e8e31ff5e"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#adb1c0a36372932f7245590d9892af263">SwarmPrepareResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ab438cb7a5cfa70097b54c82e8e31ff5e">PrepareUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html">ISeekableFileStreamProvider</a> fileStreamProvider, Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab438cb7a5cfa70097b54c82e8e31ff5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to the swarm that an update is requested.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ab438cb7a5cfa70097b54c82e8e31ff5e">More...</a><br /></td></tr>
+<tr class="separator:ab438cb7a5cfa70097b54c82e8e31ff5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fd953d39bae85f73cc7bb30d47a09a6"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#a9923552cf79abff46ddf853f47b21446">SwarmCommitResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a7fd953d39bae85f73cc7bb30d47a09a6">CommitUpdate</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a7fd953d39bae85f73cc7bb30d47a09a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to the swarm that an update is ready to be applied.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a7fd953d39bae85f73cc7bb30d47a09a6">More...</a><br /></td></tr>
 <tr class="separator:a7fd953d39bae85f73cc7bb30d47a09a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ebd3027cad2671d6df4b3daf3fb18a6"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a6ebd3027cad2671d6df4b3daf3fb18a6">GetSwarmServers</a> ()</td></tr>
 <tr class="memdesc:a6ebd3027cad2671d6df4b3daf3fb18a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of SwarmServerResponses in the swarm, including the current one.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a6ebd3027cad2671d6df4b3daf3fb18a6">More...</a><br /></td></tr>
 <tr class="separator:a6ebd3027cad2671d6df4b3daf3fb18a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8612bfef4d2f9c7180fc7498f7d33985"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8612bfef4d2f9c7180fc7498f7d33985">AbortUpdate</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a8612bfef4d2f9c7180fc7498f7d33985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abort an uncommitted update.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8612bfef4d2f9c7180fc7498f7d33985">More...</a><br /></td></tr>
-<tr class="separator:a8612bfef4d2f9c7180fc7498f7d33985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html">Tgstation.Server.Host.Swarm.ISwarmUpdateAborter</a></td></tr>
+<tr class="memitem:adec40a5257541fadbaa126108e6c70ca inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#adec40a5257541fadbaa126108e6c70ca">AbortUpdate</a> ()</td></tr>
+<tr class="memdesc:adec40a5257541fadbaa126108e6c70ca inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to abort an uncommitted update.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter.html#adec40a5257541fadbaa126108e6c70ca">More...</a><br /></td></tr>
+<tr class="separator:adec40a5257541fadbaa126108e6c70ca inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_update_aborter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -119,48 +130,8 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Used for swarm operations. Functions may be no-op based on configuration.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_swarm_service_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_swarm_service_8cs_source.html">ISwarmService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_swarm_service_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_swarm_service_8cs_source.html">ISwarmService.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8612bfef4d2f9c7180fc7498f7d33985" name="a8612bfef4d2f9c7180fc7498f7d33985"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8612bfef4d2f9c7180fc7498f7d33985">&#9670;&#160;</a></span>AbortUpdate()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task Tgstation.Server.Host.Swarm.ISwarmService.AbortUpdate </td>
-          <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Abort an uncommitted update.  </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00104">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a8612bfef4d2f9c7180fc7498f7d33985_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a8612bfef4d2f9c7180fc7498f7d33985_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a8612bfef4d2f9c7180fc7498f7d33985_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a8612bfef4d2f9c7180fc7498f7d33985_icgraph">
-<area shape="rect" title="Abort an uncommitted update." alt="" coords="251,5,445,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,5,203,45"/>
-</map>
-</div>
-
-</div>
-</div>
 <a id="a7fd953d39bae85f73cc7bb30d47a09a6" name="a7fd953d39bae85f73cc7bb30d47a09a6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7fd953d39bae85f73cc7bb30d47a09a6">&#9670;&#160;</a></span>CommitUpdate()</h2>
 
@@ -188,7 +159,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a6a94a9ef66034b32ef26861247dfadf2">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00104">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00110">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -221,7 +192,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aa4e1b4aa888a13cf9517124dcb72ca7f">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00156">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -234,15 +205,21 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a8c5e0f4aa46922955502a3a06bb0cfb7" name="a8c5e0f4aa46922955502a3a06bb0cfb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c5e0f4aa46922955502a3a06bb0cfb7">&#9670;&#160;</a></span>PrepareUpdate()</h2>
+<a id="ab438cb7a5cfa70097b54c82e8e31ff5e" name="ab438cb7a5cfa70097b54c82e8e31ff5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab438cb7a5cfa70097b54c82e8e31ff5e">&#9670;&#160;</a></span>PrepareUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; bool &gt; Tgstation.Server.Host.Swarm.ISwarmService.PrepareUpdate </td>
+          <td class="memname">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#adb1c0a36372932f7245590d9892af263">SwarmPrepareResult</a> &gt; Tgstation.Server.Host.Swarm.ISwarmService.PrepareUpdate </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html">ISeekableFileStreamProvider</a>&#160;</td>
+          <td class="paramname"><em>fileStreamProvider</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
         </tr>
@@ -263,6 +240,7 @@ Here is the caller graph for this function:</div>
 <p>Signal to the swarm that an update is requested.  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">fileStreamProvider</td><td>The ISeekableFileStreamProvider to relay to other nodes.</td></tr>
     <tr><td class="paramname">version</td><td>The Version to update to.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -270,16 +248,17 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in <code>true</code> if the update should proceed, <code>false</code> otherwise.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#aab9d1c55e4338f1d19ca436702a92884">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a8284ef2414d328d72315c5ce83b6f7c2">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00104">Tgstation.Server.Host.Core.ServerUpdater.ExecuteUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00222">Tgstation.Server.Host.Core.ServerUpdater.PrepareUpdateClearStagingAndBufferStream()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a8c5e0f4aa46922955502a3a06bb0cfb7_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a8c5e0f4aa46922955502a3a06bb0cfb7_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a8c5e0f4aa46922955502a3a06bb0cfb7_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a8c5e0f4aa46922955502a3a06bb0cfb7_icgraph">
-<area shape="rect" title="Signal to the swarm that an update is requested." alt="" coords="251,5,452,45"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,5,203,45"/>
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_ab438cb7a5cfa70097b54c82e8e31ff5e_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_ab438cb7a5cfa70097b54c82e8e31ff5e_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_ab438cb7a5cfa70097b54c82e8e31ff5e_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_ab438cb7a5cfa70097b54c82e8e31ff5e_icgraph">
+<area shape="rect" title="Signal to the swarm that an update is requested." alt="" coords="525,13,727,53"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a9027b73a78741455dc7020c6b0d19860" title="Prepares the swarm update, deletes the stagingDirectory , and buffers the ServerUpdateOperation...." alt="" coords="251,5,477,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_updater.html#a3b704ff1a08b3a9462a71884c52b5a25" title="Executes a pending server update by extracting the new server to a given updatePath ...." alt="" coords="5,13,203,53"/>
 </map>
 </div>
 
@@ -310,10 +289,10 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a5ab99e48c51c79fb6c9cc7ea6f07d5ad">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_swarm_service_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_swarm_service_8cs_source.html">ISwarmService.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_swarm_service_8cs_source.html#l00019">19</a> of file <a class="el" href="_i_swarm_service_8cs_source.html">ISwarmService.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   19</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00089">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_updater_8cs_source.html#l00095">Tgstation.Server.Host.Core.ServerUpdater.BeginUpdate()</a>.</p>
 
 </div>
 </div>

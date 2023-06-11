@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="5,125,204,150"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts." alt="" coords="252,5,525,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating PostgresSqlDatabaseContexts." alt="" coords="256,70,521,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqlServerDatabaseContexts." alt="" coords="263,149,514,203"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts." alt="" coords="253,228,524,268"/>
+<area shape="rect" id="node1" href="$class_i_document_filter.html" title=" " alt="" coords="14,5,129,31"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html" title="Implements various filters for Swashbuckle." alt="" coords="185,73,367,113"/>
+<area shape="rect" id="node3" href="$class_i_operation_filter.html" title=" " alt="" coords="16,55,127,80"/>
+<area shape="rect" id="node4" href="$class_i_request_body_filter.html" title=" " alt="" coords="5,104,137,129"/>
+<area shape="rect" id="node5" href="$class_i_schema_filter.html" title=" " alt="" coords="20,153,123,179"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Core.ServerUpdater" name="Tgstation.Server.Host.Core.ServerUpdater">
-<area shape="rect" id="node1" title=" " alt="" coords="816,265,997,305"/>
+<area shape="rect" id="node1" title=" " alt="" coords="816,297,997,337"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_updater.html" title="Updates the server." alt="" coords="461,5,571,31"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_executor.html" title="Executes server update operations." alt="" coords="438,55,594,80"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html" title="Service for interacting with the GitHub API." alt="" coords="425,105,607,145"/>
@@ -7,13 +7,14 @@
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html" title="Downloads files." alt="" coords="432,233,600,273"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="425,297,607,337"/>
 <area shape="rect" id="node8" title=" " alt="" coords="407,361,625,401"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,501,631,541"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,508,160,533"/>
-<area shape="rect" id="node11" title=" " alt="" coords="55,439,110,464"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options." alt="" coords="401,489,631,529"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,496,160,521"/>
+<area shape="rect" id="node11" title=" " alt="" coords="55,427,110,452"/>
 <area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system." alt="" coords="401,425,631,465"/>
-<area shape="rect" id="node12" title=" " alt="" coords="36,727,129,752"/>
-<area shape="rect" id="node13" title=" " alt="" coords="61,628,104,653"/>
-<area shape="rect" id="node14" title=" " alt="" coords="7,677,159,703"/>
-<area shape="rect" id="node16" title=" " alt="" coords="59,329,106,355"/>
-<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html" title="Necessary data for performing a server update." alt="" coords="425,565,607,605"/>
+<area shape="rect" id="node12" title=" " alt="" coords="36,715,129,740"/>
+<area shape="rect" id="node13" title=" " alt="" coords="61,616,104,641"/>
+<area shape="rect" id="node14" title=" " alt="" coords="7,665,159,691"/>
+<area shape="rect" id="node16" title=" " alt="" coords="59,317,106,343"/>
+<area shape="rect" id="node17" title=" " alt="" coords="462,553,570,579"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_operation.html" title="Necessary data for performing a server update." alt="" coords="425,603,607,643"/>
 </map>

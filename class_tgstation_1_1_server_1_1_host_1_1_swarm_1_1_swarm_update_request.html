@@ -87,15 +87,79 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a54ebab93978a32ff2720fd6052fc72b6"><td class="memItemLeft" align="right" valign="top">Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a54ebab93978a32ff2720fd6052fc72b6">UpdateVersion</a><code> [get, set]</code></td></tr>
+<tr class="memitem:a54ebab93978a32ff2720fd6052fc72b6"><td class="memItemLeft" align="right" valign="top">Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a54ebab93978a32ff2720fd6052fc72b6">UpdateVersion</a><code> [get]</code></td></tr>
 <tr class="memdesc:a54ebab93978a32ff2720fd6052fc72b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TGS Version to update to.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a54ebab93978a32ff2720fd6052fc72b6">More...</a><br /></td></tr>
 <tr class="separator:a54ebab93978a32ff2720fd6052fc72b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a883947fbe85995ee4c5079b3b6d724b8"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a883947fbe85995ee4c5079b3b6d724b8">SourceNode</a><code> [get]</code></td></tr>
+<tr class="memdesc:a883947fbe85995ee4c5079b3b6d724b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836" title="The server&#39;s identifier.">Api.Models.Internal.SwarmServer.Identifier</a> of the node to download the update package from.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a883947fbe85995ee4c5079b3b6d724b8">More...</a><br /></td></tr>
+<tr class="separator:a883947fbe85995ee4c5079b3b6d724b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55eeef7657359327b9a0f755b6a562fe"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a55eeef7657359327b9a0f755b6a562fe">DownloadTickets</a><code> [get]</code></td></tr>
+<tr class="memdesc:a55eeef7657359327b9a0f755b6a562fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">The map of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836" title="The server&#39;s identifier.">Api.Models.Internal.SwarmServer.Identifier</a>s to FileTicketResponses for retrieving the update package from the initiating server.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html#a55eeef7657359327b9a0f755b6a562fe">More...</a><br /></td></tr>
+<tr class="separator:a55eeef7657359327b9a0f755b6a562fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >A request to update the swarm's TGS version.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_update_request_8cs_source.html#l00009">9</a> of file <a class="el" href="_swarm_update_request_8cs_source.html">SwarmUpdateRequest.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_update_request_8cs_source.html#l00012">12</a> of file <a class="el" href="_swarm_update_request_8cs_source.html">SwarmUpdateRequest.cs</a>.</p>
 </div><h2 class="groupheader">Property Documentation</h2>
+<a id="a55eeef7657359327b9a0f755b6a562fe" name="a55eeef7657359327b9a0f755b6a562fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55eeef7657359327b9a0f755b6a562fe">&#9670;&#160;</a></span>DownloadTickets</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Dictionary&lt;string, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a>&gt; Tgstation.Server.Host.Swarm.SwarmUpdateRequest.DownloadTickets</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The map of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836" title="The server&#39;s identifier.">Api.Models.Internal.SwarmServer.Identifier</a>s to FileTicketResponses for retrieving the update package from the initiating server.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_update_request_8cs_source.html#l00029">29</a> of file <a class="el" href="_swarm_update_request_8cs_source.html">SwarmUpdateRequest.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; init; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00923">Tgstation.Server.Host.Swarm.SwarmService.ControllerDistributedPrepareUpdate()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00760">Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl()</a>.</p>
+
+</div>
+</div>
+<a id="a883947fbe85995ee4c5079b3b6d724b8" name="a883947fbe85995ee4c5079b3b6d724b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a883947fbe85995ee4c5079b3b6d724b8">&#9670;&#160;</a></span>SourceNode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.Swarm.SwarmUpdateRequest.SourceNode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836" title="The server&#39;s identifier.">Api.Models.Internal.SwarmServer.Identifier</a> of the node to download the update package from.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_update_request_8cs_source.html#l00024">24</a> of file <a class="el" href="_swarm_update_request_8cs_source.html">SwarmUpdateRequest.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   24</span>{ <span class="keyword">get</span>; init; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00923">Tgstation.Server.Host.Swarm.SwarmService.ControllerDistributedPrepareUpdate()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00760">Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl()</a>.</p>
+
+</div>
+</div>
 <a id="a54ebab93978a32ff2720fd6052fc72b6" name="a54ebab93978a32ff2720fd6052fc72b6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a54ebab93978a32ff2720fd6052fc72b6">&#9670;&#160;</a></span>UpdateVersion</h2>
 
@@ -111,16 +175,18 @@ Properties</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>The TGS Version to update to.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_update_request_8cs_source.html#l00015">15</a> of file <a class="el" href="_swarm_update_request_8cs_source.html">SwarmUpdateRequest.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_swarm_update_request_8cs_source.html#l00018">18</a> of file <a class="el" href="_swarm_update_request_8cs_source.html">SwarmUpdateRequest.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   18</span>{ <span class="keyword">get</span>; init; }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00923">Tgstation.Server.Host.Swarm.SwarmService.ControllerDistributedPrepareUpdate()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00760">Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl()</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

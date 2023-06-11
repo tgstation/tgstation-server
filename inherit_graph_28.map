@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html" title="Public information about a given OAuthProvider." alt="" coords="5,5,192,45"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_delete_request.html" title="A request to delete a specific Version." alt="" coords="5,5,244,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_byond_version_request.html" title="A request to install a BYOND ByondVersionDeleteRequest.Version." alt="" coords="292,5,493,45"/>
 </map>

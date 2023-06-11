@@ -1104,7 +1104,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  535</span>                <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  536</span>                    versionZipStream = customVersionStream;</div>
 <div class="line"><span class="lineno">  537</span> </div>
-<div class="line"><span class="lineno">  538</span>                <span class="keyword">using</span> (versionZipStream)</div>
+<div class="line"><span class="lineno">  538</span>                await <span class="keyword">using</span> (versionZipStream)</div>
 <div class="line"><span class="lineno">  539</span>                {</div>
 <div class="line"><span class="lineno">  540</span>                    <span class="keywordflow">if</span> (progressReporter != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  541</span>                        progressReporter.StageName = <span class="stringliteral">&quot;Cleaning target directory&quot;</span>;</div>

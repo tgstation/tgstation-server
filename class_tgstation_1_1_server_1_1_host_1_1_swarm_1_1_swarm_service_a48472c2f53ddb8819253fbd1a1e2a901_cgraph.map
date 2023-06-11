@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.SwarmService.RegisterNode" name="Tgstation.Server.Host.Swarm.SwarmService.RegisterNode">
-<area shape="rect" id="node1" title="Attempt to register a given node &#160;with the controller. true if the registration was successful,..." alt="" coords="5,5,200,45"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="248,5,459,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afd69b7671a16d3081393af03b3a52cb5" title="Complete the current forceHealthCheckTcs." alt="" coords="507,5,732,45"/>
-</map>

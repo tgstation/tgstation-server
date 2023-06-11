@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Swarm.SwarmUpdateOperation.MarkNodeReady" name="Tgstation.Server.Host.Swarm.SwarmUpdateOperation.MarkNodeReady">
+<area shape="rect" id="node1" title="Marks a SwarmServer identified by nodeIdentifier &#160;as ready to commit." alt="" coords="5,5,265,45"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_operation.html#ae9bd3adb5b3d534b8107d63c35681ee5" title="Attempt to abort the update operation." alt="" coords="313,5,508,45"/>
+</map>

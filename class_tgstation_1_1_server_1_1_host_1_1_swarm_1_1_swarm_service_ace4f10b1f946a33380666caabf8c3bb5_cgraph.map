@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Swarm.SwarmService.ControllerDistributedPrepareUpdate" name="Tgstation.Server.Host.Swarm.SwarmService.ControllerDistributedPrepareUpdate">
+<area shape="rect" id="node1" title="Send a given updateRequest &#160;out to nodes from the swarm controller." alt="" coords="5,77,232,132"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_common_1_1_http_1_1_i_abstract_http_client_factory.html#a668eebb48c5c60a848376d9a00a9ecc9" title="Create a IHttpClient." alt="" coords="301,5,507,60"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ab8af3cd65ed005cd41eeed1cf55da2d8" title="Create a FileTicketResponse for downloading the content of a given initiatorProvider &#160;for the rest of..." alt="" coords="280,85,528,125"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a82eee947c75e6a064ead15845d08f4fb" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="282,149,526,189"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_seekable_file_stream_provider.html#a4d1c8ffb367260cd178b68b0d137bf51" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="576,41,791,96"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html#a4089d4c4bd2c81af23de761984fed8e9" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="584,121,783,161"/>
+</map>

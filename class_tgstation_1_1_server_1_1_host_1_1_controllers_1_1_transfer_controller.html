@@ -114,9 +114,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeae4e9df94df46b6b0db554a9fa6bc4a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#aeae4e9df94df46b6b0db554a9fa6bc4a">TransferController</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html">IAuthenticationContextFactory</a> authenticationContextFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html">IFileTransferStreamHandler</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">fileTransferService</a>, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">ApiController</a> &gt; logger)</td></tr>
 <tr class="memdesc:aeae4e9df94df46b6b0db554a9fa6bc4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html" title="ApiController for file streaming.">TransferController</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#aeae4e9df94df46b6b0db554a9fa6bc4a">More...</a><br /></td></tr>
 <tr class="separator:aeae4e9df94df46b6b0db554a9fa6bc4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80e289a0853d9c9b8174639d8e3769fe"><td class="memItemLeft" align="right" valign="top">async Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a80e289a0853d9c9b8174639d8e3769fe">Download</a> ([Required, FromQuery] string ticket, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a80e289a0853d9c9b8174639d8e3769fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a file with a given <em>ticket</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a80e289a0853d9c9b8174639d8e3769fe">More...</a><br /></td></tr>
-<tr class="separator:a80e289a0853d9c9b8174639d8e3769fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dd496cde9d13e0cb262fbf5986b7930"><td class="memItemLeft" align="right" valign="top">Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a0dd496cde9d13e0cb262fbf5986b7930">Download</a> ([Required, FromQuery] string ticket, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0dd496cde9d13e0cb262fbf5986b7930"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a file with a given <em>ticket</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a0dd496cde9d13e0cb262fbf5986b7930">More...</a><br /></td></tr>
+<tr class="separator:a0dd496cde9d13e0cb262fbf5986b7930"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadcdad2c36f87a65da9bf3750190df21"><td class="memItemLeft" align="right" valign="top">async Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#aadcdad2c36f87a65da9bf3750190df21">Upload</a> ([Required, FromQuery] string ticket, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aadcdad2c36f87a65da9bf3750190df21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a file with a given <em>ticket</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#aadcdad2c36f87a65da9bf3750190df21">More...</a><br /></td></tr>
 <tr class="separator:aadcdad2c36f87a65da9bf3750190df21"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,9 +136,6 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a32fe6d42273d3db9b7d1937ff5f08044 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a32fe6d42273d3db9b7d1937ff5f08044">ApiController</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html">IAuthenticationContextFactory</a> authenticationContextFactory, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html">ApiController</a> &gt; logger, bool <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a91c58c31f7a3cc51fff3cfc3b236756d">requireHeaders</a>)</td></tr>
 <tr class="memdesc:a32fe6d42273d3db9b7d1937ff5f08044 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions.">ApiController</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a32fe6d42273d3db9b7d1937ff5f08044">More...</a><br /></td></tr>
 <tr class="separator:a32fe6d42273d3db9b7d1937ff5f08044 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30f0e4c93d7b119d4bf7aadefc1e5b8f inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">ObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a> ()</td></tr>
-<tr class="memdesc:a30f0e4c93d7b119d4bf7aadefc1e5b8f inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic 410 response.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">More...</a><br /></td></tr>
-<tr class="separator:a30f0e4c93d7b119d4bf7aadefc1e5b8f inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30874703840788ecc629d91fc7e15a5f inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">new NotFoundObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f">NotFound</a> ()</td></tr>
 <tr class="memdesc:a30874703840788ecc629d91fc7e15a5f inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic 404 response.   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f">More...</a><br /></td></tr>
 <tr class="separator:a30874703840788ecc629d91fc7e15a5f inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,9 +145,6 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a978fe89eeaea424d7e034d2c7ab7b76e inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">StatusCodeResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a> (HttpStatusCode statusCode)</td></tr>
 <tr class="memdesc:a978fe89eeaea424d7e034d2c7ab7b76e inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strongly type calls to ControllerBase.StatusCode(int).   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">More...</a><br /></td></tr>
 <tr class="separator:a978fe89eeaea424d7e034d2c7ab7b76e inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc93040c7a61d510292e387329d3f00e inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">ObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adc93040c7a61d510292e387329d3f00e">StatusCode</a> (HttpStatusCode statusCode, object errorMessage)</td></tr>
-<tr class="memdesc:adc93040c7a61d510292e387329d3f00e inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strongly type calls to ControllerBase.StatusCode(int, object).   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adc93040c7a61d510292e387329d3f00e">More...</a><br /></td></tr>
-<tr class="separator:adc93040c7a61d510292e387329d3f00e inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0fcee33c7b7341bc3bf0c0e66e1ebf4 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memItemLeft" align="right" valign="top">ObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Created</a> (object payload)</td></tr>
 <tr class="memdesc:ae0fcee33c7b7341bc3bf0c0e66e1ebf4 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic 201 response with a given <em>payload</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">More...</a><br /></td></tr>
 <tr class="separator:ae0fcee33c7b7341bc3bf0c0e66e1ebf4 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,7 +183,7 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="Base Controller for API functions.">ApiController</a> for file streaming.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00028">28</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00024">24</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aeae4e9df94df46b6b0db554a9fa6bc4a" name="aeae4e9df94df46b6b0db554a9fa6bc4a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeae4e9df94df46b6b0db554a9fa6bc4a">&#9670;&#160;</a></span>TransferController()</h2>
@@ -240,30 +234,30 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00042">42</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   47</span>            : base(</div>
-<div class="line"><span class="lineno">   48</span>                  databaseContext,</div>
-<div class="line"><span class="lineno">   49</span>                  authenticationContextFactory,</div>
-<div class="line"><span class="lineno">   50</span>                  logger,</div>
-<div class="line"><span class="lineno">   51</span>                  <span class="keyword">true</span>)</div>
-<div class="line"><span class="lineno">   52</span>        {</div>
-<div class="line"><span class="lineno">   53</span>            this.fileTransferService = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">fileTransferService</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">fileTransferService</a>));</div>
-<div class="line"><span class="lineno">   54</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_html_a37572bb0d01675ecf1d99a57bce824e0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">Tgstation.Server.Host.Controllers.TransferController.fileTransferService</a></div><div class="ttdeci">readonly IFileTransferStreamHandler fileTransferService</div><div class="ttdoc">The IFileTransferStreamHandler for the TransferController.</div><div class="ttdef"><b>Definition:</b> <a href="_transfer_controller_8cs_source.html#l00033">TransferController.cs:33</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00038">38</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>            : base(</div>
+<div class="line"><span class="lineno">   44</span>                  databaseContext,</div>
+<div class="line"><span class="lineno">   45</span>                  authenticationContextFactory,</div>
+<div class="line"><span class="lineno">   46</span>                  logger,</div>
+<div class="line"><span class="lineno">   47</span>                  <span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">   48</span>        {</div>
+<div class="line"><span class="lineno">   49</span>            this.fileTransferService = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">fileTransferService</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">fileTransferService</a>));</div>
+<div class="line"><span class="lineno">   50</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_html_a37572bb0d01675ecf1d99a57bce824e0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">Tgstation.Server.Host.Controllers.TransferController.fileTransferService</a></div><div class="ttdeci">readonly IFileTransferStreamHandler fileTransferService</div><div class="ttdoc">The IFileTransferStreamHandler for the TransferController.</div><div class="ttdef"><b>Definition:</b> <a href="_transfer_controller_8cs_source.html#l00029">TransferController.cs:29</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_transfer_controller_8cs_source.html#l00033">Tgstation.Server.Host.Controllers.TransferController.fileTransferService</a>.</p>
+<p class="reference">References <a class="el" href="_transfer_controller_8cs_source.html#l00029">Tgstation.Server.Host.Controllers.TransferController.fileTransferService</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a80e289a0853d9c9b8174639d8e3769fe" name="a80e289a0853d9c9b8174639d8e3769fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80e289a0853d9c9b8174639d8e3769fe">&#9670;&#160;</a></span>Download()</h2>
+<a id="a0dd496cde9d13e0cb262fbf5986b7930" name="a0dd496cde9d13e0cb262fbf5986b7930"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dd496cde9d13e0cb262fbf5986b7930">&#9670;&#160;</a></span>Download()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt; IActionResult &gt; Tgstation.Server.Host.Controllers.TransferController.Download </td>
+          <td class="memname">Task&lt; IActionResult &gt; Tgstation.Server.Host.Controllers.TransferController.Download </td>
           <td>(</td>
           <td class="paramtype">[Required, FromQuery] string&#160;</td>
           <td class="paramname"><em>ticket</em>, </td>
@@ -293,67 +287,12 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the method.</dd></dl>
 <p>&lt;response code="200"&gt;Started streaming download successfully.&lt;/response&gt; &lt;response code="410"&gt;The <em>ticket</em>  was no longer or was never valid.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00068">68</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   69</span>        {</div>
-<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">if</span> (ticket == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   71</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure));</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>            var streamAccept = <span class="keyword">new</span> MediaTypeHeaderValue(MediaTypeNames.Application.Octet);</div>
-<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">if</span> (!Request.GetTypedHeaders().Accept.Any(x =&gt; streamAccept.IsSubsetOf(x)))</div>
-<div class="line"><span class="lineno">   75</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">StatusCode</a>(HttpStatusCode.NotAcceptable, <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.BadHeaders)</div>
-<div class="line"><span class="lineno">   76</span>                {</div>
-<div class="line"><span class="lineno">   77</span>                    AdditionalData = $<span class="stringliteral">&quot;File downloads must accept both {MediaTypeNames.Application.Octet} and {MediaTypeNames.Application.Json}!&quot;</span>,</div>
-<div class="line"><span class="lineno">   78</span>                });</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>            var fileTicketResult = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a></div>
-<div class="line"><span class="lineno">   81</span>            {</div>
-<div class="line"><span class="lineno">   82</span>                FileTicket = ticket,</div>
-<div class="line"><span class="lineno">   83</span>            };</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>            var tuple = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">fileTransferService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ae44c956ead10daf025106539319e91cb">RetrieveDownloadStream</a>(fileTicketResult, cancellationToken);</div>
-<div class="line"><span class="lineno">   86</span>            var stream = tuple.Item1;</div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   88</span>            {</div>
-<div class="line"><span class="lineno">   89</span>                <span class="keywordflow">if</span> (tuple.Item2 != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   90</span>                    <span class="keywordflow">return</span> Conflict(tuple.Item2);</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">if</span> (stream == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   93</span>                    <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> LimitedFileStreamResult(stream);</div>
-<div class="line"><span class="lineno">   96</span>            }</div>
-<div class="line"><span class="lineno">   97</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">   98</span>            {</div>
-<div class="line"><span class="lineno">   99</span>                stream.Dispose();</div>
-<div class="line"><span class="lineno">  100</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  101</span>            }</div>
-<div class="line"><span class="lineno">  102</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_response_8cs_source.html#l00009">ErrorMessageResponse.cs:10</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">Tgstation.Server.Api.Models.Response.FileTicketResponse</a></div><div class="ttdoc">Response for when file transfers are necessary.</div><div class="ttdef"><b>Definition:</b> <a href="_file_ticket_response_8cs_source.html#l00006">FileTicketResponse.cs:7</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a30f0e4c93d7b119d4bf7aadefc1e5b8f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone</a></div><div class="ttdeci">ObjectResult Gone()</div><div class="ttdoc">Generic 410 response.</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a978fe89eeaea424d7e034d2c7ab7b76e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">Tgstation.Server.Host.Controllers.ApiController.StatusCode</a></div><div class="ttdeci">StatusCodeResult StatusCode(HttpStatusCode statusCode)</div><div class="ttdoc">Strongly type calls to ControllerBase.StatusCode(int).</div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler_html_ae44c956ead10daf025106539319e91cb"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ae44c956ead10daf025106539319e91cb">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.RetrieveDownloadStream</a></div><div class="ttdeci">Task&lt; Tuple&lt; FileStream, ErrorMessageResponse &gt; &gt; RetrieveDownloadStream(FileTicketResponse ticket, CancellationToken cancellationToken)</div><div class="ttdoc">Gets the the Stream for a given ticket  associated with a pending download.</div></div>
-<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="_transfer_controller_8cs_source.html#l00033">Tgstation.Server.Host.Controllers.TransferController.fileTransferService</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ae44c956ead10daf025106539319e91cb">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.RetrieveDownloadStream()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e">Tgstation.Server.Host.Controllers.ApiController.StatusCode()</a>.</p>
-
 <p class="reference">Referenced by <a class="el" href="_swagger_configuration_8cs_source.html#l00331">Tgstation.Server.Host.Utils.SwaggerConfiguration.Apply()</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a80e289a0853d9c9b8174639d8e3769fe_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a80e289a0853d9c9b8174639d8e3769fe_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a80e289a0853d9c9b8174639d8e3769fe_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a80e289a0853d9c9b8174639d8e3769fe_cgraph">
-<area shape="rect" title="Downloads a file with a given ticket ." alt="" coords="5,77,221,117"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="278,5,494,45"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#ae44c956ead10daf025106539319e91cb" title="Gets the the Stream for a given ticket &#160;associated with a pending download." alt="" coords="269,70,503,125"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="278,149,494,189"/>
-</map>
-</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a80e289a0853d9c9b8174639d8e3769fe_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a80e289a0853d9c9b8174639d8e3769fe_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a80e289a0853d9c9b8174639d8e3769fe_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a80e289a0853d9c9b8174639d8e3769fe_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a0dd496cde9d13e0cb262fbf5986b7930_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a0dd496cde9d13e0cb262fbf5986b7930_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a0dd496cde9d13e0cb262fbf5986b7930_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_a0dd496cde9d13e0cb262fbf5986b7930_icgraph">
 <area shape="rect" title="Downloads a file with a given ticket ." alt="" coords="236,5,452,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ad42b61af703046605dcf2c27a3a76e14" title=" " alt="" coords="5,5,188,45"/>
 </map>
@@ -398,27 +337,30 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the method.</dd></dl>
 <p>&lt;response code="204"&gt;Uploaded file successfully.&lt;/response&gt; &lt;response code="409"&gt;An error occurred during the upload.&lt;/response&gt; &lt;response code="410"&gt;The <em>ticket</em>  was no longer or was never valid.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00117">117</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  118</span>        {</div>
-<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">if</span> (ticket == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  120</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure));</div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>            var fileTicketResult = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a></div>
-<div class="line"><span class="lineno">  123</span>            {</div>
-<div class="line"><span class="lineno">  124</span>                FileTicket = ticket,</div>
-<div class="line"><span class="lineno">  125</span>            };</div>
-<div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>            var result = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">fileTransferService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962">SetUploadStream</a>(fileTicketResult, Request.Body, cancellationToken);</div>
-<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">if</span> (result != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  129</span>                <span class="keywordflow">return</span> result.ErrorCode == ErrorCode.ResourceNotPresent</div>
-<div class="line"><span class="lineno">  130</span>                    ? <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>()</div>
-<div class="line"><span class="lineno">  131</span>                    : Conflict(result);</div>
-<div class="line"><span class="lineno">  132</span> </div>
-<div class="line"><span class="lineno">  133</span>            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><span class="lineno">  134</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00080">80</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>        {</div>
+<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">if</span> (ticket == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   83</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure));</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>            var fileTicketResult = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a></div>
+<div class="line"><span class="lineno">   86</span>            {</div>
+<div class="line"><span class="lineno">   87</span>                FileTicket = ticket,</div>
+<div class="line"><span class="lineno">   88</span>            };</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span>            var result = await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a37572bb0d01675ecf1d99a57bce824e0">fileTransferService</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962">SetUploadStream</a>(fileTicketResult, Request.Body, cancellationToken);</div>
+<div class="line"><span class="lineno">   91</span>            <span class="keywordflow">if</span> (result != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">return</span> result.ErrorCode == ErrorCode.ResourceNotPresent</div>
+<div class="line"><span class="lineno">   93</span>                    ? this.Gone()</div>
+<div class="line"><span class="lineno">   94</span>                    : Conflict(result);</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><span class="lineno">   97</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_response_8cs_source.html#l00009">ErrorMessageResponse.cs:10</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">Tgstation.Server.Api.Models.Response.FileTicketResponse</a></div><div class="ttdoc">Response for when file transfers are necessary.</div><div class="ttdef"><b>Definition:</b> <a href="_file_ticket_response_8cs_source.html#l00006">FileTicketResponse.cs:7</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler_html_a9baee8df153a4cfdb1bfa5e8913c0962"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.SetUploadStream</a></div><div class="ttdeci">Task&lt; ErrorMessageResponse &gt; SetUploadStream(FileTicketResponse ticket, Stream stream, CancellationToken cancellationToken)</div><div class="ttdoc">Sets the Stream for a given ticket  associated with a pending upload.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_transfer_controller_8cs_source.html#l00033">Tgstation.Server.Host.Controllers.TransferController.fileTransferService</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.SetUploadStream()</a>.</p>
+<p class="reference">References <a class="el" href="_transfer_controller_8cs_source.html#l00029">Tgstation.Server.Host.Controllers.TransferController.fileTransferService</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler.SetUploadStream()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_swagger_configuration_8cs_source.html#l00331">Tgstation.Server.Host.Utils.SwaggerConfiguration.Apply()</a>.</p>
 <div class="dynheader">
@@ -426,9 +368,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_aadcdad2c36f87a65da9bf3750190df21_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_aadcdad2c36f87a65da9bf3750190df21_cgraph" alt=""/></div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_aadcdad2c36f87a65da9bf3750190df21_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller_aadcdad2c36f87a65da9bf3750190df21_cgraph">
-<area shape="rect" title="Uploads a file with a given ticket ." alt="" coords="5,37,221,77"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="305,5,521,45"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962" title="Sets the Stream for a given ticket &#160;associated with a pending upload." alt="" coords="269,69,557,109"/>
+<area shape="rect" title="Uploads a file with a given ticket ." alt="" coords="5,5,221,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a9baee8df153a4cfdb1bfa5e8913c0962" title="Sets the Stream for a given ticket &#160;associated with a pending upload." alt="" coords="269,5,557,45"/>
 </map>
 </div>
 <div class="dynheader">
@@ -466,9 +407,9 @@ Here is the caller graph for this function:</div>
 
 <p>The IFileTransferStreamHandler for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html" title="ApiController for file streaming.">TransferController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00033">33</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_transfer_controller_8cs_source.html#l00029">29</a> of file <a class="el" href="_transfer_controller_8cs_source.html">TransferController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_transfer_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.TransferController.Download()</a>, <a class="el" href="_transfer_controller_8cs_source.html#l00042">Tgstation.Server.Host.Controllers.TransferController.TransferController()</a>, and <a class="el" href="_transfer_controller_8cs_source.html#l00117">Tgstation.Server.Host.Controllers.TransferController.Upload()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_transfer_controller_8cs_source.html#l00038">Tgstation.Server.Host.Controllers.TransferController.TransferController()</a>, and <a class="el" href="_transfer_controller_8cs_source.html#l00080">Tgstation.Server.Host.Controllers.TransferController.Upload()</a>.</p>
 
 </div>
 </div>

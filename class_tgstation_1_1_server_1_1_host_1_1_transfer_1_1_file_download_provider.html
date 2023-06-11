@@ -88,18 +88,18 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abf41e135544a11ed08a976a5db08325a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#abf41e135544a11ed08a976a5db08325a">FileDownloadProvider</a> (Func&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>?&gt; activationCallback, Func&lt; CancellationToken, Task&lt; FileStream &gt; &gt; fileStreamProvider, string filePath, bool shareWrite)</td></tr>
-<tr class="memdesc:abf41e135544a11ed08a976a5db08325a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html" title="Represents a file on disk to be downloaded.">FileDownloadProvider</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#abf41e135544a11ed08a976a5db08325a">More...</a><br /></td></tr>
-<tr class="separator:abf41e135544a11ed08a976a5db08325a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a651a0fe3ab3ba21716171707f0ea9a17"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a651a0fe3ab3ba21716171707f0ea9a17">FileDownloadProvider</a> (Func&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>?&gt; activationCallback, Func&lt; CancellationToken, Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt; &gt; streamProvider, string filePath, bool shareWrite)</td></tr>
+<tr class="memdesc:a651a0fe3ab3ba21716171707f0ea9a17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html" title="Represents a file on disk to be downloaded.">FileDownloadProvider</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a651a0fe3ab3ba21716171707f0ea9a17">More...</a><br /></td></tr>
+<tr class="separator:a651a0fe3ab3ba21716171707f0ea9a17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:ae276d9790d6f19c2762bbae132b2f6c5"><td class="memItemLeft" align="right" valign="top">Func&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>?&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#ae276d9790d6f19c2762bbae132b2f6c5">ActivationCallback</a><code> [get]</code></td></tr>
 <tr class="memdesc:ae276d9790d6f19c2762bbae132b2f6c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Func&lt;TResult&gt; to run before providing the download. If it returns a non-null <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8" title="Types of Response.ErrorMessageResponses that the API may return.">ErrorCode</a>, a 400 error with that code will be returned instead of a download stream.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#ae276d9790d6f19c2762bbae132b2f6c5">More...</a><br /></td></tr>
 <tr class="separator:ae276d9790d6f19c2762bbae132b2f6c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11fbadc623eee211a49a6185088d5ada"><td class="memItemLeft" align="right" valign="top">Func&lt; CancellationToken, Task&lt; FileStream &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a11fbadc623eee211a49a6185088d5ada">FileStreamProvider</a><code> [get]</code></td></tr>
-<tr class="memdesc:a11fbadc623eee211a49a6185088d5ada"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Func&lt;T, TResult&gt; to specially provide a Task&lt;TResult&gt; returning the FileStream.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a11fbadc623eee211a49a6185088d5ada">More...</a><br /></td></tr>
-<tr class="separator:a11fbadc623eee211a49a6185088d5ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc24d068f5321db1981ecd54de87b673"><td class="memItemLeft" align="right" valign="top">Func&lt; CancellationToken, Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#adc24d068f5321db1981ecd54de87b673">StreamProvider</a><code> [get]</code></td></tr>
+<tr class="memdesc:adc24d068f5321db1981ecd54de87b673"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Func&lt;T, TResult&gt; to specially provide a Task&lt;TResult&gt; returning the <a class="el" href="class_stream.html">Stream</a> of the file download. The caller will own the resulting <a class="el" href="class_stream.html">Stream</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#adc24d068f5321db1981ecd54de87b673">More...</a><br /></td></tr>
+<tr class="separator:adc24d068f5321db1981ecd54de87b673"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a782df757ec100c2b731ad4c9caaff5bd"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a782df757ec100c2b731ad4c9caaff5bd">FilePath</a><code> [get]</code></td></tr>
 <tr class="memdesc:a782df757ec100c2b731ad4c9caaff5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The full path to the file on disk to download.   <a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a782df757ec100c2b731ad4c9caaff5bd">More...</a><br /></td></tr>
 <tr class="separator:a782df757ec100c2b731ad4c9caaff5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -112,8 +112,8 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_file_download_provider_8cs_source.html#l00013">13</a> of file <a class="el" href="_file_download_provider_8cs_source.html">FileDownloadProvider.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="abf41e135544a11ed08a976a5db08325a" name="abf41e135544a11ed08a976a5db08325a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf41e135544a11ed08a976a5db08325a">&#9670;&#160;</a></span>FileDownloadProvider()</h2>
+<a id="a651a0fe3ab3ba21716171707f0ea9a17" name="a651a0fe3ab3ba21716171707f0ea9a17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a651a0fe3ab3ba21716171707f0ea9a17">&#9670;&#160;</a></span>FileDownloadProvider()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,8 +127,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Func&lt; CancellationToken, Task&lt; FileStream &gt; &gt;&#160;</td>
-          <td class="paramname"><em>fileStreamProvider</em>, </td>
+          <td class="paramtype">Func&lt; CancellationToken, Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt; &gt;&#160;</td>
+          <td class="paramname"><em>streamProvider</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -154,7 +154,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">activationCallback</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#ae276d9790d6f19c2762bbae132b2f6c5" title="A Func&lt;TResult&gt; to run before providing the download. If it returns a non-null ErrorCode,...">ActivationCallback</a>.</td></tr>
-    <tr><td class="paramname">fileStreamProvider</td><td>The optional value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a11fbadc623eee211a49a6185088d5ada" title="A Func&lt;T, TResult&gt; to specially provide a Task&lt;TResult&gt; returning the FileStream.">FileStreamProvider</a>.</td></tr>
+    <tr><td class="paramname">streamProvider</td><td>The optional value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#adc24d068f5321db1981ecd54de87b673" title="A Func&lt;T, TResult&gt; to specially provide a Task&lt;TResult&gt; returning the Stream of the file download....">StreamProvider</a>.</td></tr>
     <tr><td class="paramname">filePath</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a782df757ec100c2b731ad4c9caaff5bd" title="The full path to the file on disk to download.">FilePath</a>.</td></tr>
     <tr><td class="paramname">shareWrite</td><td>The value of <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a57643b62111ee9a462f243d260a73c4c" title="If the file read stream should be allowed to share writes. If this is set, the entire file will be bu...">ShareWrite</a>.</td></tr>
   </table>
@@ -164,16 +164,16 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_file_download_provider_8cs_source.html#l00042">42</a> of file <a class="el" href="_file_download_provider_8cs_source.html">FileDownloadProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   47</span>        {</div>
 <div class="line"><span class="lineno">   48</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#ae276d9790d6f19c2762bbae132b2f6c5">ActivationCallback</a> = activationCallback ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(activationCallback));</div>
-<div class="line"><span class="lineno">   49</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a11fbadc623eee211a49a6185088d5ada">FileStreamProvider</a> = fileStreamProvider;</div>
+<div class="line"><span class="lineno">   49</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#adc24d068f5321db1981ecd54de87b673">StreamProvider</a> = streamProvider;</div>
 <div class="line"><span class="lineno">   50</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a782df757ec100c2b731ad4c9caaff5bd">FilePath</a> = filePath ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(filePath));</div>
 <div class="line"><span class="lineno">   51</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a57643b62111ee9a462f243d260a73c4c">ShareWrite</a> = shareWrite;</div>
 <div class="line"><span class="lineno">   52</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider_html_a11fbadc623eee211a49a6185088d5ada"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a11fbadc623eee211a49a6185088d5ada">Tgstation.Server.Host.Transfer.FileDownloadProvider.FileStreamProvider</a></div><div class="ttdeci">Func&lt; CancellationToken, Task&lt; FileStream &gt; &gt; FileStreamProvider</div><div class="ttdoc">A Func&lt;T, TResult&gt; to specially provide a Task&lt;TResult&gt; returning the FileStream.</div><div class="ttdef"><b>Definition:</b> <a href="_file_download_provider_8cs_source.html#l00023">FileDownloadProvider.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider_html_a57643b62111ee9a462f243d260a73c4c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a57643b62111ee9a462f243d260a73c4c">Tgstation.Server.Host.Transfer.FileDownloadProvider.ShareWrite</a></div><div class="ttdeci">bool ShareWrite</div><div class="ttdoc">If the file read stream should be allowed to share writes. If this is set, the entire file will be bu...</div><div class="ttdef"><b>Definition:</b> <a href="_file_download_provider_8cs_source.html#l00033">FileDownloadProvider.cs:33</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider_html_a782df757ec100c2b731ad4c9caaff5bd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#a782df757ec100c2b731ad4c9caaff5bd">Tgstation.Server.Host.Transfer.FileDownloadProvider.FilePath</a></div><div class="ttdeci">string FilePath</div><div class="ttdoc">The full path to the file on disk to download.</div><div class="ttdef"><b>Definition:</b> <a href="_file_download_provider_8cs_source.html#l00028">FileDownloadProvider.cs:28</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider_html_adc24d068f5321db1981ecd54de87b673"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#adc24d068f5321db1981ecd54de87b673">Tgstation.Server.Host.Transfer.FileDownloadProvider.StreamProvider</a></div><div class="ttdeci">Func&lt; CancellationToken, Task&lt; Stream &gt; &gt; StreamProvider</div><div class="ttdoc">A Func&lt;T, TResult&gt; to specially provide a Task&lt;TResult&gt; returning the Stream of the file download....</div><div class="ttdef"><b>Definition:</b> <a href="_file_download_provider_8cs_source.html#l00023">FileDownloadProvider.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider_html_ae276d9790d6f19c2762bbae132b2f6c5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_download_provider.html#ae276d9790d6f19c2762bbae132b2f6c5">Tgstation.Server.Host.Transfer.FileDownloadProvider.ActivationCallback</a></div><div class="ttdeci">Func&lt; ErrorCode?&gt; ActivationCallback</div><div class="ttdoc">A Func&lt;TResult&gt; to run before providing the download. If it returns a non-null ErrorCode,...</div><div class="ttdef"><b>Definition:</b> <a href="_file_download_provider_8cs_source.html#l00018">FileDownloadProvider.cs:18</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_file_download_provider_8cs_source.html#l00018">Tgstation.Server.Host.Transfer.FileDownloadProvider.ActivationCallback</a>, <a class="el" href="_file_download_provider_8cs_source.html#l00028">Tgstation.Server.Host.Transfer.FileDownloadProvider.FilePath</a>, <a class="el" href="_file_download_provider_8cs_source.html#l00023">Tgstation.Server.Host.Transfer.FileDownloadProvider.FileStreamProvider</a>, and <a class="el" href="_file_download_provider_8cs_source.html#l00033">Tgstation.Server.Host.Transfer.FileDownloadProvider.ShareWrite</a>.</p>
+<p class="reference">References <a class="el" href="_file_download_provider_8cs_source.html#l00018">Tgstation.Server.Host.Transfer.FileDownloadProvider.ActivationCallback</a>, <a class="el" href="_file_download_provider_8cs_source.html#l00028">Tgstation.Server.Host.Transfer.FileDownloadProvider.FilePath</a>, <a class="el" href="_file_download_provider_8cs_source.html#l00033">Tgstation.Server.Host.Transfer.FileDownloadProvider.ShareWrite</a>, and <a class="el" href="_file_download_provider_8cs_source.html#l00023">Tgstation.Server.Host.Transfer.FileDownloadProvider.StreamProvider</a>.</p>
 
 </div>
 </div>
@@ -236,35 +236,6 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a11fbadc623eee211a49a6185088d5ada" name="a11fbadc623eee211a49a6185088d5ada"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11fbadc623eee211a49a6185088d5ada">&#9670;&#160;</a></span>FileStreamProvider</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Func&lt;CancellationToken, Task&lt;FileStream&gt; &gt; Tgstation.Server.Host.Transfer.FileDownloadProvider.FileStreamProvider</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>A Func&lt;T, TResult&gt; to specially provide a Task&lt;TResult&gt; returning the FileStream.  </p>
-
-<p class="definition">Definition at line <a class="el" href="_file_download_provider_8cs_source.html#l00023">23</a> of file <a class="el" href="_file_download_provider_8cs_source.html">FileDownloadProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; }</div>
-</div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_file_download_provider_8cs_source.html#l00042">Tgstation.Server.Host.Transfer.FileDownloadProvider.FileDownloadProvider()</a>, and <a class="el" href="_file_transfer_service_8cs_source.html#l00168">Tgstation.Server.Host.Transfer.FileTransferService.RetrieveDownloadStream()</a>.</p>
-
-</div>
-</div>
 <a id="a57643b62111ee9a462f243d260a73c4c" name="a57643b62111ee9a462f243d260a73c4c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a57643b62111ee9a462f243d260a73c4c">&#9670;&#160;</a></span>ShareWrite</h2>
 
@@ -289,6 +260,35 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_file_download_provider_8cs_source.html#l00033">33</a> of file <a class="el" href="_file_download_provider_8cs_source.html">FileDownloadProvider.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   33</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_file_download_provider_8cs_source.html#l00042">Tgstation.Server.Host.Transfer.FileDownloadProvider.FileDownloadProvider()</a>, and <a class="el" href="_file_transfer_service_8cs_source.html#l00168">Tgstation.Server.Host.Transfer.FileTransferService.RetrieveDownloadStream()</a>.</p>
+
+</div>
+</div>
+<a id="adc24d068f5321db1981ecd54de87b673" name="adc24d068f5321db1981ecd54de87b673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc24d068f5321db1981ecd54de87b673">&#9670;&#160;</a></span>StreamProvider</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Func&lt;CancellationToken, Task&lt;<a class="el" href="class_stream.html">Stream</a>&gt; &gt; Tgstation.Server.Host.Transfer.FileDownloadProvider.StreamProvider</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A Func&lt;T, TResult&gt; to specially provide a Task&lt;TResult&gt; returning the <a class="el" href="class_stream.html">Stream</a> of the file download. The caller will own the resulting <a class="el" href="class_stream.html">Stream</a>.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_file_download_provider_8cs_source.html#l00023">23</a> of file <a class="el" href="_file_download_provider_8cs_source.html">FileDownloadProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_file_download_provider_8cs_source.html#l00042">Tgstation.Server.Host.Transfer.FileDownloadProvider.FileDownloadProvider()</a>, and <a class="el" href="_file_transfer_service_8cs_source.html#l00168">Tgstation.Server.Host.Transfer.FileTransferService.RetrieveDownloadStream()</a>.</p>
 

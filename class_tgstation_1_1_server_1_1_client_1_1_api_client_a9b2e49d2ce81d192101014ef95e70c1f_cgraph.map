@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;" name="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;">
 <area shape="rect" id="node1" title="Main request method." alt="" coords="5,30,161,85"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a01d1f0c4c21b7fc6ca7919f0aba80606" title="Asyncronously creates a new CachedResponseStream." alt="" coords="209,5,416,45"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="217,69,408,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html#a03ee8f58617b22421c691bf7f5a82461" title="Asyncronously creates a new CachedResponseStream." alt="" coords="209,5,444,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers ." alt="" coords="231,69,422,109"/>
 </map>

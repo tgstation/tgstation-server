@@ -77,7 +77,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Client.AdministrationClient Class Reference</div></div>
 </div><!--header-->
@@ -121,17 +120,18 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the AdministrationResponse represented by the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration.">IAdministrationClient</a>.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aff24e726915546671795213af2d2bc19">More...</a><br /></td></tr>
 <tr class="separator:aff24e726915546671795213af2d2bc19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b544469275bfadc5dea7d561ce67cb1"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a2b544469275bfadc5dea7d561ce67cb1">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html">ServerUpdateRequest</a> updateRequest, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a2b544469275bfadc5dea7d561ce67cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the AdministrationResponse setttings. <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a6bdb081ae0e34943ba0fba196f05b08b"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a6bdb081ae0e34943ba0fba196f05b08b">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html">ServerUpdateRequest</a> updateRequest, <a class="el" href="class_stream.html">Stream</a>? zipFileStream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6bdb081ae0e34943ba0fba196f05b08b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the AdministrationResponse setttings. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">updateRequest</td><td>The ServerUpdateRequest.</td></tr>
+    <tr><td class="paramname">zipFileStream</td><td>The <a class="el" href="class_stream.html">Stream</a> for the .zip file if <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html#aa4d989b24c927c907ae45578829a2071" title="If the user will provide the server update package .zip file via file transfer as opposed to TGS retr...">ServerUpdateRequest.UploadZip</a> is <code>true</code>. Will be ignored if it is <code>false</code>.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the echoed ServerUpdateResponse.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a2b544469275bfadc5dea7d561ce67cb1">More...</a><br /></td></tr>
-<tr class="separator:a2b544469275bfadc5dea7d561ce67cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a6bdb081ae0e34943ba0fba196f05b08b">More...</a><br /></td></tr>
+<tr class="separator:a6bdb081ae0e34943ba0fba196f05b08b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a695a17f5dc134c529d21146c1273c58b"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a695a17f5dc134c529d21146c1273c58b">Restart</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a695a17f5dc134c529d21146c1273c58b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restarts the TGS server. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -171,9 +171,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a04dbc5d521a550373674b342bd30f9f3"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_administration_response.html">AdministrationResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a04dbc5d521a550373674b342bd30f9f3">Read</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a04dbc5d521a550373674b342bd30f9f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the AdministrationResponse represented by the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration.">IAdministrationClient</a>.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a04dbc5d521a550373674b342bd30f9f3">More...</a><br /></td></tr>
 <tr class="separator:a04dbc5d521a550373674b342bd30f9f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75a2855dcdc31e716fdea7dbb0969449"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a75a2855dcdc31e716fdea7dbb0969449">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html">ServerUpdateRequest</a> updateRequest, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a75a2855dcdc31e716fdea7dbb0969449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the AdministrationResponse setttings.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a75a2855dcdc31e716fdea7dbb0969449">More...</a><br /></td></tr>
-<tr class="separator:a75a2855dcdc31e716fdea7dbb0969449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdd33591e3adb6777b3c90f3f5ef75be"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#abdd33591e3adb6777b3c90f3f5ef75be">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html">ServerUpdateRequest</a> updateRequest, <a class="el" href="class_stream.html">Stream</a>? zipFileStream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:abdd33591e3adb6777b3c90f3f5ef75be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the AdministrationResponse setttings.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#abdd33591e3adb6777b3c90f3f5ef75be">More...</a><br /></td></tr>
+<tr class="separator:abdd33591e3adb6777b3c90f3f5ef75be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9730058c232e1f8d1917137f3445d8a3"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a9730058c232e1f8d1917137f3445d8a3">Restart</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9730058c232e1f8d1917137f3445d8a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restarts the TGS server.   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a9730058c232e1f8d1917137f3445d8a3">More...</a><br /></td></tr>
 <tr class="separator:a9730058c232e1f8d1917137f3445d8a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,11 +183,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab60f993be59aa0f755681ae8c298fe30"><td class="memItemLeft" align="right" valign="top">Task&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a>, <a class="el" href="class_stream.html">Stream</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#ab60f993be59aa0f755681ae8c298fe30">GetLog</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a> logFile, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ab60f993be59aa0f755681ae8c298fe30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given <em>logFile</em> .   <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#ab60f993be59aa0f755681ae8c298fe30">More...</a><br /></td></tr>
 <tr class="separator:ab60f993be59aa0f755681ae8c298fe30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a36ed4ec2f2a933bae740f46a0b5e1a0d"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a36ed4ec2f2a933bae740f46a0b5e1a0d">ServerUpdateResponse</a> (Routes.Administration, updateRequest ?? throw new ArgumentNullException(nameof(updateRequest)), cancellationToken)</td></tr>
-<tr class="separator:a36ed4ec2f2a933bae740f46a0b5e1a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -274,26 +269,26 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#ab60f993be59aa0f755681ae8c298fe30">Tgstation.Server.Client.IAdministrationClient</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00040">40</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   41</span>        {</div>
-<div class="line"><span class="lineno">   42</span>            var resultFile = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a>.Read&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a>&gt;(</div>
-<div class="line"><span class="lineno">   43</span>                Routes.Logs + <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483">SanitizeGetPath</a>(</div>
-<div class="line"><span class="lineno">   44</span>                    HttpUtility.UrlEncode(</div>
-<div class="line"><span class="lineno">   45</span>                        logFile?.Name ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(logFile)))),</div>
-<div class="line"><span class="lineno">   46</span>                cancellationToken)</div>
-<div class="line"><span class="lineno">   47</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>            var stream = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a4b743cc74073b0b373328a3d84043fa7">Download</a>(resultFile, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   51</span>            {</div>
-<div class="line"><span class="lineno">   52</span>                <span class="keywordflow">return</span> Tuple.Create(resultFile, stream);</div>
-<div class="line"><span class="lineno">   53</span>            }</div>
-<div class="line"><span class="lineno">   54</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">   55</span>            {</div>
-<div class="line"><span class="lineno">   56</span>                stream.Dispose();</div>
-<div class="line"><span class="lineno">   57</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   58</span>            }</div>
-<div class="line"><span class="lineno">   59</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00060">60</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>        {</div>
+<div class="line"><span class="lineno">   62</span>            var resultFile = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a>.Read&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">LogFileResponse</a>&gt;(</div>
+<div class="line"><span class="lineno">   63</span>                Routes.Logs + <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483">SanitizeGetPath</a>(</div>
+<div class="line"><span class="lineno">   64</span>                    HttpUtility.UrlEncode(</div>
+<div class="line"><span class="lineno">   65</span>                        logFile?.Name ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(logFile)))),</div>
+<div class="line"><span class="lineno">   66</span>                cancellationToken)</div>
+<div class="line"><span class="lineno">   67</span>                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>            var stream = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a4b743cc74073b0b373328a3d84043fa7">Download</a>(resultFile, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   71</span>            {</div>
+<div class="line"><span class="lineno">   72</span>                <span class="keywordflow">return</span> Tuple.Create(resultFile, stream);</div>
+<div class="line"><span class="lineno">   73</span>            }</div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">   75</span>            {</div>
+<div class="line"><span class="lineno">   76</span>                stream.Dispose();</div>
+<div class="line"><span class="lineno">   77</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   78</span>            }</div>
+<div class="line"><span class="lineno">   79</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_log_file_response.html">Tgstation.Server.Api.Models.Response.LogFileResponse</a></div><div class="ttdoc">Represents a server log file.</div><div class="ttdef"><b>Definition:</b> <a href="_log_file_response_8cs_source.html#l00008">LogFileResponse.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00008">Routes.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a427423a8a36ba74df914acb74ffb0483"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483">Tgstation.Server.Api.Routes.SanitizeGetPath</a></div><div class="ttdeci">static string SanitizeGetPath(string path)</div><div class="ttdoc">Sanitize a Models.Response.FileTicketResponse path for use in a GET Uri.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00125">Routes.cs:125</a></div></div>
@@ -412,59 +407,23 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a36ed4ec2f2a933bae740f46a0b5e1a0d" name="a36ed4ec2f2a933bae740f46a0b5e1a0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36ed4ec2f2a933bae740f46a0b5e1a0d">&#9670;&#160;</a></span>ServerUpdateResponse()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt; Tgstation.Server.Client.AdministrationClient.ServerUpdateResponse </td>
-          <td>(</td>
-          <td class="paramtype">Routes.&#160;</td>
-          <td class="paramname"><em>Administration</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">updateRequest ?? throw new &#160;</td>
-          <td class="paramname"><em>ArgumentNullException</em>nameof(updateRequest), </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">cancellationToken&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2b544469275bfadc5dea7d561ce67cb1" name="a2b544469275bfadc5dea7d561ce67cb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b544469275bfadc5dea7d561ce67cb1">&#9670;&#160;</a></span>Update()</h2>
+<a id="a6bdb081ae0e34943ba0fba196f05b08b" name="a6bdb081ae0e34943ba0fba196f05b08b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bdb081ae0e34943ba0fba196f05b08b">&#9670;&#160;</a></span>Update()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt; Tgstation.Server.Client.AdministrationClient.Update </td>
+          <td class="memname">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a> &gt; Tgstation.Server.Client.AdministrationClient.Update </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html">ServerUpdateRequest</a>&#160;</td>
           <td class="paramname"><em>updateRequest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_stream.html">Stream</a>?&#160;</td>
+          <td class="paramname"><em>zipFileStream</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -483,6 +442,7 @@ Here is the call graph for this function:</div>
 <p>Updates the AdministrationResponse setttings. <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">updateRequest</td><td>The ServerUpdateRequest.</td></tr>
+    <tr><td class="paramname">zipFileStream</td><td>The <a class="el" href="class_stream.html">Stream</a> for the .zip file if <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html#aa4d989b24c927c907ae45578829a2071" title="If the user will provide the server update package .zip file via file transfer as opposed to TGS retr...">ServerUpdateRequest.UploadZip</a> is <code>true</code>. Will be ignored if it is <code>false</code>.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -490,7 +450,42 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the echoed ServerUpdateResponse.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a75a2855dcdc31e716fdea7dbb0969449">Tgstation.Server.Client.IAdministrationClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#abdd33591e3adb6777b3c90f3f5ef75be">Tgstation.Server.Client.IAdministrationClient</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00030">30</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
+<div class="line"><span class="lineno">   35</span>            <span class="keywordflow">if</span> (updateRequest == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   36</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(updateRequest));</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>            <span class="keywordflow">if</span> (updateRequest.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html#aa4d989b24c927c907ae45578829a2071">UploadZip</a> == <span class="keyword">true</span> &amp;&amp; zipFileStream == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   39</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(zipFileStream));</div>
+<div class="line"><span class="lineno">   40</span> </div>
+<div class="line"><span class="lineno">   41</span>            var result = await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a>.Update&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html">ServerUpdateRequest</a>, <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">ServerUpdateResponse</a>&gt;(</div>
+<div class="line"><span class="lineno">   42</span>                <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a1bd414117e790a954bd7bfb83c7d4fc9">Administration</a>,</div>
+<div class="line"><span class="lineno">   43</span>                updateRequest,</div>
+<div class="line"><span class="lineno">   44</span>                cancellationToken);</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">if</span> (updateRequest.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html#aa4d989b24c927c907ae45578829a2071">UploadZip</a> == <span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">   47</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html#a46a285dccb579dedc9efac7eadafb230">ApiClient</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a84286331dc0a8e255be79e9fc3790a28">Upload</a>(result, zipFileStream, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   48</span> </div>
+<div class="line"><span class="lineno">   49</span>            <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">   50</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html">Tgstation.Server.Api.Models.Request.ServerUpdateRequest</a></div><div class="ttdoc">Represents a request to update TGS.</div><div class="ttdef"><b>Definition:</b> <a href="_server_update_request_8cs_source.html#l00008">ServerUpdateRequest.cs:9</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request_html_aa4d989b24c927c907ae45578829a2071"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_server_update_request.html#aa4d989b24c927c907ae45578829a2071">Tgstation.Server.Api.Models.Request.ServerUpdateRequest.UploadZip</a></div><div class="ttdeci">bool? UploadZip</div><div class="ttdoc">If the user will provide the server update package .zip file via file transfer as opposed to TGS retr...</div><div class="ttdef"><b>Definition:</b> <a href="_server_update_request_8cs_source.html#l00019">ServerUpdateRequest.cs:19</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_update_response.html">Tgstation.Server.Api.Models.Response.ServerUpdateResponse</a></div><div class="ttdoc">A response to a Request.ServerUpdateRequest.</div><div class="ttdef"><b>Definition:</b> <a href="_server_update_response_8cs_source.html#l00010">ServerUpdateResponse.cs:11</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a1bd414117e790a954bd7bfb83c7d4fc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a1bd414117e790a954bd7bfb83c7d4fc9">Tgstation.Server.Api.Routes.Administration</a></div><div class="ttdeci">const string Administration</div><div class="ttdoc">The server administration controller.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00018">Routes.cs:18</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_html_a84286331dc0a8e255be79e9fc3790a28"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a84286331dc0a8e255be79e9fc3790a28">Tgstation.Server.Client.IApiClient.Upload</a></div><div class="ttdeci">Task Upload(FileTicketResponse ticket, Stream? uploadStream, CancellationToken cancellationToken)</div><div class="ttdoc">Uploads a given uploadStream  for a given ticket .</div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_routes_8cs_source.html#l00018">Tgstation.Server.Api.Routes.Administration</a>, <a class="el" href="_api_client_8cs_source.html#l00240">Tgstation.Server.Client.ApiClient.Upload()</a>, and <a class="el" href="_server_update_request_8cs_source.html#l00019">Tgstation.Server.Api.Models.Request.ServerUpdateRequest.UploadZip</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_client_1_1_administration_client_a6bdb081ae0e34943ba0fba196f05b08b_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_client_1_1_administration_client_a6bdb081ae0e34943ba0fba196f05b08b_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_client_1_1_administration_client_a6bdb081ae0e34943ba0fba196f05b08b_cgraph" id="aclass_tgstation_1_1_server_1_1_client_1_1_administration_client_a6bdb081ae0e34943ba0fba196f05b08b_cgraph">
+<area shape="rect" title="Updates the AdministrationResponse setttings. A Task&lt;TResult&gt; resulting in the echoed ServerUpdateRes..." alt="" coords="5,5,188,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#add6ef67b23279e6f747e3cec67fa87ec" title="Uploads a given uploadStream &#160;for a given ticket . A Task representing the running operation." alt="" coords="236,5,392,45"/>
+</map>
+</div>
 
 </div>
 </div>

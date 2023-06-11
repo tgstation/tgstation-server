@@ -1,9 +1,8 @@
 <map id="Tgstation.Server.Host.Controllers.AdministrationController.GetLog" name="Tgstation.Server.Host.Controllers.AdministrationController.GetLog">
-<area shape="rect" id="node1" title="Download a LogFileResponse." alt="" coords="5,159,221,199"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="600,91,768,131"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#a4df208caec70ad306a00a42f0f5889f1" title="Create a FileTicketResponse for a download." alt="" coords="301,48,521,103"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182" title="Gets the file name portion of a path ." alt="" coords="325,127,496,167"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3" title="Gets the evaluated log Directory." alt="" coords="269,191,552,231"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a912c1db298c553ee69df3fa0dfe9ad85" title="Get the DateTimeOffset of when a given path &#160;was last modified." alt="" coords="317,255,505,295"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ac922bdac0d00614949510725420ddd4e" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="325,319,496,359"/>
+<area shape="rect" id="node1" title="Download a LogFileResponse." alt="" coords="5,124,221,164"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path." alt="" coords="600,88,768,128"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_ticket_provider.html#a4df208caec70ad306a00a42f0f5889f1" title="Create a FileTicketResponse for a download." alt="" coords="301,45,521,100"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182" title="Gets the file name portion of a path ." alt="" coords="325,124,496,164"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3" title="Gets the evaluated log Directory." alt="" coords="269,188,552,228"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a912c1db298c553ee69df3fa0dfe9ad85" title="Get the DateTimeOffset of when a given path &#160;was last modified." alt="" coords="317,252,505,292"/>
 </map>

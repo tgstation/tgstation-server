@@ -96,17 +96,17 @@ Inheritance diagram for Tgstation.Server.Host.Core.IServerUpdateInitiator:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a377c29ffe5e8aebbbe6d5099b9fb80d7"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#a377c29ffe5e8aebbbe6d5099b9fb80d7">InitiateUpdate</a> (Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a377c29ffe5e8aebbbe6d5099b9fb80d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#a377c29ffe5e8aebbbe6d5099b9fb80d7">More...</a><br /></td></tr>
-<tr class="separator:a377c29ffe5e8aebbbe6d5099b9fb80d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9f875eab928fa681c05e1188889f705"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ad9f875eab928fa681c05e1188889f705">InitiateUpdate</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a> fileStreamProvider, Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad9f875eab928fa681c05e1188889f705"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the process of downloading and applying an update to a new server <em>version</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ad9f875eab928fa681c05e1188889f705">More...</a><br /></td></tr>
+<tr class="separator:ad9f875eab928fa681c05e1188889f705"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Initiates server self updates.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_server_update_initiator_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_server_update_initiator_8cs_source.html">IServerUpdateInitiator.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_server_update_initiator_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_server_update_initiator_8cs_source.html">IServerUpdateInitiator.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a377c29ffe5e8aebbbe6d5099b9fb80d7" name="a377c29ffe5e8aebbbe6d5099b9fb80d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a377c29ffe5e8aebbbe6d5099b9fb80d7">&#9670;&#160;</a></span>InitiateUpdate()</h2>
+<a id="ad9f875eab928fa681c05e1188889f705" name="ad9f875eab928fa681c05e1188889f705"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9f875eab928fa681c05e1188889f705">&#9670;&#160;</a></span>InitiateUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -114,6 +114,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Task&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> &gt; Tgstation.Server.Host.Core.IServerUpdateInitiator.InitiateUpdate </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_stream_provider.html">IFileStreamProvider</a>&#160;</td>
+          <td class="paramname"><em>fileStreamProvider</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
         </tr>
@@ -134,6 +140,7 @@ Public Member Functions</h2></td></tr>
 <p>Start the process of downloading and applying an update to a new server <em>version</em> .  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">fileStreamProvider</td><td>The optional IFileStreamProvider used to retrieve the target server <em>version</em> . If not provided, GitHub will be used.</td></tr>
     <tr><td class="paramname">version</td><td>The TGS Version to update to.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
@@ -141,15 +148,16 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c" title="The result of a call to start a server update.">ServerUpdateResult</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a72ba66e53900e2a5fb65c684c3af1991">Tgstation.Server.Host.Core.ServerUpdateInitiator</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a1776060aeab22b6bc33e72b069493f6e">Tgstation.Server.Host.Core.ServerUpdateInitiator</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00201">Tgstation.Server.Host.Controllers.AdministrationController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_controller_8cs_source.html#l00374">Tgstation.Server.Host.Controllers.AdministrationController.AttemptInitiateUpdate()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_a377c29ffe5e8aebbbe6d5099b9fb80d7_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_a377c29ffe5e8aebbbe6d5099b9fb80d7_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_a377c29ffe5e8aebbbe6d5099b9fb80d7_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_a377c29ffe5e8aebbbe6d5099b9fb80d7_icgraph">
-<area shape="rect" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="269,5,460,60"/>
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_ad9f875eab928fa681c05e1188889f705_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_ad9f875eab928fa681c05e1188889f705_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_ad9f875eab928fa681c05e1188889f705_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator_ad9f875eab928fa681c05e1188889f705_icgraph">
+<area shape="rect" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="608,5,799,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a30617dab4befa4172cf001391d1ca62f" title="Attempt to initiate an update." alt="" coords="269,13,560,53"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afa27ac5eabff66919186c66da2dc8ecf" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,53"/>
 </map>
 </div>

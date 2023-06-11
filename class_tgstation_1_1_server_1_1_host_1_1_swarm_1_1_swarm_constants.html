@@ -77,6 +77,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#properties">Properties</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Host.Swarm.SwarmConstants Class Reference</div></div>
 </div><!--header-->
@@ -89,8 +91,9 @@ Collaboration diagram for Tgstation.Server.Host.Swarm.SwarmConstants:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_swarm_8_swarm_constants_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_swarm_8_swarm_constants_coll__map" id="a_tgstation_8_server_8_host_8_swarm_8_swarm_constants_coll__map">
-<area shape="rect" title="Constants used by the swarm system." alt="" coords="5,152,200,192"/>
-<area shape="rect" title=" " alt="" coords="75,5,130,31"/>
+<area shape="rect" title="Constants used by the swarm system." alt="" coords="11,152,206,192"/>
+<area shape="rect" title=" " alt="" coords="5,5,60,31"/>
+<area shape="rect" title=" " alt="" coords="167,5,205,31"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -111,12 +114,88 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a548fcfd4826b1bb05231f8e5082442fb"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a548fcfd4826b1bb05231f8e5082442fb">UpdateRoute</a> = &quot;Update&quot;</td></tr>
 <tr class="memdesc:a548fcfd4826b1bb05231f8e5082442fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The route used for swarm updates.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a548fcfd4826b1bb05231f8e5082442fb">More...</a><br /></td></tr>
 <tr class="separator:a548fcfd4826b1bb05231f8e5082442fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1144696ae118c874af2fba95a3d37fb1"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a1144696ae118c874af2fba95a3d37fb1">ControllerHealthCheckIntervalMinutes</a> = 3</td></tr>
+<tr class="memdesc:a1144696ae118c874af2fba95a3d37fb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interval at which the swarm controller makes health checks on nodes.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a1144696ae118c874af2fba95a3d37fb1">More...</a><br /></td></tr>
+<tr class="separator:a1144696ae118c874af2fba95a3d37fb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b88251428573800000fea910531443d"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a9b88251428573800000fea910531443d">NodeHealthCheckIntervalMinutes</a> = 5</td></tr>
+<tr class="memdesc:a9b88251428573800000fea910531443d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interval at which the node makes health checks on the controller if it has not received one.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a9b88251428573800000fea910531443d">More...</a><br /></td></tr>
+<tr class="separator:a9b88251428573800000fea910531443d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9301c887de967ed3668350d2d230474"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#ad9301c887de967ed3668350d2d230474">UpdateCommitTimeoutMinutes</a> = 10</td></tr>
+<tr class="memdesc:ad9301c887de967ed3668350d2d230474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of minutes the controller waits to receive a ready-commit from all nodes before aborting an update.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#ad9301c887de967ed3668350d2d230474">More...</a><br /></td></tr>
+<tr class="separator:ad9301c887de967ed3668350d2d230474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea9c30930f13c68e4b5f72ca59f23ecd"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#aea9c30930f13c68e4b5f72ca59f23ecd">SecondsToDelayForcedHealthChecks</a> = 15</td></tr>
+<tr class="memdesc:aea9c30930f13c68e4b5f72ca59f23ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of seconds between a health check global::System.Threading.Tasks.TaskCompletionSource triggering and a health check being performed.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#aea9c30930f13c68e4b5f72ca59f23ecd">More...</a><br /></td></tr>
+<tr class="separator:aea9c30930f13c68e4b5f72ca59f23ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a17e48e1e69ce8a855c0d2556850834e4"><td class="memItemLeft" align="right" valign="top">static JsonSerializerSettings&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a17e48e1e69ce8a855c0d2556850834e4">SerializerSettings</a><code> [get]</code></td></tr>
+<tr class="memdesc:a17e48e1e69ce8a855c0d2556850834e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">See JsonSerializerSettings for the swarm system.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a17e48e1e69ce8a855c0d2556850834e4">More...</a><br /></td></tr>
+<tr class="separator:a17e48e1e69ce8a855c0d2556850834e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a8435e376fb36e6c41976283086a4b102"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a8435e376fb36e6c41976283086a4b102">SwarmConstants</a> ()</td></tr>
+<tr class="memdesc:a8435e376fb36e6c41976283086a4b102"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes static members of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html" title="Constants used by the swarm system.">SwarmConstants</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a8435e376fb36e6c41976283086a4b102">More...</a><br /></td></tr>
+<tr class="separator:a8435e376fb36e6c41976283086a4b102"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Constants used by the swarm system.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00008">8</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00012">12</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a8435e376fb36e6c41976283086a4b102" name="a8435e376fb36e6c41976283086a4b102"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8435e376fb36e6c41976283086a4b102">&#9670;&#160;</a></span>SwarmConstants()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tgstation.Server.Host.Swarm.SwarmConstants.SwarmConstants </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initializes static members of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html" title="Constants used by the swarm system.">SwarmConstants</a> class.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00067">67</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   68</span>        {</div>
+<div class="line"><span class="lineno">   69</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a17e48e1e69ce8a855c0d2556850834e4">SerializerSettings</a> = <span class="keyword">new</span> ()</div>
+<div class="line"><span class="lineno">   70</span>            {</div>
+<div class="line"><span class="lineno">   71</span>                ContractResolver = <span class="keyword">new</span> DefaultContractResolver</div>
+<div class="line"><span class="lineno">   72</span>                {</div>
+<div class="line"><span class="lineno">   73</span>                    NamingStrategy = <span class="keyword">new</span> CamelCaseNamingStrategy(),</div>
+<div class="line"><span class="lineno">   74</span>                },</div>
+<div class="line"><span class="lineno">   75</span>                Converters = <span class="keyword">new</span> <a class="code hl_class" href="class_json_converter.html">JsonConverter</a>[]</div>
+<div class="line"><span class="lineno">   76</span>                {</div>
+<div class="line"><span class="lineno">   77</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html">VersionConverter</a>(),</div>
+<div class="line"><span class="lineno">   78</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_bool_converter.html">BoolConverter</a>(),</div>
+<div class="line"><span class="lineno">   79</span>                },</div>
+<div class="line"><span class="lineno">   80</span>                DefaultValueHandling = DefaultValueHandling.Ignore,</div>
+<div class="line"><span class="lineno">   81</span>                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,</div>
+<div class="line"><span class="lineno">   82</span>            };</div>
+<div class="line"><span class="lineno">   83</span>        }</div>
+<div class="ttc" id="aclass_json_converter_html"><div class="ttname"><a href="class_json_converter.html">JsonConverter</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_bool_converter_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_bool_converter.html">Tgstation.Server.Host.Extensions.Converters.BoolConverter</a></div><div class="ttdoc">JsonConverter for decoding bools returned by BYOND.</div><div class="ttdef"><b>Definition:</b> <a href="_bool_converter_8cs_source.html#l00010">BoolConverter.cs:11</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html">Tgstation.Server.Host.Extensions.Converters.VersionConverter</a></div><div class="ttdoc">JsonConverter and IYamlTypeConverter for serializing global::System.Versions in semver format.</div><div class="ttdef"><b>Definition:</b> <a href="_version_converter_8cs_source.html#l00016">VersionConverter.cs:17</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants_html_a17e48e1e69ce8a855c0d2556850834e4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_constants.html#a17e48e1e69ce8a855c0d2556850834e4">Tgstation.Server.Host.Swarm.SwarmConstants.SerializerSettings</a></div><div class="ttdeci">static JsonSerializerSettings SerializerSettings</div><div class="ttdoc">See JsonSerializerSettings for the swarm system.</div><div class="ttdef"><b>Definition:</b> <a href="_swarm_constants_8cs_source.html#l00062">SwarmConstants.cs:62</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_swarm_constants_8cs_source.html#l00062">Tgstation.Server.Host.Swarm.SwarmConstants.SerializerSettings</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
 <a id="a327007f5bb9edde6ff3eca8e0da3027a" name="a327007f5bb9edde6ff3eca8e0da3027a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a327007f5bb9edde6ff3eca8e0da3027a">&#9670;&#160;</a></span>ApiKeyHeader</h2>
 
@@ -139,9 +218,37 @@ Static Public Attributes</h2></td></tr>
 
 <p>The header used to pass in the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a3ea78e469837542cb2d9f2f2930f7092" title="The private key used for swarm communication.">Configuration.SwarmConfiguration.PrivateKey</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00018">18</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00022">22</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00196">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01183">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00217">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01355">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a1144696ae118c874af2fba95a3d37fb1" name="a1144696ae118c874af2fba95a3d37fb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1144696ae118c874af2fba95a3d37fb1">&#9670;&#160;</a></span>ControllerHealthCheckIntervalMinutes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Tgstation.Server.Host.Swarm.SwarmConstants.ControllerHealthCheckIntervalMinutes = 3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Interval at which the swarm controller makes health checks on nodes.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00042">42</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01414">Tgstation.Server.Host.Swarm.SwarmService.HealthCheckLoop()</a>.</p>
 
 </div>
 </div>
@@ -167,7 +274,35 @@ Static Public Attributes</h2></td></tr>
 
 <p>The base route for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html" title="For swarm server communication.">Controllers.SwarmController</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00013">13</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00017">17</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+
+</div>
+</div>
+<a id="a9b88251428573800000fea910531443d" name="a9b88251428573800000fea910531443d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b88251428573800000fea910531443d">&#9670;&#160;</a></span>NodeHealthCheckIntervalMinutes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Tgstation.Server.Host.Swarm.SwarmConstants.NodeHealthCheckIntervalMinutes = 5</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Interval at which the node makes health checks on the controller if it has not received one.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00047">47</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01414">Tgstation.Server.Host.Swarm.SwarmService.HealthCheckLoop()</a>.</p>
 
 </div>
 </div>
@@ -193,9 +328,9 @@ Static Public Attributes</h2></td></tr>
 
 <p>The route used for swarm registration.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00028">28</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00032">32</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01061">Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00504">Tgstation.Server.Host.Swarm.SwarmService.Shutdown()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01233">Tgstation.Server.Host.Swarm.SwarmService.RegisterWithController()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00424">Tgstation.Server.Host.Swarm.SwarmService.Shutdown()</a>.</p>
 
 </div>
 </div>
@@ -221,9 +356,65 @@ Static Public Attributes</h2></td></tr>
 
 <p>The header used to pass in swarm registration IDs.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00023">23</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00027">27</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00196">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01183">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_controller_8cs_source.html#l00217">Tgstation.Server.Host.Controllers.SwarmController.OnActionExecutionAsync()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l01355">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>.</p>
+
+</div>
+</div>
+<a id="aea9c30930f13c68e4b5f72ca59f23ecd" name="aea9c30930f13c68e4b5f72ca59f23ecd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea9c30930f13c68e4b5f72ca59f23ecd">&#9670;&#160;</a></span>SecondsToDelayForcedHealthChecks</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Tgstation.Server.Host.Swarm.SwarmConstants.SecondsToDelayForcedHealthChecks = 15</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Number of seconds between a health check global::System.Threading.Tasks.TaskCompletionSource triggering and a health check being performed.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00057">57</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01414">Tgstation.Server.Host.Swarm.SwarmService.HealthCheckLoop()</a>.</p>
+
+</div>
+</div>
+<a id="ad9301c887de967ed3668350d2d230474" name="ad9301c887de967ed3668350d2d230474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9301c887de967ed3668350d2d230474">&#9670;&#160;</a></span>UpdateCommitTimeoutMinutes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Tgstation.Server.Host.Swarm.SwarmConstants.UpdateCommitTimeoutMinutes = 10</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Number of minutes the controller waits to receive a ready-commit from all nodes before aborting an update.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00052">52</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00242">Tgstation.Server.Host.Swarm.SwarmService.CommitUpdate()</a>.</p>
 
 </div>
 </div>
@@ -249,9 +440,39 @@ Static Public Attributes</h2></td></tr>
 
 <p>The route used for swarm updates.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00033">33</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00037">37</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00284">Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate()</a>, <a class="el" href="_swarm_service_8cs_source.html#l00340">Tgstation.Server.Host.Swarm.SwarmService.CommitUpdate()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00757">Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l00242">Tgstation.Server.Host.Swarm.SwarmService.CommitUpdate()</a>, <a class="el" href="_swarm_service_8cs_source.html#l00923">Tgstation.Server.Host.Swarm.SwarmService.ControllerDistributedPrepareUpdate()</a>, <a class="el" href="_swarm_service_8cs_source.html#l00760">Tgstation.Server.Host.Swarm.SwarmService.PrepareUpdateImpl()</a>, and <a class="el" href="_swarm_service_8cs_source.html#l00676">Tgstation.Server.Host.Swarm.SwarmService.RemoteAbortUpdate()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a17e48e1e69ce8a855c0d2556850834e4" name="a17e48e1e69ce8a855c0d2556850834e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17e48e1e69ce8a855c0d2556850834e4">&#9670;&#160;</a></span>SerializerSettings</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">JsonSerializerSettings Tgstation.Server.Host.Swarm.SwarmConstants.SerializerSettings</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>See JsonSerializerSettings for the swarm system.  </p>
+
+<p class="definition">Definition at line <a class="el" href="_swarm_constants_8cs_source.html#l00062">62</a> of file <a class="el" href="_swarm_constants_8cs_source.html">SwarmConstants.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_swarm_service_8cs_source.html#l01355">Tgstation.Server.Host.Swarm.SwarmService.PrepareSwarmRequest()</a>, and <a class="el" href="_swarm_constants_8cs_source.html#l00067">Tgstation.Server.Host.Swarm.SwarmConstants.SwarmConstants()</a>.</p>
 
 </div>
 </div>

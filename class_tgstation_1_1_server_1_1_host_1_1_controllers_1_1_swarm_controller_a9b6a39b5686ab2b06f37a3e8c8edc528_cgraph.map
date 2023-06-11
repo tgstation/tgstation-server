@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Controllers.SwarmController.Register" name="Tgstation.Server.Host.Controllers.SwarmController.Register">
+<area shape="rect" id="node1" title="Registration endpoint." alt="" coords="5,5,221,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html#ac24fb46696216abb06c341ee88c5587d" title="Attempt to register a given node &#160;with the controller." alt="" coords="269,5,481,45"/>
+</map>

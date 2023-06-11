@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate" name="Tgstation.Server.Host.Swarm.SwarmService.AbortUpdate">
-<area shape="rect" id="node1" title="Abort an uncommitted update. A Task representing the running operation." alt="" coords="5,49,200,89"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_common_1_1_i_abstract_http_client_factory.html#afc6fb17bf1b8eada226f98866b237d1f" title="Create a IHttpClient." alt="" coords="261,5,479,60"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="248,85,492,125"/>
-</map>

@@ -50,8 +50,9 @@ var searchData=
   ['configurationtype_2ecs_47',['ConfigurationType.cs',['../_configuration_type_8cs.html',1,'']]],
   ['conflictexception_2ecs_48',['ConflictException.cs',['../_conflict_exception_8cs.html',1,'']]],
   ['console_2ecs_49',['Console.cs',['../_console_8cs.html',1,'']]],
-  ['controlpanelconfiguration_2ecs_50',['ControlPanelConfiguration.cs',['../_control_panel_configuration_8cs.html',1,'']]],
-  ['controlpanelcontroller_2ecs_51',['ControlPanelController.cs',['../_control_panel_controller_8cs.html',1,'']]],
-  ['cryptographysuite_2ecs_52',['CryptographySuite.cs',['../_cryptography_suite_8cs.html',1,'']]],
-  ['customcommand_2ecs_53',['CustomCommand.cs',['../_custom_command_8cs.html',1,'']]]
+  ['controllerbaseextensions_2ecs_50',['ControllerBaseExtensions.cs',['../_controller_base_extensions_8cs.html',1,'']]],
+  ['controlpanelconfiguration_2ecs_51',['ControlPanelConfiguration.cs',['../_control_panel_configuration_8cs.html',1,'']]],
+  ['controlpanelcontroller_2ecs_52',['ControlPanelController.cs',['../_control_panel_controller_8cs.html',1,'']]],
+  ['cryptographysuite_2ecs_53',['CryptographySuite.cs',['../_cryptography_suite_8cs.html',1,'']]],
+  ['customcommand_2ecs_54',['CustomCommand.cs',['../_custom_command_8cs.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 <map id="Stream" name="Stream">
-<area shape="rect" id="node1" title=" " alt="" coords="57,5,121,31"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html" title="Caches the Stream from a HttpResponseMessage for later use." alt="" coords="5,79,172,119"/>
+<area shape="rect" id="node1" title=" " alt="" coords="71,5,135,31"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_common_1_1_http_1_1_cached_response_stream.html" title="Caches the Stream from a HttpResponseMessage for later use." alt="" coords="5,79,200,119"/>
 </map>

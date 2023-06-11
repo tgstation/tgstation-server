@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Swarm.SwarmService.CreateUpdateStreamProvider" name="Tgstation.Server.Host.Swarm.SwarmService.CreateUpdateStreamProvider">
+<area shape="rect" id="node1" title="Create the RequestFileStreamProvider for an update package retrieval from a given sourceNode ." alt="" coords="607,30,839,85"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a598ccdd185156e1f44c8842403a5a864" title="Implementation of PrepareUpdate(ISeekableFileStreamProvider, Version, CancellationToken),..." alt="" coords="336,37,559,77"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a8284ef2414d328d72315c5ce83b6f7c2" title="Signal to the swarm that an update is requested. A Task&lt;TResult&gt; resulting in true if the update shou..." alt="" coords="48,5,245,45"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a9b47bfea16dcb7b4ec46989a67adf384" title="Notify the node of an update request from the controller. A Task&lt;TResult&gt; resulting in true if the no..." alt="" coords="5,69,288,109"/>
+</map>

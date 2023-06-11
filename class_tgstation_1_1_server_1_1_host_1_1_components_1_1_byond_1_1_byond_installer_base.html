@@ -158,8 +158,8 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#ac89f0a97bf70874ad650e3d174fd1066">More...</a><br /></td></tr>
 <tr class="separator:ac89f0a97bf70874ad650e3d174fd1066"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a852276f34c289f0c4beaebafb6f99d65"><td class="memItemLeft" align="right" valign="top">Task&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a852276f34c289f0c4beaebafb6f99d65">DownloadVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a852276f34c289f0c4beaebafb6f99d65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given BYOND <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:a34339893f85b4a30c4fb0d5857138b07"><td class="memItemLeft" align="right" valign="top">async Task&lt; MemoryStream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a34339893f85b4a30c4fb0d5857138b07">DownloadVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a34339893f85b4a30c4fb0d5857138b07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given BYOND <em>version</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The Version of BYOND to download.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
@@ -167,8 +167,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a MemoryStream of the zipfile.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a852276f34c289f0c4beaebafb6f99d65">More...</a><br /></td></tr>
-<tr class="separator:a852276f34c289f0c4beaebafb6f99d65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a34339893f85b4a30c4fb0d5857138b07">More...</a><br /></td></tr>
+<tr class="separator:a34339893f85b4a30c4fb0d5857138b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e9a30e879ff0826f2fc07942cfa5499"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a7e9a30e879ff0826f2fc07942cfa5499">GetDreamDaemonName</a> (Version version, out bool supportsCli)</td></tr>
 <tr class="memdesc:a7e9a30e879ff0826f2fc07942cfa5499"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the file name of the DreamDaemon executable.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#a7e9a30e879ff0826f2fc07942cfa5499">More...</a><br /></td></tr>
 <tr class="separator:a7e9a30e879ff0826f2fc07942cfa5499"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -363,14 +363,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a852276f34c289f0c4beaebafb6f99d65" name="a852276f34c289f0c4beaebafb6f99d65"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a852276f34c289f0c4beaebafb6f99d65">&#9670;&#160;</a></span>DownloadVersion()</h2>
+<a id="a34339893f85b4a30c4fb0d5857138b07" name="a34339893f85b4a30c4fb0d5857138b07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34339893f85b4a30c4fb0d5857138b07">&#9670;&#160;</a></span>DownloadVersion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt; MemoryStream &gt; Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion </td>
+          <td class="memname">async Task&lt; MemoryStream &gt; Tgstation.Server.Host.Components.Byond.ByondInstallerBase.DownloadVersion </td>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -408,19 +408,24 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   96</span> </div>
 <div class="line"><span class="lineno">   97</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a7e847c327e2f2b6ccfde15c3c0825b2f">Logger</a>.LogTrace(<span class="stringliteral">&quot;Downloading BYOND version {major}.{minor}...&quot;</span>, version.Major, version.Minor);</div>
 <div class="line"><span class="lineno">   98</span>            var url = String.Format(CultureInfo.InvariantCulture, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a892ce181d4bc0b58d1601d09f6d58674">ByondRevisionsUrlTemplate</a>, version.Major, version.Minor);</div>
-<div class="line"><span class="lineno">   99</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a61ed80e3a0bf0cd2860e547d5b0c7668">fileDownloader</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#a19041753df6bbcfc0c0a4ff87ecb517b">DownloadFile</a>(<span class="keyword">new</span> Uri(url), <span class="keyword">null</span>, cancellationToken);</div>
-<div class="line"><span class="lineno">  100</span>        }</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>            await <span class="keyword">using </span>var download = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a61ed80e3a0bf0cd2860e547d5b0c7668">fileDownloader</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7">DownloadFile</a>(<span class="keyword">new</span> Uri(url), <span class="keyword">null</span>);</div>
+<div class="line"><span class="lineno">  101</span>            await <span class="keyword">using </span>var buffer = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html">BufferedFileStreamProvider</a>(</div>
+<div class="line"><span class="lineno">  102</span>                await download.GetResult(cancellationToken));</div>
+<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">return</span> await buffer.GetOwnedResult(cancellationToken);</div>
+<div class="line"><span class="lineno">  104</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_html_a892ce181d4bc0b58d1601d09f6d58674"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a892ce181d4bc0b58d1601d09f6d58674">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondRevisionsUrlTemplate</a></div><div class="ttdeci">abstract string ByondRevisionsUrlTemplate</div><div class="ttdoc">Gets the URL formatter string for downloading a byond version of {0:Major} {1:Minor}.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00030">ByondInstallerBase.cs:30</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_html_a19041753df6bbcfc0c0a4ff87ecb517b"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#a19041753df6bbcfc0c0a4ff87ecb517b">Tgstation.Server.Host.IO.IFileDownloader.DownloadFile</a></div><div class="ttdeci">Task&lt; MemoryStream &gt; DownloadFile(Uri url, string bearerToken, CancellationToken cancellationToken)</div><div class="ttdoc">Downloads a file from url .</div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html">Tgstation.Server.Host.IO.BufferedFileStreamProvider</a></div><div class="ttdoc">IFileStreamProvider that provides a ISeekableFileStreamProvider from an input Stream.</div><div class="ttdef"><b>Definition:</b> <a href="_buffered_file_stream_provider_8cs_source.html#l00013">BufferedFileStreamProvider.cs:14</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader_html_ac81250678243dbd567a9283ea40ee2a7"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7">Tgstation.Server.Host.IO.IFileDownloader.DownloadFile</a></div><div class="ttdeci">IFileStreamProvider DownloadFile(Uri url, string bearerToken)</div><div class="ttdoc">Downloads a file from a given url .</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_byond_installer_base_8cs_source.html#l00030">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondRevisionsUrlTemplate</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#a19041753df6bbcfc0c0a4ff87ecb517b">Tgstation.Server.Host.IO.IFileDownloader.DownloadFile()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00045">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.fileDownloader</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00040">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.Logger</a>.</p>
+<p class="reference">References <a class="el" href="_byond_installer_base_8cs_source.html#l00030">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.ByondRevisionsUrlTemplate</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7">Tgstation.Server.Host.IO.IFileDownloader.DownloadFile()</a>, <a class="el" href="_byond_installer_base_8cs_source.html#l00045">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.fileDownloader</a>, and <a class="el" href="_byond_installer_base_8cs_source.html#l00040">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.Logger</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a852276f34c289f0c4beaebafb6f99d65_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a852276f34c289f0c4beaebafb6f99d65_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a852276f34c289f0c4beaebafb6f99d65_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a852276f34c289f0c4beaebafb6f99d65_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a34339893f85b4a30c4fb0d5857138b07_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a34339893f85b4a30c4fb0d5857138b07_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a34339893f85b4a30c4fb0d5857138b07_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_a34339893f85b4a30c4fb0d5857138b07_cgraph">
 <area shape="rect" title="Download a given BYOND version . A Task&lt;TResult&gt; resulting in a MemoryStream of the zipfile." alt="" coords="5,5,283,45"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#a19041753df6bbcfc0c0a4ff87ecb517b" title="Downloads a file from url ." alt="" coords="331,5,527,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_file_downloader.html#ac81250678243dbd567a9283ea40ee2a7" title="Downloads a file from a given url ." alt="" coords="331,5,527,45"/>
 </map>
 </div>
 

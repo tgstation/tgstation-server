@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Swarm.ISwarmUpdateAborter" name="Tgstation.Server.Host.Swarm.ISwarmUpdateAborter">
+<area shape="rect" id="node1" title="Allows aborting a swarm distributed update operation." alt="" coords="5,37,200,77"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_operations.html" title="Swarm service operations for the Controllers.SwarmController." alt="" coords="248,5,443,45"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html" title="Used for swarm operations. Functions may be no&#45;op based on configuration." alt="" coords="248,69,443,109"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html" title="Helps keep servers connected to the same database in sync by coordinating updates." alt="" coords="491,37,685,77"/>
+</map>

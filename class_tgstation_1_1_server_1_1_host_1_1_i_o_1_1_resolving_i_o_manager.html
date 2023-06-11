@@ -357,7 +357,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a62a703e04375abfc93020af28fd6b0ef inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a set of <em>zipFile</em>  to a given <em>path</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to unzip to.</td></tr>
-    <tr><td class="paramname">zipFile</td><td>The <a class="el" href="class_stream.html">Stream</a> of the global::System.IO.Compression.ZipArchive.</td></tr>
+    <tr><td class="paramname">zipFile</td><td>The <a class="el" href="class_stream.html">Stream</a> of the global::System.IO.Compression.ZipArchive. Must have Stream.CanSeek set to <code>true</code>. Will be read completely and left open. Stream.Position will be indeterminate.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
