@@ -62,12 +62,13 @@ namespace Tgstation.Server.Host.IO
 			lock (semaphore)
 			{
 				localBuffer = buffer;
-				if (localBuffer == null)
+				if (buffered && localBuffer == null)
 					return;
 
 				// important to drop the reference so it can properly GC
 				// The implementation of MemoryStream doesn't fucking do this for some reason
 				buffer = null;
+				buffered = true;
 			}
 
 			var bufferDispose = localBuffer.DisposeAsync();
@@ -77,6 +78,24 @@ namespace Tgstation.Server.Host.IO
 
 		/// <inheritdoc />
 		public async Task<Stream> GetResult(CancellationToken cancellationToken)
+		{
+			var (sharedStream, _) = await GetResultInternal(cancellationToken);
+			return sharedStream;
+		}
+
+		/// <inheritdoc />
+		public async Task<MemoryStream> GetOwnedResult(CancellationToken cancellationToken)
+		{
+			var (sharedStream, length) = await GetResultInternal(cancellationToken);
+			return new MemoryStream(sharedStream.GetBuffer(), 0, (int)length, false, true);
+		}
+
+		/// <summary>
+		/// Gets the shared <see cref="MemoryStream"/> and its <see cref="Stream.Length"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see cref="buffer"/> and its <see cref="Stream.Length"/>.</returns>
+		async Task<(MemoryStream, long)> GetResultInternal(CancellationToken cancellationToken)
 		{
 			if (!buffered)
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
@@ -89,19 +108,14 @@ namespace Tgstation.Server.Host.IO
 								throw new ObjectDisposedException(nameof(BufferedFileStreamProvider));
 
 							buffer.Seek(0, SeekOrigin.Begin);
+							buffered = true;
+							return (buffer, buffer.Length);
 						}
-
-						buffered = true;
 					}
 
-			return buffer ?? throw new ObjectDisposedException(nameof(BufferedFileStreamProvider));
-		}
-
-		/// <inheritdoc />
-		public async Task<MemoryStream> GetOwnedResult(CancellationToken cancellationToken)
-		{
-			var sharedStream = (MemoryStream)await GetResult(cancellationToken);
-			return new MemoryStream(sharedStream.GetBuffer(), 0, (int)sharedStream.Length, false, true);
+			return (
+				buffer ?? throw new ObjectDisposedException(nameof(BufferedFileStreamProvider)),
+				buffer.Length);
 		}
 	}
 }
