@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host.Core
@@ -31,7 +32,7 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <inheritdoc />
-		public Task<ServerUpdateResult> InitiateUpdate(Version version, CancellationToken cancellationToken)
-			=> serverUpdater.BeginUpdate(swarmService, null, version, cancellationToken);
+		public Task<ServerUpdateResult> InitiateUpdate(IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
+			=> serverUpdater.BeginUpdate(swarmService, fileStreamProvider, version, cancellationToken);
 	}
 }

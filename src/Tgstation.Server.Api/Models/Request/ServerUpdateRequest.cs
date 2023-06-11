@@ -1,7 +1,21 @@
-﻿namespace Tgstation.Server.Api.Models.Request
+﻿using System;
+
+namespace Tgstation.Server.Api.Models.Request
 {
-	/// <inheritdoc />
-	public sealed class ServerUpdateRequest : ServerUpdate
+	/// <summary>
+	/// Represents a request to update TGS.
+	/// </summary>
+	public sealed class ServerUpdateRequest
 	{
+		/// <summary>
+		/// Changes the version of tgstation-server to the given version from the upstream repository.
+		/// </summary>
+		[RequestOptions(FieldPresence.Required)]
+		public Version? NewVersion { get; set; }
+
+		/// <summary>
+		/// If the user will provide the server update package .zip file via file transfer as opposed to TGS retrieving it from GitHub.
+		/// </summary>
+		public bool? UploadZip { get; set; }
 	}
 }

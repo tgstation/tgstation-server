@@ -13,7 +13,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
 
 using MySqlConnector;
 
@@ -166,6 +169,26 @@ namespace Tgstation.Server.Tests.Live
 			var serverTask = server.Run(cancellationToken);
 			try
 			{
+				async Task<ServerUpdateResponse> TestWithoutAndWithPermission(Func<Task<ServerUpdateResponse>> action, IServerClient client, AdministrationRights right)
+				{
+					var ourUser = await client.Users.Read(cancellationToken);
+					var update = new UserUpdateRequest
+					{
+						Id = ourUser.Id,
+						PermissionSet = ourUser.PermissionSet,
+					};
+
+					update.PermissionSet.AdministrationRights &= ~right;
+					await client.Users.Update(update, cancellationToken);
+
+					await ApiAssert.ThrowsException<InsufficientPermissionsException>(action, null);
+
+					update.PermissionSet.AdministrationRights |= right;
+					await client.Users.Update(update, cancellationToken);
+
+					return await action();
+				}
+
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					// Disabled OAuth test
@@ -186,10 +209,21 @@ namespace Tgstation.Server.Tests.Live
 					}
 
 					//attempt to update to stable
-					await adminClient.Administration.Update(new ServerUpdateRequest
-					{
-						NewVersion = TestUpdateVersion
-					}, cancellationToken);
+					var responseModel = await TestWithoutAndWithPermission(
+						() => adminClient.Administration.Update(
+							new ServerUpdateRequest
+							{
+								NewVersion = TestUpdateVersion,
+								UploadZip = false,
+							},
+							null,
+							cancellationToken),
+						adminClient,
+						AdministrationRights.ChangeVersion);
+
+					Assert.IsNotNull(responseModel);
+					Assert.IsNull(responseModel.FileTicket);
+					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
 
 					try
 					{
@@ -205,18 +239,64 @@ namespace Tgstation.Server.Tests.Live
 					catch (HttpRequestException) { }
 				}
 
-				//wait up to 3 minutes for the dl and install
-				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(3), cancellationToken));
+				async Task CheckUpdate()
+				{
+					//wait up to 3 minutes for the dl and install
+					await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(3), cancellationToken));
 
-				Assert.IsTrue(serverTask.IsCompleted, "Server still running!");
+					Assert.IsTrue(serverTask.IsCompleted, "Server still running!");
 
-				Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
+					await serverTask;
 
-				var updatedAssemblyPath = Path.Combine(server.UpdatePath, "Tgstation.Server.Host.dll");
-				Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
+					Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
 
-				var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
-				Assert.AreEqual(TestUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+					var updatedAssemblyPath = Path.Combine(server.UpdatePath, "Tgstation.Server.Host.dll");
+					Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
+
+					var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
+					Assert.AreEqual(TestUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+				}
+
+				await CheckUpdate();
+
+				// Second pass, uploaded updates
+				var downloader = new Host.IO.FileDownloader(
+					new Common.Http.HttpClientFactory(
+						new AssemblyInformationProvider().ProductInfoHeaderValue),
+					Mock.Of<ILogger<Host.IO.FileDownloader>>());
+				var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
+				if (String.IsNullOrWhiteSpace(gitHubToken))
+					gitHubToken = null;
+				await new Host.IO.DefaultIOManager().DeleteDirectory(server.UpdatePath, cancellationToken);
+				serverTask = server.Run(cancellationToken);
+
+				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				{
+					// test we can't do this without the correct permission
+
+					await using var download = downloader.DownloadFile(
+						new Uri($"https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v{TestLiveServer.TestUpdateVersion}/ServerUpdatePackage.zip"),
+						gitHubToken);
+
+					var downloadStream = await download.GetResult(cancellationToken);
+					var responseModel = await TestWithoutAndWithPermission(
+						() => adminClient.Administration.Update(
+							new ServerUpdateRequest
+							{
+								NewVersion = TestUpdateVersion,
+								UploadZip = true,
+							},
+							downloadStream,
+							cancellationToken),
+						adminClient,
+						AdministrationRights.UploadVersion);
+
+					Assert.IsNotNull(responseModel);
+					Assert.IsNotNull(responseModel.FileTicket);
+					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
+				}
+
+				await CheckUpdate();
 			}
 			finally
 			{
@@ -247,10 +327,15 @@ namespace Tgstation.Server.Tests.Live
 			{
 				var testUpdateVersion = new Version(5, 11, 20);
 				using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
-				await ApiAssert.ThrowsException<ConflictException>(() => adminClient.Administration.Update(new ServerUpdateRequest
-				{
-					NewVersion = testUpdateVersion
-				}, cancellationToken), ErrorCode.ResourceNotPresent);
+				await ApiAssert.ThrowsException<ConflictException>(
+					() => adminClient.Administration.Update(
+						new ServerUpdateRequest
+						{
+							NewVersion = testUpdateVersion
+						},
+						null,
+						cancellationToken),
+					ErrorCode.ResourceNotPresent);
 			}
 			finally
 			{
@@ -308,12 +393,18 @@ namespace Tgstation.Server.Tests.Live
 					CheckInfo(controllerInfo);
 
 					// test update
-					await controllerClient.Administration.Update(
+					var responseModel = await controllerClient.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion
 						},
+						null,
 						cancellationToken);
+
+					Assert.IsNotNull(responseModel);
+					Assert.IsNull(responseModel.FileTicket);
+					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
+
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
 
@@ -495,6 +586,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							NewVersion = TestUpdateVersion
 						},
+						null,
 						cancellationToken);
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
@@ -535,6 +627,7 @@ namespace Tgstation.Server.Tests.Live
 						{
 							NewVersion = TestUpdateVersion
 						},
+						null,
 						cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
 
 					// regression: test updating also works from the controller
@@ -564,12 +657,31 @@ namespace Tgstation.Server.Tests.Live
 					CheckInfo(node1Info2);
 					CheckInfo(node2Info2);
 
-					await controllerClient2.Administration.Update(
+					// also test with uploaded updates this time
+					var downloader = new Host.IO.FileDownloader(
+						new Common.Http.HttpClientFactory(
+							new AssemblyInformationProvider().ProductInfoHeaderValue),
+						Mock.Of<ILogger<Host.IO.FileDownloader>>());
+					var gitHubToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN");
+					if (String.IsNullOrWhiteSpace(gitHubToken))
+						gitHubToken = null;
+					await using var download = downloader.DownloadFile(
+						new Uri($"https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v{TestLiveServer.TestUpdateVersion}/ServerUpdatePackage.zip"),
+						gitHubToken);
+
+					var downloadStream = await download.GetResult(cancellationToken);
+					var responseModel = await controllerClient2.Administration.Update(
 						new ServerUpdateRequest
 						{
-							NewVersion = TestUpdateVersion
+							NewVersion = TestUpdateVersion,
+							UploadZip = true,
 						},
+						downloadStream,
 						cancellationToken);
+
+					Assert.IsNotNull(responseModel);
+					Assert.IsNotNull(responseModel.FileTicket);
+					Assert.AreEqual(TestUpdateVersion, responseModel.NewVersion);
 
 					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
 					Assert.IsTrue(serverTask.IsCompleted);
@@ -741,10 +853,14 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
 					// update should fail
-					await ApiAssert.ThrowsException<ApiConflictException>(() => controllerClient2.Administration.Update(new ServerUpdateRequest
-					{
-						NewVersion = new Version(4, 6, 2)
-					}, cancellationToken), ErrorCode.SwarmIntegrityCheckFailed);
+					await ApiAssert.ThrowsException<ApiConflictException>(
+						() => controllerClient2.Administration.Update(new ServerUpdateRequest
+						{
+							NewVersion = TestUpdateVersion
+						},
+						null,
+						cancellationToken),
+						ErrorCode.SwarmIntegrityCheckFailed);
 
 					node2Task = node2.Run(cancellationToken);
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
