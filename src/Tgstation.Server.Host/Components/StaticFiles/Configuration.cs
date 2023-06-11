@@ -227,28 +227,28 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void ListImpl()
 			{
-				var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
 				try
 				{
+					var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
 					result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
 					{
 						IsDirectory = true,
 						Path = ioManager.ConcatPath(configurationRelativePath, x),
 					}).OrderBy(file => file.Path));
+
+					enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
+					result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
+					{
+						IsDirectory = false,
+						Path = ioManager.ConcatPath(configurationRelativePath, x),
+					}).OrderBy(file => file.Path));
 				}
-				catch (IOException e)
+				catch (IOException ex)
 				{
-					logger.LogDebug(e, "IOException while writing {path}!", path);
+					logger.LogDebug(ex, "IOException while enumerating direcotry!");
 					result = null;
 					return;
 				}
-
-				enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
-				result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
-				{
-					IsDirectory = false,
-					Path = ioManager.ConcatPath(configurationRelativePath, x),
-				}).OrderBy(file => file.Path));
 			}
 
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
