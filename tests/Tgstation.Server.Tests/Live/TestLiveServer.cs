@@ -135,22 +135,29 @@ namespace Tgstation.Server.Tests.Live
 			using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
 			var cancellationToken = cts.Token;
 
-			while (true)
+			try
 			{
-				using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
-				try
+				while (true)
 				{
-					await connection.OpenAsync(cancellationToken);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine($"TEST ERROR INIT: Could not connect to database. Retrying after 3s. Exception: {ex}");
-					await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
-					continue;
-				}
+					using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
+					try
+					{
+						await connection.OpenAsync(cancellationToken);
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"TEST ERROR INIT: Could not connect to database. Retrying after 3s. Exception: {ex}");
+						await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+						continue;
+					}
 
-				await connection.CloseAsync();
-				break;
+					await connection.CloseAsync();
+					break;
+				}
+			}
+			catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested && LiveTestUtils.RunningInGitHubActions)
+			{
+				Assert.Fail("Could not connect to the test database! Try re-running failed jobs.");
 			}
 		}
 
