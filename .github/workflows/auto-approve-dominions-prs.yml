@@ -9,6 +9,10 @@ on:
     - dev
     - master
 
+concurrency:
+  group: "auto-approve-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
+  cancel-in-progress: true
+
 jobs:
   approve-pr-if-dominion-is-author:
     name: Approve PR if Dominion is Author
