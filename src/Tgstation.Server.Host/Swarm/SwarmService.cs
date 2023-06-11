@@ -1066,7 +1066,7 @@ namespace Tgstation.Server.Host.Swarm
 			CancellationToken cancellationToken)
 		{
 			// we need to ensure this thing is loaded before we start providing downloads or it'll create unnecessary delays
-			var bufferingTask = initiatorProvider.GetResult(cancellationToken);
+			var streamRetrievalTask = initiatorProvider.GetResult(cancellationToken);
 
 			var downloadProvider = new FileDownloadProvider(
 				() => initiatorProvider.Disposed
@@ -1088,7 +1088,7 @@ namespace Tgstation.Server.Host.Swarm
 					node.Identifier,
 					transferService.CreateDownload(downloadProvider));
 
-			await bufferingTask;
+			await streamRetrievalTask;
 			return downloadTickets;
 		}
 
