@@ -56,12 +56,11 @@ namespace Tgstation.Server.Host.Extensions
 				FileTicket = ticket,
 			};
 
-			var tuple = await fileTransferService.RetrieveDownloadStream(fileTicketResult, cancellationToken);
-			var stream = tuple.Item1;
+			var (stream, errorMessage) = await fileTransferService.RetrieveDownloadStream(fileTicketResult, cancellationToken);
 			try
 			{
-				if (tuple.Item2 != null)
-					return controller.Conflict(tuple.Item2);
+				if (errorMessage != null)
+					return controller.Conflict(errorMessage);
 
 				if (stream == null)
 					return controller.Gone();

@@ -32,21 +32,22 @@ namespace Tgstation.Server.Host.Controllers
 			if (result == null)
 				throw new ArgumentNullException(nameof(result));
 
-			await using (result.Stream)
+			await using (result)
 			{
-				var contentLength = result.Stream.Length;
+				var cancellationToken = context.HttpContext.RequestAborted;
+				var stream = await result.GetResult(cancellationToken);
+				var contentLength = stream.Length;
 				var (range, rangeLength, serveBody) = SetHeadersAndLog(context, result, contentLength, result.EnableRangeProcessing);
 				if (!serveBody)
 					return;
 
 				try
 				{
-					var cancellationToken = context.HttpContext.RequestAborted;
 					var outputStream = context.HttpContext.Response.Body;
 					if (range == null)
 					{
 						await StreamCopyOperation.CopyToAsync(
-							result.Stream,
+							stream,
 							outputStream,
 							contentLength,
 							BufferSize,
@@ -54,9 +55,9 @@ namespace Tgstation.Server.Host.Controllers
 					}
 					else
 					{
-						result.Stream.Seek(range.From.Value, SeekOrigin.Begin);
+						stream.Seek(range.From.Value, SeekOrigin.Begin);
 						await StreamCopyOperation.CopyToAsync(
-							result.Stream,
+							stream,
 							outputStream,
 							rangeLength,
 							BufferSize,

@@ -212,12 +212,14 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				else if (result is IStatusCodeActionResult statusCodeResult)
 					response.StatusCode = (HttpStatusCode)statusCodeResult.StatusCode;
 				else if (result is LimitedStreamResult streamResult)
-				{
-					response.StatusCode = HttpStatusCode.OK;
-					var buffer = new MemoryStream();
-					await streamResult.Stream.CopyToAsync(buffer, cancellationToken);
-					response.Content = new StreamContent(buffer);
-				}
+					await using (streamResult)
+					{
+						response.StatusCode = HttpStatusCode.OK;
+						var buffer = new MemoryStream();
+						var stream = await streamResult.GetResult(cancellationToken);
+						await stream.CopyToAsync(buffer, cancellationToken);
+						response.Content = new StreamContent(buffer);
+					}
 				else
 				{
 					response.Dispose();
