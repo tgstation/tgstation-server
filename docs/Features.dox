@@ -57,6 +57,7 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 	- Logs can be downloaded via the API
 	- Supports Elasticsearch ingesting
 - Able to self update with user input
+	- Updates are sourced from our (or anyone else's if configured to do so) GitHub releases or uploaded directly by the user.
 - Swarm system to coordinate servers across systems
 - Database backend supporting several providers
 	- Microsoft SQL Server

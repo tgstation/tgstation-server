@@ -9,7 +9,7 @@ TGS has a, from code, generated OpenAPI 3.0 specification. It is much more autho
 
 The most up to date version should be found in the most recent appveyor build artifacts. It is also included in release artifacts.
 
-You can use the API explorer SwaggerUI to interact with it: https://petstore.swagger.io
+You can use the API explorer SwaggerUI to interact with it: https://tgstation.github.io/tgs-api-doc-host/
 
 @section api_intro Introduction
 
@@ -35,6 +35,7 @@ This document will reference the canonical C# models in the @ref Tgstation.Serve
 - Fields marked 'Required' should be ignored, this is a semantic for the backing SQL database
 - Id fields must be specified when making POST requests
 - All other fields are optional and may be absent from responses or requests unless otherwise specified
+- Request models can be found in @ref Tgstation.Server.Api.Models.Request. Response models can be found in @ref Tgstation.Server.Api.Models.Response.
 
 @section api_header Headers
 
