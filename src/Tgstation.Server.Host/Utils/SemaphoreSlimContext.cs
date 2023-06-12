@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <param name="semaphore">The <see cref="SemaphoreSlim"/> to lock.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SemaphoreSlimContext"/> for the lock.</returns>
-		public static async Task<SemaphoreSlimContext> Lock(SemaphoreSlim semaphore, CancellationToken cancellationToken)
+		public static async ValueTask<SemaphoreSlimContext> Lock(SemaphoreSlim semaphore, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(semaphore);
 			cancellationToken.ThrowIfCancellationRequested();
