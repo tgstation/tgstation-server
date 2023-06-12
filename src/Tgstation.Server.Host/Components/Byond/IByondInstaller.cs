@@ -33,8 +33,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> of BYOND to download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="MemoryStream"/> of the zipfile.</returns>
-		Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="MemoryStream"/> of the zipfile.</returns>
+		ValueTask<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Does actions necessary to get an extracted BYOND installation working.
@@ -42,8 +42,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="version">The <see cref="Version"/> of BYOND being installed.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task InstallByond(Version version, string path, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask InstallByond(Version version, string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Does actions necessary to get upgrade a BYOND version installed by a previous version of TGS.
@@ -51,14 +51,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="version">The <see cref="Version"/> of BYOND being installed.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask UpgradeInstallation(Version version, string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempts to cleans the BYOND cache folder for the system.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task CleanCache(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask CleanCache(CancellationToken cancellationToken);
 	}
 }

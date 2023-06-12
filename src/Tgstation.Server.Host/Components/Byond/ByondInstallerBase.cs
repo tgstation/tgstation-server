@@ -61,7 +61,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public abstract string GetDreamDaemonName(Version version, out bool supportsCli);
 
 		/// <inheritdoc />
-		public async Task CleanCache(CancellationToken cancellationToken)
+		public async ValueTask CleanCache(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -72,24 +72,20 @@ namespace Tgstation.Server.Host.Components.Byond
 						CacheDirectoryName),
 					cancellationToken);
 			}
-			catch (OperationCanceledException)
+			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				Logger.LogWarning(e, "Error deleting BYOND cache!");
+				Logger.LogWarning(ex, "Error deleting BYOND cache!");
 			}
 		}
 
 		/// <inheritdoc />
-		public abstract Task InstallByond(Version version, string path, CancellationToken cancellationToken);
+		public abstract ValueTask InstallByond(Version version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken);
+		public abstract ValueTask UpgradeInstallation(Version version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
+		public async ValueTask<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -113,9 +114,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public override Task InstallByond(Version version, string path, CancellationToken cancellationToken)
+		public override ValueTask InstallByond(Version version, string path, CancellationToken cancellationToken)
 		{
-			var tasks = new List<Task>
+			var tasks = new List<ValueTask>(3)
 			{
 				SetNoPromptTrusted(path, cancellationToken),
 				InstallDirectX(path, cancellationToken),
@@ -124,11 +125,11 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (!generalConfiguration.SkipAddingByondFirewallException)
 				tasks.Add(AddDreamDaemonToFirewall(version, path, cancellationToken));
 
-			return Task.WhenAll(tasks);
+			return ValueTaskExtensions.WhenAll(tasks);
 		}
 
 		/// <inheritdoc />
-		public override async Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
+		public override async ValueTask UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(version);
 			ArgumentNullException.ThrowIfNull(path);
@@ -153,7 +154,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task SetNoPromptTrusted(string path, CancellationToken cancellationToken)
+		async ValueTask SetNoPromptTrusted(string path, CancellationToken cancellationToken)
 		{
 			var configPath = IOManager.ConcatPath(path, ByondConfigDirectory);
 			await IOManager.CreateDirectory(configPath, cancellationToken);
@@ -171,8 +172,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task InstallDirectX(string path, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask InstallDirectX(string path, CancellationToken cancellationToken)
 		{
 			using var lockContext = await SemaphoreSlimContext.Lock(semaphore, cancellationToken);
 			if (installedDirectX)
@@ -216,8 +217,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="version">The BYOND <see cref="Version"/>.</param>
 		/// <param name="path">The path to the BYOND installation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task AddDreamDaemonToFirewall(Version version, string path, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask AddDreamDaemonToFirewall(Version version, string path, CancellationToken cancellationToken)
 		{
 			var dreamDaemonName = GetDreamDaemonName(version, out var supportsCli);
 

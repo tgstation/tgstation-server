@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var mockFileDownloader = new Mock<IFileDownloader>();
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader.Object, mockLogger.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.DownloadVersion(null, default));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await installer.DownloadVersion(null, default));
 
 			var ourArray = Array.Empty<byte>();
 			mockFileDownloader
@@ -78,8 +78,8 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockFileDownloader, mockLogger.Object);
 
 			const string FakePath = "fake";
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(null, null, default));
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => installer.InstallByond(new Version(123,252345), null, default));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await installer.InstallByond(null, null, default));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await installer.InstallByond(new Version(123,252345), null, default));
 
 			await installer.InstallByond(new Version(511, 1385), FakePath, default);
 
