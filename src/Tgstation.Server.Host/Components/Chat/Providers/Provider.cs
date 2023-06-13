@@ -131,6 +131,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(channels);
+
 			try
 			{
 				return await MapChannelsImpl(channels, cancellationToken);
