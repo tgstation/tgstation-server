@@ -15,7 +15,7 @@ namespace Tgstation.Server.Api.Tests
 	[TestClass]
 	public sealed class TestApiHeaders
 	{
-		readonly ProductHeaderValue productHeaderValue = new ProductHeaderValue("Tgstation.Server.Api.Tests", "1.0.0");
+		readonly ProductHeaderValue productHeaderValue = new ("Tgstation.Server.Api.Tests", "1.0.0");
 
 		[TestMethod]
 		public void TestConstruction()
