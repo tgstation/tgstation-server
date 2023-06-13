@@ -227,10 +227,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			await base.DisposeAsync();
 
-#if NET7_0_OR_GREATER
-#error This hack needs to be removed after updating Remora.Discord
-#endif
-
 			// https://github.com/Remora/Remora.Discord/issues/305
 			var responderDispatchService = serviceProvider.GetRequiredService<ResponderDispatchService>();
 			var serviceProviderDisposeTask = serviceProvider.DisposeAsync().AsTask();
