@@ -8,4 +8,8 @@ coverage:
 comment:
   layout: "header, diff, changes"
 ignore:
+  - "src/Tgstation.Server.Host/Database/Design"
   - "src/Tgstation.Server.Host/Database/Migrations"
+codecov:
+  max_report_age: off
+  require_ci_to_pass: no
