@@ -133,8 +133,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var uploadingZip = model.UploadCustomZip == true;
 
@@ -269,8 +268,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> Delete([FromBody] ByondVersionDeleteRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.Version == null
 				|| model.Version.Revision != -1)

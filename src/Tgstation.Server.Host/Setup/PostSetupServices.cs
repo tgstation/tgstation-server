@@ -77,8 +77,7 @@ namespace Tgstation.Server.Host.Setup
 			IOptions<ElasticsearchConfiguration> elasticsearchConfigurationOptions)
 		{
 			PlatformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			if (loggerFactory == null)
-				throw new ArgumentNullException(nameof(loggerFactory));
+			ArgumentNullException.ThrowIfNull(loggerFactory);
 
 			Logger = loggerFactory.CreateLogger<TLoggerType>();
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));

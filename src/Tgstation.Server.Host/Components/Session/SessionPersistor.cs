@@ -67,8 +67,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public Task Save(ReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
-			if (reattachInformation == null)
-				throw new ArgumentNullException(nameof(reattachInformation));
+			ArgumentNullException.ThrowIfNull(reattachInformation);
 
 			logger.LogDebug("Saving reattach information: {info}...", reattachInformation);
 

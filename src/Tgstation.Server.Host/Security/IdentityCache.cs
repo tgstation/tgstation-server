@@ -51,10 +51,8 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public void CacheSystemIdentity(User user, ISystemIdentity systemIdentity, DateTimeOffset expiry)
 		{
-			if (user == null)
-				throw new ArgumentNullException(nameof(user));
-			if (systemIdentity == null)
-				throw new ArgumentNullException(nameof(systemIdentity));
+			ArgumentNullException.ThrowIfNull(user);
+			ArgumentNullException.ThrowIfNull(systemIdentity);
 
 			lock (cachedIdentities)
 			{
@@ -84,8 +82,7 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public ISystemIdentity LoadCachedIdentity(User user)
 		{
-			if (user == null)
-				throw new ArgumentNullException(nameof(user));
+			ArgumentNullException.ThrowIfNull(user);
 			lock (cachedIdentities)
 				if (cachedIdentities.TryGetValue(user.Id.Value, out var identity))
 					return identity.SystemIdentity.Clone();

@@ -164,10 +164,8 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public bool TryStartUpdate(IServerUpdateExecutor updateExecutor, Version newVersion)
 		{
-			if (updateExecutor == null)
-				throw new ArgumentNullException(nameof(updateExecutor));
-			if (newVersion == null)
-				throw new ArgumentNullException(nameof(newVersion));
+			ArgumentNullException.ThrowIfNull(updateExecutor);
+			ArgumentNullException.ThrowIfNull(newVersion);
 
 			CheckSanity(true);
 
@@ -215,8 +213,7 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public IRestartRegistration RegisterForRestart(IRestartHandler handler)
 		{
-			if (handler == null)
-				throw new ArgumentNullException(nameof(handler));
+			ArgumentNullException.ThrowIfNull(handler);
 
 			CheckSanity(false);
 

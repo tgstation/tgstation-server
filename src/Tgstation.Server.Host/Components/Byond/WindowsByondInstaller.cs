@@ -106,8 +106,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override string GetDreamDaemonName(Version version, out bool supportsCli)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			supportsCli = version.Major >= 515 && version.Minor >= 1598;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
@@ -131,10 +130,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override async Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(path);
 
 			if (generalConfiguration.SkipAddingByondFirewallException)
 				return;

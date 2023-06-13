@@ -129,8 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(InstanceResponse), 201)]
 		public async Task<IActionResult> Create([FromBody] InstanceCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (String.IsNullOrWhiteSpace(model.Name))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceWhitespaceName));
@@ -328,8 +327,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] InstanceUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext
 				.Instances

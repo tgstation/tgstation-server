@@ -199,12 +199,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
-			if (databaseContextFactory == null)
-				throw new ArgumentNullException(nameof(databaseContextFactory));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(job);
+			ArgumentNullException.ThrowIfNull(databaseContextFactory);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			lock (deploymentLock)
 			{

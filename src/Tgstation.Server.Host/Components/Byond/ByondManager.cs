@@ -105,8 +105,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="version">The <see cref="Version"/> to validate.</param>
 		static void CheckVersionParameter(Version version)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			if (version.Build == 0)
 				throw new ArgumentException("version.Build cannot be 0!", nameof(version));
@@ -207,8 +206,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task DeleteVersion(JobProgressReporter progressReporter, Version version, CancellationToken cancellationToken)
 		{
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			CheckVersionParameter(version);
 

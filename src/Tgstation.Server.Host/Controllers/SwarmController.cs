@@ -91,8 +91,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPost(SwarmConstants.RegisterRoute)]
 		public async Task<IActionResult> Register([FromBody] SwarmRegistrationRequest registrationRequest, CancellationToken cancellationToken)
 		{
-			if (registrationRequest == null)
-				throw new ArgumentNullException(nameof(registrationRequest));
+			ArgumentNullException.ThrowIfNull(registrationRequest);
 
 			if (registrationRequest.ServerVersion != assemblyInformationProvider.Version)
 				return StatusCode((int)HttpStatusCode.UpgradeRequired);
@@ -150,8 +149,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPost]
 		public IActionResult UpdateNodeList([FromBody] SwarmServersUpdateRequest serversUpdateRequest)
 		{
-			if (serversUpdateRequest == null)
-				throw new ArgumentNullException(nameof(serversUpdateRequest));
+			ArgumentNullException.ThrowIfNull(serversUpdateRequest);
 
 			if (!ValidateRegistration())
 				return Forbid();
@@ -169,8 +167,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPut(SwarmConstants.UpdateRoute)]
 		public async Task<IActionResult> PrepareUpdate([FromBody] SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
-			if (updateRequest == null)
-				throw new ArgumentNullException(nameof(updateRequest));
+			ArgumentNullException.ThrowIfNull(updateRequest);
 
 			if (!ValidateRegistration())
 				return Forbid();

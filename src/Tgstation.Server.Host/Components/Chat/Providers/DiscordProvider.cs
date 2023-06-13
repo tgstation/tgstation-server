@@ -291,8 +291,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
-			if (message == null)
-				throw new ArgumentNullException(nameof(message));
+			ArgumentNullException.ThrowIfNull(message);
 
 			Optional<IMessageReference> replyToReference = default;
 			Optional<IAllowedMentions> allowedMentions = default;
@@ -391,14 +390,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
-			if (revisionInformation == null)
-				throw new ArgumentNullException(nameof(revisionInformation));
-			if (byondVersion == null)
-				throw new ArgumentNullException(nameof(byondVersion));
-			if (gitHubOwner == null)
-				throw new ArgumentNullException(nameof(gitHubOwner));
-			if (gitHubRepo == null)
-				throw new ArgumentNullException(nameof(gitHubRepo));
+			ArgumentNullException.ThrowIfNull(revisionInformation);
+			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(gitHubOwner);
+			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
@@ -518,8 +513,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task<Result> RespondAsync(IMessageCreate messageCreateEvent, CancellationToken cancellationToken)
 		{
-			if (messageCreateEvent == null)
-				throw new ArgumentNullException(nameof(messageCreateEvent));
+			ArgumentNullException.ThrowIfNull(messageCreateEvent);
 
 			if ((messageCreateEvent.Type != MessageType.Default
 				&& messageCreateEvent.Type != MessageType.InlineReply)
@@ -631,8 +625,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public Task<Result> RespondAsync(IReady readyEvent, CancellationToken cancellationToken)
 		{
-			if (readyEvent == null)
-				throw new ArgumentNullException(nameof(readyEvent));
+			ArgumentNullException.ThrowIfNull(readyEvent);
 
 			Logger.LogTrace("Gatway ready. Version: {version}", readyEvent.Version);
 			gatewayReadyTcs?.TrySetResult();
@@ -727,8 +720,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		protected override async Task<Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
-			if (channels == null)
-				throw new ArgumentNullException(nameof(channels));
+			ArgumentNullException.ThrowIfNull(channels);
 
 			var remapRequired = false;
 			var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();

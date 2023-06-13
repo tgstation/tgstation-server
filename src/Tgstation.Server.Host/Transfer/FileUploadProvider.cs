@@ -91,8 +91,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="null"/>, <see cref="ErrorMessageResponse"/> otherwise.</returns>
 		public async Task<ErrorMessageResponse> Completion(Stream stream, CancellationToken cancellationToken)
 		{
-			if (stream == null)
-				throw new ArgumentNullException(nameof(stream));
+			ArgumentNullException.ThrowIfNull(stream);
 
 			if (ticketExpiryCts.IsCancellationRequested)
 				return new ErrorMessageResponse(ErrorCode.ResourceNotPresent);

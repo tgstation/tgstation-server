@@ -37,8 +37,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void ResumeProcess(global::System.Diagnostics.Process process)
 		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
+			ArgumentNullException.ThrowIfNull(process);
 
 			process.Refresh();
 			foreach (ProcessThread thread in process.Threads)
@@ -67,8 +66,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void SuspendProcess(global::System.Diagnostics.Process process)
 		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
+			ArgumentNullException.ThrowIfNull(process);
 
 			process.Refresh();
 			foreach (ProcessThread thread in process.Threads)

@@ -49,11 +49,9 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public async Task<string> CreateOAuthAccessToken(OAuthConfiguration oAuthConfiguration, string code, CancellationToken cancellationToken)
 		{
-			if (oAuthConfiguration == null)
-				throw new ArgumentNullException(nameof(oAuthConfiguration));
+			ArgumentNullException.ThrowIfNull(oAuthConfiguration);
 
-			if (code == null)
-				throw new ArgumentNullException(nameof(code));
+			ArgumentNullException.ThrowIfNull(code);
 
 			logger.LogTrace("CreateOAuthAccessToken");
 
@@ -145,14 +143,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public Task CommentOnIssue(string repoOwner, string repoName, string comment, int issueNumber, CancellationToken cancellationToken)
 		{
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
-			if (comment == null)
-				throw new ArgumentNullException(nameof(comment));
+			ArgumentNullException.ThrowIfNull(comment);
 
 			logger.LogTrace("CommentOnIssue");
 
@@ -170,11 +165,9 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public async Task<long> GetRepositoryId(string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
 			logger.LogTrace("GetRepositoryId");
 
@@ -191,14 +184,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public async Task<int> CreateDeployment(NewDeployment newDeployment, string repoOwner, string repoName, CancellationToken cancellationToken)
 		{
-			if (newDeployment == null)
-				throw new ArgumentNullException(nameof(newDeployment));
+			ArgumentNullException.ThrowIfNull(newDeployment);
 
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
 			logger.LogTrace("CreateDeployment");
 
@@ -217,14 +207,11 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, string repoOwner, string repoName, int deploymentId, CancellationToken cancellationToken)
 		{
-			if (newDeploymentStatus == null)
-				throw new ArgumentNullException(nameof(newDeploymentStatus));
+			ArgumentNullException.ThrowIfNull(newDeploymentStatus);
 
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
 			logger.LogTrace("CreateDeploymentStatus");
 			return gitHubClient
@@ -242,8 +229,7 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public Task CreateDeploymentStatus(NewDeploymentStatus newDeploymentStatus, long repoId, int deploymentId, CancellationToken cancellationToken)
 		{
-			if (newDeploymentStatus == null)
-				throw new ArgumentNullException(nameof(newDeploymentStatus));
+			ArgumentNullException.ThrowIfNull(newDeploymentStatus);
 
 			logger.LogTrace("CreateDeploymentStatus");
 			return gitHubClient
@@ -260,11 +246,9 @@ namespace Tgstation.Server.Host.Utils.GitHub
 		/// <inheritdoc />
 		public Task<PullRequest> GetPullRequest(string repoOwner, string repoName, int pullRequestNumber, CancellationToken cancellationToken)
 		{
-			if (repoOwner == null)
-				throw new ArgumentNullException(nameof(repoOwner));
+			ArgumentNullException.ThrowIfNull(repoOwner);
 
-			if (repoName == null)
-				throw new ArgumentNullException(nameof(repoName));
+			ArgumentNullException.ThrowIfNull(repoName);
 
 			logger.LogTrace("GetPullRequest");
 			return gitHubClient

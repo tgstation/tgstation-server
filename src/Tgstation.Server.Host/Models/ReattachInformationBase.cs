@@ -53,8 +53,7 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="copy">The <see cref="ReattachInformationBase"/> to copy values from.</param>
 		protected ReattachInformationBase(ReattachInformationBase copy)
 		{
-			if (copy == null)
-				throw new ArgumentNullException(nameof(copy));
+			ArgumentNullException.ThrowIfNull(copy);
 			AccessIdentifier = copy.AccessIdentifier;
 			Port = copy.Port;
 			ProcessId = copy.ProcessId;

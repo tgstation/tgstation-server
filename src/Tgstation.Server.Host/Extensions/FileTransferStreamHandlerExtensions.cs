@@ -35,11 +35,9 @@ namespace Tgstation.Server.Host.Extensions
 			string ticket,
 			CancellationToken cancellationToken)
 		{
-			if (fileTransferService == null)
-				throw new ArgumentNullException(nameof(fileTransferService));
+			ArgumentNullException.ThrowIfNull(fileTransferService);
 
-			if (controller == null)
-				throw new ArgumentNullException(nameof(controller));
+			ArgumentNullException.ThrowIfNull(controller);
 
 			if (ticket == null)
 				return controller.BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));

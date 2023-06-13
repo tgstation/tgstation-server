@@ -35,8 +35,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			ILoggerFactory loggerFactory,
 			IOptions<SecurityConfiguration> securityConfigurationOptions)
 		{
-			if (loggerFactory == null)
-				throw new ArgumentNullException(nameof(loggerFactory));
+			ArgumentNullException.ThrowIfNull(loggerFactory);
 
 			var securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 

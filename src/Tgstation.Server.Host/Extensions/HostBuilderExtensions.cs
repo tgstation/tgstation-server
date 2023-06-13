@@ -25,8 +25,7 @@ namespace Tgstation.Server.Host.Extensions
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager)
 		{
-			if (builder == null)
-				throw new ArgumentNullException(nameof(builder));
+			ArgumentNullException.ThrowIfNull(builder);
 
 			return builder.ConfigureServices((context, services) =>
 			{

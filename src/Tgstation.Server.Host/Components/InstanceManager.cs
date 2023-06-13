@@ -218,8 +218,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IInstanceReference GetInstanceReference(Api.Models.Instance metadata)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			lock (instances)
 			{
@@ -233,8 +232,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task MoveInstance(Models.Instance instance, string oldPath, CancellationToken cancellationToken)
 		{
-			if (oldPath == null)
-				throw new ArgumentNullException(nameof(oldPath));
+			ArgumentNullException.ThrowIfNull(oldPath);
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			using var instanceReferenceCheck = GetInstanceReference(instance);
@@ -305,8 +303,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			using (await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken))
 			{
@@ -372,8 +369,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			lock (instances)
@@ -471,8 +467,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			IBridgeHandler bridgeHandler = null;
 			for (var i = 0; bridgeHandler == null && i < 30; ++i)
@@ -501,8 +496,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IBridgeRegistration RegisterHandler(IBridgeHandler bridgeHandler)
 		{
-			if (bridgeHandler == null)
-				throw new ArgumentNullException(nameof(bridgeHandler));
+			ArgumentNullException.ThrowIfNull(bridgeHandler);
 
 			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier;
 			lock (bridgeHandlers)

@@ -390,8 +390,7 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation reattachInformation,
 			CancellationToken cancellationToken)
 		{
-			if (reattachInformation == null)
-				throw new ArgumentNullException(nameof(reattachInformation));
+			ArgumentNullException.ThrowIfNull(reattachInformation);
 
 			logger.LogTrace("Begin session reattach...");
 			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);

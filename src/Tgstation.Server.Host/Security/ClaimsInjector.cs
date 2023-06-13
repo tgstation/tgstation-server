@@ -34,8 +34,7 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public async Task InjectClaimsIntoContext(TokenValidatedContext tokenValidatedContext, CancellationToken cancellationToken)
 		{
-			if (tokenValidatedContext == null)
-				throw new ArgumentNullException(nameof(tokenValidatedContext));
+			ArgumentNullException.ThrowIfNull(tokenValidatedContext);
 
 			// Find the user id in the token
 			var userIdClaim = tokenValidatedContext.Principal.FindFirst(JwtRegisteredClaimNames.Sub);

@@ -70,8 +70,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override string GetDreamDaemonName(Version version, out bool supportsCli)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			supportsCli = true;
 			return DreamDaemonExecutableName + ShellScriptExtension;
@@ -80,10 +79,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override Task InstallByond(Version version, string path, CancellationToken cancellationToken)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(path);
 
 			// write the scripts for running the ting
 			// need to add $ORIGIN to LD_LIBRARY_PATH
@@ -118,10 +115,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(path);
 
 			return Task.CompletedTask;
 		}

@@ -76,10 +76,8 @@ namespace Tgstation.Server.Host.IO
 			int? taskThrottle,
 			CancellationToken cancellationToken)
 		{
-			if (src == null)
-				throw new ArgumentNullException(nameof(src));
-			if (dest == null)
-				throw new ArgumentNullException(nameof(src));
+			ArgumentNullException.ThrowIfNull(src);
+			ArgumentNullException.ThrowIfNull(src);
 
 			if (taskThrottle.HasValue && taskThrottle < 1)
 				throw new ArgumentOutOfRangeException(nameof(taskThrottle), taskThrottle, "taskThrottle must be at least 1!");
@@ -97,10 +95,8 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task CopyFile(string src, string dest, CancellationToken cancellationToken)
 		{
-			if (src == null)
-				throw new ArgumentNullException(nameof(src));
-			if (dest == null)
-				throw new ArgumentNullException(nameof(dest));
+			ArgumentNullException.ThrowIfNull(src);
+			ArgumentNullException.ThrowIfNull(dest);
 
 			// tested to hell and back, these are the optimal buffer sizes
 			await using var srcStream = new FileStream(
@@ -179,8 +175,7 @@ namespace Tgstation.Server.Host.IO
 		public Task MoveFile(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (destination == null)
-					throw new ArgumentNullException(nameof(destination));
+				ArgumentNullException.ThrowIfNull(destination);
 				source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
 				destination = ResolvePath(destination);
 				File.Move(source, destination);
@@ -193,8 +188,7 @@ namespace Tgstation.Server.Host.IO
 		public Task MoveDirectory(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (destination == null)
-					throw new ArgumentNullException(nameof(destination));
+				ArgumentNullException.ThrowIfNull(destination);
 				source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
 				destination = ResolvePath(destination);
 				Directory.Move(source, destination);
@@ -289,8 +283,7 @@ namespace Tgstation.Server.Host.IO
 			() =>
 			{
 				path = ResolvePath(path);
-				if (zipFile == null)
-					throw new ArgumentNullException(nameof(zipFile));
+				ArgumentNullException.ThrowIfNull(zipFile);
 
 #if NET7_0_OR_GREATER
 #warning Check if zip file seeking has been addressesed. See https://github.com/tgstation/tgstation-server/issues/1531

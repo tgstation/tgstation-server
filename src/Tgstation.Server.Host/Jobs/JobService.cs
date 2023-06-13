@@ -91,10 +91,8 @@ namespace Tgstation.Server.Host.Jobs
 			=> databaseContextFactory.UseContext(
 				async databaseContext =>
 				{
-					if (job == null)
-						throw new ArgumentNullException(nameof(job));
-					if (operation == null)
-						throw new ArgumentNullException(nameof(operation));
+					ArgumentNullException.ThrowIfNull(job);
+					ArgumentNullException.ThrowIfNull(operation);
 
 					job.StartedAt = DateTimeOffset.UtcNow;
 					job.Cancelled = false;
@@ -197,8 +195,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public async Task<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
+			ArgumentNullException.ThrowIfNull(job);
 
 			JobHandler handler;
 			lock (addCancelLock)
@@ -239,8 +236,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public void SetJobProgress(JobResponse apiResponse)
 		{
-			if (apiResponse == null)
-				throw new ArgumentNullException(nameof(apiResponse));
+			ArgumentNullException.ThrowIfNull(apiResponse);
 			lock (synchronizationLock)
 			{
 				if (!jobs.TryGetValue(apiResponse.Id.Value, out var handler))
@@ -253,8 +249,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public async Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
+			ArgumentNullException.ThrowIfNull(job);
 
 			if (!cancellationToken.CanBeCanceled)
 				throw new ArgumentException("A cancellable CancellationToken should be provided!", nameof(cancellationToken));
@@ -283,8 +278,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public void Activate(IInstanceCoreProvider instanceCoreProvider)
 		{
-			if (instanceCoreProvider == null)
-				throw new ArgumentNullException(nameof(instanceCoreProvider));
+			ArgumentNullException.ThrowIfNull(instanceCoreProvider);
 
 			logger.LogTrace("Activating job manager...");
 			activationTcs.SetResult(instanceCoreProvider);

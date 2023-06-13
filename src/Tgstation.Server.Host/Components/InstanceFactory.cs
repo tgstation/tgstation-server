@@ -249,8 +249,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IIOManager CreateGameIOManager(Models.Instance metadata)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			var instanceIoManager = CreateInstanceIOManager(metadata);
 			return CreateGameIOManager(instanceIoManager);
@@ -260,10 +259,8 @@ namespace Tgstation.Server.Host.Components
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
 		{
-			if (bridgeRegistrar == null)
-				throw new ArgumentNullException(nameof(bridgeRegistrar));
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(bridgeRegistrar);
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			// Create the ioManager for the instance
 			var instanceIoManager = CreateInstanceIOManager(metadata);

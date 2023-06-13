@@ -212,8 +212,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public Task CreateDump(string outputFile, CancellationToken cancellationToken)
 		{
-			if (outputFile == null)
-				throw new ArgumentNullException(nameof(outputFile));
+			ArgumentNullException.ThrowIfNull(outputFile);
 
 			logger.LogTrace("Dumping PID {pid} to {dumpFilePath}...", Id, outputFile);
 			return processFeatures.CreateDump(handle, outputFile, cancellationToken);

@@ -356,11 +356,9 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public Task<SwarmPrepareResult> PrepareUpdate(ISeekableFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
-			if (fileStreamProvider == null)
-				throw new ArgumentNullException(nameof(fileStreamProvider));
+			ArgumentNullException.ThrowIfNull(fileStreamProvider);
 
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			logger.LogTrace("Begin PrepareUpdate...");
 			return PrepareUpdateImpl(
@@ -375,8 +373,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task<bool> PrepareUpdateFromController(SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
-			if (updateRequest == null)
-				throw new ArgumentNullException(nameof(updateRequest));
+			ArgumentNullException.ThrowIfNull(updateRequest);
 
 			logger.LogInformation("Received remote update request from {nodeType}", !swarmController ? "controller" : "node");
 			var result = await PrepareUpdateImpl(
@@ -502,8 +499,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public void UpdateSwarmServersList(IEnumerable<SwarmServerResponse> swarmServers)
 		{
-			if (swarmServers == null)
-				throw new ArgumentNullException(nameof(swarmServers));
+			ArgumentNullException.ThrowIfNull(swarmServers);
 
 			if (swarmController)
 				throw new InvalidOperationException("Cannot UpdateSwarmServersList on swarm controller!");
@@ -533,8 +529,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task<bool> RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId, CancellationToken cancellationToken)
 		{
-			if (node == null)
-				throw new ArgumentNullException(nameof(node));
+			ArgumentNullException.ThrowIfNull(node);
 
 			if (node.Identifier == null)
 				throw new ArgumentException("Node missing Identifier!", nameof(node));

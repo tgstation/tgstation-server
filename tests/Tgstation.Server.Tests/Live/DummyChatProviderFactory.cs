@@ -67,8 +67,7 @@ namespace Tgstation.Server.Tests.Live
 		public IProvider CreateProvider(ChatBot settings)
 		{
 			logger.LogTrace("CreateProvider");
-			if (settings == null)
-				throw new ArgumentNullException(nameof(settings));
+			ArgumentNullException.ThrowIfNull(settings);
 
 			var provider = settings.Provider;
 			switch (provider)

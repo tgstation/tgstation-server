@@ -126,10 +126,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			bool recurseSubmodules,
 			CancellationToken cancellationToken)
 		{
-			if (url == null)
-				throw new ArgumentNullException(nameof(url));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(url);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			logger.LogInformation("Begin clone {url} (Branch: {initialBranch})", url, initialBranch);
 			lock (semaphore)

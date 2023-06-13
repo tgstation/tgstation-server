@@ -57,10 +57,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CompileJob compileJob,
 			CancellationToken cancellationToken)
 		{
-			if (remoteInformation == null)
-				throw new ArgumentNullException(nameof(remoteInformation));
-			if (compileJob == null)
-				throw new ArgumentNullException(nameof(compileJob));
+			ArgumentNullException.ThrowIfNull(remoteInformation);
+			ArgumentNullException.ThrowIfNull(compileJob);
 
 			Logger.LogTrace("Starting deployment...");
 
@@ -187,12 +185,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			RevisionInformation revisionInformation,
 			CancellationToken cancellationToken)
 		{
-			if (repository == null)
-				throw new ArgumentNullException(nameof(repository));
-			if (repositorySettings == null)
-				throw new ArgumentNullException(nameof(repositorySettings));
-			if (revisionInformation == null)
-				throw new ArgumentNullException(nameof(revisionInformation));
+			ArgumentNullException.ThrowIfNull(repository);
+			ArgumentNullException.ThrowIfNull(repositorySettings);
+			ArgumentNullException.ThrowIfNull(revisionInformation);
 
 			if (revisionInformation.ActiveTestMerges?.Any() != true)
 			{
@@ -311,8 +306,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			DeploymentState deploymentState,
 			CancellationToken cancellationToken)
 		{
-			if (compileJob == null)
-				throw new ArgumentNullException(nameof(compileJob));
+			ArgumentNullException.ThrowIfNull(compileJob);
 
 			if (!compileJob.GitHubRepoId.HasValue || !compileJob.GitHubDeploymentId.HasValue)
 			{

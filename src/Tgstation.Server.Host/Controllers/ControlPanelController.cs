@@ -88,8 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(context);
 
 			var newValues = new List<string> { FetchChannelVaryHeader };
 			var headers = context.HttpContext.Response.Headers;

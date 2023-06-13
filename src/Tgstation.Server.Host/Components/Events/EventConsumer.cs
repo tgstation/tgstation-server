@@ -33,8 +33,7 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <inheritdoc />
 		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			if (watchdog == null)
 				throw new InvalidOperationException("EventConsumer used without watchdog set!");
@@ -51,8 +50,7 @@ namespace Tgstation.Server.Host.Components.Events
 		public void SetWatchdog(IWatchdog watchdog)
 		{
 #pragma warning disable IDE0016 // Use 'throw' expression
-			if (watchdog == null)
-				throw new ArgumentNullException(nameof(watchdog));
+			ArgumentNullException.ThrowIfNull(watchdog);
 #pragma warning restore IDE0016 // Use 'throw' expression
 			if (this.watchdog != null)
 				throw new InvalidOperationException("watchdog already set!");

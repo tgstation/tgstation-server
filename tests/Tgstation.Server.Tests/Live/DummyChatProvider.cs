@@ -86,8 +86,7 @@ namespace Tgstation.Server.Tests.Live
 
 		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
-			if (message == null)
-				throw new ArgumentNullException(nameof(message));
+			ArgumentNullException.ThrowIfNull(message);
 
 			Assert.IsTrue(knownChannels.ContainsKey(channelId));
 
@@ -102,14 +101,10 @@ namespace Tgstation.Server.Tests.Live
 
 		public override Task<Func<string, string, Task>> SendUpdateMessage(RevisionInformation revisionInformation, Version byondVersion, DateTimeOffset? estimatedCompletionTime, string gitHubOwner, string gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)
 		{
-			if (revisionInformation == null)
-				throw new ArgumentNullException(nameof(revisionInformation));
-			if (byondVersion == null)
-				throw new ArgumentNullException(nameof(byondVersion));
-			if (gitHubOwner == null)
-				throw new ArgumentNullException(nameof(gitHubOwner));
-			if (gitHubRepo == null)
-				throw new ArgumentNullException(nameof(gitHubRepo));
+			ArgumentNullException.ThrowIfNull(revisionInformation);
+			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(gitHubOwner);
+			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			Assert.IsTrue(knownChannels.ContainsKey(channelId));
 

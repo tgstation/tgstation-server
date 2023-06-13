@@ -20,11 +20,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			FetchOptions fetchOptions,
 			string logMessage)
 		{
-			if (libGit2Repo == null)
-				throw new ArgumentNullException(nameof(libGit2Repo));
+			ArgumentNullException.ThrowIfNull(libGit2Repo);
 
-			if (remote == null)
-				throw new ArgumentNullException(nameof(remote));
+			ArgumentNullException.ThrowIfNull(remote);
 
 			Commands.Fetch((LibGit2Sharp.Repository)libGit2Repo, remote.Name, refSpecs, fetchOptions, logMessage);
 		}

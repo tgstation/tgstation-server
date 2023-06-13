@@ -17,8 +17,7 @@ namespace Tgstation.Server.Host.Utils
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="SemaphoreSlimContext"/> for the lock.</returns>
 		public static async Task<SemaphoreSlimContext> Lock(SemaphoreSlim semaphore, CancellationToken cancellationToken)
 		{
-			if (semaphore == null)
-				throw new ArgumentNullException(nameof(semaphore));
+			ArgumentNullException.ThrowIfNull(semaphore);
 			cancellationToken.ThrowIfCancellationRequested();
 			await semaphore.WaitAsync(cancellationToken);
 			return new SemaphoreSlimContext(semaphore);

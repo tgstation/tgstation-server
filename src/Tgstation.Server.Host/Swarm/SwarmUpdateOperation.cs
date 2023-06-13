@@ -107,8 +107,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns><see langword="true"/> on success, <see langword="false"/> if the update is aborting.</returns>
 		public bool MarkNodeReady(string nodeIdentifier)
 		{
-			if (nodeIdentifier == null)
-				throw new ArgumentNullException(nameof(nodeIdentifier));
+			ArgumentNullException.ThrowIfNull(nodeIdentifier);
 
 			if (nodesThatNeedToBeReadyToCommit == null)
 				throw new InvalidOperationException("A non-controller node tried to mark a node as ready!");

@@ -48,8 +48,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public GitRemoteFeaturesBase(ILogger<GitRemoteFeaturesBase> logger, Uri remoteUrl)
 		{
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			if (remoteUrl == null)
-				throw new ArgumentNullException(nameof(remoteUrl));
+			ArgumentNullException.ThrowIfNull(remoteUrl);
 
 			cachedLookups = new Dictionary<TestMergeParameters, Models.TestMerge>();
 		}
@@ -60,10 +59,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
-			if (repositorySettings == null)
-				throw new ArgumentNullException(nameof(repositorySettings));
+			ArgumentNullException.ThrowIfNull(parameters);
+			ArgumentNullException.ThrowIfNull(repositorySettings);
 
 			Models.TestMerge result;
 			lock (cachedLookups)
