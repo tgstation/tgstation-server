@@ -195,12 +195,10 @@ namespace Tgstation.Server.Tests.Live
 			return CloneChannel(entry);
 		}
 
-		ChannelRepresentation CloneChannel(ChannelRepresentation channel)
-		{
-			return JsonConvert.DeserializeObject<ChannelRepresentation>(
+		static ChannelRepresentation CloneChannel(ChannelRepresentation channel)
+			=> JsonConvert.DeserializeObject<ChannelRepresentation>(
 				JsonConvert.SerializeObject(
 					channel));
-		}
 
 		async Task RandomMessageLoop(CancellationToken cancellationToken)
 		{
@@ -235,7 +233,7 @@ namespace Tgstation.Server.Tests.Live
 
 							var index = random.Next(0, enumerator.Count);
 							channel = enumerator[index].Value;
-							username = channel.ConnectionName.Substring(0, channel.ConnectionName.Length - 11);
+							username = channel.ConnectionName[..^11];
 						}
 						else
 						{
