@@ -160,7 +160,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			await base.DisposeAsync();
 
 			// DCT: None available
-			await HardDisconnect(default);
+			await HardDisconnect(CancellationToken.None);
 		}
 
 		/// <inheritdoc />

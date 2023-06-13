@@ -684,7 +684,7 @@ namespace Tgstation.Server.Host.Swarm
 				try
 				{
 					// DCT: Intentionally should not be cancelled
-					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, default);
+					using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, CancellationToken.None);
 					response.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)

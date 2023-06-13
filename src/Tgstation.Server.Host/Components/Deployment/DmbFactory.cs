@@ -402,7 +402,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(metadata, job);
 
 				// DCT: None available
-				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
+				var deploymentJob = remoteDeploymentManager.MarkInactive(job, CancellationToken.None);
 
 				var deleteTask = DeleteCompileJobContent(job.DirectoryName.ToString(), cleanupCts.Token);
 				var otherTask = cleanupTask;

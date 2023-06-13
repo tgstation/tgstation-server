@@ -258,7 +258,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					{
 						// drain the channel, fuck the results
 						// DCT: None available
-						await foreach (var result in channel.Reader.ReadAllAsync(default))
+						await foreach (var result in channel.Reader.ReadAllAsync(CancellationToken.None))
 							try
 							{
 								await result;
@@ -530,7 +530,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			if (basedMeme && messageCreateEvent.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
 			{
-				// DCT: None available
 				await SendMessage(
 					new DiscordMessage
 					{
@@ -541,7 +540,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Text = "https://youtu.be/LrNu-SuFF_o",
 					},
 					messageCreateEvent.ChannelID.Value,
-					default);
+					cancellationToken);
 				return Result.FromSuccess();
 			}
 
@@ -687,7 +686,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				// will handle cleanup
 				// DCT: Musn't abort
-				await DisconnectImpl(default);
+				await DisconnectImpl(CancellationToken.None);
 				throw;
 			}
 		}

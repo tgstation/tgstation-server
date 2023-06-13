@@ -266,7 +266,7 @@ namespace Tgstation.Server.Host.Components
 						};
 						db.Instances.Attach(targetInstance);
 						targetInstance.Path = oldPath;
-						return db.Save(default);
+						return db.Save(CancellationToken.None);
 					});
 				}
 				catch (Exception innerEx)
@@ -282,7 +282,7 @@ namespace Tgstation.Server.Host.Components
 						await ioManager.WriteAllBytes(
 							ioManager.ConcatPath(oldPath, InstanceController.InstanceAttachFileName),
 							Array.Empty<byte>(),
-							default);
+							CancellationToken.None);
 					}
 					catch (Exception tripleEx)
 					{
@@ -398,7 +398,7 @@ namespace Tgstation.Server.Host.Components
 					try
 					{
 						// DCT: Must always run
-						await instance.StopAsync(default);
+						await instance.StopAsync(CancellationToken.None);
 					}
 					catch (Exception innerEx)
 					{

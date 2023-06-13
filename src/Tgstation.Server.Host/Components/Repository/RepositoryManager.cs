@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								logger.LogTrace("Deleting partially cloned repository...");
 
 								// DCT: Cancellation token is for job, operation must run regardless
-								await ioManager.DeleteDirectory(repositoryPath, default);
+								await ioManager.DeleteDirectory(repositoryPath, CancellationToken.None);
 							}
 							catch (Exception innerException)
 							{

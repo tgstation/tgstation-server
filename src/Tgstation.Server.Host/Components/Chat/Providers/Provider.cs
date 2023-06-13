@@ -310,7 +310,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							},
 							cancellationToken);
 
-						// DCT: Always wait for the job to complete here
 						await jobManager.WaitForJobCompletion(job, null, cancellationToken, cancellationToken);
 					}
 				}

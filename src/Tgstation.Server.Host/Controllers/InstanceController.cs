@@ -242,7 +242,7 @@ namespace Tgstation.Server.Host.Controllers
 					DatabaseContext.Instances.Remove(newInstance);
 
 					// DCT: Operation must always run
-					await DatabaseContext.Save(default);
+					await DatabaseContext.Save(CancellationToken.None);
 					throw;
 				}
 			}
@@ -302,7 +302,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (OperationCanceledException)
 			{
 				// DCT: Operation must always run
-				await ioManager.DeleteFile(attachFileName, default);
+				await ioManager.DeleteFile(attachFileName, CancellationToken.None);
 				throw;
 			}
 
@@ -458,7 +458,7 @@ namespace Tgstation.Server.Host.Controllers
 					originalModel.Path = originalModelPath;
 
 				// DCT: Operation must always run
-				await DatabaseContext.Save(default);
+				await DatabaseContext.Save(CancellationToken.None);
 				throw;
 			}
 

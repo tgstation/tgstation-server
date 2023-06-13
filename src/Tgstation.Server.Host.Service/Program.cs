@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceProcess;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -189,7 +190,7 @@ namespace Tgstation.Server.Host.Service
 			if (Configure)
 			{
 				using (var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole()))
-					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default); // DCT: None available
+					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), CancellationToken.None); // DCT: None available
 			}
 		}
 	}

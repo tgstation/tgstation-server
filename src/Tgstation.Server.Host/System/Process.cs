@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.System
 						logger.LogTrace(ex, "WaitForInputIdle() failed, this is normal.");
 					}
 				},
-				default, // DCT: None available
+				CancellationToken.None, // DCT: None available
 				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 

@@ -364,7 +364,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								databaseContext.CompileJobs.Remove(compileJob);
 
 								// DCT: Cancellation token is for job, operation must run regardless
-								await databaseContext.Save(default);
+								await databaseContext.Save(CancellationToken.None);
 								throw;
 							}
 
@@ -537,7 +537,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				// DCT: Cancellation token is for job, delaying here is fine
 				progressReporter.StageName = "Running CompileCancelled event";
-				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), default);
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), CancellationToken.None);
 				throw;
 			}
 			finally
@@ -951,8 +951,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					// DCT: None available
-					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, default);
-					await ioManager.DeleteDirectory(jobPath, default);
+					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, CancellationToken.None);
+					await ioManager.DeleteDirectory(jobPath, CancellationToken.None);
 				}
 				catch (Exception e)
 				{
@@ -966,7 +966,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				remoteDeploymentManager.FailDeployment(
 					job,
 					FormatExceptionForUsers(exception),
-					default));
+					CancellationToken.None));
 		}
 	}
 }

@@ -611,7 +611,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			// we lost the server, just restart entirely
 			// DCT: Operation must always run
-			await DisposeAndNullControllers(default);
+			await DisposeAndNullControllers(CancellationToken.None);
 			const string FailReattachMessage = "Unable to properly reattach to server! Restarting watchdog...";
 			Logger.LogWarning(FailReattachMessage);
 
@@ -975,7 +975,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			// DCT: Operation must always run
-			await DisposeAndNullControllers(default);
+			await DisposeAndNullControllers(CancellationToken.None);
 			Status = WatchdogStatus.Offline;
 
 			Logger.LogTrace("Monitor exiting...");

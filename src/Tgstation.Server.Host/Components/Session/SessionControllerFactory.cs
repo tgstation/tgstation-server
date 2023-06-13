@@ -353,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Session
 							asyncDelayer,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => !launchParameters.LogOutput.Value
-								? LogDDOutput(process, outputFilePath, byondLock.SupportsCli, default) // DCT: None available
+								? LogDDOutput(process, outputFilePath, byondLock.SupportsCli, CancellationToken.None) // DCT: None available
 								: Task.CompletedTask,
 							launchParameters.StartupTimeout,
 							false,

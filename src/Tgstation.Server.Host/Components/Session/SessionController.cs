@@ -544,7 +544,11 @@ namespace Tgstation.Server.Host.Components.Session
 			var toAwait = Task.WhenAny(startupTask, process.Lifetime);
 
 			if (startupTimeout.HasValue)
-				toAwait = Task.WhenAny(toAwait, asyncDelayer.Delay(TimeSpan.FromSeconds(startupTimeout.Value), default)); // DCT: None available, task will clean up after delay
+				toAwait = Task.WhenAny(
+					toAwait,
+					asyncDelayer.Delay(
+						TimeSpan.FromSeconds(startupTimeout.Value),
+						CancellationToken.None)); // DCT: None available, task will clean up after delay
 
 			Logger.LogTrace(
 				"Waiting for LaunchResult based on {launchResultCompletionCause}{possibleTimeout}...",
