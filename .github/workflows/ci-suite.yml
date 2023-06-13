@@ -292,6 +292,13 @@ jobs:
       BYOND_MAJOR: 514
       BYOND_MINOR: 1588
     steps:
+    - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
+      shell: powershell
+      if: ${{ matrix.database-type == 'SqlServer' }}
+      run: |
+        Write-Host "Checking"
+        sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
+
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
