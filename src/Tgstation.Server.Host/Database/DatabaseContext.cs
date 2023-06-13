@@ -245,10 +245,8 @@ namespace Tgstation.Server.Host.Database
 			const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
 			var configureFunction = typeof(TDatabaseContext).GetMethod(
 				ConfigureMethodName,
-				BindingFlags.Public | BindingFlags.Static);
-
-			if (configureFunction == null)
-				throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
+				BindingFlags.Public | BindingFlags.Static)
+				?? throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
 
 			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
 		}
@@ -550,7 +548,7 @@ namespace Tgstation.Server.Host.Database
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
 			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
 
-			logger.LogInformation("Migrating down to version {0}. Target: {1}", targetVersion, targetMigration);
+			logger.LogInformation("Migrating down to version {targetVersion}. Target: {targetMigration}", targetVersion, targetMigration);
 			try
 			{
 				await migrator.MigrateAsync(targetMigration, cancellationToken);
