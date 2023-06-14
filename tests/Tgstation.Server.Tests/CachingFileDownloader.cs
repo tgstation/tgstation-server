@@ -73,7 +73,7 @@ namespace Tgstation.Server.Tests
 				return;
 
 			var url = new Uri(
-			$"https://secure.byond.com/download/build/{version.Major}/{version.Major}.{version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
+			$"https://www.byond.com/download/build/{version.Major}/{version.Major}.{version.Minor}_byond{(!windows ? "_linux" : string.Empty)}.zip");
 
 			if (cachedPaths.ContainsKey(url.ToString()))
 				return;

@@ -406,7 +406,7 @@ Manual operations on the repository while an instance is running may lead to git
 
 #### Byond
 
-The `Byond` folder contains installations of [BYOND](https://secure.byond.com/) versions. The version which is used by your game code can be changed on a whim (Note that only versions >= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.
+The `Byond` folder contains installations of [BYOND](https://www.byond.com/) versions. The version which is used by your game code can be changed on a whim (Note that only versions >= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.
 
 #### Compiler
 

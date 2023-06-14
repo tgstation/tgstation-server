@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string PathToUserByondFolder { get; }
 
 		/// <inheritdoc />
-		protected override string ByondRevisionsUrlTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
+		protected override string ByondRevisionsUrlTemplate => "https://www.byond.com/download/build/{0}/{0}.{1}_byond.zip";
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="WindowsByondInstaller"/>.
