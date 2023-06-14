@@ -1,6 +1,8 @@
 name: 'CI'
 
 on:
+  schedule:
+    - cron: 0 23 * * *
   push:
     branches:
     - dev
@@ -17,15 +19,12 @@ on:
 
 env:
   TGS_DOTNET_VERSION: 6.0.x
-  TGS_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
-  TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-  TGS_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
-  TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
   TGS_TEST_GITHUB_TOKEN: ${{ secrets.LIVE_TESTS_TOKEN }}
   TGS_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 concurrency:
-  group: "ci-${{ github.event.number || github.head_ref }}-${{ github.event_name }}"
+  group: "ci-${{ github.head_ref || github.run_id }}-${{ github.event_name }}"
   cancel-in-progress: true
 
 jobs:
@@ -54,48 +53,10 @@ jobs:
     name: Start CI Run Gate
     needs: security-checkpoint
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target'))))"
+    if: "!(cancelled() || failure()) && (needs.security-checkpoint.result == 'success' || (needs.security-checkpoint.result == 'skipped' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id && github.event_name != 'pull_request_target'))))"
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
-
-  analyze:
-    name: Code Scanning
-    needs: start-ci-run-gate
-    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
-    runs-on: ubuntu-latest
-    steps:
-    - name: Install Node 12.X
-      uses: actions/setup-node@v3
-      with:
-        node-version: 12.x
-
-    - name: Upgrade NPM
-      run: npm install -g npm
-
-    - name: Checkout (Branch Push)
-      uses: actions/checkout@v3
-      if: github.event_name == 'push'
-      with:
-        fetch-depth: 2
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        fetch-depth: 2
-        ref: "refs/pull/${{ github.event.number }}/merge"
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: csharp
-
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
 
   dmapi-build:
     name: Build DMAPI
@@ -103,14 +64,21 @@ jobs:
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     env:
       BYOND_MAJOR: 515
-      BYOND_MINOR: 1592
+      BYOND_MINOR: 1606
     runs-on: ubuntu-latest
     steps:
     - name: Install x86 libc Dependencies
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
+
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-dmapibyond
 
     - name: Install BYOND
       if: steps.cache-byond.outputs.cache-hit != 'true'
@@ -124,13 +92,13 @@ jobs:
         make here
         exit 0
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -160,13 +128,13 @@ jobs:
     needs: start-ci-run-gate
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -181,7 +149,7 @@ jobs:
         doxyfile-path: 'docs/Doxyfile'
 
     - name: gh-pages push
-      if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
+      if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev' && env.TGS_RELEASE_NOTES_TOKEN != ''
       run: |
         git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
         pushd $HOME/tgsdox
@@ -210,13 +178,13 @@ jobs:
     needs: start-ci-run-gate
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -231,6 +199,9 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
     runs-on: ubuntu-latest
     steps:
     - name: Setup dotnet
@@ -238,13 +209,13 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -271,6 +242,9 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      TGS_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
     runs-on: windows-latest
     steps:
     - name: Setup dotnet
@@ -278,13 +252,13 @@ jobs:
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -307,41 +281,110 @@ jobs:
     name: Windows Live Tests
     needs: dmapi-build
     if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
-    env:
-      TGS_TEST_DATABASE_TYPE: SqlServer
-      TGS_TEST_DUMP_API_SPEC: yes
     strategy:
       fail-fast: false
       matrix:
+        database-type: [ 'SqlServer', 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-latest
+    env:
+      BYOND_MAJOR: 514
+      BYOND_MINOR: 1588
     steps:
+    - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
+      shell: powershell
+      if: ${{ matrix.database-type == 'SqlServer' }}
+      run: |
+        Write-Host "Checking"
+        sqlcmd -l 600 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"
+
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
+
+    - name: Download BYOND
+      if: steps.cache-byond.outputs.cache-hit != 'true'
+      run: |
+        echo "Downloading BYOND..."
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond.zip" -o byond.zip
+
     - name: Upgrade NPM
       run: npm install -g npm
+
+    - name: Set TGS_TEST_DUMP_API_SPEC
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
+      run: echo "TGS_TEST_DUMP_API_SPEC=yes" >> $Env:GITHUB_ENV
 
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
 
-    - name: Set TGS_TEST_CONNECTION_STRING
+    - name: Set Sqlite Connection Info
+      if: ${{ matrix.database-type == 'Sqlite' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=Sqlite" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate" >> $GITHUB_ENV
+
+    - name: Setup Postgres
+      uses: ankane/setup-postgres@v1
+      if: ${{ matrix.database-type == 'PostgresSql' }}
+
+    - name: Set PostgresSql Connection Info
+      if: ${{ matrix.database-type == 'PostgresSql' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=PostgresSql" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Application Name=tgstation-server;Host=127.0.0.1;Username=$USER;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+
+    - name: Setup MariaDB
+      uses: ankane/setup-mariadb@v1
+      if: ${{ matrix.database-type == 'MariaDB' }}
+
+    - name: Set MariaDB Connection Info
+      if: ${{ matrix.database-type == 'MariaDB' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=MariaDB" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+
+    - name: Setup MySQL
+      uses: ankane/setup-mysql@v1
+      if: ${{ matrix.database-type == 'MySql' }}
+
+    - name: Set MySQL Connection Info
+      if: ${{ matrix.database-type == 'MySql' }}
+      shell: bash
+      run: |
+        echo "TGS_TEST_DATABASE_TYPE=MySql" >> $GITHUB_ENV
+        echo "TGS_TEST_CONNECTION_STRING=Server=127.0.0.1;uid=root;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}" >> $GITHUB_ENV
+
+    - name: Set SqlServer Connection Info
+      if: ${{ matrix.database-type == 'SqlServer' }}
       shell: bash
       run: |
         TGS_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
         echo "TGS_TEST_CONNECTION_STRING=$(echo $TGS_CONNSTRING_VALUE)" >> $GITHUB_ENV
+        echo "TGS_TEST_DATABASE_TYPE=SqlServer" >> $GITHUB_ENV
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -357,11 +400,11 @@ jobs:
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
       with:
-        name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}
+        name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
         path: ./TestResults/
 
     - name: Store OpenAPI Spec
-      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' }}
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
       uses: actions/upload-artifact@v3
       with:
         name: openapi-spec
@@ -375,6 +418,7 @@ jobs:
         cd ../Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Service/lib/Default
         mv ../../Artifacts/Service/lib/Default/appsettings.yml ../../Artifacts/Service/appsettings.yml
+        rm ../../Artifacts/Service/lib/Default/Tgstation.Server.Host.exe
 
     - name: Store Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
@@ -388,6 +432,13 @@ jobs:
     needs: dmapi-build
     if: "!(cancelled() || failure()) && needs.dmapi-build.result == 'success'"
     services: # We start all dbs here so we can just code the stuff once
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          SA_PASSWORD: myPassword
+          ACCEPT_EULA: 'Y'
+        ports:
+        - 1433:1433
       postgres:
         image: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         ports:
@@ -406,7 +457,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: mariadb
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mariadb-admin ping"
           --health-interval=5s
           --health-timeout=2s
           --health-retries=3
@@ -425,9 +476,12 @@ jobs:
       fail-fast: false
       matrix:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
-        watchdog-type: [ 'System' ]
-        configuration: [ 'Release' ]
+        watchdog-type: [ 'Basic', 'System' ]
+        configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
+    env:
+      BYOND_MAJOR: 514
+      BYOND_MINOR: 1588
     steps:
     - name: Disable ptrace_scope
       run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
@@ -436,7 +490,22 @@ jobs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
+
+    - name: Restore BYOND cache
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
+
+    - name: Download BYOND
+      if: steps.cache-byond.outputs.cache-hit != 'true'
+      run: |
+        echo "Downloading BYOND..."
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
 
     - name: Install Node 12.X
       uses: actions/setup-node@v3
@@ -480,13 +549,13 @@ jobs:
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $GITHUB_ENV
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -513,6 +582,7 @@ jobs:
         cd ../Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/Console/lib/Default
         mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
+        rm ../../Artifacts/Console/lib/Default/Tgstation.Server.Host
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
@@ -520,6 +590,7 @@ jobs:
         cd src/Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/ServerUpdate
         rm ../../Artifacts/ServerUpdate/appsettings.yml
+        rm ../../Artifacts/ServerUpdate/Tgstation.Server.Host
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
@@ -549,13 +620,13 @@ jobs:
     - name: Install IBM OpenAPI Validator
       run: npm i -g ibm-openapi-validator@0.51.3
 
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -574,13 +645,13 @@ jobs:
     if: "!(cancelled() || failure()) && needs.linux-unit-tests.result == 'success' && needs.linux-integration-tests.result == 'success' && needs.windows-unit-tests.result == 'success' && needs.windows-integration-test.result == 'success'"
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' || github.event_name == 'schedule'
 
     - name: Checkout (PR Merge)
       uses: actions/checkout@v3
-      if: github.event_name != 'push'
+      if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
@@ -620,35 +691,203 @@ jobs:
         name: linux-integration-test-coverage-Release-System-MySql
         path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
 
+    - name: Retrieve Linux Integration Test Coverage (Release, Basic, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Release-System-Sqlite
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_sqlite
+
+    - name: Retrieve Linux Integration Test Coverage (Release, Basic, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Release-System-PostgresSql
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mariadb
+
+    - name: Retrieve Linux Integration Test Coverage (Release, Basic, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Release-System-MariaDB
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Release, Basic, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Release-System-MySql
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, System, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Debug-System-Sqlite
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_sqlite
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, System, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Debug-System-PostgresSql
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mariadb
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, System, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Debug-System-MariaDB
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, System, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Debug-System-MySql
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Debug-System-Sqlite
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_sqlite
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Debug-System-PostgresSql
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mariadb
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Debug-System-MariaDB
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-integration-test-coverage-Debug-System-MySql
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
+
     - name: Retrieve Windows Unit Test Coverage (Release)
       uses: actions/download-artifact@v3
       with:
         name: windows-unit-test-coverage-Release
         path: ./code_coverage/unit_tests/windows_unit_tests_release
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, Basic)
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-Basic
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic
+        name: windows-integration-test-coverage-Debug-Basic-SqlServer
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Release, Basic)
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-Basic
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic
+        name: windows-integration-test-coverage-Release-Basic-SqlServer
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Debug, System)
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Debug-System
-        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system
+        name: windows-integration-test-coverage-Debug-System-SqlServer
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlserver
 
-    - name: Retrieve Windows Integration Test Coverage (Release, System)
+    - name: Retrieve Windows Integration Test Coverage (Release, System, SqlServer)
       uses: actions/download-artifact@v3
       with:
-        name: windows-integration-test-coverage-Release-System
-        path: ./code_coverage/integration_tests/windows_integration_tests_release_system
+        name: windows-integration-test-coverage-Release-System-SqlServer
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlserver
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic-MariaDB
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mariadb
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic-MariaDB
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mariadb
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System-MariaDB
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mariadb
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System, MariaDB)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System-MariaDB
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mariadb
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic-MySql
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_mysql
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic-MySql
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_mysql
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System-MySql
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_mysql
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System, MySql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System-MySql
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_mysql
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic-PostgresSql
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_postgressql
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic-PostgresSql
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_postgressql
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System-PostgresSql
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_postgressql
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System, PostgresSql)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System-PostgresSql
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_postgressql
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-Basic-Sqlite
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic_sqlite
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-Basic-Sqlite
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic_sqlite
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Debug-System-Sqlite
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system_sqlite
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System, Sqlite)
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-integration-test-coverage-Release-System-Sqlite
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system_sqlite
 
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v3
@@ -656,22 +895,14 @@ jobs:
         directory: ./code_coverage
         fail_ci_if_error: true
 
-
   deploy-http:
     name: Deploy HTTP API
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')"
+    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')"
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse API version
       shell: powershell
@@ -711,17 +942,10 @@ jobs:
     name: Deploy DreamMaker API
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]')"
+    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]')"
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse DMAPI version
       shell: powershell
@@ -760,24 +984,17 @@ jobs:
     name: Deploy Nuget Packages
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')"
+    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
 
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
-
-    - name: Publish API to NuGet
+    - name: Publish Tgstation.Server.Api to NuGet
       uses: alirezanet/publish-nuget@v3.0.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
@@ -785,10 +1002,18 @@ jobs:
         INCLUDE_SYMBOLS: true
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
-    - name: Publish Client to NuGet
+    - name: Publish Tgstation.Server.Common to NuGet
       uses: alirezanet/publish-nuget@v3.0.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
+        TAG_COMMIT: false
+        INCLUDE_SYMBOLS: true
+        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
+    - name: Publish Tgstation.Server.Client to NuGet
+      uses: alirezanet/publish-nuget@v3.0.0
+      with:
+        PROJECT_FILE_PATH: src/Tgstation.Server.Common/Tgstation.Server.Common.csproj
         TAG_COMMIT: false
         INCLUDE_SYMBOLS: true
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
@@ -797,22 +1022,15 @@ jobs:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-http]
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]')"
+    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Run ReleaseNotes with --ensure-release
       run: dotnet run -c Release --project tools/ReleaseNotes --ensure-release
@@ -821,22 +1039,15 @@ jobs:
     name: Deploy TGS
     needs: [deploy-dm, deploy-http, upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && (needs.upload-code-coverage.result == 'success' || needs.validate-openapi-spec.result == 'success') && github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
+    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && (needs.upload-code-coverage.result == 'success' || needs.validate-openapi-spec.result == 'success') && github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
 
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse TGS version
       shell: powershell
@@ -944,18 +1155,11 @@ jobs:
   deploy-docker:
     name: Deploy TGS (Docker)
     needs: [deploy-tgs]
-    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
+    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && needs.deploy-tgs.result == 'success'"
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout (Branch Push)
+    - name: Checkout
       uses: actions/checkout@v3
-      if: github.event_name == 'push'
-
-    - name: Checkout (PR Merge)
-      uses: actions/checkout@v3
-      if: github.event_name != 'push'
-      with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Parse TGS version
       run: |

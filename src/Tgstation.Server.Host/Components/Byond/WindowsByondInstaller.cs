@@ -111,8 +111,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override string GetDreamDaemonName(Version version, out bool supportsCli, out bool supportsMapThreads)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			supportsCli = version >= DDExeVersion;
 			supportsMapThreads = version >= MapThreadsVersion;
@@ -137,10 +136,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public override async Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(version);
+			ArgumentNullException.ThrowIfNull(path);
 
 			if (generalConfiguration.SkipAddingByondFirewallException)
 				return;

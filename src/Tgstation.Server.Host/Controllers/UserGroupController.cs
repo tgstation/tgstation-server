@@ -15,6 +15,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -66,8 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(UserGroupResponse), 201)]
 		public async Task<IActionResult> Create([FromBody] UserGroupCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.Name == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -75,8 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 			var totalGroups = await DatabaseContext
 				.Groups
 				.AsQueryable()
-				.CountAsync(cancellationToken)
-				;
+				.CountAsync(cancellationToken);
 			if (totalGroups >= generalConfiguration.UserGroupLimit)
 				return Conflict(new ErrorMessageResponse(ErrorCode.UserGroupLimitReached));
 
@@ -112,8 +111,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		public async Task<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var currentGroup = await DatabaseContext
 				.Groups
@@ -121,11 +119,10 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == model.Id)
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Users)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (currentGroup == default)
-				return Gone();
+				return this.Gone();
 
 			if (model.PermissionSet != null)
 			{
@@ -167,10 +164,9 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id)
 				.Include(x => x.Users)
 				.Include(x => x.PermissionSet)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (group == default)
-				return Gone();
+				return this.Gone();
 			return Json(group.ToApi(true));
 		}
 
@@ -220,8 +216,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Groups
 				.AsQueryable()
 				.Where(x => x.Id == id && x.Users.Count == 0)
-				.DeleteAsync(cancellationToken)
-				;
+				.DeleteAsync(cancellationToken);
 
 			if (numDeleted > 0)
 				return NoContent();
@@ -231,12 +226,11 @@ namespace Tgstation.Server.Host.Controllers
 				.Groups
 				.AsQueryable()
 				.Where(x => x.Id == id)
-				.AnyAsync(cancellationToken)
-				;
+				.AnyAsync(cancellationToken);
 
 			return groupExists
 				? Conflict(new ErrorMessageResponse(ErrorCode.UserGroupNotEmpty))
-				: Gone();
+				: this.Gone();
 		}
 	}
 }

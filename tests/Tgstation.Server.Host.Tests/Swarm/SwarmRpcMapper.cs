@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +21,10 @@ using Moq;
 
 using Newtonsoft.Json;
 
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Swarm.Tests
 {
@@ -31,17 +34,17 @@ namespace Tgstation.Server.Host.Swarm.Tests
 
 		readonly ILogger logger;
 
-		readonly Func<SwarmService, SwarmController> createSwarmController;
+		readonly Func<SwarmService, FileTransferService, SwarmController> createSwarmController;
 
-		List<(SwarmConfiguration, TestableSwarmNode)> configToNodes;
+		List<(SwarmConfiguration, FileTransferService, TestableSwarmNode)> configToNodes;
 
 		int serverErrorCount;
 
-		public SwarmRpcMapper(Func<SwarmService, SwarmController> createSwarmController, Mock<IHttpClient> clientMock, ILogger logger)
+		public SwarmRpcMapper(Func<SwarmService, FileTransferService, SwarmController> createSwarmController, Mock<IHttpClient> clientMock, ILogger logger)
 		{
 			this.createSwarmController = createSwarmController;
 			clientMock
-				.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
+				.Setup(x => x.SendAsync(It.IsNotNull<HttpRequestMessage>(), It.IsAny<HttpCompletionOption>(), It.IsAny<CancellationToken>()))
 				.Returns(MapRequest);
 			this.logger = logger;
 			AsyncRequests = true;
@@ -52,16 +55,17 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			Assert.AreEqual(0, serverErrorCount);
 		}
 
-		public void Register(List<(SwarmConfiguration, TestableSwarmNode)> configToNodes)
+		public void Register(List<(SwarmConfiguration, FileTransferService, TestableSwarmNode)> configToNodes)
 		{
 			this.configToNodes = configToNodes;
 		}
 
 		async Task<HttpResponseMessage> MapRequest(
 			HttpRequestMessage request,
+			HttpCompletionOption httpCompletionOption,
 			CancellationToken cancellationToken)
 		{
-			var (config, node) = configToNodes.FirstOrDefault(
+			var (config, transferService, node) = configToNodes.FirstOrDefault(
 				pair => pair.Item1.Address.IsBaseOf(request.RequestUri));
 
 			if (config == default)
@@ -77,7 +81,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				throw new HttpRequestException("Can't connect to shutdown node!");
 			}
 
-			var controller = createSwarmController(node.Service);
+			var controller = createSwarmController(node.Service, transferService);
 
 			Type targetAttribute = null;
 			bool isDataRequest = false;
@@ -112,15 +116,27 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				Assert.Fail($"Invalid Swarm route: {stringUrl}");
 
 			var route = stringUrl[(rootIndex + SwarmConstants.ControllerRoute.Length)..].TrimStart('/');
+			var queryIndex = route.IndexOf('?');
+
+			string ticketArg = null;
+			if(queryIndex != -1)
+			{
+				var ticketEncoded = route[(queryIndex + "?ticket=".Length)..];
+				ticketArg = HttpUtility.UrlDecode(ticketEncoded);
+				route = route[..queryIndex];
+			}
 
 			var controllerMethod = controller
 				.GetType()
 				.GetMethods()
 				.Select(method => (method, (HttpMethodAttribute)method.GetCustomAttribute(targetAttribute)))
-				.Where(pair => pair.Item2 != null
-					&& pair.Item2.HttpMethods.Count() == 1
-					&& pair.Item2.HttpMethods.All(supportedMethod => supportedMethod.Equals(request.Method.Method))
-					&& (pair.Item2.Template ?? String.Empty) == route)
+				.Where(pair =>
+				{
+					return pair.Item2 != null
+						&& pair.Item2.HttpMethods.Count() == 1
+						&& pair.Item2.HttpMethods.All(supportedMethod => supportedMethod.Equals(request.Method.Method))
+						&& (pair.Item2.Template ?? String.Empty) == route;
+				})
 				.Select(pair => pair.method)
 				.SingleOrDefault();
 
@@ -134,16 +150,16 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			try
 			{
 				// We're not testing OnActionExecutingAsync, that's covered by integration.
+				logger.LogTrace("RPC Calling {method}", controllerMethod);
 				if (hasRegistrationHeader)
 				{
 					var mockRequest = new Mock<HttpRequest>();
-					mockRequest.SetupGet(x => x.Headers).Returns(new HeaderDictionary
-					{
-						{
-							SwarmConstants.RegistrationIdHeader,
-							new StringValues(values.First())
-						},
-					});
+
+					var headers = new HeaderDictionary();
+					foreach (var header in request.Headers)
+						headers.Add(new KeyValuePair<string, StringValues>(header.Key, new StringValues(header.Value.ToArray())));
+
+					mockRequest.SetupGet(x => x.Headers).Returns(headers);
 					var mockHttpContext = new Mock<HttpContext>();
 					mockHttpContext.SetupGet(x => x.Request).Returns(mockRequest.Object);
 
@@ -156,9 +172,12 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					{
 						var dataType = controllerMethod.GetParameters().First().ParameterType;
 						var json = await request.Content.ReadAsStringAsync(cancellationToken);
-						var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmService.SerializerSettings);
+						var parameter = JsonConvert.DeserializeObject(json, dataType, SwarmConstants.SerializerSettings);
 						args.Add(parameter);
 					}
+
+					if (ticketArg != null)
+						args.Add(ticketArg);
 
 					if (AsyncRequests)
 						await Task.Yield();
@@ -166,17 +185,20 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					if (controllerMethod.ReturnType != typeof(IActionResult))
 					{
 						Assert.AreEqual(typeof(Task<IActionResult>), controllerMethod.ReturnType);
-						args.Add(cancellationToken);
+						var lastParam = controllerMethod.GetParameters().LastOrDefault();
+						if (lastParam?.ParameterType == typeof(CancellationToken))
+							args.Add(cancellationToken);
+
 						var invocationTask = (Task<IActionResult>)controllerMethod.Invoke(controller, args.ToArray());
 						result = await invocationTask;
 					}
 					else
 					{
 						result = (IActionResult)controllerMethod.Invoke(controller, args.ToArray());
-
-						// simulate worst case, request completed but was aborted before server replied
-						cancellationToken.ThrowIfCancellationRequested();
 					}
+
+					// simulate worst case, request completed but was aborted before server replied
+					cancellationToken.ThrowIfCancellationRequested();
 				}
 				else
 				{
@@ -189,6 +211,15 @@ namespace Tgstation.Server.Host.Swarm.Tests
 					response.StatusCode = HttpStatusCode.Forbidden;
 				else if (result is IStatusCodeActionResult statusCodeResult)
 					response.StatusCode = (HttpStatusCode)statusCodeResult.StatusCode;
+				else if (result is LimitedStreamResult streamResult)
+					await using (streamResult)
+					{
+						response.StatusCode = HttpStatusCode.OK;
+						var buffer = new MemoryStream();
+						var stream = await streamResult.GetResult(cancellationToken);
+						await stream.CopyToAsync(buffer, cancellationToken);
+						response.Content = new StreamContent(buffer);
+					}
 				else
 				{
 					response.Dispose();

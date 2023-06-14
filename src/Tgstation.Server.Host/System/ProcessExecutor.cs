@@ -88,12 +88,9 @@ namespace Tgstation.Server.Host.System
 			bool readStandardHandles,
 			bool noShellExecute)
 		{
-			if (fileName == null)
-				throw new ArgumentNullException(nameof(fileName));
-			if (workingDirectory == null)
-				throw new ArgumentNullException(nameof(workingDirectory));
-			if (arguments == null)
-				throw new ArgumentNullException(nameof(arguments));
+			ArgumentNullException.ThrowIfNull(fileName);
+			ArgumentNullException.ThrowIfNull(workingDirectory);
+			ArgumentNullException.ThrowIfNull(arguments);
 
 			if (!noShellExecute && readStandardHandles)
 				throw new InvalidOperationException("Requesting output/error reading requires noShellExecute to be true!");
@@ -286,8 +283,8 @@ namespace Tgstation.Server.Host.System
 				return line;
 			}
 
-			using var fileStream = fileRedirect != null ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
-			using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
+			await using var fileStream = fileRedirect != null ? ioManager.CreateAsyncSequentialWriteStream(fileRedirect) : null;
+			await using var writer = fileStream != null ? new StreamWriter(fileStream) : null;
 
 			string text;
 			var stringBuilder = fileStream == null ? new StringBuilder() : null;

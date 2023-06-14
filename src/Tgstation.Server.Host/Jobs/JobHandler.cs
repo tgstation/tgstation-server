@@ -12,6 +12,21 @@ namespace Tgstation.Server.Host.Jobs
 	sealed class JobHandler : IDisposable
 	{
 		/// <summary>
+		/// If the job has started.
+		/// </summary>
+		public bool Started => task != null;
+
+		/// <summary>
+		/// The progress of the job.
+		/// </summary>
+		public int? Progress { get; set; }
+
+		/// <summary>
+		/// The stage of the job.
+		/// </summary>
+		public string Stage { get; set; }
+
+		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="task"/>.
 		/// </summary>
 		readonly CancellationTokenSource cancellationTokenSource;
@@ -38,16 +53,6 @@ namespace Tgstation.Server.Host.Jobs
 
 		/// <inheritdoc />
 		public void Dispose() => cancellationTokenSource.Dispose();
-
-		/// <summary>
-		/// The progress of the job.
-		/// </summary>
-		public int? Progress { get; set; }
-
-		/// <summary>
-		/// The stage of the job.
-		/// </summary>
-		public string Stage { get; set; }
 
 		/// <summary>
 		/// Wait for <see cref="task"/> to complete.

@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		IDmbProvider nextDmbProvider;
 
 		/// <summary>
-		/// If the <see cref="DmbFactory"/> is "started" via <see cref="Microsoft.Extensions.Hosting.IHostedService"/>.
+		/// If the <see cref="DmbFactory"/> is "started" via <see cref="IComponentService"/>.
 		/// </summary>
 		bool started;
 
@@ -130,8 +130,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public async Task LoadCompileJob(CompileJob job, CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
+			ArgumentNullException.ThrowIfNull(job);
 
 			var newProvider = await FromCompileJob(job, cancellationToken);
 			if (newProvider == null)
@@ -145,8 +144,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					job);
 				await remoteDeploymentManager.StageDeployment(
 						newProvider.CompileJob,
-						cancellationToken)
-						;
+						cancellationToken);
 			}
 
 			lock (jobLockCounts)
@@ -188,10 +186,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.AsQueryable()
 					.Where(x => x.Job.Instance.Id == metadata.Id)
 					.OrderByDescending(x => x.Job.StoppedAt)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
-			})
-			;
+					.FirstOrDefaultAsync(cancellationToken);
+			});
 
 			if (cj == default(CompileJob))
 				return;
@@ -219,8 +215,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
-			if (compileJob == null)
-				throw new ArgumentNullException(nameof(compileJob));
+			ArgumentNullException.ThrowIfNull(compileJob);
 
 			// ensure we have the entire metadata tree
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
@@ -267,8 +262,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					ioManager.ConcatPath(
 						newProvider.Directory,
 						newProvider.DmbName),
-					cancellationToken)
-					;
+					cancellationToken);
 
 				if (!dmbExistsAtRoot)
 				{
@@ -408,11 +402,24 @@ namespace Tgstation.Server.Host.Components.Deployment
 				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(metadata, job);
 
 				// DCT: None available
-				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
+				var deploymentJob = remoteDeploymentManager.MarkInactive(job, CancellationToken.None);
 
 				var deleteTask = DeleteCompileJobContent(job.DirectoryName.ToString(), cleanupCts.Token);
 				var otherTask = cleanupTask;
-				await Task.WhenAll(otherTask, deleteTask, deploymentJob);
+
+				async Task WrapThrowableTasks()
+				{
+					try
+					{
+						await Task.WhenAll(deleteTask, deploymentJob);
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Error cleaning up compile job {jobGuid}!", job.DirectoryName);
+					}
+				}
+
+				await Task.WhenAll(otherTask, WrapThrowableTasks());
 			}
 
 			lock (jobLockCounts)

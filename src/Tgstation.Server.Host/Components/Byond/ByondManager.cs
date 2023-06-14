@@ -105,8 +105,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="version">The <see cref="Version"/> to validate.</param>
 		static void CheckVersionParameter(Version version)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			if (version.Build == 0)
 				throw new ArgumentException("version.Build cannot be 0!", nameof(version));
@@ -207,8 +206,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task DeleteVersion(JobProgressReporter progressReporter, Version version, CancellationToken cancellationToken)
 		{
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			CheckVersionParameter(version);
 
@@ -423,10 +421,10 @@ namespace Tgstation.Server.Host.Components.Byond
 			{
 				if (customVersionStream != null)
 				{
-					int customInstallationNumber = 1;
+					var customInstallationNumber = 1;
 					do
 					{
-						version = new Version(version.Major, version.Minor, customInstallationNumber);
+						version = new Version(version.Major, version.Minor, customInstallationNumber++);
 					}
 					while (installedVersions.ContainsKey(version));
 				}
@@ -535,7 +533,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				else
 					versionZipStream = customVersionStream;
 
-				using (versionZipStream)
+				await using (versionZipStream)
 				{
 					if (progressReporter != null)
 						progressReporter.StageName = "Cleaning target directory";

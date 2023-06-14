@@ -19,7 +19,11 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public TopicClientFactory(ILogger<TopicClient> logger)
 		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			ArgumentNullException.ThrowIfNull(logger);
+
+			// Don't want the debug logs Topic client spits out either, they're too verbose
+			if (logger.IsEnabled(LogLevel.Trace))
+				this.logger = logger;
 		}
 
 		/// <inheritdoc />

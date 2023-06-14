@@ -43,11 +43,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override string BotMention => client.Nickname;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="IrcProvider"/>.
-		/// </summary>
-		readonly IAsyncDelayer asyncDelayer;
-
-		/// <summary>
 		/// The <see cref="IrcFeatures"/> client.
 		/// </summary>
 		readonly IrcFeatures client;
@@ -105,23 +100,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="IrcProvider"/> class.
 		/// </summary>
-		/// <param name="jobManager">The <see cref="IJobManager"/> for the provider.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from.</param>
-		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="Provider"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from.</param>
 		/// <param name="chatBot">The <see cref="Models.ChatBot"/> for the <see cref="Provider"/>.</param>
 		public IrcProvider(
 			IJobManager jobManager,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILogger<IrcProvider> logger,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			Models.ChatBot chatBot)
-			: base(jobManager, logger, chatBot)
+			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
-
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			var builder = chatBot.CreateConnectionStringBuilder();
 			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
@@ -168,57 +160,62 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			await base.DisposeAsync();
 
 			// DCT: None available
-			await HardDisconnect(default);
+			await HardDisconnect(CancellationToken.None);
 		}
 
 		/// <inheritdoc />
-		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken) => Task.Factory.StartNew(
-			() =>
-			{
-				// IRC doesn't allow newlines
-				// Explicitly ignore embeds
-				var messageText = message.Text;
-				messageText ??= $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
+		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
+		{
+			ArgumentNullException.ThrowIfNull(message);
 
-				messageText = String.Concat(
-					messageText
-						.Where(x => x != '\r')
-						.Select(x => x == '\n' ? '|' : x));
-
-				var channelName = channelIdMap[channelId];
-				SendType sendType;
-				if (channelName == null)
+			return Task.Factory.StartNew(
+				() =>
 				{
-					channelName = queryChannelIdMap[channelId];
-					sendType = SendType.Notice;
-				}
-				else
-					sendType = SendType.Message;
+					// IRC doesn't allow newlines
+					// Explicitly ignore embeds
+					var messageText = message.Text;
+					messageText ??= $"Embed Only: {JsonConvert.SerializeObject(message.Embed)}";
 
-				var messageSize = Encoding.UTF8.GetByteCount(messageText) + Encoding.UTF8.GetByteCount(channelName) + PreambleMessageLength;
-				var messageTooLong = messageSize > MessageBytesLimit;
-				if (messageTooLong)
-					messageText = $"TGS: Could not send message to IRC. Line write exceeded protocol limit of {MessageBytesLimit}B.";
+					messageText = String.Concat(
+						messageText
+							.Where(x => x != '\r')
+							.Select(x => x == '\n' ? '|' : x));
 
-				try
-				{
-					client.SendMessage(sendType, channelName, messageText);
-				}
-				catch (Exception e)
-				{
-					Logger.LogWarning(e, "Unable to send to channel {channelName}!", channelName);
-					return;
-				}
+					var channelName = channelIdMap[channelId];
+					SendType sendType;
+					if (channelName == null)
+					{
+						channelName = queryChannelIdMap[channelId];
+						sendType = SendType.Notice;
+					}
+					else
+						sendType = SendType.Message;
 
-				if (messageTooLong)
-					Logger.LogWarning(
-						"Failed to send to channel {channelId}: Message size ({messageSize}B) exceeds IRC limit of 512B",
-						channelId,
-						messageSize);
-			},
-			cancellationToken,
-			DefaultIOManager.BlockingTaskCreationOptions,
-			TaskScheduler.Current);
+					var messageSize = Encoding.UTF8.GetByteCount(messageText) + Encoding.UTF8.GetByteCount(channelName) + PreambleMessageLength;
+					var messageTooLong = messageSize > MessageBytesLimit;
+					if (messageTooLong)
+						messageText = $"TGS: Could not send message to IRC. Line write exceeded protocol limit of {MessageBytesLimit}B.";
+
+					try
+					{
+						client.SendMessage(sendType, channelName, messageText);
+					}
+					catch (Exception e)
+					{
+						Logger.LogWarning(e, "Unable to send to channel {channelName}!", channelName);
+						return;
+					}
+
+					if (messageTooLong)
+						Logger.LogWarning(
+							"Failed to send to channel {channelId}: Message size ({messageSize}B) exceeds IRC limit of 512B",
+							channelId,
+							messageSize);
+				},
+				cancellationToken,
+				DefaultIOManager.BlockingTaskCreationOptions,
+				TaskScheduler.Current);
+		}
 
 		/// <inheritdoc />
 		public override async Task<Func<string, string, Task>> SendUpdateMessage(
@@ -231,6 +228,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(revisionInformation);
+			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(gitHubOwner);
+			ArgumentNullException.ThrowIfNull(gitHubRepo);
+
 			var commitInsert = revisionInformation.CommitSha[..7];
 			string remoteCommitInsert;
 			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
@@ -375,8 +377,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
-					.WithToken(cancellationToken)
-					;
+					.WithToken(cancellationToken);
 
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -447,11 +448,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				Logger.LogTrace("Connection established!");
 			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
+			catch (Exception e) when (e is not OperationCanceledException)
 			{
 				throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
 			}
@@ -476,8 +473,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					},
 					cancellationToken,
 					DefaultIOManager.BlockingTaskCreationOptions,
-					TaskScheduler.Current)
-					;
+					TaskScheduler.Current);
 				await HardDisconnect(cancellationToken);
 			}
 			catch (OperationCanceledException)
@@ -626,14 +622,14 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				var listenTimeSpan = TimeSpan.FromMilliseconds(10);
 				for (; !recievedAck;
-					await asyncDelayer.Delay(listenTimeSpan, timeoutToken))
+					await AsyncDelayer.Delay(listenTimeSpan, timeoutToken))
 					await NonBlockingListen(cancellationToken);
 
 				client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
 				timeoutToken.ThrowIfCancellationRequested();
 
 				for (; !recievedPlus;
-					await asyncDelayer.Delay(listenTimeSpan, timeoutToken))
+					await AsyncDelayer.Delay(listenTimeSpan, timeoutToken))
 					await NonBlockingListen(cancellationToken);
 			}
 			finally
@@ -699,8 +695,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Task.WhenAll(
 					disconnectTask,
 					listenTask ?? Task.CompletedTask),
-				asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken))
-				;
+				AsyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken));
 		}
 	}
 }

@@ -17,6 +17,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -94,8 +95,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, innerCt) => core.Watchdog.Launch(innerCt),
-					cancellationToken)
-					;
+					cancellationToken);
 				return Accepted(job.ToApi());
 			});
 
@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			| DreamDaemonRights.SoftShutdown
 			| DreamDaemonRights.Start
 			| DreamDaemonRights.SetStartupTimeout
-			| DreamDaemonRights.SetHeartbeatInterval
+			| DreamDaemonRights.SetHealthCheckInterval
 			| DreamDaemonRights.SetTopicTimeout
 			| DreamDaemonRights.SetAdditionalParameters
 			| DreamDaemonRights.SetVisibility
@@ -159,8 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] DreamDaemonRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.SoftShutdown == true && model.SoftRestart == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.DreamDaemonDoubleSoft));
@@ -171,11 +170,10 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.Id == Instance.Id)
 				.Select(x => x.DreamDaemonSettings)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (current == default)
-				return Gone();
+				return this.Gone();
 
 			if (model.Port.HasValue && model.Port.Value != current.Port.Value)
 			{
@@ -183,8 +181,8 @@ namespace Tgstation.Server.Host.Controllers
 					.GetAvailablePort(
 						model.Port.Value,
 						true,
-						cancellationToken)
-					;
+						cancellationToken);
+
 				if (verifiedPort != model.Port)
 					return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 			}
@@ -222,7 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
 						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
-						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
+						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHealthCheckInterval)
 						|| CheckModified(x => x.DumpOnHeartbeatRestart, DreamDaemonRights.CreateDump)
 						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
 						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
@@ -244,8 +242,7 @@ namespace Tgstation.Server.Host.Controllers
 						await watchdog.ResetRebootState(cancellationToken);
 
 					return await ReadImpl(current, cancellationToken);
-				})
-				;
+				});
 		}
 #pragma warning restore CA1506
 #pragma warning restore CA1502
@@ -279,8 +276,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(
 					job,
 					(core, paramJob, databaseContextFactory, progressReporter, ct) => core.Watchdog.Restart(false, ct),
-					cancellationToken)
-					;
+					cancellationToken);
 				return Accepted(job.ToApi());
 			});
 
@@ -313,8 +309,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(
 					job,
 					(core, databaseContextFactory, paramJob, progressReporter, ct) => core.Watchdog.CreateDump(ct),
-					cancellationToken)
-					;
+					cancellationToken);
 				return Accepted(job.ToApi());
 			});
 
@@ -339,10 +334,9 @@ namespace Tgstation.Server.Host.Controllers
 						.AsQueryable()
 						.Where(x => x.Id == Instance.Id)
 						.Select(x => x.DreamDaemonSettings)
-						.FirstOrDefaultAsync(cancellationToken)
-						;
+						.FirstOrDefaultAsync(cancellationToken);
 					if (settings == default)
-						return Gone();
+						return this.Gone();
 				}
 
 				var result = new DreamDaemonResponse();

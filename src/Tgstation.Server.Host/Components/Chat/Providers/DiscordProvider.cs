@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ using Remora.Discord.API.Abstractions.Results;
 using Remora.Discord.API.Objects;
 using Remora.Discord.Gateway;
 using Remora.Discord.Gateway.Extensions;
+using Remora.Discord.Gateway.Services;
 using Remora.Rest.Core;
 using Remora.Rest.Results;
 using Remora.Results;
@@ -27,6 +30,7 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -179,15 +183,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Initializes a new instance of the <see cref="DiscordProvider"/> class.
 		/// </summary>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="Provider"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
 		public DiscordProvider(
 			IJobManager jobManager,
-			IAssemblyInformationProvider assemblyInformationProvider,
+			IAsyncDelayer asyncDelayer,
 			ILogger<DiscordProvider> logger,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			ChatBot chatBot)
-			: base(jobManager, logger, chatBot)
+			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 
@@ -203,7 +209,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			serviceProvider = new ServiceCollection()
 				.AddDiscordGateway(serviceProvider => botToken)
 				.Configure<DiscordGatewayClientOptions>(options => options.Intents |= GatewayIntents.MessageContents)
-				.AddSingleton<IDiscordResponders>(serviceProvider => this)
+				.AddSingleton(serviceProvider => (IDiscordResponders)this)
 				.AddResponder<DiscordForwardingResponder>()
 				.BuildServiceProvider();
 		}
@@ -220,7 +226,56 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			await base.DisposeAsync();
-			await serviceProvider.DisposeAsync();
+
+			// https://github.com/Remora/Remora.Discord/issues/305
+			var responderDispatchService = serviceProvider.GetRequiredService<ResponderDispatchService>();
+			var serviceProviderDisposeTask = serviceProvider.DisposeAsync().AsTask();
+			var timeout = AsyncDelayer.Delay(TimeSpan.FromSeconds(10), default); // DCT: None available
+
+			await Task.WhenAny(timeout, serviceProviderDisposeTask);
+
+			if (!serviceProviderDisposeTask.IsCompleted)
+			{
+				// HACK HACK HACK, there's a potential deadlock in the ResponderDispatchService
+				Logger.LogWarning("ServiceProvider disposal stalled. Attempting workaround...");
+				var responderDispatchServiceType = responderDispatchService.GetType();
+				var dispatcherTask = (Task)responderDispatchServiceType.GetField("_dispatcher", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
+				var finalizerTask = (Task)responderDispatchServiceType.GetField("_finalizer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
+
+				var dispatcherCompleted = dispatcherTask.IsCompleted;
+				var finalizerCompleted = finalizerTask.IsCompleted;
+				if (dispatcherCompleted && !finalizerCompleted)
+				{
+					// deadlocked, force close the channel
+					var channel = (Channel<Task<IReadOnlyList<Result>>>)responderDispatchServiceType.GetField("_respondersToFinalize", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(responderDispatchService);
+					if (!channel.Writer.TryComplete())
+						Logger.LogCritical("Workaround failed (channel already closed), you may be deadlocked!");
+					else
+					{
+						// drain the channel, fuck the results
+						// DCT: None available
+						await foreach (var result in channel.Reader.ReadAllAsync(CancellationToken.None))
+							try
+							{
+								await result;
+							}
+							catch (Exception ex)
+							{
+								Logger.LogDebug(ex, "Channel draining exception!");
+							}
+
+						Logger.LogInformation("Workaround seems successful. Awaiting ServiceProvider disposal...");
+					}
+				}
+				else
+					Logger.LogCritical(
+						"Workaround failed (_dispatcher: {dispatcherCompleted}, _finalizer: {finalizerCompleted}), you may be deadlocked!",
+						dispatcherCompleted,
+						finalizerCompleted);
+			}
+
+			await serviceProviderDisposeTask;
+
 			Logger.LogTrace("ServiceProvider disposed");
 
 			// this line is purely here to shutup CA2213. It should always be null
@@ -232,6 +287,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(message);
+
 			Optional<IMessageReference> replyToReference = default;
 			Optional<IAllowedMentions> allowedMentions = default;
 			if (replyTo != null && replyTo is DiscordMessage discordMessage)
@@ -312,10 +369,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				await SendToChannel(new Snowflake(channelId));
 			}
-			catch (Exception e)
+			catch (Exception e) when (e is not OperationCanceledException)
 			{
-				if (e is OperationCanceledException)
-					cancellationToken.ThrowIfCancellationRequested();
 				Logger.LogWarning(e, "Error sending discord message!");
 			}
 		}
@@ -331,6 +386,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
+			ArgumentNullException.ThrowIfNull(revisionInformation);
+			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(gitHubOwner);
+			ArgumentNullException.ThrowIfNull(gitHubRepo);
+
 			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
 
 			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, gitHubOwner, gitHubRepo, localCommitPushed);
@@ -358,8 +418,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				new Snowflake(channelId),
 				"DM: Deployment in Progress...",
 				embeds: new List<IEmbed> { embed },
-				ct: cancellationToken)
-				;
+				ct: cancellationToken);
 
 			if (!messageResponse.IsSuccess)
 				Logger.LogWarning("Failed to post deploy embed to channel {channelId}: {result}", channelId, messageResponse.LogFormat());
@@ -416,8 +475,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						new Snowflake(channelId),
 						updatedMessage,
 						embeds: new List<IEmbed> { embed },
-						ct: cancellationToken)
-						;
+						ct: cancellationToken);
 
 					if (!createUpdatedMessageResponse.IsSuccess)
 						Logger.LogWarning(
@@ -434,8 +492,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						messageResponse.Entity.ID,
 						updatedMessage,
 						embeds: new List<IEmbed> { embed },
-						ct: cancellationToken)
-						;
+						ct: cancellationToken);
 
 					if (!editResponse.IsSuccess)
 					{
@@ -452,8 +509,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task<Result> RespondAsync(IMessageCreate messageCreateEvent, CancellationToken cancellationToken)
 		{
-			if (messageCreateEvent == null)
-				throw new ArgumentNullException(nameof(messageCreateEvent));
+			ArgumentNullException.ThrowIfNull(messageCreateEvent);
 
 			if ((messageCreateEvent.Type != MessageType.Default
 				&& messageCreateEvent.Type != MessageType.InlineReply)
@@ -470,7 +526,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			if (basedMeme && messageCreateEvent.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
 			{
-				// DCT: None available
 				await SendMessage(
 					new DiscordMessage
 					{
@@ -481,7 +536,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Text = "https://youtu.be/LrNu-SuFF_o",
 					},
 					messageCreateEvent.ChannelID.Value,
-					default);
+					cancellationToken);
 				return Result.FromSuccess();
 			}
 
@@ -565,8 +620,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public Task<Result> RespondAsync(IReady readyEvent, CancellationToken cancellationToken)
 		{
-			if (readyEvent == null)
-				throw new ArgumentNullException(nameof(readyEvent));
+			ArgumentNullException.ThrowIfNull(readyEvent);
 
 			Logger.LogTrace("Gatway ready. Version: {version}", readyEvent.Version);
 			gatewayReadyTcs?.TrySetResult();
@@ -601,15 +655,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					await Task.WhenAny(gatewayReadyTcs.Task, localGatewayTask);
 
-					if (localGatewayTask.IsCompleted || cancellationToken.IsCancellationRequested)
+					cancellationToken.ThrowIfCancellationRequested();
+					if (localGatewayTask.IsCompleted)
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
 
 					var userClient = serviceProvider.GetRequiredService<IDiscordRestUserAPI>();
 
 					using var localCombinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, gatewayCancellationToken);
-					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCts.Token);
+					var localCombinedCancellationToken = localCombinedCts.Token;
+					var currentUserResult = await userClient.GetCurrentUserAsync(localCombinedCancellationToken);
 					if (!currentUserResult.IsSuccess)
 					{
+						localCombinedCancellationToken.ThrowIfCancellationRequested();
 						Logger.LogWarning("Unable to retrieve current user: {result}", currentUserResult.LogFormat());
 						throw new JobException(ErrorCode.ChatCannotConnectProvider);
 					}
@@ -625,7 +682,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				// will handle cleanup
 				// DCT: Musn't abort
-				await DisconnectImpl(default);
+				await DisconnectImpl(CancellationToken.None);
 				throw;
 			}
 		}
@@ -647,6 +704,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			localGatewayCts.Cancel();
 			var gatewayResult = await localGatewayTask;
+
+			Logger.LogTrace("Gateway task complete");
 			if (!gatewayResult.IsSuccess)
 				Logger.LogWarning("Gateway issue: {result}", gatewayResult.LogFormat());
 
@@ -656,8 +715,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		protected override async Task<Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(IEnumerable<Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
-			if (channels == null)
-				throw new ArgumentNullException(nameof(channels));
+			ArgumentNullException.ThrowIfNull(channels);
 
 			var remapRequired = false;
 			var guildsClient = serviceProvider.GetRequiredService<IDiscordRestGuildAPI>();

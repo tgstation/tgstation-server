@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Common
+namespace Tgstation.Server.Common.Http
 {
 	/// <inheritdoc />
 	public sealed class HttpClient : IHttpClient
@@ -45,6 +45,7 @@ namespace Tgstation.Server.Common
 		public void Dispose() => httpClient.Dispose();
 
 		/// <inheritdoc />
-		public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) => httpClient.SendAsync(request, cancellationToken);
+		public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)
+			=> httpClient.SendAsync(request, completionOption, cancellationToken);
 	}
 }

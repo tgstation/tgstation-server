@@ -23,7 +23,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.repositoryClient = repositoryClient ?? throw new ArgumentNullException(nameof(repositoryClient));
 		}
 
-		public async Task<JobResponse> RunLongClone(CancellationToken cancellationToken)
+		public async Task<Task<JobResponse>> RunLongClone(CancellationToken cancellationToken)
 		{
 			var workingBranch = "master";
 
@@ -35,24 +35,40 @@ namespace Tgstation.Server.Tests.Live.Instance
 			};
 
 			var clone = await repositoryClient.Clone(cloneRequest, cancellationToken);
-			await ApiAssert.ThrowsException<ConflictException>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
-			Assert.IsNotNull(clone);
-			Assert.AreEqual(cloneRequest.Origin, clone.Origin);
-			Assert.AreEqual(workingBranch, clone.Reference);
-			Assert.IsNull(clone.RevisionInformation);
-			Assert.IsNotNull(clone.ActiveJob);
 
-			// throwing this small jobs consistency test in here
-			await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
-			var activeJobs = await JobsClient.ListActive(null, cancellationToken);
-			var allJobs = await JobsClient.List(null, cancellationToken);
+			return Rest();
 
-			Assert.IsTrue(activeJobs.Any(x => x.Id == clone.ActiveJob.Id));
-			Assert.IsTrue(allJobs.Any(x => x.Id == clone.ActiveJob.Id));
-			Assert.IsTrue(activeJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
-			Assert.IsTrue(allJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
+			async Task<JobResponse> Rest()
+			{
+				await ApiAssert.ThrowsException<ConflictException>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
+				Assert.IsNotNull(clone);
+				Assert.AreEqual(cloneRequest.Origin, clone.Origin);
+				Assert.AreEqual(workingBranch, clone.Reference);
+				Assert.IsNull(clone.RevisionInformation);
+				Assert.IsNotNull(clone.ActiveJob);
 
-			return clone.ActiveJob;
+				// throwing this small jobs consistency test in here
+				await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
+				var activeJobs = await JobsClient.ListActive(null, cancellationToken);
+				var allJobs = await JobsClient.List(null, cancellationToken);
+
+				Assert.IsTrue(activeJobs.Any(x => x.Id == clone.ActiveJob.Id));
+				Assert.IsTrue(allJobs.Any(x => x.Id == clone.ActiveJob.Id));
+
+				var targetActiveJob = activeJobs.First(x => x.Id == clone.ActiveJob.Id);
+
+				if (!targetActiveJob.Progress.HasValue)
+				{
+					// give it a few more seconds
+					targetActiveJob = await WaitForJobProgress(targetActiveJob, 30, cancellationToken);
+					allJobs = await JobsClient.List(null, cancellationToken);
+				}
+
+				Assert.IsTrue(targetActiveJob.Progress.HasValue);
+				Assert.IsTrue(allJobs.First(x => x.Id == clone.ActiveJob.Id).Progress.HasValue);
+
+				return clone.ActiveJob;
+			}
 		}
 
 		public async Task AbortLongCloneAndCloneSomethingQuick(Task<JobResponse> longCloneJob, CancellationToken cancellationToken)
@@ -70,7 +86,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(secondRead);
 			Assert.IsNull(secondRead.ActiveJob);
 
-			const string Origin = "https://github.com/tgstation/common_core";
+			const string Origin = "https://github.com/Cyberboss/common_core";
 			var cloneRequest = new RepositoryCreateRequest
 			{
 				Origin = new Uri(Origin),
@@ -108,7 +124,20 @@ namespace Tgstation.Server.Tests.Live.Instance
 			// Back
 			updated = await Checkout(new RepositoryUpdateRequest { Reference = "master" }, false, true, cancellationToken);
 
-			var prNumber = 37;
+			// enable the good shit if possible
+			if (LiveTestUtils.RunningInGitHubActions
+				|| String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"))
+				|| Environment.MachineName.Equals("CYBERSTATIONXVI", StringComparison.OrdinalIgnoreCase))
+				await repositoryClient.Update(new RepositoryUpdateRequest
+				{
+					CreateGitHubDeployments = true,
+					PostTestMergeComment = true,
+					PushTestMergeCommits = true,
+					AccessUser = "Cyberboss",
+					AccessToken = Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"),
+				}, cancellationToken);
+
+			var prNumber = 2;
 			await TestMergeTests(updated, prNumber, cancellationToken);
 		}
 
@@ -164,7 +193,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.TitleAtMerge);
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.BodyAtMerge);
 			if (withMerge.RevisionInformation.PrimaryTestMerge.Url != "GITHUB API ERROR: RATE LIMITED")
-				Assert.AreEqual($"https://github.com/tgstation/common_core/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
+				Assert.AreEqual($"https://github.com/Cyberboss/common_core/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
 			Assert.AreEqual(orignCommit, withMerge.RevisionInformation.OriginCommitSha);
 			Assert.AreNotEqual(orignCommit, withMerge.RevisionInformation.CommitSha);
 

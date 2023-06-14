@@ -2,32 +2,7 @@
 	sleep_offline = FALSE
 	loop_checks = FALSE
 
-/world/Error(exception/E, datum/e_src)
-	var/list/usrinfo = null
-	var/list/splitlines = splittext(E.desc, "\n")
-	var/list/desclines = list()
-	for(var/line in splitlines)
-		if(length(line) < 3 || findtext(line, "source file:") || findtext(line, "usr.loc:"))
-			continue
-		if(findtext(line, "usr:"))
-			if(usrinfo)
-				desclines.Add(usrinfo)
-				usrinfo = null
-			continue // Our usr info is better, replace it
-
-		if(copytext(line, 1, 3) != "  ")//3 == length("  ") + 1
-			desclines += ("  " + line) // Pad any unpadded lines, so they look pretty
-		else
-			desclines += line
-
-	if(usrinfo) //If this info isn't null, it hasn't been added yet
-		desclines.Add(usrinfo)
-
-	fdel("test_success.txt")
-	text2file("Runtime Error: [E]", "test_fail_reason.txt")
-
-/world/New()
-	text2file("SUCCESS", "test_success.txt")
+/world/proc/RunTest()
 	log << "Initial value of sleep_offline: [sleep_offline]"
 	sleep_offline = FALSE
 
@@ -35,6 +10,11 @@
 	for(var/i in 1 to 10000000)
 		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_SAFE)
+
+	var/list/channels = TgsChatChannelInfo()
+	if(!length(channels))
+		FailTest("Expected some chat channels!")
+
 	StartAsync()
 
 /proc/dab()
@@ -74,7 +54,10 @@
 		CheckBridgeLimits()
 
 /world/Topic(T, Addr, Master, Keys)
-	log << "Topic: [T]"
+	if(findtext(T, "tgs_integration_test_tactics3") == 0)
+		log << "Topic: [T]"
+	else
+		log << "tgs_integration_test_tactics3 <TOPIC SUPPRESSED>"
 	. =  HandleTopic(T)
 	log << "Response: [.]"
 
@@ -118,8 +101,7 @@ var/run_bridge_test
 	if(tactics4)
 		var/size = isnum(tactics4) ? tactics4 : text2num(tactics4)
 		if(!isnum(size))
-			text2file("tgs_integration_test_tactics4 wasn't a number!", "test_fail_reason.txt")
-			del(world)
+			FailTest("tgs_integration_test_tactics4 wasn't a number!")
 
 		var/payload = create_payload(size)
 		return payload
@@ -133,8 +115,22 @@ var/run_bridge_test
 	// Bridge response queuing
 	var/tactics6 = data["tgs_integration_test_tactics6"]
 	if(tactics6)
+		// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
+		var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+		if (length(api.chat_channels))
+			return "channels_present!"
+
 		DetachedChatMessageQueuing()
 		return "queued"
+
+	var/tactics7 = data["tgs_integration_test_tactics7"]
+	if(tactics7)
+		var/list/channels = TgsChatChannelInfo()
+		return "[length(channels)]"
+
+	var/tactics8 = data["tgs_integration_test_tactics8"]
+	if(tactics8)
+		return received_health_check ? "received health check" : "did not receive health check"
 
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
@@ -159,8 +155,21 @@ var/run_bridge_test
 	TgsChatBroadcast("World Rebooting")
 	TgsReboot()
 
+var/received_health_check = FALSE
+
+/datum/tgs_event_handler/impl
+	receive_health_checks = TRUE
+
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
+
+	if(event_code == TGS_EVENT_HEALTH_CHECK)
+		received_health_check = TRUE
+	else if(event_code == TGS_EVENT_WATCHDOG_DETACH)
+		// hack hack, calling world.TgsChatChannelInfo() will try to delay until the channels come back
+		var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
+		if(length(api.chat_channels))
+			FailTest("Expected no chat channels after detach!")
 
 	world.TgsChatBroadcast(new /datum/tgs_message_content("Recieved event: `[json_encode(args)]`"))
 
@@ -209,16 +218,24 @@ var/run_bridge_test
 
 /datum/tgs_chat_command/response_overload_test/Run(datum/tgs_chat_user/sender, params)
 	// DMAPI5_TOPIC_RESPONSE_LIMIT
-	var/limit = 65528
+	var/limit = 65529
 	// this actually gets doubled because it's in two fields for backwards compatibility, but that's fine
 	var/datum/tgs_message_content/response = new(create_payload(limit * 3))
 	return response
 
 var/lastTgsError
+var/suppress_bridge_spam = FALSE
+
+/proc/TgsInfo(message)
+	if(suppress_bridge_spam && findtext(message, "Export: http://127.0.0.1:") != 0)
+		return
+	world.log << "Info: [message]"
 
 /proc/TgsError(message)
-	world.log << "Err: [message]"
 	lastTgsError = message
+	if(suppress_bridge_spam && findtext(message, "Failed bridge request: http://127.0.0.1:") != 0)
+		return
+	world.log << "Err: [message]"
 
 /proc/create_payload(size)
 	var/builder = list()
@@ -235,7 +252,9 @@ var/lastTgsError
 /proc/BridgeWithoutChunking(command, list/data)
 	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
 	var/bridge_request = api.CreateBridgeRequest(command, data)
-	return api.PerformBridgeRequest(bridge_request)
+	suppress_bridge_spam = TRUE
+	. = api.PerformBridgeRequest(bridge_request)
+	suppress_bridge_spam = FALSE
 
 /proc/CheckBridgeLimitsImpl()
 	sleep(30)
@@ -276,7 +295,6 @@ var/lastTgsError
 	// this actually gets doubled because it's in two fields for backwards compatibility, but that's fine
 	var/list/final_result = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(limit * 3)]")))
 	if(!final_result || lastTgsError || final_result["integrationHack"] != "ok")
-		text2file("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]", "test_fail_reason.txt")
-		del(world)
+		FailTest("Failed to end bridge limit test! [(istype(final_result) ? json_encode(final_result): (final_result || "null"))]")
 
 	api.access_identifier = old_ai

@@ -13,8 +13,10 @@ using Microsoft.Extensions.Options;
 using Serilog.Context;
 
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Controllers
@@ -39,6 +41,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ISwarmOperations swarmOperations;
 
 		/// <summary>
+		/// The <see cref="IFileTransferStreamHandler"/> for the <see cref="SwarmController"/>.
+		/// </summary>
+		readonly IFileTransferStreamHandler transferService;
+
+		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SwarmController"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
@@ -58,16 +65,19 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="swarmOperations">The value of <see cref="swarmOperations"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// <param name="transferService">The value of <see cref="transferService"/>.</param>
 		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SwarmController(
 			ISwarmOperations swarmOperations,
 			IAssemblyInformationProvider assemblyInformationProvider,
+			IFileTransferStreamHandler transferService,
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<SwarmController> logger)
 		{
 			this.swarmOperations = swarmOperations ?? throw new ArgumentNullException(nameof(swarmOperations));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			this.transferService = transferService ?? throw new ArgumentNullException(nameof(transferService));
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger;
 		}
@@ -76,17 +86,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// Registration endpoint.
 		/// </summary>
 		/// <param name="registrationRequest">The <see cref="SwarmRegistrationRequest"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
 		[HttpPost(SwarmConstants.RegisterRoute)]
-		public IActionResult Register([FromBody] SwarmRegistrationRequest registrationRequest)
+		public async Task<IActionResult> Register([FromBody] SwarmRegistrationRequest registrationRequest, CancellationToken cancellationToken)
 		{
-			if (registrationRequest == null)
-				throw new ArgumentNullException(nameof(registrationRequest));
+			ArgumentNullException.ThrowIfNull(registrationRequest);
 
 			if (registrationRequest.ServerVersion != assemblyInformationProvider.Version)
 				return StatusCode((int)HttpStatusCode.UpgradeRequired);
 
-			var registrationResult = swarmOperations.RegisterNode(registrationRequest, RequestRegistrationId);
+			var registrationResult = await swarmOperations.RegisterNode(registrationRequest, RequestRegistrationId, cancellationToken);
 			if (!registrationResult)
 				return Conflict();
 			return NoContent();
@@ -121,6 +131,17 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
+		/// Endpoint to retrieve server update packages.
+		/// </summary>
+		/// <param name="ticket">The <see cref="Api.Models.Response.FileTicketResponse.FileTicket"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		[HttpGet(SwarmConstants.UpdateRoute)]
+		[Produces(MediaTypeNames.Application.Octet)]
+		public Task<IActionResult> GetUpdatePackage([FromQuery] string ticket, CancellationToken cancellationToken)
+			=> transferService.GenerateDownloadResponse(this, ticket, cancellationToken);
+
+		/// <summary>
 		/// Node list update endpoint.
 		/// </summary>
 		/// <param name="serversUpdateRequest">The <see cref="SwarmServersUpdateRequest"/>.</param>
@@ -128,8 +149,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPost]
 		public IActionResult UpdateNodeList([FromBody] SwarmServersUpdateRequest serversUpdateRequest)
 		{
-			if (serversUpdateRequest == null)
-				throw new ArgumentNullException(nameof(serversUpdateRequest));
+			ArgumentNullException.ThrowIfNull(serversUpdateRequest);
 
 			if (!ValidateRegistration())
 				return Forbid();
@@ -147,13 +167,12 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPut(SwarmConstants.UpdateRoute)]
 		public async Task<IActionResult> PrepareUpdate([FromBody] SwarmUpdateRequest updateRequest, CancellationToken cancellationToken)
 		{
-			if (updateRequest == null)
-				throw new ArgumentNullException(nameof(updateRequest));
+			ArgumentNullException.ThrowIfNull(updateRequest);
 
 			if (!ValidateRegistration())
 				return Forbid();
 
-			var prepareResult = await swarmOperations.PrepareUpdateFromController(updateRequest.UpdateVersion, cancellationToken);
+			var prepareResult = await swarmOperations.PrepareUpdateFromController(updateRequest, cancellationToken);
 			if (!prepareResult)
 				return Conflict();
 
@@ -180,15 +199,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Update abort endpoint.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		[HttpDelete(SwarmConstants.UpdateRoute)]
-		public async Task<IActionResult> AbortUpdate(CancellationToken cancellationToken)
+		public async Task<IActionResult> AbortUpdate()
 		{
 			if (!ValidateRegistration())
 				return Forbid();
 
-			await swarmOperations.RemoteAbortUpdate(cancellationToken);
+			await swarmOperations.AbortUpdate();
 			return NoContent();
 		}
 
@@ -226,11 +244,14 @@ namespace Tgstation.Server.Host.Controllers
 				// we validate the registration itself on a case-by-case basis
 				if (ModelState?.IsValid == false)
 				{
-					var errors = ModelState
+					var errorMessages = ModelState
 						.SelectMany(x => x.Value.Errors)
-						.Select(x => x.Exception);
+						.Select(x => x.ErrorMessage);
 
-					logger.LogDebug(new AggregateException(errors), "Swarm request model validation failed!");
+					logger.LogDebug(
+						"Swarm request model validation failed!{newLine}{messages}",
+						Environment.NewLine,
+						String.Join(Environment.NewLine, errorMessages));
 					await BadRequest().ExecuteResultAsync(context);
 					return;
 				}

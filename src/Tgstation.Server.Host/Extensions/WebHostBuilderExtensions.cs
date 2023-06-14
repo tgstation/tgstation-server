@@ -34,14 +34,10 @@ namespace Tgstation.Server.Host.Extensions
 			IIOManager ioManager,
 			IPostSetupServices postSetupServices)
 		{
-			if (builder == null)
-				throw new ArgumentNullException(nameof(builder));
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			if (ioManager == null)
-				throw new ArgumentNullException(nameof(ioManager));
-			if (postSetupServices == null)
-				throw new ArgumentNullException(nameof(postSetupServices));
+			ArgumentNullException.ThrowIfNull(builder);
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
+			ArgumentNullException.ThrowIfNull(ioManager);
+			ArgumentNullException.ThrowIfNull(postSetupServices);
 
 			return builder.ConfigureServices(
 				(context, services) =>
@@ -62,7 +58,7 @@ namespace Tgstation.Server.Host.Extensions
 				.ApplicationServices
 				.GetRequiredService<Application>()
 				.Configure(
-					applicationBuilder,
+					applicationBuilder, // TODO: find a way to call this func and auto-resolve the services
 					applicationBuilder.ApplicationServices.GetRequiredService<IServerControl>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<ITokenFactory>(),
 					applicationBuilder.ApplicationServices.GetRequiredService<IServerPortProvider>(),

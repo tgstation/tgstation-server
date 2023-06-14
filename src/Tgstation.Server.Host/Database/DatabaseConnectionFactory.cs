@@ -18,35 +18,16 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public DbConnection CreateConnection(string connectionString, DatabaseType databaseType)
 		{
-			if (connectionString == null)
-				throw new ArgumentNullException(nameof(connectionString));
+			ArgumentNullException.ThrowIfNull(connectionString);
 
-			switch (databaseType)
+			return databaseType switch
 			{
-				case DatabaseType.MariaDB:
-				case DatabaseType.MySql:
-					return new MySqlConnection
-					{
-						ConnectionString = connectionString,
-					};
-				case DatabaseType.SqlServer:
-					return new SqlConnection
-					{
-						ConnectionString = connectionString,
-					};
-				case DatabaseType.Sqlite:
-					return new SqliteConnection
-					{
-						ConnectionString = connectionString,
-					};
-				case DatabaseType.PostgresSql:
-					return new NpgsqlConnection
-					{
-						ConnectionString = connectionString,
-					};
-				default:
-					throw new ArgumentOutOfRangeException(nameof(databaseType), databaseType, "Invalid DatabaseType!");
-			}
+				DatabaseType.MariaDB or DatabaseType.MySql => new MySqlConnection(connectionString),
+				DatabaseType.SqlServer => new SqlConnection(connectionString),
+				DatabaseType.Sqlite => new SqliteConnection(connectionString),
+				DatabaseType.PostgresSql => new NpgsqlConnection(connectionString),
+				_ => throw new ArgumentOutOfRangeException(nameof(databaseType), databaseType, "Invalid DatabaseType!"),
+			};
 		}
 	}
 }

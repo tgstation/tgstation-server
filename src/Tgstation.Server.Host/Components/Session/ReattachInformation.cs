@@ -93,8 +93,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="runtimeInformation">The <see cref="Interop.Bridge.RuntimeInformation"/>.</param>
 		public void SetRuntimeInformation(RuntimeInformation runtimeInformation)
 		{
-			if (runtimeInformation == null)
-				throw new ArgumentNullException(nameof(runtimeInformation));
+			ArgumentNullException.ThrowIfNull(runtimeInformation);
 
 			lock (runtimeInformationLock)
 			{

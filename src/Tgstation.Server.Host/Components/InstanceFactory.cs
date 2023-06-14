@@ -23,6 +23,7 @@ using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -140,6 +141,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -182,6 +188,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="sessionConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="sessionConfiguration"/>.</param>
 		public InstanceFactory(
@@ -207,6 +214,7 @@ namespace Tgstation.Server.Host.Components
 			IFileTransferTicketProvider fileTransferService,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IAsyncDelayer asyncDelayer,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<SessionConfiguration> sessionConfigurationOptions)
 		{
@@ -232,6 +240,7 @@ namespace Tgstation.Server.Host.Components
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			sessionConfiguration = sessionConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(sessionConfigurationOptions));
 		}
@@ -240,8 +249,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IIOManager CreateGameIOManager(Models.Instance metadata)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			var instanceIoManager = CreateInstanceIOManager(metadata);
 			return CreateGameIOManager(instanceIoManager);
@@ -251,10 +259,8 @@ namespace Tgstation.Server.Host.Components
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
 		{
-			if (bridgeRegistrar == null)
-				throw new ArgumentNullException(nameof(bridgeRegistrar));
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(bridgeRegistrar);
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			// Create the ioManager for the instance
 			var instanceIoManager = CreateInstanceIOManager(metadata);
@@ -291,37 +297,18 @@ namespace Tgstation.Server.Host.Components
 			{
 				var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
 
-				var commandFactory = new CommandFactory(assemblyInformationProvider, byond, repoManager, databaseContextFactory, metadata);
-
-				var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
+				var dmbFactory = new DmbFactory(
+					databaseContextFactory,
+					gameIoManager,
+					remoteDeploymentManagerFactory,
+					eventConsumer,
+					loggerFactory.CreateLogger<DmbFactory>(),
+					metadata);
 				try
 				{
-					var sessionControllerFactory = new SessionControllerFactory(
-						processExecutor,
-						byond,
-						topicClientFactory,
-						cryptographySuite,
-						assemblyInformationProvider,
-						gameIoManager,
-						diagnosticsIOManager,
-						chatManager,
-						networkPromptReaper,
-						platformIdentifier,
-						bridgeRegistrar,
-						serverPortProvider,
-						eventConsumer,
-						loggerFactory,
-						loggerFactory.CreateLogger<SessionControllerFactory>(),
-						sessionConfiguration,
-						metadata);
+					var commandFactory = new CommandFactory(assemblyInformationProvider, byond, repoManager, databaseContextFactory, dmbFactory, metadata);
 
-					var dmbFactory = new DmbFactory(
-						databaseContextFactory,
-						gameIoManager,
-						remoteDeploymentManagerFactory,
-						eventConsumer,
-						loggerFactory.CreateLogger<DmbFactory>(),
-						metadata);
+					var chatManager = chatFactory.CreateChatManager(commandFactory, metadata.ChatSettings);
 					try
 					{
 						var reattachInfoHandler = new SessionPersistor(
@@ -330,6 +317,27 @@ namespace Tgstation.Server.Host.Components
 							processExecutor,
 							loggerFactory.CreateLogger<SessionPersistor>(),
 							metadata);
+
+						var sessionControllerFactory = new SessionControllerFactory(
+							processExecutor,
+							byond,
+							topicClientFactory,
+							cryptographySuite,
+							assemblyInformationProvider,
+							gameIoManager,
+							diagnosticsIOManager,
+							chatManager,
+							networkPromptReaper,
+							platformIdentifier,
+							bridgeRegistrar,
+							serverPortProvider,
+							eventConsumer,
+							asyncDelayer,
+							loggerFactory,
+							loggerFactory.CreateLogger<SessionControllerFactory>(),
+							sessionConfiguration,
+							metadata);
+
 						var watchdog = watchdogFactory.CreateWatchdog(
 							chatManager,
 							dmbFactory,
@@ -358,6 +366,7 @@ namespace Tgstation.Server.Host.Components
 								dmbFactory,
 								repoManager,
 								remoteDeploymentManagerFactory,
+								asyncDelayer,
 								loggerFactory.CreateLogger<DreamMaker>(),
 								sessionConfiguration,
 								metadata);
@@ -374,6 +383,7 @@ namespace Tgstation.Server.Host.Components
 								jobManager,
 								eventConsumer,
 								remoteDeploymentManagerFactory,
+								asyncDelayer,
 								loggerFactory.CreateLogger<Instance>());
 
 							return instance;
@@ -386,13 +396,13 @@ namespace Tgstation.Server.Host.Components
 					}
 					catch
 					{
-						dmbFactory.Dispose();
+						await chatManager.DisposeAsync();
 						throw;
 					}
 				}
 				catch
 				{
-					await chatManager.DisposeAsync();
+					dmbFactory.Dispose();
 					throw;
 				}
 			}

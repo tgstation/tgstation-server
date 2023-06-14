@@ -14,7 +14,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Common;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
@@ -27,13 +26,15 @@ namespace Tgstation.Server.Tests.Live.Instance
 		public static readonly Version TestVersion = new(515, 1605);
 
 		readonly IByondClient byondClient;
+		readonly IFileDownloader fileDownloader;
 
 		readonly Api.Models.Instance metadata;
 
-		public ByondTest(IByondClient byondClient, IJobsClient jobsClient, Api.Models.Instance metadata)
+		public ByondTest(IByondClient byondClient, IJobsClient jobsClient, IFileDownloader fileDownloader, Api.Models.Instance metadata)
 			: base(jobsClient)
 		{
 			this.byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
+			this.fileDownloader = fileDownloader ?? throw new ArgumentNullException(nameof(fileDownloader));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 		}
 
@@ -59,6 +60,12 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		async Task TestDeletes(CancellationToken cancellationToken)
 		{
+			var deleteThisOneBecauseItWasntPartOfTheOriginalTest = await byondClient.DeleteVersion(new ByondVersionDeleteRequest
+			{
+				Version = new(TestVersion.Major, TestVersion.Minor, 2)
+			}, cancellationToken);
+			await WaitForJob(deleteThisOneBecauseItWasntPartOfTheOriginalTest, 30, false, null, cancellationToken);
+
 			var nonExistentUninstallResponseTask = Assert.ThrowsExceptionAsync<ConflictException>(() => byondClient.DeleteVersion(
 				new ByondVersionDeleteRequest
 				{
@@ -153,9 +160,6 @@ namespace Tgstation.Server.Tests.Live.Instance
 			generalConfigOptionsMock.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
 
 			var assemblyInformationProvider = new AssemblyInformationProvider();
-			var fileDownloader = new FileDownloader(
-				new HttpClientFactory(assemblyInformationProvider.ProductInfoHeaderValue),
-				Mock.Of<ILogger<FileDownloader>>());
 
 			IByondInstaller byondInstaller = new PlatformIdentifier().IsWindows
 				? new WindowsByondInstaller(
@@ -182,14 +186,27 @@ namespace Tgstation.Server.Tests.Live.Instance
 					UploadCustomZip = true
 				},
 				stableBytesMs,
-				cancellationToken)
-				;
+				cancellationToken);
 
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 60, false, null, cancellationToken);
+			await WaitForJob(test.InstallJob, 30, false, null, cancellationToken);
+
+			// do it again. #1501
+			stableBytesMs.Seek(0, SeekOrigin.Begin);
+			var test2 = await byondClient.SetActiveVersion(
+				new ByondVersionRequest
+				{
+					Version = TestVersion,
+					UploadCustomZip = true
+				},
+				stableBytesMs,
+				cancellationToken);
+
+			Assert.IsNotNull(test2.InstallJob);
+			await WaitForJob(test2.InstallJob, 30, false, null, cancellationToken);
 
 			var newSettings = await byondClient.ActiveVersion(cancellationToken);
-			Assert.AreEqual(new Version(TestVersion.Major, TestVersion.Minor, 1), newSettings.Version);
+			Assert.AreEqual(new Version(TestVersion.Major, TestVersion.Minor, 2), newSettings.Version);
 
 			// test a few switches
 			var installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
@@ -199,7 +216,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.IsNull(installResponse.InstallJob);
 			await ApiAssert.ThrowsException<ApiConflictException>(() => byondClient.SetActiveVersion(new ByondVersionRequest
 			{
-				Version = new Version(TestVersion.Major, TestVersion.Minor, 2)
+				Version = new Version(TestVersion.Major, TestVersion.Minor, 3)
 			}, null, cancellationToken), ErrorCode.ByondNonExistentCustomVersion);
 
 			installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest

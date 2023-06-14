@@ -23,6 +23,7 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Components.Deployment
 {
@@ -90,6 +91,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for <see cref="DreamMaker"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>.
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
@@ -147,6 +153,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
@@ -161,6 +168,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			ICompileJobSink compileJobConsumer,
 			IRepositoryManager repositoryManager,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IAsyncDelayer asyncDelayer,
 			ILogger<DreamMaker> logger,
 			SessionConfiguration sessionConfiguration,
 			Api.Models.Instance metadata)
@@ -174,6 +182,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
@@ -190,12 +199,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
-			if (databaseContextFactory == null)
-				throw new ArgumentNullException(nameof(databaseContextFactory));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(job);
+			ArgumentNullException.ThrowIfNull(databaseContextFactory);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			lock (deploymentLock)
 			{
@@ -240,8 +246,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							.DreamMakerSettings
 							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
-							.FirstAsync(cancellationToken)
-							;
+							.FirstAsync(cancellationToken);
 						if (dreamMakerSettings == default)
 							throw new JobException(ErrorCode.InstanceMissingDreamMakerSettings);
 
@@ -257,8 +262,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								PushTestMergeCommits = x.PushTestMergeCommits,
 								PostTestMergeComment = x.PostTestMergeComment,
 							})
-							.FirstOrDefaultAsync(cancellationToken)
-							;
+							.FirstOrDefaultAsync(cancellationToken);
 						if (repositorySettings == default)
 							throw new JobException(ErrorCode.InstanceMissingRepositorySettings);
 
@@ -281,8 +285,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								.Include(x => x.ActiveTestMerges)
 									.ThenInclude(x => x.TestMerge)
 									.ThenInclude(x => x.MergedBy)
-								.FirstOrDefaultAsync(cancellationToken)
-								;
+								.FirstOrDefaultAsync(cancellationToken);
 
 							if (revInfo == default)
 							{
@@ -309,8 +312,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							repo?.Dispose();
 							throw;
 						}
-					})
-					;
+					});
 
 				var likelyPushedTestMergeCommit =
 					repositorySettings.PushTestMergeCommits.Value
@@ -326,8 +328,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						progressReporter,
 						averageSpan,
 						likelyPushedTestMergeCommit,
-						cancellationToken)
-						;
+						cancellationToken);
 
 				var activeCompileJob = compileJobConsumer.LatestCompileJob();
 				try
@@ -363,14 +364,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 								databaseContext.CompileJobs.Remove(compileJob);
 
 								// DCT: Cancellation token is for job, operation must run regardless
-								await databaseContext.Save(default);
+								await databaseContext.Save(CancellationToken.None);
 								throw;
 							}
 
 							compileJob.Job = fullJob;
 							compileJob.RevisionInformation = fullRevInfo;
-						})
-						;
+						});
 				}
 				catch (Exception ex)
 				{
@@ -437,8 +437,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					StoppedAt = x.Job.StoppedAt,
 					StartedAt = x.Job.StartedAt,
 				})
-				.ToListAsync(cancellationToken)
-				;
+				.ToListAsync(cancellationToken);
 
 			TimeSpan? averageSpan = null;
 			if (previousCompileJobs.Count != 0)
@@ -538,7 +537,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				// DCT: Cancellation token is for job, delaying here is fine
 				progressReporter.StageName = "Running CompileCancelled event";
-				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), default);
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), CancellationToken.None);
 				throw;
 			}
 			finally
@@ -595,8 +594,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						repoOrigin.ToString(),
 						$"{byondLock.Version.Major}.{byondLock.Version.Minor}",
 					},
-					cancellationToken)
-					;
+					cancellationToken);
 
 				// determine the dme
 				progressReporter.StageName = "Determining .dme";
@@ -740,13 +738,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 							var remainingSleepThisInterval = nextInterval - DateTimeOffset.UtcNow;
 							var nextSleepSpan = remainingSleepThisInterval < minimumSleepInterval ? minimumSleepInterval : remainingSleepThisInterval;
 
-							await Task.Delay(nextSleepSpan, cancellationToken);
+							await asyncDelayer.Delay(nextSleepSpan, cancellationToken);
 							progressReporter.ReportProgress(lastReport);
 						}
 						while (DateTimeOffset.UtcNow < nextInterval);
 					}
 					else
-						await Task.Delay(minimumSleepInterval, cancellationToken);
+						await asyncDelayer.Delay(minimumSleepInterval, cancellationToken);
 
 					lastReport = estimatedDuration.HasValue ? sleepInterval * (iteration + 1) / estimatedDuration.Value : null;
 					progressReporter.ReportProgress(lastReport);
@@ -805,8 +803,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
 			{
-				controller.AdjustPriority(false);
-
 				var launchResult = await controller.LaunchResult;
 
 				if (launchResult.StartupTime.HasValue)
@@ -956,8 +952,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					// DCT: None available
-					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, default);
-					await ioManager.DeleteDirectory(jobPath, default);
+					await eventConsumer.HandleEvent(EventType.DeploymentCleanup, new List<string> { jobPath }, CancellationToken.None);
+					await ioManager.DeleteDirectory(jobPath, CancellationToken.None);
 				}
 				catch (Exception e)
 				{
@@ -971,8 +967,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				remoteDeploymentManager.FailDeployment(
 					job,
 					FormatExceptionForUsers(exception),
-					default))
-				;
+					CancellationToken.None));
 		}
 	}
 }

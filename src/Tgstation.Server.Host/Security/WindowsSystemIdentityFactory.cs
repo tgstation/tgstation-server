@@ -10,6 +10,7 @@ using Microsoft.Win32.SafeHandles;
 
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -53,8 +54,7 @@ namespace Tgstation.Server.Host.Security
 		public Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (user == null)
-					throw new ArgumentNullException(nameof(user));
+				ArgumentNullException.ThrowIfNull(user);
 
 				if (user.SystemIdentifier == null)
 					throw new InvalidOperationException("User's SystemIdentifier must not be null!");
@@ -62,11 +62,15 @@ namespace Tgstation.Server.Host.Security
 				PrincipalContext pc = null;
 				UserPrincipal principal = null;
 
+				GetUserAndDomainName(user.SystemIdentifier, out _, out var domainName);
+
 				bool TryGetPrincipalFromContextType(ContextType contextType)
 				{
 					try
 					{
-						pc = new PrincipalContext(contextType);
+						pc = domainName != null
+							? new PrincipalContext(contextType, domainName)
+							: new PrincipalContext(contextType);
 						cancellationToken.ThrowIfCancellationRequested();
 						principal = UserPrincipal.FindByIdentity(pc, user.SystemIdentifier);
 					}
@@ -74,9 +78,13 @@ namespace Tgstation.Server.Host.Security
 					{
 						throw;
 					}
-					catch (Exception e)
+					catch (Exception ex)
 					{
-						logger.LogWarning(e, "Error loading user for context type {0}!", contextType);
+						logger.LogDebug(
+							ex,
+							"Error loading user for context type {contextType} and principal \"{domainName}\"!",
+							contextType,
+							domainName);
 					}
 					finally
 					{
@@ -102,10 +110,8 @@ namespace Tgstation.Server.Host.Security
 		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (username == null)
-					throw new ArgumentNullException(nameof(username));
-				if (password == null)
-					throw new ArgumentNullException(nameof(password));
+				ArgumentNullException.ThrowIfNull(username);
+				ArgumentNullException.ThrowIfNull(password);
 
 				var originalUsername = username;
 				GetUserAndDomainName(originalUsername, out username, out var domainName);

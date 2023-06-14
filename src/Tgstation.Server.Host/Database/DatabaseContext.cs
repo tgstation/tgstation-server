@@ -285,8 +285,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
 		{
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
+			ArgumentNullException.ThrowIfNull(logger);
 			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);
 			var wasEmpty = !migrations.Any();
 
@@ -306,8 +305,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			if (modelBuilder == null)
-				throw new ArgumentNullException(nameof(modelBuilder));
+			ArgumentNullException.ThrowIfNull(modelBuilder);
 
 			base.OnModelCreating(modelBuilder);
 
@@ -379,22 +377,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddMapThreads);
+		internal static readonly Type MSLatestMigration = typeof(MSAddSystemChannels);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddMapThreads);
+		internal static readonly Type MYLatestMigration = typeof(MYAddSystemChannels);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddMapThreads);
+		internal static readonly Type PGLatestMigration = typeof(PGAddSystemChannels);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddMapThreads);
+		internal static readonly Type SLLatestMigration = typeof(SLAddSystemChannels);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -404,10 +402,8 @@ namespace Tgstation.Server.Host.Database
 			DatabaseType currentDatabaseType,
 			CancellationToken cancellationToken)
 		{
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
-			if (targetVersion == null)
-				throw new ArgumentNullException(nameof(targetVersion));
+			ArgumentNullException.ThrowIfNull(logger);
+			ArgumentNullException.ThrowIfNull(targetVersion);
 			if (targetVersion < new Version(4, 0))
 				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Cannot migrate below version 4.0.0!");
 

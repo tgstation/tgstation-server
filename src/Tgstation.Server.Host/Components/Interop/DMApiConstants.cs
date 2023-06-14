@@ -42,12 +42,12 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The maximum length in bytes of a <see cref="global::Byond.TopicSender.ITopicClient"/> payload.
 		/// </summary>
-		public const uint MaximumTopicRequestLength = 65529;
+		public const uint MaximumTopicRequestLength = 65528;
 
 		/// <summary>
 		/// The maximum length in bytes of a <see cref="global::Byond.TopicSender.ITopicClient"/> response.
 		/// </summary>
-		public const uint MaximumTopicResponseLength = 65528;
+		public const uint MaximumTopicResponseLength = 65529;
 
 		/// <summary>
 		/// The DMAPI <see cref="InteropVersion"/> being used.

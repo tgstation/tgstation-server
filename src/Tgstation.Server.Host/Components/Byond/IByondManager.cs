@@ -4,8 +4,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Hosting;
-
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Byond
@@ -14,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// For managing the BYOND installation.
 	/// </summary>
 	/// <remarks>When passing in <see cref="Version"/>s, ensure they are BYOND format versions unless referring to a custom version. This means <see cref="Version.Build"/> should NEVER be 0.</remarks>
-	public interface IByondManager : IHostedService, IDisposable
+	public interface IByondManager : IComponentService, IDisposable
 	{
 		/// <summary>
 		/// The currently active BYOND version.

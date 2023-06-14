@@ -3,7 +3,7 @@ using System.Net.Http;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Utils
@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Utils
 			var innerClient = httpClientFactory.CreateClient();
 			try
 			{
-				var client = new Tgstation.Server.Common.HttpClient(innerClient);
+				var client = new Tgstation.Server.Common.Http.HttpClient(innerClient);
 				innerClient = null;
 				try
 				{

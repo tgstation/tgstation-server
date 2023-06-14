@@ -67,8 +67,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public Task Save(ReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
-			if (reattachInformation == null)
-				throw new ArgumentNullException(nameof(reattachInformation));
+			ArgumentNullException.ThrowIfNull(reattachInformation);
 
 			logger.LogDebug("Saving reattach information: {info}...", reattachInformation);
 
@@ -140,8 +139,7 @@ namespace Tgstation.Server.Host.Components.Session
 					.AsQueryable()
 					.Where(x => x.Id == metadata.Id)
 					.Select(x => x.DreamDaemonSettings.TopicRequestTimeout)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
+					.FirstOrDefaultAsync(cancellationToken);
 
 				if (timeoutMilliseconds == default)
 				{
@@ -238,8 +236,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			if (instant)
 				await baseQuery
-					.DeleteAsync(cancellationToken)
-					;
+					.DeleteAsync(cancellationToken);
 			else
 			{
 				var results = await baseQuery.ToListAsync(cancellationToken);

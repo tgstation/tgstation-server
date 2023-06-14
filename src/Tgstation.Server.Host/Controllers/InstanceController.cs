@@ -20,6 +20,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -128,8 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(InstanceResponse), 201)]
 		public async Task<IActionResult> Create([FromBody] InstanceCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (String.IsNullOrWhiteSpace(model.Name))
 				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceWhitespaceName));
@@ -182,8 +182,7 @@ namespace Tgstation.Server.Host.Controllers
 								if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
 									cts.Cancel();
 							},
-							newCancellationToken)
-						;
+							newCancellationToken);
 				}
 				catch (OperationCanceledException)
 				{
@@ -243,7 +242,7 @@ namespace Tgstation.Server.Host.Controllers
 					DatabaseContext.Instances.Remove(newInstance);
 
 					// DCT: Operation must always run
-					await DatabaseContext.Save(default);
+					await DatabaseContext.Save(CancellationToken.None);
 					throw;
 				}
 			}
@@ -288,7 +287,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default)
-				return Gone();
+				return this.Gone();
 			if (originalModel.Online.Value)
 				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceDetachOnline));
 
@@ -303,7 +302,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (OperationCanceledException)
 			{
 				// DCT: Operation must always run
-				await ioManager.DeleteFile(attachFileName, default);
+				await ioManager.DeleteFile(attachFileName, CancellationToken.None);
 				throw;
 			}
 
@@ -328,8 +327,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] InstanceUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext
 				.Instances
@@ -359,7 +357,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.DreamDaemonSettings) // need these for onlining
 				.FirstOrDefaultAsync(cancellationToken);
 			if (originalModel == default(Models.Instance))
-				return Gone();
+				return this.Gone();
 
 			if (ValidateInstanceOnlineStatus(originalModel))
 				await DatabaseContext.Save(cancellationToken);
@@ -419,8 +417,7 @@ namespace Tgstation.Server.Host.Controllers
 					.ChatBots
 					.AsQueryable()
 					.Where(x => x.InstanceId == originalModel.Id)
-					.CountAsync(cancellationToken)
-					;
+					.CountAsync(cancellationToken);
 
 				if (countOfExistingChatBots > model.ChatBotLimit.Value)
 					return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
@@ -461,7 +458,7 @@ namespace Tgstation.Server.Host.Controllers
 					originalModel.Path = originalModelPath;
 
 				// DCT: Operation must always run
-				await DatabaseContext.Save(default);
+				await DatabaseContext.Save(CancellationToken.None);
 				throw;
 			}
 
@@ -486,8 +483,7 @@ namespace Tgstation.Server.Host.Controllers
 					job,
 					(core, databaseContextFactory, paramJob, progressHandler, ct) // core will be null here since the instance is offline
 						=> InstanceOperations.MoveInstance(originalModel, originalModelPath, ct),
-					cancellationToken)
-					;
+					cancellationToken);
 				api.MoveJob = job.ToApi();
 			}
 
@@ -548,8 +544,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
-				.ToListAsync(cancellationToken)
-				;
+				.ToListAsync(cancellationToken);
 
 			var needsUpdate = false;
 			var result = await Paginated<Models.Instance, InstanceResponse>(
@@ -565,8 +560,7 @@ namespace Tgstation.Server.Host.Controllers
 				},
 				page,
 				pageSize,
-				cancellationToken)
-				;
+				cancellationToken);
 
 			if (needsUpdate)
 				await DatabaseContext.Save(cancellationToken);
@@ -604,7 +598,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken);
 
 			if (instance == null)
-				return Gone();
+				return this.Gone();
 
 			if (ValidateInstanceOnlineStatus(instance))
 				await DatabaseContext.Save(cancellationToken);
@@ -625,8 +619,7 @@ namespace Tgstation.Server.Host.Controllers
 				.SelectMany(x => x.Jobs)
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			api.MoveJob = moveJob?.ToApi();
 			await CheckAccessible(api, cancellationToken);
 			return Json(api);
@@ -654,17 +647,15 @@ namespace Tgstation.Server.Host.Controllers
 			var usersInstancePermissionSet = await BaseQuery()
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (usersInstancePermissionSet == default)
 			{
 				// does the instance actually exist?
 				var instanceExists = await BaseQuery()
-					.AnyAsync(cancellationToken)
-					;
+					.AnyAsync(cancellationToken);
 
 				if (!instanceExists)
-					return Gone();
+					return this.Gone();
 
 				var instanceAdminUser = InstanceAdminPermissionSet(null);
 				instanceAdminUser.InstanceId = id;
@@ -700,8 +691,7 @@ namespace Tgstation.Server.Host.Controllers
 				.GetAvailablePort(
 					Math.Min((ushort)(ddPort.Value + 1), DefaultApiValidationPort),
 					false,
-					cancellationToken)
-				;
+					cancellationToken);
 			if (!dmPort.HasValue)
 				return null;
 

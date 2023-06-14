@@ -17,8 +17,8 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// Create a <see cref="IFileUploadTicket"/>.
 		/// </summary>
-		/// <param name="requiresSynchronousIO">If synchronous IO is required on the provided stream.</param>
+		/// <param name="streamKind">The <see cref="FileUploadStreamKind"/> to use.</param>
 		/// <returns>A new <see cref="IFileUploadTicket"/>.</returns>
-		IFileUploadTicket CreateUpload(bool requiresSynchronousIO);
+		IFileUploadTicket CreateUpload(FileUploadStreamKind streamKind);
 	}
 }

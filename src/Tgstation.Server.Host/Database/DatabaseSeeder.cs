@@ -104,8 +104,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public async Task Initialize(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			if (databaseContext == null)
-				throw new ArgumentNullException(nameof(databaseContext));
+			ArgumentNullException.ThrowIfNull(databaseContext);
 
 			if (databaseConfiguration.DropDatabase)
 			{
@@ -134,10 +133,8 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public Task Downgrade(IDatabaseContext databaseContext, Version downgradeVersion, CancellationToken cancellationToken)
 		{
-			if (databaseContext == null)
-				throw new ArgumentNullException(nameof(databaseContext));
-			if (downgradeVersion == null)
-				throw new ArgumentNullException(nameof(downgradeVersion));
+			ArgumentNullException.ThrowIfNull(databaseContext);
+			ArgumentNullException.ThrowIfNull(downgradeVersion);
 
 			return databaseContext.SchemaDowngradeForServerVersion(
 				databaseLogger,
@@ -215,8 +212,7 @@ namespace Tgstation.Server.Host.Database
 						.Users
 						.AsQueryable()
 						.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
-						.FirstOrDefaultAsync(cancellationToken)
-						;
+						.FirstOrDefaultAsync(cancellationToken);
 
 					if (tgsUser != null)
 						logger.LogError(
@@ -233,8 +229,7 @@ namespace Tgstation.Server.Host.Database
 				var allInstances = await databaseContext
 					.Instances
 					.AsQueryable()
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 				foreach (var instance in allInstances)
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
@@ -246,8 +241,7 @@ namespace Tgstation.Server.Host.Database
 					.AsQueryable()
 					.Where(x => x.TopicRequestTimeout == 0)
 					.Select(x => x.Id)
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 
 				var rowsUpdated = ids.Count;
 				foreach (var id in ids)
@@ -318,8 +312,7 @@ namespace Tgstation.Server.Host.Database
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Group)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (admin == default)
 				SeedAdminUser(databaseContext);
 

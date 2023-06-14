@@ -198,7 +198,7 @@ namespace Tgstation.Server.Host.IO
 		/// Extract a set of <paramref name="zipFile"/> to a given <paramref name="path"/>.
 		/// </summary>
 		/// <param name="path">The path to unzip to.</param>
-		/// <param name="zipFile">The <see cref="Stream"/> of the <see cref="global::System.IO.Compression.ZipArchive"/>.</param>
+		/// <param name="zipFile">The <see cref="Stream"/> of the <see cref="global::System.IO.Compression.ZipArchive"/>. Must have <see cref="Stream.CanSeek"/> set to <see langword="true"/>. Will be read completely and left open. <see cref="Stream.Position"/> will be indeterminate.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken);

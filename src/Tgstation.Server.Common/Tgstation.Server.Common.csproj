@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/NugetCommon.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <DebugType>Full</DebugType>
-    <Version>$(TgsCoreVersion)</Version>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
+    <TargetFramework>$(TgsNugetNetVersion)</TargetFramework>
+    <Version>$(TgsCommonLibraryVersion)</Version>
+    <Description>Common functions for tgstation-server.</Description>
+    <PackageTags>web tgstation-server tgstation ss13 byond client http</PackageTags>
+    <PackageReleaseNotes>Added CachedResponseStream.</PackageReleaseNotes>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

@@ -21,7 +21,11 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				if (active == value)
 					return;
-				logger.LogTrace(value ? "Activated" : "Deactivated");
+				if (value)
+					logger.LogTrace("Activated");
+				else
+					logger.LogTrace("Deactivated");
+
 				active = value;
 			}
 		}
@@ -117,8 +121,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public void SetChannelSink(IChannelSink channelSink)
 		{
-			if (channelSink == null)
-				throw new ArgumentNullException(nameof(channelSink));
+			ArgumentNullException.ThrowIfNull(channelSink);
 
 			lock (synchronizationLock)
 			{

@@ -1,16 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
     <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
     <Version>$(TgsHostWatchdogVersion)</Version>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Tgstation.Server.Host.Watchdog.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -24,7 +23,7 @@
 
   <ItemGroup>
     <!-- Usage: Logging abstractions -->
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <!-- Usage: Linting -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>

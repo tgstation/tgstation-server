@@ -21,6 +21,7 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
@@ -178,7 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 					// we only allow authorization header issues
 					var headers = new ApiHeaders(Request.GetTypedHeaders(), true);
 					if (!headers.Compatible())
-						return StatusCode(
+						return this.StatusCode(
 							HttpStatusCode.UpgradeRequired,
 							new ErrorMessageResponse(ErrorCode.ApiMismatch));
 				}
@@ -241,7 +242,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				catch (NotImplementedException ex)
 				{
-					Logger.LogTrace(ex, "System identities not implemented!");
+					RequiresPosixSystemIdentity(ex);
 				}
 
 			using (systemIdentity)
@@ -297,9 +298,9 @@ namespace Tgstation.Server.Host.Controllers
 						PasswordHash = x.PasswordHash,
 						Enabled = x.Enabled,
 						Name = x.Name,
+						SystemIdentifier = x.SystemIdentifier,
 					})
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 
 				// Pick the DB user first
 				var user = users
@@ -316,13 +317,13 @@ namespace Tgstation.Server.Host.Controllers
 				// FALLBACK TO THE DB USER HERE, DO NOT REVEAL A SYSTEM LOGIN!!!
 				// This of course, allows system users to discover TGS users in this (HIGHLY IMPROBABLE) case but that is not our fault
 				var originalHash = user.PasswordHash;
-				var isDbUser = originalHash != null;
-				bool usingSystemIdentity = systemIdentity != null && !isDbUser;
+				var isLikelyDbUser = originalHash != null;
+				bool usingSystemIdentity = systemIdentity != null && !isLikelyDbUser;
 				if (!oAuthLogin)
 					if (!usingSystemIdentity)
 					{
 						// DB User password check and update
-						if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
+						if (!isLikelyDbUser || !cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
 							return Unauthorized();
 						if (user.PasswordHash != originalHash)
 						{
@@ -336,14 +337,30 @@ namespace Tgstation.Server.Host.Controllers
 							await DatabaseContext.Save(cancellationToken);
 						}
 					}
-					else if (systemIdentity.Username != user.Name)
+					else
 					{
-						// System identity username change update
-						Logger.LogDebug("User ID {userId}'s system identity needs a refresh, updating database.", user.Id);
-						DatabaseContext.Users.Attach(user);
-						user.Name = systemIdentity.Username;
-						user.CanonicalName = Models.User.CanonicalizeName(user.Name);
-						await DatabaseContext.Save(cancellationToken);
+						var usernameMismatch = systemIdentity.Username != user.Name;
+						if (isLikelyDbUser || usernameMismatch)
+						{
+							DatabaseContext.Users.Attach(user);
+							if (isLikelyDbUser)
+							{
+								// cleanup from https://github.com/tgstation/tgstation-server/issues/1528
+								Logger.LogDebug("System user ID {userId}'s PasswordHash is polluted, updating database.", user.Id);
+								user.PasswordHash = null;
+								user.LastPasswordUpdate = DateTimeOffset.UtcNow;
+							}
+
+							if (usernameMismatch)
+							{
+								// System identity username change update
+								Logger.LogDebug("User ID {userId}'s system identity needs a refresh, updating database.", user.Id);
+								user.Name = systemIdentity.Username;
+								user.CanonicalName = Models.User.CanonicalizeName(user.Name);
+							}
+
+							await DatabaseContext.Save(cancellationToken);
+						}
 					}
 
 				// Now that the bookeeping is done, tell them to fuck off if necessary

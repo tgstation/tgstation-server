@@ -1,12 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
 using Microsoft.Extensions.Logging;
 
-using Tgstation.Server.Common;
+using Tgstation.Server.Api;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -35,28 +34,33 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public async Task<MemoryStream> DownloadFile(Uri url, CancellationToken cancellationToken)
+		public IFileStreamProvider DownloadFile(Uri url, string bearerToken)
 		{
-			logger.LogDebug("Starting download of {url}...", url);
-			using var httpClient = httpClientFactory.CreateClient();
-			using var request = new HttpRequestMessage(
-				HttpMethod.Get,
-				url);
+			ArgumentNullException.ThrowIfNull(url);
 
-			var webRequestTask = httpClient.SendAsync(request, cancellationToken);
-			using var response = await webRequestTask;
-			response.EnsureSuccessStatusCode();
-			using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-			var memoryStream = new MemoryStream();
+			logger.LogDebug("Starting download of {url}...", url);
+			var httpClient = httpClientFactory.CreateClient();
 			try
 			{
-				await responseStream.CopyToAsync(memoryStream, cancellationToken);
-				memoryStream.Seek(0, SeekOrigin.Begin);
-				return memoryStream;
+				var request = new HttpRequestMessage(
+					HttpMethod.Get,
+					url);
+				try
+				{
+					if (bearerToken != null)
+						request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, bearerToken);
+
+					return new RequestFileStreamProvider(httpClient, request);
+				}
+				catch
+				{
+					request.Dispose();
+					throw;
+				}
 			}
 			catch
 			{
-				memoryStream.Dispose();
+				httpClient.Dispose();
 				throw;
 			}
 		}

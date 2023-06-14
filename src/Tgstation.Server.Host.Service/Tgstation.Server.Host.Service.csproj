@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net472</TargetFramework>
     <RuntimeIdentifier>win</RuntimeIdentifier>
-    <DebugType>Full</DebugType>
     <Version>$(TgsCoreVersion)</Version>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>7.3</LangVersion>
-    <DocumentationFile>bin\Debug\Tgstation.Server.Host.Console.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(RuntimeIdentifier)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -26,9 +24,9 @@
     <!-- Usage: Command line argument support -->
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.2" />
     <!-- Usage: Windows event log logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="7.0.0" />
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
     <!-- Usage: Linting -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>

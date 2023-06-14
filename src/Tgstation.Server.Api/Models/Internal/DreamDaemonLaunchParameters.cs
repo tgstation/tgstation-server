@@ -55,14 +55,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint? StartupTimeout { get; set; }
 
 		/// <summary>
-		/// The number of seconds between each watchdog heartbeat. 0 disables.
+		/// The number of seconds between each watchdog health check. 0 disables.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
 		public uint? HeartbeatSeconds { get; set; }
 
 		/// <summary>
-		/// If a process core dump should be created prior to restarting the watchdog due to heartbeat failure.
+		/// If a process core dump should be created prior to restarting the watchdog due to health check failure.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& AdditionalParameters == otherParameters.AdditionalParameters
 				&& StartProfiler == otherParameters.StartProfiler
 				&& LogOutput == otherParameters.LogOutput
-				&& MapThreads == otherParameters.MapThreads; // We intentionally don't check StartupTimeout, heartbeat seconds, or heartbeat dump as they don't matter in terms of the watchdog
+				&& MapThreads == otherParameters.MapThreads; // We intentionally don't check StartupTimeout, health check seconds, or health check dump as they don't matter in terms of the watchdog
 		}
 	}
 }

@@ -71,6 +71,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="Instance"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>.
 		/// </summary>
 		readonly ILogger<Instance> logger;
@@ -109,6 +114,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public Instance(
 			Api.Models.Instance metadata,
@@ -123,6 +129,7 @@ namespace Tgstation.Server.Host.Components
 			IJobManager jobManager,
 			IEventConsumer eventConsumer,
 			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			IAsyncDelayer asyncDelayer,
 			ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
@@ -136,6 +143,7 @@ namespace Tgstation.Server.Host.Components
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			timerLock = new object();
@@ -177,8 +185,7 @@ namespace Tgstation.Server.Host.Components
 				Configuration.StartAsync(cancellationToken),
 				ByondManager.StartAsync(cancellationToken),
 				Chat.StartAsync(cancellationToken),
-				dmbFactory.StartAsync(cancellationToken))
-				;
+				dmbFactory.StartAsync(cancellationToken));
 
 				// dependent on so many things, its just safer this way
 				await Watchdog.StartAsync(cancellationToken);
@@ -199,8 +206,7 @@ namespace Tgstation.Server.Host.Components
 					Configuration.StopAsync(cancellationToken),
 					ByondManager.StopAsync(cancellationToken),
 					Chat.StopAsync(cancellationToken),
-					dmbFactory.StopAsync(cancellationToken))
-					;
+					dmbFactory.StopAsync(cancellationToken));
 			}
 		}
 
@@ -303,8 +309,7 @@ namespace Tgstation.Server.Host.Components
 						repositorySettings.AccessUser,
 						repositorySettings.AccessToken,
 						NextProgressReporter("Fetch Origin"),
-						cancellationToken)
-						;
+						cancellationToken);
 
 					var hasDbChanges = false;
 					RevisionInformation currentRevInfo = null;
@@ -378,8 +383,7 @@ namespace Tgstation.Server.Host.Components
 						repositorySettings.CommitterName,
 						repositorySettings.CommitterEmail,
 						NextProgressReporter("Merge Origin"),
-						cancellationToken)
-						;
+						cancellationToken);
 
 					var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
 					var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
@@ -428,16 +432,14 @@ namespace Tgstation.Server.Host.Components
 							repositorySettings.AccessToken,
 							repositorySettings.UpdateSubmodules.Value,
 							NextProgressReporter(StageName),
-							cancellationToken)
-						;
+							cancellationToken);
 
 						var currentHead = repo.Head;
 
 						currentRevInfo = await databaseContext.RevisionInformations
 							.AsQueryable()
 							.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
-							.FirstOrDefaultAsync(cancellationToken)
-							;
+							.FirstOrDefaultAsync(cancellationToken);
 
 						if (currentHead != startSha && currentRevInfo == default)
 							await UpdateRevInfo(currentHead, true, null);
@@ -469,7 +471,7 @@ namespace Tgstation.Server.Host.Components
 						catch
 						{
 							// DCT: Cancellation token is for job, operation must run regardless
-							await repo.ResetToSha(startSha, progressReporter, default);
+							await repo.ResetToSha(startSha, progressReporter, CancellationToken.None);
 							throw;
 						}
 				});
@@ -488,7 +490,7 @@ namespace Tgstation.Server.Host.Components
 			while (true)
 				try
 				{
-					await Task.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken);
+					await asyncDelayer.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken);
 					logger.LogInformation("Beginning auto update...");
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), cancellationToken);
 					try
@@ -507,11 +509,9 @@ namespace Tgstation.Server.Host.Components
 						await jobManager.RegisterOperation(
 							repositoryUpdateJob,
 							RepositoryAutoUpdateJob,
-							cancellationToken)
-							;
+							cancellationToken);
 
-						// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted
-						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, default);
+						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, cancellationToken);
 
 						Job compileProcessJob;
 						using (var repo = await RepositoryManager.LoadRepository(cancellationToken))
@@ -550,8 +550,7 @@ namespace Tgstation.Server.Host.Components
 										progressReporter,
 										jobCancellationToken);
 								},
-								cancellationToken)
-								;
+								cancellationToken);
 						}
 
 						await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken);

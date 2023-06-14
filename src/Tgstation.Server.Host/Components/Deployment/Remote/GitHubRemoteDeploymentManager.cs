@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using Octokit;
 
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
@@ -29,26 +29,26 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="GitHubRemoteDeploymentManager"/>.
+		/// The <see cref="IGitHubServiceFactory"/> for the <see cref="GitHubRemoteDeploymentManager"/>.
 		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
+		readonly IGitHubServiceFactory gitHubServiceFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitHubRemoteDeploymentManager"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
+		/// <param name="gitHubServiceFactory">The value of <see cref="gitHubServiceFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
 		/// <param name="metadata">The <see cref="Api.Models.Instance"/> for the <see cref="BaseRemoteDeploymentManager"/>.</param>
 		public GitHubRemoteDeploymentManager(
 			IDatabaseContextFactory databaseContextFactory,
-			IGitHubClientFactory gitHubClientFactory,
+			IGitHubServiceFactory gitHubServiceFactory,
 			ILogger<GitHubRemoteDeploymentManager> logger,
 			Api.Models.Instance metadata)
 			: base(logger, metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 		}
 
 		/// <inheritdoc />
@@ -57,10 +57,8 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			CompileJob compileJob,
 			CancellationToken cancellationToken)
 		{
-			if (remoteInformation == null)
-				throw new ArgumentNullException(nameof(remoteInformation));
-			if (compileJob == null)
-				throw new ArgumentNullException(nameof(compileJob));
+			ArgumentNullException.ThrowIfNull(remoteInformation);
+			ArgumentNullException.ThrowIfNull(compileJob);
 
 			Logger.LogTrace("Starting deployment...");
 
@@ -74,15 +72,23 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						.FirstAsync(cancellationToken));
 
 			var instanceAuthenticated = repositorySettings.AccessToken != null;
-			var gitHubClient = !instanceAuthenticated
-				? gitHubClientFactory.CreateClient()
-				: gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
+			IAuthenticatedGitHubService authenticatedGitHubService;
+			IGitHubService gitHubService;
+			if (instanceAuthenticated)
+			{
+				authenticatedGitHubService = gitHubServiceFactory.CreateService(repositorySettings.AccessToken);
+				gitHubService = authenticatedGitHubService;
+			}
+			else
+			{
+				authenticatedGitHubService = null;
+				gitHubService = gitHubServiceFactory.CreateService();
+			}
 
-			var repositoryTask = gitHubClient
-				.Repository
-				.Get(
-					remoteInformation.RemoteRepositoryOwner,
-					remoteInformation.RemoteRepositoryName);
+			var repositoryIdTask = gitHubService.GetRepositoryId(
+				remoteInformation.RemoteRepositoryOwner,
+				remoteInformation.RemoteRepositoryName,
+				cancellationToken);
 
 			if (!repositorySettings.CreateGitHubDeployments.Value)
 				Logger.LogTrace("Not creating deployment");
@@ -91,59 +97,45 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			else
 			{
 				Logger.LogTrace("Creating deployment...");
-				Octokit.Deployment deployment;
-
 				try
 				{
-					deployment = await gitHubClient
-						.Repository
-						.Deployment
-						.Create(
-							remoteInformation.RemoteRepositoryOwner,
-							remoteInformation.RemoteRepositoryName,
-							new NewDeployment(compileJob.RevisionInformation.CommitSha)
-							{
-								AutoMerge = false,
-								Description = "TGS Game Deployment",
-								Environment = $"TGS: {Metadata.Name}",
-								ProductionEnvironment = true,
-								RequiredContexts = new Collection<string>(),
-							})
-						.WithToken(cancellationToken);
+					compileJob.GitHubDeploymentId = await authenticatedGitHubService.CreateDeployment(
+						new NewDeployment(compileJob.RevisionInformation.CommitSha)
+						{
+							AutoMerge = false,
+							Description = "TGS Game Deployment",
+							Environment = $"TGS: {Metadata.Name}",
+							ProductionEnvironment = true,
+							RequiredContexts = new Collection<string>(),
+						},
+						remoteInformation.RemoteRepositoryOwner,
+						remoteInformation.RemoteRepositoryName,
+						cancellationToken);
 
-					Logger.LogDebug("Created deployment ID {deploymentId}", deployment.Id);
+					Logger.LogDebug("Created deployment ID {deploymentId}", compileJob.GitHubDeploymentId);
 
-					await gitHubClient
-						.Repository
-						.Deployment
-						.Status
-						.Create(
-							remoteInformation.RemoteRepositoryOwner,
-							remoteInformation.RemoteRepositoryName,
-							deployment.Id,
-							new NewDeploymentStatus(DeploymentState.InProgress)
-							{
-								Description = "The project is being deployed",
-								AutoInactive = false,
-							})
-						.WithToken(cancellationToken);
+					await authenticatedGitHubService.CreateDeploymentStatus(
+						new NewDeploymentStatus(DeploymentState.InProgress)
+						{
+							Description = "The project is being deployed",
+							AutoInactive = false,
+						},
+						remoteInformation.RemoteRepositoryOwner,
+						remoteInformation.RemoteRepositoryName,
+						compileJob.GitHubDeploymentId.Value,
+						cancellationToken);
 
-					compileJob.GitHubDeploymentId = deployment.Id;
 					Logger.LogTrace("In-progress deployment status created");
 				}
 				catch (ApiException ex)
 				{
-					Logger.LogError(ex, "Unable to create deployment!");
+					Logger.LogWarning(ex, "Unable to create deployment!");
 				}
 			}
 
 			try
 			{
-				var gitHubRepo = await repositoryTask
-					.WithToken(cancellationToken)
-					;
-
-				compileJob.GitHubRepoId = gitHubRepo.Id;
+				compileJob.GitHubRepoId = await repositoryIdTask;
 				Logger.LogTrace("Set GitHub ID as {gitHubRepoId}", compileJob.GitHubRepoId);
 			}
 			catch (RateLimitExceededException ex) when (!repositorySettings.CreateGitHubDeployments.Value)
@@ -193,12 +185,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			RevisionInformation revisionInformation,
 			CancellationToken cancellationToken)
 		{
-			if (repository == null)
-				throw new ArgumentNullException(nameof(repository));
-			if (repositorySettings == null)
-				throw new ArgumentNullException(nameof(repositorySettings));
-			if (revisionInformation == null)
-				throw new ArgumentNullException(nameof(revisionInformation));
+			ArgumentNullException.ThrowIfNull(repository);
+			ArgumentNullException.ThrowIfNull(repositorySettings);
+			ArgumentNullException.ThrowIfNull(revisionInformation);
 
 			if (revisionInformation.ActiveTestMerges?.Any() != true)
 			{
@@ -206,16 +195,13 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return Array.Empty<TestMerge>();
 			}
 
-			var gitHubClient = repositorySettings.AccessToken != null
-				? gitHubClientFactory.CreateClient(repositorySettings.AccessToken)
-				: gitHubClientFactory.CreateClient();
+			var gitHubService = repositorySettings.AccessToken != null
+				? gitHubServiceFactory.CreateService(repositorySettings.AccessToken)
+				: gitHubServiceFactory.CreateService();
 
 			var tasks = revisionInformation
 				.ActiveTestMerges
-				.Select(x => gitHubClient
-					.PullRequest
-					.Get(repository.RemoteRepositoryOwner, repository.RemoteRepositoryName, x.TestMerge.Number)
-					.WithToken(cancellationToken));
+				.Select(x => gitHubService.GetPullRequest(repository.RemoteRepositoryOwner, repository.RemoteRepositoryName, x.TestMerge.Number, cancellationToken));
 			try
 			{
 				await Task.WhenAll(tasks);
@@ -260,13 +246,11 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			int testMergeNumber,
 			CancellationToken cancellationToken)
 		{
-			var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
+			var gitHubService = gitHubServiceFactory.CreateService(repositorySettings.AccessToken);
 
 			try
 			{
-				await gitHubClient.Issue.Comment.Create(remoteRepositoryOwner, remoteRepositoryName, testMergeNumber, comment)
-					.WithToken(cancellationToken)
-					;
+				await gitHubService.CommentOnIssue(remoteRepositoryOwner, remoteRepositoryName, comment, testMergeNumber, cancellationToken);
 			}
 			catch (ApiException e)
 			{
@@ -322,8 +306,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			DeploymentState deploymentState,
 			CancellationToken cancellationToken)
 		{
-			if (compileJob == null)
-				throw new ArgumentNullException(nameof(compileJob));
+			ArgumentNullException.ThrowIfNull(compileJob);
 
 			if (!compileJob.GitHubRepoId.HasValue || !compileJob.GitHubDeploymentId.HasValue)
 			{
@@ -351,21 +334,16 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 				return;
 			}
 
-			var gitHubClient = gitHubClientFactory.CreateClient(gitHubAccessToken);
+			var gitHubService = gitHubServiceFactory.CreateService(gitHubAccessToken);
 
-			await gitHubClient
-				.Repository
-				.Deployment
-				.Status
-				.Create(
-					compileJob.GitHubRepoId.Value,
-					compileJob.GitHubDeploymentId.Value,
-					new NewDeploymentStatus(deploymentState)
-					{
-						Description = description,
-					})
-				.WithToken(cancellationToken)
-				;
+			await gitHubService.CreateDeploymentStatus(
+				new NewDeploymentStatus(deploymentState)
+				{
+					Description = description,
+				},
+				compileJob.GitHubRepoId.Value,
+				compileJob.GitHubDeploymentId.Value,
+				cancellationToken);
 		}
 	}
 }

@@ -10,59 +10,56 @@ using Microsoft.Extensions.Logging;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="IActionResultExecutor{TResult}"/> for <see cref="LimitedFileStreamResult"/>s.
+	/// <see cref="IActionResultExecutor{TResult}"/> for <see cref="LimitedStreamResult"/>s.
 	/// </summary>
-	public class LimitedFileStreamResultExecutor : FileResultExecutorBase, IActionResultExecutor<LimitedFileStreamResult>
+	public class LimitedStreamResultExecutor : FileResultExecutorBase, IActionResultExecutor<LimitedStreamResult>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="LimitedFileStreamResultExecutor"/> class.
+		/// Initializes a new instance of the <see cref="LimitedStreamResultExecutor"/> class.
 		/// </summary>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="FileResultExecutorBase"/>.</param>
-		public LimitedFileStreamResultExecutor(ILogger<LimitedFileStreamResultExecutor> logger)
+		public LimitedStreamResultExecutor(ILogger<LimitedStreamResultExecutor> logger)
 			: base(logger)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task ExecuteAsync(ActionContext context, LimitedFileStreamResult result)
+		public async Task ExecuteAsync(ActionContext context, LimitedStreamResult result)
 		{
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(context);
 
-			if (result == null)
-				throw new ArgumentNullException(nameof(result));
+			ArgumentNullException.ThrowIfNull(result);
 
-			using (result.FileStream)
+			await using (result)
 			{
-				var contentLength = result.FileStream.Length;
+				var cancellationToken = context.HttpContext.RequestAborted;
+				var stream = await result.GetResult(cancellationToken);
+				var contentLength = stream.Length;
 				var (range, rangeLength, serveBody) = SetHeadersAndLog(context, result, contentLength, result.EnableRangeProcessing);
 				if (!serveBody)
 					return;
 
 				try
 				{
-					var cancellationToken = context.HttpContext.RequestAborted;
 					var outputStream = context.HttpContext.Response.Body;
 					if (range == null)
 					{
 						await StreamCopyOperation.CopyToAsync(
-							result.FileStream,
+							stream,
 							outputStream,
 							contentLength,
 							BufferSize,
-							cancellationToken)
-							;
+							cancellationToken);
 					}
 					else
 					{
-						result.FileStream.Seek(range.From.Value, SeekOrigin.Begin);
+						stream.Seek(range.From.Value, SeekOrigin.Begin);
 						await StreamCopyOperation.CopyToAsync(
-							result.FileStream,
+							stream,
 							outputStream,
 							rangeLength,
 							BufferSize,
-							cancellationToken)
-							;
+							cancellationToken);
 					}
 				}
 				catch (OperationCanceledException)

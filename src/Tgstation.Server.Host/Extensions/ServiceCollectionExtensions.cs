@@ -5,14 +5,18 @@ using System.Globalization;
 using Elastic.CommonSchema.Serilog;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Sinks.Elasticsearch;
 
+using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Extensions
 {
@@ -22,6 +26,114 @@ namespace Tgstation.Server.Host.Extensions
 	static class ServiceCollectionExtensions
 	{
 		/// <summary>
+		/// The <see cref="IProviderFactory"/> implementation used in calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
+		/// </summary>
+		static Type chatProviderFactoryType;
+
+		/// <summary>
+		/// The <see cref="IGitHubServiceFactory"/> implementation used in calls to <see cref="AddGitHub(IServiceCollection)"/>.
+		/// </summary>
+		static Type gitHubServiceFactoryType;
+
+		/// <summary>
+		/// The <see cref="IFileDownloader"/> implementation used in calls to <see cref="AddFileDownloader(IServiceCollection)"/>.
+		/// </summary>
+		static Type fileDownloaderType;
+
+		/// <summary>
+		/// A <see cref="ServiceDescriptor"/> for an additional <see cref="ILoggerProvider"/> to use.
+		/// </summary>
+		static ServiceDescriptor additionalLoggerProvider;
+
+		/// <summary>
+		/// Initializes static members of the <see cref="ServiceCollectionExtensions"/> class.
+		/// </summary>
+		static ServiceCollectionExtensions()
+		{
+			UseDefaultServices();
+		}
+
+		/// <summary>
+		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddChatProviderFactory(IServiceCollection)"/>.
+		/// </summary>
+		/// <typeparam name="TProviderFactory">The <see cref="IProviderFactory"/> implementation to use.</typeparam>
+		public static void UseChatProviderFactory<TProviderFactory>() where TProviderFactory : IProviderFactory
+		{
+			chatProviderFactoryType = typeof(TProviderFactory);
+		}
+
+		/// <summary>
+		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddGitHub(IServiceCollection)"/>.
+		/// </summary>
+		/// <typeparam name="TGitHubServiceFactory">The <see cref="IGitHubServiceFactory"/> implementation to use.</typeparam>
+		public static void UseGitHubServiceFactory<TGitHubServiceFactory>() where TGitHubServiceFactory : IGitHubServiceFactory
+		{
+			gitHubServiceFactoryType = typeof(TGitHubServiceFactory);
+		}
+
+		/// <summary>
+		/// Change the <see cref="Type"/> used as an implementation for calls to <see cref="AddGitHub(IServiceCollection)"/>.
+		/// </summary>
+		/// <typeparam name="TFileDownloader">The <see cref="IFileDownloader"/> implementation to use.</typeparam>
+		public static void UseFileDownloader<TFileDownloader>() where TFileDownloader : IFileDownloader
+		{
+			fileDownloaderType = typeof(TFileDownloader);
+		}
+
+		/// <summary>
+		/// Adds a <see cref="IFileDownloader"/> implementation to the given <paramref name="serviceCollection"/>.
+		/// </summary>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <returns><paramref name="serviceCollection"/>.</returns>
+		public static IServiceCollection AddFileDownloader(this IServiceCollection serviceCollection)
+		{
+			ArgumentNullException.ThrowIfNull(serviceCollection);
+
+			serviceCollection.AddSingleton(typeof(IFileDownloader), fileDownloaderType);
+
+			return serviceCollection;
+		}
+
+		/// <summary>
+		/// Adds a <see cref="IGitHubServiceFactory"/> implementation to the given <paramref name="serviceCollection"/>.
+		/// </summary>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <returns><paramref name="serviceCollection"/>.</returns>
+		public static IServiceCollection AddGitHub(this IServiceCollection serviceCollection)
+		{
+			ArgumentNullException.ThrowIfNull(serviceCollection);
+
+			serviceCollection.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
+			serviceCollection.AddSingleton(typeof(IGitHubServiceFactory), gitHubServiceFactoryType);
+			serviceCollection.AddSingleton(x => x.GetRequiredService<IGitHubServiceFactory>().CreateService());
+
+			return serviceCollection;
+		}
+
+		/// <summary>
+		/// Add an additional <see cref="ILoggerProvider"/> to <see cref="IServiceCollection"/>s that call <see cref="SetupLogging(IServiceCollection, Action{LoggerConfiguration}, Action{LoggerSinkConfiguration}, ElasticsearchConfiguration)"/>.
+		/// </summary>
+		/// <typeparam name="TLoggerProvider">The <see cref="Type"/> of <see cref="ILoggerProvider"/> to add.</typeparam>
+		public static void UseAdditionalLoggerProvider<TLoggerProvider>() where TLoggerProvider : class, ILoggerProvider
+		{
+			if (additionalLoggerProvider != null)
+				throw new InvalidOperationException("Cannot have multiple additionalLoggerProviders!");
+			additionalLoggerProvider = ServiceDescriptor.Singleton<ILoggerProvider, TLoggerProvider>();
+		}
+
+		/// <summary>
+		/// Adds a <see cref="IProviderFactory"/> implementation to the given <paramref name="serviceCollection"/>.
+		/// </summary>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <returns><paramref name="serviceCollection"/>.</returns>
+		public static IServiceCollection AddChatProviderFactory(this IServiceCollection serviceCollection)
+		{
+			ArgumentNullException.ThrowIfNull(serviceCollection);
+
+			return serviceCollection.AddSingleton(typeof(IProviderFactory), chatProviderFactoryType);
+		}
+
+		/// <summary>
 		/// Add a standard <typeparamref name="TConfig"/> binding.
 		/// </summary>
 		/// <typeparam name="TConfig">The <see langword="class"/> to bind. Must have a <see langword="public"/> const/static <see cref="string"/> field named "Section".</typeparam>
@@ -30,10 +142,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns><paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration) where TConfig : class
 		{
-			if (serviceCollection == null)
-				throw new ArgumentNullException(nameof(serviceCollection));
-			if (configuration == null)
-				throw new ArgumentNullException(nameof(configuration));
+			ArgumentNullException.ThrowIfNull(serviceCollection);
+			ArgumentNullException.ThrowIfNull(configuration);
 
 			const string SectionFieldName = nameof(GeneralConfiguration.Section);
 
@@ -108,6 +218,19 @@ namespace Tgstation.Server.Host.Extensions
 
 				if (Debugger.IsAttached)
 					builder.AddDebug();
+
+				if (additionalLoggerProvider != null)
+					builder.Services.TryAddEnumerable(additionalLoggerProvider);
 			});
+
+		/// <summary>
+		/// Set the modifiable services to their default types.
+		/// </summary>
+		static void UseDefaultServices()
+		{
+			UseChatProviderFactory<ProviderFactory>();
+			UseGitHubServiceFactory<GitHubServiceFactory>();
+			UseFileDownloader<FileDownloader>();
+		}
 	}
 }

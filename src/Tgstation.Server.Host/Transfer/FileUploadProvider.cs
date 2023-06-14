@@ -26,17 +26,17 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> for the <see cref="Stream"/>.
 		/// </summary>
-		readonly TaskCompletionSource<Stream> taskCompletionSource;
+		readonly TaskCompletionSource<Stream> streamTcs;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetErrorMessage(ErrorMessageResponse)"/> is called.
+		/// The <see cref="TaskCompletionSource"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetError(ErrorCode, string)"/> is called.
 		/// </summary>
 		readonly TaskCompletionSource completionTcs;
 
 		/// <summary>
-		/// If synchronous IO is required. Uses a <see cref="FileBufferingReadStream"/> as a backend if set.
+		/// Determines the backing for the <see cref="Stream"/> returned from <see cref="GetResult(CancellationToken)"/>.
 		/// </summary>
-		readonly bool requireSynchronousIO;
+		readonly FileUploadStreamKind streamKind;
 
 		/// <summary>
 		/// The <see cref="ErrorMessageResponse"/> that occurred while processing the upload if any.
@@ -47,30 +47,31 @@ namespace Tgstation.Server.Host.Transfer
 		/// Initializes a new instance of the <see cref="FileUploadProvider"/> class.
 		/// </summary>
 		/// <param name="ticket">The value of <see cref="Ticket"/>.</param>
-		/// <param name="requireSynchronousIO">The value of <see cref="requireSynchronousIO"/>.</param>
-		public FileUploadProvider(FileTicketResponse ticket, bool requireSynchronousIO)
+		/// <param name="streamKind">The value of <see cref="streamKind"/>.</param>
+		public FileUploadProvider(FileTicketResponse ticket, FileUploadStreamKind streamKind)
 		{
 			Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));
 
 			ticketExpiryCts = new CancellationTokenSource();
-			taskCompletionSource = new TaskCompletionSource<Stream>();
+			streamTcs = new TaskCompletionSource<Stream>();
 			completionTcs = new TaskCompletionSource();
-			this.requireSynchronousIO = requireSynchronousIO;
+			this.streamKind = streamKind;
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public ValueTask DisposeAsync()
 		{
 			ticketExpiryCts.Dispose();
 			completionTcs.TrySetResult();
+			return ValueTask.CompletedTask;
 		}
 
 		/// <inheritdoc />
 		public async Task<Stream> GetResult(CancellationToken cancellationToken)
 		{
-			using (cancellationToken.Register(() => taskCompletionSource.TrySetCanceled()))
-			using (ticketExpiryCts.Token.Register(() => taskCompletionSource.TrySetResult(null)))
-				return await taskCompletionSource.Task;
+			using (cancellationToken.Register(() => streamTcs.TrySetCanceled()))
+			using (ticketExpiryCts.Token.Register(() => streamTcs.TrySetResult(null)))
+				return await streamTcs.Task;
 		}
 
 		/// <summary>
@@ -90,23 +91,40 @@ namespace Tgstation.Server.Host.Transfer
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="null"/>, <see cref="ErrorMessageResponse"/> otherwise.</returns>
 		public async Task<ErrorMessageResponse> Completion(Stream stream, CancellationToken cancellationToken)
 		{
-			if (stream == null)
-				throw new ArgumentNullException(nameof(stream));
+			ArgumentNullException.ThrowIfNull(stream);
 
 			if (ticketExpiryCts.IsCancellationRequested)
 				return new ErrorMessageResponse(ErrorCode.ResourceNotPresent);
 
 			Stream bufferedStream = null;
-			if (requireSynchronousIO)
+			try
 			{
-				// big reads, we should buffer to disk
-				bufferedStream = new FileBufferingReadStream(stream, DefaultIOManager.DefaultBufferSize);
-				await bufferedStream.DrainAsync(cancellationToken);
+				switch (streamKind)
+				{
+					case FileUploadStreamKind.ForSynchronousIO:
+						// big reads, we should buffer to disk
+						// NOTE: We do this here ONLY because we can't use async methods in a synchronous context
+						// Ideally we should be doing 0 buffering here, but this is a compromise
+						bufferedStream = new FileBufferingReadStream(stream, DefaultIOManager.DefaultBufferSize);
+						await bufferedStream.DrainAsync(cancellationToken);
+						break;
+					case FileUploadStreamKind.None:
+						break;
+					default:
+						throw new InvalidOperationException($"Invalid FileUploadStreamKind: {streamKind}");
+				}
+			}
+			catch
+			{
+				if (bufferedStream != null)
+					await bufferedStream.DisposeAsync();
+
+				throw;
 			}
 
-			using (bufferedStream)
+			await using (bufferedStream)
 			{
-				taskCompletionSource.TrySetResult(bufferedStream ?? stream);
+				streamTcs.TrySetResult(bufferedStream ?? stream);
 
 				await completionTcs.Task.WithToken(cancellationToken);
 				return errorMessage;
@@ -114,17 +132,15 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public void SetErrorMessage(ErrorMessageResponse errorMessage)
+		public void SetError(ErrorCode errorCode, string additionalData)
 		{
-			if (errorMessage == null)
-#pragma warning disable IDE0016 // Use 'throw' expression
-				throw new ArgumentNullException(nameof(errorMessage));
-#pragma warning restore IDE0016 // Use 'throw' expression
+			if (errorMessage != null)
+				throw new InvalidOperationException("Error already set!");
 
-			if (this.errorMessage != null)
-				throw new InvalidOperationException("ErrorMessage already set!");
-
-			this.errorMessage = errorMessage;
+			errorMessage = new ErrorMessageResponse(errorCode)
+			{
+				AdditionalData = additionalData,
+			};
 			completionTcs.TrySetResult();
 		}
 	}

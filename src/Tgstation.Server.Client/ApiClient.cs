@@ -20,7 +20,7 @@ using Newtonsoft.Json.Serialization;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Response;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Client
 {
@@ -305,18 +305,26 @@ namespace Tgstation.Server.Client
 				if (content != null)
 					request.Content = content;
 
-				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
-				headersToUse.SetRequestHeaders(request.Headers, instanceId);
+				try
+				{
+					var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
+					headersToUse.SetRequestHeaders(request.Headers, instanceId);
 
-				if (authless)
-					request.Headers.Remove(HeaderNames.Authorization);
+					if (authless)
+						request.Headers.Remove(HeaderNames.Authorization);
 
-				if (fileDownload)
-					request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
+					if (fileDownload)
+						request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
 
-				await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
+					await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
 
-				response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+				}
+				finally
+				{
+					// prevent content param from getting disposed
+					request.Content = null;
+				}
 			}
 
 			try

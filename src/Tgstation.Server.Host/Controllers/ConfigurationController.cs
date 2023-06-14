@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -68,8 +69,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 202)]
 		public async Task<IActionResult> Update([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
 				return Forbid();
 
@@ -84,12 +84,10 @@ namespace Tgstation.Server.Host.Controllers
 								model.Path,
 								systemIdentity,
 								model.LastReadHash,
-								cancellationToken)
-							;
+								cancellationToken);
 
 						return model.LastReadHash == null ? Accepted(newFile) : Json(newFile);
-					})
-					;
+					});
 			}
 			catch (IOException e)
 			{
@@ -99,9 +97,9 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 		}
 
@@ -129,14 +127,12 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						var result = await instance
 							.Configuration
-							.Read(filePath, systemIdentity, cancellationToken)
-							;
+							.Read(filePath, systemIdentity, cancellationToken);
 						if (result == null)
-							return Gone();
+							return this.Gone();
 
 						return Json(result);
-					})
-					;
+					});
 			}
 			catch (IOException e)
 			{
@@ -146,9 +142,9 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 		}
 
@@ -183,20 +179,19 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							var result = await instance
 								.Configuration
-								.ListDirectory(directoryPath, systemIdentity, cancellationToken)
-								;
+								.ListDirectory(directoryPath, systemIdentity, cancellationToken);
 							if (result == null)
-								return new PaginatableResult<ConfigurationFileResponse>(Gone());
+								return new PaginatableResult<ConfigurationFileResponse>(this.Gone());
 
 							return new PaginatableResult<ConfigurationFileResponse>(
 								result
 									.AsQueryable()
 									.OrderBy(x => x.Path));
 						}
-						catch (NotImplementedException)
+						catch (NotImplementedException ex)
 						{
 							return new PaginatableResult<ConfigurationFileResponse>(
-								RequiresPosixSystemIdentity());
+								RequiresPosixSystemIdentity(ex));
 						}
 						catch (UnauthorizedAccessException)
 						{
@@ -238,8 +233,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 201)]
 		public async Task<IActionResult> CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
 				return Forbid();
@@ -257,8 +251,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Configuration
 						.CreateDirectory(model.Path, systemIdentity, cancellationToken)
 							? Json(resultModel)
-							: Created(resultModel))
-					;
+							: Created(resultModel));
 			}
 			catch (IOException e)
 			{
@@ -268,9 +261,9 @@ namespace Tgstation.Server.Host.Controllers
 					Message = e.Message,
 				});
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{
@@ -290,8 +283,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(204)]
 		public async Task<IActionResult> DeleteDirectory([FromBody] ConfigurationFileRequest directory, CancellationToken cancellationToken)
 		{
-			if (directory == null)
-				throw new ArgumentNullException(nameof(directory));
+			ArgumentNullException.ThrowIfNull(directory);
 
 			if (directory.Path == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -308,9 +300,9 @@ namespace Tgstation.Server.Host.Controllers
 						? NoContent()
 						: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)));
 			}
-			catch (NotImplementedException)
+			catch (NotImplementedException ex)
 			{
-				return RequiresPosixSystemIdentity();
+				return RequiresPosixSystemIdentity(ex);
 			}
 			catch (UnauthorizedAccessException)
 			{

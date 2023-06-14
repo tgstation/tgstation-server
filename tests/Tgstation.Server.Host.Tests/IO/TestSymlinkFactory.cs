@@ -10,10 +10,10 @@ namespace Tgstation.Server.Host.IO.Tests
 	[TestClass]
 	public sealed class TestSymlinkFactory
 	{
-		ISymlinkFactory symlinkFactory;
+		static ISymlinkFactory symlinkFactory;
 
-		[TestInitialize]
-		public void SelectFactory()
+		[ClassInitialize]
+		public static void SelectFactory(TestContext _)
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				symlinkFactory = new WindowsSymlinkFactory();

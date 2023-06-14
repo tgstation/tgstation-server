@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Utils;
+using Tgstation.Server.Host.Utils.GitHub;
 
 namespace Tgstation.Server.Host.Security.OAuth
 {
@@ -25,18 +25,17 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OAuthProviders"/> class.
 		/// </summary>
-		/// <param name="gitHubClientFactory">The <see cref="IGitHubClientFactory"/> to use.</param>
+		/// <param name="gitHubServiceFactory">The <see cref="IGitHubServiceFactory"/> to use.</param>
 		/// <param name="httpClientFactory">The <see cref="IAbstractHttpClientFactory"/> to use.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use.</param>
 		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="SecurityConfiguration"/> to use.</param>
 		public OAuthProviders(
-			IGitHubClientFactory gitHubClientFactory,
+			IGitHubServiceFactory gitHubServiceFactory,
 			IAbstractHttpClientFactory httpClientFactory,
 			ILoggerFactory loggerFactory,
 			IOptions<SecurityConfiguration> securityConfigurationOptions)
 		{
-			if (loggerFactory == null)
-				throw new ArgumentNullException(nameof(loggerFactory));
+			ArgumentNullException.ThrowIfNull(loggerFactory);
 
 			var securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
@@ -49,7 +48,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.GitHub, out var gitHubConfig))
 				validatorsBuilder.Add(
 					new GitHubOAuthValidator(
-						gitHubClientFactory,
+						gitHubServiceFactory,
 						loggerFactory.CreateLogger<GitHubOAuthValidator>(),
 						gitHubConfig));
 

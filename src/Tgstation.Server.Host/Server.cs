@@ -164,10 +164,8 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public bool TryStartUpdate(IServerUpdateExecutor updateExecutor, Version newVersion)
 		{
-			if (updateExecutor == null)
-				throw new ArgumentNullException(nameof(updateExecutor));
-			if (newVersion == null)
-				throw new ArgumentNullException(nameof(newVersion));
+			ArgumentNullException.ThrowIfNull(updateExecutor);
+			ArgumentNullException.ThrowIfNull(newVersion);
 
 			CheckSanity(true);
 
@@ -215,8 +213,7 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public IRestartRegistration RegisterForRestart(IRestartHandler handler)
 		{
-			if (handler == null)
-				throw new ArgumentNullException(nameof(handler));
+			ArgumentNullException.ThrowIfNull(handler);
 
 			CheckSanity(false);
 
@@ -314,14 +311,14 @@ namespace Tgstation.Server.Host
 							? generalConfiguration.ShutdownTimeoutMinutes
 							: generalConfiguration.RestartTimeoutMinutes));
 				var cancellationToken = cts.Token;
-				var eventsTask = Task.WhenAll(
-					restartHandlers.Select(
-						x => x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))
-					.ToList());
-
-				logger.LogTrace("Joining restart handlers...");
 				try
 				{
+					var eventsTask = Task.WhenAll(
+						restartHandlers.Select(
+							x => x.HandleRestart(newVersion, isGracefulShutdown, cancellationToken))
+						.ToList());
+
+					logger.LogTrace("Joining restart handlers...");
 					await eventsTask;
 				}
 				catch (OperationCanceledException ex)

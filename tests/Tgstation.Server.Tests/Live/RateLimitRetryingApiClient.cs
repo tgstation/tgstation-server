@@ -3,9 +3,11 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 
 namespace Tgstation.Server.Tests.Live
 {
@@ -29,6 +31,8 @@ namespace Tgstation.Server.Tests.Live
 					var now = DateTimeOffset.UtcNow;
 
 					Console.WriteLine($"TEST ERROR RATE LIMITED: {ex}");
+					if (!LiveTestUtils.RunningInGitHubActions)
+						Assert.Inconclusive("Rate limited by GitHub!");
 
 					var sleepTime = ex.RetryAfter.Value - now;
 					Console.WriteLine($"Sleeping for {sleepTime.TotalMinutes} minutes and retrying...");

@@ -16,6 +16,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -83,8 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1502, CA1506
 		public async Task<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.OAuthConnections?.Any(x => x == null) == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -116,20 +116,20 @@ namespace Tgstation.Server.Host.Controllers
 
 			var dbUser = await CreateNewUserFromModel(model, cancellationToken);
 			if (dbUser == null)
-				return Gone();
+				return this.Gone();
 
 			if (model.SystemIdentifier != null)
 				try
 				{
 					using var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken);
 					if (sysIdentity == null)
-						return Gone();
+						return this.Gone();
 					dbUser.Name = sysIdentity.Username;
 					dbUser.SystemIdentifier = sysIdentity.Uid;
 				}
-				catch (NotImplementedException)
+				catch (NotImplementedException ex)
 				{
-					return RequiresPosixSystemIdentity();
+					return RequiresPosixSystemIdentity(ex);
 				}
 			else if (!(model.Password?.Length == 0 && model.OAuthConnections?.Any() == true))
 			{
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken);
 
-			Logger.LogInformation("Created new user {0} ({1})", dbUser.Name, dbUser.Id);
+			Logger.LogInformation("Created new user {name} ({id})", dbUser.Name, dbUser.Id);
 
 			return Created(dbUser.ToApi());
 		}
@@ -170,8 +170,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (!model.Id.HasValue || model.OAuthConnections?.Any(x => x == null) == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -195,8 +194,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Include(x => x.Group)
 						.ThenInclude(x => x.PermissionSet)
 					.Include(x => x.PermissionSet)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
+					.FirstOrDefaultAsync(cancellationToken);
 
 			if (originalUser == default)
 				return NotFound();
@@ -215,12 +213,21 @@ namespace Tgstation.Server.Host.Controllers
 				|| (!oAuthEdit && model.OAuthConnections != null))
 				return Forbid();
 
+			var originalUserHasSid = originalUser.SystemIdentifier != null;
+			if (originalUserHasSid && originalUser.PasswordHash != null)
+			{
+				// cleanup from https://github.com/tgstation/tgstation-server/issues/1528
+				Logger.LogDebug("System user ID {userId}'s PasswordHash is polluted, updating database.", originalUser.Id);
+				originalUser.PasswordHash = null;
+				originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;
+			}
+
 			if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.UserSidChange));
 
 			if (model.Password != null)
 			{
-				if (model.SystemIdentifier != null)
+				if (originalUserHasSid)
 					return BadRequest(new ErrorMessageResponse(ErrorCode.UserMismatchPasswordSid));
 
 				var result = TrySetPassword(originalUser, model.Password, false);
@@ -265,11 +272,10 @@ namespace Tgstation.Server.Host.Controllers
 					.AsQueryable()
 					.Where(x => x.Id == model.Group.Id)
 					.Include(x => x.PermissionSet)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
+					.FirstOrDefaultAsync(cancellationToken);
 
 				if (originalUser.Group == default)
-					return Gone();
+					return this.Gone();
 
 				DatabaseContext.Groups.Attach(originalUser.Group);
 				if (originalUser.PermissionSet != null)
@@ -408,8 +414,7 @@ namespace Tgstation.Server.Host.Controllers
 					.AsQueryable()
 					.Where(x => x.Id == model.Group.Id)
 					.Include(x => x.PermissionSet)
-					.FirstOrDefaultAsync(cancellationToken)
-					;
+					.FirstOrDefaultAsync(cancellationToken);
 			else
 				permissionSet = new Models.PermissionSet
 				{

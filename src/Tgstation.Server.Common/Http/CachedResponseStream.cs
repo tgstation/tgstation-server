@@ -1,18 +1,19 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Client
+namespace Tgstation.Server.Common.Http
 {
 	/// <summary>
 	/// Caches the <see cref="Stream"/> from a <see cref="HttpResponseMessage"/> for later use.
 	/// </summary>
-	sealed class CachedResponseStream : Stream
+	public sealed class CachedResponseStream : Stream
 	{
 		/// <summary>
-		/// The <see cref="HttpResponseMessage"/> for the <see cref="CachedResponseStream"/>.
+		/// The <see cref="HttpContent"/> for the <see cref="CachedResponseStream"/>.
 		/// </summary>
-		readonly HttpResponseMessage response;
+		readonly HttpContent responseContent;
 
 		/// <summary>
 		/// The reponse content <see cref="Stream"/>.
@@ -26,8 +27,25 @@ namespace Tgstation.Server.Client
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="CachedResponseStream"/>.</returns>
 		public static async Task<CachedResponseStream> Create(HttpResponseMessage response)
 		{
-			var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-			return new CachedResponseStream(response, stream);
+			if (response == null)
+				throw new ArgumentNullException(nameof(response));
+
+			using (response)
+			{
+				var content = response.Content;
+				response.Content = null;
+				try
+				{
+					// don't cry about the missing CancellationToken overload: https://github.com/dotnet/runtime/issues/916
+					var responseStream = await content.ReadAsStreamAsync().ConfigureAwait(false);
+					return new CachedResponseStream(content, responseStream);
+				}
+				catch
+				{
+					content.Dispose();
+					throw;
+				}
+			}
 		}
 
 		/// <inheritdoc />
@@ -70,18 +88,19 @@ namespace Tgstation.Server.Client
 			base.Dispose(disposing);
 			if (!disposing)
 				return;
+
+			responseContent.Dispose();
 			responseStream.Dispose();
-			response.Dispose();
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CachedResponseStream"/> class.
 		/// </summary>
-		/// <param name="response">The value of <see cref="response"/>.</param>
+		/// <param name="responseContent">The value of <see cref="responseContent"/>.</param>
 		/// <param name="responseStream">The value of <see cref="responseStream"/>.</param>
-		CachedResponseStream(HttpResponseMessage response, Stream responseStream)
+		CachedResponseStream(HttpContent responseContent, Stream responseStream)
 		{
-			this.response = response;
+			this.responseContent = responseContent;
 			this.responseStream = responseStream;
 		}
 	}

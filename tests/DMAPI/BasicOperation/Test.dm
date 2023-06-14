@@ -1,14 +1,10 @@
-/world/New()
+/world/proc/RunTest()
 	text2file("SUCCESS", "test_success.txt")
 	log << "About to call TgsNew()"
 	sleep_offline = FALSE
 	TgsNew(minimum_required_security_level = TGS_SECURITY_SAFE)
 	log << "About to call StartAsync()"
 	StartAsync()
-
-/world/Error(exception)
-	fdel("test_success.txt")
-	text2file("Runtime Error: [exception]", "test_fail_reason.txt")
 
 /proc/StartAsync()
 	set waitfor = FALSE
@@ -21,7 +17,7 @@
 
 	var/list/world_params = world.params
 	if(!("test" in world_params) || world_params["test"] != "bababooey")
-		text2file("Expected parameter test=bababooey but did not receive", "test_fail_reason.txt")
+		FailTest("Expected parameter test=bababooey but did not receive", "test_fail_reason.txt")
 
 	world.log << "sleep2"
 	sleep(150)

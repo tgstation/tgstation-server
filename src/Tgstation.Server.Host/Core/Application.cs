@@ -26,11 +26,10 @@ using Serilog.Events;
 using Serilog.Formatting.Display;
 
 using Tgstation.Server.Api;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
@@ -127,8 +126,7 @@ namespace Tgstation.Server.Host.Core
 		{
 			ConfigureServices(services, assemblyInformationProvider, ioManager);
 
-			if (postSetupServices == null)
-				throw new ArgumentNullException(nameof(postSetupServices));
+			ArgumentNullException.ThrowIfNull(postSetupServices);
 
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
@@ -247,7 +245,7 @@ namespace Tgstation.Server.Host.Core
 			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
 			{
 				string GetDocumentationFilePath(string assemblyLocation) => ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
-				var assemblyDocumentationPath = GetDocumentationFilePath(typeof(Application).Assembly.Location);
+				var assemblyDocumentationPath = GetDocumentationFilePath(GetType().Assembly.Location);
 				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
 				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
 				services.AddSwaggerGenNewtonsoftSupport();
@@ -345,7 +343,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<FileTransferService>();
 			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
 			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
-			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
+			services.AddTransient<IActionResultExecutor<LimitedStreamResult>, LimitedStreamResultExecutor>();
 
 			// configure swarm service
 			services.AddSingleton<SwarmService>();
@@ -360,7 +358,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
 			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
 			services.AddSingleton<IRemoteDeploymentManagerFactory, RemoteDeploymentManagerFactory>();
-			services.AddSingleton<IProviderFactory, ProviderFactory>();
+			services.AddChatProviderFactory();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<IServerUpdater, ServerUpdater>();
 			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
@@ -368,13 +366,15 @@ namespace Tgstation.Server.Host.Core
 			// configure misc services
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
-			services.AddSingleton<IFileDownloader, FileDownloader>();
+			services.AddFileDownloader();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
+
+			services.AddGitHub();
 
 			// configure root services
-			services.AddSingleton<IJobManager, JobManager>();
+			services.AddSingleton<IJobService, JobService>();
+			services.AddSingleton<IJobManager>(x => x.GetRequiredService<IJobService>());
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
@@ -404,24 +404,19 @@ namespace Tgstation.Server.Host.Core
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<Application> logger)
 		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
+			ArgumentNullException.ThrowIfNull(serverControl);
 
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 
-			if (serverPortProvider == null)
-				throw new ArgumentNullException(nameof(serverPortProvider));
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			ArgumentNullException.ThrowIfNull(serverPortProvider);
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
+			ArgumentNullException.ThrowIfNull(logger);
 
 			logger.LogDebug("Content Root: {contentRoot}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {webRoot}", hostingEnvironment.WebRootPath);
@@ -435,7 +430,10 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			// setup the HTTP request pipeline
-			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
+			// Add additional logging context to the request
+			applicationBuilder.UseAdditionalRequestLoggingContext(swarmConfiguration);
+
+			// Wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
 
 			// Add the X-Powered-By response header

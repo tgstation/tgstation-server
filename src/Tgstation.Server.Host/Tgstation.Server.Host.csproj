@@ -1,15 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
     <TargetFramework>$(TgsNetVersion)</TargetFramework>
-    <DebugType>Full</DebugType>
     <Version>$(TgsCoreVersion)</Version>
-    <LangVersion>latest</LangVersion>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
-    <DocumentationFile>bin\$(Configuration)\net6.0\Tgstation.Server.Host.xml</DocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
     <NoWarn>API1000</NoWarn>
   </PropertyGroup>
 
@@ -23,6 +21,10 @@
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);WATCHDOG_FREE_RESTART</DefineConstants>
   </PropertyGroup>
 
   <Target Name="ClientInstall" BeforeTargets="ResolveAssemblyReferences" Inputs="../../build/ControlPanelVersion.props" Outputs="$(NpmInstallStampFile)">
@@ -64,56 +66,52 @@
     <!-- Usage: Concise throw statements for native Win32 errors -->
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <!-- Usage: Interop with BYOND's /world/Topic -->
-    <PackageReference Include="Byond.TopicSender" Version="5.0.0" />
+    <PackageReference Include="Byond.TopicSender" Version="7.0.1" />
     <!-- Usage: 503'ing request pipeline until server is finished initializing -->
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <!-- Usage: IRC interop -->
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.7" />
     <!-- Usage: Text formatter for Elasticsearch logging plugin -->
-    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="1.5.3" />
+    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.0" />
     <!-- Usage: GitLab interop -->
     <PackageReference Include="GitLabApiClient" Version="1.8.0" />
     <!-- Usage: git interop -->
-    <!-- Pinned: Later versions are known to show issues with TGS. Do not upgrade without thorough git testing -->
-    <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
+    <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
     <!-- Usage: JWT injection into HTTP pipeline -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
     <!-- Usage: Support ""legacy"" Newotonsoft.Json in HTTP pipeline. The rest of our codebase uses Newtonsoft. -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.16" />
     <!-- Usage: Database ORM -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
     <!-- Usage: Automatic migration generation using command line -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.15">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.7" />
     <!-- Usage: MSSQL ORM plugin -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.15" />
-    <!-- Usage: Included transitively through other packages, workaround for https://github.com/coverlet-coverage/coverlet/issues/1381 -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.7" />
     <!-- Usage: POSIX support for syscalls, signals, and symlinks -->
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Usage: YAML config plugin -->
-    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.0.0" />
+    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
     <!-- Usage: PostgresSQL ORM plugin -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
     <!-- Usage: GitHub.com interop -->
-    <PackageReference Include="Octokit" Version="5.0.3" />
+    <PackageReference Include="Octokit" Version="6.0.0" />
     <!-- Usage: MYSQL/MariaDB ORM plugin -->
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <!-- Usage: Discord interop -->
-    <!-- Pinned: 2022.49.0 is the last .NET 6.0 version but has issues -->
-    <PackageReference Include="Remora.Discord" Version="2022.48.0" />
+    <PackageReference Include="Remora.Discord" Version="2023.3.0" />
     <!-- Usage: Rich logger builder -->
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
     <!-- Usage: Async logging plugin -->
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <!-- Usage: Console logging plugin -->
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <!-- Usage: Elasticsearch logging plugin -->
-    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.1" />
     <!-- Usage: File logging plugin -->
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <!-- Usage: Linting -->
@@ -128,13 +126,13 @@
     <!-- Usage: Access to raw database connectors primarily for setup wizard -->
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <!-- Usage: Windows authentication plugin allowing searching for users by name -->
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="6.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="7.0.0" />
     <!-- Usage: JWT plugin needed to undo some Microsoft meddling in the HTTP pipeline -->
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.28.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
     <!-- Usage: Identifying owning user of Windows Process objects -->
-    <PackageReference Include="System.Management" Version="6.0.0" />
+    <PackageReference Include="System.Management" Version="7.0.2" />
     <!-- Usage: .DeleteAsync() support for IQueryable<T>s -->
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.20.1" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="7.22.3" />
   </ItemGroup>
 
   <ItemGroup>

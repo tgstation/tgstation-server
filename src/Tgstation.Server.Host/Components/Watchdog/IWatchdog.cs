@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Hosting;
-
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Events;
@@ -14,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// Runs and monitors the twin server controllers.
 	/// </summary>
-	public interface IWatchdog : IHostedService, IAsyncDisposable, IEventConsumer, IRenameNotifyee
+	public interface IWatchdog : IComponentService, IAsyncDisposable, IEventConsumer, IRenameNotifyee
 	{
 		/// <summary>
 		/// The current <see cref="WatchdogStatus"/>.

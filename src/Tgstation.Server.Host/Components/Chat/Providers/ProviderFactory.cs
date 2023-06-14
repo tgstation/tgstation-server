@@ -55,20 +55,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public IProvider CreateProvider(Models.ChatBot settings)
 		{
-			if (settings == null)
-				throw new ArgumentNullException(nameof(settings));
+			ArgumentNullException.ThrowIfNull(settings);
 			return settings.Provider switch
 			{
 				ChatProvider.Irc => new IrcProvider(
 					jobManager,
-					assemblyInformationProvider,
 					asyncDelayer,
 					loggerFactory.CreateLogger<IrcProvider>(),
+					assemblyInformationProvider,
 					settings),
 				ChatProvider.Discord => new DiscordProvider(
 					jobManager,
-					assemblyInformationProvider,
+					asyncDelayer,
 					loggerFactory.CreateLogger<DiscordProvider>(),
+					assemblyInformationProvider,
 					settings),
 				_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid ChatProvider: {0}", settings.Provider)),
 			};

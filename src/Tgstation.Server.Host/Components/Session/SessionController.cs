@@ -29,6 +29,11 @@ namespace Tgstation.Server.Host.Components.Session
 	/// <inheritdoc />
 	sealed class SessionController : Chunker, ISessionController, IBridgeHandler, IChannelSink
 	{
+		/// <summary>
+		/// If calls to <see cref="SendTopicRequest(TopicParameters, CancellationToken)"/> should be trace logged.
+		/// </summary>
+		internal static bool LogTopicRequests { get; set; } = true;
+
 		/// <inheritdoc />
 		public DMApiParameters DMApiParameters => ReattachInformation;
 
@@ -124,6 +129,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IChatManager chat;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="SessionController"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for port updates and <see cref="disposed"/>.
 		/// </summary>
 		readonly object synchronizationLock;
@@ -180,6 +190,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="chat">The value of <see cref="chat"/>.</param>
 		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/>.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="logger">The value of <see cref="Chunker.Logger"/>.</param>
 		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="Task"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/>.</param>
@@ -195,6 +206,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
 			IAssemblyInformationProvider assemblyInformationProvider,
+			IAsyncDelayer asyncDelayer,
 			ILogger<SessionController> logger,
 			Func<Task> postLifetimeCallback,
 			uint? startupTimeout,
@@ -208,9 +220,12 @@ namespace Tgstation.Server.Host.Components.Session
 			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.chatTrackingContext = chatTrackingContext ?? throw new ArgumentNullException(nameof(chatTrackingContext));
-			if (bridgeRegistrar == null)
-				throw new ArgumentNullException(nameof(bridgeRegistrar));
+			ArgumentNullException.ThrowIfNull(bridgeRegistrar);
+
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
+
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			portClosedForReboot = false;
 			disposed = false;
@@ -219,7 +234,11 @@ namespace Tgstation.Server.Host.Components.Session
 
 			rebootTcs = new TaskCompletionSource();
 			primeTcs = new TaskCompletionSource();
-			initialBridgeRequestTcs = new TaskCompletionSource();
+
+			// Run this asynchronously because we want to try to avoid any effects sending topics to the server while the initial bridge request is processing
+			// It MAY be the source of a DD crash. See this gist https://gist.github.com/Cyberboss/7776bbeff3a957d76affe0eae95c9f14
+			// Worth further investigation as to if that sequence of events is a reliable crash vector and opening a BYOND bug if it is
+			initialBridgeRequestTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 			reattachTopicCts = new CancellationTokenSource();
 			synchronizationLock = new object();
 
@@ -246,6 +265,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			LaunchResult = GetLaunchResult(
 				assemblyInformationProvider,
+				asyncDelayer,
 				startupTimeout,
 				reattached,
 				apiValidate);
@@ -288,8 +308,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
@@ -324,8 +343,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public async Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			if (Lifetime.IsCompleted)
 			{
@@ -348,7 +366,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 				void LogCombinedResponse()
 				{
-					if (combinedResponse != null)
+					if (LogTopicRequests && combinedResponse != null)
 						Logger.LogTrace("Topic response: {topicString}", combinedResponse.ByondTopicResponse.StringData ?? "(NO STRING DATA)");
 				}
 
@@ -422,8 +440,7 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				var commandResult = await SendCommand(
 					new TopicParameters(port),
-					cancellationToken)
-					;
+					cancellationToken);
 
 				if (commandResult?.ErrorMessage != null)
 					return false;
@@ -456,8 +473,7 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation.RebootState = newRebootState;
 			var result = await SendCommand(
 				new TopicParameters(newRebootState),
-				cancellationToken)
-				;
+				cancellationToken);
 
 			return result?.ErrorMessage == null;
 		}
@@ -508,12 +524,14 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The <see cref="Task{TResult}"/> for <see cref="LaunchResult"/>.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/>.</param>
 		/// <param name="startupTimeout">The, optional, startup timeout in seconds.</param>
 		/// <param name="reattached">If DreamDaemon was reattached.</param>
 		/// <param name="apiValidate">If this is a DMAPI validation session.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Session.LaunchResult"/> for the operation.</returns>
 		async Task<LaunchResult> GetLaunchResult(
 			IAssemblyInformationProvider assemblyInformationProvider,
+			IAsyncDelayer asyncDelayer,
 			uint? startupTimeout,
 			bool reattached,
 			bool apiValidate)
@@ -526,7 +544,11 @@ namespace Tgstation.Server.Host.Components.Session
 			var toAwait = Task.WhenAny(startupTask, process.Lifetime);
 
 			if (startupTimeout.HasValue)
-				toAwait = Task.WhenAny(toAwait, Task.Delay(TimeSpan.FromSeconds(startupTimeout.Value)));
+				toAwait = Task.WhenAny(
+					toAwait,
+					asyncDelayer.Delay(
+						TimeSpan.FromSeconds(startupTimeout.Value),
+						CancellationToken.None)); // DCT: None available, task will clean up after delay
 
 			Logger.LogTrace(
 				"Waiting for LaunchResult based on {launchResultCompletionCause}{possibleTimeout}...",
@@ -749,10 +771,12 @@ namespace Tgstation.Server.Host.Components.Session
 			parameters.AccessIdentifier = ReattachInformation.AccessIdentifier;
 
 			var fullCommandString = GenerateQueryString(parameters, out var json);
-			Logger.LogTrace("Topic request: {json}", json);
+			if (LogTopicRequests)
+				Logger.LogTrace("Topic request: {json}", json);
 			var fullCommandByteCount = Encoding.UTF8.GetByteCount(fullCommandString);
+			var topicPriority = parameters.IsPriority;
 			if (fullCommandByteCount <= DMApiConstants.MaximumTopicRequestLength)
-				return await SendRawTopic(fullCommandString, cancellationToken);
+				return await SendRawTopic(fullCommandString, topicPriority, cancellationToken);
 
 			var interopChunkingVersion = new Version(5, 6, 0);
 			if (ReattachInformation.Dmb.CompileJob.DMApiVersion < interopChunkingVersion)
@@ -840,7 +864,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			foreach (var chunkCommandString in chunkQueryStrings)
 			{
-				combinedResponse = await SendRawTopic(chunkCommandString, cancellationToken);
+				combinedResponse = await SendRawTopic(chunkCommandString, topicPriority, cancellationToken);
 				if (LogRequestIssue(chunkCommandString == chunkQueryStrings.Last()))
 					return null;
 			}
@@ -852,7 +876,7 @@ namespace Tgstation.Server.Host.Components.Session
 				foreach (var missingChunkIndex in combinedResponse.InteropResponse.MissingChunks)
 				{
 					var chunkCommandString = chunkQueryStrings[(int)missingChunkIndex];
-					combinedResponse = await SendRawTopic(chunkCommandString, cancellationToken);
+					combinedResponse = await SendRawTopic(chunkCommandString, topicPriority, cancellationToken);
 					if (LogRequestIssue(missingChunkIndex == lastIndex))
 						return null;
 				}
@@ -882,22 +906,53 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Send a given <paramref name="queryString"/> to DreamDaemon's /world/Topic.
 		/// </summary>
 		/// <param name="queryString">The sanitized topic query string to send.</param>
+		/// <param name="priority">If this is a priority message. If so, the topic will make 5 attempts to send unless BYOND reboots or exits.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="CombinedTopicResponse"/> of the topic request.</returns>
-		async Task<CombinedTopicResponse> SendRawTopic(string queryString, CancellationToken cancellationToken)
+		async Task<CombinedTopicResponse> SendRawTopic(string queryString, bool priority, CancellationToken cancellationToken)
 		{
 			var targetPort = ReattachInformation.Port;
-			global::Byond.TopicSender.TopicResponse byondResponse;
-			try
+			var killedOrRebootedTask = Task.WhenAny(Lifetime, OnReboot);
+			global::Byond.TopicSender.TopicResponse byondResponse = null;
+			var firstSend = true;
+
+			const int PrioritySendAttempts = 5;
+			for (var i = PrioritySendAttempts - 1; i >= 0 && (priority || firstSend); --i)
+				try
+				{
+					firstSend = false;
+					if (!killedOrRebootedTask.IsCompleted)
+						byondResponse = await byondTopicSender.SendTopic(
+							new IPEndPoint(IPAddress.Loopback, targetPort),
+							queryString,
+							cancellationToken);
+
+					break;
+				}
+				catch (Exception ex)
+				{
+					Logger.LogWarning(ex, "SendTopic exception!{retryDetails}", priority ? $" {i} attempts remaining." : String.Empty);
+
+					if (priority && i > 0)
+					{
+						var delayTask = asyncDelayer.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+						await Task.WhenAny(killedOrRebootedTask, delayTask);
+					}
+				}
+
+			if (byondResponse == null)
 			{
-				byondResponse = await byondTopicSender.SendTopic(
-					new IPEndPoint(IPAddress.Loopback, targetPort),
-					queryString,
-					cancellationToken);
-			}
-			catch (Exception ex)
-			{
-				Logger.LogWarning(ex, "SendTopic exception!");
+				if (priority)
+					if (killedOrRebootedTask.IsCompleted)
+						Logger.LogWarning(
+							"Unable to send priority topic \"{queryString}\" DreamDaemon {stateClearAction}!",
+							queryString,
+							Lifetime.IsCompleted ? "process ended" : "rebooted");
+					else
+						Logger.LogError(
+							"Unable to send priority topic \"{queryString}\"!",
+							queryString);
+
 				return null;
 			}
 

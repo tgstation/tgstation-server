@@ -31,10 +31,8 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/>.</param>
 		public static void ConfigureWith(DbContextOptionsBuilder options, DatabaseConfiguration databaseConfiguration)
 		{
-			if (options == null)
-				throw new ArgumentNullException(nameof(options));
-			if (databaseConfiguration == null)
-				throw new ArgumentNullException(nameof(databaseConfiguration));
+			ArgumentNullException.ThrowIfNull(options);
+			ArgumentNullException.ThrowIfNull(databaseConfiguration);
 
 			if (databaseConfiguration.DatabaseType != DatabaseType.PostgresSql)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(PostgresSqlDatabaseContext)}!");

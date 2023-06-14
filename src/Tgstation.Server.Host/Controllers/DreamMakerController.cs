@@ -14,6 +14,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -79,8 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 				.DreamMakerSettings
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			return Json(dreamMakerSettings.ToApi());
 		}
 
@@ -152,8 +152,7 @@ namespace Tgstation.Server.Host.Controllers
 				job,
 				(core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken)
 					=> core.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),
-				cancellationToken)
-				;
+				cancellationToken);
 			return Accepted(job.ToApi());
 		}
 
@@ -178,8 +177,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> Update([FromBody] DreamMakerRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.ApiValidationPort == 0)
 				throw new InvalidOperationException("ApiValidationPort cannot be 0!");
@@ -188,10 +186,9 @@ namespace Tgstation.Server.Host.Controllers
 				.DreamMakerSettings
 				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				;
+				.FirstOrDefaultAsync(cancellationToken);
 			if (hostModel == null)
-				return Gone();
+				return this.Gone();
 
 			if (model.ProjectName != null)
 			{
@@ -214,8 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 						.GetAvailablePort(
 							model.ApiValidationPort.Value,
 							true,
-							cancellationToken)
-							;
+							cancellationToken);
 					if (verifiedPort != model.ApiValidationPort)
 						return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 

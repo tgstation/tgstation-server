@@ -62,8 +62,7 @@ namespace Tgstation.Server.Host.Controllers
 		public BridgeController(IBridgeDispatcher bridgeDispatcher, IHostApplicationLifetime applicationLifetime, ILogger<BridgeController> logger)
 		{
 			this.bridgeDispatcher = bridgeDispatcher ?? throw new ArgumentNullException(nameof(bridgeDispatcher));
-			if (applicationLifetime == null)
-				throw new ArgumentNullException(nameof(applicationLifetime));
+			ArgumentNullException.ThrowIfNull(applicationLifetime);
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 

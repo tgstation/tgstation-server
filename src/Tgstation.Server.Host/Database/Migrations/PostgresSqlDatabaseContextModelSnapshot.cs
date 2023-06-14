@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "6.0.15")
+				.HasAnnotation("ProductVersion", "6.0.16")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -81,6 +81,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("character varying(100)");
 
 				b.Property<bool?>("IsAdminChannel")
+					.IsRequired()
+					.HasColumnType("boolean");
+
+				b.Property<bool?>("IsSystemChannel")
 					.IsRequired()
 					.HasColumnType("boolean");
 

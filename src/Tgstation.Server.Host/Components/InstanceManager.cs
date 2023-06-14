@@ -58,9 +58,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="InstanceManager"/>.
+		/// The <see cref="IJobService"/> for the <see cref="InstanceManager"/>.
 		/// </summary>
-		readonly IJobManager jobManager;
+		readonly IJobService jobService;
 
 		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="InstanceManager"/>.
@@ -149,7 +149,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="ioManager">The value of <paramref name="ioManager"/>.</param>
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
+		/// <param name="jobService">The value of <see cref="jobService"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Components
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			IJobManager jobManager,
+			IJobService jobService,
 			IServerControl serverControl,
 			ISystemIdentityFactory systemIdentityFactory,
 			IAsyncDelayer asyncDelayer,
@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host.Components
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.jobService = jobService ?? throw new ArgumentNullException(nameof(jobService));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
@@ -218,8 +218,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IInstanceReference GetInstanceReference(Api.Models.Instance metadata)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			lock (instances)
 			{
@@ -233,8 +232,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task MoveInstance(Models.Instance instance, string oldPath, CancellationToken cancellationToken)
 		{
-			if (oldPath == null)
-				throw new ArgumentNullException(nameof(oldPath));
+			ArgumentNullException.ThrowIfNull(oldPath);
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			using var instanceReferenceCheck = GetInstanceReference(instance);
@@ -268,7 +266,7 @@ namespace Tgstation.Server.Host.Components
 						};
 						db.Instances.Attach(targetInstance);
 						targetInstance.Path = oldPath;
-						return db.Save(default);
+						return db.Save(CancellationToken.None);
 					});
 				}
 				catch (Exception innerEx)
@@ -284,8 +282,7 @@ namespace Tgstation.Server.Host.Components
 						await ioManager.WriteAllBytes(
 							ioManager.ConcatPath(oldPath, InstanceController.InstanceAttachFileName),
 							Array.Empty<byte>(),
-							default)
-							;
+							CancellationToken.None);
 					}
 					catch (Exception tripleEx)
 					{
@@ -306,8 +303,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task OfflineInstance(Models.Instance metadata, Models.User user, CancellationToken cancellationToken)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			using (await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken))
 			{
@@ -344,7 +340,7 @@ namespace Tgstation.Server.Host.Components
 								})
 								.ToListAsync(cancellationToken);
 							foreach (var job in jobs)
-								tasks.Add(jobManager.CancelJob(job, user, true, cancellationToken));
+								tasks.Add(jobService.CancelJob(job, user, true, cancellationToken));
 						});
 
 					await Task.WhenAll(tasks);
@@ -373,8 +369,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task OnlineInstance(Models.Instance metadata, CancellationToken cancellationToken)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken);
 			lock (instances)
@@ -403,7 +398,7 @@ namespace Tgstation.Server.Host.Components
 					try
 					{
 						// DCT: Must always run
-						await instance.StopAsync(default);
+						await instance.StopAsync(CancellationToken.None);
 					}
 					catch (Exception innerEx)
 					{
@@ -444,7 +439,7 @@ namespace Tgstation.Server.Host.Components
 					}
 
 					var instanceFactoryStopTask = instanceFactory.StopAsync(cancellationToken);
-					await jobManager.StopAsync(cancellationToken);
+					await jobService.StopAsync(cancellationToken);
 
 					async Task OfflineInstanceImmediate(IInstance instance, CancellationToken cancellationToken)
 					{
@@ -472,8 +467,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			IBridgeHandler bridgeHandler = null;
 			for (var i = 0; bridgeHandler == null && i < 30; ++i)
@@ -502,8 +496,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IBridgeRegistration RegisterHandler(IBridgeHandler bridgeHandler)
 		{
-			if (bridgeHandler == null)
-				throw new ArgumentNullException(nameof(bridgeHandler));
+			ArgumentNullException.ThrowIfNull(bridgeHandler);
 
 			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier;
 			lock (bridgeHandlers)
@@ -563,7 +556,7 @@ namespace Tgstation.Server.Host.Components
 						.ToListAsync(cancellationToken));
 
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
-				var jobManagerStartup = jobManager.StartAsync(cancellationToken);
+				var jobManagerStartup = jobService.StartAsync(cancellationToken);
 
 				await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup);
 
@@ -582,7 +575,7 @@ namespace Tgstation.Server.Host.Components
 
 				await Task.WhenAll(instanceOnliningTasks);
 
-				jobManager.Activate(this);
+				jobService.Activate(this);
 
 				logger.LogInformation("Server ready!");
 				readyTcs.SetResult();

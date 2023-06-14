@@ -1,15 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/Version.props" />
+  <Import Project="../../build/Common.props" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <DebugType>Full</DebugType>
+    <TargetFramework>$(TgsNetVersion)</TargetFramework>
     <Version>$(TgsCoreVersion)</Version>
-    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -25,7 +24,7 @@
 
   <ItemGroup>
     <!-- Usage: Console logging plugin -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
     <!-- Usage: Linting -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>

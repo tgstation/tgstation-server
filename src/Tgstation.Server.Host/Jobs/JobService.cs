@@ -17,22 +17,22 @@ using Tgstation.Server.Host.Utils;
 namespace Tgstation.Server.Host.Jobs
 {
 	/// <inheritdoc />
-	sealed class JobManager : IJobManager, IDisposable
+	sealed class JobService : IJobService, IDisposable
 	{
 		/// <summary>
-		/// The <see cref="IServiceProvider"/> for the <see cref="JobManager"/>.
+		/// The <see cref="IServiceProvider"/> for the <see cref="JobService"/>.
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="JobManager"/>.
+		/// The <see cref="ILoggerFactory"/> for the <see cref="JobService"/>.
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="JobManager"/>.
+		/// The <see cref="ILogger"/> for the <see cref="JobService"/>.
 		/// </summary>
-		readonly ILogger<JobManager> logger;
+		readonly ILogger<JobService> logger;
 
 		/// <summary>
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to running <see cref="JobHandler"/>s.
@@ -55,15 +55,20 @@ namespace Tgstation.Server.Host.Jobs
 		readonly object addCancelLock;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="JobManager"/> class.
+		/// Prevents jobs that are registered after shutdown from activating.
+		/// </summary>
+		volatile bool noMoreJobsShouldStart;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="JobService"/> class.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public JobManager(
+		public JobService(
 			IDatabaseContextFactory databaseContextFactory,
 			ILoggerFactory loggerFactory,
-			ILogger<JobManager> logger)
+			ILogger<JobService> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
@@ -86,10 +91,8 @@ namespace Tgstation.Server.Host.Jobs
 			=> databaseContextFactory.UseContext(
 				async databaseContext =>
 				{
-					if (job == null)
-						throw new ArgumentNullException(nameof(job));
-					if (operation == null)
-						throw new ArgumentNullException(nameof(operation));
+					ArgumentNullException.ThrowIfNull(job);
+					ArgumentNullException.ThrowIfNull(operation);
 
 					job.StartedAt = DateTimeOffset.UtcNow;
 					job.Cancelled = false;
@@ -103,8 +106,7 @@ namespace Tgstation.Server.Host.Jobs
 					if (job.StartedBy == null)
 						job.StartedBy = await databaseContext
 							.Users
-							.GetTgsUser(cancellationToken)
-							;
+							.GetTgsUser(cancellationToken);
 					else
 						job.StartedBy = new User
 						{
@@ -122,10 +124,15 @@ namespace Tgstation.Server.Host.Jobs
 					{
 						lock (addCancelLock)
 						{
+							bool jobShouldStart;
 							lock (synchronizationLock)
+							{
 								jobs.Add(job.Id.Value, jobHandler);
+								jobShouldStart = !noMoreJobsShouldStart;
+							}
 
-							jobHandler.Start();
+							if (jobShouldStart)
+								jobHandler.Start();
 						}
 					}
 					catch
@@ -145,8 +152,7 @@ namespace Tgstation.Server.Host.Jobs
 					.AsQueryable()
 					.Where(y => !y.StoppedAt.HasValue)
 					.Select(y => y.Id)
-					.ToListAsync(cancellationToken)
-					;
+					.ToListAsync(cancellationToken);
 				if (badJobIds.Count > 0)
 				{
 					logger.LogTrace("Cleaning {unfinishedJobCount} unfinished jobs...", badJobIds.Count);
@@ -160,41 +166,45 @@ namespace Tgstation.Server.Host.Jobs
 
 					await databaseContext.Save(cancellationToken);
 				}
+
+				noMoreJobsShouldStart = false;
 			});
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			var joinTasks = jobs.Select(x => CancelJob(
-				new Job
+			List<Task<Job>> joinTasks;
+			lock (addCancelLock)
+				lock (synchronizationLock)
 				{
-					Id = x.Key,
-				},
-				null,
-				true,
-				cancellationToken));
+					noMoreJobsShouldStart = true;
+					joinTasks = jobs.Select(x => CancelJob(
+						new Job
+						{
+							Id = x.Key,
+						},
+						null,
+						true,
+						cancellationToken))
+						.ToList();
+				}
+
 			await Task.WhenAll(joinTasks);
 		}
 
 		/// <inheritdoc />
 		public async Task<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
+			ArgumentNullException.ThrowIfNull(job);
 
 			JobHandler handler;
 			lock (addCancelLock)
 			{
-				try
-				{
-					handler = CheckGetJob(job);
-				}
-				catch (InvalidOperationException)
-				{
-					// this is fine
-					return null;
-				}
+				lock (synchronizationLock)
+					if (!jobs.TryGetValue(job.Id.Value, out handler))
+						return null;
 
+				logger.LogDebug("Cancelling job ID {jobId}...", job.Id.Value);
 				handler.Cancel(); // this will ensure the db update is only done once
 			}
 
@@ -226,8 +236,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public void SetJobProgress(JobResponse apiResponse)
 		{
-			if (apiResponse == null)
-				throw new ArgumentNullException(nameof(apiResponse));
+			ArgumentNullException.ThrowIfNull(apiResponse);
 			lock (synchronizationLock)
 			{
 				if (!jobs.TryGetValue(apiResponse.Id.Value, out var handler))
@@ -240,14 +249,23 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public async Task WaitForJobCompletion(Job job, User canceller, CancellationToken jobCancellationToken, CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
+			ArgumentNullException.ThrowIfNull(job);
+
+			if (!cancellationToken.CanBeCanceled)
+				throw new ArgumentException("A cancellable CancellationToken should be provided!", nameof(cancellationToken));
+
 			JobHandler handler;
+			bool noMoreJobsShouldStart;
 			lock (synchronizationLock)
 			{
 				if (!jobs.TryGetValue(job.Id.Value, out handler))
 					return;
+
+				noMoreJobsShouldStart = this.noMoreJobsShouldStart;
 			}
+
+			if (noMoreJobsShouldStart && !handler.Started)
+				await Extensions.TaskExtensions.InfiniteTask.WithToken(cancellationToken);
 
 			Task cancelTask = null;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
@@ -260,26 +278,10 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public void Activate(IInstanceCoreProvider instanceCoreProvider)
 		{
-			if (instanceCoreProvider == null)
-				throw new ArgumentNullException(nameof(instanceCoreProvider));
+			ArgumentNullException.ThrowIfNull(instanceCoreProvider);
 
 			logger.LogTrace("Activating job manager...");
 			activationTcs.SetResult(instanceCoreProvider);
-		}
-
-		/// <summary>
-		/// Gets the <see cref="JobHandler"/> for a given <paramref name="job"/> if it exists.
-		/// </summary>
-		/// <param name="job">The <see cref="Job"/> to get the <see cref="JobHandler"/> for.</param>
-		/// <returns>The <see cref="JobHandler"/>.</returns>
-		JobHandler CheckGetJob(Job job)
-		{
-			lock (synchronizationLock)
-			{
-				if (!jobs.TryGetValue(job.Id.Value, out JobHandler jobHandler))
-					throw new InvalidOperationException("Job not running!");
-				return jobHandler;
-			}
 		}
 
 		/// <summary>
@@ -364,7 +366,7 @@ namespace Tgstation.Server.Host.Jobs
 						attachedJob.Cancelled = job.Cancelled;
 
 						// DCT: Cancellation token is for job, operation should always run
-						await databaseContext.Save(default);
+						await databaseContext.Save(CancellationToken.None);
 					});
 				}
 				finally

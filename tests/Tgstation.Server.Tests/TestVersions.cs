@@ -19,7 +19,7 @@ using Newtonsoft.Json.Linq;
 
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
-using Tgstation.Server.Common;
+using Tgstation.Server.Common.Http;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Interop;
@@ -35,12 +35,12 @@ namespace Tgstation.Server.Tests
 	[TestCategory("SkipWhenLiveUnitTesting")]
 	public sealed class TestVersions
 	{
-		XNamespace xmlNamespace;
+		static XNamespace xmlNamespace;
 
-		XElement versionsPropertyGroup;
+		static XElement versionsPropertyGroup;
 
-		[TestInitialize]
-		public void Init()
+		[ClassInitialize]
+		public static void Init(TestContext _)
 		{
 			var doc = XDocument.Load("../../../../../build/Version.props");
 			var project = doc.Root;

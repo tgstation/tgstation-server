@@ -75,8 +75,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					IOManager.ConcatPath(
 						PathToUserByondFolder,
 						CacheDirectoryName),
-					cancellationToken)
-					;
+					cancellationToken);
 			}
 			catch (OperationCanceledException)
 			{
@@ -95,14 +94,17 @@ namespace Tgstation.Server.Host.Components.Byond
 		public abstract Task UpgradeInstallation(Version version, string path, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
+		public async Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			Logger.LogTrace("Downloading BYOND version {major}.{minor}...", version.Major, version.Minor);
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Major, version.Minor);
-			return fileDownloader.DownloadFile(new Uri(url), cancellationToken);
+
+			await using var download = fileDownloader.DownloadFile(new Uri(url), null);
+			await using var buffer = new BufferedFileStreamProvider(
+				await download.GetResult(cancellationToken));
+			return await buffer.GetOwnedResult(cancellationToken);
 		}
 	}
 }

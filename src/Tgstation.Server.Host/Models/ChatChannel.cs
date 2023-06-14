@@ -49,6 +49,7 @@ namespace Tgstation.Server.Host.Models
 			IsAdminChannel = IsAdminChannel,
 			IsWatchdogChannel = IsWatchdogChannel,
 			IsUpdatesChannel = IsUpdatesChannel,
+			IsSystemChannel = IsSystemChannel,
 			Tag = Tag,
 		};
 	}

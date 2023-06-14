@@ -227,28 +227,28 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void ListImpl()
 			{
-				var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
 				try
 				{
+					var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
 					result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
 					{
 						IsDirectory = true,
 						Path = ioManager.ConcatPath(configurationRelativePath, x),
 					}).OrderBy(file => file.Path));
+
+					enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
+					result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
+					{
+						IsDirectory = false,
+						Path = ioManager.ConcatPath(configurationRelativePath, x),
+					}).OrderBy(file => file.Path));
 				}
-				catch (IOException e)
+				catch (IOException ex)
 				{
-					logger.LogDebug(e, "IOException while writing {path}!", path);
+					logger.LogDebug(ex, "IOException while enumerating direcotry!");
 					result = null;
 					return;
 				}
-
-				enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
-				result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
-				{
-					IsDirectory = false,
-					Path = ioManager.ConcatPath(configurationRelativePath, x),
-				}).OrderBy(file => file.Path));
 			}
 
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
@@ -441,14 +441,17 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				lock (semaphore)
 					try
 					{
-						var fileTicket = fileTransferService.CreateUpload(true);
+						var fileTicket = fileTransferService.CreateUpload(FileUploadStreamKind.ForSynchronousIO);
 						var uploadCancellationToken = disposeCts.Token;
 						async Task UploadHandler()
 						{
-							using (fileTicket)
+							await using (fileTicket)
 							{
 								var fileHash = previousHash;
-								using var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
+								var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
+								if (uploadStream == null)
+									return; // expired
+
 								bool success = false;
 								void WriteCallback()
 								{
@@ -468,10 +471,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken);
 
 								if (!success)
-									fileTicket.SetErrorMessage(new ErrorMessageResponse(ErrorCode.ConfigurationFileUpdated)
-									{
-										AdditionalData = fileHash,
-									});
+									fileTicket.SetError(ErrorCode.ConfigurationFileUpdated, fileHash);
 								else if (uploadStream.Length > 0)
 									postWriteHandler.HandleWrite(path);
 							}
@@ -550,8 +550,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			await EnsureDirectories(cancellationToken);
 
@@ -652,8 +651,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			await Task.WhenAll(
 				ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken),
 				ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken),
-				ValidateStaticFolder())
-				;
+				ValidateStaticFolder());
 		}
 
 		/// <summary>

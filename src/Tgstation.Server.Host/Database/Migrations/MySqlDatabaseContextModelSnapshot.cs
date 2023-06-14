@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "6.0.15")
+				.HasAnnotation("ProductVersion", "6.0.16")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -81,6 +81,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("IrcChannel"), "utf8mb4");
 
 				b.Property<bool?>("IsAdminChannel")
+					.IsRequired()
+					.HasColumnType("tinyint(1)");
+
+				b.Property<bool?>("IsSystemChannel")
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
 

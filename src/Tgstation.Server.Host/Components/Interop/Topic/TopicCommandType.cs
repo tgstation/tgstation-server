@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// Ping to ensure the server is running.
 		/// </summary>
-		Heartbeat,
+		HealthCheck,
 
 		/// <summary>
 		/// Notify the server of a reattach and potentially new version.

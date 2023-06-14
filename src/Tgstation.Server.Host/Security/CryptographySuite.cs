@@ -42,10 +42,8 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public void SetUserPassword(User user, string newPassword, bool newUser)
 		{
-			if (user == null)
-				throw new ArgumentNullException(nameof(user));
-			if (newPassword == null)
-				throw new ArgumentNullException(nameof(newPassword));
+			ArgumentNullException.ThrowIfNull(user);
+			ArgumentNullException.ThrowIfNull(newPassword);
 			user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
 			if (!newUser)
 				user.LastPasswordUpdate = DateTimeOffset.UtcNow;
@@ -54,6 +52,9 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public bool CheckUserPassword(User user, string password)
 		{
+			ArgumentNullException.ThrowIfNull(user);
+			ArgumentNullException.ThrowIfNull(password);
+
 			var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 			switch (result)
 			{

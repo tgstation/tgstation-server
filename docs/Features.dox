@@ -25,7 +25,7 @@
 - Multiple chat bots per instance: Up to 65535 as a matter of fact (who knows why I chose that number?)!
 - Automatic Chat Bot Reconnection Intervals: Set in minutes.
 - Better Error State Handling: The Server and Watchdog aren't your momma's boys anymore. Every error state will be automatically resolved or reported with recommended actions.
-- Watchdog Heartbeats: An interval in seconds can now be set at which TGS will send /world/Topic() packets to DreamDaemon. If four of these are missed, the server will be rebooted. No more endless @Key Holder pings in discord (and I can finally unmute the /tg/ guild)! This feature can be disabled.
+- Watchdog Health Checks: An interval in seconds can now be set at which TGS will send /world/Topic() packets to DreamDaemon. If four of these are missed, the server will be rebooted. No more endless @Key Holder pings in discord (and I can finally unmute the /tg/ guild)! This feature can be disabled.
 - Better DMAPI: No longer requires injecting a .NET runtime .dll into the DreamDaemon process. DD -> TGS communication is now handled securely via BYOND's native /world/Export() API ("But Cyberboss, BYOND only supports GET requests." Who said anything about respecting HTTP standards when dealing with BYOND?).
 - Safe/Ultrasafe Security Support: Thanks to the new DMAPI, the ultrasafe and safe security levels may be used without running into BYOND's limitations. But no one really cares...
 - Private/Invisible visibility Support: Stored per instance.
@@ -57,6 +57,7 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 	- Logs can be downloaded via the API
 	- Supports Elasticsearch ingesting
 - Able to self update with user input
+	- Updates are sourced from our (or anyone else's if configured to do so) GitHub releases or uploaded directly by the user.
 - Swarm system to coordinate servers across systems
 - Database backend supporting several providers
 	- Microsoft SQL Server
@@ -86,7 +87,7 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 		- GitHub Deployment Environments support
 	- The Watchdog, a DreamDaemon uptime monitor
 		- Automatically restarts the server when crashed until told to stop
-		- "Heartbeat" system for checking DreamDaemon isn't hung
+		- "Health Check" system for checking DreamDaemon isn't hung
 		- Seamless automatic application of new deployments on /world/Reboot
 		- Automatic startup at server boot time
 		- Automatically handles Windows prompts related to trusted mode
