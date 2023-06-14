@@ -10,8 +10,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public bool NeedsPostWrite(string sourceFilePath)
 		{
-			if (sourceFilePath == null)
-				throw new ArgumentNullException(nameof(sourceFilePath));
+			ArgumentNullException.ThrowIfNull(sourceFilePath);
 
 			return false;
 		}
@@ -19,8 +18,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public void HandleWrite(string filePath)
 		{
-			if (filePath == null)
-				throw new ArgumentNullException(nameof(filePath));
+			ArgumentNullException.ThrowIfNull(filePath);
 		}
 	}
 }

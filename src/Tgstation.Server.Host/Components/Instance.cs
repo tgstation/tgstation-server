@@ -471,7 +471,7 @@ namespace Tgstation.Server.Host.Components
 						catch
 						{
 							// DCT: Cancellation token is for job, operation must run regardless
-							await repo.ResetToSha(startSha, progressReporter, default);
+							await repo.ResetToSha(startSha, progressReporter, CancellationToken.None);
 							throw;
 						}
 				});

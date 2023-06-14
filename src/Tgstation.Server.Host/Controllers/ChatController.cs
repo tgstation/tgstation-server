@@ -106,8 +106,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ChatBotResponse), 201)]
 		public async Task<IActionResult> Create([FromBody] ChatBotCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var earlyOut = StandardModelChecks(model, true);
 			if (earlyOut != null)
@@ -279,8 +278,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Update([FromBody] ChatBotUpdateRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1502, CA1506
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var earlyOut = StandardModelChecks(model, false);
 			if (earlyOut != null)

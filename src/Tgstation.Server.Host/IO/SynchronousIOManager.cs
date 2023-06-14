@@ -60,26 +60,22 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public bool IsDirectory(string path)
 		{
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(path);
 			return Directory.Exists(path);
 		}
 
 		/// <inheritdoc />
 		public byte[] ReadFile(string path)
 		{
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(path);
 			return File.ReadAllBytes(path);
 		}
 
 		/// <inheritdoc />
 		public bool WriteFileChecked(string path, Stream data, ref string sha1InOut, CancellationToken cancellationToken)
 		{
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
-			if (data == null)
-				throw new ArgumentNullException(nameof(data));
+			ArgumentNullException.ThrowIfNull(path);
+			ArgumentNullException.ThrowIfNull(data);
 
 			cancellationToken.ThrowIfCancellationRequested();
 			var directory = Path.GetDirectoryName(path);

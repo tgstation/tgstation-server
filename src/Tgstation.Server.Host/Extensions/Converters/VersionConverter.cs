@@ -23,8 +23,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		/// <returns><see langword="true"/> if <paramref name="type"/> is a <see cref="global::System.Version"/>, <see langword="false"/> otherwise.</returns>
 		static bool CheckSupportsType(Type type, bool validate)
 		{
-			if (type == null)
-				throw new ArgumentNullException(nameof(type));
+			ArgumentNullException.ThrowIfNull(type);
 
 			var supported = type == typeof(global::System.Version);
 			if (!supported && validate)
@@ -53,8 +52,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		/// <inheritdoc />
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			if (reader == null)
-				throw new ArgumentNullException(nameof(reader));
+			ArgumentNullException.ThrowIfNull(reader);
 
 			CheckSupportsType(objectType, true);
 
@@ -90,8 +88,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		/// <inheritdoc />
 		public void WriteYaml(IEmitter emitter, object value, Type type)
 		{
-			if (emitter == null)
-				throw new ArgumentNullException(nameof(emitter));
+			ArgumentNullException.ThrowIfNull(emitter);
 
 			CheckSupportsType(type, true);
 

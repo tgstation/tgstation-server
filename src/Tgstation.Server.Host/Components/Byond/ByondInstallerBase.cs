@@ -91,8 +91,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task<MemoryStream> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			Logger.LogTrace("Downloading BYOND version {major}.{minor}...", version.Major, version.Minor);
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsUrlTemplate, version.Major, version.Minor);

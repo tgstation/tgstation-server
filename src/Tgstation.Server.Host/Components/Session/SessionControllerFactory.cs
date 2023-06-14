@@ -353,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Session
 							asyncDelayer,
 							loggerFactory.CreateLogger<SessionController>(),
 							() => !launchParameters.LogOutput.Value
-								? LogDDOutput(process, outputFilePath, byondLock.SupportsCli, default) // DCT: None available
+								? LogDDOutput(process, outputFilePath, byondLock.SupportsCli, CancellationToken.None) // DCT: None available
 								: Task.CompletedTask,
 							launchParameters.StartupTimeout,
 							false,
@@ -390,8 +390,7 @@ namespace Tgstation.Server.Host.Components.Session
 			ReattachInformation reattachInformation,
 			CancellationToken cancellationToken)
 		{
-			if (reattachInformation == null)
-				throw new ArgumentNullException(nameof(reattachInformation));
+			ArgumentNullException.ThrowIfNull(reattachInformation);
 
 			logger.LogTrace("Begin session reattach...");
 			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);

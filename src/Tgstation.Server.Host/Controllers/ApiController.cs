@@ -91,8 +91,7 @@ namespace Tgstation.Server.Host.Controllers
 			bool requireHeaders)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
-			if (authenticationContextFactory == null)
-				throw new ArgumentNullException(nameof(authenticationContextFactory));
+			ArgumentNullException.ThrowIfNull(authenticationContextFactory);
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
@@ -103,8 +102,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(context);
 
 			// ALL valid token and login requests that match a route go through this function
 			// 404 is returned before
@@ -245,8 +243,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="HttpStatusCode.TooManyRequests"/> <see cref="ObjectResult"/>.</returns>
 		protected ObjectResult RateLimit(RateLimitExceededException rateLimitException)
 		{
-			if (rateLimitException == null)
-				throw new ArgumentNullException(nameof(rateLimitException));
+			ArgumentNullException.ThrowIfNull(rateLimitException);
 
 			Logger.LogWarning(rateLimitException, "Exceeded GitHub rate limit!");
 
@@ -357,8 +354,7 @@ namespace Tgstation.Server.Host.Controllers
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
 		{
-			if (queryGenerator == null)
-				throw new ArgumentNullException(nameof(queryGenerator));
+			ArgumentNullException.ThrowIfNull(queryGenerator);
 
 			if (pageQuery <= 0 || pageSizeQuery <= 0)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ApiInvalidPageOrPageSize));

@@ -36,8 +36,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public IFileStreamProvider DownloadFile(Uri url, string bearerToken)
 		{
-			if (url == null)
-				throw new ArgumentNullException(nameof(url));
+			ArgumentNullException.ThrowIfNull(url);
 
 			logger.LogDebug("Starting download of {url}...", url);
 			var httpClient = httpClientFactory.CreateClient();

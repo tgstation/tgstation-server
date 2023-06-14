@@ -46,8 +46,7 @@ namespace Tgstation.Server.Host
 #pragma warning disable CA1506
 		public async Task<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
 		{
-			if (args == null)
-				throw new ArgumentNullException(nameof(args));
+			ArgumentNullException.ThrowIfNull(args);
 
 			var basePath = IOManager.ResolvePath();
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)

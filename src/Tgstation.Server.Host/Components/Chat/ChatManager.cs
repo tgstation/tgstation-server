@@ -143,8 +143,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
+			ArgumentNullException.ThrowIfNull(serverControl);
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			activeChatBots = initialChatBots?.ToList() ?? throw new ArgumentNullException(nameof(initialChatBots));
@@ -179,8 +178,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task ChangeChannels(long connectionId, IEnumerable<Models.ChatChannel> newChannels, CancellationToken cancellationToken)
 		{
-			if (newChannels == null)
-				throw new ArgumentNullException(nameof(newChannels));
+			ArgumentNullException.ThrowIfNull(newChannels);
 
 			logger.LogTrace("ChangeChannels {connectionId}...", connectionId);
 			var provider = await RemoveProviderChannels(connectionId, false, cancellationToken);
@@ -263,8 +261,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public async Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken)
 		{
-			if (newSettings == null)
-				throw new ArgumentNullException(nameof(newSettings));
+			ArgumentNullException.ThrowIfNull(newSettings);
 
 			logger.LogTrace("ChangeSettings...");
 
@@ -326,10 +323,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public void QueueMessage(MessageContent message, IEnumerable<ulong> channelIds)
 		{
-			if (message == null)
-				throw new ArgumentNullException(nameof(message));
-			if (channelIds == null)
-				throw new ArgumentNullException(nameof(channelIds));
+			ArgumentNullException.ThrowIfNull(message);
+			ArgumentNullException.ThrowIfNull(channelIds);
 
 			QueueMessageInternal(message, () => channelIds, false);
 		}
@@ -337,8 +332,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public void QueueWatchdogMessage(string message)
 		{
-			if (message == null)
-				throw new ArgumentNullException(nameof(message));
+			ArgumentNullException.ThrowIfNull(message);
 
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
 

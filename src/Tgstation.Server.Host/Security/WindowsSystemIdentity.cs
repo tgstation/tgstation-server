@@ -90,8 +90,7 @@ namespace Tgstation.Server.Host.Security
 		public Task RunImpersonated(Action action, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (action == null)
-					throw new ArgumentNullException(nameof(action));
+				ArgumentNullException.ThrowIfNull(action);
 				if (identity == null)
 					throw new InvalidOperationException("Impersonate using a UserPrincipal based WindowsSystemIdentity!");
 				WindowsIdentity.RunImpersonated(identity.AccessToken, action);

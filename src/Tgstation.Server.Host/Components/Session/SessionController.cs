@@ -220,12 +220,10 @@ namespace Tgstation.Server.Host.Components.Session
 			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.chatTrackingContext = chatTrackingContext ?? throw new ArgumentNullException(nameof(chatTrackingContext));
-			if (bridgeRegistrar == null)
-				throw new ArgumentNullException(nameof(bridgeRegistrar));
+			ArgumentNullException.ThrowIfNull(bridgeRegistrar);
 
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
@@ -310,8 +308,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceIdContextProperty, metadata.Id))
 			{
@@ -346,8 +343,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public async Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
-			if (parameters == null)
-				throw new ArgumentNullException(nameof(parameters));
+			ArgumentNullException.ThrowIfNull(parameters);
 
 			if (Lifetime.IsCompleted)
 			{
@@ -548,7 +544,11 @@ namespace Tgstation.Server.Host.Components.Session
 			var toAwait = Task.WhenAny(startupTask, process.Lifetime);
 
 			if (startupTimeout.HasValue)
-				toAwait = Task.WhenAny(toAwait, asyncDelayer.Delay(TimeSpan.FromSeconds(startupTimeout.Value), default)); // DCT: None available, task will clean up after delay
+				toAwait = Task.WhenAny(
+					toAwait,
+					asyncDelayer.Delay(
+						TimeSpan.FromSeconds(startupTimeout.Value),
+						CancellationToken.None)); // DCT: None available, task will clean up after delay
 
 			Logger.LogTrace(
 				"Waiting for LaunchResult based on {launchResultCompletionCause}{possibleTimeout}...",

@@ -87,8 +87,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns><paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection AddFileDownloader(this IServiceCollection serviceCollection)
 		{
-			if (serviceCollection == null)
-				throw new ArgumentNullException(nameof(serviceCollection));
+			ArgumentNullException.ThrowIfNull(serviceCollection);
 
 			serviceCollection.AddSingleton(typeof(IFileDownloader), fileDownloaderType);
 
@@ -102,8 +101,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns><paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection AddGitHub(this IServiceCollection serviceCollection)
 		{
-			if (serviceCollection == null)
-				throw new ArgumentNullException(nameof(serviceCollection));
+			ArgumentNullException.ThrowIfNull(serviceCollection);
 
 			serviceCollection.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			serviceCollection.AddSingleton(typeof(IGitHubServiceFactory), gitHubServiceFactoryType);
@@ -130,8 +128,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns><paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection AddChatProviderFactory(this IServiceCollection serviceCollection)
 		{
-			if (serviceCollection == null)
-				throw new ArgumentNullException(nameof(serviceCollection));
+			ArgumentNullException.ThrowIfNull(serviceCollection);
 
 			return serviceCollection.AddSingleton(typeof(IProviderFactory), chatProviderFactoryType);
 		}
@@ -145,10 +142,8 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns><paramref name="serviceCollection"/>.</returns>
 		public static IServiceCollection UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration) where TConfig : class
 		{
-			if (serviceCollection == null)
-				throw new ArgumentNullException(nameof(serviceCollection));
-			if (configuration == null)
-				throw new ArgumentNullException(nameof(configuration));
+			ArgumentNullException.ThrowIfNull(serviceCollection);
+			ArgumentNullException.ThrowIfNull(configuration);
 
 			const string SectionFieldName = nameof(GeneralConfiguration.Section);
 

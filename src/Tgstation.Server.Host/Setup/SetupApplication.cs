@@ -41,12 +41,9 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="ioManager">The <see cref="IIOManager"/> needed for configuration.</param>
 		public void ConfigureServices(IServiceCollection services, IAssemblyInformationProvider assemblyInformationProvider, IIOManager ioManager)
 		{
-			if (services == null)
-				throw new ArgumentNullException(nameof(services));
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			if (ioManager == null)
-				throw new ArgumentNullException(nameof(ioManager));
+			ArgumentNullException.ThrowIfNull(services);
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
+			ArgumentNullException.ThrowIfNull(ioManager);
 
 			services.SetupLogging(config => config.MinimumLevel.Override("Microsoft", LogEventLevel.Warning));
 

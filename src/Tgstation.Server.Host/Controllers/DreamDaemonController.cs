@@ -158,8 +158,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] DreamDaemonRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.SoftShutdown == true && model.SoftRestart == true)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.DreamDaemonDoubleSoft));

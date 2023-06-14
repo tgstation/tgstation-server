@@ -44,8 +44,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public IGitRemoteFeatures CreateGitRemoteFeatures(IRepository repository)
 		{
-			if (repository == null)
-				throw new ArgumentNullException(nameof(repository));
+			ArgumentNullException.ThrowIfNull(repository);
 
 			var primaryRemote = repository.Origin;
 			var remoteGitProvider = ParseRemoteGitProviderFromOrigin(primaryRemote);
@@ -66,8 +65,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public RemoteGitProvider ParseRemoteGitProviderFromOrigin(Uri origin)
 		{
-			if (origin == null)
-				throw new ArgumentNullException(nameof(origin));
+			ArgumentNullException.ThrowIfNull(origin);
 
 			switch (origin.Host.ToUpperInvariant())
 			{

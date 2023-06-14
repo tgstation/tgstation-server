@@ -55,8 +55,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public IProvider CreateProvider(Models.ChatBot settings)
 		{
-			if (settings == null)
-				throw new ArgumentNullException(nameof(settings));
+			ArgumentNullException.ThrowIfNull(settings);
 			return settings.Provider switch
 			{
 				ChatProvider.Irc => new IrcProvider(

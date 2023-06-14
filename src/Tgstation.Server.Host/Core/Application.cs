@@ -126,8 +126,7 @@ namespace Tgstation.Server.Host.Core
 		{
 			ConfigureServices(services, assemblyInformationProvider, ioManager);
 
-			if (postSetupServices == null)
-				throw new ArgumentNullException(nameof(postSetupServices));
+			ArgumentNullException.ThrowIfNull(postSetupServices);
 
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
@@ -405,24 +404,19 @@ namespace Tgstation.Server.Host.Core
 			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<Application> logger)
 		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
+			ArgumentNullException.ThrowIfNull(applicationBuilder);
+			ArgumentNullException.ThrowIfNull(serverControl);
 
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 
-			if (serverPortProvider == null)
-				throw new ArgumentNullException(nameof(serverPortProvider));
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			ArgumentNullException.ThrowIfNull(serverPortProvider);
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			var swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
+			ArgumentNullException.ThrowIfNull(logger);
 
 			logger.LogDebug("Content Root: {contentRoot}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {webRoot}", hostingEnvironment.WebRootPath);

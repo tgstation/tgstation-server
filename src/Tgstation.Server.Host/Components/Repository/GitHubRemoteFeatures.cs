@@ -47,8 +47,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			this.gitHubServiceFactory = gitHubServiceFactory ?? throw new ArgumentNullException(nameof(gitHubServiceFactory));
 
-			if (remoteUrl == null)
-				throw new ArgumentNullException(nameof(remoteUrl));
+			ArgumentNullException.ThrowIfNull(remoteUrl);
 
 			RemoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
 			RemoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');

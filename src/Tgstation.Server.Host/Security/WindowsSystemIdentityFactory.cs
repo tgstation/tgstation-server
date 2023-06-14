@@ -54,8 +54,7 @@ namespace Tgstation.Server.Host.Security
 		public Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (user == null)
-					throw new ArgumentNullException(nameof(user));
+				ArgumentNullException.ThrowIfNull(user);
 
 				if (user.SystemIdentifier == null)
 					throw new InvalidOperationException("User's SystemIdentifier must not be null!");
@@ -111,10 +110,8 @@ namespace Tgstation.Server.Host.Security
 		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (username == null)
-					throw new ArgumentNullException(nameof(username));
-				if (password == null)
-					throw new ArgumentNullException(nameof(password));
+				ArgumentNullException.ThrowIfNull(username);
+				ArgumentNullException.ThrowIfNull(password);
 
 				var originalUsername = username;
 				GetUserAndDomainName(originalUsername, out username, out var domainName);

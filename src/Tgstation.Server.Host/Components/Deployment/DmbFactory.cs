@@ -130,8 +130,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public async Task LoadCompileJob(CompileJob job, CancellationToken cancellationToken)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
+			ArgumentNullException.ThrowIfNull(job);
 
 			var newProvider = await FromCompileJob(job, cancellationToken);
 			if (newProvider == null)
@@ -216,8 +215,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
-			if (compileJob == null)
-				throw new ArgumentNullException(nameof(compileJob));
+			ArgumentNullException.ThrowIfNull(compileJob);
 
 			// ensure we have the entire metadata tree
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
@@ -404,7 +402,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(metadata, job);
 
 				// DCT: None available
-				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
+				var deploymentJob = remoteDeploymentManager.MarkInactive(job, CancellationToken.None);
 
 				var deleteTask = DeleteCompileJobContent(job.DirectoryName.ToString(), cleanupCts.Token);
 				var otherTask = cleanupTask;

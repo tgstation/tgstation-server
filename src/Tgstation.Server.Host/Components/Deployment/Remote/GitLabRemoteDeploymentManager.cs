@@ -38,12 +38,9 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			RevisionInformation revisionInformation,
 			CancellationToken cancellationToken)
 		{
-			if (repository == null)
-				throw new ArgumentNullException(nameof(repository));
-			if (repositorySettings == null)
-				throw new ArgumentNullException(nameof(repositorySettings));
-			if (revisionInformation == null)
-				throw new ArgumentNullException(nameof(revisionInformation));
+			ArgumentNullException.ThrowIfNull(repository);
+			ArgumentNullException.ThrowIfNull(repositorySettings);
+			ArgumentNullException.ThrowIfNull(revisionInformation);
 
 			if (revisionInformation.ActiveTestMerges?.Any() != true)
 			{

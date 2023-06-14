@@ -88,8 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see langword="true"/> if an unsaved DB update was made, <see langword="false"/> otherwise.</returns>
 		protected bool ValidateInstanceOnlineStatus(Api.Models.Instance metadata)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			bool online;
 			using (var instanceReferenceCheck = instanceManager.GetInstanceReference(metadata))
@@ -119,8 +118,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <remarks>The context of <paramref name="action"/> should be as small as possible so as to avoid race conditions. This function can return a <see cref="ConflictResult"/> if the requested instance was offline.</remarks>
 		protected async Task<IActionResult> WithComponentInstance(Func<IInstanceCore, Task<IActionResult>> action)
 		{
-			if (action == null)
-				throw new ArgumentNullException(nameof(action));
+			ArgumentNullException.ThrowIfNull(action);
 
 			using var instanceReference = instanceManager.GetInstanceReference(Instance);
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceReferenceContextProperty, instanceReference.Uid))

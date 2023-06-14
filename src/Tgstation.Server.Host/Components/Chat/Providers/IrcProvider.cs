@@ -113,8 +113,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			Models.ChatBot chatBot)
 			: base(jobManager, asyncDelayer, logger, chatBot)
 		{
-			if (assemblyInformationProvider == null)
-				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			ArgumentNullException.ThrowIfNull(assemblyInformationProvider);
 
 			var builder = chatBot.CreateConnectionStringBuilder();
 			if (builder == null || !builder.Valid || builder is not IrcConnectionStringBuilder ircBuilder)
@@ -161,14 +160,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			await base.DisposeAsync();
 
 			// DCT: None available
-			await HardDisconnect(default);
+			await HardDisconnect(CancellationToken.None);
 		}
 
 		/// <inheritdoc />
 		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
-			if (message == null)
-				throw new ArgumentNullException(nameof(message));
+			ArgumentNullException.ThrowIfNull(message);
 
 			return Task.Factory.StartNew(
 				() =>
@@ -230,14 +228,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool localCommitPushed,
 			CancellationToken cancellationToken)
 		{
-			if (revisionInformation == null)
-				throw new ArgumentNullException(nameof(revisionInformation));
-			if (byondVersion == null)
-				throw new ArgumentNullException(nameof(byondVersion));
-			if (gitHubOwner == null)
-				throw new ArgumentNullException(nameof(gitHubOwner));
-			if (gitHubRepo == null)
-				throw new ArgumentNullException(nameof(gitHubRepo));
+			ArgumentNullException.ThrowIfNull(revisionInformation);
+			ArgumentNullException.ThrowIfNull(byondVersion);
+			ArgumentNullException.ThrowIfNull(gitHubOwner);
+			ArgumentNullException.ThrowIfNull(gitHubRepo);
 
 			var commitInsert = revisionInformation.CommitSha[..7];
 			string remoteCommitInsert;

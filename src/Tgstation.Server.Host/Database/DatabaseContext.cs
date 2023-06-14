@@ -285,8 +285,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
 		{
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
+			ArgumentNullException.ThrowIfNull(logger);
 			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);
 			var wasEmpty = !migrations.Any();
 
@@ -306,8 +305,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			if (modelBuilder == null)
-				throw new ArgumentNullException(nameof(modelBuilder));
+			ArgumentNullException.ThrowIfNull(modelBuilder);
 
 			base.OnModelCreating(modelBuilder);
 
@@ -404,10 +402,8 @@ namespace Tgstation.Server.Host.Database
 			DatabaseType currentDatabaseType,
 			CancellationToken cancellationToken)
 		{
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
-			if (targetVersion == null)
-				throw new ArgumentNullException(nameof(targetVersion));
+			ArgumentNullException.ThrowIfNull(logger);
+			ArgumentNullException.ThrowIfNull(targetVersion);
 			if (targetVersion < new Version(4, 0))
 				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Cannot migrate below version 4.0.0!");
 

@@ -12,8 +12,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			if (migrationBuilder == null)
-				throw new ArgumentNullException(nameof(migrationBuilder));
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
 
 			migrationBuilder.AddColumn<bool>(
 				name: "UpdateSubmodules",
@@ -25,8 +24,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			if (migrationBuilder == null)
-				throw new ArgumentNullException(nameof(migrationBuilder));
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
 
 			migrationBuilder.RenameTable(
 				name: "RepositorySettings",

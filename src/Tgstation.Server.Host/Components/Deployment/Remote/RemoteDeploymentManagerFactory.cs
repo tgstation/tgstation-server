@@ -62,8 +62,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, RemoteGitProvider remoteGitProvider)
 		{
-			if (metadata == null)
-				throw new ArgumentNullException(nameof(metadata));
+			ArgumentNullException.ThrowIfNull(metadata);
 
 			logger.LogTrace("Creating remote deployment manager for remote git provider {remoteGitProvider}...", remoteGitProvider);
 			return remoteGitProvider switch
@@ -84,8 +83,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <inheritdoc />
 		public IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, Models.CompileJob compileJob)
 		{
-			if (compileJob == null)
-				throw new ArgumentNullException(nameof(compileJob));
+			ArgumentNullException.ThrowIfNull(compileJob);
 
 			RemoteGitProvider remoteGitProvider;
 

@@ -26,11 +26,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public async Task ExecuteAsync(ActionContext context, LimitedStreamResult result)
 		{
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
+			ArgumentNullException.ThrowIfNull(context);
 
-			if (result == null)
-				throw new ArgumentNullException(nameof(result));
+			ArgumentNullException.ThrowIfNull(result);
 
 			await using (result)
 			{

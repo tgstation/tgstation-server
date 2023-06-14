@@ -118,8 +118,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <inheritdoc />
 		public FileTicketResponse CreateDownload(FileDownloadProvider downloadProvider)
 		{
-			if (downloadProvider == null)
-				throw new ArgumentNullException(nameof(downloadProvider));
+			ArgumentNullException.ThrowIfNull(downloadProvider);
 
 			logger.LogDebug("Creating download ticket for path {filePath}", downloadProvider.FilePath);
 			var ticketResult = CreateTicket();
@@ -167,8 +166,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <inheritdoc />
 		public async Task<Tuple<Stream, ErrorMessageResponse>> RetrieveDownloadStream(FileTicketResponse ticket, CancellationToken cancellationToken)
 		{
-			if (ticket == null)
-				throw new ArgumentNullException(nameof(ticket));
+			ArgumentNullException.ThrowIfNull(ticket);
 
 			FileDownloadProvider downloadProvider;
 			lock (downloadTickets)
@@ -222,8 +220,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <inheritdoc />
 		public async Task<ErrorMessageResponse> SetUploadStream(FileTicketResponse ticket, Stream stream, CancellationToken cancellationToken)
 		{
-			if (ticket == null)
-				throw new ArgumentNullException(nameof(ticket));
+			ArgumentNullException.ThrowIfNull(ticket);
 
 			FileUploadProvider uploadProvider;
 			lock (uploadTickets)

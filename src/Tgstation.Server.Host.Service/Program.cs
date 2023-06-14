@@ -7,10 +7,12 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceProcess;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using McMaster.Extensions.CommandLineUtils;
+
 using Microsoft.Extensions.Logging;
 
 using Tgstation.Server.Host.Watchdog;
@@ -99,30 +101,26 @@ namespace Tgstation.Server.Host.Service
 						}
 
 						// And remove it
-						using (ServiceInstaller si = new ServiceInstaller())
-						{
-							si.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
-							si.ServiceName = sc.ServiceName;
-							si.Uninstall(null);
-						}
+						using var serviceInstaller = new ServiceInstaller();
+						serviceInstaller.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
+						serviceInstaller.ServiceName = sc.ServiceName;
+						serviceInstaller.Uninstall(null);
 					}
 
-			using (var processInstaller = new ServiceProcessInstaller())
-			using (var installer = new ServiceInstaller())
-			{
-				processInstaller.Account = ServiceAccount.LocalSystem;
+			using var processInstaller = new ServiceProcessInstaller();
+			using var installer = new ServiceInstaller();
+			processInstaller.Account = ServiceAccount.LocalSystem;
 
-				installer.Context = new InstallContext("tgs-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
-				installer.Description = "/tg/station 13 server running as a windows service";
-				installer.DisplayName = "/tg/station server";
-				installer.StartType = ServiceStartMode.Automatic;
-				installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
-				installer.ServiceName = ServerService.Name;
-				installer.Parent = processInstaller;
+			installer.Context = new InstallContext("tgs-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
+			installer.Description = "/tg/station 13 server running as a windows service";
+			installer.DisplayName = "/tg/station server";
+			installer.StartType = ServiceStartMode.Automatic;
+			installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
+			installer.ServiceName = ServerService.Name;
+			installer.Parent = processInstaller;
 
-				var state = new ListDictionary();
-				installer.Install(state);
-			}
+			var state = new ListDictionary();
+			installer.Install(state);
 		}
 
 		/// <summary>
@@ -182,14 +180,15 @@ namespace Tgstation.Server.Host.Service
 				}
 			else if (!Configure)
 			{
-				using (var service = new ServerService(WatchdogFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information))
-					ServiceBase.Run(service);
+				using var service = new ServerService(WatchdogFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information);
+				ServiceBase.Run(service);
 			}
 
 			if (Configure)
 			{
-				using (var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole()))
-					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default); // DCT: None available
+				using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+				await WatchdogFactory.CreateWatchdog(loggerFactory)
+					.RunAsync(true, Array.Empty<string>(), CancellationToken.None); // DCT: None available
 			}
 		}
 	}

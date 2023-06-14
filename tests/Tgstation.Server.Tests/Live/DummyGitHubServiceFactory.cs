@@ -22,8 +22,7 @@ namespace Tgstation.Server.Tests.Live
 
 		public IAuthenticatedGitHubService CreateService(string accessToken)
 		{
-			if (accessToken == null)
-				throw new ArgumentNullException(nameof(accessToken));
+			ArgumentNullException.ThrowIfNull(accessToken);
 
 			return CreateDummyService();
 		}

@@ -256,7 +256,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				bool serverWasActive = Server != null;
 
 				// DCT: Operation must always run
-				await DisposeAndNullControllers(default);
+				await DisposeAndNullControllers(CancellationToken.None);
 
 				// server didn't get control of this dmb
 				if (dmbToUse != null && !serverWasActive)

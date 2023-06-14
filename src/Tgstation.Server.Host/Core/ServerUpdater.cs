@@ -94,11 +94,9 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public async Task<ServerUpdateResult> BeginUpdate(ISwarmService swarmService, IFileStreamProvider fileStreamProvider, Version version, CancellationToken cancellationToken)
 		{
-			if (swarmService == null)
-				throw new ArgumentNullException(nameof(swarmService));
+			ArgumentNullException.ThrowIfNull(swarmService);
 
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
+			ArgumentNullException.ThrowIfNull(version);
 
 			if (!swarmService.ExpectedNumberOfNodesConnected)
 				return ServerUpdateResult.SwarmIntegrityCheckFailed;
@@ -109,8 +107,7 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public async Task<bool> ExecuteUpdate(string updatePath, CancellationToken cancellationToken, CancellationToken criticalCancellationToken)
 		{
-			if (updatePath == null)
-				throw new ArgumentNullException(nameof(updatePath));
+			ArgumentNullException.ThrowIfNull(updatePath);
 
 			var serverUpdateOperation = this.serverUpdateOperation;
 			if (serverUpdateOperation == null)

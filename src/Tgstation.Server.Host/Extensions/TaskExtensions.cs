@@ -27,8 +27,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		public static Task WithToken(this Task task, CancellationToken cancellationToken)
 		{
-			if (task == null)
-				throw new ArgumentNullException(nameof(task));
+			ArgumentNullException.ThrowIfNull(task);
 
 			async Task<object> Wrap()
 			{
@@ -48,8 +47,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the result of <paramref name="task"/>.</returns>
 		public static async Task<T> WithToken<T>(this Task<T> task, CancellationToken cancellationToken)
 		{
-			if (task == null)
-				throw new ArgumentNullException(nameof(task));
+			ArgumentNullException.ThrowIfNull(task);
 
 			var cancelTcs = new TaskCompletionSource();
 			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))

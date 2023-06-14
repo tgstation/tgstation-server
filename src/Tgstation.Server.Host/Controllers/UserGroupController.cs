@@ -67,8 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(UserGroupResponse), 201)]
 		public async Task<IActionResult> Create([FromBody] UserGroupCreateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			if (model.Name == null)
 				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
@@ -112,8 +111,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(UserGroupResponse), 200)]
 		public async Task<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var currentGroup = await DatabaseContext
 				.Groups

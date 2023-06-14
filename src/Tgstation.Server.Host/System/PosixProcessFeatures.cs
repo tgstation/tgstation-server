@@ -66,10 +66,8 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
 		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
-			if (outputFile == null)
-				throw new ArgumentNullException(nameof(outputFile));
+			ArgumentNullException.ThrowIfNull(process);
+			ArgumentNullException.ThrowIfNull(outputFile);
 
 			const string GCorePath = "/usr/bin/gcore";
 			if (!await ioManager.FileExists(GCorePath, cancellationToken))

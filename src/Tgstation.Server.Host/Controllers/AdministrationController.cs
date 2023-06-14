@@ -202,8 +202,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
 		public async Task<IActionResult> Update([FromBody] ServerUpdateRequest model, CancellationToken cancellationToken)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
+			ArgumentNullException.ThrowIfNull(model);
 
 			var attemptingUpload = model.UploadZip == true;
 			if (attemptingUpload)
@@ -326,8 +325,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		public async Task<IActionResult> GetLog(string path, CancellationToken cancellationToken)
 		{
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(path);
 
 			path = HttpUtility.UrlDecode(path);
 

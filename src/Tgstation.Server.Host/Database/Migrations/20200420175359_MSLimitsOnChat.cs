@@ -14,8 +14,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			if (migrationBuilder == null)
-				throw new ArgumentNullException(nameof(migrationBuilder));
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
 
 			migrationBuilder.AddColumn<int>(
 				name: "ChatBotLimit",
@@ -33,8 +32,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			if (migrationBuilder == null)
-				throw new ArgumentNullException(nameof(migrationBuilder));
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
 
 			migrationBuilder.DropColumn(
 				name: "ChatBotLimit",

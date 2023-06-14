@@ -32,8 +32,7 @@ namespace Tgstation.Server.Host.Core
 			ILogger<ServerPortProivder> logger)
 		{
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			if (configuration == null)
-				throw new ArgumentNullException(nameof(configuration));
+			ArgumentNullException.ThrowIfNull(configuration);
 
 			var httpEndpoint = configuration
 				.GetSection("Kestrel")

@@ -154,8 +154,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
-			if (gitRemoteFeaturesFactory == null)
-				throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
+			ArgumentNullException.ThrowIfNull(gitRemoteFeaturesFactory);
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
@@ -192,14 +191,10 @@ namespace Tgstation.Server.Host.Components.Repository
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
-			if (testMergeParameters == null)
-				throw new ArgumentNullException(nameof(testMergeParameters));
-			if (committerName == null)
-				throw new ArgumentNullException(nameof(committerName));
-			if (committerEmail == null)
-				throw new ArgumentNullException(nameof(committerEmail));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(testMergeParameters);
+			ArgumentNullException.ThrowIfNull(committerName);
+			ArgumentNullException.ThrowIfNull(committerEmail);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			logger.LogDebug(
 				"Begin AddTestMerge: #{prNumber} at {targetSha} ({comment}) by <{committerName} ({committerEmail})>",
@@ -394,10 +389,8 @@ namespace Tgstation.Server.Host.Components.Repository
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
-			if (committish == null)
-				throw new ArgumentNullException(nameof(committish));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(committish);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 			logger.LogDebug("Checkout object: {committish}...", committish);
 			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, cancellationToken);
 			await Task.Factory.StartNew(
@@ -424,8 +417,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async Task FetchOrigin(string username, string password, JobProgressReporter progressReporter, CancellationToken cancellationToken)
 		{
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(progressReporter);
 			logger.LogDebug("Fetch origin...");
 			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), cancellationToken);
 			await Task.Factory.StartNew(
@@ -472,8 +464,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(progressReporter);
 			if (!Tracking)
 				throw new JobException(ErrorCode.RepoReferenceRequired);
 			logger.LogTrace("Reset to origin...");
@@ -496,10 +487,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		public Task ResetToSha(string sha, JobProgressReporter progressReporter, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (sha == null)
-					throw new ArgumentNullException(nameof(sha));
-				if (progressReporter == null)
-					throw new ArgumentNullException(nameof(progressReporter));
+				ArgumentNullException.ThrowIfNull(sha);
+				ArgumentNullException.ThrowIfNull(progressReporter);
 
 				logger.LogDebug("Reset to sha: {sha}", sha[..7]);
 
@@ -524,8 +513,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public async Task CopyTo(string path, CancellationToken cancellationToken)
 		{
-			if (path == null)
-				throw new ArgumentNullException(nameof(path));
+			ArgumentNullException.ThrowIfNull(path);
 			logger.LogTrace("Copying to {path}...", path);
 			await ioMananger.CopyDirectory(
 				new List<string> { ".git" },
@@ -564,8 +552,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			JobProgressReporter progressReporter,
 			CancellationToken cancellationToken)
 		{
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			MergeResult result = null;
 			Branch trackedBranch = null;
@@ -636,12 +623,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			bool synchronizeTrackedBranch,
 			CancellationToken cancellationToken)
 		{
-			if (committerName == null)
-				throw new ArgumentNullException(nameof(committerName));
-			if (committerEmail == null)
-				throw new ArgumentNullException(nameof(committerEmail));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			ArgumentNullException.ThrowIfNull(committerName);
+			ArgumentNullException.ThrowIfNull(committerEmail);
+			ArgumentNullException.ThrowIfNull(progressReporter);
 
 			if (username == null && password == null)
 			{
@@ -651,10 +635,8 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			logger.LogTrace("Begin Synchronize...");
 
-			if (username == null)
-				throw new ArgumentNullException(nameof(username));
-			if (password == null)
-				throw new ArgumentNullException(nameof(password));
+			ArgumentNullException.ThrowIfNull(username);
+			ArgumentNullException.ThrowIfNull(password);
 
 			var startHead = Head;
 
@@ -834,8 +816,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public Task<DateTimeOffset> TimestampCommit(string sha, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{
-				if (sha == null)
-					throw new ArgumentNullException(nameof(sha));
+				ArgumentNullException.ThrowIfNull(sha);
 
 				var commit = libGitRepo.Lookup<Commit>(sha) ?? throw new JobException($"Commit {sha} does not exist in the repository!");
 				return commit.Committer.When.ToUniversalTime();

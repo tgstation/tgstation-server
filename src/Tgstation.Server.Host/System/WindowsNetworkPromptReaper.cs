@@ -131,8 +131,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void RegisterProcess(IProcess process)
 		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
+			ArgumentNullException.ThrowIfNull(process);
 
 			lock (registeredProcesses)
 			{

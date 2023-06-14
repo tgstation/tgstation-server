@@ -38,8 +38,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <returns>A <see cref="IReadOnlyCollection{T}"/> of the <paramref name="chatChannel"/>'s <see cref="ChatChannel.IrcChannel"/> <see cref="string"/> separated by the ':' <see cref="char"/>.</returns>
 		static IReadOnlyCollection<string> GetIrcChannelSplits(ChatChannel chatChannel)
 		{
-			if (chatChannel == null)
-				throw new ArgumentNullException(nameof(chatChannel));
+			ArgumentNullException.ThrowIfNull(chatChannel);
 
 			if (chatChannel.IrcChannel == null)
 				throw new ArgumentException("IrcChannel must be set!", nameof(chatChannel));

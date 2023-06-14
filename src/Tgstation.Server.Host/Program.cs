@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Tgstation.Server.Host.Common;
@@ -110,7 +111,7 @@ namespace Tgstation.Server.Host
 				if (updatePath != null)
 				{
 					// DCT: None available, operation should always run
-					await ServerFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), default);
+					await ServerFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), CancellationToken.None);
 					return HostExitCode.Error;
 				}
 
