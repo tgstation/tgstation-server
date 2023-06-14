@@ -16,10 +16,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "6.0.16")
+				.HasAnnotation("ProductVersion", "7.0.7")
 				.HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-			SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+			SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<int>("ChannelLimit")
 					.HasColumnType("int");
@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<long>("ChatSettingsId")
 					.HasColumnType("bigint");
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("ByondVersion")
 					.IsRequired()
@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("AdditionalParameters")
 					.IsRequired()
@@ -197,11 +197,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("bit");
 
-				b.Property<bool?>("DumpOnHeartbeatRestart")
+				b.Property<bool?>("DumpOnHealthCheckRestart")
 					.IsRequired()
 					.HasColumnType("bit");
 
-				b.Property<long>("HeartbeatSeconds")
+				b.Property<long>("HealthCheckSeconds")
 					.HasColumnType("bigint");
 
 				b.Property<long>("InstanceId")
@@ -244,7 +244,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<int>("ApiValidationPort")
 					.HasColumnType("int");
@@ -281,7 +281,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<long>("AutoUpdateInterval")
 					.HasColumnType("bigint");
@@ -323,7 +323,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<decimal>("ByondRights")
 					.HasColumnType("decimal(20,0)");
@@ -368,7 +368,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<decimal?>("CancelRight")
 					.HasColumnType("decimal(20,0)");
@@ -423,7 +423,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("ExternalUserId")
 					.IsRequired()
@@ -452,7 +452,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<decimal>("AdministrationRights")
 					.HasColumnType("decimal(20,0)");
@@ -485,7 +485,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("AccessIdentifier")
 					.IsRequired()
@@ -527,7 +527,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("AccessToken")
 					.HasMaxLength(10000)
@@ -592,7 +592,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<long>("RevisionInformationId")
 					.HasColumnType("bigint");
@@ -615,7 +615,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("CommitSha")
 					.IsRequired()
@@ -647,7 +647,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
 				b.Property<string>("Author")
 					.IsRequired()
@@ -703,7 +703,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("CanonicalName")
 					.IsRequired()
@@ -761,7 +761,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint");
 
-				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"), 1L, 1);
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("Id"));
 
 				b.Property<string>("Name")
 					.IsRequired()

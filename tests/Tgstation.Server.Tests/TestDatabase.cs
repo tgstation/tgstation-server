@@ -110,8 +110,8 @@ namespace Tgstation.Server.Tests
 				{
 					AllowWebClient = false,
 					AutoStart = false,
-					HeartbeatSeconds = 0,
-					DumpOnHeartbeatRestart = false,
+					HealthCheckSeconds = 0,
+					DumpOnHealthCheckRestart = false,
 					Port = 1447,
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					Visibility = DreamDaemonVisibility.Public,

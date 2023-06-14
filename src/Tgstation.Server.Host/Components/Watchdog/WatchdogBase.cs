@@ -847,7 +847,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							UpdateMonitoredTasks();
 
-							var healthCheckSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
+							var healthCheckSeconds = ActiveLaunchParameters.HealthCheckSeconds.Value;
 							var healthCheck = healthCheckSeconds == 0
 								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask
@@ -1073,13 +1073,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								actionTaken,
 								StringComparison.Ordinal));
 
-						if (ActiveLaunchParameters.DumpOnHeartbeatRestart.Value)
+						if (ActiveLaunchParameters.DumpOnHealthCheckRestart.Value)
 						{
-							Logger.LogDebug("DumpOnHeartbeatRestart enabled.");
+							Logger.LogDebug("DumpOnHealthCheckRestart enabled.");
 							await CreateDump(cancellationToken);
 						}
 						else
-							Logger.LogTrace("DumpOnHeartbeatRestart disabled.");
+							Logger.LogTrace("DumpOnHealthCheckRestart disabled.");
 
 						await DisposeAndNullControllers(cancellationToken);
 						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
