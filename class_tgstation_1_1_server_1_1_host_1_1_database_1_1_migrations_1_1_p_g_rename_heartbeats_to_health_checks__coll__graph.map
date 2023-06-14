@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.PGRenameHeartbeatsToHealthChecks" name="Tgstation.Server.Host.Database.Migrations.PGRenameHeartbeatsToHealthChecks">
+<area shape="rect" id="node1" title="Renames the Heatbeat DreamDaemonSettings to HealthCheck for PostgresSQL." alt="" coords="5,79,319,119"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="125,5,199,31"/>
+</map>

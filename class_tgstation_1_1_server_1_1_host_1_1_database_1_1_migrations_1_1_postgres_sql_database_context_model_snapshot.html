@@ -139,7 +139,7 @@ Protected Member Functions</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
 <div class="line"><span class="lineno">   17</span><span class="preprocessor">#pragma warning disable 612, 618</span></div>
 <div class="line"><span class="lineno">   18</span>            modelBuilder</div>
-<div class="line"><span class="lineno">   19</span>                .HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;6.0.16&quot;</span>)</div>
+<div class="line"><span class="lineno">   19</span>                .HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;7.0.7&quot;</span>)</div>
 <div class="line"><span class="lineno">   20</span>                .HasAnnotation(<span class="stringliteral">&quot;Relational:MaxIdentifierLength&quot;</span>, 63);</div>
 <div class="line"><span class="lineno">   21</span> </div>
 <div class="line"><span class="lineno">   22</span>            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);</div>
@@ -318,11 +318,11 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  195</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  196</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
 <div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  198</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHeartbeatRestart&quot;</span>)</div>
+<div class="line"><span class="lineno">  198</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHealthCheckRestart&quot;</span>)</div>
 <div class="line"><span class="lineno">  199</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  200</span>                    .HasColumnType(<span class="stringliteral">&quot;boolean&quot;</span>);</div>
 <div class="line"><span class="lineno">  201</span> </div>
-<div class="line"><span class="lineno">  202</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;HeartbeatSeconds&quot;</span>)</div>
+<div class="line"><span class="lineno">  202</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;HealthCheckSeconds&quot;</span>)</div>
 <div class="line"><span class="lineno">  203</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  204</span> </div>
 <div class="line"><span class="lineno">  205</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>

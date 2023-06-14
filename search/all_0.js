@@ -223,5 +223,13 @@ var searchData=
   ['20230520203332_5fpgaddsystemchannels_2ecs_220',['20230520203332_PGAddSystemChannels.cs',['../20230520203332___p_g_add_system_channels_8cs.html',1,'']]],
   ['20230520203332_5fpgaddsystemchannels_2edesigner_2ecs_221',['20230520203332_PGAddSystemChannels.Designer.cs',['../20230520203332___p_g_add_system_channels_8_designer_8cs.html',1,'']]],
   ['20230520203402_5fsladdsystemchannels_2ecs_222',['20230520203402_SLAddSystemChannels.cs',['../20230520203402___s_l_add_system_channels_8cs.html',1,'']]],
-  ['20230520203402_5fsladdsystemchannels_2edesigner_2ecs_223',['20230520203402_SLAddSystemChannels.Designer.cs',['../20230520203402___s_l_add_system_channels_8_designer_8cs.html',1,'']]]
+  ['20230520203402_5fsladdsystemchannels_2edesigner_2ecs_223',['20230520203402_SLAddSystemChannels.Designer.cs',['../20230520203402___s_l_add_system_channels_8_designer_8cs.html',1,'']]],
+  ['20230614053739_5fmsrenameheartbeatstohealthchecks_2ecs_224',['20230614053739_MSRenameHeartbeatsToHealthChecks.cs',['../20230614053739___m_s_rename_heartbeats_to_health_checks_8cs.html',1,'']]],
+  ['20230614053739_5fmsrenameheartbeatstohealthchecks_2edesigner_2ecs_225',['20230614053739_MSRenameHeartbeatsToHealthChecks.Designer.cs',['../20230614053739___m_s_rename_heartbeats_to_health_checks_8_designer_8cs.html',1,'']]],
+  ['20230614053927_5fmyrenameheartbeatstohealthchecks_2ecs_226',['20230614053927_MYRenameHeartbeatsToHealthChecks.cs',['../20230614053927___m_y_rename_heartbeats_to_health_checks_8cs.html',1,'']]],
+  ['20230614053927_5fmyrenameheartbeatstohealthchecks_2edesigner_2ecs_227',['20230614053927_MYRenameHeartbeatsToHealthChecks.Designer.cs',['../20230614053927___m_y_rename_heartbeats_to_health_checks_8_designer_8cs.html',1,'']]],
+  ['20230614054432_5fpgrenameheartbeatstohealthchecks_2ecs_228',['20230614054432_PGRenameHeartbeatsToHealthChecks.cs',['../20230614054432___p_g_rename_heartbeats_to_health_checks_8cs.html',1,'']]],
+  ['20230614054432_5fpgrenameheartbeatstohealthchecks_2edesigner_2ecs_229',['20230614054432_PGRenameHeartbeatsToHealthChecks.Designer.cs',['../20230614054432___p_g_rename_heartbeats_to_health_checks_8_designer_8cs.html',1,'']]],
+  ['20230614054537_5fslrenameheartbeatstohealthchecks_2ecs_230',['20230614054537_SLRenameHeartbeatsToHealthChecks.cs',['../20230614054537___s_l_rename_heartbeats_to_health_checks_8cs.html',1,'']]],
+  ['20230614054537_5fslrenameheartbeatstohealthchecks_2edesigner_2ecs_231',['20230614054537_SLRenameHeartbeatsToHealthChecks.Designer.cs',['../20230614054537___s_l_rename_heartbeats_to_health_checks_8_designer_8cs.html',1,'']]]
 ];

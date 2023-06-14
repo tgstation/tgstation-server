@@ -94,7 +94,7 @@ $(function() {
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html#ab2e6dcb99f3746d7345ac6851701e3a2">   15</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html#ab2e6dcb99f3746d7345ac6851701e3a2">BuildModel</a>(ModelBuilder modelBuilder)</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        {</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#pragma warning disable 612, 618</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            modelBuilder.HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;6.0.16&quot;</span>);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            modelBuilder.HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;7.0.7&quot;</span>);</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            {</div>
@@ -264,11 +264,11 @@ $(function() {
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                    .IsRequired()</div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                    .HasColumnType(<span class="stringliteral">&quot;INTEGER&quot;</span>);</div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHeartbeatRestart&quot;</span>)</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHealthCheckRestart&quot;</span>)</div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>                    .IsRequired()</div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                    .HasColumnType(<span class="stringliteral">&quot;INTEGER&quot;</span>);</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                b.Property&lt;uint?&gt;(<span class="stringliteral">&quot;HeartbeatSeconds&quot;</span>)</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                b.Property&lt;uint?&gt;(<span class="stringliteral">&quot;HealthCheckSeconds&quot;</span>)</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                    .IsRequired()</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                    .HasColumnType(<span class="stringliteral">&quot;INTEGER&quot;</span>);</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>

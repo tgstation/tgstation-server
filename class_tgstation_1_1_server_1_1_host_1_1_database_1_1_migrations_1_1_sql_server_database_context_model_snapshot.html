@@ -139,10 +139,10 @@ Protected Member Functions</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
 <div class="line"><span class="lineno">   17</span><span class="preprocessor">#pragma warning disable 612, 618</span></div>
 <div class="line"><span class="lineno">   18</span>            modelBuilder</div>
-<div class="line"><span class="lineno">   19</span>                .HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;6.0.16&quot;</span>)</div>
+<div class="line"><span class="lineno">   19</span>                .HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;7.0.7&quot;</span>)</div>
 <div class="line"><span class="lineno">   20</span>                .HasAnnotation(<span class="stringliteral">&quot;Relational:MaxIdentifierLength&quot;</span>, 128);</div>
 <div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);</div>
+<div class="line"><span class="lineno">   22</span>            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);</div>
 <div class="line"><span class="lineno">   23</span> </div>
 <div class="line"><span class="lineno">   24</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
 <div class="line"><span class="lineno">   25</span>            {</div>
@@ -150,7 +150,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   27</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">   28</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">   30</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">   31</span> </div>
 <div class="line"><span class="lineno">   32</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ChannelLimit&quot;</span>)</div>
 <div class="line"><span class="lineno">   33</span>                    .HasColumnType(<span class="stringliteral">&quot;int&quot;</span>);</div>
@@ -191,7 +191,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">   68</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">   69</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">   71</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">   72</span> </div>
 <div class="line"><span class="lineno">   73</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;ChatSettingsId&quot;</span>)</div>
 <div class="line"><span class="lineno">   74</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
@@ -242,7 +242,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  119</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  120</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  122</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  123</span> </div>
 <div class="line"><span class="lineno">  124</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;ByondVersion&quot;</span>)</div>
 <div class="line"><span class="lineno">  125</span>                    .IsRequired()</div>
@@ -305,7 +305,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  182</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  183</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  184</span> </div>
-<div class="line"><span class="lineno">  185</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  185</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  186</span> </div>
 <div class="line"><span class="lineno">  187</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AdditionalParameters&quot;</span>)</div>
 <div class="line"><span class="lineno">  188</span>                    .IsRequired()</div>
@@ -320,11 +320,11 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  197</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  198</span>                    .HasColumnType(<span class="stringliteral">&quot;bit&quot;</span>);</div>
 <div class="line"><span class="lineno">  199</span> </div>
-<div class="line"><span class="lineno">  200</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHeartbeatRestart&quot;</span>)</div>
+<div class="line"><span class="lineno">  200</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHealthCheckRestart&quot;</span>)</div>
 <div class="line"><span class="lineno">  201</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  202</span>                    .HasColumnType(<span class="stringliteral">&quot;bit&quot;</span>);</div>
 <div class="line"><span class="lineno">  203</span> </div>
-<div class="line"><span class="lineno">  204</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;HeartbeatSeconds&quot;</span>)</div>
+<div class="line"><span class="lineno">  204</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;HealthCheckSeconds&quot;</span>)</div>
 <div class="line"><span class="lineno">  205</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  206</span> </div>
 <div class="line"><span class="lineno">  207</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;InstanceId&quot;</span>)</div>
@@ -367,7 +367,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  244</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  245</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  247</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  248</span> </div>
 <div class="line"><span class="lineno">  249</span>                b.Property&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;ApiValidationPort&quot;</span>)</div>
 <div class="line"><span class="lineno">  250</span>                    .HasColumnType(<span class="stringliteral">&quot;int&quot;</span>);</div>
@@ -404,7 +404,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  281</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  282</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  283</span> </div>
-<div class="line"><span class="lineno">  284</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  284</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  285</span> </div>
 <div class="line"><span class="lineno">  286</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;AutoUpdateInterval&quot;</span>)</div>
 <div class="line"><span class="lineno">  287</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
@@ -446,7 +446,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  323</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  324</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  325</span> </div>
-<div class="line"><span class="lineno">  326</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  326</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  327</span> </div>
 <div class="line"><span class="lineno">  328</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;ByondRights&quot;</span>)</div>
 <div class="line"><span class="lineno">  329</span>                    .HasColumnType(<span class="stringliteral">&quot;decimal(20,0)&quot;</span>);</div>
@@ -491,7 +491,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  368</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  369</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  370</span> </div>
-<div class="line"><span class="lineno">  371</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  371</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  372</span> </div>
 <div class="line"><span class="lineno">  373</span>                b.Property&lt;decimal?&gt;(<span class="stringliteral">&quot;CancelRight&quot;</span>)</div>
 <div class="line"><span class="lineno">  374</span>                    .HasColumnType(<span class="stringliteral">&quot;decimal(20,0)&quot;</span>);</div>
@@ -546,7 +546,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  423</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  424</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  425</span> </div>
-<div class="line"><span class="lineno">  426</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  426</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  427</span> </div>
 <div class="line"><span class="lineno">  428</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;ExternalUserId&quot;</span>)</div>
 <div class="line"><span class="lineno">  429</span>                    .IsRequired()</div>
@@ -575,7 +575,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  452</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  453</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  454</span> </div>
-<div class="line"><span class="lineno">  455</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  455</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  456</span> </div>
 <div class="line"><span class="lineno">  457</span>                b.Property&lt;decimal&gt;(<span class="stringliteral">&quot;AdministrationRights&quot;</span>)</div>
 <div class="line"><span class="lineno">  458</span>                    .HasColumnType(<span class="stringliteral">&quot;decimal(20,0)&quot;</span>);</div>
@@ -608,7 +608,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  485</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  486</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  487</span> </div>
-<div class="line"><span class="lineno">  488</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  488</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  489</span> </div>
 <div class="line"><span class="lineno">  490</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AccessIdentifier&quot;</span>)</div>
 <div class="line"><span class="lineno">  491</span>                    .IsRequired()</div>
@@ -650,7 +650,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  527</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  528</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  529</span> </div>
-<div class="line"><span class="lineno">  530</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  530</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  531</span> </div>
 <div class="line"><span class="lineno">  532</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;AccessToken&quot;</span>)</div>
 <div class="line"><span class="lineno">  533</span>                    .HasMaxLength(10000)</div>
@@ -715,7 +715,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  592</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  593</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  594</span> </div>
-<div class="line"><span class="lineno">  595</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  595</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  596</span> </div>
 <div class="line"><span class="lineno">  597</span>                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;RevisionInformationId&quot;</span>)</div>
 <div class="line"><span class="lineno">  598</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
@@ -738,7 +738,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  615</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  616</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  617</span> </div>
-<div class="line"><span class="lineno">  618</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  618</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  619</span> </div>
 <div class="line"><span class="lineno">  620</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CommitSha&quot;</span>)</div>
 <div class="line"><span class="lineno">  621</span>                    .IsRequired()</div>
@@ -770,7 +770,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  647</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  648</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  649</span> </div>
-<div class="line"><span class="lineno">  650</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  650</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  651</span> </div>
 <div class="line"><span class="lineno">  652</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Author&quot;</span>)</div>
 <div class="line"><span class="lineno">  653</span>                    .IsRequired()</div>
@@ -826,7 +826,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  703</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  704</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  705</span> </div>
-<div class="line"><span class="lineno">  706</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  706</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  707</span> </div>
 <div class="line"><span class="lineno">  708</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;CanonicalName&quot;</span>)</div>
 <div class="line"><span class="lineno">  709</span>                    .IsRequired()</div>
@@ -884,7 +884,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  761</span>                    .ValueGeneratedOnAdd()</div>
 <div class="line"><span class="lineno">  762</span>                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><span class="lineno">  763</span> </div>
-<div class="line"><span class="lineno">  764</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>), 1L, 1);</div>
+<div class="line"><span class="lineno">  764</span>                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>));</div>
 <div class="line"><span class="lineno">  765</span> </div>
 <div class="line"><span class="lineno">  766</span>                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
 <div class="line"><span class="lineno">  767</span>                    .IsRequired()</div>

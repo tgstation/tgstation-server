@@ -139,7 +139,7 @@ Protected Member Functions</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
 <div class="line"><span class="lineno">   17</span><span class="preprocessor">#pragma warning disable 612, 618</span></div>
 <div class="line"><span class="lineno">   18</span>            modelBuilder</div>
-<div class="line"><span class="lineno">   19</span>                .HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;6.0.16&quot;</span>)</div>
+<div class="line"><span class="lineno">   19</span>                .HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;7.0.7&quot;</span>)</div>
 <div class="line"><span class="lineno">   20</span>                .HasAnnotation(<span class="stringliteral">&quot;Relational:MaxIdentifierLength&quot;</span>, 64);</div>
 <div class="line"><span class="lineno">   21</span> </div>
 <div class="line"><span class="lineno">   22</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
@@ -326,11 +326,11 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  203</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  204</span>                    .HasColumnType(<span class="stringliteral">&quot;tinyint(1)&quot;</span>);</div>
 <div class="line"><span class="lineno">  205</span> </div>
-<div class="line"><span class="lineno">  206</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHeartbeatRestart&quot;</span>)</div>
+<div class="line"><span class="lineno">  206</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHealthCheckRestart&quot;</span>)</div>
 <div class="line"><span class="lineno">  207</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  208</span>                    .HasColumnType(<span class="stringliteral">&quot;tinyint(1)&quot;</span>);</div>
 <div class="line"><span class="lineno">  209</span> </div>
-<div class="line"><span class="lineno">  210</span>                b.Property&lt;uint?&gt;(<span class="stringliteral">&quot;HeartbeatSeconds&quot;</span>)</div>
+<div class="line"><span class="lineno">  210</span>                b.Property&lt;uint?&gt;(<span class="stringliteral">&quot;HealthCheckSeconds&quot;</span>)</div>
 <div class="line"><span class="lineno">  211</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  212</span>                    .HasColumnType(<span class="stringliteral">&quot;int unsigned&quot;</span>);</div>
 <div class="line"><span class="lineno">  213</span> </div>

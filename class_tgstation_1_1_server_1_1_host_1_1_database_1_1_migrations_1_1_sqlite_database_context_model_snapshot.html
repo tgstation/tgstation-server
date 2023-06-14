@@ -138,7 +138,7 @@ Protected Member Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_sqlite_database_context_model_snapshot_8cs_source.html#l00015">15</a> of file <a class="el" href="_sqlite_database_context_model_snapshot_8cs_source.html">SqliteDatabaseContextModelSnapshot.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
 <div class="line"><span class="lineno">   17</span><span class="preprocessor">#pragma warning disable 612, 618</span></div>
-<div class="line"><span class="lineno">   18</span>            modelBuilder.HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;6.0.16&quot;</span>);</div>
+<div class="line"><span class="lineno">   18</span>            modelBuilder.HasAnnotation(<span class="stringliteral">&quot;ProductVersion&quot;</span>, <span class="stringliteral">&quot;7.0.7&quot;</span>);</div>
 <div class="line"><span class="lineno">   19</span> </div>
 <div class="line"><span class="lineno">   20</span>            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
 <div class="line"><span class="lineno">   21</span>            {</div>
@@ -308,11 +308,11 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  185</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  186</span>                    .HasColumnType(<span class="stringliteral">&quot;INTEGER&quot;</span>);</div>
 <div class="line"><span class="lineno">  187</span> </div>
-<div class="line"><span class="lineno">  188</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHeartbeatRestart&quot;</span>)</div>
+<div class="line"><span class="lineno">  188</span>                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;DumpOnHealthCheckRestart&quot;</span>)</div>
 <div class="line"><span class="lineno">  189</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  190</span>                    .HasColumnType(<span class="stringliteral">&quot;INTEGER&quot;</span>);</div>
 <div class="line"><span class="lineno">  191</span> </div>
-<div class="line"><span class="lineno">  192</span>                b.Property&lt;uint?&gt;(<span class="stringliteral">&quot;HeartbeatSeconds&quot;</span>)</div>
+<div class="line"><span class="lineno">  192</span>                b.Property&lt;uint?&gt;(<span class="stringliteral">&quot;HealthCheckSeconds&quot;</span>)</div>
 <div class="line"><span class="lineno">  193</span>                    .IsRequired()</div>
 <div class="line"><span class="lineno">  194</span>                    .HasColumnType(<span class="stringliteral">&quot;INTEGER&quot;</span>);</div>
 <div class="line"><span class="lineno">  195</span> </div>
