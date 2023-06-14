@@ -30,19 +30,19 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<ChatBotResponse> Create(ChatBotCreateRequest settings, CancellationToken cancellationToken) => ApiClient.Create<ChatBotCreateRequest, ChatBotResponse>(Routes.Chat, settings ?? throw new ArgumentNullException(nameof(settings)), instance.Id!.Value, cancellationToken);
+		public ValueTask<ChatBotResponse> Create(ChatBotCreateRequest settings, CancellationToken cancellationToken) => ApiClient.Create<ChatBotCreateRequest, ChatBotResponse>(Routes.Chat, settings ?? throw new ArgumentNullException(nameof(settings)), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(EntityId settingsId, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.Chat, settingsId?.Id ?? throw new ArgumentNullException(nameof(settingsId))), instance.Id!.Value, cancellationToken);
+		public ValueTask Delete(EntityId settingsId, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.Chat, settingsId?.Id ?? throw new ArgumentNullException(nameof(settingsId))), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<ChatBotResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+		public ValueTask<List<ChatBotResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
 			=> ReadPaged<ChatBotResponse>(paginationSettings, Routes.ListRoute(Routes.Chat), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ChatBotResponse> Update(ChatBotUpdateRequest settings, CancellationToken cancellationToken) => ApiClient.Update<ChatBotUpdateRequest, ChatBotResponse>(Routes.Chat, settings ?? throw new ArgumentNullException(nameof(settings)), instance.Id!.Value, cancellationToken);
+		public ValueTask<ChatBotResponse> Update(ChatBotUpdateRequest settings, CancellationToken cancellationToken) => ApiClient.Update<ChatBotUpdateRequest, ChatBotResponse>(Routes.Chat, settings ?? throw new ArgumentNullException(nameof(settings)), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ChatBotResponse> GetId(EntityId settingsId, CancellationToken cancellationToken) => ApiClient.Read<ChatBotResponse>(Routes.SetID(Routes.Chat, settingsId?.Id ?? throw new ArgumentNullException(nameof(settingsId))), instance.Id!.Value, cancellationToken);
+		public ValueTask<ChatBotResponse> GetId(EntityId settingsId, CancellationToken cancellationToken) => ApiClient.Read<ChatBotResponse>(Routes.SetID(Routes.Chat, settingsId?.Id ?? throw new ArgumentNullException(nameof(settingsId))), instance.Id!.Value, cancellationToken);
 	}
 }

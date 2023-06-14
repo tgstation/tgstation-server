@@ -17,16 +17,16 @@ namespace Tgstation.Server.Client.Components
 		/// Get the <see cref="ByondInstallResponse"/> active <see cref="System.Version"/> information.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ByondInstallResponse"/> active <see cref="System.Version"/> information.</returns>
-		Task<ByondResponse> ActiveVersion(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="ByondInstallResponse"/> active <see cref="System.Version"/> information.</returns>
+		ValueTask<ByondResponse> ActiveVersion(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get all installed <see cref="ByondInstallResponse"/> <see cref="System.Version"/>s.
 		/// </summary>
 		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IReadOnlyList{T}"/> of installed <see cref="ByondInstallResponse"/> <see cref="System.Version"/>s.</returns>
-		Task<IReadOnlyList<ByondResponse>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in an <see cref="List{T}"/> of installed <see cref="ByondInstallResponse"/> <see cref="System.Version"/>s.</returns>
+		ValueTask<List<ByondResponse>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Updates the active BYOND version.
@@ -34,15 +34,15 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="installRequest">The <see cref="ByondVersionRequest"/>.</param>
 		/// <param name="zipFileStream">The <see cref="Stream"/> for the .zip file if <see cref="ByondVersionRequest.UploadCustomZip"/> is <see langword="true"/>. Will be ignored if it is <see langword="false"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ByondInstallResponse"/> information.</returns>
-		Task<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream? zipFileStream, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the updated <see cref="ByondInstallResponse"/> information.</returns>
+		ValueTask<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream? zipFileStream, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Starts a jobs to delete a specific BYOND version.
 		/// </summary>
 		/// <param name="deleteRequest">The <see cref="ByondVersionDeleteRequest"/> specifying the version to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="JobResponse"/> for the delete job.</returns>
-		Task<JobResponse> DeleteVersion(ByondVersionDeleteRequest deleteRequest, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the <see cref="JobResponse"/> for the delete job.</returns>
+		ValueTask<JobResponse> DeleteVersion(ByondVersionDeleteRequest deleteRequest, CancellationToken cancellationToken);
 	}
 }

@@ -31,6 +31,7 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
@@ -176,7 +177,7 @@ namespace Tgstation.Server.Tests.Live
 			var serverTask = server.Run(cancellationToken);
 			try
 			{
-				async Task<ServerUpdateResponse> TestWithoutAndWithPermission(Func<Task<ServerUpdateResponse>> action, IServerClient client, AdministrationRights right)
+				async ValueTask<ServerUpdateResponse> TestWithoutAndWithPermission(Func<ValueTask<ServerUpdateResponse>> action, IServerClient client, AdministrationRights right)
 				{
 					var ourUser = await client.Users.Read(cancellationToken);
 					var update = new UserUpdateRequest
@@ -188,7 +189,7 @@ namespace Tgstation.Server.Tests.Live
 					update.PermissionSet.AdministrationRights &= ~right;
 					await client.Users.Update(update, cancellationToken);
 
-					await ApiAssert.ThrowsException<InsufficientPermissionsException>(action, null);
+					await ApiAssert.ThrowsException<InsufficientPermissionsException, ServerUpdateResponse>(action);
 
 					update.PermissionSet.AdministrationRights |= right;
 					await client.Users.Update(update, cancellationToken);
@@ -234,7 +235,7 @@ namespace Tgstation.Server.Tests.Live
 
 					try
 					{
-						var serverInfoTask = adminClient.ServerInformation(cancellationToken);
+						var serverInfoTask = adminClient.ServerInformation(cancellationToken).AsTask();
 						var completedTask = await Task.WhenAny(serverTask, serverInfoTask);
 						if (completedTask == serverInfoTask)
 						{
@@ -334,7 +335,7 @@ namespace Tgstation.Server.Tests.Live
 			{
 				var testUpdateVersion = new Version(5, 11, 20);
 				using var adminClient = await CreateAdminClient(server.Url, cancellationToken);
-				await ApiAssert.ThrowsException<ConflictException>(
+				await ApiAssert.ThrowsException<ConflictException, ServerUpdateResponse>(
 					() => adminClient.Administration.Update(
 						new ServerUpdateRequest
 						{
@@ -557,7 +558,7 @@ namespace Tgstation.Server.Tests.Live
 						"asdfasdfasdfasdf");
 
 					using var node1BadClient = clientFactory.CreateFromToken(node1.Url, controllerUserClient.Token);
-					await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => node1BadClient.Administration.Read(cancellationToken));
+					await ApiAssert.ThrowsException<UnauthorizedException, AdministrationResponse>(() => node1BadClient.Administration.Read(cancellationToken));
 
 					// check instance info is not shared
 					var controllerInstance = await controllerClient.Instances.CreateOrAttach(
@@ -584,8 +585,8 @@ namespace Tgstation.Server.Tests.Live
 					Assert.AreEqual(controllerInstance.Id, controllerInstanceList[0].Id);
 					Assert.IsNotNull(await controllerClient.Instances.GetId(controllerInstance, cancellationToken));
 
-					await Assert.ThrowsExceptionAsync<ConflictException>(() => controllerClient.Instances.GetId(node2Instance, cancellationToken));
-					await Assert.ThrowsExceptionAsync<ConflictException>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken));
+					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => controllerClient.Instances.GetId(node2Instance, cancellationToken), ErrorCode.ResourceNotPresent);
+					await ApiAssert.ThrowsException<ConflictException, InstanceResponse>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken), ErrorCode.ResourceNotPresent);
 
 					// test update
 					await node1Client.Administration.Update(
@@ -629,7 +630,7 @@ namespace Tgstation.Server.Tests.Live
 					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
 					using var node1Client2 = await CreateAdminClient(node1.Url, cancellationToken);
 
-					await ApiAssert.ThrowsException<ApiConflictException>(() => controllerClient2.Administration.Update(
+					await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(() => controllerClient2.Administration.Update(
 						new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion
@@ -860,7 +861,7 @@ namespace Tgstation.Server.Tests.Live
 					Assert.IsNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
 					// update should fail
-					await ApiAssert.ThrowsException<ApiConflictException>(
+					await ApiAssert.ThrowsException<ApiConflictException, ServerUpdateResponse>(
 						() => controllerClient2.Administration.Update(new ServerUpdateRequest
 						{
 							NewVersion = TestUpdateVersion
@@ -1118,9 +1119,7 @@ namespace Tgstation.Server.Tests.Live
 							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
 							.ToList();
 
-						await Task.WhenAll(getTasks);
-						jobs = getTasks
-							.Select(x => x.Result)
+						jobs = (await ValueTaskExtensions.WhenAll(getTasks))
 							.Where(x => x.StartedAt.Value >= preStartupTime)
 							.ToList();
 					}
@@ -1181,9 +1180,8 @@ namespace Tgstation.Server.Tests.Live
 							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
 							.ToList();
 
-						await Task.WhenAll(getTasks);
-						jobs = getTasks
-							.Select(x => x.Result)
+						
+						jobs = (await ValueTaskExtensions.WhenAll(getTasks))
 							.Where(x => x.StartedAt.Value > preStartupTime)
 						.ToList();
 					}

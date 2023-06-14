@@ -42,7 +42,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<IServerClient> CreateFromLogin(
+		public ValueTask<IServerClient> CreateFromLogin(
 			Uri host,
 			string username,
 			string password,
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<IServerClient> CreateFromOAuth(
+		public ValueTask<IServerClient> CreateFromOAuth(
 			Uri host,
 			string oAuthCode,
 			OAuthProvider oAuthProvider,
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public async Task<ServerInformationResponse> GetServerInformation(
+		public async ValueTask<ServerInformationResponse> GetServerInformation(
 			Uri host,
 			IEnumerable<IRequestLogger>? requestLoggers = null,
 			TimeSpan? timeout = null,
@@ -133,8 +133,8 @@ namespace Tgstation.Server.Client
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the connection.</param>
 		/// <param name="attemptLoginRefresh">If <paramref name="loginHeaders"/> may be used to re-login in the future.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
-		async Task<IServerClient> CreateWithNewToken(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a new <see cref="IServerClient"/>.</returns>
+		async ValueTask<IServerClient> CreateWithNewToken(
 			Uri host,
 			ApiHeaders loginHeaders,
 			IEnumerable<IRequestLogger>? requestLoggers,

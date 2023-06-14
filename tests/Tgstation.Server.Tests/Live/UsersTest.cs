@@ -10,6 +10,7 @@ using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Live
@@ -54,11 +55,11 @@ namespace Tgstation.Server.Tests.Live
 			Assert.IsTrue(users.Count > 0);
 			Assert.IsFalse(users.Any(x => x.Id == systemUser.Id));
 
-			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => serverClient.Users.GetId(systemUser, cancellationToken), null);
-			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => serverClient.Users.Update(new UserUpdateRequest
+			await ApiAssert.ThrowsException<InsufficientPermissionsException, UserResponse>(() => serverClient.Users.GetId(systemUser, cancellationToken));
+			await ApiAssert.ThrowsException<InsufficientPermissionsException, UserResponse>(() => serverClient.Users.Update(new UserUpdateRequest
 			{
 				Id = systemUser.Id
-			}, cancellationToken), null);
+			}, cancellationToken));
 
 			var sampleOAuthConnections = new List<OAuthConnection>
 			{
@@ -68,7 +69,7 @@ namespace Tgstation.Server.Tests.Live
 					Provider = OAuthProvider.Discord
 				}
 			};
-			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Update(new UserUpdateRequest
+			await ApiAssert.ThrowsException<ApiConflictException, UserResponse>(() => serverClient.Users.Update(new UserUpdateRequest
 			{
 				Id = user.Id,
 				OAuthConnections = sampleOAuthConnections
@@ -135,7 +136,7 @@ namespace Tgstation.Server.Tests.Live
 
 			group = await serverClient.Groups.Update(new UserGroupUpdateRequest
 			{
-				Id = groups.First().Id,
+				Id = groups[0].Id,
 				PermissionSet = new PermissionSet
 				{
 					InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
@@ -152,7 +153,7 @@ namespace Tgstation.Server.Tests.Live
 				Password = string.Empty
 			};
 
-			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Create((UserCreateRequest)testUserUpdate, cancellationToken), ErrorCode.UserPasswordLength);
+			await ApiAssert.ThrowsException<ApiConflictException, UserResponse>(() => serverClient.Users.Create((UserCreateRequest)testUserUpdate, cancellationToken), ErrorCode.UserPasswordLength);
 
 			testUserUpdate.OAuthConnections = new List<OAuthConnection>
 			{
@@ -174,7 +175,7 @@ namespace Tgstation.Server.Tests.Live
 					Id = group.Id
 				},
 			};
-			await ApiAssert.ThrowsException<ApiConflictException>(
+			await ApiAssert.ThrowsException<ApiConflictException, UserResponse>(
 				() => serverClient.Users.Update(
 					testUserUpdate,
 					cancellationToken),
@@ -216,15 +217,14 @@ namespace Tgstation.Server.Tests.Live
 			if (new PlatformIdentifier().IsWindows)
 				await serverClient.Users.Create(update, cancellationToken);
 			else
-				await ApiAssert.ThrowsException<MethodNotSupportedException>(() => serverClient.Users.Create(update, cancellationToken), ErrorCode.RequiresPosixSystemIdentity);
+				await ApiAssert.ThrowsException<MethodNotSupportedException, UserResponse>(() => serverClient.Users.Create(update, cancellationToken), ErrorCode.RequiresPosixSystemIdentity);
 		}
 
 		async Task TestSpamCreation(CancellationToken cancellationToken)
 		{
-			ICollection<Task<UserResponse>> tasks = new List<Task<UserResponse>>();
-
 			// Careful with this, very easy to overload the thread pool
 			const int RepeatCount = 100;
+			var tasks = new List<ValueTask<UserResponse>>(RepeatCount);
 
 			ThreadPool.GetMaxThreads(out var defaultMaxWorker, out var defaultMaxCompletion);
 			ThreadPool.GetMinThreads(out var defaultMinWorker, out var defaultMinCompletion);
@@ -233,17 +233,18 @@ namespace Tgstation.Server.Tests.Live
 				ThreadPool.SetMinThreads(Math.Min(RepeatCount * 4, defaultMaxWorker), Math.Min(RepeatCount * 4, defaultMaxCompletion));
 				for (int i = 0; i < RepeatCount; ++i)
 				{
-					tasks.Add(
+					var task =
 						serverClient.Users.Create(
 							new UserCreateRequest
 							{
 								Name = $"SpamTestUser_{i}",
 								Password = "asdfasdjfhauwiehruiy273894234jhndjkwh"
 							},
-							cancellationToken));
+							cancellationToken);
+					tasks.Add(task);
 				}
 
-				await Task.WhenAll(tasks);
+				await ValueTaskExtensions.WhenAll(tasks);
 			}
 			finally
 			{
@@ -265,12 +266,12 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(nullSettings.Count, emptySettings.Count);
 			Assert.IsTrue(nullSettings.All(x => emptySettings.SingleOrDefault(y => x.Id == y.Id) != null));
 
-			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.List(
+			await ApiAssert.ThrowsException<ApiConflictException, List<UserResponse>>(() => serverClient.Users.List(
 				new PaginationSettings
 				{
 					PageSize = -2143
 				}, cancellationToken), ErrorCode.ApiInvalidPageOrPageSize);
-			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.List(
+			await ApiAssert.ThrowsException<ApiConflictException, List<UserResponse>>(() => serverClient.Users.List(
 				new PaginationSettings
 				{
 					PageSize = int.MaxValue

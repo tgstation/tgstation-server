@@ -65,18 +65,18 @@ namespace Tgstation.Server.Tests.Live.Instance
 					HeartbeatSeconds = 0,
 					Port = TestLiveServer.DDPort,
 					LogOutput = false,
-				}, cancellationToken),
-				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				}, cancellationToken).AsTask(),
+				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					SoftShutdown = true,
 					SoftRestart = true
-				}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft),
-				ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+				}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft).AsTask(),
+				ApiAssert.ThrowsException<ApiConflictException, DreamDaemonResponse>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					Port = 0
-				}, cancellationToken), ErrorCode.ModelValidationFailure),
-				ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning),
-				ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning));
+				}, cancellationToken), ErrorCode.ModelValidationFailure).AsTask(),
+				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask(),
+				ApiAssert.ThrowsException<ConflictException, JobResponse>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning).AsTask());
 
 			await RunBasicTest(cancellationToken);
 

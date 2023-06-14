@@ -40,7 +40,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			async Task<JobResponse> Rest()
 			{
-				await ApiAssert.ThrowsException<ConflictException>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
+				await ApiAssert.ThrowsException<ConflictException, RepositoryResponse>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
 				Assert.IsNotNull(clone);
 				Assert.AreEqual(cloneRequest.Origin, clone.Origin);
 				Assert.AreEqual(workingBranch, clone.Reference);
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			Assert.AreNotEqual(default, readAfterClone.RevisionInformation.Timestamp);
 
 			// Specific SHA
-			await ApiAssert.ThrowsException<ApiConflictException>(() => Checkout(new RepositoryUpdateRequest { Reference = "master", CheckoutSha = "286bb75" }, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
+			await ApiAssert.ThrowsException<ApiConflictException, RepositoryResponse>(() => Checkout(new RepositoryUpdateRequest { Reference = "master", CheckoutSha = "286bb75" }, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
 			var updated = await Checkout(new RepositoryUpdateRequest { CheckoutSha = "286bb75" }, false, false, cancellationToken);
 
 			// Fake SHA
@@ -141,7 +141,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await TestMergeTests(updated, prNumber, cancellationToken);
 		}
 
-		async Task<RepositoryResponse> Checkout(RepositoryUpdateRequest updated, bool expectFailure, bool isRef, CancellationToken cancellationToken)
+		async ValueTask<RepositoryResponse> Checkout(RepositoryUpdateRequest updated, bool expectFailure, bool isRef, CancellationToken cancellationToken)
 		{
 			var newRef = isRef ? updated.Reference : updated.CheckoutSha;
 			var checkingOut = await repositoryClient.Update(updated, cancellationToken);

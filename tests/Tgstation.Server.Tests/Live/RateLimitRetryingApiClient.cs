@@ -18,7 +18,7 @@ namespace Tgstation.Server.Tests.Live
 		{
 		}
 
-		protected override async Task<TResult> RunRequest<TResult>(string route, HttpContent content, HttpMethod method, long? instanceId, bool tokenRefresh, CancellationToken cancellationToken)
+		protected override async ValueTask<TResult> RunRequest<TResult>(string route, HttpContent content, HttpMethod method, long? instanceId, bool tokenRefresh, CancellationToken cancellationToken)
 		{
 			var hasGitHubToken = !String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN"));
 			while (true)

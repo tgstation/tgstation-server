@@ -94,8 +94,11 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			mockDatabaseSeeder = new Mock<IDatabaseSeeder>();
 			mockDatabaseSeederInitialize = new Mock<IDatabaseSeeder>().Setup(x => x.Initialize(mockDatabaseContext, It.IsAny<CancellationToken>()));
 			mockDBContextFactory = new Mock<IDatabaseContextFactory>();
-			mockDBContextFactory
+			_ = mockDBContextFactory
 				.Setup(x => x.UseContext(It.IsNotNull<Func<IDatabaseContext, ValueTask>>()))
+				.Callback<Func<IDatabaseContext, ValueTask>>((func) => func(mockDatabaseContext));
+			mockDBContextFactory
+				.Setup(x => x.UseContext2(It.IsNotNull<Func<IDatabaseContext, Task>>()))
 				.Callback<Func<IDatabaseContext, Task>>((func) => func(mockDatabaseContext));
 
 			var mockHttpClientFactory = new Mock<IAbstractHttpClientFactory>();
