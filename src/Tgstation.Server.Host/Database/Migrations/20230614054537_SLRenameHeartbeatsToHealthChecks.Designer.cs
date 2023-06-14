@@ -3,16 +3,18 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqliteDatabaseContext))]
-	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20230614054537_SLRenameHeartbeatsToHealthChecks")]
+	partial class SLRenameHeartbeatsToHealthChecks
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder.HasAnnotation("ProductVersion", "7.0.7");
@@ -185,13 +187,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool?>("DumpOnHealthCheckRestart")
+				b.Property<bool?>("DumpOnHeartbeatRestart")
 					.IsRequired()
-					.HasColumnType("INTEGER");
+					.HasColumnType("INTEGER")
+					.HasColumnName("DumpOnHealthCheckRestart");
 
-				b.Property<uint?>("HealthCheckSeconds")
+				b.Property<uint?>("HeartbeatSeconds")
 					.IsRequired()
-					.HasColumnType("INTEGER");
+					.HasColumnType("INTEGER")
+					.HasColumnName("HealthCheckSeconds");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("INTEGER");

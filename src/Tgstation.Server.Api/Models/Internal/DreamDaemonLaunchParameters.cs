@@ -59,14 +59,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		[ResponseOptions]
-		public uint? HeartbeatSeconds { get; set; }
+		public uint? HealthCheckSeconds { get; set; }
 
 		/// <summary>
 		/// If a process core dump should be created prior to restarting the watchdog due to health check failure.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
-		public bool? DumpOnHeartbeatRestart { get; set; }
+		public bool? DumpOnHealthCheckRestart { get; set; }
 
 		/// <summary>
 		/// The timeout for sending and receiving BYOND topics in milliseconds.

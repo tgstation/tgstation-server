@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "6.0.16")
+				.HasAnnotation("ProductVersion", "7.0.7")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -195,11 +195,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("boolean");
 
-				b.Property<bool?>("DumpOnHeartbeatRestart")
+				b.Property<bool?>("DumpOnHealthCheckRestart")
 					.IsRequired()
 					.HasColumnType("boolean");
 
-				b.Property<long>("HeartbeatSeconds")
+				b.Property<long>("HealthCheckSeconds")
 					.HasColumnType("bigint");
 
 				b.Property<long>("InstanceId")
