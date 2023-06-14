@@ -3,16 +3,18 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqlServerDatabaseContext))]
-	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20230614053739_MSRenameHeartbeatsToHealthChecks")]
+	partial class MSRenameHeartbeatsToHealthChecks
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
@@ -197,12 +199,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("bit");
 
-				b.Property<bool?>("DumpOnHealthCheckRestart")
+				b.Property<bool?>("DumpOnHeartbeatRestart")
 					.IsRequired()
-					.HasColumnType("bit");
+					.HasColumnType("bit")
+					.HasColumnName("DumpOnHealthCheckRestart");
 
-				b.Property<long>("HealthCheckSeconds")
-					.HasColumnType("bigint");
+				b.Property<long>("HeartbeatSeconds")
+					.HasColumnType("bigint")
+					.HasColumnName("HealthCheckSeconds");
 
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
@@ -210,9 +214,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<bool?>("LogOutput")
 					.IsRequired()
 					.HasColumnType("bit");
-
-				b.Property<long>("MapThreads")
-					.HasColumnType("bigint");
 
 				b.Property<int>("Port")
 					.HasColumnType("int");

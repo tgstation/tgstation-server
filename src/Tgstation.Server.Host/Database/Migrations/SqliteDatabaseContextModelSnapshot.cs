@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
-			modelBuilder.HasAnnotation("ProductVersion", "6.0.16");
+			modelBuilder.HasAnnotation("ProductVersion", "7.0.7");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
@@ -185,11 +185,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<bool?>("DumpOnHeartbeatRestart")
+				b.Property<bool?>("DumpOnHealthCheckRestart")
 					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<uint?>("HeartbeatSeconds")
+				b.Property<uint?>("HealthCheckSeconds")
 					.IsRequired()
 					.HasColumnType("INTEGER");
 

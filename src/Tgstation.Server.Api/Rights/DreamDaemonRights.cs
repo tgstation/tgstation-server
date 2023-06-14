@@ -74,12 +74,12 @@ namespace Tgstation.Server.Api.Rights
 		SetStartupTimeout = 1 << 11,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HeartbeatSeconds"/>.
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HealthCheckSeconds"/>
 		/// </summary>
 		SetHealthCheckInterval = 1 << 12,
 
 		/// <summary>
-		/// User can create DreamDaemon process dumps or change <see cref="Models.Internal.DreamDaemonLaunchParameters.DumpOnHeartbeatRestart"/>.
+		/// User can create DreamDaemon process dumps or change <see cref="Models.Internal.DreamDaemonLaunchParameters.DumpOnHealthCheckRestart"/>.
 		/// </summary>
 		CreateDump = 1 << 13,
 

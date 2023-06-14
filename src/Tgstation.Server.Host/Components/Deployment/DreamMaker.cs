@@ -791,7 +791,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				Visibility = DreamDaemonVisibility.Invisible,
 				StartupTimeout = timeout,
 				TopicRequestTimeout = 0, // not used
-				HeartbeatSeconds = 0, // not used
+				HealthCheckSeconds = 0, // not used
 				StartProfiler = false,
 				LogOutput = logOutput,
 				MapThreads = 1, // lowest possible amount
