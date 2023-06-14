@@ -88,67 +88,65 @@ $(function() {
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#adcb88bd003916f008ea88131f86de7e2">   13</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#adcb88bd003916f008ea88131f86de7e2">Up</a>(MigrationBuilder migrationBuilder)</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            migrationBuilder.AddColumn&lt;TimeSpan&gt;(</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;Timeout&quot;</span>,</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                defaultValue: TimeSpan.FromHours(1));</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        }</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#a2048c1d61be219507e6c8c0794a99fbd">   26</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#a2048c1d61be219507e6c8c0794a99fbd">Down</a>(MigrationBuilder migrationBuilder)</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                newName: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                {</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                    ProjectName = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">true</span>),</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                    ApiValidationPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                    ApiValidationSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                    RequireDMApiValidation = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                },</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                constraints: table =&gt;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamMakerSettings&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                    table.ForeignKey(</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                        name: <span class="stringliteral">&quot;FK_DreamMakerSettings_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                });</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            migrationBuilder.Sql(</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                $<span class="stringliteral">&quot;INSERT INTO DreamMakerSettings SELECT Id,ProjectName,ApiValidationPort,ApiValidationSecurityLevel,InstanceId,RequireDMApiValidation FROM DreamMakerSettings_down&quot;</span>);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            migrationBuilder.DropTable(</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                name: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                newName: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                name: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>,</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                newName: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        }</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    }</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>}</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            migrationBuilder.AddColumn&lt;TimeSpan&gt;(</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;Timeout&quot;</span>,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                defaultValue: TimeSpan.FromHours(1));</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        }</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#a2048c1d61be219507e6c8c0794a99fbd">   25</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#a2048c1d61be219507e6c8c0794a99fbd">Down</a>(MigrationBuilder migrationBuilder)</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                newName: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                    ProjectName = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">true</span>),</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                    ApiValidationPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                    ApiValidationSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                    RequireDMApiValidation = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                },</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                constraints: table =&gt;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamMakerSettings&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                    table.ForeignKey(</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                        name: <span class="stringliteral">&quot;FK_DreamMakerSettings_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                });</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            migrationBuilder.Sql(</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                $<span class="stringliteral">&quot;INSERT INTO DreamMakerSettings SELECT Id,ProjectName,ApiValidationPort,ApiValidationSecurityLevel,InstanceId,RequireDMApiValidation FROM DreamMakerSettings_down&quot;</span>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            migrationBuilder.DropTable(</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                name: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                newName: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                name: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                newName: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}</div>
 <div class="ttc" id="aclass_migration_html"><div class="ttname"><a href="class_migration.html">Migration</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html">Tgstation.Server.Host.Database.Migrations.SLAddDeploymentTimeout</a></div><div class="ttdoc">Adds the DreamMakerSettings Timeout column for SQLite.</div><div class="ttdef"><b>Definition:</b> <a href="20210826214006___s_l_add_deployment_timeout_8cs_source.html#l00010">20210826214006_SLAddDeploymentTimeout.cs:11</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout_html_a2048c1d61be219507e6c8c0794a99fbd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#a2048c1d61be219507e6c8c0794a99fbd">Tgstation.Server.Host.Database.Migrations.SLAddDeploymentTimeout.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20210826214006___s_l_add_deployment_timeout_8cs_source.html#l00026">20210826214006_SLAddDeploymentTimeout.cs:26</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout_html_a2048c1d61be219507e6c8c0794a99fbd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#a2048c1d61be219507e6c8c0794a99fbd">Tgstation.Server.Host.Database.Migrations.SLAddDeploymentTimeout.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20210826214006___s_l_add_deployment_timeout_8cs_source.html#l00025">20210826214006_SLAddDeploymentTimeout.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout_html_adcb88bd003916f008ea88131f86de7e2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_timeout.html#adcb88bd003916f008ea88131f86de7e2">Tgstation.Server.Host.Database.Migrations.SLAddDeploymentTimeout.Up</a></div><div class="ttdeci">override void Up(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20210826214006___s_l_add_deployment_timeout_8cs_source.html#l00013">20210826214006_SLAddDeploymentTimeout.cs:13</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations.html">Tgstation.Server.Host.Database.Migrations</a></div><div class="ttdef"><b>Definition:</b> <a href="20180906135553___m_s_initial_create_8cs_source.html#l00006">20180906135553_MSInitialCreate.cs:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

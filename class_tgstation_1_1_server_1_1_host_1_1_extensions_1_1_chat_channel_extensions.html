@@ -231,14 +231,13 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_chat_channel_extensions_8cs_source.html#l00039">39</a> of file <a class="el" href="_chat_channel_extensions_8cs_source.html">ChatChannelExtensions.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   40</span>        {</div>
-<div class="line"><span class="lineno">   41</span>            <span class="keywordflow">if</span> (chatChannel == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   42</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(chatChannel));</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>            <span class="keywordflow">if</span> (chatChannel.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#addf3b7b08f3b7ce26c29b3d2b9ce94b0">IrcChannel</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   45</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;IrcChannel must be set!&quot;</span>, nameof(chatChannel));</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>            <span class="keywordflow">return</span> chatChannel.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#addf3b7b08f3b7ce26c29b3d2b9ce94b0">IrcChannel</a>.Split(<span class="keyword">new</span>[] { <span class="charliteral">&#39;:&#39;</span> }, StringSplitOptions.RemoveEmptyEntries);</div>
-<div class="line"><span class="lineno">   48</span>        }</div>
+<div class="line"><span class="lineno">   41</span>            ArgumentNullException.ThrowIfNull(chatChannel);</div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>            <span class="keywordflow">if</span> (chatChannel.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#addf3b7b08f3b7ce26c29b3d2b9ce94b0">IrcChannel</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   44</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;IrcChannel must be set!&quot;</span>, nameof(chatChannel));</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">return</span> chatChannel.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#addf3b7b08f3b7ce26c29b3d2b9ce94b0">IrcChannel</a>.Split(<span class="keyword">new</span>[] { <span class="charliteral">&#39;:&#39;</span> }, StringSplitOptions.RemoveEmptyEntries);</div>
+<div class="line"><span class="lineno">   47</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel_html_addf3b7b08f3b7ce26c29b3d2b9ce94b0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#addf3b7b08f3b7ce26c29b3d2b9ce94b0">Tgstation.Server.Host.Models.ChatChannel.IrcChannel</a></div><div class="ttdeci">string IrcChannel</div><div class="ttdoc">See Api.Models.ChatChannel.IrcChannel.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_chat_channel_8cs_source.html#l00025">ChatChannel.cs:25</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_tgstation_8_server_8_host_2_models_2_chat_channel_8cs_source.html#l00025">Tgstation.Server.Host.Models.ChatChannel.IrcChannel</a>.</p>

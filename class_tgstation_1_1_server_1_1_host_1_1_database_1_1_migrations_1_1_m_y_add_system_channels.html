@@ -1256,15 +1256,14 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20230520203305___m_y_add_system_channels_8cs_source.html#l00029">29</a> of file <a class="el" href="20230520203305___m_y_add_system_channels_8cs_source.html">20230520203305_MYAddSystemChannels.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>        {</div>
-<div class="line"><span class="lineno">   31</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   32</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   35</span>                name: <span class="stringliteral">&quot;IsSystemChannel&quot;</span>,</div>
-<div class="line"><span class="lineno">   36</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>);</div>
-<div class="line"><span class="lineno">   37</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20230520203305___m_y_add_system_channels_8cs_source.html#l00028">28</a> of file <a class="el" href="20230520203305___m_y_add_system_channels_8cs_source.html">20230520203305_MYAddSystemChannels.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>        {</div>
+<div class="line"><span class="lineno">   30</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   31</span> </div>
+<div class="line"><span class="lineno">   32</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   33</span>                name: <span class="stringliteral">&quot;IsSystemChannel&quot;</span>,</div>
+<div class="line"><span class="lineno">   34</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>);</div>
+<div class="line"><span class="lineno">   35</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1296,16 +1295,15 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20230520203305___m_y_add_system_channels_8cs_source.html#l00015">15</a> of file <a class="el" href="20230520203305___m_y_add_system_channels_8cs_source.html">20230520203305_MYAddSystemChannels.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
-<div class="line"><span class="lineno">   17</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   18</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   19</span> </div>
-<div class="line"><span class="lineno">   20</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">   21</span>                name: <span class="stringliteral">&quot;IsSystemChannel&quot;</span>,</div>
-<div class="line"><span class="lineno">   22</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
-<div class="line"><span class="lineno">   23</span>                type: <span class="stringliteral">&quot;tinyint(1)&quot;</span>,</div>
-<div class="line"><span class="lineno">   24</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   25</span>                defaultValue: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   26</span>        }</div>
+<div class="line"><span class="lineno">   17</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   18</span> </div>
+<div class="line"><span class="lineno">   19</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">   20</span>                name: <span class="stringliteral">&quot;IsSystemChannel&quot;</span>,</div>
+<div class="line"><span class="lineno">   21</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
+<div class="line"><span class="lineno">   22</span>                type: <span class="stringliteral">&quot;tinyint(1)&quot;</span>,</div>
+<div class="line"><span class="lineno">   23</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   24</span>                defaultValue: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   25</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

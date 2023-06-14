@@ -918,94 +918,93 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200705163700___s_l_allow_null_d_m_api_8cs_source.html#l00080">80</a> of file <a class="el" href="20200705163700___s_l_allow_null_d_m_api_8cs_source.html">20200705163700_SLAllowNullDMApi.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   81</span>        {</div>
-<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   83</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   86</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   87</span>                newName: <span class="stringliteral">&quot;CompileJobs_down&quot;</span>);</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   90</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   91</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   92</span>                {</div>
-<div class="line"><span class="lineno">   93</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   94</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   95</span>                    DmeName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   96</span>                    Output = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   97</span>                    DirectoryName = table.Column&lt;Guid&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   98</span>                    MinimumSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>, defaultValue: <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Ultrasafe),</div>
-<div class="line"><span class="lineno">   99</span>                    JobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  100</span>                    RevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  101</span>                    ByondVersion = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  102</span>                    DMApiMajorVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  103</span>                    DMApiMinorVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  104</span>                    DMApiPatchVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  105</span>                },</div>
-<div class="line"><span class="lineno">  106</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  107</span>                {</div>
-<div class="line"><span class="lineno">  108</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_CompileJobs&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  109</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  110</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_Jobs_JobId&quot;</span>,</div>
-<div class="line"><span class="lineno">  111</span>                        column: x =&gt; x.JobId,</div>
-<div class="line"><span class="lineno">  112</span>                        principalTable: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  113</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  114</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  115</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  116</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_RevisionInformations_RevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  117</span>                        column: x =&gt; x.RevisionInformationId,</div>
-<div class="line"><span class="lineno">  118</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  119</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">  120</span>                });</div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  123</span>                $<span class="stringliteral">&quot;INSERT INTO CompileJobs SELECT * FROM CompileJobs_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  124</span> </div>
-<div class="line"><span class="lineno">  125</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  126</span>                name: <span class="stringliteral">&quot;CompileJobs_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">  129</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  130</span>                newName: <span class="stringliteral">&quot;CompileJobs_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">  133</span>                name: <span class="stringliteral">&quot;CompileJobs_down&quot;</span>,</div>
-<div class="line"><span class="lineno">  134</span>                newName: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">  137</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  138</span>                newName: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  141</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  142</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  143</span>                {</div>
-<div class="line"><span class="lineno">  144</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  145</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  146</span>                    ProjectName = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  147</span>                    ApiValidationPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  148</span>                    ApiValidationSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  149</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  150</span>                },</div>
-<div class="line"><span class="lineno">  151</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  152</span>                {</div>
-<div class="line"><span class="lineno">  153</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamMakerSettings&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  154</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  155</span>                        name: <span class="stringliteral">&quot;FK_DreamMakerSettings_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  156</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  157</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  158</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  159</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  160</span>                });</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  163</span>                $<span class="stringliteral">&quot;INSERT INTO DreamMakerSettings SELECT Id,ProjectName,ApiValidationPort,ApiValidationSecurityLevel,InstanceId FROM DreamMakerSettings_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  164</span> </div>
-<div class="line"><span class="lineno">  165</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  166</span>                name: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  167</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20200705163700___s_l_allow_null_d_m_api_8cs_source.html#l00079">79</a> of file <a class="el" href="20200705163700___s_l_allow_null_d_m_api_8cs_source.html">20200705163700_SLAllowNullDMApi.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   80</span>        {</div>
+<div class="line"><span class="lineno">   81</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   84</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   85</span>                newName: <span class="stringliteral">&quot;CompileJobs_down&quot;</span>);</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   88</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   89</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   90</span>                {</div>
+<div class="line"><span class="lineno">   91</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   92</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   93</span>                    DmeName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   94</span>                    Output = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   95</span>                    DirectoryName = table.Column&lt;Guid&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   96</span>                    MinimumSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>, defaultValue: <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Ultrasafe),</div>
+<div class="line"><span class="lineno">   97</span>                    JobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   98</span>                    RevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   99</span>                    ByondVersion = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  100</span>                    DMApiMajorVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  101</span>                    DMApiMinorVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  102</span>                    DMApiPatchVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  103</span>                },</div>
+<div class="line"><span class="lineno">  104</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  105</span>                {</div>
+<div class="line"><span class="lineno">  106</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_CompileJobs&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  107</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  108</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_Jobs_JobId&quot;</span>,</div>
+<div class="line"><span class="lineno">  109</span>                        column: x =&gt; x.JobId,</div>
+<div class="line"><span class="lineno">  110</span>                        principalTable: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  111</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  112</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  113</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  114</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_RevisionInformations_RevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  115</span>                        column: x =&gt; x.RevisionInformationId,</div>
+<div class="line"><span class="lineno">  116</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  117</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><span class="lineno">  118</span>                });</div>
+<div class="line"><span class="lineno">  119</span> </div>
+<div class="line"><span class="lineno">  120</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  121</span>                $<span class="stringliteral">&quot;INSERT INTO CompileJobs SELECT * FROM CompileJobs_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  124</span>                name: <span class="stringliteral">&quot;CompileJobs_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">  127</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  128</span>                newName: <span class="stringliteral">&quot;CompileJobs_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">  131</span>                name: <span class="stringliteral">&quot;CompileJobs_down&quot;</span>,</div>
+<div class="line"><span class="lineno">  132</span>                newName: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
+<div class="line"><span class="lineno">  133</span> </div>
+<div class="line"><span class="lineno">  134</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">  135</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  136</span>                newName: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  139</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  140</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  141</span>                {</div>
+<div class="line"><span class="lineno">  142</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  143</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  144</span>                    ProjectName = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  145</span>                    ApiValidationPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  146</span>                    ApiValidationSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  147</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  148</span>                },</div>
+<div class="line"><span class="lineno">  149</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  150</span>                {</div>
+<div class="line"><span class="lineno">  151</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamMakerSettings&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  152</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  153</span>                        name: <span class="stringliteral">&quot;FK_DreamMakerSettings_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  154</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  155</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  156</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  157</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  158</span>                });</div>
+<div class="line"><span class="lineno">  159</span> </div>
+<div class="line"><span class="lineno">  160</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  161</span>                $<span class="stringliteral">&quot;INSERT INTO DreamMakerSettings SELECT Id,ProjectName,ApiValidationPort,ApiValidationSecurityLevel,InstanceId FROM DreamMakerSettings_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  164</span>                name: <span class="stringliteral">&quot;DreamMakerSettings_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  165</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ad4850e6b78816679602b13d63d2869b5"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">Tgstation.Server.Api.Models.DreamDaemonSecurity</a></div><div class="ttdeci">DreamDaemonSecurity</div><div class="ttdoc">DreamDaemon's security level.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_security_8cs_source.html#l00006">DreamDaemonSecurity.cs:7</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -1038,67 +1037,66 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20200705163700___s_l_allow_null_d_m_api_8cs_source.html#l00015">15</a> of file <a class="el" href="20200705163700___s_l_allow_null_d_m_api_8cs_source.html">20200705163700_SLAllowNullDMApi.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
-<div class="line"><span class="lineno">   17</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   18</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   19</span> </div>
-<div class="line"><span class="lineno">   20</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">   21</span>                name: <span class="stringliteral">&quot;RequireDMApiValidation&quot;</span>,</div>
-<div class="line"><span class="lineno">   22</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   23</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   24</span>                defaultValue: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   27</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   28</span>                newName: <span class="stringliteral">&quot;CompileJobs_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   31</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   32</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   33</span>                {</div>
-<div class="line"><span class="lineno">   34</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   35</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   36</span>                    DmeName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   37</span>                    Output = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   38</span>                    DirectoryName = table.Column&lt;Guid&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   39</span>                    MinimumSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   40</span>                    JobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   41</span>                    RevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   42</span>                    ByondVersion = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   43</span>                    DMApiMajorVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   44</span>                    DMApiMinorVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   45</span>                    DMApiPatchVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   46</span>                },</div>
-<div class="line"><span class="lineno">   47</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   48</span>                {</div>
-<div class="line"><span class="lineno">   49</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_CompileJobs&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   50</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   51</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_Jobs_JobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   52</span>                        column: x =&gt; x.JobId,</div>
-<div class="line"><span class="lineno">   53</span>                        principalTable: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   54</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   55</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   56</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   57</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_RevisionInformations_RevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">   58</span>                        column: x =&gt; x.RevisionInformationId,</div>
-<div class="line"><span class="lineno">   59</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   60</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>);</div>
-<div class="line"><span class="lineno">   61</span>                });</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">   64</span>                $<span class="stringliteral">&quot;INSERT INTO CompileJobs SELECT * FROM CompileJobs_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">   67</span>                name: <span class="stringliteral">&quot;CompileJobs_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>            <span class="comment">// SQLite HATES this migration for some reason and thinks CompileJobs_up still exists???</span></div>
-<div class="line"><span class="lineno">   70</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   71</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   72</span>                newName: <span class="stringliteral">&quot;CompileJobs_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   75</span>                name: <span class="stringliteral">&quot;CompileJobs_up&quot;</span>,</div>
-<div class="line"><span class="lineno">   76</span>                newName: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
-<div class="line"><span class="lineno">   77</span>        }</div>
+<div class="line"><span class="lineno">   17</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   18</span> </div>
+<div class="line"><span class="lineno">   19</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">   20</span>                name: <span class="stringliteral">&quot;RequireDMApiValidation&quot;</span>,</div>
+<div class="line"><span class="lineno">   21</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   22</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   23</span>                defaultValue: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   24</span> </div>
+<div class="line"><span class="lineno">   25</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   26</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   27</span>                newName: <span class="stringliteral">&quot;CompileJobs_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   28</span> </div>
+<div class="line"><span class="lineno">   29</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   30</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   31</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   32</span>                {</div>
+<div class="line"><span class="lineno">   33</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   34</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   35</span>                    DmeName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   36</span>                    Output = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   37</span>                    DirectoryName = table.Column&lt;Guid&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   38</span>                    MinimumSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   39</span>                    JobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   40</span>                    RevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   41</span>                    ByondVersion = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   42</span>                    DMApiMajorVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   43</span>                    DMApiMinorVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   44</span>                    DMApiPatchVersion = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   45</span>                },</div>
+<div class="line"><span class="lineno">   46</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   47</span>                {</div>
+<div class="line"><span class="lineno">   48</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_CompileJobs&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   49</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   50</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_Jobs_JobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   51</span>                        column: x =&gt; x.JobId,</div>
+<div class="line"><span class="lineno">   52</span>                        principalTable: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   53</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   54</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   55</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   56</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_RevisionInformations_RevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">   57</span>                        column: x =&gt; x.RevisionInformationId,</div>
+<div class="line"><span class="lineno">   58</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   59</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>);</div>
+<div class="line"><span class="lineno">   60</span>                });</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">   63</span>                $<span class="stringliteral">&quot;INSERT INTO CompileJobs SELECT * FROM CompileJobs_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">   66</span>                name: <span class="stringliteral">&quot;CompileJobs_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>            <span class="comment">// SQLite HATES this migration for some reason and thinks CompileJobs_up still exists???</span></div>
+<div class="line"><span class="lineno">   69</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   70</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   71</span>                newName: <span class="stringliteral">&quot;CompileJobs_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   74</span>                name: <span class="stringliteral">&quot;CompileJobs_up&quot;</span>,</div>
+<div class="line"><span class="lineno">   75</span>                newName: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
+<div class="line"><span class="lineno">   76</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -1036,120 +1036,119 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20201214182101___s_l_add_user_groups_8cs_source.html#l00194">194</a> of file <a class="el" href="20201214182101___s_l_add_user_groups_8cs_source.html">20201214182101_SLAddUserGroups.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  195</span>        {</div>
-<div class="line"><span class="lineno">  196</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  197</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  200</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
-<div class="line"><span class="lineno">  201</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  202</span>                {</div>
-<div class="line"><span class="lineno">  203</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  204</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  205</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  206</span>                    ChatBotRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  207</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0c">ConfigurationRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  208</span>                    DreamDaemonRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  209</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  210</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  211</span>                    InstanceUserRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  212</span>                    RepositoryRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  213</span>                    UserId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  214</span>                },</div>
-<div class="line"><span class="lineno">  215</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  216</span>                {</div>
-<div class="line"><span class="lineno">  217</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_InstanceUsers&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  218</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  219</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  220</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  221</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  222</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  223</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  224</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  225</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Users_UserId&quot;</span>,</div>
-<div class="line"><span class="lineno">  226</span>                        column: x =&gt; x.UserId,</div>
-<div class="line"><span class="lineno">  227</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  228</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  229</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  230</span>                });</div>
-<div class="line"><span class="lineno">  231</span> </div>
-<div class="line"><span class="lineno">  232</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  233</span>                name: <span class="stringliteral">&quot;IX_InstanceUsers_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  234</span>                table: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
-<div class="line"><span class="lineno">  235</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">  236</span> </div>
-<div class="line"><span class="lineno">  237</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  238</span>                name: <span class="stringliteral">&quot;IX_InstanceUsers_UserId_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  239</span>                table: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
-<div class="line"><span class="lineno">  240</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;UserId&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span> },</div>
-<div class="line"><span class="lineno">  241</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  242</span> </div>
-<div class="line"><span class="lineno">  243</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">  244</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  245</span>                newName: <span class="stringliteral">&quot;Users_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  248</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  249</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  250</span>                {</div>
-<div class="line"><span class="lineno">  251</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  252</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  253</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  254</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  255</span>                    SystemIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  256</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 100, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  257</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  258</span>                    InstanceManagerRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  259</span>                    PasswordHash = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  260</span>                    CreatedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  261</span>                    CanonicalName = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 100, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  262</span>                    LastPasswordUpdate = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  263</span>                    GroupId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  264</span>                },</div>
-<div class="line"><span class="lineno">  265</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  266</span>                {</div>
-<div class="line"><span class="lineno">  267</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Users&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  268</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  269</span>                        name: <span class="stringliteral">&quot;FK_Users_Users_CreatedById&quot;</span>,</div>
-<div class="line"><span class="lineno">  270</span>                        column: x =&gt; x.CreatedById,</div>
-<div class="line"><span class="lineno">  271</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  272</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  273</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  274</span>                });</div>
-<div class="line"><span class="lineno">  275</span> </div>
-<div class="line"><span class="lineno">  276</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  277</span>                <span class="stringliteral">&quot;INSERT INTO Users (Id, Enabled, CreatedAt, SystemIdentifier, Name, PasswordHash, CreatedById, CanonicalName, LastPasswordUpdate, AdministrationRights, InstanceManagerRights) SELECT u.Id, u.Enabled, u.CreatedAt, u.SystemIdentifier, u.Name, u.PasswordHash, u.CreatedById, u.CanonicalName, u.LastPasswordUpdate, p.AdministrationRights, p.InstanceManagerRights FROM Users_down u JOIN PermissionSets p ON p.UserId = u.Id WHERE u.GroupId = NULL&quot;</span>);</div>
-<div class="line"><span class="lineno">  278</span> </div>
-<div class="line"><span class="lineno">  279</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  280</span>                <span class="stringliteral">&quot;INSERT INTO Users (Id, Enabled, CreatedAt, SystemIdentifier, Name, PasswordHash, CreatedById, CanonicalName, LastPasswordUpdate, AdministrationRights, InstanceManagerRights) SELECT u.Id, u.Enabled, u.CreatedAt, u.SystemIdentifier, u.Name, u.PasswordHash, u.CreatedById, u.CanonicalName, u.LastPasswordUpdate, p.AdministrationRights, p.InstanceManagerRights FROM Users_down u JOIN PermissionSets p ON p.GroupId = u.GroupId WHERE u.GroupId != NULL&quot;</span>);</div>
-<div class="line"><span class="lineno">  281</span> </div>
-<div class="line"><span class="lineno">  282</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  283</span>                <span class="stringliteral">&quot;INSERT INTO InstanceUsers (UserId, InstanceId, InstanceUserRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT p.UserId, ips.InstanceId, ips.InstancePermissionSetRights, ips.ByondRights, ips.DreamDaemonRights, ips.DreamMakerRights, ips.RepositoryRights, ips.ChatBotRights, ips.ConfigurationRights FROM InstancePermissionSets ips JOIN PermissionSets p ON ips.PermissionSetId = p.Id WHERE p.UserId != NULL&quot;</span>);</div>
-<div class="line"><span class="lineno">  284</span> </div>
-<div class="line"><span class="lineno">  285</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  286</span>                <span class="stringliteral">&quot;INSERT INTO InstanceUsers (UserId, InstanceId, InstanceUserRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT u.Id, ips.InstanceId, ips.InstancePermissionSetRights, ips.ByondRights, ips.DreamDaemonRights, ips.DreamMakerRights, ips.RepositoryRights, ips.ChatBotRights, ips.ConfigurationRights FROM InstancePermissionSets ips JOIN PermissionSets p ON ips.PermissionSetId = p.Id JOIN Users_down u ON p.GroupId = u.GroupId WHERE p.GroupId != NULL&quot;</span>);</div>
-<div class="line"><span class="lineno">  287</span> </div>
-<div class="line"><span class="lineno">  288</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  289</span>                name: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>);</div>
-<div class="line"><span class="lineno">  290</span> </div>
-<div class="line"><span class="lineno">  291</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  292</span>                name: <span class="stringliteral">&quot;PermissionSets&quot;</span>);</div>
-<div class="line"><span class="lineno">  293</span> </div>
-<div class="line"><span class="lineno">  294</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  295</span>                name: <span class="stringliteral">&quot;Groups&quot;</span>);</div>
-<div class="line"><span class="lineno">  296</span> </div>
-<div class="line"><span class="lineno">  297</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  298</span>                name: <span class="stringliteral">&quot;Users_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  299</span> </div>
-<div class="line"><span class="lineno">  300</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">  301</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  302</span>                newName: <span class="stringliteral">&quot;Users_down&quot;</span>);</div>
-<div class="line"><span class="lineno">  303</span> </div>
-<div class="line"><span class="lineno">  304</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">  305</span>                name: <span class="stringliteral">&quot;Users_down&quot;</span>,</div>
-<div class="line"><span class="lineno">  306</span>                newName: <span class="stringliteral">&quot;Users&quot;</span>);</div>
-<div class="line"><span class="lineno">  307</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20201214182101___s_l_add_user_groups_8cs_source.html#l00193">193</a> of file <a class="el" href="20201214182101___s_l_add_user_groups_8cs_source.html">20201214182101_SLAddUserGroups.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  194</span>        {</div>
+<div class="line"><span class="lineno">  195</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">  196</span> </div>
+<div class="line"><span class="lineno">  197</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  198</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
+<div class="line"><span class="lineno">  199</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  200</span>                {</div>
+<div class="line"><span class="lineno">  201</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  202</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  203</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  204</span>                    ChatBotRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  205</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0c">ConfigurationRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  206</span>                    DreamDaemonRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  207</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  208</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  209</span>                    InstanceUserRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  210</span>                    RepositoryRights = table.Column&lt;ulong&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  211</span>                    UserId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  212</span>                },</div>
+<div class="line"><span class="lineno">  213</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  214</span>                {</div>
+<div class="line"><span class="lineno">  215</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_InstanceUsers&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  216</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  217</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  218</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  219</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  220</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  221</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  222</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  223</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Users_UserId&quot;</span>,</div>
+<div class="line"><span class="lineno">  224</span>                        column: x =&gt; x.UserId,</div>
+<div class="line"><span class="lineno">  225</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  226</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  227</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  228</span>                });</div>
+<div class="line"><span class="lineno">  229</span> </div>
+<div class="line"><span class="lineno">  230</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  231</span>                name: <span class="stringliteral">&quot;IX_InstanceUsers_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  232</span>                table: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
+<div class="line"><span class="lineno">  233</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
+<div class="line"><span class="lineno">  234</span> </div>
+<div class="line"><span class="lineno">  235</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  236</span>                name: <span class="stringliteral">&quot;IX_InstanceUsers_UserId_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  237</span>                table: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
+<div class="line"><span class="lineno">  238</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;UserId&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span> },</div>
+<div class="line"><span class="lineno">  239</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  240</span> </div>
+<div class="line"><span class="lineno">  241</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">  242</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  243</span>                newName: <span class="stringliteral">&quot;Users_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  244</span> </div>
+<div class="line"><span class="lineno">  245</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  246</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  247</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  248</span>                {</div>
+<div class="line"><span class="lineno">  249</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  250</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  251</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  252</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  253</span>                    SystemIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  254</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 100, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  255</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  256</span>                    InstanceManagerRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  257</span>                    PasswordHash = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  258</span>                    CreatedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  259</span>                    CanonicalName = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 100, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  260</span>                    LastPasswordUpdate = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  261</span>                    GroupId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  262</span>                },</div>
+<div class="line"><span class="lineno">  263</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  264</span>                {</div>
+<div class="line"><span class="lineno">  265</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Users&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  266</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  267</span>                        name: <span class="stringliteral">&quot;FK_Users_Users_CreatedById&quot;</span>,</div>
+<div class="line"><span class="lineno">  268</span>                        column: x =&gt; x.CreatedById,</div>
+<div class="line"><span class="lineno">  269</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  270</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  271</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  272</span>                });</div>
+<div class="line"><span class="lineno">  273</span> </div>
+<div class="line"><span class="lineno">  274</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  275</span>                <span class="stringliteral">&quot;INSERT INTO Users (Id, Enabled, CreatedAt, SystemIdentifier, Name, PasswordHash, CreatedById, CanonicalName, LastPasswordUpdate, AdministrationRights, InstanceManagerRights) SELECT u.Id, u.Enabled, u.CreatedAt, u.SystemIdentifier, u.Name, u.PasswordHash, u.CreatedById, u.CanonicalName, u.LastPasswordUpdate, p.AdministrationRights, p.InstanceManagerRights FROM Users_down u JOIN PermissionSets p ON p.UserId = u.Id WHERE u.GroupId = NULL&quot;</span>);</div>
+<div class="line"><span class="lineno">  276</span> </div>
+<div class="line"><span class="lineno">  277</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  278</span>                <span class="stringliteral">&quot;INSERT INTO Users (Id, Enabled, CreatedAt, SystemIdentifier, Name, PasswordHash, CreatedById, CanonicalName, LastPasswordUpdate, AdministrationRights, InstanceManagerRights) SELECT u.Id, u.Enabled, u.CreatedAt, u.SystemIdentifier, u.Name, u.PasswordHash, u.CreatedById, u.CanonicalName, u.LastPasswordUpdate, p.AdministrationRights, p.InstanceManagerRights FROM Users_down u JOIN PermissionSets p ON p.GroupId = u.GroupId WHERE u.GroupId != NULL&quot;</span>);</div>
+<div class="line"><span class="lineno">  279</span> </div>
+<div class="line"><span class="lineno">  280</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  281</span>                <span class="stringliteral">&quot;INSERT INTO InstanceUsers (UserId, InstanceId, InstanceUserRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT p.UserId, ips.InstanceId, ips.InstancePermissionSetRights, ips.ByondRights, ips.DreamDaemonRights, ips.DreamMakerRights, ips.RepositoryRights, ips.ChatBotRights, ips.ConfigurationRights FROM InstancePermissionSets ips JOIN PermissionSets p ON ips.PermissionSetId = p.Id WHERE p.UserId != NULL&quot;</span>);</div>
+<div class="line"><span class="lineno">  282</span> </div>
+<div class="line"><span class="lineno">  283</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  284</span>                <span class="stringliteral">&quot;INSERT INTO InstanceUsers (UserId, InstanceId, InstanceUserRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT u.Id, ips.InstanceId, ips.InstancePermissionSetRights, ips.ByondRights, ips.DreamDaemonRights, ips.DreamMakerRights, ips.RepositoryRights, ips.ChatBotRights, ips.ConfigurationRights FROM InstancePermissionSets ips JOIN PermissionSets p ON ips.PermissionSetId = p.Id JOIN Users_down u ON p.GroupId = u.GroupId WHERE p.GroupId != NULL&quot;</span>);</div>
+<div class="line"><span class="lineno">  285</span> </div>
+<div class="line"><span class="lineno">  286</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  287</span>                name: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>);</div>
+<div class="line"><span class="lineno">  288</span> </div>
+<div class="line"><span class="lineno">  289</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  290</span>                name: <span class="stringliteral">&quot;PermissionSets&quot;</span>);</div>
+<div class="line"><span class="lineno">  291</span> </div>
+<div class="line"><span class="lineno">  292</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  293</span>                name: <span class="stringliteral">&quot;Groups&quot;</span>);</div>
+<div class="line"><span class="lineno">  294</span> </div>
+<div class="line"><span class="lineno">  295</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  296</span>                name: <span class="stringliteral">&quot;Users_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  297</span> </div>
+<div class="line"><span class="lineno">  298</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">  299</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  300</span>                newName: <span class="stringliteral">&quot;Users_down&quot;</span>);</div>
+<div class="line"><span class="lineno">  301</span> </div>
+<div class="line"><span class="lineno">  302</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">  303</span>                name: <span class="stringliteral">&quot;Users_down&quot;</span>,</div>
+<div class="line"><span class="lineno">  304</span>                newName: <span class="stringliteral">&quot;Users&quot;</span>);</div>
+<div class="line"><span class="lineno">  305</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a2a217a19e652f117e2324fb79ed838b9"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">Tgstation.Server.Api.Rights.ByondRights</a></div><div class="ttdeci">ByondRights</div><div class="ttdoc">Rights for BYOND version management.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_rights_8cs_source.html#l00009">ByondRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0c">Tgstation.Server.Api.Rights.ConfigurationRights</a></div><div class="ttdeci">ConfigurationRights</div><div class="ttdoc">Rights for Models.IConfigurationFiles.</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_rights_8cs_source.html#l00009">ConfigurationRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a6aac419b6a793fe07657d96ac48dee5d"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">Tgstation.Server.Api.Rights.DreamMakerRights</a></div><div class="ttdeci">DreamMakerRights</div><div class="ttdoc">Rights for deployment.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_rights_8cs_source.html#l00009">DreamMakerRights.cs:10</a></div></div>
@@ -1185,183 +1184,182 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20201214182101___s_l_add_user_groups_8cs_source.html#l00013">13</a> of file <a class="el" href="20201214182101___s_l_add_user_groups_8cs_source.html">20201214182101_SLAddUserGroups.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">long</span>&gt;(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;GroupId&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">   21</span>                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   22</span> </div>
-<div class="line"><span class="lineno">   23</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   24</span>                name: <span class="stringliteral">&quot;Groups&quot;</span>,</div>
-<div class="line"><span class="lineno">   25</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   26</span>                {</div>
-<div class="line"><span class="lineno">   27</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   28</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   29</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 100, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   30</span>                },</div>
-<div class="line"><span class="lineno">   31</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   32</span>                {</div>
-<div class="line"><span class="lineno">   33</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Groups&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   34</span>                });</div>
-<div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   36</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   37</span>                name: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
-<div class="line"><span class="lineno">   38</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   39</span>                {</div>
-<div class="line"><span class="lineno">   40</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   41</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   42</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   43</span>                    InstanceManagerRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   44</span>                    UserId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   45</span>                    GroupId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   46</span>                },</div>
-<div class="line"><span class="lineno">   47</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   48</span>                {</div>
-<div class="line"><span class="lineno">   49</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_PermissionSets&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   50</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   51</span>                        name: <span class="stringliteral">&quot;FK_PermissionSets_Groups_GroupId&quot;</span>,</div>
-<div class="line"><span class="lineno">   52</span>                        column: x =&gt; x.GroupId,</div>
-<div class="line"><span class="lineno">   53</span>                        principalTable: <span class="stringliteral">&quot;Groups&quot;</span>,</div>
-<div class="line"><span class="lineno">   54</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   55</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   56</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   57</span>                        name: <span class="stringliteral">&quot;FK_PermissionSets_Users_UserId&quot;</span>,</div>
-<div class="line"><span class="lineno">   58</span>                        column: x =&gt; x.UserId,</div>
-<div class="line"><span class="lineno">   59</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">   60</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   61</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   62</span>                });</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   65</span>                name: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>,</div>
-<div class="line"><span class="lineno">   66</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   67</span>                {</div>
-<div class="line"><span class="lineno">   68</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   69</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   70</span>                    PermissionSetId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   71</span>                    InstancePermissionSetRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   72</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   73</span>                    DreamDaemonRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   74</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   75</span>                    RepositoryRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   76</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   77</span>                    ConfigurationRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   78</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   79</span>                },</div>
-<div class="line"><span class="lineno">   80</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   81</span>                {</div>
-<div class="line"><span class="lineno">   82</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_InstancePermissionSets&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   83</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   84</span>                        name: <span class="stringliteral">&quot;FK_InstancePermissionSets_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">   85</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">   86</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   87</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   88</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   89</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   90</span>                        name: <span class="stringliteral">&quot;FK_InstancePermissionSets_PermissionSets_PermissionSetId&quot;</span>,</div>
-<div class="line"><span class="lineno">   91</span>                        column: x =&gt; x.PermissionSetId,</div>
-<div class="line"><span class="lineno">   92</span>                        principalTable: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
-<div class="line"><span class="lineno">   93</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   94</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   95</span>                });</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   98</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">   99</span>                newName: <span class="stringliteral">&quot;Users_up&quot;</span>);</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  102</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  103</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  104</span>                {</div>
-<div class="line"><span class="lineno">  105</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  106</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  107</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  108</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  109</span>                    SystemIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  110</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  111</span>                    PasswordHash = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  112</span>                    CreatedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  113</span>                    GroupId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  114</span>                    CanonicalName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  115</span>                    LastPasswordUpdate = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  116</span>                },</div>
-<div class="line"><span class="lineno">  117</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  118</span>                {</div>
-<div class="line"><span class="lineno">  119</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Users&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  120</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  121</span>                        name: <span class="stringliteral">&quot;FK_Users_Users_CreatedById&quot;</span>,</div>
-<div class="line"><span class="lineno">  122</span>                        column: x =&gt; x.CreatedById,</div>
-<div class="line"><span class="lineno">  123</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  124</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  125</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  126</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  127</span>                        name: <span class="stringliteral">&quot;FK_Users_Groups_GroupId&quot;</span>,</div>
-<div class="line"><span class="lineno">  128</span>                        column: x =&gt; x.GroupId,</div>
-<div class="line"><span class="lineno">  129</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  130</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  131</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  132</span>                });</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  135</span>                name: <span class="stringliteral">&quot;IX_Users_GroupId&quot;</span>,</div>
-<div class="line"><span class="lineno">  136</span>                table: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  137</span>                column: <span class="stringliteral">&quot;GroupId&quot;</span>);</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  140</span>                name: <span class="stringliteral">&quot;IX_Groups_Name&quot;</span>,</div>
-<div class="line"><span class="lineno">  141</span>                table: <span class="stringliteral">&quot;Groups&quot;</span>,</div>
-<div class="line"><span class="lineno">  142</span>                column: <span class="stringliteral">&quot;Name&quot;</span>,</div>
-<div class="line"><span class="lineno">  143</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  144</span> </div>
-<div class="line"><span class="lineno">  145</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  146</span>                name: <span class="stringliteral">&quot;IX_InstancePermissionSets_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  147</span>                table: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>,</div>
-<div class="line"><span class="lineno">  148</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  151</span>                name: <span class="stringliteral">&quot;IX_InstancePermissionSets_PermissionSetId_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  152</span>                table: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>,</div>
-<div class="line"><span class="lineno">  153</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;PermissionSetId&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span> },</div>
-<div class="line"><span class="lineno">  154</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  157</span>                name: <span class="stringliteral">&quot;IX_PermissionSets_GroupId&quot;</span>,</div>
-<div class="line"><span class="lineno">  158</span>                table: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
-<div class="line"><span class="lineno">  159</span>                column: <span class="stringliteral">&quot;GroupId&quot;</span>,</div>
-<div class="line"><span class="lineno">  160</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  163</span>                name: <span class="stringliteral">&quot;IX_PermissionSets_UserId&quot;</span>,</div>
-<div class="line"><span class="lineno">  164</span>                table: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
-<div class="line"><span class="lineno">  165</span>                column: <span class="stringliteral">&quot;UserId&quot;</span>,</div>
-<div class="line"><span class="lineno">  166</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  167</span> </div>
-<div class="line"><span class="lineno">  168</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  169</span>                <span class="stringliteral">&quot;INSERT INTO Users (Id, Enabled, CreatedAt, SystemIdentifier, Name, PasswordHash, CreatedById, CanonicalName, LastPasswordUpdate) SELECT Id, Enabled, CreatedAt, SystemIdentifier, Name, PasswordHash, CreatedById, CanonicalName, LastPasswordUpdate FROM Users_up&quot;</span>);</div>
-<div class="line"><span class="lineno">  170</span> </div>
-<div class="line"><span class="lineno">  171</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  172</span>                <span class="stringliteral">&quot;INSERT INTO PermissionSets (UserId, AdministrationRights, InstanceManagerRights) SELECT Id, AdministrationRights, InstanceManagerRights FROM Users_up&quot;</span>);</div>
-<div class="line"><span class="lineno">  173</span> </div>
-<div class="line"><span class="lineno">  174</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">  175</span>                <span class="stringliteral">&quot;INSERT INTO InstancePermissionSets (PermissionSetId, InstanceId, InstancePermissionSetRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT p.Id, iu.InstanceId, iu.InstanceUserRights, iu.ByondRights, iu.DreamDaemonRights, iu.DreamMakerRights, iu.RepositoryRights, iu.ChatBotRights, iu.ConfigurationRights FROM InstanceUsers iu JOIN PermissionSets p ON iu.UserId = p.UserId&quot;</span>);</div>
-<div class="line"><span class="lineno">  176</span> </div>
-<div class="line"><span class="lineno">  177</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  178</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>);</div>
-<div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  181</span>                name: <span class="stringliteral">&quot;Users_up&quot;</span>);</div>
-<div class="line"><span class="lineno">  182</span> </div>
-<div class="line"><span class="lineno">  183</span>            <span class="comment">// Had to do this in SLAllowNullDMApi too, renames confuse the fuck out of the ORM</span></div>
-<div class="line"><span class="lineno">  184</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">  185</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  186</span>                newName: <span class="stringliteral">&quot;Users_up&quot;</span>);</div>
-<div class="line"><span class="lineno">  187</span> </div>
-<div class="line"><span class="lineno">  188</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">  189</span>                name: <span class="stringliteral">&quot;Users_up&quot;</span>,</div>
-<div class="line"><span class="lineno">  190</span>                newName: <span class="stringliteral">&quot;Users&quot;</span>);</div>
-<div class="line"><span class="lineno">  191</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">long</span>&gt;(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;GroupId&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">   20</span>                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   21</span> </div>
+<div class="line"><span class="lineno">   22</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   23</span>                name: <span class="stringliteral">&quot;Groups&quot;</span>,</div>
+<div class="line"><span class="lineno">   24</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   25</span>                {</div>
+<div class="line"><span class="lineno">   26</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   27</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   28</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 100, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   29</span>                },</div>
+<div class="line"><span class="lineno">   30</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   31</span>                {</div>
+<div class="line"><span class="lineno">   32</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Groups&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   33</span>                });</div>
+<div class="line"><span class="lineno">   34</span> </div>
+<div class="line"><span class="lineno">   35</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   36</span>                name: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
+<div class="line"><span class="lineno">   37</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   38</span>                {</div>
+<div class="line"><span class="lineno">   39</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   40</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   41</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   42</span>                    InstanceManagerRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   43</span>                    UserId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   44</span>                    GroupId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   45</span>                },</div>
+<div class="line"><span class="lineno">   46</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   47</span>                {</div>
+<div class="line"><span class="lineno">   48</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_PermissionSets&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   49</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   50</span>                        name: <span class="stringliteral">&quot;FK_PermissionSets_Groups_GroupId&quot;</span>,</div>
+<div class="line"><span class="lineno">   51</span>                        column: x =&gt; x.GroupId,</div>
+<div class="line"><span class="lineno">   52</span>                        principalTable: <span class="stringliteral">&quot;Groups&quot;</span>,</div>
+<div class="line"><span class="lineno">   53</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   54</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   55</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   56</span>                        name: <span class="stringliteral">&quot;FK_PermissionSets_Users_UserId&quot;</span>,</div>
+<div class="line"><span class="lineno">   57</span>                        column: x =&gt; x.UserId,</div>
+<div class="line"><span class="lineno">   58</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">   59</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   60</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   61</span>                });</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   64</span>                name: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>,</div>
+<div class="line"><span class="lineno">   65</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   66</span>                {</div>
+<div class="line"><span class="lineno">   67</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   68</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   69</span>                    PermissionSetId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   70</span>                    InstancePermissionSetRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   71</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   72</span>                    DreamDaemonRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   73</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   74</span>                    RepositoryRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   75</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   76</span>                    ConfigurationRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   77</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   78</span>                },</div>
+<div class="line"><span class="lineno">   79</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   80</span>                {</div>
+<div class="line"><span class="lineno">   81</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_InstancePermissionSets&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   82</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   83</span>                        name: <span class="stringliteral">&quot;FK_InstancePermissionSets_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">   84</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">   85</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   86</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   87</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   88</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   89</span>                        name: <span class="stringliteral">&quot;FK_InstancePermissionSets_PermissionSets_PermissionSetId&quot;</span>,</div>
+<div class="line"><span class="lineno">   90</span>                        column: x =&gt; x.PermissionSetId,</div>
+<div class="line"><span class="lineno">   91</span>                        principalTable: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
+<div class="line"><span class="lineno">   92</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   93</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   94</span>                });</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   97</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">   98</span>                newName: <span class="stringliteral">&quot;Users_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  101</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  102</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  103</span>                {</div>
+<div class="line"><span class="lineno">  104</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  105</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  106</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  107</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  108</span>                    SystemIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  109</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  110</span>                    PasswordHash = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  111</span>                    CreatedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  112</span>                    GroupId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  113</span>                    CanonicalName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  114</span>                    LastPasswordUpdate = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  115</span>                },</div>
+<div class="line"><span class="lineno">  116</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  117</span>                {</div>
+<div class="line"><span class="lineno">  118</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Users&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  119</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  120</span>                        name: <span class="stringliteral">&quot;FK_Users_Users_CreatedById&quot;</span>,</div>
+<div class="line"><span class="lineno">  121</span>                        column: x =&gt; x.CreatedById,</div>
+<div class="line"><span class="lineno">  122</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  123</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  124</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  125</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  126</span>                        name: <span class="stringliteral">&quot;FK_Users_Groups_GroupId&quot;</span>,</div>
+<div class="line"><span class="lineno">  127</span>                        column: x =&gt; x.GroupId,</div>
+<div class="line"><span class="lineno">  128</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  129</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  130</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  131</span>                });</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  134</span>                name: <span class="stringliteral">&quot;IX_Users_GroupId&quot;</span>,</div>
+<div class="line"><span class="lineno">  135</span>                table: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  136</span>                column: <span class="stringliteral">&quot;GroupId&quot;</span>);</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  139</span>                name: <span class="stringliteral">&quot;IX_Groups_Name&quot;</span>,</div>
+<div class="line"><span class="lineno">  140</span>                table: <span class="stringliteral">&quot;Groups&quot;</span>,</div>
+<div class="line"><span class="lineno">  141</span>                column: <span class="stringliteral">&quot;Name&quot;</span>,</div>
+<div class="line"><span class="lineno">  142</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  145</span>                name: <span class="stringliteral">&quot;IX_InstancePermissionSets_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  146</span>                table: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>,</div>
+<div class="line"><span class="lineno">  147</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  150</span>                name: <span class="stringliteral">&quot;IX_InstancePermissionSets_PermissionSetId_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  151</span>                table: <span class="stringliteral">&quot;InstancePermissionSets&quot;</span>,</div>
+<div class="line"><span class="lineno">  152</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;PermissionSetId&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span> },</div>
+<div class="line"><span class="lineno">  153</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  156</span>                name: <span class="stringliteral">&quot;IX_PermissionSets_GroupId&quot;</span>,</div>
+<div class="line"><span class="lineno">  157</span>                table: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
+<div class="line"><span class="lineno">  158</span>                column: <span class="stringliteral">&quot;GroupId&quot;</span>,</div>
+<div class="line"><span class="lineno">  159</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  160</span> </div>
+<div class="line"><span class="lineno">  161</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  162</span>                name: <span class="stringliteral">&quot;IX_PermissionSets_UserId&quot;</span>,</div>
+<div class="line"><span class="lineno">  163</span>                table: <span class="stringliteral">&quot;PermissionSets&quot;</span>,</div>
+<div class="line"><span class="lineno">  164</span>                column: <span class="stringliteral">&quot;UserId&quot;</span>,</div>
+<div class="line"><span class="lineno">  165</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  166</span> </div>
+<div class="line"><span class="lineno">  167</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  168</span>                <span class="stringliteral">&quot;INSERT INTO Users (Id, Enabled, CreatedAt, SystemIdentifier, Name, PasswordHash, CreatedById, CanonicalName, LastPasswordUpdate) SELECT Id, Enabled, CreatedAt, SystemIdentifier, Name, PasswordHash, CreatedById, CanonicalName, LastPasswordUpdate FROM Users_up&quot;</span>);</div>
+<div class="line"><span class="lineno">  169</span> </div>
+<div class="line"><span class="lineno">  170</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  171</span>                <span class="stringliteral">&quot;INSERT INTO PermissionSets (UserId, AdministrationRights, InstanceManagerRights) SELECT Id, AdministrationRights, InstanceManagerRights FROM Users_up&quot;</span>);</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">  174</span>                <span class="stringliteral">&quot;INSERT INTO InstancePermissionSets (PermissionSetId, InstanceId, InstancePermissionSetRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT p.Id, iu.InstanceId, iu.InstanceUserRights, iu.ByondRights, iu.DreamDaemonRights, iu.DreamMakerRights, iu.RepositoryRights, iu.ChatBotRights, iu.ConfigurationRights FROM InstanceUsers iu JOIN PermissionSets p ON iu.UserId = p.UserId&quot;</span>);</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  177</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>);</div>
+<div class="line"><span class="lineno">  178</span> </div>
+<div class="line"><span class="lineno">  179</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  180</span>                name: <span class="stringliteral">&quot;Users_up&quot;</span>);</div>
+<div class="line"><span class="lineno">  181</span> </div>
+<div class="line"><span class="lineno">  182</span>            <span class="comment">// Had to do this in SLAllowNullDMApi too, renames confuse the fuck out of the ORM</span></div>
+<div class="line"><span class="lineno">  183</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">  184</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  185</span>                newName: <span class="stringliteral">&quot;Users_up&quot;</span>);</div>
+<div class="line"><span class="lineno">  186</span> </div>
+<div class="line"><span class="lineno">  187</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">  188</span>                name: <span class="stringliteral">&quot;Users_up&quot;</span>,</div>
+<div class="line"><span class="lineno">  189</span>                newName: <span class="stringliteral">&quot;Users&quot;</span>);</div>
+<div class="line"><span class="lineno">  190</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a580a36a11165b2590be342b45c31ec72"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">Tgstation.Server.Api.Rights.ChatBotRights</a></div><div class="ttdeci">ChatBotRights</div><div class="ttdoc">Rights for chat bots.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_rights_8cs_source.html#l00009">ChatBotRights.cs:10</a></div></div>
 </div><!-- fragment -->
 </div>

@@ -964,33 +964,32 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200511162912___s_l_remove_soft_columns_8cs_source.html#l00056">56</a> of file <a class="el" href="20200511162912___s_l_remove_soft_columns_8cs_source.html">20200511162912_SLRemoveSoftColumns.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   57</span>        {</div>
-<div class="line"><span class="lineno">   58</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   59</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><span class="lineno">   62</span>                name: <span class="stringliteral">&quot;AccessToken&quot;</span>,</div>
-<div class="line"><span class="lineno">   63</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   64</span>                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   67</span>                name: <span class="stringliteral">&quot;ProcessId&quot;</span>,</div>
-<div class="line"><span class="lineno">   68</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   69</span>                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">   72</span>                name: <span class="stringliteral">&quot;SoftRestart&quot;</span>,</div>
-<div class="line"><span class="lineno">   73</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   74</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   75</span>                defaultValue: <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">   78</span>                name: <span class="stringliteral">&quot;SoftShutdown&quot;</span>,</div>
-<div class="line"><span class="lineno">   79</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   80</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   81</span>                defaultValue: <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   82</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20200511162912___s_l_remove_soft_columns_8cs_source.html#l00055">55</a> of file <a class="el" href="20200511162912___s_l_remove_soft_columns_8cs_source.html">20200511162912_SLRemoveSoftColumns.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   56</span>        {</div>
+<div class="line"><span class="lineno">   57</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><span class="lineno">   60</span>                name: <span class="stringliteral">&quot;AccessToken&quot;</span>,</div>
+<div class="line"><span class="lineno">   61</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   62</span>                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   65</span>                name: <span class="stringliteral">&quot;ProcessId&quot;</span>,</div>
+<div class="line"><span class="lineno">   66</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   67</span>                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">   70</span>                name: <span class="stringliteral">&quot;SoftRestart&quot;</span>,</div>
+<div class="line"><span class="lineno">   71</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   72</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   73</span>                defaultValue: <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">   76</span>                name: <span class="stringliteral">&quot;SoftShutdown&quot;</span>,</div>
+<div class="line"><span class="lineno">   77</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   78</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   79</span>                defaultValue: <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   80</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1022,45 +1021,44 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20200511162912___s_l_remove_soft_columns_8cs_source.html#l00013">13</a> of file <a class="el" href="20200511162912___s_l_remove_soft_columns_8cs_source.html">20200511162912_SLRemoveSoftColumns.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                newName: <span class="stringliteral">&quot;DreamDaemonSettings_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   23</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   24</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   25</span>                {</div>
-<div class="line"><span class="lineno">   26</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   27</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   28</span>                    AllowWebClient = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   29</span>                    SecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   30</span>                    PrimaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   31</span>                    SecondaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   32</span>                    StartupTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   33</span>                    HeartbeatSeconds = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   34</span>                    AutoStart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   35</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   36</span>                },</div>
-<div class="line"><span class="lineno">   37</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   38</span>                {</div>
-<div class="line"><span class="lineno">   39</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamDaemonSettings&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   40</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   41</span>                        name: <span class="stringliteral">&quot;FK_DreamDaemonSettings_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">   42</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">   43</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   44</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   46</span>                });</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">   49</span>                $<span class="stringliteral">&quot;INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,SecondaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId FROM DreamDaemonSettings_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   51</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">   52</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   53</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                newName: <span class="stringliteral">&quot;DreamDaemonSettings_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   21</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   22</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   23</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   24</span>                {</div>
+<div class="line"><span class="lineno">   25</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   26</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   27</span>                    AllowWebClient = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   28</span>                    SecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   29</span>                    PrimaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   30</span>                    SecondaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   31</span>                    StartupTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   32</span>                    HeartbeatSeconds = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   33</span>                    AutoStart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   34</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   35</span>                },</div>
+<div class="line"><span class="lineno">   36</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   37</span>                {</div>
+<div class="line"><span class="lineno">   38</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamDaemonSettings&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   39</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   40</span>                        name: <span class="stringliteral">&quot;FK_DreamDaemonSettings_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">   41</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">   42</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   43</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   44</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   45</span>                });</div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">   48</span>                $<span class="stringliteral">&quot;INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,SecondaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId FROM DreamDaemonSettings_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   49</span> </div>
+<div class="line"><span class="lineno">   50</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">   51</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   52</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

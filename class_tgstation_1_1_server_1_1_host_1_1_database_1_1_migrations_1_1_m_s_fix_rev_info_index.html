@@ -833,26 +833,25 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20190219041825___m_s_fix_rev_info_index_8cs_source.html#l00034">34</a> of file <a class="el" href="20190219041825___m_s_fix_rev_info_index_8cs_source.html">20190219041825_MSFixRevInfoIndex.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   37</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>            migrationBuilder.DropIndex(</div>
-<div class="line"><span class="lineno">   40</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId_CommitSha&quot;</span>,</div>
-<div class="line"><span class="lineno">   41</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">   44</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_CommitSha&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   46</span>                column: <span class="stringliteral">&quot;CommitSha&quot;</span>,</div>
-<div class="line"><span class="lineno">   47</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">   50</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">   51</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   52</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">   53</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20190219041825___m_s_fix_rev_info_index_8cs_source.html#l00033">33</a> of file <a class="el" href="20190219041825___m_s_fix_rev_info_index_8cs_source.html">20190219041825_MSFixRevInfoIndex.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
+<div class="line"><span class="lineno">   35</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   36</span> </div>
+<div class="line"><span class="lineno">   37</span>            migrationBuilder.DropIndex(</div>
+<div class="line"><span class="lineno">   38</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId_CommitSha&quot;</span>,</div>
+<div class="line"><span class="lineno">   39</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   40</span> </div>
+<div class="line"><span class="lineno">   41</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">   42</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_CommitSha&quot;</span>,</div>
+<div class="line"><span class="lineno">   43</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   44</span>                column: <span class="stringliteral">&quot;CommitSha&quot;</span>,</div>
+<div class="line"><span class="lineno">   45</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">   48</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">   49</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   50</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
+<div class="line"><span class="lineno">   51</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -884,23 +883,22 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20190219041825___m_s_fix_rev_info_index_8cs_source.html#l00013">13</a> of file <a class="el" href="20190219041825___m_s_fix_rev_info_index_8cs_source.html">20190219041825_MSFixRevInfoIndex.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.DropIndex(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_CommitSha&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>            migrationBuilder.DropIndex(</div>
-<div class="line"><span class="lineno">   23</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">   24</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">   27</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId_CommitSha&quot;</span>,</div>
-<div class="line"><span class="lineno">   28</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   29</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;InstanceId&quot;</span>, <span class="stringliteral">&quot;CommitSha&quot;</span> },</div>
-<div class="line"><span class="lineno">   30</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   31</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.DropIndex(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_CommitSha&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   21</span>            migrationBuilder.DropIndex(</div>
+<div class="line"><span class="lineno">   22</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">   23</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   24</span> </div>
+<div class="line"><span class="lineno">   25</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">   26</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId_CommitSha&quot;</span>,</div>
+<div class="line"><span class="lineno">   27</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   28</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;InstanceId&quot;</span>, <span class="stringliteral">&quot;CommitSha&quot;</span> },</div>
+<div class="line"><span class="lineno">   29</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   30</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

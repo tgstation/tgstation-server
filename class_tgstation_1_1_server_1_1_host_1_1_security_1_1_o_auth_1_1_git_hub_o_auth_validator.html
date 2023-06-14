@@ -297,35 +297,34 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_o_auth_validator_8cs_source.html#l00055">55</a> of file <a class="el" href="_git_hub_o_auth_validator_8cs_source.html">GitHubOAuthValidator.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   56</span>        {</div>
-<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">if</span> (code == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   58</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(code));</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   61</span>            {</div>
-<div class="line"><span class="lineno">   62</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogTrace(<span class="stringliteral">&quot;Validating response code...&quot;</span>);</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>                var gitHubService = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">CreateService</a>();</div>
-<div class="line"><span class="lineno">   65</span>                var token = await gitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a5a8a77cc92f956fa062c6103f64bd2a8">CreateOAuthAccessToken</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a>, code, cancellationToken);</div>
-<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">if</span> (token == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   67</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>                var authenticatedClient = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">CreateService</a>(token);</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogTrace(<span class="stringliteral">&quot;Getting user details...&quot;</span>);</div>
-<div class="line"><span class="lineno">   72</span>                var userId = await authenticatedClient.GetCurrentUserId(cancellationToken);</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>                <span class="keywordflow">return</span> userId.ToString(CultureInfo.InvariantCulture);</div>
-<div class="line"><span class="lineno">   75</span>            }</div>
-<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">catch</span> (RateLimitExceededException)</div>
-<div class="line"><span class="lineno">   77</span>            {</div>
-<div class="line"><span class="lineno">   78</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">   79</span>            }</div>
-<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">catch</span> (ApiException ex)</div>
-<div class="line"><span class="lineno">   81</span>            {</div>
-<div class="line"><span class="lineno">   82</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;API error while completing OAuth handshake!&quot;</span>);</div>
-<div class="line"><span class="lineno">   83</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   84</span>            }</div>
-<div class="line"><span class="lineno">   85</span>        }</div>
+<div class="line"><span class="lineno">   57</span>            ArgumentNullException.ThrowIfNull(code);</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   60</span>            {</div>
+<div class="line"><span class="lineno">   61</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogTrace(<span class="stringliteral">&quot;Validating response code...&quot;</span>);</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>                var gitHubService = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">CreateService</a>();</div>
+<div class="line"><span class="lineno">   64</span>                var token = await gitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a5a8a77cc92f956fa062c6103f64bd2a8">CreateOAuthAccessToken</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aadd4ea2984d8fbd718b1814a445c58ac">oAuthConfiguration</a>, code, cancellationToken);</div>
+<div class="line"><span class="lineno">   65</span>                <span class="keywordflow">if</span> (token == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   66</span>                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>                var authenticatedClient = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a5ad102bb2c945c31bb11328bc4d7d73b">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">CreateService</a>(token);</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogTrace(<span class="stringliteral">&quot;Getting user details...&quot;</span>);</div>
+<div class="line"><span class="lineno">   71</span>                var userId = await authenticatedClient.GetCurrentUserId(cancellationToken);</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>                <span class="keywordflow">return</span> userId.ToString(CultureInfo.InvariantCulture);</div>
+<div class="line"><span class="lineno">   74</span>            }</div>
+<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">catch</span> (RateLimitExceededException)</div>
+<div class="line"><span class="lineno">   76</span>            {</div>
+<div class="line"><span class="lineno">   77</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">   78</span>            }</div>
+<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">catch</span> (ApiException ex)</div>
+<div class="line"><span class="lineno">   80</span>            {</div>
+<div class="line"><span class="lineno">   81</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a431a40f08a97d7a26f55c74ae31f2bbc">logger</a>.LogWarning(ex, <span class="stringliteral">&quot;API error while completing OAuth handshake!&quot;</span>);</div>
+<div class="line"><span class="lineno">   82</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   83</span>            }</div>
+<div class="line"><span class="lineno">   84</span>        }</div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory_html_a954fdb0088d42793884fa4b61c75e537"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">Tgstation.Server.Host.Utils.GitHub.IGitHubServiceFactory.CreateService</a></div><div class="ttdeci">IGitHubService CreateService()</div><div class="ttdoc">Create a IGitHubService.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_html_a5a8a77cc92f956fa062c6103f64bd2a8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#a5a8a77cc92f956fa062c6103f64bd2a8">Tgstation.Server.Host.Utils.GitHub.IGitHubService.CreateOAuthAccessToken</a></div><div class="ttdeci">Task&lt; string &gt; CreateOAuthAccessToken(OAuthConfiguration oAuthConfiguration, string code, CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to get an OAuth token from a given code .</div></div>
 </div><!-- fragment -->

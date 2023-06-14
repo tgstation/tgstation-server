@@ -969,14 +969,13 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200616175535___m_y_topic_timeout_8cs_source.html#l00025">25</a> of file <a class="el" href="20200616175535___m_y_topic_timeout_8cs_source.html">20200616175535_MYTopicTimeout.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>        {</div>
-<div class="line"><span class="lineno">   27</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   28</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   29</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   30</span>                name: <span class="stringliteral">&quot;TopicRequestTimeout&quot;</span>,</div>
-<div class="line"><span class="lineno">   31</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   32</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20200616175535___m_y_topic_timeout_8cs_source.html#l00024">24</a> of file <a class="el" href="20200616175535___m_y_topic_timeout_8cs_source.html">20200616175535_MYTopicTimeout.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>        {</div>
+<div class="line"><span class="lineno">   26</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   27</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   28</span>                name: <span class="stringliteral">&quot;TopicRequestTimeout&quot;</span>,</div>
+<div class="line"><span class="lineno">   29</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   30</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1008,14 +1007,13 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20200616175535___m_y_topic_timeout_8cs_source.html#l00013">13</a> of file <a class="el" href="20200616175535___m_y_topic_timeout_8cs_source.html">20200616175535_MYTopicTimeout.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span>            migrationBuilder.AddColumn&lt;uint&gt;(</div>
-<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;TopicRequestTimeout&quot;</span>,</div>
-<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   21</span>                defaultValue: 0u);</div>
-<div class="line"><span class="lineno">   22</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span>            migrationBuilder.AddColumn&lt;uint&gt;(</div>
+<div class="line"><span class="lineno">   17</span>                name: <span class="stringliteral">&quot;TopicRequestTimeout&quot;</span>,</div>
+<div class="line"><span class="lineno">   18</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   20</span>                defaultValue: 0u);</div>
+<div class="line"><span class="lineno">   21</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

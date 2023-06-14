@@ -222,30 +222,30 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The VirtualFileResult to use.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00113">113</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  114</span>        {</div>
-<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Enable</a>)</div>
-<div class="line"><span class="lineno">  116</span>                <span class="keywordflow">return</span> NotFound();</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>            <span class="keywordflow">if</span> (Request.Headers.ContainsKey(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">FetchChannelVaryHeader</a>))</div>
-<div class="line"><span class="lineno">  119</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac">GetChannelJson</a>();</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>            var fileInfo = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a125c56cecfff0096ecca0e9de82b2f8a">hostEnvironment</a>.WebRootFileProvider.GetFileInfo(appRoute);</div>
-<div class="line"><span class="lineno">  122</span>            <span class="keywordflow">if</span> (fileInfo.Exists)</div>
-<div class="line"><span class="lineno">  123</span>            {</div>
-<div class="line"><span class="lineno">  124</span>                var contentTypeProvider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</div>
-<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">if</span> (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))</div>
-<div class="line"><span class="lineno">  126</span>                    contentType = MediaTypeNames.Application.Octet;</div>
-<div class="line"><span class="lineno">  127</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contentType == MediaTypeNames.Application.Json)</div>
-<div class="line"><span class="lineno">  128</span>                    Response.Headers.Add(</div>
-<div class="line"><span class="lineno">  129</span>                        HeaderNames.CacheControl,</div>
-<div class="line"><span class="lineno">  130</span>                        <span class="keyword">new</span> StringValues(<span class="keyword">new</span>[] { <span class="stringliteral">&quot;public&quot;</span>, <span class="stringliteral">&quot;max-age=31536000&quot;</span>, <span class="stringliteral">&quot;immutable&quot;</span> }));</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>                <span class="keywordflow">return</span> File(appRoute, contentType);</div>
-<div class="line"><span class="lineno">  133</span>            }</div>
-<div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">return</span> File(<span class="stringliteral">&quot;index.html&quot;</span>, MediaTypeNames.Text.Html);</div>
-<div class="line"><span class="lineno">  136</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00112">112</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  113</span>        {</div>
+<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#ad1642b65f581e3299bf5f4f5fdc2dfed">controlPanelConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Enable</a>)</div>
+<div class="line"><span class="lineno">  115</span>                <span class="keywordflow">return</span> NotFound();</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>            <span class="keywordflow">if</span> (Request.Headers.ContainsKey(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">FetchChannelVaryHeader</a>))</div>
+<div class="line"><span class="lineno">  118</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac">GetChannelJson</a>();</div>
+<div class="line"><span class="lineno">  119</span> </div>
+<div class="line"><span class="lineno">  120</span>            var fileInfo = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a125c56cecfff0096ecca0e9de82b2f8a">hostEnvironment</a>.WebRootFileProvider.GetFileInfo(appRoute);</div>
+<div class="line"><span class="lineno">  121</span>            <span class="keywordflow">if</span> (fileInfo.Exists)</div>
+<div class="line"><span class="lineno">  122</span>            {</div>
+<div class="line"><span class="lineno">  123</span>                var contentTypeProvider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</div>
+<div class="line"><span class="lineno">  124</span>                <span class="keywordflow">if</span> (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))</div>
+<div class="line"><span class="lineno">  125</span>                    contentType = MediaTypeNames.Application.Octet;</div>
+<div class="line"><span class="lineno">  126</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (contentType == MediaTypeNames.Application.Json)</div>
+<div class="line"><span class="lineno">  127</span>                    Response.Headers.Add(</div>
+<div class="line"><span class="lineno">  128</span>                        HeaderNames.CacheControl,</div>
+<div class="line"><span class="lineno">  129</span>                        <span class="keyword">new</span> StringValues(<span class="keyword">new</span>[] { <span class="stringliteral">&quot;public&quot;</span>, <span class="stringliteral">&quot;max-age=31536000&quot;</span>, <span class="stringliteral">&quot;immutable&quot;</span> }));</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>                <span class="keywordflow">return</span> File(appRoute, contentType);</div>
+<div class="line"><span class="lineno">  132</span>            }</div>
+<div class="line"><span class="lineno">  133</span> </div>
+<div class="line"><span class="lineno">  134</span>            <span class="keywordflow">return</span> File(<span class="stringliteral">&quot;index.html&quot;</span>, MediaTypeNames.Text.Html);</div>
+<div class="line"><span class="lineno">  135</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration_html_a15564859b17400f1bcc723a5fbee8121"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Enable</a></div><div class="ttdeci">bool Enable</div><div class="ttdoc">If the control panel is enabled.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_configuration_8cs_source.html#l00018">ControlPanelConfiguration.cs:18</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_html_a034b3a0121efed62a1a368bb59bf1fac"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#a034b3a0121efed62a1a368bb59bf1fac">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson</a></div><div class="ttdeci">IActionResult GetChannelJson()</div><div class="ttdoc">Returns the ControlPanelConfiguration.Channel.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_controller_8cs_source.html#l00064">ControlPanelController.cs:64</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller_html_aad08b37ff09740d94abbbda15cb1f32a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">Tgstation.Server.Host.Controllers.ControlPanelController.FetchChannelVaryHeader</a></div><div class="ttdeci">const string FetchChannelVaryHeader</div><div class="ttdoc">Header for forcing channel.json to be fetched.</div><div class="ttdef"><b>Definition:</b> <a href="_control_panel_controller_8cs_source.html#l00035">ControlPanelController.cs:35</a></div></div>
@@ -312,7 +312,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_control_panel_configuration_8cs_source.html#l00028">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Channel</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00045">Tgstation.Server.Host.Controllers.ControlPanelController.controlPanelConfiguration</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00030">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelRoute</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00018">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Enable</a>, <a class="el" href="_control_panel_configuration_8cs_source.html#l00033">Tgstation.Server.Host.Configuration.ControlPanelConfiguration.PublicPath</a>, and <a class="el" href="_api_headers_8cs_source.html#l00061">Tgstation.Server.Api.ApiHeaders.Version</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00112">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -355,20 +355,19 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00089">89</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   90</span>        {</div>
-<div class="line"><span class="lineno">   91</span>            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>            var newValues = <span class="keyword">new</span> List&lt;string&gt; { <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">FetchChannelVaryHeader</a> };</div>
-<div class="line"><span class="lineno">   95</span>            var headers = context.HttpContext.Response.Headers;</div>
-<div class="line"><span class="lineno">   96</span>            <span class="keywordflow">if</span> (headers.TryGetValue(HeaderNames.Vary, out var oldValues))</div>
-<div class="line"><span class="lineno">   97</span>                headers.Remove(HeaderNames.Vary);</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>            newValues.AddRange(oldValues);</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            headers.Add(HeaderNames.Vary, <span class="keyword">new</span> StringValues(newValues.ToArray()));</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">return</span> base.OnActionExecutionAsync(context, next);</div>
-<div class="line"><span class="lineno">  104</span>        }</div>
+<div class="line"><span class="lineno">   91</span>            ArgumentNullException.ThrowIfNull(context);</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>            var newValues = <span class="keyword">new</span> List&lt;string&gt; { <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aad08b37ff09740d94abbbda15cb1f32a">FetchChannelVaryHeader</a> };</div>
+<div class="line"><span class="lineno">   94</span>            var headers = context.HttpContext.Response.Headers;</div>
+<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> (headers.TryGetValue(HeaderNames.Vary, out var oldValues))</div>
+<div class="line"><span class="lineno">   96</span>                headers.Remove(HeaderNames.Vary);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>            newValues.AddRange(oldValues);</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>            headers.Add(HeaderNames.Vary, <span class="keyword">new</span> StringValues(newValues.ToArray()));</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>            <span class="keywordflow">return</span> base.OnActionExecutionAsync(context, next);</div>
+<div class="line"><span class="lineno">  103</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_control_panel_controller_8cs_source.html#l00035">Tgstation.Server.Host.Controllers.ControlPanelController.FetchChannelVaryHeader</a>.</p>
 
@@ -399,7 +398,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00045">45</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00112">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>.</p>
 
 </div>
 </div>
@@ -427,7 +426,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00030">30</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00397">Tgstation.Server.Host.Core.Application.Configure()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00396">Tgstation.Server.Host.Core.Application.Configure()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00064">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 
 </div>
 </div>
@@ -455,7 +454,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00035">35</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.ControlPanelController.OnActionExecutionAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00112">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.ControlPanelController.OnActionExecutionAsync()</a>.</p>
 
 </div>
 </div>
@@ -483,7 +482,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_control_panel_controller_8cs_source.html#l00040">40</a> of file <a class="el" href="_control_panel_controller_8cs_source.html">ControlPanelController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00113">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00052">Tgstation.Server.Host.Controllers.ControlPanelController.ControlPanelController()</a>, and <a class="el" href="_control_panel_controller_8cs_source.html#l00112">Tgstation.Server.Host.Controllers.ControlPanelController.Get()</a>.</p>
 
 </div>
 </div>

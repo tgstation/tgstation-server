@@ -1043,20 +1043,19 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20210211173316___m_y_truncate_instance_names_8cs_source.html#l00029">29</a> of file <a class="el" href="20210211173316___m_y_truncate_instance_names_8cs_source.html">20210211173316_MYTruncateInstanceNames.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>        {</div>
-<div class="line"><span class="lineno">   31</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   32</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><span class="lineno">   35</span>                name: <span class="stringliteral">&quot;Name&quot;</span>,</div>
-<div class="line"><span class="lineno">   36</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   37</span>                type: <span class="stringliteral">&quot;longtext CHARACTER SET utf8mb4&quot;</span>,</div>
-<div class="line"><span class="lineno">   38</span>                maxLength: 10000,</div>
-<div class="line"><span class="lineno">   39</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   40</span>                oldClrType: typeof(<span class="keywordtype">string</span>),</div>
-<div class="line"><span class="lineno">   41</span>                oldMaxLength: 100);</div>
-<div class="line"><span class="lineno">   42</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20210211173316___m_y_truncate_instance_names_8cs_source.html#l00028">28</a> of file <a class="el" href="20210211173316___m_y_truncate_instance_names_8cs_source.html">20210211173316_MYTruncateInstanceNames.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>        {</div>
+<div class="line"><span class="lineno">   30</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   31</span> </div>
+<div class="line"><span class="lineno">   32</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><span class="lineno">   33</span>                name: <span class="stringliteral">&quot;Name&quot;</span>,</div>
+<div class="line"><span class="lineno">   34</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   35</span>                type: <span class="stringliteral">&quot;longtext CHARACTER SET utf8mb4&quot;</span>,</div>
+<div class="line"><span class="lineno">   36</span>                maxLength: 10000,</div>
+<div class="line"><span class="lineno">   37</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   38</span>                oldClrType: typeof(<span class="keywordtype">string</span>),</div>
+<div class="line"><span class="lineno">   39</span>                oldMaxLength: 100);</div>
+<div class="line"><span class="lineno">   40</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1088,18 +1087,17 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20210211173316___m_y_truncate_instance_names_8cs_source.html#l00013">13</a> of file <a class="el" href="20210211173316___m_y_truncate_instance_names_8cs_source.html">20210211173316_MYTruncateInstanceNames.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;Name&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   21</span>                maxLength: 100,</div>
-<div class="line"><span class="lineno">   22</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   23</span>                oldClrType: typeof(<span class="keywordtype">string</span>),</div>
-<div class="line"><span class="lineno">   24</span>                oldType: <span class="stringliteral">&quot;longtext CHARACTER SET utf8mb4&quot;</span>,</div>
-<div class="line"><span class="lineno">   25</span>                oldMaxLength: 10000);</div>
-<div class="line"><span class="lineno">   26</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;Name&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   20</span>                maxLength: 100,</div>
+<div class="line"><span class="lineno">   21</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   22</span>                oldClrType: typeof(<span class="keywordtype">string</span>),</div>
+<div class="line"><span class="lineno">   23</span>                oldType: <span class="stringliteral">&quot;longtext CHARACTER SET utf8mb4&quot;</span>,</div>
+<div class="line"><span class="lineno">   24</span>                oldMaxLength: 10000);</div>
+<div class="line"><span class="lineno">   25</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

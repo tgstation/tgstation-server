@@ -101,35 +101,34 @@ $(function() {
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            ILogger&lt;ServerPortProivder&gt; logger)</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        {</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html#a373bfe28d1a88706c72e9f64e7756843">generalConfiguration</a> = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            <span class="keywordflow">if</span> (configuration == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(configuration));</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            var httpEndpoint = configuration</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                .GetSection(<span class="stringliteral">&quot;Kestrel&quot;</span>)</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                .GetSection(<span class="stringliteral">&quot;EndPoints&quot;</span>)</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                .GetSection(<span class="stringliteral">&quot;Http&quot;</span>)</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                .GetSection(<span class="stringliteral">&quot;Url&quot;</span>)</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                .Value;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html#a373bfe28d1a88706c72e9f64e7756843">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abc34147a4a8a95c6578124b69c284a0b">ApiPort</a> == <span class="keywordflow">default</span> &amp;&amp; httpEndpoint == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Missing required configuration option General:ApiPort!&quot;</span>);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html#a373bfe28d1a88706c72e9f64e7756843">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abc34147a4a8a95c6578124b69c284a0b">ApiPort</a> != <span class="keywordflow">default</span>)</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            logger.LogWarning(<span class="stringliteral">&quot;The \&quot;Kestrel\&quot; configuration section is deprecated! Please set your API port using the \&quot;General:ApiPort\&quot; configuration option!&quot;</span>);</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            var splits = httpEndpoint.Split(<span class="stringliteral">&quot;:&quot;</span>, StringSplitOptions.RemoveEmptyEntries);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            var portString = splits.Last();</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            portString = portString.TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">if</span> (!UInt16.TryParse(portString, out var result))</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Failed to parse HTTP EndPoint port: {httpEndpoint}&quot;</span>);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            generalConfiguration.ApiPort = result;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        }</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            ArgumentNullException.ThrowIfNull(configuration);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            var httpEndpoint = configuration</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                .GetSection(<span class="stringliteral">&quot;Kestrel&quot;</span>)</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                .GetSection(<span class="stringliteral">&quot;EndPoints&quot;</span>)</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                .GetSection(<span class="stringliteral">&quot;Http&quot;</span>)</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                .GetSection(<span class="stringliteral">&quot;Url&quot;</span>)</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                .Value;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html#a373bfe28d1a88706c72e9f64e7756843">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abc34147a4a8a95c6578124b69c284a0b">ApiPort</a> == <span class="keywordflow">default</span> &amp;&amp; httpEndpoint == <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Missing required configuration option General:ApiPort!&quot;</span>);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html#a373bfe28d1a88706c72e9f64e7756843">generalConfiguration</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abc34147a4a8a95c6578124b69c284a0b">ApiPort</a> != <span class="keywordflow">default</span>)</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            logger.LogWarning(<span class="stringliteral">&quot;The \&quot;Kestrel\&quot; configuration section is deprecated! Please set your API port using the \&quot;General:ApiPort\&quot; configuration option!&quot;</span>);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            var splits = httpEndpoint.Split(<span class="stringliteral">&quot;:&quot;</span>, StringSplitOptions.RemoveEmptyEntries);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            var portString = splits.Last();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            portString = portString.TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="keywordflow">if</span> (!UInt16.TryParse(portString, out var result))</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Failed to parse HTTP EndPoint port: {httpEndpoint}&quot;</span>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            generalConfiguration.ApiPort = result;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">Tgstation.Server.Host.Configuration.GeneralConfiguration</a></div><div class="ttdoc">General configuration options.</div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00017">GeneralConfiguration.cs:18</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_abc34147a4a8a95c6578124b69c284a0b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#abc34147a4a8a95c6578124b69c284a0b">Tgstation.Server.Host.Configuration.GeneralConfiguration.ApiPort</a></div><div class="ttdeci">ushort ApiPort</div><div class="ttdoc">The port the TGS API listens on.</div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00077">GeneralConfiguration.cs:77</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html">Tgstation.Server.Host.Core.ServerPortProivder</a></div><div class="ttdef"><b>Definition:</b> <a href="_server_port_proivder_8cs_source.html#l00013">ServerPortProivder.cs:14</a></div></div>

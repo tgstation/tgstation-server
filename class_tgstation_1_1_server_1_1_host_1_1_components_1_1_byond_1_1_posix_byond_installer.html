@@ -418,18 +418,17 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00071">71</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   72</span>        {</div>
-<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">if</span> (version == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   74</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(version));</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>            supportsCli = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a0e3bcbe1b14ed825ea567a6f859884f7">DreamDaemonExecutableName</a> + <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a979586ccac8fef0e0a10b9e2f5bfa339">ShellScriptExtension</a>;</div>
-<div class="line"><span class="lineno">   78</span>        }</div>
+<div class="line"><span class="lineno">   73</span>            ArgumentNullException.ThrowIfNull(version);</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>            supportsCli = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a0e3bcbe1b14ed825ea567a6f859884f7">DreamDaemonExecutableName</a> + <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a979586ccac8fef0e0a10b9e2f5bfa339">ShellScriptExtension</a>;</div>
+<div class="line"><span class="lineno">   77</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer_html_a0e3bcbe1b14ed825ea567a6f859884f7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a0e3bcbe1b14ed825ea567a6f859884f7">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.DreamDaemonExecutableName</a></div><div class="ttdeci">const string DreamDaemonExecutableName</div><div class="ttdoc">The name of the DreamDaemon binary file.</div><div class="ttdef"><b>Definition:</b> <a href="_posix_byond_installer_8cs_source.html#l00021">PosixByondInstaller.cs:21</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer_html_a979586ccac8fef0e0a10b9e2f5bfa339"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a979586ccac8fef0e0a10b9e2f5bfa339">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.ShellScriptExtension</a></div><div class="ttdeci">const string ShellScriptExtension</div><div class="ttdoc">File extension for shell scripts.</div><div class="ttdef"><b>Definition:</b> <a href="_posix_byond_installer_8cs_source.html#l00031">PosixByondInstaller.cs:31</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_posix_byond_installer_8cs_source.html#l00021">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.DreamDaemonExecutableName</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00031">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.ShellScriptExtension</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00081">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00080">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -495,42 +494,40 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a833919a1f025e3006981db0102147ec1">Tgstation.Server.Host.Components.Byond.ByondInstallerBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00081">81</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   82</span>        {</div>
-<div class="line"><span class="lineno">   83</span>            <span class="keywordflow">if</span> (version == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   84</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(version));</div>
-<div class="line"><span class="lineno">   85</span>            <span class="keywordflow">if</span> (path == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   86</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(path));</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>            <span class="comment">// write the scripts for running the ting</span></div>
-<div class="line"><span class="lineno">   89</span>            <span class="comment">// need to add $ORIGIN to LD_LIBRARY_PATH</span></div>
-<div class="line"><span class="lineno">   90</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> StandardScript = <span class="stringliteral">&quot;#!/bin/sh\nexport LD_LIBRARY_PATH=\&quot;\\$ORIGIN:$LD_LIBRARY_PATH\&quot;\nBASEDIR=$(dirname \&quot;$0\&quot;)\nexec \&quot;$BASEDIR/{0}\&quot; \&quot;$@\&quot;\n&quot;</span>;</div>
+<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00080">80</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>        {</div>
+<div class="line"><span class="lineno">   82</span>            ArgumentNullException.ThrowIfNull(version);</div>
+<div class="line"><span class="lineno">   83</span>            ArgumentNullException.ThrowIfNull(path);</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>            <span class="comment">// write the scripts for running the ting</span></div>
+<div class="line"><span class="lineno">   86</span>            <span class="comment">// need to add $ORIGIN to LD_LIBRARY_PATH</span></div>
+<div class="line"><span class="lineno">   87</span>            <span class="keyword">const</span> <span class="keywordtype">string</span> StandardScript = <span class="stringliteral">&quot;#!/bin/sh\nexport LD_LIBRARY_PATH=\&quot;\\$ORIGIN:$LD_LIBRARY_PATH\&quot;\nBASEDIR=$(dirname \&quot;$0\&quot;)\nexec \&quot;$BASEDIR/{0}\&quot; \&quot;$@\&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>            var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a0e3bcbe1b14ed825ea567a6f859884f7">DreamDaemonExecutableName</a>);</div>
+<div class="line"><span class="lineno">   90</span>            var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a1563b9bcd5a68d5d2528475956e7d9e8">DreamMakerExecutableName</a>);</div>
 <div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>            var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a0e3bcbe1b14ed825ea567a6f859884f7">DreamDaemonExecutableName</a>);</div>
-<div class="line"><span class="lineno">   93</span>            var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a1563b9bcd5a68d5d2528475956e7d9e8">DreamMakerExecutableName</a>);</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>            async Task WriteAndMakeExecutable(<span class="keywordtype">string</span> pathToScript, <span class="keywordtype">string</span> script)</div>
-<div class="line"><span class="lineno">   96</span>            {</div>
-<div class="line"><span class="lineno">   97</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a7e847c327e2f2b6ccfde15c3c0825b2f">Logger</a>.LogTrace(<span class="stringliteral">&quot;Writing script {path}:{newLine}{scriptContents}&quot;</span>, pathToScript, Environment.NewLine, script);</div>
-<div class="line"><span class="lineno">   98</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e">WriteAllBytes</a>(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken);</div>
-<div class="line"><span class="lineno">   99</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#abaa57b4cd2fdf1ea15b08b81ccd88023">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(pathToScript));</div>
-<div class="line"><span class="lineno">  100</span>            }</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>            var basePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(path, ByondManager.BinPath);</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>            var task = Task.WhenAll(</div>
+<div class="line"><span class="lineno">   92</span>            async Task WriteAndMakeExecutable(<span class="keywordtype">string</span> pathToScript, <span class="keywordtype">string</span> script)</div>
+<div class="line"><span class="lineno">   93</span>            {</div>
+<div class="line"><span class="lineno">   94</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a7e847c327e2f2b6ccfde15c3c0825b2f">Logger</a>.LogTrace(<span class="stringliteral">&quot;Writing script {path}:{newLine}{scriptContents}&quot;</span>, pathToScript, Environment.NewLine, script);</div>
+<div class="line"><span class="lineno">   95</span>                await <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e">WriteAllBytes</a>(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken);</div>
+<div class="line"><span class="lineno">   96</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#abaa57b4cd2fdf1ea15b08b81ccd88023">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(pathToScript));</div>
+<div class="line"><span class="lineno">   97</span>            }</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>            var basePath = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(path, ByondManager.BinPath);</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>            var task = Task.WhenAll(</div>
+<div class="line"><span class="lineno">  102</span>                WriteAndMakeExecutable(</div>
+<div class="line"><span class="lineno">  103</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#af311dcfd47bef54a4fe017181b97bb3c">GetDreamDaemonName</a>(version, out var _)),</div>
+<div class="line"><span class="lineno">  104</span>                    dreamDaemonScript),</div>
 <div class="line"><span class="lineno">  105</span>                WriteAndMakeExecutable(</div>
-<div class="line"><span class="lineno">  106</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#af311dcfd47bef54a4fe017181b97bb3c">GetDreamDaemonName</a>(version, out var _)),</div>
-<div class="line"><span class="lineno">  107</span>                    dreamDaemonScript),</div>
-<div class="line"><span class="lineno">  108</span>                WriteAndMakeExecutable(</div>
-<div class="line"><span class="lineno">  109</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a402cdbabab1493b5d26781fa78151e87">DreamMakerName</a>),</div>
-<div class="line"><span class="lineno">  110</span>                    dreamMakerScript));</div>
+<div class="line"><span class="lineno">  106</span>                    <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a402cdbabab1493b5d26781fa78151e87">DreamMakerName</a>),</div>
+<div class="line"><span class="lineno">  107</span>                    dreamMakerScript));</div>
+<div class="line"><span class="lineno">  108</span> </div>
+<div class="line"><span class="lineno">  109</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#abaa57b4cd2fdf1ea15b08b81ccd88023">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a0e3bcbe1b14ed825ea567a6f859884f7">DreamDaemonExecutableName</a>));</div>
+<div class="line"><span class="lineno">  110</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#abaa57b4cd2fdf1ea15b08b81ccd88023">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a1563b9bcd5a68d5d2528475956e7d9e8">DreamMakerExecutableName</a>));</div>
 <div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#abaa57b4cd2fdf1ea15b08b81ccd88023">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a0e3bcbe1b14ed825ea567a6f859884f7">DreamDaemonExecutableName</a>));</div>
-<div class="line"><span class="lineno">  113</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#abaa57b4cd2fdf1ea15b08b81ccd88023">postWriteHandler</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">HandleWrite</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a2f6df4eb114c4155bd89af1f43e9a03d">IOManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(basePath, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a1563b9bcd5a68d5d2528475956e7d9e8">DreamMakerExecutableName</a>));</div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">return</span> task;</div>
-<div class="line"><span class="lineno">  116</span>        }</div>
+<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">return</span> task;</div>
+<div class="line"><span class="lineno">  113</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base_html_a7e847c327e2f2b6ccfde15c3c0825b2f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a7e847c327e2f2b6ccfde15c3c0825b2f">Tgstation.Server.Host.Components.Byond.ByondInstallerBase.Logger</a></div><div class="ttdeci">ILogger&lt; ByondInstallerBase &gt; Logger</div><div class="ttdoc">Gets the ILogger for the ByondInstallerBase.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_installer_base_8cs_source.html#l00040">ByondInstallerBase.cs:40</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer_html_a1563b9bcd5a68d5d2528475956e7d9e8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a1563b9bcd5a68d5d2528475956e7d9e8">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.DreamMakerExecutableName</a></div><div class="ttdeci">const string DreamMakerExecutableName</div><div class="ttdoc">The name of the DreamMaker binary file.</div><div class="ttdef"><b>Definition:</b> <a href="_posix_byond_installer_8cs_source.html#l00026">PosixByondInstaller.cs:26</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer_html_a402cdbabab1493b5d26781fa78151e87"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a402cdbabab1493b5d26781fa78151e87">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.DreamMakerName</a></div><div class="ttdeci">override string DreamMakerName</div><div class="ttdoc">Get the file name of the DreamMaker executable.</div><div class="ttdef"><b>Definition:</b> <a href="_posix_byond_installer_8cs_source.html#l00034">PosixByondInstaller.cs:34</a></div></div>
@@ -608,15 +605,13 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#ac89f0a97bf70874ad650e3d174fd1066">Tgstation.Server.Host.Components.Byond.ByondInstallerBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00119">119</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  120</span>        {</div>
-<div class="line"><span class="lineno">  121</span>            <span class="keywordflow">if</span> (version == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  122</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(version));</div>
-<div class="line"><span class="lineno">  123</span>            <span class="keywordflow">if</span> (path == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  124</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(path));</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">return</span> Task.CompletedTask;</div>
-<div class="line"><span class="lineno">  127</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00116">116</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  117</span>        {</div>
+<div class="line"><span class="lineno">  118</span>            ArgumentNullException.ThrowIfNull(version);</div>
+<div class="line"><span class="lineno">  119</span>            ArgumentNullException.ThrowIfNull(path);</div>
+<div class="line"><span class="lineno">  120</span> </div>
+<div class="line"><span class="lineno">  121</span>            <span class="keywordflow">return</span> Task.CompletedTask;</div>
+<div class="line"><span class="lineno">  122</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -645,7 +640,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00021">21</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00071">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.GetDreamDaemonName()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00081">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00071">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.GetDreamDaemonName()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00080">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>.</p>
 
 </div>
 </div>
@@ -673,7 +668,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00026">26</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00081">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00080">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>.</p>
 
 </div>
 </div>
@@ -701,7 +696,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00045">45</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00081">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00054">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.PosixByondInstaller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00080">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>, and <a class="el" href="_posix_byond_installer_8cs_source.html#l00054">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.PosixByondInstaller()</a>.</p>
 
 </div>
 </div>
@@ -786,7 +781,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_posix_byond_installer_8cs_source.html#l00034">34</a> of file <a class="el" href="_posix_byond_installer_8cs_source.html">PosixByondInstaller.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00081">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_byond_installer_8cs_source.html#l00080">Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond()</a>.</p>
 
 </div>
 </div>

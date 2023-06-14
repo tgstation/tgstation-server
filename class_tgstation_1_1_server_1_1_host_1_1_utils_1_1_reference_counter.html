@@ -236,10 +236,10 @@ Private Attributes</h2></td></tr>
 <p>Prevents the aquired reference from being dropped when <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a35603269a01198b149ea66eaba0dd014">Dispose</a> is called.  </p>
 <p >This will prevent <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counting_container.html#aa313916be969b264bc13c54b69976b17" title="A Task that completes when there are no TReference s active for the Instance.">ReferenceCountingContainer&lt;TWrapped, TReference&gt;.OnZeroReferences</a> from ever completing.</p>
 
-<p class="definition">Definition at line <a class="el" href="_reference_counter_8cs_source.html#l00084">84</a> of file <a class="el" href="_reference_counter_8cs_source.html">ReferenceCounter.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   85</span>        {</div>
-<div class="line"><span class="lineno">   86</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#ad9813a28b3bd1db8e15df592ae27ca39">referenceCleanupAction</a> = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   87</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_reference_counter_8cs_source.html#l00082">82</a> of file <a class="el" href="_reference_counter_8cs_source.html">ReferenceCounter.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>        {</div>
+<div class="line"><span class="lineno">   84</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#ad9813a28b3bd1db8e15df592ae27ca39">referenceCleanupAction</a> = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   85</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter_html_ad9813a28b3bd1db8e15df592ae27ca39"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#ad9813a28b3bd1db8e15df592ae27ca39">Tgstation.Server.Host.Utils.ReferenceCounter.referenceCleanupAction</a></div><div class="ttdeci">Action referenceCleanupAction</div><div class="ttdoc">The Action to take when Dispose is called.</div><div class="ttdef"><b>Definition:</b> <a href="_reference_counter_8cs_source.html#l00030">ReferenceCounter.cs:30</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_reference_counter_8cs_source.html#l00030">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.referenceCleanupAction</a>.</p>
@@ -276,7 +276,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_reference_counter_8cs_source.html#l00025">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.actualInstance</a>, <a class="el" href="_reference_counter_8cs_source.html#l00020">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.initDisposeLock</a>, and <a class="el" href="_reference_counter_8cs_source.html#l00030">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.referenceCleanupAction</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_manager_8cs_source.html#l00410">Tgstation.Server.Host.Components.Byond.ByondManager.AssertAndLockVersion()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_manager_8cs_source.html#l00408">Tgstation.Server.Host.Components.Byond.ByondManager.AssertAndLockVersion()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -328,22 +328,20 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_reference_counter_8cs_source.html#l00061">61</a> of file <a class="el" href="_reference_counter_8cs_source.html">ReferenceCounter.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   62</span>        {</div>
-<div class="line"><span class="lineno">   63</span>            <span class="keywordflow">if</span> (instance == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   64</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(instance));</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#ad9813a28b3bd1db8e15df592ae27ca39">referenceCleanupAction</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#ad9813a28b3bd1db8e15df592ae27ca39">referenceCleanupAction</a>));</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a3784df45c5182370ddeae920f676d2ff">initDisposeLock</a>)</div>
-<div class="line"><span class="lineno">   70</span>            {</div>
-<div class="line"><span class="lineno">   71</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a7b5fd8a8a746e8527baa9e9a60a1bcc8">initialized</a>)</div>
-<div class="line"><span class="lineno">   72</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;{nameof(ReferenceCounter&lt;TInstance&gt;)} already initialized!&quot;</span>);</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a94c14f6a3df01c0171ae31dfb3c06349">actualInstance</a> = instance;</div>
-<div class="line"><span class="lineno">   75</span>                this.referenceCleanupAction = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#ad9813a28b3bd1db8e15df592ae27ca39">referenceCleanupAction</a>;</div>
-<div class="line"><span class="lineno">   76</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a7b5fd8a8a746e8527baa9e9a60a1bcc8">initialized</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   77</span>            }</div>
-<div class="line"><span class="lineno">   78</span>        }</div>
+<div class="line"><span class="lineno">   63</span>            ArgumentNullException.ThrowIfNull(instance);</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>            ArgumentNullException.ThrowIfNull(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#ad9813a28b3bd1db8e15df592ae27ca39">referenceCleanupAction</a>);</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a3784df45c5182370ddeae920f676d2ff">initDisposeLock</a>)</div>
+<div class="line"><span class="lineno">   68</span>            {</div>
+<div class="line"><span class="lineno">   69</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a7b5fd8a8a746e8527baa9e9a60a1bcc8">initialized</a>)</div>
+<div class="line"><span class="lineno">   70</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;{nameof(ReferenceCounter&lt;TInstance&gt;)} already initialized!&quot;</span>);</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a94c14f6a3df01c0171ae31dfb3c06349">actualInstance</a> = instance;</div>
+<div class="line"><span class="lineno">   73</span>                this.referenceCleanupAction = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#ad9813a28b3bd1db8e15df592ae27ca39">referenceCleanupAction</a>;</div>
+<div class="line"><span class="lineno">   74</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a7b5fd8a8a746e8527baa9e9a60a1bcc8">initialized</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   75</span>            }</div>
+<div class="line"><span class="lineno">   76</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter_html_a7b5fd8a8a746e8527baa9e9a60a1bcc8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a7b5fd8a8a746e8527baa9e9a60a1bcc8">Tgstation.Server.Host.Utils.ReferenceCounter.initialized</a></div><div class="ttdeci">bool initialized</div><div class="ttdoc">If the ReferenceCounter&lt;TInstance&gt; was initialized.</div><div class="ttdef"><b>Definition:</b> <a href="_reference_counter_8cs_source.html#l00035">ReferenceCounter.cs:35</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_reference_counter_8cs_source.html#l00025">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.actualInstance</a>, <a class="el" href="_reference_counter_8cs_source.html#l00020">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.initDisposeLock</a>, <a class="el" href="_reference_counter_8cs_source.html#l00035">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.initialized</a>, and <a class="el" href="_reference_counter_8cs_source.html#l00030">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.referenceCleanupAction</a>.</p>
@@ -376,13 +374,13 @@ Here is the caller graph for this function:</div>
 <p>Throw the appropriate InvalidOperationException when the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a830c35081ed16d743998df530b947334" title="Initializes a new instance of the ReferenceCounter&lt;TInstance&gt; class.">ReferenceCounter&lt;TInstance&gt;</a> is uninitialized or disposed.  </p>
 <dl class="section return"><dt>Returns</dt><dd>A new InvalidOperationException to throw.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_reference_counter_8cs_source.html#l00093">93</a> of file <a class="el" href="_reference_counter_8cs_source.html">ReferenceCounter.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   94</span>        {</div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a7b5fd8a8a746e8527baa9e9a60a1bcc8">initialized</a>)</div>
-<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> ObjectDisposedException(nameof(ReferenceCounter&lt;TInstance&gt;));</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;{nameof(ReferenceCounter&lt;TInstance&gt;)} not initialized!&quot;</span>);</div>
-<div class="line"><span class="lineno">   99</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_reference_counter_8cs_source.html#l00091">91</a> of file <a class="el" href="_reference_counter_8cs_source.html">ReferenceCounter.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   92</span>        {</div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_reference_counter.html#a7b5fd8a8a746e8527baa9e9a60a1bcc8">initialized</a>)</div>
+<div class="line"><span class="lineno">   94</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> ObjectDisposedException(nameof(ReferenceCounter&lt;TInstance&gt;));</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;{nameof(ReferenceCounter&lt;TInstance&gt;)} not initialized!&quot;</span>);</div>
+<div class="line"><span class="lineno">   97</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_reference_counter_8cs_source.html#l00035">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.initialized</a>.</p>
 
@@ -469,7 +467,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_reference_counter_8cs_source.html#l00035">35</a> of file <a class="el" href="_reference_counter_8cs_source.html">ReferenceCounter.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_reference_counter_8cs_source.html#l00061">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.Initialize()</a>, and <a class="el" href="_reference_counter_8cs_source.html#l00093">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.UninitializedOrDisposedException()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_reference_counter_8cs_source.html#l00061">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.Initialize()</a>, and <a class="el" href="_reference_counter_8cs_source.html#l00091">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.UninitializedOrDisposedException()</a>.</p>
 
 </div>
 </div>
@@ -497,7 +495,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_reference_counter_8cs_source.html#l00030">30</a> of file <a class="el" href="_reference_counter_8cs_source.html">ReferenceCounter.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_reference_counter_8cs_source.html#l00084">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.DangerousDropReference()</a>, <a class="el" href="_reference_counter_8cs_source.html#l00046">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.Dispose()</a>, and <a class="el" href="_reference_counter_8cs_source.html#l00061">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.Initialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_reference_counter_8cs_source.html#l00082">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.DangerousDropReference()</a>, <a class="el" href="_reference_counter_8cs_source.html#l00046">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.Dispose()</a>, and <a class="el" href="_reference_counter_8cs_source.html#l00061">Tgstation.Server.Host.Utils.ReferenceCounter&lt; TInstance &gt;.Initialize()</a>.</p>
 
 </div>
 </div>

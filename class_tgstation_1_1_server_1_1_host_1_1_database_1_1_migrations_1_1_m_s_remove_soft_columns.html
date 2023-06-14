@@ -975,37 +975,36 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200512181801___m_s_remove_soft_columns_8cs_source.html#l00036">36</a> of file <a class="el" href="20200512181801___m_s_remove_soft_columns_8cs_source.html">20200512181801_MSRemoveSoftColumns.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   37</span>        {</div>
-<div class="line"><span class="lineno">   38</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   39</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><span class="lineno">   42</span>                name: <span class="stringliteral">&quot;AccessToken&quot;</span>,</div>
-<div class="line"><span class="lineno">   43</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   44</span>                type: <span class="stringliteral">&quot;nvarchar(max)&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   48</span>                name: <span class="stringliteral">&quot;ProcessId&quot;</span>,</div>
-<div class="line"><span class="lineno">   49</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   50</span>                type: <span class="stringliteral">&quot;int&quot;</span>,</div>
-<div class="line"><span class="lineno">   51</span>                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   52</span> </div>
-<div class="line"><span class="lineno">   53</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">   54</span>                name: <span class="stringliteral">&quot;SoftRestart&quot;</span>,</div>
-<div class="line"><span class="lineno">   55</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   56</span>                type: <span class="stringliteral">&quot;bit&quot;</span>,</div>
-<div class="line"><span class="lineno">   57</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   58</span>                defaultValue: <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">   61</span>                name: <span class="stringliteral">&quot;SoftShutdown&quot;</span>,</div>
-<div class="line"><span class="lineno">   62</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   63</span>                type: <span class="stringliteral">&quot;bit&quot;</span>,</div>
-<div class="line"><span class="lineno">   64</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   65</span>                defaultValue: <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   66</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20200512181801___m_s_remove_soft_columns_8cs_source.html#l00035">35</a> of file <a class="el" href="20200512181801___m_s_remove_soft_columns_8cs_source.html">20200512181801_MSRemoveSoftColumns.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   36</span>        {</div>
+<div class="line"><span class="lineno">   37</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   38</span> </div>
+<div class="line"><span class="lineno">   39</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><span class="lineno">   40</span>                name: <span class="stringliteral">&quot;AccessToken&quot;</span>,</div>
+<div class="line"><span class="lineno">   41</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   42</span>                type: <span class="stringliteral">&quot;nvarchar(max)&quot;</span>,</div>
+<div class="line"><span class="lineno">   43</span>                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   46</span>                name: <span class="stringliteral">&quot;ProcessId&quot;</span>,</div>
+<div class="line"><span class="lineno">   47</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   48</span>                type: <span class="stringliteral">&quot;int&quot;</span>,</div>
+<div class="line"><span class="lineno">   49</span>                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">   52</span>                name: <span class="stringliteral">&quot;SoftRestart&quot;</span>,</div>
+<div class="line"><span class="lineno">   53</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   54</span>                type: <span class="stringliteral">&quot;bit&quot;</span>,</div>
+<div class="line"><span class="lineno">   55</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   56</span>                defaultValue: <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">   59</span>                name: <span class="stringliteral">&quot;SoftShutdown&quot;</span>,</div>
+<div class="line"><span class="lineno">   60</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   61</span>                type: <span class="stringliteral">&quot;bit&quot;</span>,</div>
+<div class="line"><span class="lineno">   62</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   63</span>                defaultValue: <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   64</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1037,25 +1036,24 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20200512181801___m_s_remove_soft_columns_8cs_source.html#l00013">13</a> of file <a class="el" href="20200512181801___m_s_remove_soft_columns_8cs_source.html">20200512181801_MSRemoveSoftColumns.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;AccessToken&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   23</span>                name: <span class="stringliteral">&quot;ProcessId&quot;</span>,</div>
-<div class="line"><span class="lineno">   24</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   27</span>                name: <span class="stringliteral">&quot;SoftRestart&quot;</span>,</div>
-<div class="line"><span class="lineno">   28</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   31</span>                name: <span class="stringliteral">&quot;SoftShutdown&quot;</span>,</div>
-<div class="line"><span class="lineno">   32</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   33</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;AccessToken&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   21</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   22</span>                name: <span class="stringliteral">&quot;ProcessId&quot;</span>,</div>
+<div class="line"><span class="lineno">   23</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   24</span> </div>
+<div class="line"><span class="lineno">   25</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   26</span>                name: <span class="stringliteral">&quot;SoftRestart&quot;</span>,</div>
+<div class="line"><span class="lineno">   27</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   28</span> </div>
+<div class="line"><span class="lineno">   29</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   30</span>                name: <span class="stringliteral">&quot;SoftShutdown&quot;</span>,</div>
+<div class="line"><span class="lineno">   31</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   32</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

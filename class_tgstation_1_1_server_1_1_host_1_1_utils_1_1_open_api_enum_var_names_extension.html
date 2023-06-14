@@ -223,16 +223,15 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00034">34</a> of file <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html">OpenApiEnumVarNamesExtension.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">if</span> (openApiSchema == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   37</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(openApiSchema));</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>            openApiSchema.Extensions.Add(<span class="stringliteral">&quot;x-enum-varnames&quot;</span>, <span class="keyword">new</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#a0fb92b26a90752170ecf00b093acebee">OpenApiEnumVarNamesExtension</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#acf96da76fa2dbad832506b3d0d4c4455">enumType</a>));</div>
-<div class="line"><span class="lineno">   40</span>        }</div>
+<div class="line"><span class="lineno">   36</span>            ArgumentNullException.ThrowIfNull(openApiSchema);</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>            openApiSchema.Extensions.Add(<span class="stringliteral">&quot;x-enum-varnames&quot;</span>, <span class="keyword">new</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#a0fb92b26a90752170ecf00b093acebee">OpenApiEnumVarNamesExtension</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#acf96da76fa2dbad832506b3d0d4c4455">enumType</a>));</div>
+<div class="line"><span class="lineno">   39</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension_html_a0fb92b26a90752170ecf00b093acebee"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#a0fb92b26a90752170ecf00b093acebee">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.OpenApiEnumVarNamesExtension</a></div><div class="ttdeci">OpenApiEnumVarNamesExtension(Type enumType)</div><div class="ttdoc">Initializes a new instance of the OpenApiEnumVarNamesExtension class.</div><div class="ttdef"><b>Definition:</b> <a href="_open_api_enum_var_names_extension_8cs_source.html#l00024">OpenApiEnumVarNamesExtension.cs:24</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00018">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.enumType</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swagger_configuration_8cs_source.html#l00542">Tgstation.Server.Host.Utils.SwaggerConfiguration.Apply()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swagger_configuration_8cs_source.html#l00538">Tgstation.Server.Host.Utils.SwaggerConfiguration.Apply()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -273,27 +272,26 @@ Here is the caller graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00043">43</a> of file <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html">OpenApiEnumVarNamesExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   44</span>        {</div>
-<div class="line"><span class="lineno">   45</span>            <span class="keywordflow">if</span> (writer == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   46</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(writer));</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>            <span class="keywordflow">if</span> (specVersion != OpenApiSpecVersion.OpenApi3_0)</div>
-<div class="line"><span class="lineno">   49</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;This extension only applies to OpenAPI 3.0!&quot;</span>);</div>
-<div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   51</span>            writer.WriteStartArray();</div>
-<div class="line"><span class="lineno">   52</span>            <span class="keywordflow">foreach</span> (var enumValue <span class="keywordflow">in</span> Enum.GetValues(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#acf96da76fa2dbad832506b3d0d4c4455">enumType</a>))</div>
-<div class="line"><span class="lineno">   53</span>            {</div>
-<div class="line"><span class="lineno">   54</span>                var enumName = enumValue.ToString();</div>
-<div class="line"><span class="lineno">   55</span>                var field = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#acf96da76fa2dbad832506b3d0d4c4455">enumType</a>.GetField(enumName);</div>
-<div class="line"><span class="lineno">   56</span>                <span class="keywordflow">if</span> (field.IsDefined(typeof(ObsoleteAttribute), <span class="keyword">false</span>))</div>
-<div class="line"><span class="lineno">   57</span>                    enumName = $<span class="stringliteral">&quot;DEPRECATED_{enumName}&quot;</span>;</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>                writer.WriteValue(enumName);</div>
-<div class="line"><span class="lineno">   60</span>            }</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>            writer.WriteEndArray();</div>
-<div class="line"><span class="lineno">   63</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00042">42</a> of file <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html">OpenApiEnumVarNamesExtension.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>        {</div>
+<div class="line"><span class="lineno">   44</span>            ArgumentNullException.ThrowIfNull(writer);</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">if</span> (specVersion != OpenApiSpecVersion.OpenApi3_0)</div>
+<div class="line"><span class="lineno">   47</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;This extension only applies to OpenAPI 3.0!&quot;</span>);</div>
+<div class="line"><span class="lineno">   48</span> </div>
+<div class="line"><span class="lineno">   49</span>            writer.WriteStartArray();</div>
+<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">foreach</span> (var enumValue <span class="keywordflow">in</span> Enum.GetValues(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#acf96da76fa2dbad832506b3d0d4c4455">enumType</a>))</div>
+<div class="line"><span class="lineno">   51</span>            {</div>
+<div class="line"><span class="lineno">   52</span>                var enumName = enumValue.ToString();</div>
+<div class="line"><span class="lineno">   53</span>                var field = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_open_api_enum_var_names_extension.html#acf96da76fa2dbad832506b3d0d4c4455">enumType</a>.GetField(enumName);</div>
+<div class="line"><span class="lineno">   54</span>                <span class="keywordflow">if</span> (field.IsDefined(typeof(ObsoleteAttribute), <span class="keyword">false</span>))</div>
+<div class="line"><span class="lineno">   55</span>                    enumName = $<span class="stringliteral">&quot;DEPRECATED_{enumName}&quot;</span>;</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>                writer.WriteValue(enumName);</div>
+<div class="line"><span class="lineno">   58</span>            }</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>            writer.WriteEndArray();</div>
+<div class="line"><span class="lineno">   61</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00018">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.enumType</a>.</p>
 
@@ -324,7 +322,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00018">18</a> of file <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html">OpenApiEnumVarNamesExtension.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00034">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.Apply()</a>, <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00024">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.OpenApiEnumVarNamesExtension()</a>, and <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00043">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.Write()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00034">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.Apply()</a>, <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00024">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.OpenApiEnumVarNamesExtension()</a>, and <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00042">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.Write()</a>.</p>
 
 </div>
 </div>

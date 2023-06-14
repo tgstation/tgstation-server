@@ -914,80 +914,79 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200629185014___s_l_remove_experimental_watchdog_8cs_source.html#l00093">93</a> of file <a class="el" href="20200629185014___s_l_remove_experimental_watchdog_8cs_source.html">20200629185014_SLRemoveExperimentalWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   94</span>        {</div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>            migrationBuilder.RenameColumn(</div>
-<div class="line"><span class="lineno">   99</span>                name: <span class="stringliteral">&quot;Port&quot;</span>,</div>
-<div class="line"><span class="lineno">  100</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  101</span>                newName: <span class="stringliteral">&quot;PrimaryPort&quot;</span>);</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>            migrationBuilder.AddColumn&lt;ushort&gt;(</div>
-<div class="line"><span class="lineno">  104</span>                name: <span class="stringliteral">&quot;SecondaryPort&quot;</span>,</div>
-<div class="line"><span class="lineno">  105</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  106</span>                type: <span class="stringliteral">&quot;INTEGER&quot;</span>,</div>
-<div class="line"><span class="lineno">  107</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  108</span>                defaultValue: (ushort)0);</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">  111</span>                name: <span class="stringliteral">&quot;IsPrimary&quot;</span>,</div>
-<div class="line"><span class="lineno">  112</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  113</span>                type: <span class="stringliteral">&quot;INTEGER&quot;</span>,</div>
-<div class="line"><span class="lineno">  114</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  115</span>                defaultValue: <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  116</span> </div>
-<div class="line"><span class="lineno">  117</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  118</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  119</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  120</span>                {</div>
-<div class="line"><span class="lineno">  121</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  122</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  123</span>                    AlphaId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  124</span>                    AlphaIsActive = table.Column&lt;<span class="keywordtype">bool</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  125</span>                    BravoId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  126</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  127</span>                },</div>
-<div class="line"><span class="lineno">  128</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  129</span>                {</div>
-<div class="line"><span class="lineno">  130</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_WatchdogReattachInformations&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  131</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  132</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_AlphaId&quot;</span>,</div>
-<div class="line"><span class="lineno">  133</span>                        column: x =&gt; x.AlphaId,</div>
-<div class="line"><span class="lineno">  134</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  135</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  136</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  137</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  138</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_BravoId&quot;</span>,</div>
-<div class="line"><span class="lineno">  139</span>                        column: x =&gt; x.BravoId,</div>
-<div class="line"><span class="lineno">  140</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  141</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  142</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  143</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  144</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  145</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  146</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  147</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  148</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  149</span>                });</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  152</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_AlphaId&quot;</span>,</div>
-<div class="line"><span class="lineno">  153</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  154</span>                column: <span class="stringliteral">&quot;AlphaId&quot;</span>);</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  157</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_BravoId&quot;</span>,</div>
-<div class="line"><span class="lineno">  158</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  159</span>                column: <span class="stringliteral">&quot;BravoId&quot;</span>);</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  162</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  163</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  164</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  165</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  166</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20200629185014___s_l_remove_experimental_watchdog_8cs_source.html#l00092">92</a> of file <a class="el" href="20200629185014___s_l_remove_experimental_watchdog_8cs_source.html">20200629185014_SLRemoveExperimentalWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   93</span>        {</div>
+<div class="line"><span class="lineno">   94</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>            migrationBuilder.RenameColumn(</div>
+<div class="line"><span class="lineno">   97</span>                name: <span class="stringliteral">&quot;Port&quot;</span>,</div>
+<div class="line"><span class="lineno">   98</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   99</span>                newName: <span class="stringliteral">&quot;PrimaryPort&quot;</span>);</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>            migrationBuilder.AddColumn&lt;ushort&gt;(</div>
+<div class="line"><span class="lineno">  102</span>                name: <span class="stringliteral">&quot;SecondaryPort&quot;</span>,</div>
+<div class="line"><span class="lineno">  103</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  104</span>                type: <span class="stringliteral">&quot;INTEGER&quot;</span>,</div>
+<div class="line"><span class="lineno">  105</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  106</span>                defaultValue: (ushort)0);</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">  109</span>                name: <span class="stringliteral">&quot;IsPrimary&quot;</span>,</div>
+<div class="line"><span class="lineno">  110</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  111</span>                type: <span class="stringliteral">&quot;INTEGER&quot;</span>,</div>
+<div class="line"><span class="lineno">  112</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  113</span>                defaultValue: <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  116</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  117</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  118</span>                {</div>
+<div class="line"><span class="lineno">  119</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  120</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  121</span>                    AlphaId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  122</span>                    AlphaIsActive = table.Column&lt;<span class="keywordtype">bool</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  123</span>                    BravoId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  124</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;INTEGER&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  125</span>                },</div>
+<div class="line"><span class="lineno">  126</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  127</span>                {</div>
+<div class="line"><span class="lineno">  128</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_WatchdogReattachInformations&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  129</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  130</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_AlphaId&quot;</span>,</div>
+<div class="line"><span class="lineno">  131</span>                        column: x =&gt; x.AlphaId,</div>
+<div class="line"><span class="lineno">  132</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  133</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  134</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  135</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  136</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_BravoId&quot;</span>,</div>
+<div class="line"><span class="lineno">  137</span>                        column: x =&gt; x.BravoId,</div>
+<div class="line"><span class="lineno">  138</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  139</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  140</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  141</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  142</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  143</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  144</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  145</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  146</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  147</span>                });</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  150</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_AlphaId&quot;</span>,</div>
+<div class="line"><span class="lineno">  151</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  152</span>                column: <span class="stringliteral">&quot;AlphaId&quot;</span>);</div>
+<div class="line"><span class="lineno">  153</span> </div>
+<div class="line"><span class="lineno">  154</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  155</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_BravoId&quot;</span>,</div>
+<div class="line"><span class="lineno">  156</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  157</span>                column: <span class="stringliteral">&quot;BravoId&quot;</span>);</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  160</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  161</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  162</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  163</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  164</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1019,82 +1018,81 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20200629185014___s_l_remove_experimental_watchdog_8cs_source.html#l00013">13</a> of file <a class="el" href="20200629185014___s_l_remove_experimental_watchdog_8cs_source.html">20200629185014_SLRemoveExperimentalWatchdog.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   21</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   22</span>                name: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   23</span>                newName: <span class="stringliteral">&quot;ReattachInformations_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   24</span> </div>
-<div class="line"><span class="lineno">   25</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   26</span>                name: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   27</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   28</span>                {</div>
-<div class="line"><span class="lineno">   29</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   30</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   31</span>                    AccessIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   32</span>                    ProcessId = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   33</span>                    Port = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   34</span>                    RebootState = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   35</span>                    LaunchSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   36</span>                    CompileJobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   37</span>                },</div>
-<div class="line"><span class="lineno">   38</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   39</span>                {</div>
-<div class="line"><span class="lineno">   40</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_ReattachInformations&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   41</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   42</span>                        name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   43</span>                        column: x =&gt; x.CompileJobId,</div>
-<div class="line"><span class="lineno">   44</span>                        principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   46</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   47</span>                });</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">   50</span>                $<span class="stringliteral">&quot;INSERT INTO ReattachInformations SELECT Id,AccessIdentifier,ProcessId,Port,RebootState,LaunchSecurityLevel,CompileJobId FROM ReattachInformations_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">   53</span>                name: <span class="stringliteral">&quot;ReattachInformations_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   56</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   57</span>                newName: <span class="stringliteral">&quot;DreamDaemonSettings_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   60</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   61</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   62</span>                {</div>
-<div class="line"><span class="lineno">   63</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   64</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   65</span>                    AllowWebClient = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   66</span>                    SecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   67</span>                    Port = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   68</span>                    StartupTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   69</span>                    HeartbeatSeconds = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   70</span>                    AutoStart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   71</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   72</span>                    TopicRequestTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   73</span>                },</div>
-<div class="line"><span class="lineno">   74</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   75</span>                {</div>
-<div class="line"><span class="lineno">   76</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamDaemonSettings&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   77</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   78</span>                        name: <span class="stringliteral">&quot;FK_DreamDaemonSettings_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">   79</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">   80</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   81</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   82</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   83</span>                });</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>            migrationBuilder.Sql(</div>
-<div class="line"><span class="lineno">   86</span>                $<span class="stringliteral">&quot;INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId,TopicRequestTimeout FROM DreamDaemonSettings_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">   89</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings_up&quot;</span>);</div>
-<div class="line"><span class="lineno">   90</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   19</span> </div>
+<div class="line"><span class="lineno">   20</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   21</span>                name: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   22</span>                newName: <span class="stringliteral">&quot;ReattachInformations_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   23</span> </div>
+<div class="line"><span class="lineno">   24</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   25</span>                name: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   26</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   27</span>                {</div>
+<div class="line"><span class="lineno">   28</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   29</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   30</span>                    AccessIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   31</span>                    ProcessId = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   32</span>                    Port = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   33</span>                    RebootState = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   34</span>                    LaunchSecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   35</span>                    CompileJobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   36</span>                },</div>
+<div class="line"><span class="lineno">   37</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   38</span>                {</div>
+<div class="line"><span class="lineno">   39</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_ReattachInformations&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   40</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   41</span>                        name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   42</span>                        column: x =&gt; x.CompileJobId,</div>
+<div class="line"><span class="lineno">   43</span>                        principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   44</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   45</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   46</span>                });</div>
+<div class="line"><span class="lineno">   47</span> </div>
+<div class="line"><span class="lineno">   48</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">   49</span>                $<span class="stringliteral">&quot;INSERT INTO ReattachInformations SELECT Id,AccessIdentifier,ProcessId,Port,RebootState,LaunchSecurityLevel,CompileJobId FROM ReattachInformations_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">   52</span>                name: <span class="stringliteral">&quot;ReattachInformations_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   53</span> </div>
+<div class="line"><span class="lineno">   54</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   55</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   56</span>                newName: <span class="stringliteral">&quot;DreamDaemonSettings_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   59</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   60</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   61</span>                {</div>
+<div class="line"><span class="lineno">   62</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   63</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   64</span>                    AllowWebClient = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   65</span>                    SecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   66</span>                    Port = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   67</span>                    StartupTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   68</span>                    HeartbeatSeconds = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   69</span>                    AutoStart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   70</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   71</span>                    TopicRequestTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   72</span>                },</div>
+<div class="line"><span class="lineno">   73</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   74</span>                {</div>
+<div class="line"><span class="lineno">   75</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamDaemonSettings&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   76</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   77</span>                        name: <span class="stringliteral">&quot;FK_DreamDaemonSettings_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">   78</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">   79</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   80</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   81</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   82</span>                });</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>            migrationBuilder.Sql(</div>
+<div class="line"><span class="lineno">   85</span>                $<span class="stringliteral">&quot;INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId,TopicRequestTimeout FROM DreamDaemonSettings_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">   88</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings_up&quot;</span>);</div>
+<div class="line"><span class="lineno">   89</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

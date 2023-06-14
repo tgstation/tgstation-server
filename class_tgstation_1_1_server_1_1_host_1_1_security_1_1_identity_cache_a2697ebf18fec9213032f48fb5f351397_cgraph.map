@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Security.IdentityCache.LoadCachedIdentity" name="Tgstation.Server.Host.Security.IdentityCache.LoadCachedIdentity">
+<area shape="rect" id="node1" title="Attempt to load a cached ISystemIdentity. The cached ISystemIdentity or null if it doesn&#39;t exist or e..." alt="" coords="5,5,224,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a1cb40673b65fa830543c69461449953a" title="Clone the ISystemIdentity creating another copy that must have IDisposable.Dispose called on it." alt="" coords="272,5,473,45"/>
+</map>

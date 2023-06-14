@@ -534,13 +534,11 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00021">21</a> of file <a class="el" href="_resolving_i_o_manager_8cs_source.html">ResolvingIOManager.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   22</span>        {</div>
-<div class="line"><span class="lineno">   23</span>            <span class="keywordflow">if</span> (parent == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   24</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(parent));</div>
-<div class="line"><span class="lineno">   25</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   26</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>));</div>
-<div class="line"><span class="lineno">   27</span> </div>
-<div class="line"><span class="lineno">   28</span>            this.subdirectory = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">ConcatPath</a>(parent.ResolvePath(), <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>);</div>
-<div class="line"><span class="lineno">   29</span>        }</div>
+<div class="line"><span class="lineno">   23</span>            ArgumentNullException.ThrowIfNull(parent);</div>
+<div class="line"><span class="lineno">   24</span>            ArgumentNullException.ThrowIfNull(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>);</div>
+<div class="line"><span class="lineno">   25</span> </div>
+<div class="line"><span class="lineno">   26</span>            this.subdirectory = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">ConcatPath</a>(parent.ResolvePath(), <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>);</div>
+<div class="line"><span class="lineno">   27</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_abd68930642dbf40df272b35dc438312e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">Tgstation.Server.Host.IO.DefaultIOManager.ConcatPath</a></div><div class="ttdeci">string ConcatPath(params string[] paths)</div><div class="ttdoc">Combines an array of strings into a path. The combined path.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager_html_a02d7c98f480664056ad8dbe912003ae9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">Tgstation.Server.Host.IO.ResolvingIOManager.subdirectory</a></div><div class="ttdeci">readonly string subdirectory</div><div class="ttdoc">Path to the subdirectory attached to path resolutions.</div><div class="ttdef"><b>Definition:</b> <a href="_resolving_i_o_manager_8cs_source.html#l00014">ResolvingIOManager.cs:14</a></div></div>
 </div><!-- fragment -->
@@ -594,12 +592,12 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a287eaf4e73a4d64e50f1dab24c3b0d3e">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00032">32</a> of file <a class="el" href="_resolving_i_o_manager_8cs_source.html">ResolvingIOManager.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>        {</div>
-<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">if</span> (!Path.IsPathRooted(path))</div>
-<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">return</span> base.ResolvePath(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">ConcatPath</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>, path));</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">return</span> path;</div>
-<div class="line"><span class="lineno">   37</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00030">30</a> of file <a class="el" href="_resolving_i_o_manager_8cs_source.html">ResolvingIOManager.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>        {</div>
+<div class="line"><span class="lineno">   32</span>            <span class="keywordflow">if</span> (!Path.IsPathRooted(path))</div>
+<div class="line"><span class="lineno">   33</span>                <span class="keywordflow">return</span> base.ResolvePath(<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">ConcatPath</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a02d7c98f480664056ad8dbe912003ae9">subdirectory</a>, path));</div>
+<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">return</span> path;</div>
+<div class="line"><span class="lineno">   35</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">Tgstation.Server.Host.IO.DefaultIOManager.ConcatPath()</a>, and <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00014">Tgstation.Server.Host.IO.ResolvingIOManager.subdirectory</a>.</p>
 <div class="dynheader">
@@ -639,7 +637,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00014">14</a> of file <a class="el" href="_resolving_i_o_manager_8cs_source.html">ResolvingIOManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00032">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePath()</a>, and <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00021">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvingIOManager()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00030">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvePath()</a>, and <a class="el" href="_resolving_i_o_manager_8cs_source.html#l00021">Tgstation.Server.Host.IO.ResolvingIOManager.ResolvingIOManager()</a>.</p>
 
 </div>
 </div>

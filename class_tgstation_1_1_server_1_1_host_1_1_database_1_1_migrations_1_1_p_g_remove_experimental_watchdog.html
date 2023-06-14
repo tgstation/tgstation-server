@@ -921,80 +921,79 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200629184928___p_g_remove_experimental_watchdog_8cs_source.html#l00037">37</a> of file <a class="el" href="20200629184928___p_g_remove_experimental_watchdog_8cs_source.html">20200629184928_PGRemoveExperimentalWatchdog.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   38</span>        {</div>
-<div class="line"><span class="lineno">   39</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   40</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   42</span>            migrationBuilder.RenameColumn(</div>
-<div class="line"><span class="lineno">   43</span>                name: <span class="stringliteral">&quot;Port&quot;</span>,</div>
-<div class="line"><span class="lineno">   44</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                newName: <span class="stringliteral">&quot;PrimaryPort&quot;</span>);</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">   48</span>                name: <span class="stringliteral">&quot;IsPrimary&quot;</span>,</div>
-<div class="line"><span class="lineno">   49</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   50</span>                type: <span class="stringliteral">&quot;boolean&quot;</span>,</div>
-<div class="line"><span class="lineno">   51</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   52</span>                defaultValue: <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   55</span>                name: <span class="stringliteral">&quot;SecondaryPort&quot;</span>,</div>
-<div class="line"><span class="lineno">   56</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   57</span>                type: <span class="stringliteral">&quot;integer&quot;</span>,</div>
-<div class="line"><span class="lineno">   58</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   59</span>                defaultValue: 0);</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   62</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   63</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   64</span>                {</div>
-<div class="line"><span class="lineno">   65</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   66</span>                        .Annotation(<span class="stringliteral">&quot;Npgsql:ValueGenerationStrategy&quot;</span>, NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),</div>
-<div class="line"><span class="lineno">   67</span>                    AlphaId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   68</span>                    AlphaIsActive = table.Column&lt;<span class="keywordtype">bool</span>&gt;(type: <span class="stringliteral">&quot;boolean&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   69</span>                    BravoId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   70</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   71</span>                },</div>
-<div class="line"><span class="lineno">   72</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   73</span>                {</div>
-<div class="line"><span class="lineno">   74</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_WatchdogReattachInformations&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   75</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   76</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_AlphaId&quot;</span>,</div>
-<div class="line"><span class="lineno">   77</span>                        column: x =&gt; x.AlphaId,</div>
-<div class="line"><span class="lineno">   78</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   79</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   80</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">   81</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   82</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_BravoId&quot;</span>,</div>
-<div class="line"><span class="lineno">   83</span>                        column: x =&gt; x.BravoId,</div>
-<div class="line"><span class="lineno">   84</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   85</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   86</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">   87</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   88</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">   89</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">   90</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   91</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   92</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   93</span>                });</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">   96</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_AlphaId&quot;</span>,</div>
-<div class="line"><span class="lineno">   97</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   98</span>                column: <span class="stringliteral">&quot;AlphaId&quot;</span>);</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  101</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_BravoId&quot;</span>,</div>
-<div class="line"><span class="lineno">  102</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  103</span>                column: <span class="stringliteral">&quot;BravoId&quot;</span>);</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  106</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  107</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  108</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  109</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  110</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20200629184928___p_g_remove_experimental_watchdog_8cs_source.html#l00036">36</a> of file <a class="el" href="20200629184928___p_g_remove_experimental_watchdog_8cs_source.html">20200629184928_PGRemoveExperimentalWatchdog.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>        {</div>
+<div class="line"><span class="lineno">   38</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   39</span> </div>
+<div class="line"><span class="lineno">   40</span>            migrationBuilder.RenameColumn(</div>
+<div class="line"><span class="lineno">   41</span>                name: <span class="stringliteral">&quot;Port&quot;</span>,</div>
+<div class="line"><span class="lineno">   42</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   43</span>                newName: <span class="stringliteral">&quot;PrimaryPort&quot;</span>);</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">   46</span>                name: <span class="stringliteral">&quot;IsPrimary&quot;</span>,</div>
+<div class="line"><span class="lineno">   47</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   48</span>                type: <span class="stringliteral">&quot;boolean&quot;</span>,</div>
+<div class="line"><span class="lineno">   49</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   50</span>                defaultValue: <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   53</span>                name: <span class="stringliteral">&quot;SecondaryPort&quot;</span>,</div>
+<div class="line"><span class="lineno">   54</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   55</span>                type: <span class="stringliteral">&quot;integer&quot;</span>,</div>
+<div class="line"><span class="lineno">   56</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   57</span>                defaultValue: 0);</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   60</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   61</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   62</span>                {</div>
+<div class="line"><span class="lineno">   63</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   64</span>                        .Annotation(<span class="stringliteral">&quot;Npgsql:ValueGenerationStrategy&quot;</span>, NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),</div>
+<div class="line"><span class="lineno">   65</span>                    AlphaId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   66</span>                    AlphaIsActive = table.Column&lt;<span class="keywordtype">bool</span>&gt;(type: <span class="stringliteral">&quot;boolean&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   67</span>                    BravoId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   68</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(type: <span class="stringliteral">&quot;bigint&quot;</span>, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   69</span>                },</div>
+<div class="line"><span class="lineno">   70</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   71</span>                {</div>
+<div class="line"><span class="lineno">   72</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_WatchdogReattachInformations&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   73</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   74</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_AlphaId&quot;</span>,</div>
+<div class="line"><span class="lineno">   75</span>                        column: x =&gt; x.AlphaId,</div>
+<div class="line"><span class="lineno">   76</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   77</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   78</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">   79</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   80</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_BravoId&quot;</span>,</div>
+<div class="line"><span class="lineno">   81</span>                        column: x =&gt; x.BravoId,</div>
+<div class="line"><span class="lineno">   82</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   83</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   84</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">   85</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   86</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">   87</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">   88</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   89</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   90</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   91</span>                });</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">   94</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_AlphaId&quot;</span>,</div>
+<div class="line"><span class="lineno">   95</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   96</span>                column: <span class="stringliteral">&quot;AlphaId&quot;</span>);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">   99</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_BravoId&quot;</span>,</div>
+<div class="line"><span class="lineno">  100</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  101</span>                column: <span class="stringliteral">&quot;BravoId&quot;</span>);</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  104</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  105</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  106</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  107</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  108</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1026,25 +1025,24 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20200629184928___p_g_remove_experimental_watchdog_8cs_source.html#l00014">14</a> of file <a class="el" href="20200629184928___p_g_remove_experimental_watchdog_8cs_source.html">20200629184928_PGRemoveExperimentalWatchdog.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   15</span>        {</div>
-<div class="line"><span class="lineno">   16</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   17</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   18</span> </div>
-<div class="line"><span class="lineno">   19</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">   20</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   23</span>                name: <span class="stringliteral">&quot;IsPrimary&quot;</span>,</div>
-<div class="line"><span class="lineno">   24</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   27</span>                name: <span class="stringliteral">&quot;SecondaryPort&quot;</span>,</div>
-<div class="line"><span class="lineno">   28</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>            migrationBuilder.RenameColumn(</div>
-<div class="line"><span class="lineno">   31</span>                name: <span class="stringliteral">&quot;PrimaryPort&quot;</span>,</div>
-<div class="line"><span class="lineno">   32</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   33</span>                newName: <span class="stringliteral">&quot;Port&quot;</span>);</div>
-<div class="line"><span class="lineno">   34</span>        }</div>
+<div class="line"><span class="lineno">   16</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   17</span> </div>
+<div class="line"><span class="lineno">   18</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   21</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   22</span>                name: <span class="stringliteral">&quot;IsPrimary&quot;</span>,</div>
+<div class="line"><span class="lineno">   23</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   24</span> </div>
+<div class="line"><span class="lineno">   25</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   26</span>                name: <span class="stringliteral">&quot;SecondaryPort&quot;</span>,</div>
+<div class="line"><span class="lineno">   27</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   28</span> </div>
+<div class="line"><span class="lineno">   29</span>            migrationBuilder.RenameColumn(</div>
+<div class="line"><span class="lineno">   30</span>                name: <span class="stringliteral">&quot;PrimaryPort&quot;</span>,</div>
+<div class="line"><span class="lineno">   31</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   32</span>                newName: <span class="stringliteral">&quot;Port&quot;</span>);</div>
+<div class="line"><span class="lineno">   33</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

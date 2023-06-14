@@ -797,64 +797,63 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20180906143029___m_y_initial_create_8cs_source.html#l00592">592</a> of file <a class="el" href="20180906143029___m_y_initial_create_8cs_source.html">20180906143029_MYInitialCreate.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  593</span>        {</div>
-<div class="line"><span class="lineno">  594</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  595</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">  596</span> </div>
-<div class="line"><span class="lineno">  597</span>            migrationBuilder.DropForeignKey(</div>
-<div class="line"><span class="lineno">  598</span>                name: <span class="stringliteral">&quot;FK_Jobs_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  599</span>                table: <span class="stringliteral">&quot;Jobs&quot;</span>);</div>
-<div class="line"><span class="lineno">  600</span> </div>
-<div class="line"><span class="lineno">  601</span>            migrationBuilder.DropForeignKey(</div>
-<div class="line"><span class="lineno">  602</span>                name: <span class="stringliteral">&quot;FK_RevisionInformations_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  603</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">  604</span> </div>
-<div class="line"><span class="lineno">  605</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  606</span>                name: <span class="stringliteral">&quot;ChatChannels&quot;</span>);</div>
-<div class="line"><span class="lineno">  607</span> </div>
-<div class="line"><span class="lineno">  608</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  609</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">  610</span> </div>
-<div class="line"><span class="lineno">  611</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  612</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">  613</span> </div>
-<div class="line"><span class="lineno">  614</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  615</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>);</div>
-<div class="line"><span class="lineno">  616</span> </div>
-<div class="line"><span class="lineno">  617</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  618</span>                name: <span class="stringliteral">&quot;RepositorySettings&quot;</span>);</div>
-<div class="line"><span class="lineno">  619</span> </div>
-<div class="line"><span class="lineno">  620</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  621</span>                name: <span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>);</div>
-<div class="line"><span class="lineno">  622</span> </div>
-<div class="line"><span class="lineno">  623</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  624</span>                name: <span class="stringliteral">&quot;ChatBots&quot;</span>);</div>
-<div class="line"><span class="lineno">  625</span> </div>
-<div class="line"><span class="lineno">  626</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  627</span>                name: <span class="stringliteral">&quot;TestMerges&quot;</span>);</div>
-<div class="line"><span class="lineno">  628</span> </div>
-<div class="line"><span class="lineno">  629</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  630</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
-<div class="line"><span class="lineno">  631</span> </div>
-<div class="line"><span class="lineno">  632</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  633</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">  634</span> </div>
-<div class="line"><span class="lineno">  635</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  636</span>                name: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">  637</span> </div>
-<div class="line"><span class="lineno">  638</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  639</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
-<div class="line"><span class="lineno">  640</span> </div>
-<div class="line"><span class="lineno">  641</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  642</span>                name: <span class="stringliteral">&quot;Jobs&quot;</span>);</div>
-<div class="line"><span class="lineno">  643</span> </div>
-<div class="line"><span class="lineno">  644</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  645</span>                name: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">  646</span> </div>
-<div class="line"><span class="lineno">  647</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">  648</span>                name: <span class="stringliteral">&quot;Users&quot;</span>);</div>
-<div class="line"><span class="lineno">  649</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20180906143029___m_y_initial_create_8cs_source.html#l00591">591</a> of file <a class="el" href="20180906143029___m_y_initial_create_8cs_source.html">20180906143029_MYInitialCreate.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  592</span>        {</div>
+<div class="line"><span class="lineno">  593</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">  594</span> </div>
+<div class="line"><span class="lineno">  595</span>            migrationBuilder.DropForeignKey(</div>
+<div class="line"><span class="lineno">  596</span>                name: <span class="stringliteral">&quot;FK_Jobs_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  597</span>                table: <span class="stringliteral">&quot;Jobs&quot;</span>);</div>
+<div class="line"><span class="lineno">  598</span> </div>
+<div class="line"><span class="lineno">  599</span>            migrationBuilder.DropForeignKey(</div>
+<div class="line"><span class="lineno">  600</span>                name: <span class="stringliteral">&quot;FK_RevisionInformations_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  601</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">  602</span> </div>
+<div class="line"><span class="lineno">  603</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  604</span>                name: <span class="stringliteral">&quot;ChatChannels&quot;</span>);</div>
+<div class="line"><span class="lineno">  605</span> </div>
+<div class="line"><span class="lineno">  606</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  607</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">  608</span> </div>
+<div class="line"><span class="lineno">  609</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  610</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">  611</span> </div>
+<div class="line"><span class="lineno">  612</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  613</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>);</div>
+<div class="line"><span class="lineno">  614</span> </div>
+<div class="line"><span class="lineno">  615</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  616</span>                name: <span class="stringliteral">&quot;RepositorySettings&quot;</span>);</div>
+<div class="line"><span class="lineno">  617</span> </div>
+<div class="line"><span class="lineno">  618</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  619</span>                name: <span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>);</div>
+<div class="line"><span class="lineno">  620</span> </div>
+<div class="line"><span class="lineno">  621</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  622</span>                name: <span class="stringliteral">&quot;ChatBots&quot;</span>);</div>
+<div class="line"><span class="lineno">  623</span> </div>
+<div class="line"><span class="lineno">  624</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  625</span>                name: <span class="stringliteral">&quot;TestMerges&quot;</span>);</div>
+<div class="line"><span class="lineno">  626</span> </div>
+<div class="line"><span class="lineno">  627</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  628</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><span class="lineno">  629</span> </div>
+<div class="line"><span class="lineno">  630</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  631</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">  632</span> </div>
+<div class="line"><span class="lineno">  633</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  634</span>                name: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">  635</span> </div>
+<div class="line"><span class="lineno">  636</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  637</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
+<div class="line"><span class="lineno">  638</span> </div>
+<div class="line"><span class="lineno">  639</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  640</span>                name: <span class="stringliteral">&quot;Jobs&quot;</span>);</div>
+<div class="line"><span class="lineno">  641</span> </div>
+<div class="line"><span class="lineno">  642</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  643</span>                name: <span class="stringliteral">&quot;RevisionInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">  644</span> </div>
+<div class="line"><span class="lineno">  645</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">  646</span>                name: <span class="stringliteral">&quot;Users&quot;</span>);</div>
+<div class="line"><span class="lineno">  647</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -886,579 +885,578 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20180906143029___m_y_initial_create_8cs_source.html#l00015">15</a> of file <a class="el" href="20180906143029___m_y_initial_create_8cs_source.html">20180906143029_MYInitialCreate.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
-<div class="line"><span class="lineno">   17</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   18</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   19</span> </div>
-<div class="line"><span class="lineno">   20</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   21</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">   22</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   23</span>                {</div>
-<div class="line"><span class="lineno">   24</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   25</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">   26</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   27</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   28</span>                    SystemIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   29</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   30</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   31</span>                    InstanceManagerRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   32</span>                    PasswordHash = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   33</span>                    CreatedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   34</span>                    CanonicalName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   35</span>                    LastPasswordUpdate = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   36</span>                },</div>
-<div class="line"><span class="lineno">   37</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   38</span>                {</div>
-<div class="line"><span class="lineno">   39</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Users&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   40</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">   41</span>                        name: <span class="stringliteral">&quot;FK_Users_Users_CreatedById&quot;</span>,</div>
-<div class="line"><span class="lineno">   42</span>                        column: x =&gt; x.CreatedById,</div>
-<div class="line"><span class="lineno">   43</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">   44</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">   46</span>                });</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   49</span>                name: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
-<div class="line"><span class="lineno">   50</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   51</span>                {</div>
-<div class="line"><span class="lineno">   52</span>                    IrcChannel = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   53</span>                    DiscordChannelId = table.Column&lt;ulong&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   54</span>                    IsAdminChannel = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   55</span>                    IsWatchdogChannel = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   56</span>                    IsUpdatesChannel = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   57</span>                    Tag = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   58</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   59</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">   60</span>                    ChatSettingsId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   61</span>                },</div>
-<div class="line"><span class="lineno">   62</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   63</span>                {</div>
-<div class="line"><span class="lineno">   64</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_ChatChannels&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   65</span>                });</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   68</span>                name: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   69</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   70</span>                {</div>
-<div class="line"><span class="lineno">   71</span>                    ChatCommandsJson = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   72</span>                    ChatChannelsJson = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   73</span>                    ServerCommandsJson = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   74</span>                    AccessIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   75</span>                    ProcessId = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   76</span>                    IsPrimary = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   77</span>                    Port = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   78</span>                    RebootState = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   79</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   80</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">   81</span>                    CompileJobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   82</span>                },</div>
-<div class="line"><span class="lineno">   83</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   84</span>                {</div>
-<div class="line"><span class="lineno">   85</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_ReattachInformations&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   86</span>                });</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   89</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   90</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   91</span>                {</div>
-<div class="line"><span class="lineno">   92</span>                    AlphaIsActive = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   93</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   94</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">   95</span>                    AlphaId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   96</span>                    BravoId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   97</span>                },</div>
-<div class="line"><span class="lineno">   98</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   99</span>                {</div>
-<div class="line"><span class="lineno">  100</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_WatchdogReattachInformations&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  101</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  102</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_AlphaId&quot;</span>,</div>
-<div class="line"><span class="lineno">  103</span>                        column: x =&gt; x.AlphaId,</div>
-<div class="line"><span class="lineno">  104</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  105</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  106</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  107</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  108</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_BravoId&quot;</span>,</div>
-<div class="line"><span class="lineno">  109</span>                        column: x =&gt; x.BravoId,</div>
-<div class="line"><span class="lineno">  110</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  111</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  112</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  113</span>                });</div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  116</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  117</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  118</span>                {</div>
-<div class="line"><span class="lineno">  119</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  120</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  121</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  122</span>                    Path = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  123</span>                    Online = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  124</span>                    ConfigurationType = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  125</span>                    AutoUpdateInterval = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  126</span>                    WatchdogReattachInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  127</span>                },</div>
-<div class="line"><span class="lineno">  128</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  129</span>                {</div>
-<div class="line"><span class="lineno">  130</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Instances&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  131</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  132</span>                        name: <span class="stringliteral">&quot;FK_Instances_WatchdogReattachInformations_WatchdogReattachInfor~&quot;</span>,</div>
-<div class="line"><span class="lineno">  133</span>                        column: x =&gt; x.WatchdogReattachInformationId,</div>
-<div class="line"><span class="lineno">  134</span>                        principalTable: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  135</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  136</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  137</span>                });</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  140</span>                name: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
-<div class="line"><span class="lineno">  141</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  142</span>                {</div>
-<div class="line"><span class="lineno">  143</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  144</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  145</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  146</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  147</span>                    Provider = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  148</span>                    ConnectionString = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  149</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  150</span>                },</div>
-<div class="line"><span class="lineno">  151</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  152</span>                {</div>
-<div class="line"><span class="lineno">  153</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_ChatBots&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  154</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  155</span>                        name: <span class="stringliteral">&quot;FK_ChatBots_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  156</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  157</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  158</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  159</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  160</span>                });</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  163</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  164</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  165</span>                {</div>
-<div class="line"><span class="lineno">  166</span>                    AllowWebClient = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  167</span>                    SecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  168</span>                    PrimaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  169</span>                    SecondaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  170</span>                    StartupTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  171</span>                    AutoStart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  172</span>                    SoftRestart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  173</span>                    SoftShutdown = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  174</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  175</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  176</span>                    ProcessId = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  177</span>                    AccessToken = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  178</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  179</span>                },</div>
-<div class="line"><span class="lineno">  180</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  181</span>                {</div>
-<div class="line"><span class="lineno">  182</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamDaemonSettings&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  183</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  184</span>                        name: <span class="stringliteral">&quot;FK_DreamDaemonSettings_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  185</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  186</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  187</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  188</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  189</span>                });</div>
-<div class="line"><span class="lineno">  190</span> </div>
-<div class="line"><span class="lineno">  191</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  192</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  193</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  194</span>                {</div>
-<div class="line"><span class="lineno">  195</span>                    ProjectName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  196</span>                    ApiValidationPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  197</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  198</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  199</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  200</span>                },</div>
-<div class="line"><span class="lineno">  201</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  202</span>                {</div>
-<div class="line"><span class="lineno">  203</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamMakerSettings&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  204</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  205</span>                        name: <span class="stringliteral">&quot;FK_DreamMakerSettings_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  206</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  207</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  208</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  209</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  210</span>                });</div>
-<div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  213</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
-<div class="line"><span class="lineno">  214</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  215</span>                {</div>
-<div class="line"><span class="lineno">  216</span>                    UserId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  217</span>                    InstanceUserRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  218</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  219</span>                    DreamDaemonRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  220</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  221</span>                    RepositoryRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  222</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  223</span>                    ConfigurationRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  224</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  225</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  226</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  227</span>                },</div>
-<div class="line"><span class="lineno">  228</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  229</span>                {</div>
-<div class="line"><span class="lineno">  230</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_InstanceUsers&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  231</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  232</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  233</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  234</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  235</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  236</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  237</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  238</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Users_UserId&quot;</span>,</div>
-<div class="line"><span class="lineno">  239</span>                        column: x =&gt; x.UserId,</div>
-<div class="line"><span class="lineno">  240</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  241</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  242</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  243</span>                });</div>
-<div class="line"><span class="lineno">  244</span> </div>
-<div class="line"><span class="lineno">  245</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  246</span>                name: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  247</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  248</span>                {</div>
-<div class="line"><span class="lineno">  249</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  250</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  251</span>                    Description = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  252</span>                    ExceptionDetails = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  253</span>                    StartedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  254</span>                    StoppedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  255</span>                    Cancelled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  256</span>                    CancelRightsType = table.Column&lt;ulong&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  257</span>                    CancelRight = table.Column&lt;ulong&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  258</span>                    StartedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  259</span>                    CancelledById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  260</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  261</span>                },</div>
-<div class="line"><span class="lineno">  262</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  263</span>                {</div>
-<div class="line"><span class="lineno">  264</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Jobs&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  265</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  266</span>                        name: <span class="stringliteral">&quot;FK_Jobs_Users_CancelledById&quot;</span>,</div>
-<div class="line"><span class="lineno">  267</span>                        column: x =&gt; x.CancelledById,</div>
-<div class="line"><span class="lineno">  268</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  269</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  270</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  271</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  272</span>                        name: <span class="stringliteral">&quot;FK_Jobs_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  273</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  274</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  275</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  276</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  277</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  278</span>                        name: <span class="stringliteral">&quot;FK_Jobs_Users_StartedById&quot;</span>,</div>
-<div class="line"><span class="lineno">  279</span>                        column: x =&gt; x.StartedById,</div>
-<div class="line"><span class="lineno">  280</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  281</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  282</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  283</span>                });</div>
-<div class="line"><span class="lineno">  284</span> </div>
-<div class="line"><span class="lineno">  285</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  286</span>                name: <span class="stringliteral">&quot;RepositorySettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  287</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  288</span>                {</div>
-<div class="line"><span class="lineno">  289</span>                    CommitterName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  290</span>                    CommitterEmail = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  291</span>                    AccessUser = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  292</span>                    AccessToken = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  293</span>                    PushTestMergeCommits = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  294</span>                    ShowTestMergeCommitters = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  295</span>                    AutoUpdatesKeepTestMerges = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  296</span>                    AutoUpdatesSynchronize = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  297</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  298</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  299</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  300</span>                },</div>
-<div class="line"><span class="lineno">  301</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  302</span>                {</div>
-<div class="line"><span class="lineno">  303</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_RepositorySettings&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  304</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  305</span>                        name: <span class="stringliteral">&quot;FK_RepositorySettings_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  306</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  307</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  308</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  309</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  310</span>                });</div>
-<div class="line"><span class="lineno">  311</span> </div>
-<div class="line"><span class="lineno">  312</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  313</span>                name: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  314</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  315</span>                {</div>
-<div class="line"><span class="lineno">  316</span>                    CommitSha = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 40, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  317</span>                    OriginCommitSha = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 40, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  318</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  319</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  320</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  321</span>                },</div>
-<div class="line"><span class="lineno">  322</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  323</span>                {</div>
-<div class="line"><span class="lineno">  324</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_RevisionInformations&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  325</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  326</span>                        name: <span class="stringliteral">&quot;FK_RevisionInformations_Instances_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  327</span>                        column: x =&gt; x.InstanceId,</div>
-<div class="line"><span class="lineno">  328</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  329</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  330</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  331</span>                });</div>
-<div class="line"><span class="lineno">  332</span> </div>
-<div class="line"><span class="lineno">  333</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  334</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  335</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  336</span>                {</div>
-<div class="line"><span class="lineno">  337</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  338</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  339</span>                    DmeName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  340</span>                    Output = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  341</span>                    DirectoryName = table.Column&lt;Guid&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  342</span>                    JobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  343</span>                    RevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  344</span>                    ByondVersion = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  345</span>                },</div>
-<div class="line"><span class="lineno">  346</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  347</span>                {</div>
-<div class="line"><span class="lineno">  348</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_CompileJobs&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  349</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  350</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_Jobs_JobId&quot;</span>,</div>
-<div class="line"><span class="lineno">  351</span>                        column: x =&gt; x.JobId,</div>
-<div class="line"><span class="lineno">  352</span>                        principalTable: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  353</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  354</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  355</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  356</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_RevisionInformations_RevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  357</span>                        column: x =&gt; x.RevisionInformationId,</div>
-<div class="line"><span class="lineno">  358</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  359</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  360</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  361</span>                });</div>
-<div class="line"><span class="lineno">  362</span> </div>
-<div class="line"><span class="lineno">  363</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  364</span>                name: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
-<div class="line"><span class="lineno">  365</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  366</span>                {</div>
-<div class="line"><span class="lineno">  367</span>                    Number = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  368</span>                    PullRequestRevision = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  369</span>                    Comment = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  370</span>                    TitleAtMerge = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  371</span>                    BodyAtMerge = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  372</span>                    Url = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  373</span>                    Author = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  374</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  375</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  376</span>                    MergedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  377</span>                    MergedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  378</span>                    PrimaryRevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">  379</span>                },</div>
-<div class="line"><span class="lineno">  380</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  381</span>                {</div>
-<div class="line"><span class="lineno">  382</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_TestMerges&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  383</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  384</span>                        name: <span class="stringliteral">&quot;FK_TestMerges_Users_MergedById&quot;</span>,</div>
-<div class="line"><span class="lineno">  385</span>                        column: x =&gt; x.MergedById,</div>
-<div class="line"><span class="lineno">  386</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  387</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  388</span>                        onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  389</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  390</span>                        name: <span class="stringliteral">&quot;FK_TestMerges_RevisionInformations_PrimaryRevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  391</span>                        column: x =&gt; x.PrimaryRevisionInformationId,</div>
-<div class="line"><span class="lineno">  392</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  393</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  394</span>                        onDelete: ReferentialAction.SetNull);</div>
-<div class="line"><span class="lineno">  395</span>                });</div>
-<div class="line"><span class="lineno">  396</span> </div>
-<div class="line"><span class="lineno">  397</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">  398</span>                name: <span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>,</div>
-<div class="line"><span class="lineno">  399</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">  400</span>                {</div>
-<div class="line"><span class="lineno">  401</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  402</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
-<div class="line"><span class="lineno">  403</span>                    TestMergeId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  404</span>                    RevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">  405</span>                },</div>
-<div class="line"><span class="lineno">  406</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">  407</span>                {</div>
-<div class="line"><span class="lineno">  408</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_RevInfoTestMerges&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">  409</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  410</span>                        name: <span class="stringliteral">&quot;FK_RevInfoTestMerges_RevisionInformations_RevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  411</span>                        column: x =&gt; x.RevisionInformationId,</div>
-<div class="line"><span class="lineno">  412</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  413</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  414</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  415</span>                    table.ForeignKey(</div>
-<div class="line"><span class="lineno">  416</span>                        name: <span class="stringliteral">&quot;FK_RevInfoTestMerges_TestMerges_TestMergeId&quot;</span>,</div>
-<div class="line"><span class="lineno">  417</span>                        column: x =&gt; x.TestMergeId,</div>
-<div class="line"><span class="lineno">  418</span>                        principalTable: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
-<div class="line"><span class="lineno">  419</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  420</span>                        onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  421</span>                });</div>
-<div class="line"><span class="lineno">  422</span> </div>
-<div class="line"><span class="lineno">  423</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  424</span>                name: <span class="stringliteral">&quot;IX_ChatBots_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  425</span>                table: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
-<div class="line"><span class="lineno">  426</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">  427</span> </div>
-<div class="line"><span class="lineno">  428</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  429</span>                name: <span class="stringliteral">&quot;IX_ChatBots_Name&quot;</span>,</div>
-<div class="line"><span class="lineno">  430</span>                table: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
-<div class="line"><span class="lineno">  431</span>                column: <span class="stringliteral">&quot;Name&quot;</span>,</div>
-<div class="line"><span class="lineno">  432</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  433</span> </div>
-<div class="line"><span class="lineno">  434</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  435</span>                name: <span class="stringliteral">&quot;IX_ChatChannels_ChatSettingsId_DiscordChannelId&quot;</span>,</div>
-<div class="line"><span class="lineno">  436</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
-<div class="line"><span class="lineno">  437</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;ChatSettingsId&quot;</span>, <span class="stringliteral">&quot;DiscordChannelId&quot;</span> },</div>
-<div class="line"><span class="lineno">  438</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  439</span> </div>
-<div class="line"><span class="lineno">  440</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  441</span>                name: <span class="stringliteral">&quot;IX_ChatChannels_ChatSettingsId_IrcChannel&quot;</span>,</div>
-<div class="line"><span class="lineno">  442</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
-<div class="line"><span class="lineno">  443</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;ChatSettingsId&quot;</span>, <span class="stringliteral">&quot;IrcChannel&quot;</span> },</div>
-<div class="line"><span class="lineno">  444</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  445</span> </div>
-<div class="line"><span class="lineno">  446</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  447</span>                name: <span class="stringliteral">&quot;IX_CompileJobs_DirectoryName&quot;</span>,</div>
-<div class="line"><span class="lineno">  448</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  449</span>                column: <span class="stringliteral">&quot;DirectoryName&quot;</span>);</div>
-<div class="line"><span class="lineno">  450</span> </div>
-<div class="line"><span class="lineno">  451</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  452</span>                name: <span class="stringliteral">&quot;IX_CompileJobs_JobId&quot;</span>,</div>
-<div class="line"><span class="lineno">  453</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  454</span>                column: <span class="stringliteral">&quot;JobId&quot;</span>);</div>
-<div class="line"><span class="lineno">  455</span> </div>
-<div class="line"><span class="lineno">  456</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  457</span>                name: <span class="stringliteral">&quot;IX_CompileJobs_RevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  458</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  459</span>                column: <span class="stringliteral">&quot;RevisionInformationId&quot;</span>);</div>
-<div class="line"><span class="lineno">  460</span> </div>
-<div class="line"><span class="lineno">  461</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  462</span>                name: <span class="stringliteral">&quot;IX_DreamDaemonSettings_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  463</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  464</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  465</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  466</span> </div>
-<div class="line"><span class="lineno">  467</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  468</span>                name: <span class="stringliteral">&quot;IX_DreamMakerSettings_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  469</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  470</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  471</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  472</span> </div>
-<div class="line"><span class="lineno">  473</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  474</span>                name: <span class="stringliteral">&quot;IX_Instances_Path&quot;</span>,</div>
-<div class="line"><span class="lineno">  475</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  476</span>                column: <span class="stringliteral">&quot;Path&quot;</span>,</div>
-<div class="line"><span class="lineno">  477</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  478</span> </div>
-<div class="line"><span class="lineno">  479</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  480</span>                name: <span class="stringliteral">&quot;IX_Instances_WatchdogReattachInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  481</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">  482</span>                column: <span class="stringliteral">&quot;WatchdogReattachInformationId&quot;</span>);</div>
-<div class="line"><span class="lineno">  483</span> </div>
-<div class="line"><span class="lineno">  484</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  485</span>                name: <span class="stringliteral">&quot;IX_InstanceUsers_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  486</span>                table: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
-<div class="line"><span class="lineno">  487</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">  488</span> </div>
-<div class="line"><span class="lineno">  489</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  490</span>                name: <span class="stringliteral">&quot;IX_InstanceUsers_UserId_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  491</span>                table: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
-<div class="line"><span class="lineno">  492</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;UserId&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span> },</div>
-<div class="line"><span class="lineno">  493</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  494</span> </div>
-<div class="line"><span class="lineno">  495</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  496</span>                name: <span class="stringliteral">&quot;IX_Jobs_CancelledById&quot;</span>,</div>
-<div class="line"><span class="lineno">  497</span>                table: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  498</span>                column: <span class="stringliteral">&quot;CancelledById&quot;</span>);</div>
-<div class="line"><span class="lineno">  499</span> </div>
-<div class="line"><span class="lineno">  500</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  501</span>                name: <span class="stringliteral">&quot;IX_Jobs_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  502</span>                table: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  503</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">  504</span> </div>
-<div class="line"><span class="lineno">  505</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  506</span>                name: <span class="stringliteral">&quot;IX_Jobs_StartedById&quot;</span>,</div>
-<div class="line"><span class="lineno">  507</span>                table: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  508</span>                column: <span class="stringliteral">&quot;StartedById&quot;</span>);</div>
-<div class="line"><span class="lineno">  509</span> </div>
-<div class="line"><span class="lineno">  510</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  511</span>                name: <span class="stringliteral">&quot;IX_ReattachInformations_CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">  512</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  513</span>                column: <span class="stringliteral">&quot;CompileJobId&quot;</span>);</div>
-<div class="line"><span class="lineno">  514</span> </div>
-<div class="line"><span class="lineno">  515</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  516</span>                name: <span class="stringliteral">&quot;IX_RepositorySettings_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  517</span>                table: <span class="stringliteral">&quot;RepositorySettings&quot;</span>,</div>
-<div class="line"><span class="lineno">  518</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  519</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  520</span> </div>
-<div class="line"><span class="lineno">  521</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  522</span>                name: <span class="stringliteral">&quot;IX_RevInfoTestMerges_RevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  523</span>                table: <span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>,</div>
-<div class="line"><span class="lineno">  524</span>                column: <span class="stringliteral">&quot;RevisionInformationId&quot;</span>);</div>
-<div class="line"><span class="lineno">  525</span> </div>
-<div class="line"><span class="lineno">  526</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  527</span>                name: <span class="stringliteral">&quot;IX_RevInfoTestMerges_TestMergeId&quot;</span>,</div>
-<div class="line"><span class="lineno">  528</span>                table: <span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>,</div>
-<div class="line"><span class="lineno">  529</span>                column: <span class="stringliteral">&quot;TestMergeId&quot;</span>);</div>
-<div class="line"><span class="lineno">  530</span> </div>
-<div class="line"><span class="lineno">  531</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  532</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_CommitSha&quot;</span>,</div>
-<div class="line"><span class="lineno">  533</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  534</span>                column: <span class="stringliteral">&quot;CommitSha&quot;</span>,</div>
-<div class="line"><span class="lineno">  535</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  536</span> </div>
-<div class="line"><span class="lineno">  537</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  538</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId&quot;</span>,</div>
-<div class="line"><span class="lineno">  539</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  540</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
-<div class="line"><span class="lineno">  541</span> </div>
-<div class="line"><span class="lineno">  542</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  543</span>                name: <span class="stringliteral">&quot;IX_TestMerges_MergedById&quot;</span>,</div>
-<div class="line"><span class="lineno">  544</span>                table: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
-<div class="line"><span class="lineno">  545</span>                column: <span class="stringliteral">&quot;MergedById&quot;</span>);</div>
-<div class="line"><span class="lineno">  546</span> </div>
-<div class="line"><span class="lineno">  547</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  548</span>                name: <span class="stringliteral">&quot;IX_TestMerges_PrimaryRevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  549</span>                table: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
-<div class="line"><span class="lineno">  550</span>                column: <span class="stringliteral">&quot;PrimaryRevisionInformationId&quot;</span>,</div>
-<div class="line"><span class="lineno">  551</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  552</span> </div>
-<div class="line"><span class="lineno">  553</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  554</span>                name: <span class="stringliteral">&quot;IX_Users_CanonicalName&quot;</span>,</div>
-<div class="line"><span class="lineno">  555</span>                table: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  556</span>                column: <span class="stringliteral">&quot;CanonicalName&quot;</span>,</div>
-<div class="line"><span class="lineno">  557</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  558</span> </div>
-<div class="line"><span class="lineno">  559</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  560</span>                name: <span class="stringliteral">&quot;IX_Users_CreatedById&quot;</span>,</div>
-<div class="line"><span class="lineno">  561</span>                table: <span class="stringliteral">&quot;Users&quot;</span>,</div>
-<div class="line"><span class="lineno">  562</span>                column: <span class="stringliteral">&quot;CreatedById&quot;</span>);</div>
-<div class="line"><span class="lineno">  563</span> </div>
-<div class="line"><span class="lineno">  564</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  565</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_AlphaId&quot;</span>,</div>
-<div class="line"><span class="lineno">  566</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  567</span>                column: <span class="stringliteral">&quot;AlphaId&quot;</span>);</div>
-<div class="line"><span class="lineno">  568</span> </div>
-<div class="line"><span class="lineno">  569</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">  570</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_BravoId&quot;</span>,</div>
-<div class="line"><span class="lineno">  571</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  572</span>                column: <span class="stringliteral">&quot;BravoId&quot;</span>);</div>
-<div class="line"><span class="lineno">  573</span> </div>
-<div class="line"><span class="lineno">  574</span>            migrationBuilder.AddForeignKey(</div>
-<div class="line"><span class="lineno">  575</span>                name: <span class="stringliteral">&quot;FK_ChatChannels_ChatBots_ChatSettingsId&quot;</span>,</div>
-<div class="line"><span class="lineno">  576</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
-<div class="line"><span class="lineno">  577</span>                column: <span class="stringliteral">&quot;ChatSettingsId&quot;</span>,</div>
-<div class="line"><span class="lineno">  578</span>                principalTable: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
-<div class="line"><span class="lineno">  579</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  580</span>                onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">  581</span> </div>
-<div class="line"><span class="lineno">  582</span>            migrationBuilder.AddForeignKey(</div>
-<div class="line"><span class="lineno">  583</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">  584</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">  585</span>                column: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">  586</span>                principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">  587</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">  588</span>                onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">  589</span>        }</div>
+<div class="line"><span class="lineno">   17</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   18</span> </div>
+<div class="line"><span class="lineno">   19</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   20</span>                name: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">   21</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   22</span>                {</div>
+<div class="line"><span class="lineno">   23</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   24</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">   25</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   26</span>                    CreatedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   27</span>                    SystemIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   28</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   29</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   30</span>                    InstanceManagerRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   31</span>                    PasswordHash = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   32</span>                    CreatedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   33</span>                    CanonicalName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   34</span>                    LastPasswordUpdate = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   35</span>                },</div>
+<div class="line"><span class="lineno">   36</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   37</span>                {</div>
+<div class="line"><span class="lineno">   38</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Users&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   39</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">   40</span>                        name: <span class="stringliteral">&quot;FK_Users_Users_CreatedById&quot;</span>,</div>
+<div class="line"><span class="lineno">   41</span>                        column: x =&gt; x.CreatedById,</div>
+<div class="line"><span class="lineno">   42</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">   43</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   44</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">   45</span>                });</div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   48</span>                name: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
+<div class="line"><span class="lineno">   49</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   50</span>                {</div>
+<div class="line"><span class="lineno">   51</span>                    IrcChannel = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   52</span>                    DiscordChannelId = table.Column&lt;ulong&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   53</span>                    IsAdminChannel = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   54</span>                    IsWatchdogChannel = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   55</span>                    IsUpdatesChannel = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   56</span>                    Tag = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   57</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   58</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">   59</span>                    ChatSettingsId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   60</span>                },</div>
+<div class="line"><span class="lineno">   61</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   62</span>                {</div>
+<div class="line"><span class="lineno">   63</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_ChatChannels&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   64</span>                });</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   67</span>                name: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   68</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   69</span>                {</div>
+<div class="line"><span class="lineno">   70</span>                    ChatCommandsJson = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   71</span>                    ChatChannelsJson = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   72</span>                    ServerCommandsJson = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   73</span>                    AccessIdentifier = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   74</span>                    ProcessId = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   75</span>                    IsPrimary = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   76</span>                    Port = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   77</span>                    RebootState = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   78</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   79</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">   80</span>                    CompileJobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   81</span>                },</div>
+<div class="line"><span class="lineno">   82</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   83</span>                {</div>
+<div class="line"><span class="lineno">   84</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_ReattachInformations&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   85</span>                });</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   88</span>                name: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   89</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   90</span>                {</div>
+<div class="line"><span class="lineno">   91</span>                    AlphaIsActive = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   92</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   93</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">   94</span>                    AlphaId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   95</span>                    BravoId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   96</span>                },</div>
+<div class="line"><span class="lineno">   97</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   98</span>                {</div>
+<div class="line"><span class="lineno">   99</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_WatchdogReattachInformations&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  100</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  101</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_AlphaId&quot;</span>,</div>
+<div class="line"><span class="lineno">  102</span>                        column: x =&gt; x.AlphaId,</div>
+<div class="line"><span class="lineno">  103</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  104</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  105</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  106</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  107</span>                        name: <span class="stringliteral">&quot;FK_WatchdogReattachInformations_ReattachInformations_BravoId&quot;</span>,</div>
+<div class="line"><span class="lineno">  108</span>                        column: x =&gt; x.BravoId,</div>
+<div class="line"><span class="lineno">  109</span>                        principalTable: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  110</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  111</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  112</span>                });</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  115</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  116</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  117</span>                {</div>
+<div class="line"><span class="lineno">  118</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  119</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  120</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  121</span>                    Path = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  122</span>                    Online = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  123</span>                    ConfigurationType = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  124</span>                    AutoUpdateInterval = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  125</span>                    WatchdogReattachInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  126</span>                },</div>
+<div class="line"><span class="lineno">  127</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  128</span>                {</div>
+<div class="line"><span class="lineno">  129</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Instances&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  130</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  131</span>                        name: <span class="stringliteral">&quot;FK_Instances_WatchdogReattachInformations_WatchdogReattachInfor~&quot;</span>,</div>
+<div class="line"><span class="lineno">  132</span>                        column: x =&gt; x.WatchdogReattachInformationId,</div>
+<div class="line"><span class="lineno">  133</span>                        principalTable: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  134</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  135</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  136</span>                });</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  139</span>                name: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
+<div class="line"><span class="lineno">  140</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  141</span>                {</div>
+<div class="line"><span class="lineno">  142</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  143</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  144</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  145</span>                    Enabled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  146</span>                    Provider = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  147</span>                    ConnectionString = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  148</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  149</span>                },</div>
+<div class="line"><span class="lineno">  150</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  151</span>                {</div>
+<div class="line"><span class="lineno">  152</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_ChatBots&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  153</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  154</span>                        name: <span class="stringliteral">&quot;FK_ChatBots_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  155</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  156</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  157</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  158</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  159</span>                });</div>
+<div class="line"><span class="lineno">  160</span> </div>
+<div class="line"><span class="lineno">  161</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  162</span>                name: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  163</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  164</span>                {</div>
+<div class="line"><span class="lineno">  165</span>                    AllowWebClient = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  166</span>                    SecurityLevel = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  167</span>                    PrimaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  168</span>                    SecondaryPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  169</span>                    StartupTimeout = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  170</span>                    AutoStart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  171</span>                    SoftRestart = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  172</span>                    SoftShutdown = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  173</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  174</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  175</span>                    ProcessId = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  176</span>                    AccessToken = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  177</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  178</span>                },</div>
+<div class="line"><span class="lineno">  179</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  180</span>                {</div>
+<div class="line"><span class="lineno">  181</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamDaemonSettings&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  182</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  183</span>                        name: <span class="stringliteral">&quot;FK_DreamDaemonSettings_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  184</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  185</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  186</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  187</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  188</span>                });</div>
+<div class="line"><span class="lineno">  189</span> </div>
+<div class="line"><span class="lineno">  190</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  191</span>                name: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  192</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  193</span>                {</div>
+<div class="line"><span class="lineno">  194</span>                    ProjectName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  195</span>                    ApiValidationPort = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  196</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  197</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  198</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  199</span>                },</div>
+<div class="line"><span class="lineno">  200</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  201</span>                {</div>
+<div class="line"><span class="lineno">  202</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_DreamMakerSettings&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  203</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  204</span>                        name: <span class="stringliteral">&quot;FK_DreamMakerSettings_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  205</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  206</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  207</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  208</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  209</span>                });</div>
+<div class="line"><span class="lineno">  210</span> </div>
+<div class="line"><span class="lineno">  211</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  212</span>                name: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
+<div class="line"><span class="lineno">  213</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  214</span>                {</div>
+<div class="line"><span class="lineno">  215</span>                    UserId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  216</span>                    InstanceUserRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  217</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  218</span>                    DreamDaemonRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  219</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  220</span>                    RepositoryRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  221</span>                    <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a> = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  222</span>                    ConfigurationRights = table.Column&lt;ulong&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  223</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  224</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  225</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  226</span>                },</div>
+<div class="line"><span class="lineno">  227</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  228</span>                {</div>
+<div class="line"><span class="lineno">  229</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_InstanceUsers&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  230</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  231</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  232</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  233</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  234</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  235</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  236</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  237</span>                        name: <span class="stringliteral">&quot;FK_InstanceUsers_Users_UserId&quot;</span>,</div>
+<div class="line"><span class="lineno">  238</span>                        column: x =&gt; x.UserId,</div>
+<div class="line"><span class="lineno">  239</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  240</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  241</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  242</span>                });</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  245</span>                name: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  246</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  247</span>                {</div>
+<div class="line"><span class="lineno">  248</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  249</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  250</span>                    Description = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  251</span>                    ExceptionDetails = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  252</span>                    StartedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  253</span>                    StoppedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  254</span>                    Cancelled = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  255</span>                    CancelRightsType = table.Column&lt;ulong&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  256</span>                    CancelRight = table.Column&lt;ulong&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  257</span>                    StartedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  258</span>                    CancelledById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  259</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  260</span>                },</div>
+<div class="line"><span class="lineno">  261</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  262</span>                {</div>
+<div class="line"><span class="lineno">  263</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Jobs&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  264</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  265</span>                        name: <span class="stringliteral">&quot;FK_Jobs_Users_CancelledById&quot;</span>,</div>
+<div class="line"><span class="lineno">  266</span>                        column: x =&gt; x.CancelledById,</div>
+<div class="line"><span class="lineno">  267</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  268</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  269</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  270</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  271</span>                        name: <span class="stringliteral">&quot;FK_Jobs_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  272</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  273</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  274</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  275</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  276</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  277</span>                        name: <span class="stringliteral">&quot;FK_Jobs_Users_StartedById&quot;</span>,</div>
+<div class="line"><span class="lineno">  278</span>                        column: x =&gt; x.StartedById,</div>
+<div class="line"><span class="lineno">  279</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  280</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  281</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  282</span>                });</div>
+<div class="line"><span class="lineno">  283</span> </div>
+<div class="line"><span class="lineno">  284</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  285</span>                name: <span class="stringliteral">&quot;RepositorySettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  286</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  287</span>                {</div>
+<div class="line"><span class="lineno">  288</span>                    CommitterName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  289</span>                    CommitterEmail = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  290</span>                    AccessUser = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  291</span>                    AccessToken = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  292</span>                    PushTestMergeCommits = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  293</span>                    ShowTestMergeCommitters = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  294</span>                    AutoUpdatesKeepTestMerges = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  295</span>                    AutoUpdatesSynchronize = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  296</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  297</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  298</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  299</span>                },</div>
+<div class="line"><span class="lineno">  300</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  301</span>                {</div>
+<div class="line"><span class="lineno">  302</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_RepositorySettings&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  303</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  304</span>                        name: <span class="stringliteral">&quot;FK_RepositorySettings_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  305</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  306</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  307</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  308</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  309</span>                });</div>
+<div class="line"><span class="lineno">  310</span> </div>
+<div class="line"><span class="lineno">  311</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  312</span>                name: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  313</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  314</span>                {</div>
+<div class="line"><span class="lineno">  315</span>                    CommitSha = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 40, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  316</span>                    OriginCommitSha = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 40, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  317</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  318</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  319</span>                    InstanceId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  320</span>                },</div>
+<div class="line"><span class="lineno">  321</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  322</span>                {</div>
+<div class="line"><span class="lineno">  323</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_RevisionInformations&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  324</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  325</span>                        name: <span class="stringliteral">&quot;FK_RevisionInformations_Instances_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  326</span>                        column: x =&gt; x.InstanceId,</div>
+<div class="line"><span class="lineno">  327</span>                        principalTable: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  328</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  329</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  330</span>                });</div>
+<div class="line"><span class="lineno">  331</span> </div>
+<div class="line"><span class="lineno">  332</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  333</span>                name: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  334</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  335</span>                {</div>
+<div class="line"><span class="lineno">  336</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  337</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  338</span>                    DmeName = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  339</span>                    Output = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  340</span>                    DirectoryName = table.Column&lt;Guid&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  341</span>                    JobId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  342</span>                    RevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  343</span>                    ByondVersion = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  344</span>                },</div>
+<div class="line"><span class="lineno">  345</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  346</span>                {</div>
+<div class="line"><span class="lineno">  347</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_CompileJobs&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  348</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  349</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_Jobs_JobId&quot;</span>,</div>
+<div class="line"><span class="lineno">  350</span>                        column: x =&gt; x.JobId,</div>
+<div class="line"><span class="lineno">  351</span>                        principalTable: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  352</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  353</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  354</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  355</span>                        name: <span class="stringliteral">&quot;FK_CompileJobs_RevisionInformations_RevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  356</span>                        column: x =&gt; x.RevisionInformationId,</div>
+<div class="line"><span class="lineno">  357</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  358</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  359</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  360</span>                });</div>
+<div class="line"><span class="lineno">  361</span> </div>
+<div class="line"><span class="lineno">  362</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  363</span>                name: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
+<div class="line"><span class="lineno">  364</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  365</span>                {</div>
+<div class="line"><span class="lineno">  366</span>                    Number = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  367</span>                    PullRequestRevision = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  368</span>                    Comment = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  369</span>                    TitleAtMerge = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  370</span>                    BodyAtMerge = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  371</span>                    Url = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  372</span>                    Author = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  373</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  374</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  375</span>                    MergedAt = table.Column&lt;DateTimeOffset&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  376</span>                    MergedById = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  377</span>                    PrimaryRevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">  378</span>                },</div>
+<div class="line"><span class="lineno">  379</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  380</span>                {</div>
+<div class="line"><span class="lineno">  381</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_TestMerges&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  382</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  383</span>                        name: <span class="stringliteral">&quot;FK_TestMerges_Users_MergedById&quot;</span>,</div>
+<div class="line"><span class="lineno">  384</span>                        column: x =&gt; x.MergedById,</div>
+<div class="line"><span class="lineno">  385</span>                        principalTable: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  386</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  387</span>                        onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  388</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  389</span>                        name: <span class="stringliteral">&quot;FK_TestMerges_RevisionInformations_PrimaryRevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  390</span>                        column: x =&gt; x.PrimaryRevisionInformationId,</div>
+<div class="line"><span class="lineno">  391</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  392</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  393</span>                        onDelete: ReferentialAction.SetNull);</div>
+<div class="line"><span class="lineno">  394</span>                });</div>
+<div class="line"><span class="lineno">  395</span> </div>
+<div class="line"><span class="lineno">  396</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">  397</span>                name: <span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>,</div>
+<div class="line"><span class="lineno">  398</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">  399</span>                {</div>
+<div class="line"><span class="lineno">  400</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  401</span>                        .Annotation(<span class="stringliteral">&quot;MySql:ValueGenerationStrategy&quot;</span>, MySqlValueGenerationStrategy.IdentityColumn),</div>
+<div class="line"><span class="lineno">  402</span>                    TestMergeId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  403</span>                    RevisionInformationId = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">  404</span>                },</div>
+<div class="line"><span class="lineno">  405</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">  406</span>                {</div>
+<div class="line"><span class="lineno">  407</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_RevInfoTestMerges&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">  408</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  409</span>                        name: <span class="stringliteral">&quot;FK_RevInfoTestMerges_RevisionInformations_RevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  410</span>                        column: x =&gt; x.RevisionInformationId,</div>
+<div class="line"><span class="lineno">  411</span>                        principalTable: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  412</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  413</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  414</span>                    table.ForeignKey(</div>
+<div class="line"><span class="lineno">  415</span>                        name: <span class="stringliteral">&quot;FK_RevInfoTestMerges_TestMerges_TestMergeId&quot;</span>,</div>
+<div class="line"><span class="lineno">  416</span>                        column: x =&gt; x.TestMergeId,</div>
+<div class="line"><span class="lineno">  417</span>                        principalTable: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
+<div class="line"><span class="lineno">  418</span>                        principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  419</span>                        onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  420</span>                });</div>
+<div class="line"><span class="lineno">  421</span> </div>
+<div class="line"><span class="lineno">  422</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  423</span>                name: <span class="stringliteral">&quot;IX_ChatBots_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  424</span>                table: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
+<div class="line"><span class="lineno">  425</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
+<div class="line"><span class="lineno">  426</span> </div>
+<div class="line"><span class="lineno">  427</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  428</span>                name: <span class="stringliteral">&quot;IX_ChatBots_Name&quot;</span>,</div>
+<div class="line"><span class="lineno">  429</span>                table: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
+<div class="line"><span class="lineno">  430</span>                column: <span class="stringliteral">&quot;Name&quot;</span>,</div>
+<div class="line"><span class="lineno">  431</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  432</span> </div>
+<div class="line"><span class="lineno">  433</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  434</span>                name: <span class="stringliteral">&quot;IX_ChatChannels_ChatSettingsId_DiscordChannelId&quot;</span>,</div>
+<div class="line"><span class="lineno">  435</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
+<div class="line"><span class="lineno">  436</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;ChatSettingsId&quot;</span>, <span class="stringliteral">&quot;DiscordChannelId&quot;</span> },</div>
+<div class="line"><span class="lineno">  437</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  438</span> </div>
+<div class="line"><span class="lineno">  439</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  440</span>                name: <span class="stringliteral">&quot;IX_ChatChannels_ChatSettingsId_IrcChannel&quot;</span>,</div>
+<div class="line"><span class="lineno">  441</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
+<div class="line"><span class="lineno">  442</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;ChatSettingsId&quot;</span>, <span class="stringliteral">&quot;IrcChannel&quot;</span> },</div>
+<div class="line"><span class="lineno">  443</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  444</span> </div>
+<div class="line"><span class="lineno">  445</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  446</span>                name: <span class="stringliteral">&quot;IX_CompileJobs_DirectoryName&quot;</span>,</div>
+<div class="line"><span class="lineno">  447</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  448</span>                column: <span class="stringliteral">&quot;DirectoryName&quot;</span>);</div>
+<div class="line"><span class="lineno">  449</span> </div>
+<div class="line"><span class="lineno">  450</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  451</span>                name: <span class="stringliteral">&quot;IX_CompileJobs_JobId&quot;</span>,</div>
+<div class="line"><span class="lineno">  452</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  453</span>                column: <span class="stringliteral">&quot;JobId&quot;</span>);</div>
+<div class="line"><span class="lineno">  454</span> </div>
+<div class="line"><span class="lineno">  455</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  456</span>                name: <span class="stringliteral">&quot;IX_CompileJobs_RevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  457</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  458</span>                column: <span class="stringliteral">&quot;RevisionInformationId&quot;</span>);</div>
+<div class="line"><span class="lineno">  459</span> </div>
+<div class="line"><span class="lineno">  460</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  461</span>                name: <span class="stringliteral">&quot;IX_DreamDaemonSettings_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  462</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  463</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  464</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  465</span> </div>
+<div class="line"><span class="lineno">  466</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  467</span>                name: <span class="stringliteral">&quot;IX_DreamMakerSettings_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  468</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  469</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  470</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  471</span> </div>
+<div class="line"><span class="lineno">  472</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  473</span>                name: <span class="stringliteral">&quot;IX_Instances_Path&quot;</span>,</div>
+<div class="line"><span class="lineno">  474</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  475</span>                column: <span class="stringliteral">&quot;Path&quot;</span>,</div>
+<div class="line"><span class="lineno">  476</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  477</span> </div>
+<div class="line"><span class="lineno">  478</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  479</span>                name: <span class="stringliteral">&quot;IX_Instances_WatchdogReattachInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  480</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">  481</span>                column: <span class="stringliteral">&quot;WatchdogReattachInformationId&quot;</span>);</div>
+<div class="line"><span class="lineno">  482</span> </div>
+<div class="line"><span class="lineno">  483</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  484</span>                name: <span class="stringliteral">&quot;IX_InstanceUsers_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  485</span>                table: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
+<div class="line"><span class="lineno">  486</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
+<div class="line"><span class="lineno">  487</span> </div>
+<div class="line"><span class="lineno">  488</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  489</span>                name: <span class="stringliteral">&quot;IX_InstanceUsers_UserId_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  490</span>                table: <span class="stringliteral">&quot;InstanceUsers&quot;</span>,</div>
+<div class="line"><span class="lineno">  491</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;UserId&quot;</span>, <span class="stringliteral">&quot;InstanceId&quot;</span> },</div>
+<div class="line"><span class="lineno">  492</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  493</span> </div>
+<div class="line"><span class="lineno">  494</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  495</span>                name: <span class="stringliteral">&quot;IX_Jobs_CancelledById&quot;</span>,</div>
+<div class="line"><span class="lineno">  496</span>                table: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  497</span>                column: <span class="stringliteral">&quot;CancelledById&quot;</span>);</div>
+<div class="line"><span class="lineno">  498</span> </div>
+<div class="line"><span class="lineno">  499</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  500</span>                name: <span class="stringliteral">&quot;IX_Jobs_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  501</span>                table: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  502</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
+<div class="line"><span class="lineno">  503</span> </div>
+<div class="line"><span class="lineno">  504</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  505</span>                name: <span class="stringliteral">&quot;IX_Jobs_StartedById&quot;</span>,</div>
+<div class="line"><span class="lineno">  506</span>                table: <span class="stringliteral">&quot;Jobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  507</span>                column: <span class="stringliteral">&quot;StartedById&quot;</span>);</div>
+<div class="line"><span class="lineno">  508</span> </div>
+<div class="line"><span class="lineno">  509</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  510</span>                name: <span class="stringliteral">&quot;IX_ReattachInformations_CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">  511</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  512</span>                column: <span class="stringliteral">&quot;CompileJobId&quot;</span>);</div>
+<div class="line"><span class="lineno">  513</span> </div>
+<div class="line"><span class="lineno">  514</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  515</span>                name: <span class="stringliteral">&quot;IX_RepositorySettings_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  516</span>                table: <span class="stringliteral">&quot;RepositorySettings&quot;</span>,</div>
+<div class="line"><span class="lineno">  517</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  518</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  519</span> </div>
+<div class="line"><span class="lineno">  520</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  521</span>                name: <span class="stringliteral">&quot;IX_RevInfoTestMerges_RevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  522</span>                table: <span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>,</div>
+<div class="line"><span class="lineno">  523</span>                column: <span class="stringliteral">&quot;RevisionInformationId&quot;</span>);</div>
+<div class="line"><span class="lineno">  524</span> </div>
+<div class="line"><span class="lineno">  525</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  526</span>                name: <span class="stringliteral">&quot;IX_RevInfoTestMerges_TestMergeId&quot;</span>,</div>
+<div class="line"><span class="lineno">  527</span>                table: <span class="stringliteral">&quot;RevInfoTestMerges&quot;</span>,</div>
+<div class="line"><span class="lineno">  528</span>                column: <span class="stringliteral">&quot;TestMergeId&quot;</span>);</div>
+<div class="line"><span class="lineno">  529</span> </div>
+<div class="line"><span class="lineno">  530</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  531</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_CommitSha&quot;</span>,</div>
+<div class="line"><span class="lineno">  532</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  533</span>                column: <span class="stringliteral">&quot;CommitSha&quot;</span>,</div>
+<div class="line"><span class="lineno">  534</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  535</span> </div>
+<div class="line"><span class="lineno">  536</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  537</span>                name: <span class="stringliteral">&quot;IX_RevisionInformations_InstanceId&quot;</span>,</div>
+<div class="line"><span class="lineno">  538</span>                table: <span class="stringliteral">&quot;RevisionInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  539</span>                column: <span class="stringliteral">&quot;InstanceId&quot;</span>);</div>
+<div class="line"><span class="lineno">  540</span> </div>
+<div class="line"><span class="lineno">  541</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  542</span>                name: <span class="stringliteral">&quot;IX_TestMerges_MergedById&quot;</span>,</div>
+<div class="line"><span class="lineno">  543</span>                table: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
+<div class="line"><span class="lineno">  544</span>                column: <span class="stringliteral">&quot;MergedById&quot;</span>);</div>
+<div class="line"><span class="lineno">  545</span> </div>
+<div class="line"><span class="lineno">  546</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  547</span>                name: <span class="stringliteral">&quot;IX_TestMerges_PrimaryRevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  548</span>                table: <span class="stringliteral">&quot;TestMerges&quot;</span>,</div>
+<div class="line"><span class="lineno">  549</span>                column: <span class="stringliteral">&quot;PrimaryRevisionInformationId&quot;</span>,</div>
+<div class="line"><span class="lineno">  550</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  551</span> </div>
+<div class="line"><span class="lineno">  552</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  553</span>                name: <span class="stringliteral">&quot;IX_Users_CanonicalName&quot;</span>,</div>
+<div class="line"><span class="lineno">  554</span>                table: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  555</span>                column: <span class="stringliteral">&quot;CanonicalName&quot;</span>,</div>
+<div class="line"><span class="lineno">  556</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  557</span> </div>
+<div class="line"><span class="lineno">  558</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  559</span>                name: <span class="stringliteral">&quot;IX_Users_CreatedById&quot;</span>,</div>
+<div class="line"><span class="lineno">  560</span>                table: <span class="stringliteral">&quot;Users&quot;</span>,</div>
+<div class="line"><span class="lineno">  561</span>                column: <span class="stringliteral">&quot;CreatedById&quot;</span>);</div>
+<div class="line"><span class="lineno">  562</span> </div>
+<div class="line"><span class="lineno">  563</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  564</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_AlphaId&quot;</span>,</div>
+<div class="line"><span class="lineno">  565</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  566</span>                column: <span class="stringliteral">&quot;AlphaId&quot;</span>);</div>
+<div class="line"><span class="lineno">  567</span> </div>
+<div class="line"><span class="lineno">  568</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">  569</span>                name: <span class="stringliteral">&quot;IX_WatchdogReattachInformations_BravoId&quot;</span>,</div>
+<div class="line"><span class="lineno">  570</span>                table: <span class="stringliteral">&quot;WatchdogReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  571</span>                column: <span class="stringliteral">&quot;BravoId&quot;</span>);</div>
+<div class="line"><span class="lineno">  572</span> </div>
+<div class="line"><span class="lineno">  573</span>            migrationBuilder.AddForeignKey(</div>
+<div class="line"><span class="lineno">  574</span>                name: <span class="stringliteral">&quot;FK_ChatChannels_ChatBots_ChatSettingsId&quot;</span>,</div>
+<div class="line"><span class="lineno">  575</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
+<div class="line"><span class="lineno">  576</span>                column: <span class="stringliteral">&quot;ChatSettingsId&quot;</span>,</div>
+<div class="line"><span class="lineno">  577</span>                principalTable: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
+<div class="line"><span class="lineno">  578</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  579</span>                onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">  580</span> </div>
+<div class="line"><span class="lineno">  581</span>            migrationBuilder.AddForeignKey(</div>
+<div class="line"><span class="lineno">  582</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">  583</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">  584</span>                column: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">  585</span>                principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">  586</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">  587</span>                onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">  588</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a2a217a19e652f117e2324fb79ed838b9"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">Tgstation.Server.Api.Rights.ByondRights</a></div><div class="ttdeci">ByondRights</div><div class="ttdoc">Rights for BYOND version management.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_rights_8cs_source.html#l00009">ByondRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a580a36a11165b2590be342b45c31ec72"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">Tgstation.Server.Api.Rights.ChatBotRights</a></div><div class="ttdeci">ChatBotRights</div><div class="ttdoc">Rights for chat bots.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_rights_8cs_source.html#l00009">ChatBotRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a6aac419b6a793fe07657d96ac48dee5d"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">Tgstation.Server.Api.Rights.DreamMakerRights</a></div><div class="ttdeci">DreamMakerRights</div><div class="ttdoc">Rights for deployment.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_rights_8cs_source.html#l00009">DreamMakerRights.cs:10</a></div></div>

@@ -925,23 +925,22 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200705163624___p_g_allow_null_d_m_api_8cs_source.html#l00033">33</a> of file <a class="el" href="20200705163624___p_g_allow_null_d_m_api_8cs_source.html">20200705163624_PGAllowNullDMApi.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
-<div class="line"><span class="lineno">   35</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   36</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   37</span> </div>
-<div class="line"><span class="lineno">   38</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   39</span>                name: <span class="stringliteral">&quot;RequireDMApiValidation&quot;</span>,</div>
-<div class="line"><span class="lineno">   40</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   42</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   43</span>                name: <span class="stringliteral">&quot;MinimumSecurityLevel&quot;</span>,</div>
-<div class="line"><span class="lineno">   44</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                type: <span class="stringliteral">&quot;integer&quot;</span>,</div>
-<div class="line"><span class="lineno">   46</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   47</span>                oldClrType: typeof(<span class="keywordtype">int</span>),</div>
-<div class="line"><span class="lineno">   48</span>                oldNullable: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   49</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20200705163624___p_g_allow_null_d_m_api_8cs_source.html#l00032">32</a> of file <a class="el" href="20200705163624___p_g_allow_null_d_m_api_8cs_source.html">20200705163624_PGAllowNullDMApi.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>        {</div>
+<div class="line"><span class="lineno">   34</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   35</span> </div>
+<div class="line"><span class="lineno">   36</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   37</span>                name: <span class="stringliteral">&quot;RequireDMApiValidation&quot;</span>,</div>
+<div class="line"><span class="lineno">   38</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   39</span> </div>
+<div class="line"><span class="lineno">   40</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   41</span>                name: <span class="stringliteral">&quot;MinimumSecurityLevel&quot;</span>,</div>
+<div class="line"><span class="lineno">   42</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   43</span>                type: <span class="stringliteral">&quot;integer&quot;</span>,</div>
+<div class="line"><span class="lineno">   44</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   45</span>                oldClrType: typeof(<span class="keywordtype">int</span>),</div>
+<div class="line"><span class="lineno">   46</span>                oldNullable: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   47</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -973,22 +972,21 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20200705163624___p_g_allow_null_d_m_api_8cs_source.html#l00013">13</a> of file <a class="el" href="20200705163624___p_g_allow_null_d_m_api_8cs_source.html">20200705163624_PGAllowNullDMApi.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;RequireDMApiValidation&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   21</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   22</span>                defaultValue: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   23</span> </div>
-<div class="line"><span class="lineno">   24</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   25</span>                name: <span class="stringliteral">&quot;MinimumSecurityLevel&quot;</span>,</div>
-<div class="line"><span class="lineno">   26</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   27</span>                nullable: <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">   28</span>                oldClrType: typeof(<span class="keywordtype">int</span>),</div>
-<div class="line"><span class="lineno">   29</span>                oldType: <span class="stringliteral">&quot;integer&quot;</span>);</div>
-<div class="line"><span class="lineno">   30</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;RequireDMApiValidation&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   20</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   21</span>                defaultValue: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   22</span> </div>
+<div class="line"><span class="lineno">   23</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   24</span>                name: <span class="stringliteral">&quot;MinimumSecurityLevel&quot;</span>,</div>
+<div class="line"><span class="lineno">   25</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   26</span>                nullable: <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">   27</span>                oldClrType: typeof(<span class="keywordtype">int</span>),</div>
+<div class="line"><span class="lineno">   28</span>                oldType: <span class="stringliteral">&quot;integer&quot;</span>);</div>
+<div class="line"><span class="lineno">   29</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

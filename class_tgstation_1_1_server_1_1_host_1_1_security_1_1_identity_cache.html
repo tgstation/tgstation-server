@@ -257,35 +257,33 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_identity_cache_8cs_source.html#l00052">52</a> of file <a class="el" href="_identity_cache_8cs_source.html">IdentityCache.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   53</span>        {</div>
-<div class="line"><span class="lineno">   54</span>            <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   55</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(user));</div>
-<div class="line"><span class="lineno">   56</span>            <span class="keywordflow">if</span> (systemIdentity == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   57</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(systemIdentity));</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>)</div>
-<div class="line"><span class="lineno">   60</span>            {</div>
-<div class="line"><span class="lineno">   61</span>                var uid = systemIdentity.Uid;</div>
-<div class="line"><span class="lineno">   62</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a382d063e7f62559b994c5639504737b6">logger</a>.LogDebug(<span class="stringliteral">&quot;Caching system identity {0} of user {1}&quot;</span>, uid, user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>.TryGetValue(user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out var identCache))</div>
-<div class="line"><span class="lineno">   65</span>                {</div>
-<div class="line"><span class="lineno">   66</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a382d063e7f62559b994c5639504737b6">logger</a>.LogTrace(<span class="stringliteral">&quot;Expiring previously cached identity...&quot;</span>);</div>
-<div class="line"><span class="lineno">   67</span>                    identCache.Dispose(); <span class="comment">// also clears it out</span></div>
-<div class="line"><span class="lineno">   68</span>                }</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>                identCache = <span class="keyword">new</span> IdentityCacheObject(</div>
-<div class="line"><span class="lineno">   71</span>                    systemIdentity.Clone(),</div>
-<div class="line"><span class="lineno">   72</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a9ae1ecab8e3826302aa8d692c0d659d1">asyncDelayer</a>,</div>
-<div class="line"><span class="lineno">   73</span>                    () =&gt;</div>
-<div class="line"><span class="lineno">   74</span>                    {</div>
-<div class="line"><span class="lineno">   75</span>                        logger.LogDebug(<span class="stringliteral">&quot;Expiring system identity cache for user {0}&quot;</span>, user.Id);</div>
-<div class="line"><span class="lineno">   76</span>                        lock (cachedIdentities)</div>
-<div class="line"><span class="lineno">   77</span>                            cachedIdentities.Remove(user.Id.Value);</div>
-<div class="line"><span class="lineno">   78</span>                    },</div>
-<div class="line"><span class="lineno">   79</span>                    expiry);</div>
-<div class="line"><span class="lineno">   80</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>.Add(user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, identCache);</div>
-<div class="line"><span class="lineno">   81</span>            }</div>
-<div class="line"><span class="lineno">   82</span>        }</div>
+<div class="line"><span class="lineno">   54</span>            ArgumentNullException.ThrowIfNull(user);</div>
+<div class="line"><span class="lineno">   55</span>            ArgumentNullException.ThrowIfNull(systemIdentity);</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>)</div>
+<div class="line"><span class="lineno">   58</span>            {</div>
+<div class="line"><span class="lineno">   59</span>                var uid = systemIdentity.Uid;</div>
+<div class="line"><span class="lineno">   60</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a382d063e7f62559b994c5639504737b6">logger</a>.LogDebug(<span class="stringliteral">&quot;Caching system identity {0} of user {1}&quot;</span>, uid, user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>);</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>.TryGetValue(user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out var identCache))</div>
+<div class="line"><span class="lineno">   63</span>                {</div>
+<div class="line"><span class="lineno">   64</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a382d063e7f62559b994c5639504737b6">logger</a>.LogTrace(<span class="stringliteral">&quot;Expiring previously cached identity...&quot;</span>);</div>
+<div class="line"><span class="lineno">   65</span>                    identCache.Dispose(); <span class="comment">// also clears it out</span></div>
+<div class="line"><span class="lineno">   66</span>                }</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>                identCache = <span class="keyword">new</span> IdentityCacheObject(</div>
+<div class="line"><span class="lineno">   69</span>                    systemIdentity.Clone(),</div>
+<div class="line"><span class="lineno">   70</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a9ae1ecab8e3826302aa8d692c0d659d1">asyncDelayer</a>,</div>
+<div class="line"><span class="lineno">   71</span>                    () =&gt;</div>
+<div class="line"><span class="lineno">   72</span>                    {</div>
+<div class="line"><span class="lineno">   73</span>                        logger.LogDebug(<span class="stringliteral">&quot;Expiring system identity cache for user {0}&quot;</span>, user.Id);</div>
+<div class="line"><span class="lineno">   74</span>                        lock (cachedIdentities)</div>
+<div class="line"><span class="lineno">   75</span>                            cachedIdentities.Remove(user.Id.Value);</div>
+<div class="line"><span class="lineno">   76</span>                    },</div>
+<div class="line"><span class="lineno">   77</span>                    expiry);</div>
+<div class="line"><span class="lineno">   78</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>.Add(user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, identCache);</div>
+<div class="line"><span class="lineno">   79</span>            }</div>
+<div class="line"><span class="lineno">   80</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_ae31e478e1d338b37a14565df6fd58570"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">virtual ? long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00013">EntityId.cs:13</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_identity_cache_8cs_source.html#l00018">Tgstation.Server.Host.Security.IdentityCache.asyncDelayer</a>, <a class="el" href="_identity_cache_8cs_source.html#l00028">Tgstation.Server.Host.Security.IdentityCache.cachedIdentities</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a1cb40673b65fa830543c69461449953a">Tgstation.Server.Host.Security.ISystemIdentity.Clone()</a>, <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_identity_cache_8cs_source.html#l00023">Tgstation.Server.Host.Security.IdentityCache.logger</a>, and <a class="el" href="_i_system_identity_8cs_source.html#l00015">Tgstation.Server.Host.Security.ISystemIdentity.Uid</a>.</p>
@@ -356,17 +354,25 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#afc655c9c2d6af6086bcda5b6c54e1c41">Tgstation.Server.Host.Security.IIdentityCache</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_identity_cache_8cs_source.html#l00085">85</a> of file <a class="el" href="_identity_cache_8cs_source.html">IdentityCache.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>        {</div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   88</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(user));</div>
-<div class="line"><span class="lineno">   89</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>)</div>
-<div class="line"><span class="lineno">   90</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>.TryGetValue(user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out var identity))</div>
-<div class="line"><span class="lineno">   91</span>                    <span class="keywordflow">return</span> identity.SystemIdentity.Clone();</div>
-<div class="line"><span class="lineno">   92</span>            <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Cached system identity has expired!&quot;</span>);</div>
-<div class="line"><span class="lineno">   93</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_identity_cache_8cs_source.html#l00083">83</a> of file <a class="el" href="_identity_cache_8cs_source.html">IdentityCache.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   84</span>        {</div>
+<div class="line"><span class="lineno">   85</span>            ArgumentNullException.ThrowIfNull(user);</div>
+<div class="line"><span class="lineno">   86</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>)</div>
+<div class="line"><span class="lineno">   87</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">cachedIdentities</a>.TryGetValue(user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#ae31e478e1d338b37a14565df6fd58570">Id</a>.Value, out var identity))</div>
+<div class="line"><span class="lineno">   88</span>                    <span class="keywordflow">return</span> identity.SystemIdentity.Clone();</div>
+<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Cached system identity has expired!&quot;</span>);</div>
+<div class="line"><span class="lineno">   90</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_identity_cache_8cs_source.html#l00028">Tgstation.Server.Host.Security.IdentityCache.cachedIdentities</a>, and <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>.</p>
+<p class="reference">References <a class="el" href="_identity_cache_8cs_source.html#l00028">Tgstation.Server.Host.Security.IdentityCache.cachedIdentities</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a1cb40673b65fa830543c69461449953a">Tgstation.Server.Host.Security.ISystemIdentity.Clone()</a>, and <a class="el" href="_entity_id_8cs_source.html#l00013">Tgstation.Server.Api.Models.EntityId.Id</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_a2697ebf18fec9213032f48fb5f351397_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_a2697ebf18fec9213032f48fb5f351397_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_a2697ebf18fec9213032f48fb5f351397_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_a2697ebf18fec9213032f48fb5f351397_cgraph">
+<area shape="rect" title="Attempt to load a cached ISystemIdentity. The cached ISystemIdentity or null if it doesn&#39;t exist or e..." alt="" coords="5,5,224,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a1cb40673b65fa830543c69461449953a" title="Clone the ISystemIdentity creating another copy that must have IDisposable.Dispose called on it." alt="" coords="272,5,473,45"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -423,7 +429,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_identity_cache_8cs_source.html#l00028">28</a> of file <a class="el" href="_identity_cache_8cs_source.html">IdentityCache.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_identity_cache_8cs_source.html#l00052">Tgstation.Server.Host.Security.IdentityCache.CacheSystemIdentity()</a>, <a class="el" href="_identity_cache_8cs_source.html#l00044">Tgstation.Server.Host.Security.IdentityCache.Dispose()</a>, <a class="el" href="_identity_cache_8cs_source.html#l00035">Tgstation.Server.Host.Security.IdentityCache.IdentityCache()</a>, and <a class="el" href="_identity_cache_8cs_source.html#l00085">Tgstation.Server.Host.Security.IdentityCache.LoadCachedIdentity()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_identity_cache_8cs_source.html#l00052">Tgstation.Server.Host.Security.IdentityCache.CacheSystemIdentity()</a>, <a class="el" href="_identity_cache_8cs_source.html#l00044">Tgstation.Server.Host.Security.IdentityCache.Dispose()</a>, <a class="el" href="_identity_cache_8cs_source.html#l00035">Tgstation.Server.Host.Security.IdentityCache.IdentityCache()</a>, and <a class="el" href="_identity_cache_8cs_source.html#l00083">Tgstation.Server.Host.Security.IdentityCache.LoadCachedIdentity()</a>.</p>
 
 </div>
 </div>

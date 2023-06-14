@@ -250,29 +250,27 @@ Static Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">Tgstation.Server.Host.Security.ICryptographySuite</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00055">55</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   56</span>        {</div>
-<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   58</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(user));</div>
-<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">if</span> (password == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   60</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(password));</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>            var result = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.VerifyHashedPassword(user, user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">PasswordHash</a>, password);</div>
-<div class="line"><span class="lineno">   63</span>            <span class="keywordflow">switch</span> (result)</div>
-<div class="line"><span class="lineno">   64</span>            {</div>
-<div class="line"><span class="lineno">   65</span>                <span class="keywordflow">case</span> PasswordVerificationResult.Failed:</div>
-<div class="line"><span class="lineno">   66</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">case</span> PasswordVerificationResult.SuccessRehashNeeded:</div>
-<div class="line"><span class="lineno">   68</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a0936b97992a82380047925e656b4bdae">SetUserPassword</a>(user, password, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   69</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   70</span>                <span class="keywordflow">case</span> PasswordVerificationResult.Success:</div>
-<div class="line"><span class="lineno">   71</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   72</span>                <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">   73</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Password hasher return unknown PasswordVerificationResult: {0}&quot;</span>, result));</div>
-<div class="line"><span class="lineno">   74</span>            }</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   77</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00053">53</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>        {</div>
+<div class="line"><span class="lineno">   55</span>            ArgumentNullException.ThrowIfNull(user);</div>
+<div class="line"><span class="lineno">   56</span>            ArgumentNullException.ThrowIfNull(password);</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>            var result = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.VerifyHashedPassword(user, user.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">PasswordHash</a>, password);</div>
+<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">switch</span> (result)</div>
+<div class="line"><span class="lineno">   60</span>            {</div>
+<div class="line"><span class="lineno">   61</span>                <span class="keywordflow">case</span> PasswordVerificationResult.Failed:</div>
+<div class="line"><span class="lineno">   62</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   63</span>                <span class="keywordflow">case</span> PasswordVerificationResult.SuccessRehashNeeded:</div>
+<div class="line"><span class="lineno">   64</span>                    <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a0936b97992a82380047925e656b4bdae">SetUserPassword</a>(user, password, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   65</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">case</span> PasswordVerificationResult.Success:</div>
+<div class="line"><span class="lineno">   67</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   68</span>                <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">   69</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;Password hasher return unknown PasswordVerificationResult: {0}&quot;</span>, result));</div>
+<div class="line"><span class="lineno">   70</span>            }</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   73</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_ab5648b7f95630ff37ad8b0ddd72c1f54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">Tgstation.Server.Host.Models.User.PasswordHash</a></div><div class="ttdeci">string PasswordHash</div><div class="ttdoc">The hash of the user's password.</div><div class="ttdef"><b>Definition:</b> <a href="_user_8cs_source.html#l00022">User.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html_a0936b97992a82380047925e656b4bdae"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a0936b97992a82380047925e656b4bdae">Tgstation.Server.Host.Security.CryptographySuite.SetUserPassword</a></div><div class="ttdeci">void SetUserPassword(User user, string newPassword, bool newUser)</div><div class="ttdoc">Sets a User.PasswordHash for a given user .</div><div class="ttdef"><b>Definition:</b> <a href="_cryptography_suite_8cs_source.html#l00043">CryptographySuite.cs:43</a></div></div>
 </div><!-- fragment -->
@@ -394,18 +392,16 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00043">43</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   44</span>        {</div>
-<div class="line"><span class="lineno">   45</span>            <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   46</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(user));</div>
-<div class="line"><span class="lineno">   47</span>            <span class="keywordflow">if</span> (newPassword == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   48</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(newPassword));</div>
-<div class="line"><span class="lineno">   49</span>            user.PasswordHash = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.HashPassword(user, newPassword);</div>
-<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">if</span> (!newUser)</div>
-<div class="line"><span class="lineno">   51</span>                user.LastPasswordUpdate = DateTimeOffset.UtcNow;</div>
-<div class="line"><span class="lineno">   52</span>        }</div>
+<div class="line"><span class="lineno">   45</span>            ArgumentNullException.ThrowIfNull(user);</div>
+<div class="line"><span class="lineno">   46</span>            ArgumentNullException.ThrowIfNull(newPassword);</div>
+<div class="line"><span class="lineno">   47</span>            user.PasswordHash = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.HashPassword(user, newPassword);</div>
+<div class="line"><span class="lineno">   48</span>            <span class="keywordflow">if</span> (!newUser)</div>
+<div class="line"><span class="lineno">   49</span>                user.LastPasswordUpdate = DateTimeOffset.UtcNow;</div>
+<div class="line"><span class="lineno">   50</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_cryptography_suite_8cs_source.html#l00022">Tgstation.Server.Host.Security.CryptographySuite.passwordHasher</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_cryptography_suite_8cs_source.html#l00055">Tgstation.Server.Host.Security.CryptographySuite.CheckUserPassword()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_cryptography_suite_8cs_source.html#l00053">Tgstation.Server.Host.Security.CryptographySuite.CheckUserPassword()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -443,7 +439,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00022">22</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_cryptography_suite_8cs_source.html#l00055">Tgstation.Server.Host.Security.CryptographySuite.CheckUserPassword()</a>, <a class="el" href="_cryptography_suite_8cs_source.html#l00028">Tgstation.Server.Host.Security.CryptographySuite.CryptographySuite()</a>, and <a class="el" href="_cryptography_suite_8cs_source.html#l00043">Tgstation.Server.Host.Security.CryptographySuite.SetUserPassword()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_cryptography_suite_8cs_source.html#l00053">Tgstation.Server.Host.Security.CryptographySuite.CheckUserPassword()</a>, <a class="el" href="_cryptography_suite_8cs_source.html#l00028">Tgstation.Server.Host.Security.CryptographySuite.CryptographySuite()</a>, and <a class="el" href="_cryptography_suite_8cs_source.html#l00043">Tgstation.Server.Host.Security.CryptographySuite.SetUserPassword()</a>.</p>
 
 </div>
 </div>

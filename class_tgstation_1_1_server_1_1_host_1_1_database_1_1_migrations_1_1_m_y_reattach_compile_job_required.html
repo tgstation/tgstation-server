@@ -807,29 +807,28 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20180926034014___m_y_reattach_compile_job_required_8cs_source.html#l00039">39</a> of file <a class="el" href="20180926034014___m_y_reattach_compile_job_required_8cs_source.html">20180926034014_MYReattachCompileJobRequired.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>        {</div>
-<div class="line"><span class="lineno">   41</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   42</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>            migrationBuilder.DropForeignKey(</div>
-<div class="line"><span class="lineno">   45</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   46</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">long</span>&gt;(</div>
-<div class="line"><span class="lineno">   49</span>                name: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   50</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   51</span>                nullable: <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">   52</span>                oldClrType: typeof(<span class="keywordtype">long</span>));</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>            migrationBuilder.AddForeignKey(</div>
-<div class="line"><span class="lineno">   55</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   56</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   57</span>                column: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   58</span>                principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   59</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   60</span>                onDelete: ReferentialAction.Restrict);</div>
-<div class="line"><span class="lineno">   61</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20180926034014___m_y_reattach_compile_job_required_8cs_source.html#l00038">38</a> of file <a class="el" href="20180926034014___m_y_reattach_compile_job_required_8cs_source.html">20180926034014_MYReattachCompileJobRequired.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>        {</div>
+<div class="line"><span class="lineno">   40</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>            migrationBuilder.DropForeignKey(</div>
+<div class="line"><span class="lineno">   43</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   44</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">long</span>&gt;(</div>
+<div class="line"><span class="lineno">   47</span>                name: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   48</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   49</span>                nullable: <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">   50</span>                oldClrType: typeof(<span class="keywordtype">long</span>));</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>            migrationBuilder.AddForeignKey(</div>
+<div class="line"><span class="lineno">   53</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   54</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   55</span>                column: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   56</span>                principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   57</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   58</span>                onDelete: ReferentialAction.Restrict);</div>
+<div class="line"><span class="lineno">   59</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -861,28 +860,27 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20180926034014___m_y_reattach_compile_job_required_8cs_source.html#l00013">13</a> of file <a class="el" href="20180926034014___m_y_reattach_compile_job_required_8cs_source.html">20180926034014_MYReattachCompileJobRequired.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.DropForeignKey(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">long</span>&gt;(</div>
-<div class="line"><span class="lineno">   23</span>                name: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   24</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   25</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   26</span>                oldClrType: typeof(<span class="keywordtype">long</span>),</div>
-<div class="line"><span class="lineno">   27</span>                oldNullable: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   28</span> </div>
-<div class="line"><span class="lineno">   29</span>            migrationBuilder.AddForeignKey(</div>
-<div class="line"><span class="lineno">   30</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   31</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   32</span>                column: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
-<div class="line"><span class="lineno">   33</span>                principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   34</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
-<div class="line"><span class="lineno">   35</span>                onDelete: ReferentialAction.Cascade);</div>
-<div class="line"><span class="lineno">   36</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.DropForeignKey(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   21</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">long</span>&gt;(</div>
+<div class="line"><span class="lineno">   22</span>                name: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   23</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   24</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   25</span>                oldClrType: typeof(<span class="keywordtype">long</span>),</div>
+<div class="line"><span class="lineno">   26</span>                oldNullable: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   27</span> </div>
+<div class="line"><span class="lineno">   28</span>            migrationBuilder.AddForeignKey(</div>
+<div class="line"><span class="lineno">   29</span>                name: <span class="stringliteral">&quot;FK_ReattachInformations_CompileJobs_CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   30</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   31</span>                column: <span class="stringliteral">&quot;CompileJobId&quot;</span>,</div>
+<div class="line"><span class="lineno">   32</span>                principalTable: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   33</span>                principalColumn: <span class="stringliteral">&quot;Id&quot;</span>,</div>
+<div class="line"><span class="lineno">   34</span>                onDelete: ReferentialAction.Cascade);</div>
+<div class="line"><span class="lineno">   35</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

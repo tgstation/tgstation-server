@@ -1039,46 +1039,45 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20201222175532___s_l_add_swarm_identifer_8cs_source.html#l00035">35</a> of file <a class="el" href="20201222175532___s_l_add_swarm_identifer_8cs_source.html">20201222175532_SLAddSwarmIdentifer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>        {</div>
-<div class="line"><span class="lineno">   37</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   38</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   39</span> </div>
-<div class="line"><span class="lineno">   40</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   41</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   42</span>                newName: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>            migrationBuilder.CreateTable(</div>
-<div class="line"><span class="lineno">   45</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   46</span>                columns: table =&gt; <span class="keyword">new</span></div>
-<div class="line"><span class="lineno">   47</span>                {</div>
-<div class="line"><span class="lineno">   48</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   49</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
-<div class="line"><span class="lineno">   50</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   51</span>                    Path = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   52</span>                    Online = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   53</span>                    ConfigurationType = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   54</span>                    AutoUpdateInterval = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   55</span>                    ChatBotLimit = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   56</span>                },</div>
-<div class="line"><span class="lineno">   57</span>                constraints: table =&gt;</div>
-<div class="line"><span class="lineno">   58</span>                {</div>
-<div class="line"><span class="lineno">   59</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Instances&quot;</span>, x =&gt; x.Id);</div>
-<div class="line"><span class="lineno">   60</span>                });</div>
+<p class="definition">Definition at line <a class="el" href="20201222175532___s_l_add_swarm_identifer_8cs_source.html#l00034">34</a> of file <a class="el" href="20201222175532___s_l_add_swarm_identifer_8cs_source.html">20201222175532_SLAddSwarmIdentifer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
+<div class="line"><span class="lineno">   36</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   39</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   40</span>                newName: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>            migrationBuilder.CreateTable(</div>
+<div class="line"><span class="lineno">   43</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   44</span>                columns: table =&gt; <span class="keyword">new</span></div>
+<div class="line"><span class="lineno">   45</span>                {</div>
+<div class="line"><span class="lineno">   46</span>                    Id = table.Column&lt;<span class="keywordtype">long</span>&gt;(nullable: <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   47</span>                        .Annotation(<span class="stringliteral">&quot;Sqlite:Autoincrement&quot;</span>, <span class="keyword">true</span>),</div>
+<div class="line"><span class="lineno">   48</span>                    Name = table.Column&lt;<span class="keywordtype">string</span>&gt;(maxLength: 10000, nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   49</span>                    Path = table.Column&lt;<span class="keywordtype">string</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   50</span>                    Online = table.Column&lt;<span class="keywordtype">bool</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   51</span>                    ConfigurationType = table.Column&lt;<span class="keywordtype">int</span>&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   52</span>                    AutoUpdateInterval = table.Column&lt;uint&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   53</span>                    ChatBotLimit = table.Column&lt;ushort&gt;(nullable: <span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   54</span>                },</div>
+<div class="line"><span class="lineno">   55</span>                constraints: table =&gt;</div>
+<div class="line"><span class="lineno">   56</span>                {</div>
+<div class="line"><span class="lineno">   57</span>                    table.PrimaryKey(<span class="stringliteral">&quot;PK_Instances&quot;</span>, x =&gt; x.Id);</div>
+<div class="line"><span class="lineno">   58</span>                });</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>            migrationBuilder.Sql(<span class="stringliteral">&quot;INSERT INTO Instances (Id, Name, Path, Online, ConfigurationType, AutoUpdateInterval, ChatBotLimit) SELECT Id, Name, Path, Online, ConfigurationType, AutoUpdateInterval, ChatBotLimit FROM Instances_down&quot;</span>);</div>
 <div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>            migrationBuilder.Sql(<span class="stringliteral">&quot;INSERT INTO Instances (Id, Name, Path, Online, ConfigurationType, AutoUpdateInterval, ChatBotLimit) SELECT Id, Name, Path, Online, ConfigurationType, AutoUpdateInterval, ChatBotLimit FROM Instances_down&quot;</span>);</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>            migrationBuilder.DropTable(</div>
-<div class="line"><span class="lineno">   65</span>                name: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   68</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   69</span>                newName: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>            migrationBuilder.RenameTable(</div>
-<div class="line"><span class="lineno">   72</span>                name: <span class="stringliteral">&quot;Instances_down&quot;</span>,</div>
-<div class="line"><span class="lineno">   73</span>                newName: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
-<div class="line"><span class="lineno">   74</span>        }</div>
+<div class="line"><span class="lineno">   62</span>            migrationBuilder.DropTable(</div>
+<div class="line"><span class="lineno">   63</span>                name: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   66</span>                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   67</span>                newName: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>            migrationBuilder.RenameTable(</div>
+<div class="line"><span class="lineno">   70</span>                name: <span class="stringliteral">&quot;Instances_down&quot;</span>,</div>
+<div class="line"><span class="lineno">   71</span>                newName: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><span class="lineno">   72</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1110,24 +1109,23 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20201222175532___s_l_add_swarm_identifer_8cs_source.html#l00013">13</a> of file <a class="el" href="20201222175532___s_l_add_swarm_identifer_8cs_source.html">20201222175532_SLAddSwarmIdentifer.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.DropIndex(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;IX_Instances_Path&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><span class="lineno">   23</span>                name: <span class="stringliteral">&quot;SwarmIdentifer&quot;</span>,</div>
-<div class="line"><span class="lineno">   24</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   25</span>                nullable: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   26</span> </div>
-<div class="line"><span class="lineno">   27</span>            migrationBuilder.CreateIndex(</div>
-<div class="line"><span class="lineno">   28</span>                name: <span class="stringliteral">&quot;IX_Instances_Path_SwarmIdentifer&quot;</span>,</div>
-<div class="line"><span class="lineno">   29</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   30</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;Path&quot;</span>, <span class="stringliteral">&quot;SwarmIdentifer&quot;</span> },</div>
-<div class="line"><span class="lineno">   31</span>                unique: <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   32</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.DropIndex(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;IX_Instances_Path&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   21</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><span class="lineno">   22</span>                name: <span class="stringliteral">&quot;SwarmIdentifer&quot;</span>,</div>
+<div class="line"><span class="lineno">   23</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   24</span>                nullable: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   25</span> </div>
+<div class="line"><span class="lineno">   26</span>            migrationBuilder.CreateIndex(</div>
+<div class="line"><span class="lineno">   27</span>                name: <span class="stringliteral">&quot;IX_Instances_Path_SwarmIdentifer&quot;</span>,</div>
+<div class="line"><span class="lineno">   28</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   29</span>                columns: <span class="keyword">new</span>[] { <span class="stringliteral">&quot;Path&quot;</span>, <span class="stringliteral">&quot;SwarmIdentifer&quot;</span> },</div>
+<div class="line"><span class="lineno">   30</span>                unique: <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   31</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

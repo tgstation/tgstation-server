@@ -385,7 +385,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a391c960a162d0598c7ba751161dbe307">Tgstation.Server.Host.System.NativeMethods.EnumChildWindows()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00062">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.EnumWindow()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00159">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -437,25 +437,24 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00132">132</a> of file <a class="el" href="_windows_network_prompt_reaper_8cs_source.html">WindowsNetworkPromptReaper.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  133</span>        {</div>
-<div class="line"><span class="lineno">  134</span>            <span class="keywordflow">if</span> (process == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  135</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(process));</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>)</div>
-<div class="line"><span class="lineno">  138</span>            {</div>
-<div class="line"><span class="lineno">  139</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Contains(process))</div>
-<div class="line"><span class="lineno">  140</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;This process has already been registered for network prompt reaping!&quot;</span>);</div>
-<div class="line"><span class="lineno">  141</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Registering process {0}...&quot;</span>, process.Id);</div>
-<div class="line"><span class="lineno">  142</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Add(process);</div>
-<div class="line"><span class="lineno">  143</span>            }</div>
-<div class="line"><span class="lineno">  144</span> </div>
-<div class="line"><span class="lineno">  145</span>            process.Lifetime.ContinueWith(</div>
-<div class="line"><span class="lineno">  146</span>                x =&gt;</div>
-<div class="line"><span class="lineno">  147</span>            {</div>
-<div class="line"><span class="lineno">  148</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Unregistering process {0}...&quot;</span>, process.Id);</div>
-<div class="line"><span class="lineno">  149</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>)</div>
-<div class="line"><span class="lineno">  150</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Remove(process);</div>
-<div class="line"><span class="lineno">  151</span>            }, TaskScheduler.Current);</div>
-<div class="line"><span class="lineno">  152</span>        }</div>
+<div class="line"><span class="lineno">  134</span>            ArgumentNullException.ThrowIfNull(process);</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>)</div>
+<div class="line"><span class="lineno">  137</span>            {</div>
+<div class="line"><span class="lineno">  138</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Contains(process))</div>
+<div class="line"><span class="lineno">  139</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;This process has already been registered for network prompt reaping!&quot;</span>);</div>
+<div class="line"><span class="lineno">  140</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Registering process {0}...&quot;</span>, process.Id);</div>
+<div class="line"><span class="lineno">  141</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Add(process);</div>
+<div class="line"><span class="lineno">  142</span>            }</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>            process.Lifetime.ContinueWith(</div>
+<div class="line"><span class="lineno">  145</span>                x =&gt;</div>
+<div class="line"><span class="lineno">  146</span>            {</div>
+<div class="line"><span class="lineno">  147</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Unregistering process {0}...&quot;</span>, process.Id);</div>
+<div class="line"><span class="lineno">  148</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>)</div>
+<div class="line"><span class="lineno">  149</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Remove(process);</div>
+<div class="line"><span class="lineno">  150</span>            }, TaskScheduler.Current);</div>
+<div class="line"><span class="lineno">  151</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_i_process_8cs_source.html#l00015">Tgstation.Server.Host.System.IProcess.Id</a>, <a class="el" href="_i_process_base_8cs_source.html#l00014">Tgstation.Server.Host.System.IProcessBase.Lifetime</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00039">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.logger</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00049">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.registeredProcesses</a>.</p>
 
@@ -494,75 +493,75 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00159">159</a> of file <a class="el" href="_windows_network_prompt_reaper_8cs_source.html">WindowsNetworkPromptReaper.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  160</span>        {</div>
-<div class="line"><span class="lineno">  161</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogDebug(<span class="stringliteral">&quot;Starting network prompt reaper...&quot;</span>);</div>
-<div class="line"><span class="lineno">  162</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  163</span>            {</div>
-<div class="line"><span class="lineno">  164</span>                <span class="keywordflow">while</span> (!cancellationToken.IsCancellationRequested)</div>
-<div class="line"><span class="lineno">  165</span>                {</div>
-<div class="line"><span class="lineno">  166</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a0a1974764838ef42c9d2faa8dd8580b9">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(TimeSpan.FromMilliseconds(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#ab953db51ba254644353cb7cb4613a35b">RecheckDelayMs</a>), cancellationToken);</div>
-<div class="line"><span class="lineno">  167</span> </div>
-<div class="line"><span class="lineno">  168</span>                    IntPtr window;</div>
-<div class="line"><span class="lineno">  169</span>                    <span class="keywordtype">int</span> processId;</div>
-<div class="line"><span class="lineno">  170</span>                    lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>)</div>
-<div class="line"><span class="lineno">  171</span>                    {</div>
-<div class="line"><span class="lineno">  172</span>                        <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Count == 0)</div>
-<div class="line"><span class="lineno">  173</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>                        window = NativeMethods.FindWindow(<span class="keyword">null</span>, <span class="stringliteral">&quot;Network Accessibility&quot;</span>);</div>
-<div class="line"><span class="lineno">  176</span>                        <span class="keywordflow">if</span> (window == IntPtr.Zero)</div>
-<div class="line"><span class="lineno">  177</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  178</span> </div>
-<div class="line"><span class="lineno">  179</span>                        <span class="comment">// found a bitch</span></div>
-<div class="line"><span class="lineno">  180</span>                        var threadId = NativeMethods.GetWindowThreadProcessId(window, out processId);</div>
-<div class="line"><span class="lineno">  181</span>                        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Any(x =&gt; x.Id == processId))</div>
-<div class="line"><span class="lineno">  182</span>                            <span class="keywordflow">continue</span>; <span class="comment">// not our bitch</span></div>
-<div class="line"><span class="lineno">  183</span>                    }</div>
-<div class="line"><span class="lineno">  184</span> </div>
-<div class="line"><span class="lineno">  185</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Identified \&quot;Network Accessibility\&quot; window in owned process {0}&quot;</span>, processId);</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>                    var found = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  188</span>                    <span class="keywordflow">foreach</span> (var childHandle <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#adcd1b50a331c6d1876e3f91c1794d66e">GetAllChildHandles</a>(window))</div>
-<div class="line"><span class="lineno">  189</span>                    {</div>
-<div class="line"><span class="lineno">  190</span>                        <span class="keyword">const</span> <span class="keywordtype">int</span> MaxLength = 10;</div>
-<div class="line"><span class="lineno">  191</span>                        var stringBuilder = <span class="keyword">new</span> StringBuilder(MaxLength + 1);</div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>                        <span class="keywordflow">if</span> (NativeMethods.GetWindowText(childHandle, stringBuilder, MaxLength) == 0)</div>
-<div class="line"><span class="lineno">  194</span>                        {</div>
-<div class="line"><span class="lineno">  195</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogWarning(<span class="keyword">new</span> Win32Exception(), <span class="stringliteral">&quot;Error calling GetWindowText!&quot;</span>);</div>
-<div class="line"><span class="lineno">  196</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  197</span>                        }</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>                        var windowText = stringBuilder.ToString();</div>
-<div class="line"><span class="lineno">  200</span>                        <span class="keywordflow">if</span> (windowText == <span class="stringliteral">&quot;Yes&quot;</span>)</div>
-<div class="line"><span class="lineno">  201</span>                        {</div>
-<div class="line"><span class="lineno">  202</span>                            <span class="comment">// smash_button_meme.jpg</span></div>
-<div class="line"><span class="lineno">  203</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Sending \&quot;Yes\&quot; button clicks...&quot;</span>);</div>
-<div class="line"><span class="lineno">  204</span>                            <span class="keywordflow">for</span> (var iteration = 0; iteration &lt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a6c18ae3a8fda9fa9973b0a8a396328f4">SendMessageCount</a>; ++iteration)</div>
-<div class="line"><span class="lineno">  205</span>                            {</div>
-<div class="line"><span class="lineno">  206</span>                                <span class="keyword">const</span> <span class="keywordtype">int</span> BM_CLICK = 0x00F5;</div>
-<div class="line"><span class="lineno">  207</span>                                var result = NativeMethods.SendMessage(childHandle, BM_CLICK, IntPtr.Zero, IntPtr.Zero);</div>
-<div class="line"><span class="lineno">  208</span>                            }</div>
-<div class="line"><span class="lineno">  209</span> </div>
-<div class="line"><span class="lineno">  210</span>                            found = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  211</span>                            <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  212</span>                        }</div>
-<div class="line"><span class="lineno">  213</span>                    }</div>
-<div class="line"><span class="lineno">  214</span> </div>
-<div class="line"><span class="lineno">  215</span>                    <span class="keywordflow">if</span> (!found)</div>
-<div class="line"><span class="lineno">  216</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogDebug(<span class="stringliteral">&quot;Unable to find \&quot;Yes\&quot; button for \&quot;Network Accessibility\&quot; window in owned process {0}!&quot;</span>, processId);</div>
-<div class="line"><span class="lineno">  217</span>                }</div>
-<div class="line"><span class="lineno">  218</span>            }</div>
-<div class="line"><span class="lineno">  219</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
-<div class="line"><span class="lineno">  220</span>            {</div>
-<div class="line"><span class="lineno">  221</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Cancelled!&quot;</span>);</div>
-<div class="line"><span class="lineno">  222</span>            }</div>
-<div class="line"><span class="lineno">  223</span>            <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">  224</span>            {</div>
-<div class="line"><span class="lineno">  225</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogDebug(<span class="stringliteral">&quot;Exiting network prompt reaper...&quot;</span>);</div>
-<div class="line"><span class="lineno">  226</span>            }</div>
-<div class="line"><span class="lineno">  227</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">158</a> of file <a class="el" href="_windows_network_prompt_reaper_8cs_source.html">WindowsNetworkPromptReaper.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  159</span>        {</div>
+<div class="line"><span class="lineno">  160</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogDebug(<span class="stringliteral">&quot;Starting network prompt reaper...&quot;</span>);</div>
+<div class="line"><span class="lineno">  161</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  162</span>            {</div>
+<div class="line"><span class="lineno">  163</span>                <span class="keywordflow">while</span> (!cancellationToken.IsCancellationRequested)</div>
+<div class="line"><span class="lineno">  164</span>                {</div>
+<div class="line"><span class="lineno">  165</span>                    await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a0a1974764838ef42c9d2faa8dd8580b9">asyncDelayer</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(TimeSpan.FromMilliseconds(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#ab953db51ba254644353cb7cb4613a35b">RecheckDelayMs</a>), cancellationToken);</div>
+<div class="line"><span class="lineno">  166</span> </div>
+<div class="line"><span class="lineno">  167</span>                    IntPtr window;</div>
+<div class="line"><span class="lineno">  168</span>                    <span class="keywordtype">int</span> processId;</div>
+<div class="line"><span class="lineno">  169</span>                    lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>)</div>
+<div class="line"><span class="lineno">  170</span>                    {</div>
+<div class="line"><span class="lineno">  171</span>                        <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Count == 0)</div>
+<div class="line"><span class="lineno">  172</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>                        window = NativeMethods.FindWindow(<span class="keyword">null</span>, <span class="stringliteral">&quot;Network Accessibility&quot;</span>);</div>
+<div class="line"><span class="lineno">  175</span>                        <span class="keywordflow">if</span> (window == IntPtr.Zero)</div>
+<div class="line"><span class="lineno">  176</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>                        <span class="comment">// found a bitch</span></div>
+<div class="line"><span class="lineno">  179</span>                        var threadId = NativeMethods.GetWindowThreadProcessId(window, out processId);</div>
+<div class="line"><span class="lineno">  180</span>                        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afffde309e8027f1373df6c95393c643a">registeredProcesses</a>.Any(x =&gt; x.Id == processId))</div>
+<div class="line"><span class="lineno">  181</span>                            <span class="keywordflow">continue</span>; <span class="comment">// not our bitch</span></div>
+<div class="line"><span class="lineno">  182</span>                    }</div>
+<div class="line"><span class="lineno">  183</span> </div>
+<div class="line"><span class="lineno">  184</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Identified \&quot;Network Accessibility\&quot; window in owned process {0}&quot;</span>, processId);</div>
+<div class="line"><span class="lineno">  185</span> </div>
+<div class="line"><span class="lineno">  186</span>                    var found = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  187</span>                    <span class="keywordflow">foreach</span> (var childHandle <span class="keywordflow">in</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#adcd1b50a331c6d1876e3f91c1794d66e">GetAllChildHandles</a>(window))</div>
+<div class="line"><span class="lineno">  188</span>                    {</div>
+<div class="line"><span class="lineno">  189</span>                        <span class="keyword">const</span> <span class="keywordtype">int</span> MaxLength = 10;</div>
+<div class="line"><span class="lineno">  190</span>                        var stringBuilder = <span class="keyword">new</span> StringBuilder(MaxLength + 1);</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>                        <span class="keywordflow">if</span> (NativeMethods.GetWindowText(childHandle, stringBuilder, MaxLength) == 0)</div>
+<div class="line"><span class="lineno">  193</span>                        {</div>
+<div class="line"><span class="lineno">  194</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogWarning(<span class="keyword">new</span> Win32Exception(), <span class="stringliteral">&quot;Error calling GetWindowText!&quot;</span>);</div>
+<div class="line"><span class="lineno">  195</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  196</span>                        }</div>
+<div class="line"><span class="lineno">  197</span> </div>
+<div class="line"><span class="lineno">  198</span>                        var windowText = stringBuilder.ToString();</div>
+<div class="line"><span class="lineno">  199</span>                        <span class="keywordflow">if</span> (windowText == <span class="stringliteral">&quot;Yes&quot;</span>)</div>
+<div class="line"><span class="lineno">  200</span>                        {</div>
+<div class="line"><span class="lineno">  201</span>                            <span class="comment">// smash_button_meme.jpg</span></div>
+<div class="line"><span class="lineno">  202</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(<span class="stringliteral">&quot;Sending \&quot;Yes\&quot; button clicks...&quot;</span>);</div>
+<div class="line"><span class="lineno">  203</span>                            <span class="keywordflow">for</span> (var iteration = 0; iteration &lt; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a6c18ae3a8fda9fa9973b0a8a396328f4">SendMessageCount</a>; ++iteration)</div>
+<div class="line"><span class="lineno">  204</span>                            {</div>
+<div class="line"><span class="lineno">  205</span>                                <span class="keyword">const</span> <span class="keywordtype">int</span> BM_CLICK = 0x00F5;</div>
+<div class="line"><span class="lineno">  206</span>                                var result = NativeMethods.SendMessage(childHandle, BM_CLICK, IntPtr.Zero, IntPtr.Zero);</div>
+<div class="line"><span class="lineno">  207</span>                            }</div>
+<div class="line"><span class="lineno">  208</span> </div>
+<div class="line"><span class="lineno">  209</span>                            found = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  210</span>                            <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  211</span>                        }</div>
+<div class="line"><span class="lineno">  212</span>                    }</div>
+<div class="line"><span class="lineno">  213</span> </div>
+<div class="line"><span class="lineno">  214</span>                    <span class="keywordflow">if</span> (!found)</div>
+<div class="line"><span class="lineno">  215</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogDebug(<span class="stringliteral">&quot;Unable to find \&quot;Yes\&quot; button for \&quot;Network Accessibility\&quot; window in owned process {0}!&quot;</span>, processId);</div>
+<div class="line"><span class="lineno">  216</span>                }</div>
+<div class="line"><span class="lineno">  217</span>            }</div>
+<div class="line"><span class="lineno">  218</span>            <span class="keywordflow">catch</span> (OperationCanceledException ex)</div>
+<div class="line"><span class="lineno">  219</span>            {</div>
+<div class="line"><span class="lineno">  220</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogTrace(ex, <span class="stringliteral">&quot;Cancelled!&quot;</span>);</div>
+<div class="line"><span class="lineno">  221</span>            }</div>
+<div class="line"><span class="lineno">  222</span>            <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">  223</span>            {</div>
+<div class="line"><span class="lineno">  224</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a088a1b70d59e1bc6052f83a901e1930b">logger</a>.LogDebug(<span class="stringliteral">&quot;Exiting network prompt reaper...&quot;</span>);</div>
+<div class="line"><span class="lineno">  225</span>            }</div>
+<div class="line"><span class="lineno">  226</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_html_a6c18ae3a8fda9fa9973b0a8a396328f4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a6c18ae3a8fda9fa9973b0a8a396328f4">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.SendMessageCount</a></div><div class="ttdeci">const int SendMessageCount</div><div class="ttdoc">Number of times to send the button click message. Should be at least 2 or it may fail to focus the wi...</div><div class="ttdef"><b>Definition:</b> <a href="_windows_network_prompt_reaper_8cs_source.html#l00024">WindowsNetworkPromptReaper.cs:24</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_html_ab953db51ba254644353cb7cb4613a35b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#ab953db51ba254644353cb7cb4613a35b">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RecheckDelayMs</a></div><div class="ttdeci">const int RecheckDelayMs</div><div class="ttdoc">Check for prompts each time this amount of milliseconds pass.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_network_prompt_reaper_8cs_source.html#l00029">WindowsNetworkPromptReaper.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_html_adcd1b50a331c6d1876e3f91c1794d66e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#adcd1b50a331c6d1876e3f91c1794d66e">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.GetAllChildHandles</a></div><div class="ttdeci">static List&lt; IntPtr &gt; GetAllChildHandles(IntPtr mainWindow)</div><div class="ttdoc">Get all the child windows handles of a given mainWindow .</div><div class="ttdef"><b>Definition:</b> <a href="_windows_network_prompt_reaper_8cs_source.html#l00080">WindowsNetworkPromptReaper.cs:80</a></div></div>
@@ -622,10 +621,10 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  118</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afb100cbab0aa9560e4831bee360f9c0f">runTask</a> = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a5915daef37817261e058fd1d9251bd0a">Run</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a23cc7eb8e4b7ca1d16f8a3bbb220c8b8">cancellationTokenSource</a>.Token);</div>
 <div class="line"><span class="lineno">  119</span>            <span class="keywordflow">return</span> Task.CompletedTask;</div>
 <div class="line"><span class="lineno">  120</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_html_a5915daef37817261e058fd1d9251bd0a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a5915daef37817261e058fd1d9251bd0a">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run</a></div><div class="ttdeci">async Task Run(CancellationToken cancellationToken)</div><div class="ttdoc">Main loop for the WindowsNetworkPromptReaper.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_network_prompt_reaper_8cs_source.html#l00159">WindowsNetworkPromptReaper.cs:159</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_html_a5915daef37817261e058fd1d9251bd0a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a5915daef37817261e058fd1d9251bd0a">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run</a></div><div class="ttdeci">async Task Run(CancellationToken cancellationToken)</div><div class="ttdoc">Main loop for the WindowsNetworkPromptReaper.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_network_prompt_reaper_8cs_source.html#l00158">WindowsNetworkPromptReaper.cs:158</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper_html_afb100cbab0aa9560e4831bee360f9c0f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#afb100cbab0aa9560e4831bee360f9c0f">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.runTask</a></div><div class="ttdeci">Task runTask</div><div class="ttdoc">The Task representing the lifetime of the WindowsNetworkPromptReaper.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_network_prompt_reaper_8cs_source.html#l00054">WindowsNetworkPromptReaper.cs:54</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00044">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.cancellationTokenSource</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00159">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00054">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.runTask</a>.</p>
+<p class="reference">References <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00044">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.cancellationTokenSource</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00054">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.runTask</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -701,7 +700,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00034">34</a> of file <a class="el" href="_windows_network_prompt_reaper_8cs_source.html">WindowsNetworkPromptReaper.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00159">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00103">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.WindowsNetworkPromptReaper()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00103">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.WindowsNetworkPromptReaper()</a>.</p>
 
 </div>
 </div>
@@ -757,7 +756,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00039">39</a> of file <a class="el" href="_windows_network_prompt_reaper_8cs_source.html">WindowsNetworkPromptReaper.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00132">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00159">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00123">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.StopAsync()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00103">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.WindowsNetworkPromptReaper()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00132">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00123">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.StopAsync()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00103">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.WindowsNetworkPromptReaper()</a>.</p>
 
 </div>
 </div>
@@ -785,7 +784,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00029">29</a> of file <a class="el" href="_windows_network_prompt_reaper_8cs_source.html">WindowsNetworkPromptReaper.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00159">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>.</p>
 
 </div>
 </div>
@@ -813,7 +812,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00049">49</a> of file <a class="el" href="_windows_network_prompt_reaper_8cs_source.html">WindowsNetworkPromptReaper.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00132">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00159">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00123">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.StopAsync()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00103">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.WindowsNetworkPromptReaper()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00132">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00123">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.StopAsync()</a>, and <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00103">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.WindowsNetworkPromptReaper()</a>.</p>
 
 </div>
 </div>
@@ -869,7 +868,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00024">24</a> of file <a class="el" href="_windows_network_prompt_reaper_8cs_source.html">WindowsNetworkPromptReaper.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00159">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00158">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run()</a>.</p>
 
 </div>
 </div>

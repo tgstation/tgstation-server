@@ -88,38 +88,36 @@ $(function() {
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a3dcf25cb3db3c14da6d4e052eb1652e6">   13</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a3dcf25cb3db3c14da6d4e052eb1652e6">Up</a>(MigrationBuilder migrationBuilder)</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;Name&quot;</span>,</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                maxLength: 100,</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                oldClrType: typeof(<span class="keywordtype">string</span>),</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                oldType: <span class="stringliteral">&quot;character varying(10000)&quot;</span>,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                oldMaxLength: 10000);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a081062379730170cf61da9d0a380cbd5">   29</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a081062379730170cf61da9d0a380cbd5">Down</a>(MigrationBuilder migrationBuilder)</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                name: <span class="stringliteral">&quot;Name&quot;</span>,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                type: <span class="stringliteral">&quot;character varying(10000)&quot;</span>,</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                maxLength: 10000,</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                oldClrType: typeof(<span class="keywordtype">string</span>),</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                oldMaxLength: 100);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;Name&quot;</span>,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                maxLength: 100,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                oldClrType: typeof(<span class="keywordtype">string</span>),</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                oldType: <span class="stringliteral">&quot;character varying(10000)&quot;</span>,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                oldMaxLength: 10000);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        }</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a081062379730170cf61da9d0a380cbd5">   28</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a081062379730170cf61da9d0a380cbd5">Down</a>(MigrationBuilder migrationBuilder)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            migrationBuilder.AlterColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                name: <span class="stringliteral">&quot;Name&quot;</span>,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                type: <span class="stringliteral">&quot;character varying(10000)&quot;</span>,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                maxLength: 10000,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                oldClrType: typeof(<span class="keywordtype">string</span>),</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                oldMaxLength: 100);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
 <div class="ttc" id="aclass_migration_html"><div class="ttname"><a href="class_migration.html">Migration</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html">Tgstation.Server.Host.Database.Migrations.PGTruncateInstanceNames</a></div><div class="ttdoc">Reduces the index name column size for PostgresSQL.</div><div class="ttdef"><b>Definition:</b> <a href="20210211173407___p_g_truncate_instance_names_8cs_source.html#l00010">20210211173407_PGTruncateInstanceNames.cs:11</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names_html_a081062379730170cf61da9d0a380cbd5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a081062379730170cf61da9d0a380cbd5">Tgstation.Server.Host.Database.Migrations.PGTruncateInstanceNames.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20210211173407___p_g_truncate_instance_names_8cs_source.html#l00029">20210211173407_PGTruncateInstanceNames.cs:29</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names_html_a081062379730170cf61da9d0a380cbd5"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a081062379730170cf61da9d0a380cbd5">Tgstation.Server.Host.Database.Migrations.PGTruncateInstanceNames.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20210211173407___p_g_truncate_instance_names_8cs_source.html#l00028">20210211173407_PGTruncateInstanceNames.cs:28</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names_html_a3dcf25cb3db3c14da6d4e052eb1652e6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a3dcf25cb3db3c14da6d4e052eb1652e6">Tgstation.Server.Host.Database.Migrations.PGTruncateInstanceNames.Up</a></div><div class="ttdeci">override void Up(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20210211173407___p_g_truncate_instance_names_8cs_source.html#l00013">20210211173407_PGTruncateInstanceNames.cs:13</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations.html">Tgstation.Server.Host.Database.Migrations</a></div><div class="ttdef"><b>Definition:</b> <a href="20180906135553___m_s_initial_create_8cs_source.html#l00006">20180906135553_MSInitialCreate.cs:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

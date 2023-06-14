@@ -1058,19 +1058,18 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20210825163520___p_g_add_dream_daemon_visibility_8cs_source.html#l00032">32</a> of file <a class="el" href="20210825163520___p_g_add_dream_daemon_visibility_8cs_source.html">20210825163520_PGAddDreamDaemonVisibility.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>        {</div>
-<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   36</span> </div>
-<div class="line"><span class="lineno">   37</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   38</span>                name: <span class="stringliteral">&quot;LaunchVisibility&quot;</span>,</div>
-<div class="line"><span class="lineno">   39</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   42</span>                name: <span class="stringliteral">&quot;Visibility&quot;</span>,</div>
-<div class="line"><span class="lineno">   43</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   44</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20210825163520___p_g_add_dream_daemon_visibility_8cs_source.html#l00031">31</a> of file <a class="el" href="20210825163520___p_g_add_dream_daemon_visibility_8cs_source.html">20210825163520_PGAddDreamDaemonVisibility.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   32</span>        {</div>
+<div class="line"><span class="lineno">   33</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   34</span> </div>
+<div class="line"><span class="lineno">   35</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   36</span>                name: <span class="stringliteral">&quot;LaunchVisibility&quot;</span>,</div>
+<div class="line"><span class="lineno">   37</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>);</div>
+<div class="line"><span class="lineno">   38</span> </div>
+<div class="line"><span class="lineno">   39</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   40</span>                name: <span class="stringliteral">&quot;Visibility&quot;</span>,</div>
+<div class="line"><span class="lineno">   41</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   42</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1102,21 +1101,20 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20210825163520___p_g_add_dream_daemon_visibility_8cs_source.html#l00013">13</a> of file <a class="el" href="20210825163520___p_g_add_dream_daemon_visibility_8cs_source.html">20210825163520_PGAddDreamDaemonVisibility.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;LaunchVisibility&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
-<div class="line"><span class="lineno">   21</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   22</span>                defaultValue: 0);</div>
-<div class="line"><span class="lineno">   23</span> </div>
-<div class="line"><span class="lineno">   24</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   25</span>                name: <span class="stringliteral">&quot;Visibility&quot;</span>,</div>
-<div class="line"><span class="lineno">   26</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   27</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   28</span>                defaultValue: 0);</div>
-<div class="line"><span class="lineno">   29</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;LaunchVisibility&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;ReattachInformations&quot;</span>,</div>
+<div class="line"><span class="lineno">   20</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   21</span>                defaultValue: 0);</div>
+<div class="line"><span class="lineno">   22</span> </div>
+<div class="line"><span class="lineno">   23</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   24</span>                name: <span class="stringliteral">&quot;Visibility&quot;</span>,</div>
+<div class="line"><span class="lineno">   25</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   26</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   27</span>                defaultValue: 0);</div>
+<div class="line"><span class="lineno">   28</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

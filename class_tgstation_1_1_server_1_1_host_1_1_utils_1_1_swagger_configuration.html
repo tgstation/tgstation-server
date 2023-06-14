@@ -307,87 +307,85 @@ Static Private Attributes</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00459">459</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  460</span>        {</div>
-<div class="line"><span class="lineno">  461</span>            <span class="keywordflow">if</span> (swaggerDoc == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  462</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(swaggerDoc));</div>
-<div class="line"><span class="lineno">  463</span>            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  464</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
-<div class="line"><span class="lineno">  465</span> </div>
-<div class="line"><span class="lineno">  466</span>            swaggerDoc.ExternalDocs = <span class="keyword">new</span> OpenApiExternalDocs</div>
-<div class="line"><span class="lineno">  467</span>            {</div>
-<div class="line"><span class="lineno">  468</span>                Description = <span class="stringliteral">&quot;API Usage Documentation&quot;</span>,</div>
-<div class="line"><span class="lineno">  469</span>                Url = <span class="keyword">new</span> Uri(<span class="stringliteral">&quot;https://tgstation.github.io/tgstation-server/api.html&quot;</span>),</div>
-<div class="line"><span class="lineno">  470</span>            };</div>
-<div class="line"><span class="lineno">  471</span> </div>
-<div class="line"><span class="lineno">  472</span>            swaggerDoc.Components.Parameters.Add(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">InstanceIdHeader</a>, <span class="keyword">new</span> OpenApiParameter</div>
-<div class="line"><span class="lineno">  473</span>            {</div>
-<div class="line"><span class="lineno">  474</span>                In = ParameterLocation.Header,</div>
-<div class="line"><span class="lineno">  475</span>                Name = ApiHeaders.InstanceIdHeader,</div>
-<div class="line"><span class="lineno">  476</span>                Description = <span class="stringliteral">&quot;The instance ID being accessed&quot;</span>,</div>
-<div class="line"><span class="lineno">  477</span>                Required = true,</div>
-<div class="line"><span class="lineno">  478</span>                Style = ParameterStyle.Simple,</div>
-<div class="line"><span class="lineno">  479</span>                Schema = new OpenApiSchema</div>
-<div class="line"><span class="lineno">  480</span>                {</div>
-<div class="line"><span class="lineno">  481</span>                    Type = <span class="stringliteral">&quot;integer&quot;</span>,</div>
-<div class="line"><span class="lineno">  482</span>                },</div>
-<div class="line"><span class="lineno">  483</span>            });</div>
-<div class="line"><span class="lineno">  484</span> </div>
-<div class="line"><span class="lineno">  485</span>            var productHeaderSchema = <span class="keyword">new</span> OpenApiSchema</div>
-<div class="line"><span class="lineno">  486</span>            {</div>
-<div class="line"><span class="lineno">  487</span>                Type = <span class="stringliteral">&quot;string&quot;</span>,</div>
-<div class="line"><span class="lineno">  488</span>                Format = <span class="stringliteral">&quot;productheader&quot;</span>,</div>
-<div class="line"><span class="lineno">  489</span>            };</div>
-<div class="line"><span class="lineno">  490</span> </div>
-<div class="line"><span class="lineno">  491</span>            swaggerDoc.Components.Parameters.Add(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>, <span class="keyword">new</span> OpenApiParameter</div>
-<div class="line"><span class="lineno">  492</span>            {</div>
-<div class="line"><span class="lineno">  493</span>                In = ParameterLocation.Header,</div>
-<div class="line"><span class="lineno">  494</span>                Name = ApiHeaders.ApiVersionHeader,</div>
-<div class="line"><span class="lineno">  495</span>                Description = <span class="stringliteral">&quot;The API version being used in the form \&quot;Tgstation.Server.Api/[API version]\&quot;&quot;</span>,</div>
-<div class="line"><span class="lineno">  496</span>                Required = true,</div>
-<div class="line"><span class="lineno">  497</span>                Style = ParameterStyle.Simple,</div>
-<div class="line"><span class="lineno">  498</span>                Example = new OpenApiString($<span class="stringliteral">&quot;Tgstation.Server.Api/{ApiHeaders.Version}&quot;</span>),</div>
-<div class="line"><span class="lineno">  499</span>                Schema = productHeaderSchema,</div>
-<div class="line"><span class="lineno">  500</span>            });</div>
-<div class="line"><span class="lineno">  501</span> </div>
-<div class="line"><span class="lineno">  502</span>            swaggerDoc.Components.Parameters.Add(HeaderNames.UserAgent, <span class="keyword">new</span> OpenApiParameter</div>
-<div class="line"><span class="lineno">  503</span>            {</div>
-<div class="line"><span class="lineno">  504</span>                In = ParameterLocation.Header,</div>
-<div class="line"><span class="lineno">  505</span>                Name = HeaderNames.UserAgent,</div>
-<div class="line"><span class="lineno">  506</span>                Description = <span class="stringliteral">&quot;The user agent of the calling client.&quot;</span>,</div>
-<div class="line"><span class="lineno">  507</span>                Required = true,</div>
-<div class="line"><span class="lineno">  508</span>                Style = ParameterStyle.Simple,</div>
-<div class="line"><span class="lineno">  509</span>                Example = new OpenApiString(<span class="stringliteral">&quot;Your-user-agent/1.0.0.0&quot;</span>),</div>
-<div class="line"><span class="lineno">  510</span>                Schema = productHeaderSchema,</div>
-<div class="line"><span class="lineno">  511</span>            });</div>
-<div class="line"><span class="lineno">  512</span> </div>
-<div class="line"><span class="lineno">  513</span>            var allSchemas = context</div>
-<div class="line"><span class="lineno">  514</span>                .SchemaRepository</div>
-<div class="line"><span class="lineno">  515</span>                .Schemas;</div>
-<div class="line"><span class="lineno">  516</span>            <span class="keywordflow">foreach</span> (var path <span class="keywordflow">in</span> swaggerDoc.Paths)</div>
-<div class="line"><span class="lineno">  517</span>                <span class="keywordflow">foreach</span> (var operation <span class="keywordflow">in</span> path.Value.Operations.Select(x =&gt; x.Value))</div>
-<div class="line"><span class="lineno">  518</span>                {</div>
-<div class="line"><span class="lineno">  519</span>                    operation.Parameters.Insert(0, <span class="keyword">new</span> OpenApiParameter</div>
-<div class="line"><span class="lineno">  520</span>                    {</div>
-<div class="line"><span class="lineno">  521</span>                        Reference = <span class="keyword">new</span> OpenApiReference</div>
-<div class="line"><span class="lineno">  522</span>                        {</div>
-<div class="line"><span class="lineno">  523</span>                            Type = ReferenceType.Parameter,</div>
-<div class="line"><span class="lineno">  524</span>                            Id = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>,</div>
-<div class="line"><span class="lineno">  525</span>                        },</div>
-<div class="line"><span class="lineno">  526</span>                    });</div>
-<div class="line"><span class="lineno">  527</span> </div>
-<div class="line"><span class="lineno">  528</span>                    operation.Parameters.Insert(1, <span class="keyword">new</span> OpenApiParameter</div>
-<div class="line"><span class="lineno">  529</span>                    {</div>
-<div class="line"><span class="lineno">  530</span>                        Reference = <span class="keyword">new</span> OpenApiReference</div>
-<div class="line"><span class="lineno">  531</span>                        {</div>
-<div class="line"><span class="lineno">  532</span>                            Type = ReferenceType.Parameter,</div>
-<div class="line"><span class="lineno">  533</span>                            Id = HeaderNames.UserAgent,</div>
-<div class="line"><span class="lineno">  534</span>                        },</div>
-<div class="line"><span class="lineno">  535</span>                    });</div>
-<div class="line"><span class="lineno">  536</span>                }</div>
-<div class="line"><span class="lineno">  537</span> </div>
-<div class="line"><span class="lineno">  538</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ac7c84669ba2400c1673cba025f275fb9">AddDefaultResponses</a>(swaggerDoc);</div>
-<div class="line"><span class="lineno">  539</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00457">457</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  458</span>        {</div>
+<div class="line"><span class="lineno">  459</span>            ArgumentNullException.ThrowIfNull(swaggerDoc);</div>
+<div class="line"><span class="lineno">  460</span>            ArgumentNullException.ThrowIfNull(context);</div>
+<div class="line"><span class="lineno">  461</span> </div>
+<div class="line"><span class="lineno">  462</span>            swaggerDoc.ExternalDocs = <span class="keyword">new</span> OpenApiExternalDocs</div>
+<div class="line"><span class="lineno">  463</span>            {</div>
+<div class="line"><span class="lineno">  464</span>                Description = <span class="stringliteral">&quot;API Usage Documentation&quot;</span>,</div>
+<div class="line"><span class="lineno">  465</span>                Url = <span class="keyword">new</span> Uri(<span class="stringliteral">&quot;https://tgstation.github.io/tgstation-server/api.html&quot;</span>),</div>
+<div class="line"><span class="lineno">  466</span>            };</div>
+<div class="line"><span class="lineno">  467</span> </div>
+<div class="line"><span class="lineno">  468</span>            swaggerDoc.Components.Parameters.Add(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">InstanceIdHeader</a>, <span class="keyword">new</span> OpenApiParameter</div>
+<div class="line"><span class="lineno">  469</span>            {</div>
+<div class="line"><span class="lineno">  470</span>                In = ParameterLocation.Header,</div>
+<div class="line"><span class="lineno">  471</span>                Name = ApiHeaders.InstanceIdHeader,</div>
+<div class="line"><span class="lineno">  472</span>                Description = <span class="stringliteral">&quot;The instance ID being accessed&quot;</span>,</div>
+<div class="line"><span class="lineno">  473</span>                Required = true,</div>
+<div class="line"><span class="lineno">  474</span>                Style = ParameterStyle.Simple,</div>
+<div class="line"><span class="lineno">  475</span>                Schema = new OpenApiSchema</div>
+<div class="line"><span class="lineno">  476</span>                {</div>
+<div class="line"><span class="lineno">  477</span>                    Type = <span class="stringliteral">&quot;integer&quot;</span>,</div>
+<div class="line"><span class="lineno">  478</span>                },</div>
+<div class="line"><span class="lineno">  479</span>            });</div>
+<div class="line"><span class="lineno">  480</span> </div>
+<div class="line"><span class="lineno">  481</span>            var productHeaderSchema = <span class="keyword">new</span> OpenApiSchema</div>
+<div class="line"><span class="lineno">  482</span>            {</div>
+<div class="line"><span class="lineno">  483</span>                Type = <span class="stringliteral">&quot;string&quot;</span>,</div>
+<div class="line"><span class="lineno">  484</span>                Format = <span class="stringliteral">&quot;productheader&quot;</span>,</div>
+<div class="line"><span class="lineno">  485</span>            };</div>
+<div class="line"><span class="lineno">  486</span> </div>
+<div class="line"><span class="lineno">  487</span>            swaggerDoc.Components.Parameters.Add(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>, <span class="keyword">new</span> OpenApiParameter</div>
+<div class="line"><span class="lineno">  488</span>            {</div>
+<div class="line"><span class="lineno">  489</span>                In = ParameterLocation.Header,</div>
+<div class="line"><span class="lineno">  490</span>                Name = ApiHeaders.ApiVersionHeader,</div>
+<div class="line"><span class="lineno">  491</span>                Description = <span class="stringliteral">&quot;The API version being used in the form \&quot;Tgstation.Server.Api/[API version]\&quot;&quot;</span>,</div>
+<div class="line"><span class="lineno">  492</span>                Required = true,</div>
+<div class="line"><span class="lineno">  493</span>                Style = ParameterStyle.Simple,</div>
+<div class="line"><span class="lineno">  494</span>                Example = new OpenApiString($<span class="stringliteral">&quot;Tgstation.Server.Api/{ApiHeaders.Version}&quot;</span>),</div>
+<div class="line"><span class="lineno">  495</span>                Schema = productHeaderSchema,</div>
+<div class="line"><span class="lineno">  496</span>            });</div>
+<div class="line"><span class="lineno">  497</span> </div>
+<div class="line"><span class="lineno">  498</span>            swaggerDoc.Components.Parameters.Add(HeaderNames.UserAgent, <span class="keyword">new</span> OpenApiParameter</div>
+<div class="line"><span class="lineno">  499</span>            {</div>
+<div class="line"><span class="lineno">  500</span>                In = ParameterLocation.Header,</div>
+<div class="line"><span class="lineno">  501</span>                Name = HeaderNames.UserAgent,</div>
+<div class="line"><span class="lineno">  502</span>                Description = <span class="stringliteral">&quot;The user agent of the calling client.&quot;</span>,</div>
+<div class="line"><span class="lineno">  503</span>                Required = true,</div>
+<div class="line"><span class="lineno">  504</span>                Style = ParameterStyle.Simple,</div>
+<div class="line"><span class="lineno">  505</span>                Example = new OpenApiString(<span class="stringliteral">&quot;Your-user-agent/1.0.0.0&quot;</span>),</div>
+<div class="line"><span class="lineno">  506</span>                Schema = productHeaderSchema,</div>
+<div class="line"><span class="lineno">  507</span>            });</div>
+<div class="line"><span class="lineno">  508</span> </div>
+<div class="line"><span class="lineno">  509</span>            var allSchemas = context</div>
+<div class="line"><span class="lineno">  510</span>                .SchemaRepository</div>
+<div class="line"><span class="lineno">  511</span>                .Schemas;</div>
+<div class="line"><span class="lineno">  512</span>            <span class="keywordflow">foreach</span> (var path <span class="keywordflow">in</span> swaggerDoc.Paths)</div>
+<div class="line"><span class="lineno">  513</span>                <span class="keywordflow">foreach</span> (var operation <span class="keywordflow">in</span> path.Value.Operations.Select(x =&gt; x.Value))</div>
+<div class="line"><span class="lineno">  514</span>                {</div>
+<div class="line"><span class="lineno">  515</span>                    operation.Parameters.Insert(0, <span class="keyword">new</span> OpenApiParameter</div>
+<div class="line"><span class="lineno">  516</span>                    {</div>
+<div class="line"><span class="lineno">  517</span>                        Reference = <span class="keyword">new</span> OpenApiReference</div>
+<div class="line"><span class="lineno">  518</span>                        {</div>
+<div class="line"><span class="lineno">  519</span>                            Type = ReferenceType.Parameter,</div>
+<div class="line"><span class="lineno">  520</span>                            Id = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>,</div>
+<div class="line"><span class="lineno">  521</span>                        },</div>
+<div class="line"><span class="lineno">  522</span>                    });</div>
+<div class="line"><span class="lineno">  523</span> </div>
+<div class="line"><span class="lineno">  524</span>                    operation.Parameters.Insert(1, <span class="keyword">new</span> OpenApiParameter</div>
+<div class="line"><span class="lineno">  525</span>                    {</div>
+<div class="line"><span class="lineno">  526</span>                        Reference = <span class="keyword">new</span> OpenApiReference</div>
+<div class="line"><span class="lineno">  527</span>                        {</div>
+<div class="line"><span class="lineno">  528</span>                            Type = ReferenceType.Parameter,</div>
+<div class="line"><span class="lineno">  529</span>                            Id = HeaderNames.UserAgent,</div>
+<div class="line"><span class="lineno">  530</span>                        },</div>
+<div class="line"><span class="lineno">  531</span>                    });</div>
+<div class="line"><span class="lineno">  532</span>                }</div>
+<div class="line"><span class="lineno">  533</span> </div>
+<div class="line"><span class="lineno">  534</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ac7c84669ba2400c1673cba025f275fb9">AddDefaultResponses</a>(swaggerDoc);</div>
+<div class="line"><span class="lineno">  535</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a></div><div class="ttdoc">Represents the header that must be present for every server request.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00021">ApiHeaders.cs:22</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a28f94492eb21542e63675a53d871e3ef"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">Tgstation.Server.Api.ApiHeaders.InstanceIdHeader</a></div><div class="ttdeci">const string InstanceIdHeader</div><div class="ttdoc">The InstanceId header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00031">ApiHeaders.cs:31</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a99649cb8fbf286c635b109e8373b415e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">Tgstation.Server.Api.ApiHeaders.ApiVersionHeader</a></div><div class="ttdeci">const string ApiVersionHeader</div><div class="ttdoc">The ApiVersion header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00026">ApiHeaders.cs:26</a></div></div>
@@ -427,130 +425,128 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00331">331</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  332</span>        {</div>
-<div class="line"><span class="lineno">  333</span>            <span class="keywordflow">if</span> (operation == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  334</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(operation));</div>
-<div class="line"><span class="lineno">  335</span>            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  336</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
+<div class="line"><span class="lineno">  333</span>            ArgumentNullException.ThrowIfNull(operation);</div>
+<div class="line"><span class="lineno">  334</span>            ArgumentNullException.ThrowIfNull(context);</div>
+<div class="line"><span class="lineno">  335</span> </div>
+<div class="line"><span class="lineno">  336</span>            operation.OperationId = $<span class="stringliteral">&quot;{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}&quot;</span>;</div>
 <div class="line"><span class="lineno">  337</span> </div>
-<div class="line"><span class="lineno">  338</span>            operation.OperationId = $<span class="stringliteral">&quot;{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}&quot;</span>;</div>
-<div class="line"><span class="lineno">  339</span> </div>
-<div class="line"><span class="lineno">  340</span>            var authAttributes = context</div>
-<div class="line"><span class="lineno">  341</span>                .MethodInfo</div>
-<div class="line"><span class="lineno">  342</span>                .DeclaringType</div>
-<div class="line"><span class="lineno">  343</span>                .GetCustomAttributes(<span class="keyword">true</span>)</div>
-<div class="line"><span class="lineno">  344</span>                .Union(</div>
-<div class="line"><span class="lineno">  345</span>                    context</div>
-<div class="line"><span class="lineno">  346</span>                    .MethodInfo</div>
-<div class="line"><span class="lineno">  347</span>                    .GetCustomAttributes(<span class="keyword">true</span>))</div>
-<div class="line"><span class="lineno">  348</span>                    .OfType&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_authorize_attribute.html">TgsAuthorizeAttribute</a>&gt;();</div>
-<div class="line"><span class="lineno">  349</span> </div>
-<div class="line"><span class="lineno">  350</span>            <span class="keywordflow">if</span> (authAttributes.Any())</div>
-<div class="line"><span class="lineno">  351</span>            {</div>
-<div class="line"><span class="lineno">  352</span>                var tokenScheme = <span class="keyword">new</span> OpenApiSecurityScheme</div>
-<div class="line"><span class="lineno">  353</span>                {</div>
-<div class="line"><span class="lineno">  354</span>                    Reference = <span class="keyword">new</span> OpenApiReference</div>
-<div class="line"><span class="lineno">  355</span>                    {</div>
-<div class="line"><span class="lineno">  356</span>                        Type = ReferenceType.SecurityScheme,</div>
-<div class="line"><span class="lineno">  357</span>                        Id = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a8a92a78cf700a1637e98689dd8afa7f4">TokenSecuritySchemeId</a>,</div>
-<div class="line"><span class="lineno">  358</span>                    },</div>
-<div class="line"><span class="lineno">  359</span>                };</div>
-<div class="line"><span class="lineno">  360</span> </div>
-<div class="line"><span class="lineno">  361</span>                operation.Security = <span class="keyword">new</span> List&lt;OpenApiSecurityRequirement&gt;</div>
-<div class="line"><span class="lineno">  362</span>                {</div>
-<div class="line"><span class="lineno">  363</span>                    <span class="keyword">new</span> OpenApiSecurityRequirement</div>
-<div class="line"><span class="lineno">  364</span>                    {</div>
-<div class="line"><span class="lineno">  365</span>                        {</div>
-<div class="line"><span class="lineno">  366</span>                            tokenScheme,</div>
-<div class="line"><span class="lineno">  367</span>                            <span class="keyword">new</span> List&lt;string&gt;()</div>
-<div class="line"><span class="lineno">  368</span>                        },</div>
-<div class="line"><span class="lineno">  369</span>                    },</div>
-<div class="line"><span class="lineno">  370</span>                };</div>
-<div class="line"><span class="lineno">  371</span> </div>
-<div class="line"><span class="lineno">  372</span>                <span class="keywordflow">if</span> (typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html">InstanceRequiredController</a>).IsAssignableFrom(context.MethodInfo.DeclaringType))</div>
-<div class="line"><span class="lineno">  373</span>                    operation.Parameters.Insert(0, <span class="keyword">new</span> OpenApiParameter</div>
-<div class="line"><span class="lineno">  374</span>                    {</div>
-<div class="line"><span class="lineno">  375</span>                        Reference = <span class="keyword">new</span> OpenApiReference</div>
-<div class="line"><span class="lineno">  376</span>                        {</div>
-<div class="line"><span class="lineno">  377</span>                            Type = ReferenceType.Parameter,</div>
-<div class="line"><span class="lineno">  378</span>                            Id = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">InstanceIdHeader</a>,</div>
-<div class="line"><span class="lineno">  379</span>                        },</div>
-<div class="line"><span class="lineno">  380</span>                    });</div>
-<div class="line"><span class="lineno">  381</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html">TransferController</a>).IsAssignableFrom(context.MethodInfo.DeclaringType))</div>
-<div class="line"><span class="lineno">  382</span>                    <span class="keywordflow">if</span> (context.MethodInfo.Name == nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html">TransferController</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#aadcdad2c36f87a65da9bf3750190df21">Upload</a>))</div>
-<div class="line"><span class="lineno">  383</span>                        operation.RequestBody = <span class="keyword">new</span> OpenApiRequestBody</div>
-<div class="line"><span class="lineno">  384</span>                        {</div>
-<div class="line"><span class="lineno">  385</span>                            Content = <span class="keyword">new</span> Dictionary&lt;string, OpenApiMediaType&gt;</div>
-<div class="line"><span class="lineno">  386</span>                            {</div>
-<div class="line"><span class="lineno">  387</span>                                {</div>
-<div class="line"><span class="lineno">  388</span>                                    MediaTypeNames.Application.Octet,</div>
-<div class="line"><span class="lineno">  389</span>                                    <span class="keyword">new</span> OpenApiMediaType</div>
-<div class="line"><span class="lineno">  390</span>                                    {</div>
-<div class="line"><span class="lineno">  391</span>                                        Schema = <span class="keyword">new</span> OpenApiSchema</div>
-<div class="line"><span class="lineno">  392</span>                                        {</div>
-<div class="line"><span class="lineno">  393</span>                                            Type = <span class="stringliteral">&quot;string&quot;</span>,</div>
-<div class="line"><span class="lineno">  394</span>                                            Format = <span class="stringliteral">&quot;binary&quot;</span>,</div>
-<div class="line"><span class="lineno">  395</span>                                        },</div>
-<div class="line"><span class="lineno">  396</span>                                    }</div>
-<div class="line"><span class="lineno">  397</span>                                },</div>
-<div class="line"><span class="lineno">  398</span>                            },</div>
-<div class="line"><span class="lineno">  399</span>                        };</div>
-<div class="line"><span class="lineno">  400</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (context.MethodInfo.Name == nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html">TransferController</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a0dd496cde9d13e0cb262fbf5986b7930">Download</a>))</div>
-<div class="line"><span class="lineno">  401</span>                    {</div>
-<div class="line"><span class="lineno">  402</span>                        var twoHundredResponseContents = operation.Responses[<span class="stringliteral">&quot;200&quot;</span>].Content;</div>
-<div class="line"><span class="lineno">  403</span>                        var fileContent = twoHundredResponseContents[MediaTypeNames.Application.Json];</div>
-<div class="line"><span class="lineno">  404</span>                        twoHundredResponseContents.Remove(MediaTypeNames.Application.Json);</div>
-<div class="line"><span class="lineno">  405</span>                        twoHundredResponseContents.Add(MediaTypeNames.Application.Octet, fileContent);</div>
-<div class="line"><span class="lineno">  406</span>                    }</div>
-<div class="line"><span class="lineno">  407</span>            }</div>
-<div class="line"><span class="lineno">  408</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (context.MethodInfo.Name == nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html">HomeController</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a67855ece28f07fcb4c4a67e06500d8d3">CreateToken</a>))</div>
-<div class="line"><span class="lineno">  409</span>            {</div>
-<div class="line"><span class="lineno">  410</span>                var passwordScheme = <span class="keyword">new</span> OpenApiSecurityScheme</div>
-<div class="line"><span class="lineno">  411</span>                {</div>
-<div class="line"><span class="lineno">  412</span>                    Reference = <span class="keyword">new</span> OpenApiReference</div>
-<div class="line"><span class="lineno">  413</span>                    {</div>
-<div class="line"><span class="lineno">  414</span>                        Type = ReferenceType.SecurityScheme,</div>
-<div class="line"><span class="lineno">  415</span>                        Id = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a7c7e4acf655dff5060d09fe3a10a035a">PasswordSecuritySchemeId</a>,</div>
-<div class="line"><span class="lineno">  416</span>                    },</div>
-<div class="line"><span class="lineno">  417</span>                };</div>
-<div class="line"><span class="lineno">  418</span> </div>
-<div class="line"><span class="lineno">  419</span>                var oAuthScheme = <span class="keyword">new</span> OpenApiSecurityScheme</div>
-<div class="line"><span class="lineno">  420</span>                {</div>
-<div class="line"><span class="lineno">  421</span>                    Reference = <span class="keyword">new</span> OpenApiReference</div>
-<div class="line"><span class="lineno">  422</span>                    {</div>
-<div class="line"><span class="lineno">  423</span>                        Type = ReferenceType.SecurityScheme,</div>
-<div class="line"><span class="lineno">  424</span>                        Id = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a490cbcecb61148a88e5f8c4f4043cee1">OAuthSecuritySchemeId</a>,</div>
-<div class="line"><span class="lineno">  425</span>                    },</div>
-<div class="line"><span class="lineno">  426</span>                };</div>
-<div class="line"><span class="lineno">  427</span> </div>
-<div class="line"><span class="lineno">  428</span>                operation.Parameters.Add(<span class="keyword">new</span> OpenApiParameter</div>
-<div class="line"><span class="lineno">  429</span>                {</div>
-<div class="line"><span class="lineno">  430</span>                    In = ParameterLocation.Header,</div>
-<div class="line"><span class="lineno">  431</span>                    Name = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">OAuthProviderHeader</a>,</div>
-<div class="line"><span class="lineno">  432</span>                    Description = <span class="stringliteral">&quot;The external OAuth service provider.&quot;</span>,</div>
-<div class="line"><span class="lineno">  433</span>                    Style = ParameterStyle.Simple,</div>
-<div class="line"><span class="lineno">  434</span>                    Example = <span class="keyword">new</span> OpenApiString(<span class="stringliteral">&quot;Discord&quot;</span>),</div>
-<div class="line"><span class="lineno">  435</span>                    Schema = <span class="keyword">new</span> OpenApiSchema</div>
-<div class="line"><span class="lineno">  436</span>                    {</div>
-<div class="line"><span class="lineno">  437</span>                        Type = <span class="stringliteral">&quot;string&quot;</span>,</div>
-<div class="line"><span class="lineno">  438</span>                    },</div>
-<div class="line"><span class="lineno">  439</span>                });</div>
-<div class="line"><span class="lineno">  440</span> </div>
-<div class="line"><span class="lineno">  441</span>                operation.Security = <span class="keyword">new</span> List&lt;OpenApiSecurityRequirement&gt;</div>
-<div class="line"><span class="lineno">  442</span>                {</div>
-<div class="line"><span class="lineno">  443</span>                    <span class="keyword">new</span> OpenApiSecurityRequirement</div>
-<div class="line"><span class="lineno">  444</span>                    {</div>
-<div class="line"><span class="lineno">  445</span>                        {</div>
-<div class="line"><span class="lineno">  446</span>                            passwordScheme,</div>
-<div class="line"><span class="lineno">  447</span>                            <span class="keyword">new</span> List&lt;string&gt;()</div>
-<div class="line"><span class="lineno">  448</span>                        },</div>
-<div class="line"><span class="lineno">  449</span>                        {</div>
-<div class="line"><span class="lineno">  450</span>                            oAuthScheme,</div>
-<div class="line"><span class="lineno">  451</span>                            <span class="keyword">new</span> List&lt;string&gt;()</div>
-<div class="line"><span class="lineno">  452</span>                        },</div>
-<div class="line"><span class="lineno">  453</span>                    },</div>
-<div class="line"><span class="lineno">  454</span>                };</div>
-<div class="line"><span class="lineno">  455</span>            }</div>
-<div class="line"><span class="lineno">  456</span>        }</div>
+<div class="line"><span class="lineno">  338</span>            var authAttributes = context</div>
+<div class="line"><span class="lineno">  339</span>                .MethodInfo</div>
+<div class="line"><span class="lineno">  340</span>                .DeclaringType</div>
+<div class="line"><span class="lineno">  341</span>                .GetCustomAttributes(<span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">  342</span>                .Union(</div>
+<div class="line"><span class="lineno">  343</span>                    context</div>
+<div class="line"><span class="lineno">  344</span>                    .MethodInfo</div>
+<div class="line"><span class="lineno">  345</span>                    .GetCustomAttributes(<span class="keyword">true</span>))</div>
+<div class="line"><span class="lineno">  346</span>                    .OfType&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_authorize_attribute.html">TgsAuthorizeAttribute</a>&gt;();</div>
+<div class="line"><span class="lineno">  347</span> </div>
+<div class="line"><span class="lineno">  348</span>            <span class="keywordflow">if</span> (authAttributes.Any())</div>
+<div class="line"><span class="lineno">  349</span>            {</div>
+<div class="line"><span class="lineno">  350</span>                var tokenScheme = <span class="keyword">new</span> OpenApiSecurityScheme</div>
+<div class="line"><span class="lineno">  351</span>                {</div>
+<div class="line"><span class="lineno">  352</span>                    Reference = <span class="keyword">new</span> OpenApiReference</div>
+<div class="line"><span class="lineno">  353</span>                    {</div>
+<div class="line"><span class="lineno">  354</span>                        Type = ReferenceType.SecurityScheme,</div>
+<div class="line"><span class="lineno">  355</span>                        Id = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a8a92a78cf700a1637e98689dd8afa7f4">TokenSecuritySchemeId</a>,</div>
+<div class="line"><span class="lineno">  356</span>                    },</div>
+<div class="line"><span class="lineno">  357</span>                };</div>
+<div class="line"><span class="lineno">  358</span> </div>
+<div class="line"><span class="lineno">  359</span>                operation.Security = <span class="keyword">new</span> List&lt;OpenApiSecurityRequirement&gt;</div>
+<div class="line"><span class="lineno">  360</span>                {</div>
+<div class="line"><span class="lineno">  361</span>                    <span class="keyword">new</span> OpenApiSecurityRequirement</div>
+<div class="line"><span class="lineno">  362</span>                    {</div>
+<div class="line"><span class="lineno">  363</span>                        {</div>
+<div class="line"><span class="lineno">  364</span>                            tokenScheme,</div>
+<div class="line"><span class="lineno">  365</span>                            <span class="keyword">new</span> List&lt;string&gt;()</div>
+<div class="line"><span class="lineno">  366</span>                        },</div>
+<div class="line"><span class="lineno">  367</span>                    },</div>
+<div class="line"><span class="lineno">  368</span>                };</div>
+<div class="line"><span class="lineno">  369</span> </div>
+<div class="line"><span class="lineno">  370</span>                <span class="keywordflow">if</span> (typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html">InstanceRequiredController</a>).IsAssignableFrom(context.MethodInfo.DeclaringType))</div>
+<div class="line"><span class="lineno">  371</span>                    operation.Parameters.Insert(0, <span class="keyword">new</span> OpenApiParameter</div>
+<div class="line"><span class="lineno">  372</span>                    {</div>
+<div class="line"><span class="lineno">  373</span>                        Reference = <span class="keyword">new</span> OpenApiReference</div>
+<div class="line"><span class="lineno">  374</span>                        {</div>
+<div class="line"><span class="lineno">  375</span>                            Type = ReferenceType.Parameter,</div>
+<div class="line"><span class="lineno">  376</span>                            Id = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">InstanceIdHeader</a>,</div>
+<div class="line"><span class="lineno">  377</span>                        },</div>
+<div class="line"><span class="lineno">  378</span>                    });</div>
+<div class="line"><span class="lineno">  379</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (typeof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html">TransferController</a>).IsAssignableFrom(context.MethodInfo.DeclaringType))</div>
+<div class="line"><span class="lineno">  380</span>                    <span class="keywordflow">if</span> (context.MethodInfo.Name == nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html">TransferController</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#aadcdad2c36f87a65da9bf3750190df21">Upload</a>))</div>
+<div class="line"><span class="lineno">  381</span>                        operation.RequestBody = <span class="keyword">new</span> OpenApiRequestBody</div>
+<div class="line"><span class="lineno">  382</span>                        {</div>
+<div class="line"><span class="lineno">  383</span>                            Content = <span class="keyword">new</span> Dictionary&lt;string, OpenApiMediaType&gt;</div>
+<div class="line"><span class="lineno">  384</span>                            {</div>
+<div class="line"><span class="lineno">  385</span>                                {</div>
+<div class="line"><span class="lineno">  386</span>                                    MediaTypeNames.Application.Octet,</div>
+<div class="line"><span class="lineno">  387</span>                                    <span class="keyword">new</span> OpenApiMediaType</div>
+<div class="line"><span class="lineno">  388</span>                                    {</div>
+<div class="line"><span class="lineno">  389</span>                                        Schema = <span class="keyword">new</span> OpenApiSchema</div>
+<div class="line"><span class="lineno">  390</span>                                        {</div>
+<div class="line"><span class="lineno">  391</span>                                            Type = <span class="stringliteral">&quot;string&quot;</span>,</div>
+<div class="line"><span class="lineno">  392</span>                                            Format = <span class="stringliteral">&quot;binary&quot;</span>,</div>
+<div class="line"><span class="lineno">  393</span>                                        },</div>
+<div class="line"><span class="lineno">  394</span>                                    }</div>
+<div class="line"><span class="lineno">  395</span>                                },</div>
+<div class="line"><span class="lineno">  396</span>                            },</div>
+<div class="line"><span class="lineno">  397</span>                        };</div>
+<div class="line"><span class="lineno">  398</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (context.MethodInfo.Name == nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html">TransferController</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a0dd496cde9d13e0cb262fbf5986b7930">Download</a>))</div>
+<div class="line"><span class="lineno">  399</span>                    {</div>
+<div class="line"><span class="lineno">  400</span>                        var twoHundredResponseContents = operation.Responses[<span class="stringliteral">&quot;200&quot;</span>].Content;</div>
+<div class="line"><span class="lineno">  401</span>                        var fileContent = twoHundredResponseContents[MediaTypeNames.Application.Json];</div>
+<div class="line"><span class="lineno">  402</span>                        twoHundredResponseContents.Remove(MediaTypeNames.Application.Json);</div>
+<div class="line"><span class="lineno">  403</span>                        twoHundredResponseContents.Add(MediaTypeNames.Application.Octet, fileContent);</div>
+<div class="line"><span class="lineno">  404</span>                    }</div>
+<div class="line"><span class="lineno">  405</span>            }</div>
+<div class="line"><span class="lineno">  406</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (context.MethodInfo.Name == nameof(<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html">HomeController</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a67855ece28f07fcb4c4a67e06500d8d3">CreateToken</a>))</div>
+<div class="line"><span class="lineno">  407</span>            {</div>
+<div class="line"><span class="lineno">  408</span>                var passwordScheme = <span class="keyword">new</span> OpenApiSecurityScheme</div>
+<div class="line"><span class="lineno">  409</span>                {</div>
+<div class="line"><span class="lineno">  410</span>                    Reference = <span class="keyword">new</span> OpenApiReference</div>
+<div class="line"><span class="lineno">  411</span>                    {</div>
+<div class="line"><span class="lineno">  412</span>                        Type = ReferenceType.SecurityScheme,</div>
+<div class="line"><span class="lineno">  413</span>                        Id = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a7c7e4acf655dff5060d09fe3a10a035a">PasswordSecuritySchemeId</a>,</div>
+<div class="line"><span class="lineno">  414</span>                    },</div>
+<div class="line"><span class="lineno">  415</span>                };</div>
+<div class="line"><span class="lineno">  416</span> </div>
+<div class="line"><span class="lineno">  417</span>                var oAuthScheme = <span class="keyword">new</span> OpenApiSecurityScheme</div>
+<div class="line"><span class="lineno">  418</span>                {</div>
+<div class="line"><span class="lineno">  419</span>                    Reference = <span class="keyword">new</span> OpenApiReference</div>
+<div class="line"><span class="lineno">  420</span>                    {</div>
+<div class="line"><span class="lineno">  421</span>                        Type = ReferenceType.SecurityScheme,</div>
+<div class="line"><span class="lineno">  422</span>                        Id = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#a490cbcecb61148a88e5f8c4f4043cee1">OAuthSecuritySchemeId</a>,</div>
+<div class="line"><span class="lineno">  423</span>                    },</div>
+<div class="line"><span class="lineno">  424</span>                };</div>
+<div class="line"><span class="lineno">  425</span> </div>
+<div class="line"><span class="lineno">  426</span>                operation.Parameters.Add(<span class="keyword">new</span> OpenApiParameter</div>
+<div class="line"><span class="lineno">  427</span>                {</div>
+<div class="line"><span class="lineno">  428</span>                    In = ParameterLocation.Header,</div>
+<div class="line"><span class="lineno">  429</span>                    Name = <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">OAuthProviderHeader</a>,</div>
+<div class="line"><span class="lineno">  430</span>                    Description = <span class="stringliteral">&quot;The external OAuth service provider.&quot;</span>,</div>
+<div class="line"><span class="lineno">  431</span>                    Style = ParameterStyle.Simple,</div>
+<div class="line"><span class="lineno">  432</span>                    Example = <span class="keyword">new</span> OpenApiString(<span class="stringliteral">&quot;Discord&quot;</span>),</div>
+<div class="line"><span class="lineno">  433</span>                    Schema = <span class="keyword">new</span> OpenApiSchema</div>
+<div class="line"><span class="lineno">  434</span>                    {</div>
+<div class="line"><span class="lineno">  435</span>                        Type = <span class="stringliteral">&quot;string&quot;</span>,</div>
+<div class="line"><span class="lineno">  436</span>                    },</div>
+<div class="line"><span class="lineno">  437</span>                });</div>
+<div class="line"><span class="lineno">  438</span> </div>
+<div class="line"><span class="lineno">  439</span>                operation.Security = <span class="keyword">new</span> List&lt;OpenApiSecurityRequirement&gt;</div>
+<div class="line"><span class="lineno">  440</span>                {</div>
+<div class="line"><span class="lineno">  441</span>                    <span class="keyword">new</span> OpenApiSecurityRequirement</div>
+<div class="line"><span class="lineno">  442</span>                    {</div>
+<div class="line"><span class="lineno">  443</span>                        {</div>
+<div class="line"><span class="lineno">  444</span>                            passwordScheme,</div>
+<div class="line"><span class="lineno">  445</span>                            <span class="keyword">new</span> List&lt;string&gt;()</div>
+<div class="line"><span class="lineno">  446</span>                        },</div>
+<div class="line"><span class="lineno">  447</span>                        {</div>
+<div class="line"><span class="lineno">  448</span>                            oAuthScheme,</div>
+<div class="line"><span class="lineno">  449</span>                            <span class="keyword">new</span> List&lt;string&gt;()</div>
+<div class="line"><span class="lineno">  450</span>                        },</div>
+<div class="line"><span class="lineno">  451</span>                    },</div>
+<div class="line"><span class="lineno">  452</span>                };</div>
+<div class="line"><span class="lineno">  453</span>            }</div>
+<div class="line"><span class="lineno">  454</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_aed33a94614774ed99f9fa355dd4a3ddd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">Tgstation.Server.Api.ApiHeaders.OAuthProviderHeader</a></div><div class="ttdeci">const string OAuthProviderHeader</div><div class="ttdoc">The OAuthProvider header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00036">ApiHeaders.cs:36</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html">Tgstation.Server.Host.Controllers.HomeController</a></div><div class="ttdoc">Root ApiController for the Application.</div><div class="ttdef"><b>Definition:</b> <a href="_home_controller_8cs_source.html#l00037">HomeController.cs:38</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller_html_a67855ece28f07fcb4c4a67e06500d8d3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a67855ece28f07fcb4c4a67e06500d8d3">Tgstation.Server.Host.Controllers.HomeController.CreateToken</a></div><div class="ttdeci">async Task&lt; IActionResult &gt; CreateToken(CancellationToken cancellationToken)</div><div class="ttdoc">Attempt to authenticate a User using ApiController.ApiHeaders.</div><div class="ttdef"><b>Definition:</b> <a href="_home_controller_8cs_source.html#l00223">HomeController.cs:223</a></div></div>
@@ -617,15 +613,13 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00567">567</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  568</span>        {</div>
-<div class="line"><span class="lineno">  569</span>            <span class="keywordflow">if</span> (requestBody == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  570</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(requestBody));</div>
-<div class="line"><span class="lineno">  571</span>            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  572</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
-<div class="line"><span class="lineno">  573</span> </div>
-<div class="line"><span class="lineno">  574</span>            requestBody.Required = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  575</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00561">561</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  562</span>        {</div>
+<div class="line"><span class="lineno">  563</span>            ArgumentNullException.ThrowIfNull(requestBody);</div>
+<div class="line"><span class="lineno">  564</span>            ArgumentNullException.ThrowIfNull(context);</div>
+<div class="line"><span class="lineno">  565</span> </div>
+<div class="line"><span class="lineno">  566</span>            requestBody.Required = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  567</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -657,29 +651,27 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00542">542</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  543</span>        {</div>
-<div class="line"><span class="lineno">  544</span>            <span class="keywordflow">if</span> (schema == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  545</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(schema));</div>
-<div class="line"><span class="lineno">  546</span>            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  547</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
+<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00538">538</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  539</span>        {</div>
+<div class="line"><span class="lineno">  540</span>            ArgumentNullException.ThrowIfNull(schema);</div>
+<div class="line"><span class="lineno">  541</span>            ArgumentNullException.ThrowIfNull(context);</div>
+<div class="line"><span class="lineno">  542</span> </div>
+<div class="line"><span class="lineno">  543</span>            <span class="comment">// Nothing is required</span></div>
+<div class="line"><span class="lineno">  544</span>            schema.Required.Clear();</div>
+<div class="line"><span class="lineno">  545</span> </div>
+<div class="line"><span class="lineno">  546</span>            <span class="keywordflow">if</span> (context.MemberInfo == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  547</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ae096775c5ebc422b2ef65548cb0b1f31">ApplyAttributesForRootSchema</a>(schema, context);</div>
 <div class="line"><span class="lineno">  548</span> </div>
-<div class="line"><span class="lineno">  549</span>            <span class="comment">// Nothing is required</span></div>
-<div class="line"><span class="lineno">  550</span>            schema.Required.Clear();</div>
+<div class="line"><span class="lineno">  549</span>            <span class="keywordflow">if</span> (!schema.Enum?.Any() ?? <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  550</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  551</span> </div>
-<div class="line"><span class="lineno">  552</span>            <span class="keywordflow">if</span> (context.MemberInfo == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  553</span>                <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ae096775c5ebc422b2ef65548cb0b1f31">ApplyAttributesForRootSchema</a>(schema, context);</div>
-<div class="line"><span class="lineno">  554</span> </div>
-<div class="line"><span class="lineno">  555</span>            <span class="keywordflow">if</span> (!schema.Enum?.Any() ?? <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  556</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  557</span> </div>
-<div class="line"><span class="lineno">  558</span>            <span class="comment">// Could be nullable type, make sure to get the right one</span></div>
-<div class="line"><span class="lineno">  559</span>            Type firstGenericArgumentOrType = context.Type.IsConstructedGenericType</div>
-<div class="line"><span class="lineno">  560</span>                ? context.Type.GenericTypeArguments.First()</div>
-<div class="line"><span class="lineno">  561</span>                : context.Type;</div>
-<div class="line"><span class="lineno">  562</span> </div>
-<div class="line"><span class="lineno">  563</span>            OpenApiEnumVarNamesExtension.Apply(schema, firstGenericArgumentOrType);</div>
-<div class="line"><span class="lineno">  564</span>        }</div>
+<div class="line"><span class="lineno">  552</span>            <span class="comment">// Could be nullable type, make sure to get the right one</span></div>
+<div class="line"><span class="lineno">  553</span>            Type firstGenericArgumentOrType = context.Type.IsConstructedGenericType</div>
+<div class="line"><span class="lineno">  554</span>                ? context.Type.GenericTypeArguments.First()</div>
+<div class="line"><span class="lineno">  555</span>                : context.Type;</div>
+<div class="line"><span class="lineno">  556</span> </div>
+<div class="line"><span class="lineno">  557</span>            OpenApiEnumVarNamesExtension.Apply(schema, firstGenericArgumentOrType);</div>
+<div class="line"><span class="lineno">  558</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration_html_ae096775c5ebc422b2ef65548cb0b1f31"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_swagger_configuration.html#ae096775c5ebc422b2ef65548cb0b1f31">Tgstation.Server.Host.Utils.SwaggerConfiguration.ApplyAttributesForRootSchema</a></div><div class="ttdeci">static void ApplyAttributesForRootSchema(OpenApiSchema rootSchema, SchemaFilterContext context)</div><div class="ttdoc">Applies the OpenApiSchema.Nullable, OpenApiSchema.ReadOnly, and OpenApiSchema.WriteOnly to OpenApiSch...</div><div class="ttdef"><b>Definition:</b> <a href="_swagger_configuration_8cs_source.html#l00205">SwaggerConfiguration.cs:205</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00034">Tgstation.Server.Host.Utils.OpenApiEnumVarNamesExtension.Apply()</a>.</p>

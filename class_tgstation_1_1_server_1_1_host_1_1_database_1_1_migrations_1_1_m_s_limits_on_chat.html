@@ -855,19 +855,18 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20200420175359___m_s_limits_on_chat_8cs_source.html#l00034">34</a> of file <a class="el" href="20200420175359___m_s_limits_on_chat_8cs_source.html">20200420175359_MSLimitsOnChat.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   37</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   40</span>                name: <span class="stringliteral">&quot;ChatBotLimit&quot;</span>,</div>
-<div class="line"><span class="lineno">   41</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   44</span>                name: <span class="stringliteral">&quot;ChannelLimit&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                table: <span class="stringliteral">&quot;ChatBots&quot;</span>);</div>
-<div class="line"><span class="lineno">   46</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20200420175359___m_s_limits_on_chat_8cs_source.html#l00033">33</a> of file <a class="el" href="20200420175359___m_s_limits_on_chat_8cs_source.html">20200420175359_MSLimitsOnChat.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
+<div class="line"><span class="lineno">   35</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   36</span> </div>
+<div class="line"><span class="lineno">   37</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   38</span>                name: <span class="stringliteral">&quot;ChatBotLimit&quot;</span>,</div>
+<div class="line"><span class="lineno">   39</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><span class="lineno">   40</span> </div>
+<div class="line"><span class="lineno">   41</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   42</span>                name: <span class="stringliteral">&quot;ChannelLimit&quot;</span>,</div>
+<div class="line"><span class="lineno">   43</span>                table: <span class="stringliteral">&quot;ChatBots&quot;</span>);</div>
+<div class="line"><span class="lineno">   44</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -899,21 +898,20 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20200420175359___m_s_limits_on_chat_8cs_source.html#l00015">15</a> of file <a class="el" href="20200420175359___m_s_limits_on_chat_8cs_source.html">20200420175359_MSLimitsOnChat.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
-<div class="line"><span class="lineno">   17</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   18</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   19</span> </div>
-<div class="line"><span class="lineno">   20</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   21</span>                name: <span class="stringliteral">&quot;ChatBotLimit&quot;</span>,</div>
-<div class="line"><span class="lineno">   22</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
-<div class="line"><span class="lineno">   23</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   24</span>                defaultValue: <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html#a6e95c489b01ba0ca06a8a803e2df9b9f">DefaultChatBotLimit</a>);</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   27</span>                name: <span class="stringliteral">&quot;ChannelLimit&quot;</span>,</div>
-<div class="line"><span class="lineno">   28</span>                table: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
-<div class="line"><span class="lineno">   29</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   30</span>                defaultValue: <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html#a9f693077cc6b7bca387dd46a08014c90">DefaultChannelLimit</a>);</div>
-<div class="line"><span class="lineno">   31</span>        }</div>
+<div class="line"><span class="lineno">   17</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   18</span> </div>
+<div class="line"><span class="lineno">   19</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   20</span>                name: <span class="stringliteral">&quot;ChatBotLimit&quot;</span>,</div>
+<div class="line"><span class="lineno">   21</span>                table: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><span class="lineno">   22</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   23</span>                defaultValue: <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html#a6e95c489b01ba0ca06a8a803e2df9b9f">DefaultChatBotLimit</a>);</div>
+<div class="line"><span class="lineno">   24</span> </div>
+<div class="line"><span class="lineno">   25</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   26</span>                name: <span class="stringliteral">&quot;ChannelLimit&quot;</span>,</div>
+<div class="line"><span class="lineno">   27</span>                table: <span class="stringliteral">&quot;ChatBots&quot;</span>,</div>
+<div class="line"><span class="lineno">   28</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   29</span>                defaultValue: <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">ChatBot</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html#a9f693077cc6b7bca387dd46a08014c90">DefaultChannelLimit</a>);</div>
+<div class="line"><span class="lineno">   30</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Tgstation.Server.Host.Models.ChatBot</a></div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_8cs_source.html#l00010">ChatBot.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot_html_a9f693077cc6b7bca387dd46a08014c90"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html#a9f693077cc6b7bca387dd46a08014c90">Tgstation.Server.Host.Models.ChatBot.DefaultChannelLimit</a></div><div class="ttdeci">const ushort DefaultChannelLimit</div><div class="ttdoc">Default for Api.Models.Internal.ChatBotSettings.ChannelLimit.</div><div class="ttdef"><b>Definition:</b> <a href="_chat_bot_8cs_source.html#l00015">ChatBot.cs:15</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html">Tgstation.Server.Host.Models.Instance</a></div><div class="ttdoc">Represents an Api.Models.Instance in the database.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_instance_8cs_source.html#l00010">Instance.cs:11</a></div></div>

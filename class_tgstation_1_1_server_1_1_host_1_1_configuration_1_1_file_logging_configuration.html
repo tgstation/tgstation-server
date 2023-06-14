@@ -184,30 +184,27 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00061">61</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   65</span>        {</div>
-<div class="line"><span class="lineno">   66</span>            <span class="keywordflow">if</span> (ioManager == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(ioManager));</div>
-<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">if</span> (assemblyInformationProvider == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   69</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(assemblyInformationProvider));</div>
-<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">if</span> (platformIdentifier == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   71</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(platformIdentifier));</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>            var directoryToUse = platformIdentifier.IsWindows</div>
-<div class="line"><span class="lineno">   74</span>                ? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) <span class="comment">// C:/ProgramData</span></div>
-<div class="line"><span class="lineno">   75</span>                : <span class="stringliteral">&quot;/var/log&quot;</span>; <span class="comment">// :pain:</span></div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">return</span> !String.IsNullOrEmpty(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#aad824931c595d0e0c5522892e9467499">Directory</a>)</div>
-<div class="line"><span class="lineno">   78</span>                ? <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#aad824931c595d0e0c5522892e9467499">Directory</a></div>
-<div class="line"><span class="lineno">   79</span>                : ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
-<div class="line"><span class="lineno">   80</span>                    directoryToUse,</div>
-<div class="line"><span class="lineno">   81</span>                    assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
-<div class="line"><span class="lineno">   82</span>        }</div>
+<div class="line"><span class="lineno">   66</span>            ArgumentNullException.ThrowIfNull(ioManager);</div>
+<div class="line"><span class="lineno">   67</span>            ArgumentNullException.ThrowIfNull(assemblyInformationProvider);</div>
+<div class="line"><span class="lineno">   68</span>            ArgumentNullException.ThrowIfNull(platformIdentifier);</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>            var directoryToUse = platformIdentifier.IsWindows</div>
+<div class="line"><span class="lineno">   71</span>                ? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) <span class="comment">// C:/ProgramData</span></div>
+<div class="line"><span class="lineno">   72</span>                : <span class="stringliteral">&quot;/var/log&quot;</span>; <span class="comment">// :pain:</span></div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">return</span> !String.IsNullOrEmpty(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#aad824931c595d0e0c5522892e9467499">Directory</a>)</div>
+<div class="line"><span class="lineno">   75</span>                ? <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#aad824931c595d0e0c5522892e9467499">Directory</a></div>
+<div class="line"><span class="lineno">   76</span>                : ioManager.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(</div>
+<div class="line"><span class="lineno">   77</span>                    directoryToUse,</div>
+<div class="line"><span class="lineno">   78</span>                    assemblyInformationProvider.<a class="code hl_property" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">VersionPrefix</a>);</div>
+<div class="line"><span class="lineno">   79</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration_html_aad824931c595d0e0c5522892e9467499"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#aad824931c595d0e0c5522892e9467499">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Directory</a></div><div class="ttdeci">string Directory</div><div class="ttdoc">Where log files are stored.</div><div class="ttdef"><b>Definition:</b> <a href="_file_logging_configuration_8cs_source.html#l00035">FileLoggingConfiguration.cs:35</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a286f4eb5c679683b7e519847a6c3574e"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath</a></div><div class="ttdeci">string ConcatPath(params string[] paths)</div><div class="ttdoc">Combines an array of strings into a path.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ab2a2be82555afbf6ffb5b7ae3d90b7f0"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ab2a2be82555afbf6ffb5b7ae3d90b7f0">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a></div><div class="ttdeci">string VersionPrefix</div><div class="ttdoc">Prefix to VersionString.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00025">IAssemblyInformationProvider.cs:25</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00035">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Directory</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00025">Tgstation.Server.Host.System.IAssemblyInformationProvider.VersionPrefix</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00121">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00327">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00121">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>, <a class="el" href="_administration_controller_8cs_source.html#l00326">Tgstation.Server.Host.Controllers.AdministrationController.GetLog()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a6516cc312ebd140c6fbf218a155fa74f">Tgstation.Server.Host.Controllers.AdministrationController.ListLogs()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -308,7 +305,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_file_logging_configuration_8cs_source.html#l00020">20</a> of file <a class="el" href="_file_logging_configuration_8cs_source.html">FileLoggingConfiguration.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00891">Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00890">Tgstation.Server.Host.Setup.SetupWizard.SaveConfiguration()</a>.</p>
 
 </div>
 </div>

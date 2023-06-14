@@ -278,23 +278,22 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a09f6bad223a0546c5e0946a4e036a392">Tgstation.Server.Host.Components.Deployment.Remote.IRemoteDeploymentManagerFactory</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00085">85</a> of file <a class="el" href="_remote_deployment_manager_factory_8cs_source.html">RemoteDeploymentManagerFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>        {</div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">if</span> (compileJob == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   88</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(compileJob));</div>
+<p class="definition">Definition at line <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00084">84</a> of file <a class="el" href="_remote_deployment_manager_factory_8cs_source.html">RemoteDeploymentManagerFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>        {</div>
+<div class="line"><span class="lineno">   86</span>            ArgumentNullException.ThrowIfNull(compileJob);</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>            <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a> remoteGitProvider;</div>
 <div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>            <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a> remoteGitProvider;</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>            <span class="comment">// Pre 4.7.X</span></div>
-<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">if</span> (compileJob.RepositoryOrigin == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   94</span>                remoteGitProvider = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.Unknown;</div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   96</span>                remoteGitProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a349fa06d6cbe0b4d5d8866460d8b3599">gitRemoteFeaturesFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ae7e26c0b76d3cd67c5c2939fbe6136d3">ParseRemoteGitProviderFromOrigin</a>(</div>
-<div class="line"><span class="lineno">   97</span>                    <span class="keyword">new</span> Uri(</div>
-<div class="line"><span class="lineno">   98</span>                        compileJob.RepositoryOrigin));</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#acfd615cd1714362a52b801c3c2b67225">CreateRemoteDeploymentManager</a>(metadata, remoteGitProvider);</div>
-<div class="line"><span class="lineno">  101</span>        }</div>
+<div class="line"><span class="lineno">   90</span>            <span class="comment">// Pre 4.7.X</span></div>
+<div class="line"><span class="lineno">   91</span>            <span class="keywordflow">if</span> (compileJob.RepositoryOrigin == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   92</span>                remoteGitProvider = <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.Unknown;</div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   94</span>                remoteGitProvider = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a349fa06d6cbe0b4d5d8866460d8b3599">gitRemoteFeaturesFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ae7e26c0b76d3cd67c5c2939fbe6136d3">ParseRemoteGitProviderFromOrigin</a>(</div>
+<div class="line"><span class="lineno">   95</span>                    <span class="keyword">new</span> Uri(</div>
+<div class="line"><span class="lineno">   96</span>                        compileJob.RepositoryOrigin));</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#acfd615cd1714362a52b801c3c2b67225">CreateRemoteDeploymentManager</a>(metadata, remoteGitProvider);</div>
+<div class="line"><span class="lineno">   99</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory_html_acfd615cd1714362a52b801c3c2b67225"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#acfd615cd1714362a52b801c3c2b67225">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.CreateRemoteDeploymentManager</a></div><div class="ttdeci">IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, RemoteGitProvider remoteGitProvider)</div><div class="ttdoc">Creates a IRemoteDeploymentManager for a given remoteGitProvider . A new IRemoteDeploymentManager bas...</div><div class="ttdef"><b>Definition:</b> <a href="_remote_deployment_manager_factory_8cs_source.html#l00063">RemoteDeploymentManagerFactory.cs:63</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory_html_ae7e26c0b76d3cd67c5c2939fbe6136d3"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ae7e26c0b76d3cd67c5c2939fbe6136d3">Tgstation.Server.Host.Components.Repository.IGitRemoteFeaturesFactory.ParseRemoteGitProviderFromOrigin</a></div><div class="ttdeci">RemoteGitProvider ParseRemoteGitProviderFromOrigin(Uri origin)</div><div class="ttdoc">Gets the RemoteGitProvider for a given origin .</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_aaff5188f30ee5c04c081684eb9672f17"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">Tgstation.Server.Api.Models.RemoteGitProvider</a></div><div class="ttdeci">RemoteGitProvider</div><div class="ttdoc">Indicates the remote git host.</div><div class="ttdef"><b>Definition:</b> <a href="_remote_git_provider_8cs_source.html#l00006">RemoteGitProvider.cs:7</a></div></div>
@@ -353,28 +352,27 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00063">63</a> of file <a class="el" href="_remote_deployment_manager_factory_8cs_source.html">RemoteDeploymentManagerFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   64</span>        {</div>
-<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">if</span> (metadata == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(metadata));</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a24ada6ddbccfe71376f89ca591d033ae">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating remote deployment manager for remote git provider {remoteGitProvider}...&quot;</span>, remoteGitProvider);</div>
-<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">return</span> remoteGitProvider <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">   70</span>            {</div>
-<div class="line"><span class="lineno">   71</span>                RemoteGitProvider.GitHub =&gt; <span class="keyword">new</span> GitHubRemoteDeploymentManager(</div>
-<div class="line"><span class="lineno">   72</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a7162d7e6a743217321c4b633a11710a3">databaseContextFactory</a>,</div>
-<div class="line"><span class="lineno">   73</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a6c993799e3d653a34e483e500e48eef9">gitHubServiceFactory</a>,</div>
-<div class="line"><span class="lineno">   74</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#acb84cdbf429b76a665373aa37e078809">loggerFactory</a>.CreateLogger&lt;GitHubRemoteDeploymentManager&gt;(),</div>
-<div class="line"><span class="lineno">   75</span>                    metadata),</div>
-<div class="line"><span class="lineno">   76</span>                RemoteGitProvider.GitLab =&gt; <span class="keyword">new</span> GitLabRemoteDeploymentManager(</div>
-<div class="line"><span class="lineno">   77</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#acb84cdbf429b76a665373aa37e078809">loggerFactory</a>.CreateLogger&lt;GitLabRemoteDeploymentManager&gt;(),</div>
-<div class="line"><span class="lineno">   78</span>                    metadata),</div>
-<div class="line"><span class="lineno">   79</span>                RemoteGitProvider.Unknown =&gt; <span class="keyword">new</span> NoOpRemoteDeploymentManager(),</div>
-<div class="line"><span class="lineno">   80</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid RemoteGitProvider: {remoteGitProvider}!&quot;</span>),</div>
-<div class="line"><span class="lineno">   81</span>            };</div>
-<div class="line"><span class="lineno">   82</span>        }</div>
+<div class="line"><span class="lineno">   65</span>            ArgumentNullException.ThrowIfNull(metadata);</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a24ada6ddbccfe71376f89ca591d033ae">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating remote deployment manager for remote git provider {remoteGitProvider}...&quot;</span>, remoteGitProvider);</div>
+<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">return</span> remoteGitProvider <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">   69</span>            {</div>
+<div class="line"><span class="lineno">   70</span>                RemoteGitProvider.GitHub =&gt; <span class="keyword">new</span> GitHubRemoteDeploymentManager(</div>
+<div class="line"><span class="lineno">   71</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a7162d7e6a743217321c4b633a11710a3">databaseContextFactory</a>,</div>
+<div class="line"><span class="lineno">   72</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a6c993799e3d653a34e483e500e48eef9">gitHubServiceFactory</a>,</div>
+<div class="line"><span class="lineno">   73</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#acb84cdbf429b76a665373aa37e078809">loggerFactory</a>.CreateLogger&lt;GitHubRemoteDeploymentManager&gt;(),</div>
+<div class="line"><span class="lineno">   74</span>                    metadata),</div>
+<div class="line"><span class="lineno">   75</span>                RemoteGitProvider.GitLab =&gt; <span class="keyword">new</span> GitLabRemoteDeploymentManager(</div>
+<div class="line"><span class="lineno">   76</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#acb84cdbf429b76a665373aa37e078809">loggerFactory</a>.CreateLogger&lt;GitLabRemoteDeploymentManager&gt;(),</div>
+<div class="line"><span class="lineno">   77</span>                    metadata),</div>
+<div class="line"><span class="lineno">   78</span>                RemoteGitProvider.Unknown =&gt; <span class="keyword">new</span> NoOpRemoteDeploymentManager(),</div>
+<div class="line"><span class="lineno">   79</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid RemoteGitProvider: {remoteGitProvider}!&quot;</span>),</div>
+<div class="line"><span class="lineno">   80</span>            };</div>
+<div class="line"><span class="lineno">   81</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00018">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.databaseContextFactory</a>, <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00023">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.gitHubServiceFactory</a>, <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00038">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.logger</a>, and <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00033">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.loggerFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00085">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.CreateRemoteDeploymentManager()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00084">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.CreateRemoteDeploymentManager()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -468,7 +466,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00028">28</a> of file <a class="el" href="_remote_deployment_manager_factory_8cs_source.html">RemoteDeploymentManagerFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00085">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.CreateRemoteDeploymentManager()</a>, and <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00048">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.RemoteDeploymentManagerFactory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00084">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.CreateRemoteDeploymentManager()</a>, and <a class="el" href="_remote_deployment_manager_factory_8cs_source.html#l00048">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.RemoteDeploymentManagerFactory()</a>.</p>
 
 </div>
 </div>

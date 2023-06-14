@@ -180,52 +180,50 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_limited_stream_result_executor_8cs_source.html#l00027">27</a> of file <a class="el" href="_limited_stream_result_executor_8cs_source.html">LimitedStreamResultExecutor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   28</span>        {</div>
-<div class="line"><span class="lineno">   29</span>            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   30</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
-<div class="line"><span class="lineno">   31</span> </div>
-<div class="line"><span class="lineno">   32</span>            <span class="keywordflow">if</span> (result == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   33</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(result));</div>
-<div class="line"><span class="lineno">   34</span> </div>
-<div class="line"><span class="lineno">   35</span>            await <span class="keyword">using</span> (result)</div>
-<div class="line"><span class="lineno">   36</span>            {</div>
-<div class="line"><span class="lineno">   37</span>                var cancellationToken = context.HttpContext.RequestAborted;</div>
-<div class="line"><span class="lineno">   38</span>                var stream = await result.GetResult(cancellationToken);</div>
-<div class="line"><span class="lineno">   39</span>                var contentLength = stream.Length;</div>
-<div class="line"><span class="lineno">   40</span>                var (range, rangeLength, serveBody) = SetHeadersAndLog(context, result, contentLength, result.EnableRangeProcessing);</div>
-<div class="line"><span class="lineno">   41</span>                <span class="keywordflow">if</span> (!serveBody)</div>
-<div class="line"><span class="lineno">   42</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   45</span>                {</div>
-<div class="line"><span class="lineno">   46</span>                    var outputStream = context.HttpContext.Response.Body;</div>
-<div class="line"><span class="lineno">   47</span>                    <span class="keywordflow">if</span> (range == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   48</span>                    {</div>
-<div class="line"><span class="lineno">   49</span>                        await StreamCopyOperation.CopyToAsync(</div>
-<div class="line"><span class="lineno">   50</span>                            stream,</div>
-<div class="line"><span class="lineno">   51</span>                            outputStream,</div>
-<div class="line"><span class="lineno">   52</span>                            contentLength,</div>
-<div class="line"><span class="lineno">   53</span>                            BufferSize,</div>
-<div class="line"><span class="lineno">   54</span>                            cancellationToken);</div>
-<div class="line"><span class="lineno">   55</span>                    }</div>
-<div class="line"><span class="lineno">   56</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   57</span>                    {</div>
-<div class="line"><span class="lineno">   58</span>                        stream.Seek(range.From.Value, SeekOrigin.Begin);</div>
-<div class="line"><span class="lineno">   59</span>                        await StreamCopyOperation.CopyToAsync(</div>
-<div class="line"><span class="lineno">   60</span>                            stream,</div>
-<div class="line"><span class="lineno">   61</span>                            outputStream,</div>
-<div class="line"><span class="lineno">   62</span>                            rangeLength,</div>
-<div class="line"><span class="lineno">   63</span>                            BufferSize,</div>
-<div class="line"><span class="lineno">   64</span>                            cancellationToken);</div>
-<div class="line"><span class="lineno">   65</span>                    }</div>
-<div class="line"><span class="lineno">   66</span>                }</div>
-<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno">   68</span>                {</div>
-<div class="line"><span class="lineno">   69</span>                    <span class="comment">// Don&#39;t throw this exception, it&#39;s most likely caused by the client disconnecting.</span></div>
-<div class="line"><span class="lineno">   70</span>                    <span class="comment">// However, if it was cancelled for any other reason we need to prevent empty responses.</span></div>
-<div class="line"><span class="lineno">   71</span>                    context.HttpContext.Abort();</div>
-<div class="line"><span class="lineno">   72</span>                }</div>
-<div class="line"><span class="lineno">   73</span>            }</div>
-<div class="line"><span class="lineno">   74</span>        }</div>
+<div class="line"><span class="lineno">   29</span>            ArgumentNullException.ThrowIfNull(context);</div>
+<div class="line"><span class="lineno">   30</span> </div>
+<div class="line"><span class="lineno">   31</span>            ArgumentNullException.ThrowIfNull(result);</div>
+<div class="line"><span class="lineno">   32</span> </div>
+<div class="line"><span class="lineno">   33</span>            await <span class="keyword">using</span> (result)</div>
+<div class="line"><span class="lineno">   34</span>            {</div>
+<div class="line"><span class="lineno">   35</span>                var cancellationToken = context.HttpContext.RequestAborted;</div>
+<div class="line"><span class="lineno">   36</span>                var stream = await result.GetResult(cancellationToken);</div>
+<div class="line"><span class="lineno">   37</span>                var contentLength = stream.Length;</div>
+<div class="line"><span class="lineno">   38</span>                var (range, rangeLength, serveBody) = SetHeadersAndLog(context, result, contentLength, result.EnableRangeProcessing);</div>
+<div class="line"><span class="lineno">   39</span>                <span class="keywordflow">if</span> (!serveBody)</div>
+<div class="line"><span class="lineno">   40</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   43</span>                {</div>
+<div class="line"><span class="lineno">   44</span>                    var outputStream = context.HttpContext.Response.Body;</div>
+<div class="line"><span class="lineno">   45</span>                    <span class="keywordflow">if</span> (range == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   46</span>                    {</div>
+<div class="line"><span class="lineno">   47</span>                        await StreamCopyOperation.CopyToAsync(</div>
+<div class="line"><span class="lineno">   48</span>                            stream,</div>
+<div class="line"><span class="lineno">   49</span>                            outputStream,</div>
+<div class="line"><span class="lineno">   50</span>                            contentLength,</div>
+<div class="line"><span class="lineno">   51</span>                            BufferSize,</div>
+<div class="line"><span class="lineno">   52</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">   53</span>                    }</div>
+<div class="line"><span class="lineno">   54</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   55</span>                    {</div>
+<div class="line"><span class="lineno">   56</span>                        stream.Seek(range.From.Value, SeekOrigin.Begin);</div>
+<div class="line"><span class="lineno">   57</span>                        await StreamCopyOperation.CopyToAsync(</div>
+<div class="line"><span class="lineno">   58</span>                            stream,</div>
+<div class="line"><span class="lineno">   59</span>                            outputStream,</div>
+<div class="line"><span class="lineno">   60</span>                            rangeLength,</div>
+<div class="line"><span class="lineno">   61</span>                            BufferSize,</div>
+<div class="line"><span class="lineno">   62</span>                            cancellationToken);</div>
+<div class="line"><span class="lineno">   63</span>                    }</div>
+<div class="line"><span class="lineno">   64</span>                }</div>
+<div class="line"><span class="lineno">   65</span>                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno">   66</span>                {</div>
+<div class="line"><span class="lineno">   67</span>                    <span class="comment">// Don&#39;t throw this exception, it&#39;s most likely caused by the client disconnecting.</span></div>
+<div class="line"><span class="lineno">   68</span>                    <span class="comment">// However, if it was cancelled for any other reason we need to prevent empty responses.</span></div>
+<div class="line"><span class="lineno">   69</span>                    context.HttpContext.Abort();</div>
+<div class="line"><span class="lineno">   70</span>                }</div>
+<div class="line"><span class="lineno">   71</span>            }</div>
+<div class="line"><span class="lineno">   72</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_stream_result.html#a59254f5e12a23b3014c278e4207809fc">Tgstation.Server.Host.Controllers.LimitedStreamResult.GetResult()</a>.</p>
 <div class="dynheader">

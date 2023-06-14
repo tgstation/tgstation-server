@@ -92,26 +92,24 @@ $(function() {
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html#ac487bf33d9a5821fb30bfd7b74915fbe">   16</a></span>        <span class="keyword">public</span> Task <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html#ac487bf33d9a5821fb30bfd7b74915fbe">CreateSymbolicLink</a>(<span class="keywordtype">string</span> targetPath, <span class="keywordtype">string</span> linkPath, CancellationToken cancellationToken) =&gt; Task.Factory.StartNew(</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            () =&gt;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            {</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                <span class="keywordflow">if</span> (targetPath == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(targetPath));</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                <span class="keywordflow">if</span> (linkPath == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(linkPath));</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                UnixFileSystemInfo fsInfo;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                var isFile = File.Exists(targetPath);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                <span class="keywordflow">if</span> (isFile)</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                    fsInfo = <span class="keyword">new</span> UnixFileInfo(targetPath);</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                    fsInfo = <span class="keyword">new</span> UnixDirectoryInfo(targetPath);</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                fsInfo.CreateSymbolicLink(linkPath);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            },</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            cancellationToken,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            TaskScheduler.Current);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>}</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                ArgumentNullException.ThrowIfNull(targetPath);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                ArgumentNullException.ThrowIfNull(linkPath);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                UnixFileSystemInfo fsInfo;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                var isFile = File.Exists(targetPath);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                <span class="keywordflow">if</span> (isFile)</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                    fsInfo = <span class="keyword">new</span> UnixFileInfo(targetPath);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                    fsInfo = <span class="keyword">new</span> UnixDirectoryInfo(targetPath);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                fsInfo.CreateSymbolicLink(linkPath);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            },</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            cancellationToken,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            TaskScheduler.Current);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">Tgstation.Server.Host.IO.DefaultIOManager</a></div><div class="ttdoc">IIOManager that resolves paths to Environment.CurrentDirectory.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00016">DefaultIOManager.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_ac6dfeef4e622bb46047169215099995d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a></div><div class="ttdeci">const TaskCreationOptions BlockingTaskCreationOptions</div><div class="ttdoc">The TaskCreationOptions used to spawn Tasks for potentially long running, blocking operations.</div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00031">DefaultIOManager.cs:31</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html">Tgstation.Server.Host.IO.PosixSymlinkFactory</a></div><div class="ttdoc">ISymlinkFactory for posix systems.</div><div class="ttdef"><b>Definition:</b> <a href="_posix_symlink_factory_8cs_source.html#l00013">PosixSymlinkFactory.cs:14</a></div></div>

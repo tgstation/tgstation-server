@@ -349,60 +349,59 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult for the operation.</dd></dl>
 <p>&lt;response code="200"&gt;Directory already exists.&lt;/response&gt; &lt;response code="201"&gt;Directory created successfully.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00235">235</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  236</span>        {</div>
-<div class="line"><span class="lineno">  237</span>            <span class="keywordflow">if</span> (model == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  238</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(model));</div>
-<div class="line"><span class="lineno">  239</span> </div>
-<div class="line"><span class="lineno">  240</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">ForbidDueToModeConflicts</a>(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, out var systemIdentity))</div>
-<div class="line"><span class="lineno">  241</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  242</span> </div>
-<div class="line"><span class="lineno">  243</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  244</span>            {</div>
-<div class="line"><span class="lineno">  245</span>                var resultModel = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a></div>
-<div class="line"><span class="lineno">  246</span>                {</div>
-<div class="line"><span class="lineno">  247</span>                    IsDirectory = <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  248</span>                    Path = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>,</div>
-<div class="line"><span class="lineno">  249</span>                };</div>
-<div class="line"><span class="lineno">  250</span> </div>
-<div class="line"><span class="lineno">  251</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">WithComponentInstance</a>(</div>
-<div class="line"><span class="lineno">  252</span>                    async instance =&gt; await instance</div>
-<div class="line"><span class="lineno">  253</span>                        .Configuration</div>
-<div class="line"><span class="lineno">  254</span>                        .<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828">CreateDirectory</a>(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, systemIdentity, cancellationToken)</div>
-<div class="line"><span class="lineno">  255</span>                            ? Json(resultModel)</div>
-<div class="line"><span class="lineno">  256</span>                            : <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Created</a>(resultModel));</div>
-<div class="line"><span class="lineno">  257</span>            }</div>
-<div class="line"><span class="lineno">  258</span>            <span class="keywordflow">catch</span> (IOException e)</div>
-<div class="line"><span class="lineno">  259</span>            {</div>
-<div class="line"><span class="lineno">  260</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(e, <span class="stringliteral">&quot;IOException while creating directory {path}!&quot;</span>, model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>);</div>
-<div class="line"><span class="lineno">  261</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.IOError)</div>
-<div class="line"><span class="lineno">  262</span>                {</div>
-<div class="line"><span class="lineno">  263</span>                    Message = e.Message,</div>
-<div class="line"><span class="lineno">  264</span>                });</div>
-<div class="line"><span class="lineno">  265</span>            }</div>
-<div class="line"><span class="lineno">  266</span>            <span class="keywordflow">catch</span> (NotImplementedException ex)</div>
-<div class="line"><span class="lineno">  267</span>            {</div>
-<div class="line"><span class="lineno">  268</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">RequiresPosixSystemIdentity</a>(ex);</div>
-<div class="line"><span class="lineno">  269</span>            }</div>
-<div class="line"><span class="lineno">  270</span>            <span class="keywordflow">catch</span> (UnauthorizedAccessException)</div>
-<div class="line"><span class="lineno">  271</span>            {</div>
-<div class="line"><span class="lineno">  272</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  273</span>            }</div>
-<div class="line"><span class="lineno">  274</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00234">234</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  235</span>        {</div>
+<div class="line"><span class="lineno">  236</span>            ArgumentNullException.ThrowIfNull(model);</div>
+<div class="line"><span class="lineno">  237</span> </div>
+<div class="line"><span class="lineno">  238</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">ForbidDueToModeConflicts</a>(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, out var systemIdentity))</div>
+<div class="line"><span class="lineno">  239</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  240</span> </div>
+<div class="line"><span class="lineno">  241</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  242</span>            {</div>
+<div class="line"><span class="lineno">  243</span>                var resultModel = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">ConfigurationFileResponse</a></div>
+<div class="line"><span class="lineno">  244</span>                {</div>
+<div class="line"><span class="lineno">  245</span>                    IsDirectory = <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  246</span>                    Path = model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>,</div>
+<div class="line"><span class="lineno">  247</span>                };</div>
+<div class="line"><span class="lineno">  248</span> </div>
+<div class="line"><span class="lineno">  249</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">WithComponentInstance</a>(</div>
+<div class="line"><span class="lineno">  250</span>                    async instance =&gt; await instance</div>
+<div class="line"><span class="lineno">  251</span>                        .Configuration</div>
+<div class="line"><span class="lineno">  252</span>                        .<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828">CreateDirectory</a>(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, systemIdentity, cancellationToken)</div>
+<div class="line"><span class="lineno">  253</span>                            ? Json(resultModel)</div>
+<div class="line"><span class="lineno">  254</span>                            : <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Created</a>(resultModel));</div>
+<div class="line"><span class="lineno">  255</span>            }</div>
+<div class="line"><span class="lineno">  256</span>            <span class="keywordflow">catch</span> (IOException e)</div>
+<div class="line"><span class="lineno">  257</span>            {</div>
+<div class="line"><span class="lineno">  258</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(e, <span class="stringliteral">&quot;IOException while creating directory {path}!&quot;</span>, model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>);</div>
+<div class="line"><span class="lineno">  259</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.IOError)</div>
+<div class="line"><span class="lineno">  260</span>                {</div>
+<div class="line"><span class="lineno">  261</span>                    Message = e.Message,</div>
+<div class="line"><span class="lineno">  262</span>                });</div>
+<div class="line"><span class="lineno">  263</span>            }</div>
+<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">catch</span> (NotImplementedException ex)</div>
+<div class="line"><span class="lineno">  265</span>            {</div>
+<div class="line"><span class="lineno">  266</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">RequiresPosixSystemIdentity</a>(ex);</div>
+<div class="line"><span class="lineno">  267</span>            }</div>
+<div class="line"><span class="lineno">  268</span>            <span class="keywordflow">catch</span> (UnauthorizedAccessException)</div>
+<div class="line"><span class="lineno">  269</span>            {</div>
+<div class="line"><span class="lineno">  270</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  271</span>            }</div>
+<div class="line"><span class="lineno">  272</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request_html_a57c298a3685eb896e606202082bf6f0b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Tgstation.Server.Api.Models.Request.ConfigurationFileRequest.Path</a></div><div class="ttdeci">string? Path</div><div class="ttdoc">The path to the IConfigurationFile file.</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_file_request_8cs_source.html#l00010">ConfigurationFileRequest.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_configuration_file_response.html">Tgstation.Server.Api.Models.Response.ConfigurationFileResponse</a></div><div class="ttdoc">Response when reading configuration files.</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_file_response_8cs_source.html#l00006">ConfigurationFileResponse.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">Tgstation.Server.Api.Models.Response.ErrorMessageResponse</a></div><div class="ttdoc">Represents an error message returned by the server.</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_response_8cs_source.html#l00009">ErrorMessageResponse.cs:10</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a526173be91476b48ade7f0bc0cac6287"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity</a></div><div class="ttdeci">ObjectResult RequiresPosixSystemIdentity(NotImplementedException ex)</div><div class="ttdoc">Generic 501 response.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_8cs_source.html#l00221">ApiController.cs:221</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a526173be91476b48ade7f0bc0cac6287"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity</a></div><div class="ttdeci">ObjectResult RequiresPosixSystemIdentity(NotImplementedException ex)</div><div class="ttdoc">Generic 501 response.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_8cs_source.html#l00219">ApiController.cs:219</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_ae0fcee33c7b7341bc3bf0c0e66e1ebf4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created</a></div><div class="ttdeci">ObjectResult Created(object payload)</div><div class="ttdoc">Generic 201 response with a given payload .</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_ae5655868c2b2b913046ecf61934ce119"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Tgstation.Server.Host.Controllers.ApiController.Logger</a></div><div class="ttdeci">ILogger&lt; ApiController &gt; Logger</div><div class="ttdoc">The ILogger for the ApiController.</div><div class="ttdef"><b>Definition:</b> <a href="_api_controller_8cs_source.html#l00068">ApiController.cs:68</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_html_a3d6adfe8816453492476eefc1767ff6c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance</a></div><div class="ttdeci">async Task&lt; IActionResult &gt; WithComponentInstance(Func&lt; IInstanceCore, Task&lt; IActionResult &gt; &gt; action)</div><div class="ttdoc">Run a given action  with the relevant IInstance.</div><div class="ttdef"><b>Definition:</b> <a href="_component_interfacing_controller_8cs_source.html#l00120">ComponentInterfacingController.cs:120</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller_html_a3478628e5a443b65c9ffb565d4da2cde"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts</a></div><div class="ttdeci">bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)</div><div class="ttdoc">If a ForbidResult should be returned from actions due to conflicts with one or both of the Api....</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_controller_8cs_source.html#l00322">ConfigurationController.cs:322</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller_html_a89959c527a40371fa4f4c3f82ad15828"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory</a></div><div class="ttdeci">async Task&lt; IActionResult &gt; CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)</div><div class="ttdoc">Create a configuration directory.</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_controller_8cs_source.html#l00235">ConfigurationController.cs:235</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller_html_a3d6adfe8816453492476eefc1767ff6c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance</a></div><div class="ttdeci">async Task&lt; IActionResult &gt; WithComponentInstance(Func&lt; IInstanceCore, Task&lt; IActionResult &gt; &gt; action)</div><div class="ttdoc">Run a given action  with the relevant IInstance.</div><div class="ttdef"><b>Definition:</b> <a href="_component_interfacing_controller_8cs_source.html#l00119">ComponentInterfacingController.cs:119</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller_html_a3478628e5a443b65c9ffb565d4da2cde"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts</a></div><div class="ttdeci">bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)</div><div class="ttdoc">If a ForbidResult should be returned from actions due to conflicts with one or both of the Api....</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_controller_8cs_source.html#l00319">ConfigurationController.cs:319</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller_html_a89959c527a40371fa4f4c3f82ad15828"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory</a></div><div class="ttdeci">async Task&lt; IActionResult &gt; CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)</div><div class="ttdoc">Create a configuration directory.</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_controller_8cs_source.html#l00234">ConfigurationController.cs:234</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of Response.ErrorMessageResponses that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00235">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00322">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, <a class="el" href="_api_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_configuration_file_response_8cs_source.html#l00009">Tgstation.Server.Api.Models.Response.ConfigurationFileResponse.Path</a>, <a class="el" href="_api_controller_8cs_source.html#l00221">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00120">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance()</a>.</p>
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00234">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, <a class="el" href="_api_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_configuration_file_response_8cs_source.html#l00009">Tgstation.Server.Api.Models.Response.ConfigurationFileResponse.Path</a>, <a class="el" href="_api_controller_8cs_source.html#l00219">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00119">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00235">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00234">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -466,40 +465,39 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 <p>&lt;response code="204"&gt;Empty directory deleted successfully.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00286">286</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  287</span>        {</div>
-<div class="line"><span class="lineno">  288</span>            <span class="keywordflow">if</span> (directory == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  289</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(directory));</div>
+<p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00284">284</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  285</span>        {</div>
+<div class="line"><span class="lineno">  286</span>            ArgumentNullException.ThrowIfNull(directory);</div>
+<div class="line"><span class="lineno">  287</span> </div>
+<div class="line"><span class="lineno">  288</span>            <span class="keywordflow">if</span> (directory.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  289</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure));</div>
 <div class="line"><span class="lineno">  290</span> </div>
-<div class="line"><span class="lineno">  291</span>            <span class="keywordflow">if</span> (directory.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  292</span>                <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ModelValidationFailure));</div>
+<div class="line"><span class="lineno">  291</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">ForbidDueToModeConflicts</a>(directory.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, out var systemIdentity))</div>
+<div class="line"><span class="lineno">  292</span>                <span class="keywordflow">return</span> Forbid();</div>
 <div class="line"><span class="lineno">  293</span> </div>
-<div class="line"><span class="lineno">  294</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">ForbidDueToModeConflicts</a>(directory.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, out var systemIdentity))</div>
-<div class="line"><span class="lineno">  295</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  296</span> </div>
-<div class="line"><span class="lineno">  297</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  298</span>            {</div>
-<div class="line"><span class="lineno">  299</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">WithComponentInstance</a>(</div>
-<div class="line"><span class="lineno">  300</span>                    async instance =&gt; await instance</div>
-<div class="line"><span class="lineno">  301</span>                    .Configuration</div>
-<div class="line"><span class="lineno">  302</span>                    .<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08">DeleteDirectory</a>(directory.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, systemIdentity, cancellationToken)</div>
-<div class="line"><span class="lineno">  303</span>                        ? NoContent()</div>
-<div class="line"><span class="lineno">  304</span>                        : Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ConfigurationDirectoryNotEmpty)));</div>
-<div class="line"><span class="lineno">  305</span>            }</div>
-<div class="line"><span class="lineno">  306</span>            <span class="keywordflow">catch</span> (NotImplementedException ex)</div>
-<div class="line"><span class="lineno">  307</span>            {</div>
-<div class="line"><span class="lineno">  308</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">RequiresPosixSystemIdentity</a>(ex);</div>
-<div class="line"><span class="lineno">  309</span>            }</div>
-<div class="line"><span class="lineno">  310</span>            <span class="keywordflow">catch</span> (UnauthorizedAccessException)</div>
-<div class="line"><span class="lineno">  311</span>            {</div>
-<div class="line"><span class="lineno">  312</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  313</span>            }</div>
-<div class="line"><span class="lineno">  314</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller_html_ae4fbaa774b0c8f4c4693988e37e0bb08"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08">Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory</a></div><div class="ttdeci">async Task&lt; IActionResult &gt; DeleteDirectory([FromBody] ConfigurationFileRequest directory, CancellationToken cancellationToken)</div><div class="ttdoc">Deletes an empty directory .</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_controller_8cs_source.html#l00286">ConfigurationController.cs:286</a></div></div>
+<div class="line"><span class="lineno">  294</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  295</span>            {</div>
+<div class="line"><span class="lineno">  296</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">WithComponentInstance</a>(</div>
+<div class="line"><span class="lineno">  297</span>                    async instance =&gt; await instance</div>
+<div class="line"><span class="lineno">  298</span>                    .Configuration</div>
+<div class="line"><span class="lineno">  299</span>                    .<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08">DeleteDirectory</a>(directory.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, systemIdentity, cancellationToken)</div>
+<div class="line"><span class="lineno">  300</span>                        ? NoContent()</div>
+<div class="line"><span class="lineno">  301</span>                        : Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.ConfigurationDirectoryNotEmpty)));</div>
+<div class="line"><span class="lineno">  302</span>            }</div>
+<div class="line"><span class="lineno">  303</span>            <span class="keywordflow">catch</span> (NotImplementedException ex)</div>
+<div class="line"><span class="lineno">  304</span>            {</div>
+<div class="line"><span class="lineno">  305</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">RequiresPosixSystemIdentity</a>(ex);</div>
+<div class="line"><span class="lineno">  306</span>            }</div>
+<div class="line"><span class="lineno">  307</span>            <span class="keywordflow">catch</span> (UnauthorizedAccessException)</div>
+<div class="line"><span class="lineno">  308</span>            {</div>
+<div class="line"><span class="lineno">  309</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  310</span>            }</div>
+<div class="line"><span class="lineno">  311</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller_html_ae4fbaa774b0c8f4c4693988e37e0bb08"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08">Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory</a></div><div class="ttdeci">async Task&lt; IActionResult &gt; DeleteDirectory([FromBody] ConfigurationFileRequest directory, CancellationToken cancellationToken)</div><div class="ttdoc">Deletes an empty directory .</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_controller_8cs_source.html#l00284">ConfigurationController.cs:284</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_configuration_controller_8cs_source.html#l00286">Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00322">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, <a class="el" href="_api_controller_8cs_source.html#l00221">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00120">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance()</a>.</p>
+<p class="reference">References <a class="el" href="_configuration_controller_8cs_source.html#l00284">Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, <a class="el" href="_api_controller_8cs_source.html#l00219">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00119">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00286">Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00284">Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -576,7 +574,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult for the operation.</dd></dl>
 <p>&lt;response code="200"&gt;Directory listed successfully.&lt;/response&gt;&gt; &lt;response code="410"&gt;Directory does not currently exist.&lt;/response&gt; </p>
 
-<p class="reference">References <a class="el" href="_configuration_controller_8cs_source.html#l00322">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, and <a class="el" href="_api_controller_8cs_source.html#l00221">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>.</p>
+<p class="reference">References <a class="el" href="_configuration_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, and <a class="el" href="_api_controller_8cs_source.html#l00219">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -629,40 +627,40 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult for the operation.</dd></dl>
 <p>&gt; &lt;response code="200"&gt;File read successfully.&lt;/response&gt;&gt; &lt;response code="410"&gt;File does not currently exist.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00119">119</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  120</span>        {</div>
-<div class="line"><span class="lineno">  121</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">ForbidDueToModeConflicts</a>(filePath, out var systemIdentity))</div>
-<div class="line"><span class="lineno">  122</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">  123</span> </div>
-<div class="line"><span class="lineno">  124</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  125</span>            {</div>
-<div class="line"><span class="lineno">  126</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">WithComponentInstance</a>(</div>
-<div class="line"><span class="lineno">  127</span>                    async instance =&gt;</div>
-<div class="line"><span class="lineno">  128</span>                    {</div>
-<div class="line"><span class="lineno">  129</span>                        var result = await instance</div>
-<div class="line"><span class="lineno">  130</span>                            .Configuration</div>
-<div class="line"><span class="lineno">  131</span>                            .Read(filePath, systemIdentity, cancellationToken);</div>
-<div class="line"><span class="lineno">  132</span>                        <span class="keywordflow">if</span> (result == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  133</span>                            <span class="keywordflow">return</span> this.Gone();</div>
-<div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span>                        <span class="keywordflow">return</span> Json(result);</div>
-<div class="line"><span class="lineno">  136</span>                    });</div>
-<div class="line"><span class="lineno">  137</span>            }</div>
-<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">catch</span> (IOException e)</div>
-<div class="line"><span class="lineno">  139</span>            {</div>
-<div class="line"><span class="lineno">  140</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(e, <span class="stringliteral">&quot;IOException while reading file {path}!&quot;</span>, filePath);</div>
-<div class="line"><span class="lineno">  141</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.IOError)</div>
-<div class="line"><span class="lineno">  142</span>                {</div>
-<div class="line"><span class="lineno">  143</span>                    AdditionalData = e.Message,</div>
-<div class="line"><span class="lineno">  144</span>                });</div>
-<div class="line"><span class="lineno">  145</span>            }</div>
-<div class="line"><span class="lineno">  146</span>            <span class="keywordflow">catch</span> (NotImplementedException ex)</div>
-<div class="line"><span class="lineno">  147</span>            {</div>
-<div class="line"><span class="lineno">  148</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">RequiresPosixSystemIdentity</a>(ex);</div>
-<div class="line"><span class="lineno">  149</span>            }</div>
-<div class="line"><span class="lineno">  150</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00118">118</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>        {</div>
+<div class="line"><span class="lineno">  120</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">ForbidDueToModeConflicts</a>(filePath, out var systemIdentity))</div>
+<div class="line"><span class="lineno">  121</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  124</span>            {</div>
+<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">WithComponentInstance</a>(</div>
+<div class="line"><span class="lineno">  126</span>                    async instance =&gt;</div>
+<div class="line"><span class="lineno">  127</span>                    {</div>
+<div class="line"><span class="lineno">  128</span>                        var result = await instance</div>
+<div class="line"><span class="lineno">  129</span>                            .Configuration</div>
+<div class="line"><span class="lineno">  130</span>                            .Read(filePath, systemIdentity, cancellationToken);</div>
+<div class="line"><span class="lineno">  131</span>                        <span class="keywordflow">if</span> (result == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  132</span>                            <span class="keywordflow">return</span> this.Gone();</div>
+<div class="line"><span class="lineno">  133</span> </div>
+<div class="line"><span class="lineno">  134</span>                        <span class="keywordflow">return</span> Json(result);</div>
+<div class="line"><span class="lineno">  135</span>                    });</div>
+<div class="line"><span class="lineno">  136</span>            }</div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">catch</span> (IOException e)</div>
+<div class="line"><span class="lineno">  138</span>            {</div>
+<div class="line"><span class="lineno">  139</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(e, <span class="stringliteral">&quot;IOException while reading file {path}!&quot;</span>, filePath);</div>
+<div class="line"><span class="lineno">  140</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.IOError)</div>
+<div class="line"><span class="lineno">  141</span>                {</div>
+<div class="line"><span class="lineno">  142</span>                    AdditionalData = e.Message,</div>
+<div class="line"><span class="lineno">  143</span>                });</div>
+<div class="line"><span class="lineno">  144</span>            }</div>
+<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">catch</span> (NotImplementedException ex)</div>
+<div class="line"><span class="lineno">  146</span>            {</div>
+<div class="line"><span class="lineno">  147</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">RequiresPosixSystemIdentity</a>(ex);</div>
+<div class="line"><span class="lineno">  148</span>            }</div>
+<div class="line"><span class="lineno">  149</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_configuration_controller_8cs_source.html#l00322">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, <a class="el" href="_api_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_api_controller_8cs_source.html#l00221">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00120">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance()</a>.</p>
+<p class="reference">References <a class="el" href="_configuration_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, <a class="el" href="_api_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_api_controller_8cs_source.html#l00219">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00119">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -724,19 +722,19 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if a ForbidResult should be returned, <code>false</code> otherwise.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00322">322</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  323</span>        {</div>
-<div class="line"><span class="lineno">  324</span>            <span class="keywordflow">if</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a6183efad1d4344d06e59ea8bc2072a19">ConfigurationType</a> == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440">ConfigurationType</a>.Disallowed</div>
-<div class="line"><span class="lineno">  325</span>                || (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a6183efad1d4344d06e59ea8bc2072a19">ConfigurationType</a> == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440">ConfigurationType</a>.SystemIdentityWrite &amp;&amp; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a05ce72960f78e0a11148f44292f3fb7b">SystemIdentity</a> == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  326</span>                || (path != <span class="keyword">null</span> &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a564df332546a6fcee923d3e2cab2fac6">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">PathContainsParentAccess</a>(path)))</div>
-<div class="line"><span class="lineno">  327</span>            {</div>
-<div class="line"><span class="lineno">  328</span>                systemIdentityToUse = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  329</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  330</span>            }</div>
-<div class="line"><span class="lineno">  331</span> </div>
-<div class="line"><span class="lineno">  332</span>            systemIdentityToUse = Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite ? AuthenticationContext.SystemIdentity : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  333</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  334</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00319">319</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  320</span>        {</div>
+<div class="line"><span class="lineno">  321</span>            <span class="keywordflow">if</span> (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a6183efad1d4344d06e59ea8bc2072a19">ConfigurationType</a> == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440">ConfigurationType</a>.Disallowed</div>
+<div class="line"><span class="lineno">  322</span>                || (<a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a6183efad1d4344d06e59ea8bc2072a19">ConfigurationType</a> == <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440">ConfigurationType</a>.SystemIdentityWrite &amp;&amp; <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a05ce72960f78e0a11148f44292f3fb7b">SystemIdentity</a> == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  323</span>                || (path != <span class="keyword">null</span> &amp;&amp; <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a564df332546a6fcee923d3e2cab2fac6">ioManager</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">PathContainsParentAccess</a>(path)))</div>
+<div class="line"><span class="lineno">  324</span>            {</div>
+<div class="line"><span class="lineno">  325</span>                systemIdentityToUse = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  326</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  327</span>            }</div>
+<div class="line"><span class="lineno">  328</span> </div>
+<div class="line"><span class="lineno">  329</span>            systemIdentityToUse = Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite ? AuthenticationContext.SystemIdentity : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  330</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  331</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></div><div class="ttdoc">Metadata about a server instance.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00008">Instance.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_html_a6183efad1d4344d06e59ea8bc2072a19"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a6183efad1d4344d06e59ea8bc2072a19">Tgstation.Server.Api.Models.Instance.ConfigurationType</a></div><div class="ttdeci">ConfigurationType? ConfigurationType</div><div class="ttdoc">If IConfigurationFiles can be used on the Instance.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00029">Instance.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">Tgstation.Server.Host.Security.AuthenticationContext</a></div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00010">AuthenticationContext.cs:11</a></div></div>
@@ -746,7 +744,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00029">Tgstation.Server.Api.Models.Instance.ConfigurationType</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00033">Tgstation.Server.Host.Controllers.ConfigurationController.ioManager</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855">Tgstation.Server.Host.IO.IIOManager.PathContainsParentAccess()</a>, and <a class="el" href="_authentication_context_8cs_source.html#l00022">Tgstation.Server.Host.Security.AuthenticationContext.SystemIdentity</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00235">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00286">Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#abbe1f7166c3f34f85b4f844611b40735">Tgstation.Server.Host.Controllers.ConfigurationController.Directory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00119">Tgstation.Server.Host.Controllers.ConfigurationController.File()</a>, and <a class="el" href="_configuration_controller_8cs_source.html#l00070">Tgstation.Server.Host.Controllers.ConfigurationController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00234">Tgstation.Server.Host.Controllers.ConfigurationController.CreateDirectory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00284">Tgstation.Server.Host.Controllers.ConfigurationController.DeleteDirectory()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#abbe1f7166c3f34f85b4f844611b40735">Tgstation.Server.Host.Controllers.ConfigurationController.Directory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00118">Tgstation.Server.Host.Controllers.ConfigurationController.File()</a>, and <a class="el" href="_configuration_controller_8cs_source.html#l00070">Tgstation.Server.Host.Controllers.ConfigurationController.Update()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -856,43 +854,42 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00070">70</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   71</span>        {</div>
-<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">if</span> (model == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   73</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(model));</div>
-<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">ForbidDueToModeConflicts</a>(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, out var systemIdentity))</div>
-<div class="line"><span class="lineno">   75</span>                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   78</span>            {</div>
-<div class="line"><span class="lineno">   79</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">WithComponentInstance</a>(</div>
-<div class="line"><span class="lineno">   80</span>                    async instance =&gt;</div>
-<div class="line"><span class="lineno">   81</span>                    {</div>
-<div class="line"><span class="lineno">   82</span>                        var newFile = await instance</div>
-<div class="line"><span class="lineno">   83</span>                            .Configuration</div>
-<div class="line"><span class="lineno">   84</span>                            .Write(</div>
-<div class="line"><span class="lineno">   85</span>                                model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>,</div>
-<div class="line"><span class="lineno">   86</span>                                systemIdentity,</div>
-<div class="line"><span class="lineno">   87</span>                                model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a89633ee04c243fdf17bedcff2935b0b0">LastReadHash</a>,</div>
-<div class="line"><span class="lineno">   88</span>                                cancellationToken);</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>                        <span class="keywordflow">return</span> model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a89633ee04c243fdf17bedcff2935b0b0">LastReadHash</a> == <span class="keyword">null</span> ? Accepted(newFile) : Json(newFile);</div>
-<div class="line"><span class="lineno">   91</span>                    });</div>
-<div class="line"><span class="lineno">   92</span>            }</div>
-<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">catch</span> (IOException e)</div>
-<div class="line"><span class="lineno">   94</span>            {</div>
-<div class="line"><span class="lineno">   95</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(e, <span class="stringliteral">&quot;IOException while updating file {path}!&quot;</span>, model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>);</div>
-<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.IOError)</div>
-<div class="line"><span class="lineno">   97</span>                {</div>
-<div class="line"><span class="lineno">   98</span>                    AdditionalData = e.Message,</div>
-<div class="line"><span class="lineno">   99</span>                });</div>
-<div class="line"><span class="lineno">  100</span>            }</div>
-<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">catch</span> (NotImplementedException ex)</div>
-<div class="line"><span class="lineno">  102</span>            {</div>
-<div class="line"><span class="lineno">  103</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">RequiresPosixSystemIdentity</a>(ex);</div>
-<div class="line"><span class="lineno">  104</span>            }</div>
-<div class="line"><span class="lineno">  105</span>        }</div>
+<div class="line"><span class="lineno">   72</span>            ArgumentNullException.ThrowIfNull(model);</div>
+<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde">ForbidDueToModeConflicts</a>(model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>, out var systemIdentity))</div>
+<div class="line"><span class="lineno">   74</span>                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   77</span>            {</div>
+<div class="line"><span class="lineno">   78</span>                <span class="keywordflow">return</span> await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_component_interfacing_controller.html#a3d6adfe8816453492476eefc1767ff6c">WithComponentInstance</a>(</div>
+<div class="line"><span class="lineno">   79</span>                    async instance =&gt;</div>
+<div class="line"><span class="lineno">   80</span>                    {</div>
+<div class="line"><span class="lineno">   81</span>                        var newFile = await instance</div>
+<div class="line"><span class="lineno">   82</span>                            .Configuration</div>
+<div class="line"><span class="lineno">   83</span>                            .Write(</div>
+<div class="line"><span class="lineno">   84</span>                                model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>,</div>
+<div class="line"><span class="lineno">   85</span>                                systemIdentity,</div>
+<div class="line"><span class="lineno">   86</span>                                model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a89633ee04c243fdf17bedcff2935b0b0">LastReadHash</a>,</div>
+<div class="line"><span class="lineno">   87</span>                                cancellationToken);</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>                        <span class="keywordflow">return</span> model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a89633ee04c243fdf17bedcff2935b0b0">LastReadHash</a> == <span class="keyword">null</span> ? Accepted(newFile) : Json(newFile);</div>
+<div class="line"><span class="lineno">   90</span>                    });</div>
+<div class="line"><span class="lineno">   91</span>            }</div>
+<div class="line"><span class="lineno">   92</span>            <span class="keywordflow">catch</span> (IOException e)</div>
+<div class="line"><span class="lineno">   93</span>            {</div>
+<div class="line"><span class="lineno">   94</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogInformation(e, <span class="stringliteral">&quot;IOException while updating file {path}!&quot;</span>, model.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a57c298a3685eb896e606202082bf6f0b">Path</a>);</div>
+<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">return</span> Conflict(<span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>(<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.IOError)</div>
+<div class="line"><span class="lineno">   96</span>                {</div>
+<div class="line"><span class="lineno">   97</span>                    AdditionalData = e.Message,</div>
+<div class="line"><span class="lineno">   98</span>                });</div>
+<div class="line"><span class="lineno">   99</span>            }</div>
+<div class="line"><span class="lineno">  100</span>            <span class="keywordflow">catch</span> (NotImplementedException ex)</div>
+<div class="line"><span class="lineno">  101</span>            {</div>
+<div class="line"><span class="lineno">  102</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a526173be91476b48ade7f0bc0cac6287">RequiresPosixSystemIdentity</a>(ex);</div>
+<div class="line"><span class="lineno">  103</span>            }</div>
+<div class="line"><span class="lineno">  104</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request_html_a89633ee04c243fdf17bedcff2935b0b0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_configuration_file_request.html#a89633ee04c243fdf17bedcff2935b0b0">Tgstation.Server.Api.Models.Request.ConfigurationFileRequest.LastReadHash</a></div><div class="ttdeci">string? LastReadHash</div><div class="ttdoc">The MD5 hash of the file when last read by the user. If this doesn't match during update actions,...</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_file_request_8cs_source.html#l00013">ConfigurationFileRequest.cs:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_configuration_controller_8cs_source.html#l00322">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, <a class="el" href="_api_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_api_controller_8cs_source.html#l00221">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00120">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance()</a>.</p>
+<p class="reference">References <a class="el" href="_configuration_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>, <a class="el" href="_api_controller_8cs_source.html#l00068">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="_api_controller_8cs_source.html#l00219">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, and <a class="el" href="_component_interfacing_controller_8cs_source.html#l00119">Tgstation.Server.Host.Controllers.ComponentInterfacingController.WithComponentInstance()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -935,7 +932,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_configuration_controller_8cs_source.html#l00033">33</a> of file <a class="el" href="_configuration_controller_8cs_source.html">ConfigurationController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00043">Tgstation.Server.Host.Controllers.ConfigurationController.ConfigurationController()</a>, and <a class="el" href="_configuration_controller_8cs_source.html#l00322">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00043">Tgstation.Server.Host.Controllers.ConfigurationController.ConfigurationController()</a>, and <a class="el" href="_configuration_controller_8cs_source.html#l00319">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>.</p>
 
 </div>
 </div>

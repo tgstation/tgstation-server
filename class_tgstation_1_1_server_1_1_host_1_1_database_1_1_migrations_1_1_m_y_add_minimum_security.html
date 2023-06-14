@@ -801,19 +801,18 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20180918020726___m_y_add_minimum_security_8cs_source.html#l00034">34</a> of file <a class="el" href="20180918020726___m_y_add_minimum_security_8cs_source.html">20180918020726_MYAddMinimumSecurity.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   37</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   40</span>                name: <span class="stringliteral">&quot;ApiValidationSecurityLevel&quot;</span>,</div>
-<div class="line"><span class="lineno">   41</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   44</span>                name: <span class="stringliteral">&quot;MinimumSecurityLevel&quot;</span>,</div>
-<div class="line"><span class="lineno">   45</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
-<div class="line"><span class="lineno">   46</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20180918020726___m_y_add_minimum_security_8cs_source.html#l00033">33</a> of file <a class="el" href="20180918020726___m_y_add_minimum_security_8cs_source.html">20180918020726_MYAddMinimumSecurity.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>        {</div>
+<div class="line"><span class="lineno">   35</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   36</span> </div>
+<div class="line"><span class="lineno">   37</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   38</span>                name: <span class="stringliteral">&quot;ApiValidationSecurityLevel&quot;</span>,</div>
+<div class="line"><span class="lineno">   39</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   40</span> </div>
+<div class="line"><span class="lineno">   41</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   42</span>                name: <span class="stringliteral">&quot;MinimumSecurityLevel&quot;</span>,</div>
+<div class="line"><span class="lineno">   43</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>);</div>
+<div class="line"><span class="lineno">   44</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -845,21 +844,20 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20180918020726___m_y_add_minimum_security_8cs_source.html#l00015">15</a> of file <a class="el" href="20180918020726___m_y_add_minimum_security_8cs_source.html">20180918020726_MYAddMinimumSecurity.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   16</span>        {</div>
-<div class="line"><span class="lineno">   17</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   18</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   19</span> </div>
-<div class="line"><span class="lineno">   20</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   21</span>                name: <span class="stringliteral">&quot;ApiValidationSecurityLevel&quot;</span>,</div>
-<div class="line"><span class="lineno">   22</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   23</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   24</span>                defaultValue: (int)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Safe);</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
-<div class="line"><span class="lineno">   27</span>                name: <span class="stringliteral">&quot;MinimumSecurityLevel&quot;</span>,</div>
-<div class="line"><span class="lineno">   28</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
-<div class="line"><span class="lineno">   29</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   30</span>                defaultValue: (int)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Safe);</div>
-<div class="line"><span class="lineno">   31</span>        }</div>
+<div class="line"><span class="lineno">   17</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   18</span> </div>
+<div class="line"><span class="lineno">   19</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   20</span>                name: <span class="stringliteral">&quot;ApiValidationSecurityLevel&quot;</span>,</div>
+<div class="line"><span class="lineno">   21</span>                table: <span class="stringliteral">&quot;DreamMakerSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   22</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   23</span>                defaultValue: (int)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Safe);</div>
+<div class="line"><span class="lineno">   24</span> </div>
+<div class="line"><span class="lineno">   25</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">int</span>&gt;(</div>
+<div class="line"><span class="lineno">   26</span>                name: <span class="stringliteral">&quot;MinimumSecurityLevel&quot;</span>,</div>
+<div class="line"><span class="lineno">   27</span>                table: <span class="stringliteral">&quot;CompileJobs&quot;</span>,</div>
+<div class="line"><span class="lineno">   28</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   29</span>                defaultValue: (int)<a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">DreamDaemonSecurity</a>.Safe);</div>
+<div class="line"><span class="lineno">   30</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ad4850e6b78816679602b13d63d2869b5"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5">Tgstation.Server.Api.Models.DreamDaemonSecurity</a></div><div class="ttdeci">DreamDaemonSecurity</div><div class="ttdoc">DreamDaemon's security level.</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_security_8cs_source.html#l00006">DreamDaemonSecurity.cs:7</a></div></div>
 </div><!-- fragment -->
 </div>

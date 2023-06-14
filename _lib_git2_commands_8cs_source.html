@@ -97,16 +97,14 @@ $(function() {
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            FetchOptions fetchOptions,</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            <span class="keywordtype">string</span> logMessage)</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <span class="keywordflow">if</span> (libGit2Repo == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(libGit2Repo));</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            <span class="keywordflow">if</span> (remote == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(remote));</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            Commands.Fetch((LibGit2Sharp.Repository)libGit2Repo, remote.Name, refSpecs, fetchOptions, logMessage);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            ArgumentNullException.ThrowIfNull(libGit2Repo);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            ArgumentNullException.ThrowIfNull(remote);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            Commands.Fetch((LibGit2Sharp.Repository)libGit2Repo, remote.Name, refSpecs, fetchOptions, logMessage);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>}</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html">Tgstation.Server.Host.Components.Repository.LibGit2Commands</a></div><div class="ttdef"><b>Definition:</b> <a href="_lib_git2_commands_8cs_source.html#l00009">LibGit2Commands.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands_html_a24fb43b841e486d791dc52078ec1d870"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html#a24fb43b841e486d791dc52078ec1d870">Tgstation.Server.Host.Components.Repository.LibGit2Commands.Fetch</a></div><div class="ttdeci">void Fetch(LibGit2Sharp.IRepository libGit2Repo, IEnumerable&lt; string &gt; refSpecs, Remote remote, FetchOptions fetchOptions, string logMessage)</div><div class="ttdoc">Runs a blocking fetch operation on a given repository .</div><div class="ttdef"><b>Definition:</b> <a href="_lib_git2_commands_8cs_source.html#l00016">LibGit2Commands.cs:16</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands_html_a6bd416c14953fd88906f93050249e705"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html#a6bd416c14953fd88906f93050249e705">Tgstation.Server.Host.Components.Repository.LibGit2Commands.Checkout</a></div><div class="ttdeci">void Checkout(LibGit2Sharp.IRepository libGit2Repo, CheckoutOptions checkoutOptions, string commitish)</div><div class="ttdoc">Runs a blocking checkout operation on a given repository .</div></div>

@@ -218,17 +218,16 @@ Static Private Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_version_converter_8cs_source.html#l00024">24</a> of file <a class="el" href="_version_converter_8cs_source.html">VersionConverter.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   25</span>        {</div>
-<div class="line"><span class="lineno">   26</span>            <span class="keywordflow">if</span> (type == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   27</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(type));</div>
-<div class="line"><span class="lineno">   28</span> </div>
-<div class="line"><span class="lineno">   29</span>            var supported = type == typeof(global::System.Version);</div>
-<div class="line"><span class="lineno">   30</span>            <span class="keywordflow">if</span> (!supported &amp;&amp; validate)</div>
-<div class="line"><span class="lineno">   31</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException($<span class="stringliteral">&quot;{nameof(VersionConverter)} does not convert {type}s!&quot;</span>);</div>
-<div class="line"><span class="lineno">   32</span> </div>
-<div class="line"><span class="lineno">   33</span>            <span class="keywordflow">return</span> supported;</div>
-<div class="line"><span class="lineno">   34</span>        }</div>
+<div class="line"><span class="lineno">   26</span>            ArgumentNullException.ThrowIfNull(type);</div>
+<div class="line"><span class="lineno">   27</span> </div>
+<div class="line"><span class="lineno">   28</span>            var supported = type == typeof(global::System.Version);</div>
+<div class="line"><span class="lineno">   29</span>            <span class="keywordflow">if</span> (!supported &amp;&amp; validate)</div>
+<div class="line"><span class="lineno">   30</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException($<span class="stringliteral">&quot;{nameof(VersionConverter)} does not convert {type}s!&quot;</span>);</div>
+<div class="line"><span class="lineno">   31</span> </div>
+<div class="line"><span class="lineno">   32</span>            <span class="keywordflow">return</span> supported;</div>
+<div class="line"><span class="lineno">   33</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_version_converter_8cs_source.html#l00054">Tgstation.Server.Host.Extensions.Converters.VersionConverter.ReadJson()</a>, and <a class="el" href="_version_converter_8cs_source.html#l00091">Tgstation.Server.Host.Extensions.Converters.VersionConverter.WriteYaml()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_version_converter_8cs_source.html#l00053">Tgstation.Server.Host.Extensions.Converters.VersionConverter.ReadJson()</a>, and <a class="el" href="_version_converter_8cs_source.html#l00089">Tgstation.Server.Host.Extensions.Converters.VersionConverter.WriteYaml()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -282,32 +281,31 @@ Here is the caller graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_version_converter_8cs_source.html#l00054">54</a> of file <a class="el" href="_version_converter_8cs_source.html">VersionConverter.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>        {</div>
-<div class="line"><span class="lineno">   56</span>            <span class="keywordflow">if</span> (reader == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   57</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(reader));</div>
+<p class="definition">Definition at line <a class="el" href="_version_converter_8cs_source.html#l00053">53</a> of file <a class="el" href="_version_converter_8cs_source.html">VersionConverter.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>        {</div>
+<div class="line"><span class="lineno">   55</span>            ArgumentNullException.ThrowIfNull(reader);</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html#a057e89ea85a91dee6aebe0ff9e5203d8">CheckSupportsType</a>(objectType, <span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html#a057e89ea85a91dee6aebe0ff9e5203d8">CheckSupportsType</a>(objectType, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>            <span class="keywordflow">if</span> (reader.TokenType == JsonToken.Null)</div>
-<div class="line"><span class="lineno">   62</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">if</span> (reader.TokenType == JsonToken.String)</div>
-<div class="line"><span class="lineno">   65</span>            {</div>
-<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   67</span>                {</div>
-<div class="line"><span class="lineno">   68</span>                    var v = global::System.Version.Parse((<span class="keywordtype">string</span>)reader.Value);</div>
-<div class="line"><span class="lineno">   69</span>                    <span class="keywordflow">return</span> v.Semver();</div>
-<div class="line"><span class="lineno">   70</span>                }</div>
-<div class="line"><span class="lineno">   71</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><span class="lineno">   72</span>                {</div>
-<div class="line"><span class="lineno">   73</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> JsonSerializationException($<span class="stringliteral">&quot;Error parsing version string: {reader.Value}&quot;</span>, ex);</div>
-<div class="line"><span class="lineno">   74</span>                }</div>
-<div class="line"><span class="lineno">   75</span>            }</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">throw</span> <span class="keyword">new</span> JsonSerializationException(</div>
-<div class="line"><span class="lineno">   78</span>                $<span class="stringliteral">&quot;Unexpected token or value when parsing version. Token: {reader.TokenType}, Value: {reader.Value}&quot;</span>);</div>
-<div class="line"><span class="lineno">   79</span>        }</div>
+<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">if</span> (reader.TokenType == JsonToken.Null)</div>
+<div class="line"><span class="lineno">   60</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">if</span> (reader.TokenType == JsonToken.String)</div>
+<div class="line"><span class="lineno">   63</span>            {</div>
+<div class="line"><span class="lineno">   64</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   65</span>                {</div>
+<div class="line"><span class="lineno">   66</span>                    var v = global::System.Version.Parse((<span class="keywordtype">string</span>)reader.Value);</div>
+<div class="line"><span class="lineno">   67</span>                    <span class="keywordflow">return</span> v.Semver();</div>
+<div class="line"><span class="lineno">   68</span>                }</div>
+<div class="line"><span class="lineno">   69</span>                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><span class="lineno">   70</span>                {</div>
+<div class="line"><span class="lineno">   71</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> JsonSerializationException($<span class="stringliteral">&quot;Error parsing version string: {reader.Value}&quot;</span>, ex);</div>
+<div class="line"><span class="lineno">   72</span>                }</div>
+<div class="line"><span class="lineno">   73</span>            }</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">throw</span> <span class="keyword">new</span> JsonSerializationException(</div>
+<div class="line"><span class="lineno">   76</span>                $<span class="stringliteral">&quot;Unexpected token or value when parsing version. Token: {reader.TokenType}, Value: {reader.Value}&quot;</span>);</div>
+<div class="line"><span class="lineno">   77</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter_html_a057e89ea85a91dee6aebe0ff9e5203d8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html#a057e89ea85a91dee6aebe0ff9e5203d8">Tgstation.Server.Host.Extensions.Converters.VersionConverter.CheckSupportsType</a></div><div class="ttdeci">static bool CheckSupportsType(Type type, bool validate)</div><div class="ttdoc">Check if the VersionConverter supports (de)serializing a given type .</div><div class="ttdef"><b>Definition:</b> <a href="_version_converter_8cs_source.html#l00024">VersionConverter.cs:24</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_version_converter_8cs_source.html#l00024">Tgstation.Server.Host.Extensions.Converters.VersionConverter.CheckSupportsType()</a>.</p>
@@ -387,21 +385,21 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_version_converter_8cs_source.html#l00037">37</a> of file <a class="el" href="_version_converter_8cs_source.html">VersionConverter.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   38</span>        {</div>
-<div class="line"><span class="lineno">   39</span>            <span class="keywordflow">if</span> (value == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   40</span>            {</div>
-<div class="line"><span class="lineno">   41</span>                writer.WriteNull();</div>
-<div class="line"><span class="lineno">   42</span>            }</div>
-<div class="line"><span class="lineno">   43</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (value is global::System.Version version)</div>
-<div class="line"><span class="lineno">   44</span>            {</div>
-<div class="line"><span class="lineno">   45</span>                writer.WriteValue(version.Semver().ToString());</div>
-<div class="line"><span class="lineno">   46</span>            }</div>
-<div class="line"><span class="lineno">   47</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   48</span>            {</div>
-<div class="line"><span class="lineno">   49</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Expected Version object!&quot;</span>, nameof(value));</div>
-<div class="line"><span class="lineno">   50</span>            }</div>
-<div class="line"><span class="lineno">   51</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_version_converter_8cs_source.html#l00036">36</a> of file <a class="el" href="_version_converter_8cs_source.html">VersionConverter.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>        {</div>
+<div class="line"><span class="lineno">   38</span>            <span class="keywordflow">if</span> (value == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   39</span>            {</div>
+<div class="line"><span class="lineno">   40</span>                writer.WriteNull();</div>
+<div class="line"><span class="lineno">   41</span>            }</div>
+<div class="line"><span class="lineno">   42</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (value is global::System.Version version)</div>
+<div class="line"><span class="lineno">   43</span>            {</div>
+<div class="line"><span class="lineno">   44</span>                writer.WriteValue(version.Semver().ToString());</div>
+<div class="line"><span class="lineno">   45</span>            }</div>
+<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   47</span>            {</div>
+<div class="line"><span class="lineno">   48</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Expected Version object!&quot;</span>, nameof(value));</div>
+<div class="line"><span class="lineno">   49</span>            }</div>
+<div class="line"><span class="lineno">   50</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -439,23 +437,22 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_version_converter_8cs_source.html#l00091">91</a> of file <a class="el" href="_version_converter_8cs_source.html">VersionConverter.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   92</span>        {</div>
-<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">if</span> (emitter == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   94</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(emitter));</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html#a057e89ea85a91dee6aebe0ff9e5203d8">CheckSupportsType</a>(type, <span class="keyword">true</span>);</div>
+<p class="definition">Definition at line <a class="el" href="_version_converter_8cs_source.html#l00089">89</a> of file <a class="el" href="_version_converter_8cs_source.html">VersionConverter.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   90</span>        {</div>
+<div class="line"><span class="lineno">   91</span>            ArgumentNullException.ThrowIfNull(emitter);</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_converters_1_1_version_converter.html#a057e89ea85a91dee6aebe0ff9e5203d8">CheckSupportsType</a>(type, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> (value == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   96</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Null values not supported!&quot;</span>);</div>
 <div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">if</span> (value == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   99</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Null values not supported!&quot;</span>);</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            var version = (global::System.Version)value;</div>
-<div class="line"><span class="lineno">  102</span>            emitter.Emit(</div>
-<div class="line"><span class="lineno">  103</span>                <span class="keyword">new</span> Scalar(</div>
-<div class="line"><span class="lineno">  104</span>                    version</div>
-<div class="line"><span class="lineno">  105</span>                        .Semver()</div>
-<div class="line"><span class="lineno">  106</span>                        .ToString()));</div>
-<div class="line"><span class="lineno">  107</span>        }</div>
+<div class="line"><span class="lineno">   98</span>            var version = (global::System.Version)value;</div>
+<div class="line"><span class="lineno">   99</span>            emitter.Emit(</div>
+<div class="line"><span class="lineno">  100</span>                <span class="keyword">new</span> Scalar(</div>
+<div class="line"><span class="lineno">  101</span>                    version</div>
+<div class="line"><span class="lineno">  102</span>                        .Semver()</div>
+<div class="line"><span class="lineno">  103</span>                        .ToString()));</div>
+<div class="line"><span class="lineno">  104</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_version_converter_8cs_source.html#l00024">Tgstation.Server.Host.Extensions.Converters.VersionConverter.CheckSupportsType()</a>.</p>
 <div class="dynheader">

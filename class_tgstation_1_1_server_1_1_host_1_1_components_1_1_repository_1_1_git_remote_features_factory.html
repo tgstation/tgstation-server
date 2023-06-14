@@ -241,27 +241,26 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_git_remote_features_factory_8cs_source.html#l00045">45</a> of file <a class="el" href="_git_remote_features_factory_8cs_source.html">GitRemoteFeaturesFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   46</span>        {</div>
-<div class="line"><span class="lineno">   47</span>            <span class="keywordflow">if</span> (repository == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   48</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(repository));</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>            var primaryRemote = repository.Origin;</div>
-<div class="line"><span class="lineno">   51</span>            var remoteGitProvider = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a2ff0a4312b655dab33456d56e371775e">ParseRemoteGitProviderFromOrigin</a>(primaryRemote);</div>
-<div class="line"><span class="lineno">   52</span>            <span class="keywordflow">return</span> remoteGitProvider <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">   53</span>            {</div>
-<div class="line"><span class="lineno">   54</span>                RemoteGitProvider.GitHub =&gt; <span class="keyword">new</span> GitHubRemoteFeatures(</div>
-<div class="line"><span class="lineno">   55</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#af11a56ad4b9a68a72610e00860665ede">gitHubServiceFactory</a>,</div>
-<div class="line"><span class="lineno">   56</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a57810c84e93f72a073d92d185a0bfba5">loggerFactory</a>.CreateLogger&lt;GitHubRemoteFeatures&gt;(),</div>
-<div class="line"><span class="lineno">   57</span>                    primaryRemote),</div>
-<div class="line"><span class="lineno">   58</span>                RemoteGitProvider.GitLab =&gt; <span class="keyword">new</span> GitLabRemoteFeatures(</div>
-<div class="line"><span class="lineno">   59</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a57810c84e93f72a073d92d185a0bfba5">loggerFactory</a>.CreateLogger&lt;GitLabRemoteFeatures&gt;(),</div>
-<div class="line"><span class="lineno">   60</span>                    primaryRemote),</div>
-<div class="line"><span class="lineno">   61</span>                RemoteGitProvider.Unknown =&gt; <span class="keyword">new</span> DefaultGitRemoteFeatures(),</div>
-<div class="line"><span class="lineno">   62</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Unknown RemoteGitProvider: {remoteGitProvider}!&quot;</span>),</div>
-<div class="line"><span class="lineno">   63</span>            };</div>
-<div class="line"><span class="lineno">   64</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory_html_a2ff0a4312b655dab33456d56e371775e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a2ff0a4312b655dab33456d56e371775e">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.ParseRemoteGitProviderFromOrigin</a></div><div class="ttdeci">RemoteGitProvider ParseRemoteGitProviderFromOrigin(Uri origin)</div><div class="ttdoc">Gets the RemoteGitProvider for a given origin . The RemoteGitProvider of the origin .</div><div class="ttdef"><b>Definition:</b> <a href="_git_remote_features_factory_8cs_source.html#l00067">GitRemoteFeaturesFactory.cs:67</a></div></div>
+<div class="line"><span class="lineno">   47</span>            ArgumentNullException.ThrowIfNull(repository);</div>
+<div class="line"><span class="lineno">   48</span> </div>
+<div class="line"><span class="lineno">   49</span>            var primaryRemote = repository.Origin;</div>
+<div class="line"><span class="lineno">   50</span>            var remoteGitProvider = <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a2ff0a4312b655dab33456d56e371775e">ParseRemoteGitProviderFromOrigin</a>(primaryRemote);</div>
+<div class="line"><span class="lineno">   51</span>            <span class="keywordflow">return</span> remoteGitProvider <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">   52</span>            {</div>
+<div class="line"><span class="lineno">   53</span>                RemoteGitProvider.GitHub =&gt; <span class="keyword">new</span> GitHubRemoteFeatures(</div>
+<div class="line"><span class="lineno">   54</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#af11a56ad4b9a68a72610e00860665ede">gitHubServiceFactory</a>,</div>
+<div class="line"><span class="lineno">   55</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a57810c84e93f72a073d92d185a0bfba5">loggerFactory</a>.CreateLogger&lt;GitHubRemoteFeatures&gt;(),</div>
+<div class="line"><span class="lineno">   56</span>                    primaryRemote),</div>
+<div class="line"><span class="lineno">   57</span>                RemoteGitProvider.GitLab =&gt; <span class="keyword">new</span> GitLabRemoteFeatures(</div>
+<div class="line"><span class="lineno">   58</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a57810c84e93f72a073d92d185a0bfba5">loggerFactory</a>.CreateLogger&lt;GitLabRemoteFeatures&gt;(),</div>
+<div class="line"><span class="lineno">   59</span>                    primaryRemote),</div>
+<div class="line"><span class="lineno">   60</span>                RemoteGitProvider.Unknown =&gt; <span class="keyword">new</span> DefaultGitRemoteFeatures(),</div>
+<div class="line"><span class="lineno">   61</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Unknown RemoteGitProvider: {remoteGitProvider}!&quot;</span>),</div>
+<div class="line"><span class="lineno">   62</span>            };</div>
+<div class="line"><span class="lineno">   63</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory_html_a2ff0a4312b655dab33456d56e371775e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a2ff0a4312b655dab33456d56e371775e">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.ParseRemoteGitProviderFromOrigin</a></div><div class="ttdeci">RemoteGitProvider ParseRemoteGitProviderFromOrigin(Uri origin)</div><div class="ttdoc">Gets the RemoteGitProvider for a given origin . The RemoteGitProvider of the origin .</div><div class="ttdef"><b>Definition:</b> <a href="_git_remote_features_factory_8cs_source.html#l00066">GitRemoteFeaturesFactory.cs:66</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_git_remote_features_factory_8cs_source.html#l00016">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.gitHubServiceFactory</a>, <a class="el" href="_git_remote_features_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.loggerFactory</a>, <a class="el" href="_i_repository_8cs_source.html#l00033">Tgstation.Server.Host.Components.Repository.IRepository.Origin</a>, and <a class="el" href="_git_remote_features_factory_8cs_source.html#l00067">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.ParseRemoteGitProviderFromOrigin()</a>.</p>
+<p class="reference">References <a class="el" href="_git_remote_features_factory_8cs_source.html#l00016">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.gitHubServiceFactory</a>, <a class="el" href="_git_remote_features_factory_8cs_source.html#l00021">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.loggerFactory</a>, <a class="el" href="_i_repository_8cs_source.html#l00033">Tgstation.Server.Host.Components.Repository.IRepository.Origin</a>, and <a class="el" href="_git_remote_features_factory_8cs_source.html#l00066">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.ParseRemoteGitProviderFromOrigin()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -301,26 +300,25 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ae7e26c0b76d3cd67c5c2939fbe6136d3">Tgstation.Server.Host.Components.Repository.IGitRemoteFeaturesFactory</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_remote_features_factory_8cs_source.html#l00067">67</a> of file <a class="el" href="_git_remote_features_factory_8cs_source.html">GitRemoteFeaturesFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   68</span>        {</div>
-<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">if</span> (origin == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   70</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(origin));</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">switch</span> (origin.Host.ToUpperInvariant())</div>
-<div class="line"><span class="lineno">   73</span>            {</div>
-<div class="line"><span class="lineno">   74</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GITHUB.COM&quot;</span>:</div>
-<div class="line"><span class="lineno">   75</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;WWW.GITHUB.COM&quot;</span>:</div>
-<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GIT.GITHUB.COM&quot;</span>:</div>
-<div class="line"><span class="lineno">   77</span>                    <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.GitHub;</div>
-<div class="line"><span class="lineno">   78</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GITLAB.COM&quot;</span>:</div>
-<div class="line"><span class="lineno">   79</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;WWW.GITLAB.COM&quot;</span>:</div>
-<div class="line"><span class="lineno">   80</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GIT.GITLAB.COM&quot;</span>:</div>
-<div class="line"><span class="lineno">   81</span>                    <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.GitLab;</div>
-<div class="line"><span class="lineno">   82</span>                <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">   83</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a590455e46a1b07cc20bbc598a9f70c48">logger</a>.LogTrace(<span class="stringliteral">&quot;Unknown git remote: {0}&quot;</span>, origin);</div>
-<div class="line"><span class="lineno">   84</span>                    <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.Unknown;</div>
-<div class="line"><span class="lineno">   85</span>            }</div>
-<div class="line"><span class="lineno">   86</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_git_remote_features_factory_8cs_source.html#l00066">66</a> of file <a class="el" href="_git_remote_features_factory_8cs_source.html">GitRemoteFeaturesFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>        {</div>
+<div class="line"><span class="lineno">   68</span>            ArgumentNullException.ThrowIfNull(origin);</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">switch</span> (origin.Host.ToUpperInvariant())</div>
+<div class="line"><span class="lineno">   71</span>            {</div>
+<div class="line"><span class="lineno">   72</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GITHUB.COM&quot;</span>:</div>
+<div class="line"><span class="lineno">   73</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;WWW.GITHUB.COM&quot;</span>:</div>
+<div class="line"><span class="lineno">   74</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GIT.GITHUB.COM&quot;</span>:</div>
+<div class="line"><span class="lineno">   75</span>                    <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.GitHub;</div>
+<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GITLAB.COM&quot;</span>:</div>
+<div class="line"><span class="lineno">   77</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;WWW.GITLAB.COM&quot;</span>:</div>
+<div class="line"><span class="lineno">   78</span>                <span class="keywordflow">case</span> <span class="stringliteral">&quot;GIT.GITLAB.COM&quot;</span>:</div>
+<div class="line"><span class="lineno">   79</span>                    <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.GitLab;</div>
+<div class="line"><span class="lineno">   80</span>                <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">   81</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_factory.html#a590455e46a1b07cc20bbc598a9f70c48">logger</a>.LogTrace(<span class="stringliteral">&quot;Unknown git remote: {0}&quot;</span>, origin);</div>
+<div class="line"><span class="lineno">   82</span>                    <span class="keywordflow">return</span> <a class="code hl_enumeration" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a>.Unknown;</div>
+<div class="line"><span class="lineno">   83</span>            }</div>
+<div class="line"><span class="lineno">   84</span>        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_aaff5188f30ee5c04c081684eb9672f17"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">Tgstation.Server.Api.Models.RemoteGitProvider</a></div><div class="ttdeci">RemoteGitProvider</div><div class="ttdoc">Indicates the remote git host.</div><div class="ttdef"><b>Definition:</b> <a href="_remote_git_provider_8cs_source.html#l00006">RemoteGitProvider.cs:7</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_git_remote_features_factory_8cs_source.html#l00026">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.logger</a>.</p>
@@ -391,7 +389,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_git_remote_features_factory_8cs_source.html#l00026">26</a> of file <a class="el" href="_git_remote_features_factory_8cs_source.html">GitRemoteFeaturesFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_remote_features_factory_8cs_source.html#l00034">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.GitRemoteFeaturesFactory()</a>, and <a class="el" href="_git_remote_features_factory_8cs_source.html#l00067">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.ParseRemoteGitProviderFromOrigin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_remote_features_factory_8cs_source.html#l00034">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.GitRemoteFeaturesFactory()</a>, and <a class="el" href="_git_remote_features_factory_8cs_source.html#l00066">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesFactory.ParseRemoteGitProviderFromOrigin()</a>.</p>
 
 </div>
 </div>

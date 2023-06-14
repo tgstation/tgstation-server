@@ -168,17 +168,16 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00028">28</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   29</span>        {</div>
-<div class="line"><span class="lineno">   30</span>            <span class="keywordflow">if</span> (task == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   31</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(task));</div>
-<div class="line"><span class="lineno">   32</span> </div>
-<div class="line"><span class="lineno">   33</span>            async Task&lt;object&gt; Wrap()</div>
-<div class="line"><span class="lineno">   34</span>            {</div>
-<div class="line"><span class="lineno">   35</span>                await task;</div>
-<div class="line"><span class="lineno">   36</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   37</span>            }</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>            <span class="keywordflow">return</span> Wrap().WithToken(cancellationToken);</div>
-<div class="line"><span class="lineno">   40</span>        }</div>
+<div class="line"><span class="lineno">   30</span>            ArgumentNullException.ThrowIfNull(task);</div>
+<div class="line"><span class="lineno">   31</span> </div>
+<div class="line"><span class="lineno">   32</span>            async Task&lt;object&gt; Wrap()</div>
+<div class="line"><span class="lineno">   33</span>            {</div>
+<div class="line"><span class="lineno">   34</span>                await task;</div>
+<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   36</span>            }</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>            <span class="keywordflow">return</span> Wrap().WithToken(cancellationToken);</div>
+<div class="line"><span class="lineno">   39</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -232,18 +231,17 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the result of <em>task</em> .</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00049">49</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   50</span>        {</div>
-<div class="line"><span class="lineno">   51</span>            <span class="keywordflow">if</span> (task == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   52</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(task));</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>            var cancelTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
-<div class="line"><span class="lineno">   55</span>            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; cancelTcs.SetCanceled()))</div>
-<div class="line"><span class="lineno">   56</span>                await Task.WhenAny(task, cancelTcs.Task);</div>
-<div class="line"><span class="lineno">   57</span>            cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">return</span> await task;</div>
-<div class="line"><span class="lineno">   60</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_task_extensions_8cs_source.html#l00048">48</a> of file <a class="el" href="_task_extensions_8cs_source.html">TaskExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>        {</div>
+<div class="line"><span class="lineno">   50</span>            ArgumentNullException.ThrowIfNull(task);</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>            var cancelTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
+<div class="line"><span class="lineno">   53</span>            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; cancelTcs.SetCanceled()))</div>
+<div class="line"><span class="lineno">   54</span>                await Task.WhenAny(task, cancelTcs.Task);</div>
+<div class="line"><span class="lineno">   55</span>            cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">return</span> await task;</div>
+<div class="line"><span class="lineno">   58</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -188,32 +188,30 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   37</span>        {</div>
 <div class="line"><span class="lineno">   38</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a86a823a9e7ee94f2497bfae86c1efeed">SystemIdentity</a> = systemIdentity ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(systemIdentity));</div>
 <div class="line"><span class="lineno">   39</span> </div>
-<div class="line"><span class="lineno">   40</span>            <span class="keywordflow">if</span> (asyncDelayer == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   41</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(asyncDelayer));</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>            <span class="keywordflow">if</span> (onExpiry == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   44</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(onExpiry));</div>
-<div class="line"><span class="lineno">   45</span>            var now = DateTimeOffset.UtcNow;</div>
-<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">if</span> (expiry &lt; now)</div>
-<div class="line"><span class="lineno">   47</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(expiry), expiry, <span class="stringliteral">&quot;expiry must be greater than DateTimeOffset.UtcNow!&quot;</span>);</div>
+<div class="line"><span class="lineno">   40</span>            ArgumentNullException.ThrowIfNull(asyncDelayer);</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>            ArgumentNullException.ThrowIfNull(onExpiry);</div>
+<div class="line"><span class="lineno">   43</span>            var now = DateTimeOffset.UtcNow;</div>
+<div class="line"><span class="lineno">   44</span>            <span class="keywordflow">if</span> (expiry &lt; now)</div>
+<div class="line"><span class="lineno">   45</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(expiry), expiry, <span class="stringliteral">&quot;expiry must be greater than DateTimeOffset.UtcNow!&quot;</span>);</div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
 <div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   51</span>            async Task DisposeOnExipiry(CancellationToken cancellationToken)</div>
-<div class="line"><span class="lineno">   52</span>            {</div>
-<div class="line"><span class="lineno">   53</span>                <span class="keyword">using</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a86a823a9e7ee94f2497bfae86c1efeed">SystemIdentity</a>)</div>
-<div class="line"><span class="lineno">   54</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   55</span>                    {</div>
-<div class="line"><span class="lineno">   56</span>                        await asyncDelayer.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(expiry - now, cancellationToken);</div>
-<div class="line"><span class="lineno">   57</span>                    }</div>
-<div class="line"><span class="lineno">   58</span>                    <span class="keywordflow">finally</span></div>
-<div class="line"><span class="lineno">   59</span>                    {</div>
-<div class="line"><span class="lineno">   60</span>                        onExpiry();</div>
-<div class="line"><span class="lineno">   61</span>                    }</div>
-<div class="line"><span class="lineno">   62</span>            }</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">task</a> = DisposeOnExipiry(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Token);</div>
-<div class="line"><span class="lineno">   65</span>        }</div>
+<div class="line"><span class="lineno">   49</span>            async Task DisposeOnExipiry(CancellationToken cancellationToken)</div>
+<div class="line"><span class="lineno">   50</span>            {</div>
+<div class="line"><span class="lineno">   51</span>                <span class="keyword">using</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a86a823a9e7ee94f2497bfae86c1efeed">SystemIdentity</a>)</div>
+<div class="line"><span class="lineno">   52</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   53</span>                    {</div>
+<div class="line"><span class="lineno">   54</span>                        await asyncDelayer.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977">Delay</a>(expiry - now, cancellationToken);</div>
+<div class="line"><span class="lineno">   55</span>                    }</div>
+<div class="line"><span class="lineno">   56</span>                    <span class="keywordflow">finally</span></div>
+<div class="line"><span class="lineno">   57</span>                    {</div>
+<div class="line"><span class="lineno">   58</span>                        onExpiry();</div>
+<div class="line"><span class="lineno">   59</span>                    }</div>
+<div class="line"><span class="lineno">   60</span>            }</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">task</a> = DisposeOnExipiry(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Token);</div>
+<div class="line"><span class="lineno">   63</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object_html_a2d1a4fc7b7fee56456ccebfb699ad8ee"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">Tgstation.Server.Host.Security.IdentityCacheObject.task</a></div><div class="ttdeci">readonly Task task</div><div class="ttdoc">The Task to clean up SystemIdentity.</div><div class="ttdef"><b>Definition:</b> <a href="_identity_cache_object_8cs_source.html#l00027">IdentityCacheObject.cs:27</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object_html_a86a823a9e7ee94f2497bfae86c1efeed"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a86a823a9e7ee94f2497bfae86c1efeed">Tgstation.Server.Host.Security.IdentityCacheObject.SystemIdentity</a></div><div class="ttdeci">ISystemIdentity SystemIdentity</div><div class="ttdoc">The ISystemIdentity the IdentityCache manages.</div><div class="ttdef"><b>Definition:</b> <a href="_identity_cache_object_8cs_source.html#l00017">IdentityCacheObject.cs:17</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object_html_ac8422fda839cd16fd8b467bb4947f8a1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">Tgstation.Server.Host.Security.IdentityCacheObject.cancellationTokenSource</a></div><div class="ttdeci">readonly CancellationTokenSource cancellationTokenSource</div><div class="ttdoc">The cancellationTokenSource for the IdentityCache.</div><div class="ttdef"><b>Definition:</b> <a href="_identity_cache_object_8cs_source.html#l00022">IdentityCacheObject.cs:22</a></div></div>
@@ -250,19 +248,19 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_identity_cache_object_8cs_source.html#l00068">68</a> of file <a class="el" href="_identity_cache_object_8cs_source.html">IdentityCacheObject.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   69</span>        {</div>
-<div class="line"><span class="lineno">   70</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Cancel();</div>
-<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   72</span>            {</div>
-<div class="line"><span class="lineno">   73</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">task</a>.GetAwaiter().GetResult();</div>
-<div class="line"><span class="lineno">   74</span>            }</div>
-<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><span class="lineno">   76</span>            {</div>
-<div class="line"><span class="lineno">   77</span>            }</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Dispose();</div>
-<div class="line"><span class="lineno">   80</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_identity_cache_object_8cs_source.html#l00066">66</a> of file <a class="el" href="_identity_cache_object_8cs_source.html">IdentityCacheObject.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>        {</div>
+<div class="line"><span class="lineno">   68</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Cancel();</div>
+<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   70</span>            {</div>
+<div class="line"><span class="lineno">   71</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee">task</a>.GetAwaiter().GetResult();</div>
+<div class="line"><span class="lineno">   72</span>            }</div>
+<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><span class="lineno">   74</span>            {</div>
+<div class="line"><span class="lineno">   75</span>            }</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a>.Dispose();</div>
+<div class="line"><span class="lineno">   78</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_identity_cache_object_8cs_source.html#l00022">Tgstation.Server.Host.Security.IdentityCacheObject.cancellationTokenSource</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00027">Tgstation.Server.Host.Security.IdentityCacheObject.task</a>.</p>
 
@@ -293,7 +291,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_identity_cache_object_8cs_source.html#l00022">22</a> of file <a class="el" href="_identity_cache_object_8cs_source.html">IdentityCacheObject.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_identity_cache_object_8cs_source.html#l00068">Tgstation.Server.Host.Security.IdentityCacheObject.Dispose()</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00036">Tgstation.Server.Host.Security.IdentityCacheObject.IdentityCacheObject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_identity_cache_object_8cs_source.html#l00066">Tgstation.Server.Host.Security.IdentityCacheObject.Dispose()</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00036">Tgstation.Server.Host.Security.IdentityCacheObject.IdentityCacheObject()</a>.</p>
 
 </div>
 </div>
@@ -321,7 +319,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_identity_cache_object_8cs_source.html#l00027">27</a> of file <a class="el" href="_identity_cache_object_8cs_source.html">IdentityCacheObject.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_identity_cache_object_8cs_source.html#l00068">Tgstation.Server.Host.Security.IdentityCacheObject.Dispose()</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00036">Tgstation.Server.Host.Security.IdentityCacheObject.IdentityCacheObject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_identity_cache_object_8cs_source.html#l00066">Tgstation.Server.Host.Security.IdentityCacheObject.Dispose()</a>, and <a class="el" href="_identity_cache_object_8cs_source.html#l00036">Tgstation.Server.Host.Security.IdentityCacheObject.IdentityCacheObject()</a>.</p>
 
 </div>
 </div>

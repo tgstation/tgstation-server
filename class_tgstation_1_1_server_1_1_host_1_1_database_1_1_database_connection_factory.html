@@ -164,18 +164,17 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_database_connection_factory_8cs_source.html#l00019">19</a> of file <a class="el" href="_database_connection_factory_8cs_source.html">DatabaseConnectionFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   20</span>        {</div>
-<div class="line"><span class="lineno">   21</span>            <span class="keywordflow">if</span> (connectionString == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   22</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(connectionString));</div>
-<div class="line"><span class="lineno">   23</span> </div>
-<div class="line"><span class="lineno">   24</span>            <span class="keywordflow">return</span> databaseType <span class="keywordflow">switch</span></div>
-<div class="line"><span class="lineno">   25</span>            {</div>
-<div class="line"><span class="lineno">   26</span>                DatabaseType.MariaDB or DatabaseType.MySql =&gt; <span class="keyword">new</span> MySqlConnection(connectionString),</div>
-<div class="line"><span class="lineno">   27</span>                DatabaseType.SqlServer =&gt; <span class="keyword">new</span> SqlConnection(connectionString),</div>
-<div class="line"><span class="lineno">   28</span>                DatabaseType.Sqlite =&gt; <span class="keyword">new</span> SqliteConnection(connectionString),</div>
-<div class="line"><span class="lineno">   29</span>                DatabaseType.PostgresSql =&gt; <span class="keyword">new</span> NpgsqlConnection(connectionString),</div>
-<div class="line"><span class="lineno">   30</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(databaseType), databaseType, <span class="stringliteral">&quot;Invalid DatabaseType!&quot;</span>),</div>
-<div class="line"><span class="lineno">   31</span>            };</div>
-<div class="line"><span class="lineno">   32</span>        }</div>
+<div class="line"><span class="lineno">   21</span>            ArgumentNullException.ThrowIfNull(connectionString);</div>
+<div class="line"><span class="lineno">   22</span> </div>
+<div class="line"><span class="lineno">   23</span>            <span class="keywordflow">return</span> databaseType <span class="keywordflow">switch</span></div>
+<div class="line"><span class="lineno">   24</span>            {</div>
+<div class="line"><span class="lineno">   25</span>                DatabaseType.MariaDB or DatabaseType.MySql =&gt; <span class="keyword">new</span> MySqlConnection(connectionString),</div>
+<div class="line"><span class="lineno">   26</span>                DatabaseType.SqlServer =&gt; <span class="keyword">new</span> SqlConnection(connectionString),</div>
+<div class="line"><span class="lineno">   27</span>                DatabaseType.Sqlite =&gt; <span class="keyword">new</span> SqliteConnection(connectionString),</div>
+<div class="line"><span class="lineno">   28</span>                DatabaseType.PostgresSql =&gt; <span class="keyword">new</span> NpgsqlConnection(connectionString),</div>
+<div class="line"><span class="lineno">   29</span>                _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(databaseType), databaseType, <span class="stringliteral">&quot;Invalid DatabaseType!&quot;</span>),</div>
+<div class="line"><span class="lineno">   30</span>            };</div>
+<div class="line"><span class="lineno">   31</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -942,15 +942,14 @@ Protected Member Functions</h2></td></tr>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="20201106082502___m_s_add_additional_d_d_parameters_8cs_source.html#l00027">27</a> of file <a class="el" href="20201106082502___m_s_add_additional_d_d_parameters_8cs_source.html">20201106082502_MSAddAdditionalDDParameters.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   28</span>        {</div>
-<div class="line"><span class="lineno">   29</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   30</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   31</span> </div>
-<div class="line"><span class="lineno">   32</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><span class="lineno">   33</span>                name: <span class="stringliteral">&quot;AdditionalParameters&quot;</span>,</div>
-<div class="line"><span class="lineno">   34</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
-<div class="line"><span class="lineno">   35</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="20201106082502___m_s_add_additional_d_d_parameters_8cs_source.html#l00026">26</a> of file <a class="el" href="20201106082502___m_s_add_additional_d_d_parameters_8cs_source.html">20201106082502_MSAddAdditionalDDParameters.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>        {</div>
+<div class="line"><span class="lineno">   28</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   29</span> </div>
+<div class="line"><span class="lineno">   30</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><span class="lineno">   31</span>                name: <span class="stringliteral">&quot;AdditionalParameters&quot;</span>,</div>
+<div class="line"><span class="lineno">   32</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>);</div>
+<div class="line"><span class="lineno">   33</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -982,16 +981,15 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="20201106082502___m_s_add_additional_d_d_parameters_8cs_source.html#l00013">13</a> of file <a class="el" href="20201106082502___m_s_add_additional_d_d_parameters_8cs_source.html">20201106082502_MSAddAdditionalDDParameters.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>        {</div>
-<div class="line"><span class="lineno">   15</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   16</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
-<div class="line"><span class="lineno">   19</span>                name: <span class="stringliteral">&quot;AdditionalParameters&quot;</span>,</div>
-<div class="line"><span class="lineno">   20</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
-<div class="line"><span class="lineno">   21</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   22</span>                maxLength: 10000,</div>
-<div class="line"><span class="lineno">   23</span>                defaultValue: String.Empty);</div>
-<div class="line"><span class="lineno">   24</span>        }</div>
+<div class="line"><span class="lineno">   15</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><span class="lineno">   16</span> </div>
+<div class="line"><span class="lineno">   17</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">string</span>&gt;(</div>
+<div class="line"><span class="lineno">   18</span>                name: <span class="stringliteral">&quot;AdditionalParameters&quot;</span>,</div>
+<div class="line"><span class="lineno">   19</span>                table: <span class="stringliteral">&quot;DreamDaemonSettings&quot;</span>,</div>
+<div class="line"><span class="lineno">   20</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   21</span>                maxLength: 10000,</div>
+<div class="line"><span class="lineno">   22</span>                defaultValue: String.Empty);</div>
+<div class="line"><span class="lineno">   23</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>

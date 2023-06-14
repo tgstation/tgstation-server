@@ -90,32 +90,30 @@ $(function() {
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    {</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a1cb7fa25cfe3c53070bfd7eefec487f4">   15</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a1cb7fa25cfe3c53070bfd7eefec487f4">Up</a>(MigrationBuilder migrationBuilder)</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                name: <span class="stringliteral">&quot;IsSystemChannel&quot;</span>,</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                type: <span class="stringliteral">&quot;bit&quot;</span>,</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                nullable: <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                defaultValue: <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a20d5943798ff081b9fa83f4b2b0a29d7">   29</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a20d5943798ff081b9fa83f4b2b0a29d7">Down</a>(MigrationBuilder migrationBuilder)</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="keywordflow">if</span> (migrationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(migrationBuilder));</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            migrationBuilder.DropColumn(</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                name: <span class="stringliteral">&quot;IsSystemChannel&quot;</span>,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        }</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            migrationBuilder.AddColumn&lt;<span class="keywordtype">bool</span>&gt;(</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                name: <span class="stringliteral">&quot;IsSystemChannel&quot;</span>,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                type: <span class="stringliteral">&quot;bit&quot;</span>,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                nullable: <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                defaultValue: <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        }</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a20d5943798ff081b9fa83f4b2b0a29d7">   28</a></span>        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a20d5943798ff081b9fa83f4b2b0a29d7">Down</a>(MigrationBuilder migrationBuilder)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            ArgumentNullException.ThrowIfNull(migrationBuilder);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            migrationBuilder.DropColumn(</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                name: <span class="stringliteral">&quot;IsSystemChannel&quot;</span>,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                table: <span class="stringliteral">&quot;ChatChannels&quot;</span>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}</div>
 <div class="ttc" id="aclass_migration_html"><div class="ttname"><a href="class_migration.html">Migration</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html">Tgstation.Server.Host.Database.Migrations.MSAddSystemChannels</a></div><div class="ttdoc">Adds the IsSystemChannel chat channel option for MSSQL.</div><div class="ttdef"><b>Definition:</b> <a href="20230520203236___m_s_add_system_channels_8cs_source.html#l00012">20230520203236_MSAddSystemChannels.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels_html_a1cb7fa25cfe3c53070bfd7eefec487f4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a1cb7fa25cfe3c53070bfd7eefec487f4">Tgstation.Server.Host.Database.Migrations.MSAddSystemChannels.Up</a></div><div class="ttdeci">override void Up(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20230520203236___m_s_add_system_channels_8cs_source.html#l00015">20230520203236_MSAddSystemChannels.cs:15</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels_html_a20d5943798ff081b9fa83f4b2b0a29d7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a20d5943798ff081b9fa83f4b2b0a29d7">Tgstation.Server.Host.Database.Migrations.MSAddSystemChannels.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20230520203236___m_s_add_system_channels_8cs_source.html#l00029">20230520203236_MSAddSystemChannels.cs:29</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels_html_a20d5943798ff081b9fa83f4b2b0a29d7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_system_channels.html#a20d5943798ff081b9fa83f4b2b0a29d7">Tgstation.Server.Host.Database.Migrations.MSAddSystemChannels.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20230520203236___m_s_add_system_channels_8cs_source.html#l00028">20230520203236_MSAddSystemChannels.cs:28</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations.html">Tgstation.Server.Host.Database.Migrations</a></div><div class="ttdef"><b>Definition:</b> <a href="20180906135553___m_s_initial_create_8cs_source.html#l00006">20180906135553_MSInitialCreate.cs:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

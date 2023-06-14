@@ -269,14 +269,13 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   47</span>        {</div>
 <div class="line"><span class="lineno">   48</span>            this.gitHubServiceFactory = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#af3ffbba9538d9189ab1649d3269b413d">gitHubServiceFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#af3ffbba9538d9189ab1649d3269b413d">gitHubServiceFactory</a>));</div>
 <div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">if</span> (remoteUrl == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   51</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(remoteUrl));</div>
-<div class="line"><span class="lineno">   52</span> </div>
-<div class="line"><span class="lineno">   53</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a5b11c97341ed3d24bfe18d64f5face1a">RemoteRepositoryOwner</a> = remoteUrl.Segments[1].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><span class="lineno">   54</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a> = remoteUrl.Segments[2].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><span class="lineno">   55</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a>.EndsWith(<span class="stringliteral">&quot;.git&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
-<div class="line"><span class="lineno">   56</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a>[0..^4];</div>
-<div class="line"><span class="lineno">   57</span>        }</div>
+<div class="line"><span class="lineno">   50</span>            ArgumentNullException.ThrowIfNull(remoteUrl);</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a5b11c97341ed3d24bfe18d64f5face1a">RemoteRepositoryOwner</a> = remoteUrl.Segments[1].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><span class="lineno">   53</span>            <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a> = remoteUrl.Segments[2].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><span class="lineno">   54</span>            <span class="keywordflow">if</span> (<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a>.EndsWith(<span class="stringliteral">&quot;.git&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><span class="lineno">   55</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a> = <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a>[0..^4];</div>
+<div class="line"><span class="lineno">   56</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features_html_a5b11c97341ed3d24bfe18d64f5face1a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a5b11c97341ed3d24bfe18d64f5face1a">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.RemoteRepositoryOwner</a></div><div class="ttdeci">override string RemoteRepositoryOwner</div><div class="ttdoc">If RemoteGitProvider is not RemoteGitProvider.Unknown this will be set with the owner of the reposito...</div><div class="ttdef"><b>Definition:</b> <a href="_git_hub_remote_features_8cs_source.html#l00029">GitHubRemoteFeatures.cs:29</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features_html_a8809efd31f189daef5569293fee179c1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.RemoteRepositoryName</a></div><div class="ttdeci">override string RemoteRepositoryName</div><div class="ttdoc">If RemoteGitProvider is not RemoteGitProvider.Unknown this will be set with the name of the repositor...</div><div class="ttdef"><b>Definition:</b> <a href="_git_hub_remote_features_8cs_source.html#l00032">GitHubRemoteFeatures.cs:32</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features_html_af3ffbba9538d9189ab1649d3269b413d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#af3ffbba9538d9189ab1649d3269b413d">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.gitHubServiceFactory</a></div><div class="ttdeci">readonly IGitHubServiceFactory gitHubServiceFactory</div><div class="ttdoc">The IGitHubServiceFactory for the GitHubRemoteFeatures.</div><div class="ttdef"><b>Definition:</b> <a href="_git_hub_remote_features_8cs_source.html#l00037">GitHubRemoteFeatures.cs:37</a></div></div>
@@ -339,58 +338,58 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#a331c0fb9ffdcdd2012f4e456d1369e0d">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_git_hub_remote_features_8cs_source.html#l00060">60</a> of file <a class="el" href="_git_hub_remote_features_8cs_source.html">GitHubRemoteFeatures.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   64</span>        {</div>
-<div class="line"><span class="lineno">   65</span>            var gitHubService = repositorySettings.AccessToken != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">   66</span>                ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#af3ffbba9538d9189ab1649d3269b413d">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">CreateService</a>(repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">AccessToken</a>)</div>
-<div class="line"><span class="lineno">   67</span>                : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#af3ffbba9538d9189ab1649d3269b413d">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">CreateService</a>();</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>            PullRequest pr = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   70</span>            ApiException exception = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   71</span>            <span class="keywordtype">string</span> errorMessage = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   73</span>            {</div>
-<div class="line"><span class="lineno">   74</span>                pr = await gitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#ac8f24bd737ac3f6a489375c45f5afe9c">GetPullRequest</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a5b11c97341ed3d24bfe18d64f5face1a">RemoteRepositoryOwner</a>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a>, parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>, cancellationToken);</div>
-<div class="line"><span class="lineno">   75</span>            }</div>
-<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">catch</span> (RateLimitExceededException ex)</div>
-<div class="line"><span class="lineno">   77</span>            {</div>
-<div class="line"><span class="lineno">   78</span>                <span class="comment">// you look at your anonymous access and sigh</span></div>
-<div class="line"><span class="lineno">   79</span>                errorMessage = <span class="stringliteral">&quot;GITHUB API ERROR: RATE LIMITED&quot;</span>;</div>
-<div class="line"><span class="lineno">   80</span>                exception = ex;</div>
-<div class="line"><span class="lineno">   81</span>            }</div>
-<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">catch</span> (AuthorizationException ex)</div>
-<div class="line"><span class="lineno">   83</span>            {</div>
-<div class="line"><span class="lineno">   84</span>                errorMessage = <span class="stringliteral">&quot;GITHUB API ERROR: BAD CREDENTIALS&quot;</span>;</div>
-<div class="line"><span class="lineno">   85</span>                exception = ex;</div>
-<div class="line"><span class="lineno">   86</span>            }</div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">catch</span> (NotFoundException ex)</div>
-<div class="line"><span class="lineno">   88</span>            {</div>
-<div class="line"><span class="lineno">   89</span>                <span class="comment">// you look at your shithub and sigh</span></div>
-<div class="line"><span class="lineno">   90</span>                errorMessage = <span class="stringliteral">&quot;GITHUB API ERROR: PULL REQUEST NOT FOUND&quot;</span>;</div>
-<div class="line"><span class="lineno">   91</span>                exception = ex;</div>
-<div class="line"><span class="lineno">   92</span>            }</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">if</span> (exception != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   95</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Logger</a>.LogWarning(exception, <span class="stringliteral">&quot;Error retrieving pull request metadata!&quot;</span>);</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>            var revisionToUse = parameters.TargetCommitSha == <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">   98</span>                || pr?.Head.Sha.StartsWith(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase) == <span class="keyword">true</span></div>
-<div class="line"><span class="lineno">   99</span>                ? pr?.Head.Sha</div>
-<div class="line"><span class="lineno">  100</span>                : parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>;</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>            var testMerge = <span class="keyword">new</span> Models.TestMerge</div>
-<div class="line"><span class="lineno">  103</span>            {</div>
-<div class="line"><span class="lineno">  104</span>                Author = pr?.User.Login ?? errorMessage,</div>
-<div class="line"><span class="lineno">  105</span>                BodyAtMerge = pr?.Body ?? errorMessage ?? String.Empty,</div>
-<div class="line"><span class="lineno">  106</span>                TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,</div>
-<div class="line"><span class="lineno">  107</span>                Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
-<div class="line"><span class="lineno">  108</span>                Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
-<div class="line"><span class="lineno">  109</span>                TargetCommitSha = revisionToUse,</div>
-<div class="line"><span class="lineno">  110</span>                Url = pr?.HtmlUrl ?? errorMessage,</div>
-<div class="line"><span class="lineno">  111</span>            };</div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>            <span class="keywordflow">return</span> testMerge;</div>
-<div class="line"><span class="lineno">  114</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_git_hub_remote_features_8cs_source.html#l00059">59</a> of file <a class="el" href="_git_hub_remote_features_8cs_source.html">GitHubRemoteFeatures.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>        {</div>
+<div class="line"><span class="lineno">   64</span>            var gitHubService = repositorySettings.AccessToken != <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">   65</span>                ? <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#af3ffbba9538d9189ab1649d3269b413d">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">CreateService</a>(repositorySettings.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">AccessToken</a>)</div>
+<div class="line"><span class="lineno">   66</span>                : <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#af3ffbba9538d9189ab1649d3269b413d">gitHubServiceFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service_factory.html#a954fdb0088d42793884fa4b61c75e537">CreateService</a>();</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>            PullRequest pr = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   69</span>            ApiException exception = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordtype">string</span> errorMessage = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   71</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   72</span>            {</div>
+<div class="line"><span class="lineno">   73</span>                pr = await gitHubService.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_git_hub_1_1_i_git_hub_service.html#ac8f24bd737ac3f6a489375c45f5afe9c">GetPullRequest</a>(<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a5b11c97341ed3d24bfe18d64f5face1a">RemoteRepositoryOwner</a>, <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#a8809efd31f189daef5569293fee179c1">RemoteRepositoryName</a>, parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>, cancellationToken);</div>
+<div class="line"><span class="lineno">   74</span>            }</div>
+<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">catch</span> (RateLimitExceededException ex)</div>
+<div class="line"><span class="lineno">   76</span>            {</div>
+<div class="line"><span class="lineno">   77</span>                <span class="comment">// you look at your anonymous access and sigh</span></div>
+<div class="line"><span class="lineno">   78</span>                errorMessage = <span class="stringliteral">&quot;GITHUB API ERROR: RATE LIMITED&quot;</span>;</div>
+<div class="line"><span class="lineno">   79</span>                exception = ex;</div>
+<div class="line"><span class="lineno">   80</span>            }</div>
+<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">catch</span> (AuthorizationException ex)</div>
+<div class="line"><span class="lineno">   82</span>            {</div>
+<div class="line"><span class="lineno">   83</span>                errorMessage = <span class="stringliteral">&quot;GITHUB API ERROR: BAD CREDENTIALS&quot;</span>;</div>
+<div class="line"><span class="lineno">   84</span>                exception = ex;</div>
+<div class="line"><span class="lineno">   85</span>            }</div>
+<div class="line"><span class="lineno">   86</span>            <span class="keywordflow">catch</span> (NotFoundException ex)</div>
+<div class="line"><span class="lineno">   87</span>            {</div>
+<div class="line"><span class="lineno">   88</span>                <span class="comment">// you look at your shithub and sigh</span></div>
+<div class="line"><span class="lineno">   89</span>                errorMessage = <span class="stringliteral">&quot;GITHUB API ERROR: PULL REQUEST NOT FOUND&quot;</span>;</div>
+<div class="line"><span class="lineno">   90</span>                exception = ex;</div>
+<div class="line"><span class="lineno">   91</span>            }</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">if</span> (exception != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   94</span>                <a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Logger</a>.LogWarning(exception, <span class="stringliteral">&quot;Error retrieving pull request metadata!&quot;</span>);</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>            var revisionToUse = parameters.TargetCommitSha == <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">   97</span>                || pr?.Head.Sha.StartsWith(parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase) == <span class="keyword">true</span></div>
+<div class="line"><span class="lineno">   98</span>                ? pr?.Head.Sha</div>
+<div class="line"><span class="lineno">   99</span>                : parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>;</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>            var testMerge = <span class="keyword">new</span> Models.TestMerge</div>
+<div class="line"><span class="lineno">  102</span>            {</div>
+<div class="line"><span class="lineno">  103</span>                Author = pr?.User.Login ?? errorMessage,</div>
+<div class="line"><span class="lineno">  104</span>                BodyAtMerge = pr?.Body ?? errorMessage ?? String.Empty,</div>
+<div class="line"><span class="lineno">  105</span>                TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,</div>
+<div class="line"><span class="lineno">  106</span>                Comment = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
+<div class="line"><span class="lineno">  107</span>                Number = parameters.<a class="code hl_property" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
+<div class="line"><span class="lineno">  108</span>                TargetCommitSha = revisionToUse,</div>
+<div class="line"><span class="lineno">  109</span>                Url = pr?.HtmlUrl ?? errorMessage,</div>
+<div class="line"><span class="lineno">  110</span>            };</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">return</span> testMerge;</div>
+<div class="line"><span class="lineno">  113</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings_html_acc5868ef8bebd88a8caa34c4f8f1fd86"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">Tgstation.Server.Api.Models.Internal.RepositorySettings.AccessToken</a></div><div class="ttdeci">string? AccessToken</div><div class="ttdoc">The token/password to access the git repository with.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_repository_settings_8cs_source.html#l00037">RepositorySettings.cs:37</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a1b7f38a2ee2f645796ffeb89fe51b2ce"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">Tgstation.Server.Api.Models.TestMergeParameters.TargetCommitSha</a></div><div class="ttdeci">virtual ? string TargetCommitSha</div><div class="ttdoc">The sha of the test merge revision to merge. If not specified, the latest commit from the source will...</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00020">TestMergeParameters.cs:20</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a556ffae15694a68aa1c78f851407eb5b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Tgstation.Server.Api.Models.TestMergeParameters.Comment</a></div><div class="ttdeci">string? Comment</div><div class="ttdoc">Optional comment about the test.</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00027">TestMergeParameters.cs:27</a></div></div>
@@ -438,7 +437,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_git_hub_remote_features_8cs_source.html#l00037">37</a> of file <a class="el" href="_git_hub_remote_features_8cs_source.html">GitHubRemoteFeatures.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00060">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GitHubRemoteFeatures()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00059">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GitHubRemoteFeatures()</a>.</p>
 
 </div>
 </div>
@@ -498,7 +497,7 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_git_hub_remote_features_8cs_source.html#l00032">32</a> of file <a class="el" href="_git_hub_remote_features_8cs_source.html">GitHubRemoteFeatures.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   32</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00060">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GitHubRemoteFeatures()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00059">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GitHubRemoteFeatures()</a>.</p>
 
 </div>
 </div>
@@ -529,7 +528,7 @@ Here is the call graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_git_hub_remote_features_8cs_source.html#l00029">29</a> of file <a class="el" href="_git_hub_remote_features_8cs_source.html">GitHubRemoteFeatures.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00060">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GitHubRemoteFeatures()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_git_hub_remote_features_8cs_source.html#l00059">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GetTestMergeImpl()</a>, and <a class="el" href="_git_hub_remote_features_8cs_source.html#l00045">Tgstation.Server.Host.Components.Repository.GitHubRemoteFeatures.GitHubRemoteFeatures()</a>.</p>
 
 </div>
 </div>

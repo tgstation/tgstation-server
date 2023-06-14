@@ -208,25 +208,24 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f">Tgstation.Server.Host.IO.IPostWriteHandler</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_posix_post_write_handler_8cs_source.html#l00041">41</a> of file <a class="el" href="_posix_post_write_handler_8cs_source.html">PosixPostWriteHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>        {</div>
-<div class="line"><span class="lineno">   43</span>            <span class="keywordflow">if</span> (filePath == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   44</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(filePath));</div>
-<div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   46</span>            <span class="comment">// set executable bit every time, don&#39;t want people calling me when their uploaded &quot;sl&quot; binary doesn&#39;t work</span></div>
-<div class="line"><span class="lineno">   47</span>            <span class="keywordflow">if</span> (Syscall.stat(filePath, out var stat) != 0)</div>
-<div class="line"><span class="lineno">   48</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">if</span> (stat.st_mode.HasFlag(FilePermissions.S_IXUSR))</div>
-<div class="line"><span class="lineno">   51</span>            {</div>
-<div class="line"><span class="lineno">   52</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html#a90d88fb051503e2c6b796f8a5e43d0d0">logger</a>.LogTrace(<span class="stringliteral">&quot;{0} already +x&quot;</span>, filePath);</div>
-<div class="line"><span class="lineno">   53</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   54</span>            }</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html#a90d88fb051503e2c6b796f8a5e43d0d0">logger</a>.LogTrace(<span class="stringliteral">&quot;Setting +x on {0}&quot;</span>, filePath);</div>
-<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">if</span> (Syscall.chmod(filePath, stat.st_mode | FilePermissions.S_IXUSR) != 0)</div>
-<div class="line"><span class="lineno">   58</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
-<div class="line"><span class="lineno">   59</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_posix_post_write_handler_8cs_source.html#l00040">40</a> of file <a class="el" href="_posix_post_write_handler_8cs_source.html">PosixPostWriteHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>        {</div>
+<div class="line"><span class="lineno">   42</span>            ArgumentNullException.ThrowIfNull(filePath);</div>
+<div class="line"><span class="lineno">   43</span> </div>
+<div class="line"><span class="lineno">   44</span>            <span class="comment">// set executable bit every time, don&#39;t want people calling me when their uploaded &quot;sl&quot; binary doesn&#39;t work</span></div>
+<div class="line"><span class="lineno">   45</span>            <span class="keywordflow">if</span> (Syscall.stat(filePath, out var stat) != 0)</div>
+<div class="line"><span class="lineno">   46</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
+<div class="line"><span class="lineno">   47</span> </div>
+<div class="line"><span class="lineno">   48</span>            <span class="keywordflow">if</span> (stat.st_mode.HasFlag(FilePermissions.S_IXUSR))</div>
+<div class="line"><span class="lineno">   49</span>            {</div>
+<div class="line"><span class="lineno">   50</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html#a90d88fb051503e2c6b796f8a5e43d0d0">logger</a>.LogTrace(<span class="stringliteral">&quot;{0} already +x&quot;</span>, filePath);</div>
+<div class="line"><span class="lineno">   51</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   52</span>            }</div>
+<div class="line"><span class="lineno">   53</span> </div>
+<div class="line"><span class="lineno">   54</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html#a90d88fb051503e2c6b796f8a5e43d0d0">logger</a>.LogTrace(<span class="stringliteral">&quot;Setting +x on {0}&quot;</span>, filePath);</div>
+<div class="line"><span class="lineno">   55</span>            <span class="keywordflow">if</span> (Syscall.chmod(filePath, stat.st_mode | FilePermissions.S_IXUSR) != 0)</div>
+<div class="line"><span class="lineno">   56</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
+<div class="line"><span class="lineno">   57</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_posix_post_write_handler_8cs_source.html#l00017">Tgstation.Server.Host.IO.PosixPostWriteHandler.logger</a>.</p>
 
@@ -261,14 +260,13 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_posix_post_write_handler_8cs_source.html#l00029">29</a> of file <a class="el" href="_posix_post_write_handler_8cs_source.html">PosixPostWriteHandler.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   30</span>        {</div>
-<div class="line"><span class="lineno">   31</span>            <span class="keywordflow">if</span> (sourceFilePath == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   32</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(sourceFilePath));</div>
-<div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">if</span> (Syscall.stat(sourceFilePath, out var stat) != 0)</div>
-<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
-<div class="line"><span class="lineno">   36</span> </div>
-<div class="line"><span class="lineno">   37</span>            <span class="keywordflow">return</span> stat.st_mode.HasFlag(FilePermissions.S_IXUSR);</div>
-<div class="line"><span class="lineno">   38</span>        }</div>
+<div class="line"><span class="lineno">   31</span>            ArgumentNullException.ThrowIfNull(sourceFilePath);</div>
+<div class="line"><span class="lineno">   32</span> </div>
+<div class="line"><span class="lineno">   33</span>            <span class="keywordflow">if</span> (Syscall.stat(sourceFilePath, out var stat) != 0)</div>
+<div class="line"><span class="lineno">   34</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
+<div class="line"><span class="lineno">   35</span> </div>
+<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">return</span> stat.st_mode.HasFlag(FilePermissions.S_IXUSR);</div>
+<div class="line"><span class="lineno">   37</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -297,7 +295,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_posix_post_write_handler_8cs_source.html#l00017">17</a> of file <a class="el" href="_posix_post_write_handler_8cs_source.html">PosixPostWriteHandler.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_posix_post_write_handler_8cs_source.html#l00041">Tgstation.Server.Host.IO.PosixPostWriteHandler.HandleWrite()</a>, and <a class="el" href="_posix_post_write_handler_8cs_source.html#l00023">Tgstation.Server.Host.IO.PosixPostWriteHandler.PosixPostWriteHandler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_posix_post_write_handler_8cs_source.html#l00040">Tgstation.Server.Host.IO.PosixPostWriteHandler.HandleWrite()</a>, and <a class="el" href="_posix_post_write_handler_8cs_source.html#l00023">Tgstation.Server.Host.IO.PosixPostWriteHandler.PosixPostWriteHandler()</a>.</p>
 
 </div>
 </div>
