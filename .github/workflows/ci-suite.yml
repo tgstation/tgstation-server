@@ -62,9 +62,10 @@ jobs:
     name: Build DMAPI
     needs: start-ci-run-gate
     if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
-    env:
-      BYOND_MAJOR: 515
-      BYOND_MINOR: 1606
+    strategy:
+      fail-fast: false
+      matrix:
+        byond: [ '512.1488', '513.1542', '514.1589', 'EDGE' ]
     runs-on: ubuntu-latest
     steps:
     - name: Install x86 libc Dependencies
@@ -83,13 +84,20 @@ jobs:
     - name: Build BYOND Cache if Necessary and Install
       run: |
         echo "Setting up BYOND."
-        if [[ ! -f $HOME/byond-zips-cache/linux/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}.zip ]] ; then
+        FULL_VERSION=${{ matrix.byond }}
+        if [[ "$FULL_VERSION" = "$EDGE" ]] ; then
+            VERSIONS=$(curl https://www.byond.com/download/version.txt)
+            FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
+            echo "EDGE version evaluated to $FULL_VERSION"
+        fi
+        if [[ ! -f $HOME/byond-zips-cache/linux/$FULL_VERSION.zip ]] ; then
+            BYOND_MAJOR=${FULL_VERSION%.*}
             mkdir -p $HOME/byond-zips-cache/linux
-            curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}.zip
+            curl "https://www.byond.com/download/build/$BYOND_MAJOR/${FULL_VERSION}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/$FULL_VERSION.zip
         fi
         mkdir -p "$HOME/BYOND"
         cd "$HOME/BYOND"
-        cp ~/byond-zips-cache/linux/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}.zip byond.zip
+        cp $HOME/byond-zips-cache/linux/$FULL_VERSION.zip byond.zip
         unzip byond.zip
         cd byond
         make here
