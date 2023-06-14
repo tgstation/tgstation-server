@@ -64,7 +64,7 @@ namespace Tgstation.Server.Tests.Live
 			ICryptographySuite cryptographySuite,
 			IReadOnlyCollection<ICommand> commands,
 			Random random)
-			: base(jobManager, CreateMockDelayer(), new Logger<DummyChatProvider>(LiveTestUtils.CreateLoggerFactoryForLogger(logger, out var mockLoggerFactory)), chatBot)
+			: base(jobManager, CreateMockDelayer(), new Logger<DummyChatProvider>(TestingUtils.CreateLoggerFactoryForLogger(logger, out var mockLoggerFactory)), chatBot)
 		{
 			mockLoggerFactory.VerifyAll();
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));

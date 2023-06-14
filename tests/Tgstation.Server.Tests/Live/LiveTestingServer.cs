@@ -90,7 +90,7 @@ namespace Tgstation.Server.Tests.Live
 			// high prio DD might help with some topic flakiness actually
 			// github doesn't allow nicing on linux though
 			var windows = new Host.System.PlatformIdentifier().IsWindows;
-			var nicingAllowed = windows || !LiveTestUtils.RunningInGitHubActions;
+			var nicingAllowed = windows || !TestingUtils.RunningInGitHubActions;
 			HighPriorityDreamDaemon = nicingAllowed;
 			LowPriorityDeployments = nicingAllowed;
 

@@ -5,11 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-namespace Tgstation.Server.Tests.Live
+namespace Tgstation.Server.Tests
 {
-	static class LiveTestUtils
+	static class TestingUtils
 	{
-		public static bool RunningInGitHubActions { get; } = !String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GITHUB_RUN_ID"));
+		public static bool RunningInGitHubActions { get; } = !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GITHUB_RUN_ID"));
 
 		public static ILoggerFactory CreateLoggerFactoryForLogger(ILogger logger, out Mock<ILoggerFactory> mockLoggerFactory)
 		{

@@ -85,10 +85,10 @@ namespace Tgstation.Server.Tests.Live
 		[ClassInitialize]
 		public static async Task Initialize(TestContext _)
 		{
-			if (LiveTestUtils.RunningInGitHubActions || String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
+			if (TestingUtils.RunningInGitHubActions || String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS_TEST_GITHUB_TOKEN")))
 				await DummyGitHubService.InitializeAndInject(default);
 
-			await CachingFileDownloader.InitializeAndInject(default);
+			await CachingFileDownloader.InitializeAndInjectForLiveTests(default);
 
 			await DummyChatProvider.RandomDisconnections(true, default);
 			ServerClientFactory.ApiClientFactory = new RateLimitRetryingApiClientFactory();
@@ -155,7 +155,7 @@ namespace Tgstation.Server.Tests.Live
 					break;
 				}
 			}
-			catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested && LiveTestUtils.RunningInGitHubActions)
+			catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested && TestingUtils.RunningInGitHubActions)
 			{
 				Assert.Fail("Could not connect to the test database! Try re-running failed jobs.");
 			}
@@ -910,7 +910,7 @@ namespace Tgstation.Server.Tests.Live
 				Assert.AreEqual(ProcessPriorityClass.Normal, currentProcess.PriorityClass);
 			}
 
-			var maximumTestMinutes = LiveTestUtils.RunningInGitHubActions ? 90 : 20;
+			var maximumTestMinutes = TestingUtils.RunningInGitHubActions ? 90 : 20;
 			using var hardCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(maximumTestMinutes));
 			var hardCancellationToken = hardCancellationTokenSource.Token;
 

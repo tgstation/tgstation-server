@@ -95,13 +95,22 @@ namespace Tgstation.Server.Tests
 			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
 
 			// windows only BYOND but can be checked on any system
+			var init1 = CachingFileDownloader.InitializeByondVersion(
+				null,
+				WindowsByondInstaller.DDExeVersion,
+				true,
+				CancellationToken.None);
+			await CachingFileDownloader.InitializeByondVersion(
+				null,
+				new Version(WindowsByondInstaller.DDExeVersion.Major, WindowsByondInstaller.DDExeVersion.Minor - 1),
+				true,
+				CancellationToken.None);
+			await init1;
+
 			using var byondInstaller = new WindowsByondInstaller(
 				Mock.Of<IProcessExecutor>(),
 				Mock.Of<IIOManager>(),
-				new FileDownloader(
-					new HttpClientFactory(
-						new AssemblyInformationProvider().ProductInfoHeaderValue),
-					Mock.Of<ILogger<FileDownloader>>()),
+				new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>()),
 				mockGeneralConfigurationOptions.Object,
 				Mock.Of<ILogger<WindowsByondInstaller>>());
 
@@ -135,13 +144,19 @@ namespace Tgstation.Server.Tests
 				builder.SetMinimumLevel(LogLevel.Trace);
 			});
 
-			var assemblyInformationProvider = new AssemblyInformationProvider();
-			var fileDownloader = new FileDownloader(
-				new HttpClientFactory(
-					assemblyInformationProvider.ProductInfoHeaderValue),
-				loggerFactory.CreateLogger<FileDownloader>());
-
 			var platformIdentifier = new PlatformIdentifier();
+			var init1 = CachingFileDownloader.InitializeByondVersion(
+				null,
+				ByondInstallerBase.MapThreadsVersion,
+				platformIdentifier.IsWindows,
+				CancellationToken.None);
+			await CachingFileDownloader.InitializeByondVersion(
+				null,
+				new Version(ByondInstallerBase.MapThreadsVersion.Major, ByondInstallerBase.MapThreadsVersion.Minor - 1),
+				platformIdentifier.IsWindows,
+				CancellationToken.None);
+			await init1;
+			var fileDownloader = new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>());
 
 			IByondInstaller byondInstaller = platformIdentifier.IsWindows
 				? new WindowsByondInstaller(
@@ -196,6 +211,12 @@ namespace Tgstation.Server.Tests
 			{
 				await ioManager.DeleteDirectory(tempPath, default);
 			}
+		}
+
+		[ClassCleanup]
+		public static void Cleanup()
+		{
+			CachingFileDownloader.Cleanup();
 		}
 
 		[TestMethod]
@@ -344,7 +365,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
 		}
 
-		async Task<Tuple<MemoryStream, Version>> GetByondVersionPriorTo(IByondInstaller byondInstaller, Version version)
+		static async Task<Tuple<MemoryStream, Version>> GetByondVersionPriorTo(IByondInstaller byondInstaller, Version version)
 		{
 			var minusOneMinor = new Version(version.Major, version.Minor - 1);
 			try
@@ -358,7 +379,7 @@ namespace Tgstation.Server.Tests
 			}
 		}
 
-		async Task TestMapThreadsVersion(
+		static async Task TestMapThreadsVersion(
 			Version byondVersion,
 			Stream byondBytes,
 			IByondInstaller byondInstaller,
@@ -408,13 +429,13 @@ namespace Tgstation.Server.Tests
 			}
 		}
 
-		bool ArchiveHasFileEntry(Stream byondBytes, string entryPath)
+		static bool ArchiveHasFileEntry(Stream byondBytes, string entryPath)
 		{
 			using (byondBytes)
 			{
 				using var archive = new ZipArchive(byondBytes, ZipArchiveMode.Read);
 
-				var entry = archive.Entries.FirstOrDefault(entry => entry.FullName == "byond/bin/dd.exe");
+				var entry = archive.Entries.FirstOrDefault(entry => entry.FullName == entryPath);
 
 				return entry != null;
 			}

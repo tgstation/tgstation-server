@@ -12,7 +12,7 @@ on:
     - dev
     - master
   pull_request_target:
-    types: [opened, reopened, labeled, synchronize]
+    types: [ opened, reopened, labeled, synchronize ]
     branches:
     - dev
     - master
@@ -73,20 +73,23 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 libgcc-s1:i386
 
-    - name: Restore BYOND cache
+    - name: Cache BYOND .zips
       uses: actions/cache@v3
       id: cache-byond
       with:
-        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
-        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-dmapibyond
+        path: ~/byond-zips-cache
+        key: byond-zips
 
-    - name: Install BYOND
-      if: steps.cache-byond.outputs.cache-hit != 'true'
+    - name: Build BYOND Cache if Necessary and Install
       run: |
         echo "Setting up BYOND."
-        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
+        if [[ ! -f $HOME/byond-zips-cache/linux/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}.zip ]] ; then
+            mkdir -p $HOME/byond-zips-cache/linux
+            curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o $HOME/byond-zips-cache/linux/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}.zip
+        fi
+        mkdir -p "$HOME/BYOND"
+        cd "$HOME/BYOND"
+        cp ~/byond-zips-cache/linux/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}.zip byond.zip
         unzip byond.zip
         cd byond
         make here
@@ -106,7 +109,7 @@ jobs:
       run: |
         set -e
         retval=1
-        source $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin/byondsetup
+        source $HOME/BYOND/byond/bin/byondsetup
 
         if hash DreamMaker 2>/dev/null
         then
@@ -288,9 +291,6 @@ jobs:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-latest
-    env:
-      BYOND_MAJOR: 514
-      BYOND_MINOR: 1588
     steps:
     - name: Wait for LocalDB Connection # Do this first because we don't want to find out it's failing later
       shell: powershell
@@ -303,21 +303,6 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
-
-    - name: Restore BYOND cache
-      uses: actions/cache@v3
-      id: cache-byond
-      with:
-        path: ~/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
-        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
-
-    - name: Download BYOND
-      if: steps.cache-byond.outputs.cache-hit != 'true'
-      run: |
-        echo "Downloading BYOND..."
-        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond.zip" -o byond.zip
 
     - name: Upgrade NPM
       run: npm install -g npm
@@ -390,6 +375,13 @@ jobs:
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }} tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+
+    - name: Cache BYOND .zips
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: ~/byond-zips-cache
+        key: byond-zips
 
     - name: Run Live Tests
       run: |
@@ -479,9 +471,6 @@ jobs:
         watchdog-type: [ 'Basic', 'System' ]
         configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
-    env:
-      BYOND_MAJOR: 514
-      BYOND_MINOR: 1588
     steps:
     - name: Disable ptrace_scope
       run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
@@ -491,21 +480,6 @@ jobs:
         sudo dpkg --add-architecture i386
         sudo apt-get update
         sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb libgcc-s1:i386
-
-    - name: Restore BYOND cache
-      uses: actions/cache@v3
-      id: cache-byond
-      with:
-        path: $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
-        key: ${{ env.BYOND_MAJOR }}-${{ env.BYOND_MINOR }}-livebyond
-
-    - name: Download BYOND
-      if: steps.cache-byond.outputs.cache-hit != 'true'
-      run: |
-        echo "Downloading BYOND..."
-        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
 
     - name: Install Node 12.X
       uses: actions/setup-node@v3
@@ -561,6 +535,13 @@ jobs:
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoService tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+
+    - name: Cache BYOND .zips
+      uses: actions/cache@v3
+      id: cache-byond
+      with:
+        path: ~/byond-zips-cache
+        key: byond-zips
 
     - name: Run Live Tests
       run: |
