@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// The first <see cref="Version"/> of BYOND that supports the '-map-threads' parameter on DreamDaemon.
 		/// </summary>
-		public static Version MapThreadsVersion => new (515, 1605);
+		public static Version MapThreadsVersion => new (515, 1609);
 
 		/// <inheritdoc />
 		public abstract string DreamMakerName { get; }
