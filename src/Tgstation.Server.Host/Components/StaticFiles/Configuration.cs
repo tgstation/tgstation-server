@@ -58,6 +58,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		const string CodeModificationsTailFile = "TailInclude.dm";
 
 		/// <summary>
+		/// Default contents of <see cref="CodeModificationsHeadFile"/>.
+		/// </summary>
+		static readonly string DefaultHeadInclude = @$"// TGS AUTO GENERATED HeadInclude.dm{Environment.NewLine}// This file will be included BEFORE all code in your .dme IF a replacement .dme does not exist in this directory{Environment.NewLine}// Please note that changes need to be made available if you are hosting an AGPL licensed codebase{Environment.NewLine}// The presence file in its default state does not constitute a code change that needs to be published by licensing standards{Environment.NewLine}";
+
+		/// <summary>
+		/// Default contents of <see cref="CodeModificationsHeadFile"/>.
+		/// </summary>
+		static readonly string DefaultTailInclude = @$"// TGS AUTO GENERATED TailInclude.dm{Environment.NewLine}// This file will be included AFTER all code in your .dme IF a replacement .dme does not exist in this directory{Environment.NewLine}// Please note that changes need to be made available if you are hosting an AGPL licensed codebase{Environment.NewLine}// The presence file in its default state does not constitute a code change that needs to be published by licensing standards{Environment.NewLine}";
+
+		/// <summary>
 		/// Map of <see cref="EventType"/>s to the filename of the event scripts they trigger.
 		/// </summary>
 		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>(
@@ -648,8 +658,29 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken);
 			}
 
+			async Task ValidateCodeModsFolder()
+			{
+				if (await ioManager.DirectoryExists(CodeModificationsSubdirectory, cancellationToken))
+					return;
+
+				await ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken);
+				await Task.WhenAll(
+					ioManager.WriteAllBytes(
+						ioManager.ConcatPath(
+							CodeModificationsSubdirectory,
+							CodeModificationsHeadFile),
+						Encoding.UTF8.GetBytes(DefaultHeadInclude),
+						cancellationToken),
+					ioManager.WriteAllBytes(
+						ioManager.ConcatPath(
+							CodeModificationsSubdirectory,
+							CodeModificationsTailFile),
+						Encoding.UTF8.GetBytes(DefaultTailInclude),
+						cancellationToken));
+			}
+
 			await Task.WhenAll(
-				ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken),
+				ValidateCodeModsFolder(),
 				ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken),
 				ValidateStaticFolder());
 		}

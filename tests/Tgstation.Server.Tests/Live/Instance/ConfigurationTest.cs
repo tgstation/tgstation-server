@@ -119,9 +119,32 @@ namespace Tgstation.Server.Tests.Live.Instance
 				);
 		}
 
+		Task TestPregeneratedFilesExist(CancellationToken cancellationToken) => Task.Factory.StartNew(
+			_ =>
+			{
+				var configDir = Path.Combine(instance.Path, "Configuration");
+				var baseDir = Path.Combine(configDir, "CodeModifications");
+				var path = Path.Combine(baseDir, "HeadInclude.dm");
+				var result = File.Exists(path);
+				Assert.IsTrue(result);
+				path = Path.Combine(baseDir, "TailInclude.dm");
+				result = File.Exists(path);
+				Assert.IsTrue(result);
+				var tgsIgnore = Path.Combine(configDir, "GameStaticFiles", ".tgsignore");
+				result = File.Exists(tgsIgnore);
+				Assert.IsTrue(result);
+			},
+			null,
+			cancellationToken,
+			TaskCreationOptions.LongRunning,
+			TaskScheduler.Current);
+
 		public Task RunPreWatchdog(CancellationToken cancellationToken)
 		{
-			return Task.WhenAll(TestUploadDownloadAndDeleteDirectory(cancellationToken), SetupDMApiTests(cancellationToken));
+			return Task.WhenAll(
+				TestUploadDownloadAndDeleteDirectory(cancellationToken),
+				SetupDMApiTests(cancellationToken),
+				TestPregeneratedFilesExist(cancellationToken));
 		}
 	}
 }
