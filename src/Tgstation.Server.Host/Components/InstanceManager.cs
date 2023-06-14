@@ -258,7 +258,7 @@ namespace Tgstation.Server.Host.Components
 					logger.LogDebug("Reverting instance {instanceId}'s path to {oldPath} in the DB...", instance.Id, oldPath);
 
 					// DCT: Operation must always run
-					await databaseContextFactory.UseContext(db =>
+					await databaseContextFactory.UseContext2(db =>
 					{
 						var targetInstance = new Models.Instance
 						{
@@ -544,8 +544,9 @@ namespace Tgstation.Server.Host.Components
 				await InitializeSwarm(cancellationToken);
 
 				List<Models.Instance> dbInstances = null;
-				var instanceEnumeration = databaseContextFactory.UseContext(
-					async databaseContext => dbInstances = await databaseContext
+
+				async ValueTask EnumerateInstances(IDatabaseContext databaseContext)
+					=> dbInstances = await databaseContext
 						.Instances
 						.AsQueryable()
 						.Where(x => x.Online.Value && x.SwarmIdentifer == swarmConfiguration.Identifier)
@@ -553,12 +554,14 @@ namespace Tgstation.Server.Host.Components
 						.Include(x => x.ChatSettings)
 							.ThenInclude(x => x.Channels)
 						.Include(x => x.DreamDaemonSettings)
-						.ToListAsync(cancellationToken));
+						.ToListAsync(cancellationToken);
+
+				var instanceEnumeration = databaseContextFactory.UseContext(EnumerateInstances);
 
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				var jobManagerStartup = jobService.StartAsync(cancellationToken);
 
-				await Task.WhenAll(instanceEnumeration, factoryStartup, jobManagerStartup);
+				await Task.WhenAll(instanceEnumeration.AsTask(), factoryStartup, jobManagerStartup);
 
 				var instanceOnliningTasks = dbInstances.Select(
 					async metadata =>

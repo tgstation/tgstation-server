@@ -102,7 +102,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
-		public async Task Initialize(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		public async ValueTask Initialize(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(databaseContext);
 
@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
-		public Task Downgrade(IDatabaseContext databaseContext, Version downgradeVersion, CancellationToken cancellationToken)
+		public ValueTask Downgrade(IDatabaseContext databaseContext, Version downgradeVersion, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(databaseContext);
 			ArgumentNullException.ThrowIfNull(downgradeVersion);
@@ -172,8 +172,8 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to seed.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task SeedDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask SeedDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var adminUser = SeedAdminUser(databaseContext);
 
@@ -191,8 +191,8 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to sanitize.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task SanitizeDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask SanitizeDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var admin = await GetAdminUser(databaseContext, cancellationToken);
 			if (admin != null)
@@ -270,8 +270,8 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to reset the admin password for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var admin = await GetAdminUser(databaseContext, cancellationToken);
 			if (admin != null)
@@ -302,8 +302,8 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the admin <see cref="User"/> or <see langword="null"/>. If <see langword="null"/>, <see cref="IDatabaseContext.Save(CancellationToken)"/> must be called on <paramref name="databaseContext"/>.</returns>
-		async Task<User> GetAdminUser(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the admin <see cref="User"/> or <see langword="null"/>. If <see langword="null"/>, <see cref="IDatabaseContext.Save(CancellationToken)"/> must be called on <paramref name="databaseContext"/>.</returns>
+		async ValueTask<User> GetAdminUser(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var admin = await databaseContext
 				.Users

@@ -23,8 +23,8 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="job">The <see cref="Job"/>. Should at least have <see cref="Job.Instance"/> and <see cref="Api.Models.Internal.Job.Description"/>. If <see cref="Job.StartedBy"/> is <see langword="null"/>, the TGS user will be used.</param>
 		/// <param name="operation">The <see cref="JobEntrypoint"/> for the <paramref name="job"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing a running operation.</returns>
-		Task RegisterOperation(Job job, JobEntrypoint operation, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing a running operation.</returns>
+		ValueTask RegisterOperation(Job job, JobEntrypoint operation, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Wait for a given <paramref name="job"/> to complete.

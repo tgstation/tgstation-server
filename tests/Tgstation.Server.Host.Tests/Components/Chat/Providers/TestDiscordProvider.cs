@@ -36,7 +36,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 			mockSetup
 				.Setup(x => x.RegisterOperation(It.IsNotNull<Job>(), It.IsNotNull<JobEntrypoint>(), It.IsAny<CancellationToken>()))
 				.Callback<Job, JobEntrypoint, CancellationToken>((job, entrypoint, cancellationToken) => job.StartedBy ??= new User { })
-				.Returns(Task.CompletedTask);
+				.Returns(ValueTask.CompletedTask);
 			mockSetup
 				.Setup(x => x.WaitForJobCompletion(It.IsNotNull<Job>(), It.IsAny<User>(), It.IsAny<CancellationToken>(), It.IsAny<CancellationToken>()))
 				.Returns(Task.CompletedTask);

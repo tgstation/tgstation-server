@@ -474,7 +474,8 @@ namespace Tgstation.Server.Host.Components
 							await repo.ResetToSha(startSha, progressReporter, CancellationToken.None);
 							throw;
 						}
-				});
+				})
+			.AsTask();
 #pragma warning restore CA1502   // Cyclomatic complexity
 
 		/// <summary>

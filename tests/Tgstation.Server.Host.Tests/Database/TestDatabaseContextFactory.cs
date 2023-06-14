@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -41,12 +41,12 @@ namespace Tgstation.Server.Host.Database.Tests
 
 			var factory = new DatabaseContextFactory(mockScopeFactory.Object);
 
-			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.UseContext(null));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await factory.UseContext(null));
 
 			await factory.UseContext(context =>
 			{
 				Assert.AreSame(mockDbo, context);
-				return Task.CompletedTask;
+				return ValueTask.CompletedTask;
 			});
 
 			mockScopeFactory.VerifyAll();

@@ -51,7 +51,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 		readonly Mock<IHttpClient> mockHttpClient;
 		readonly Mock<IDatabaseContextFactory> mockDBContextFactory;
 		readonly Mock<IDatabaseSeeder> mockDatabaseSeeder;
-		readonly ISetup<IDatabaseSeeder, Task> mockDatabaseSeederInitialize;
+		readonly ISetup<IDatabaseSeeder, ValueTask> mockDatabaseSeederInitialize;
 
 		readonly Action recreateControllerAndService;
 
@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Swarm.Tests
 			mockDatabaseSeederInitialize = new Mock<IDatabaseSeeder>().Setup(x => x.Initialize(mockDatabaseContext, It.IsAny<CancellationToken>()));
 			mockDBContextFactory = new Mock<IDatabaseContextFactory>();
 			mockDBContextFactory
-				.Setup(x => x.UseContext(It.IsNotNull<Func<IDatabaseContext, Task>>()))
+				.Setup(x => x.UseContext(It.IsNotNull<Func<IDatabaseContext, ValueTask>>()))
 				.Callback<Func<IDatabaseContext, Task>>((func) => func(mockDatabaseContext));
 
 			var mockHttpClientFactory = new Mock<IAbstractHttpClientFactory>();
@@ -226,9 +226,13 @@ namespace Tgstation.Server.Host.Swarm.Tests
 				Assert.Fail("Initialized twice!");
 
 			if (!cancel)
-				mockDatabaseSeederInitialize.Returns(Task.CompletedTask).Verifiable();
+				mockDatabaseSeederInitialize.Returns(ValueTask.CompletedTask).Verifiable();
 			else
-				mockDatabaseSeederInitialize.ThrowsAsync(new TaskCanceledException()).Verifiable();
+				mockDatabaseSeederInitialize.Returns(async () =>
+				{
+					await Task.Yield();
+					throw new TaskCanceledException();
+				}).Verifiable();
 
 			Task<SwarmRegistrationResult> Invoke() => Service.Initialize(default);
 

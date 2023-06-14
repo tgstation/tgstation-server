@@ -192,7 +192,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				Id = instanceId,
 			};
 
-			Task CallLoadRevInfo(Models.TestMerge testMergeToAdd = null, string lastOriginCommitSha = null) => databaseContextFactory
+			ValueTask CallLoadRevInfo(Models.TestMerge testMergeToAdd = null, string lastOriginCommitSha = null) => databaseContextFactory
 				.UseContext(
 					async databaseContext =>
 					{
@@ -243,7 +243,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			await CallLoadRevInfo();
 
 			// apply new rev info, tracking applied test merges
-			Task UpdateRevInfo(Models.TestMerge testMergeToAdd = null) => CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.OriginCommitSha);
+			ValueTask UpdateRevInfo(Models.TestMerge testMergeToAdd = null) => CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.OriginCommitSha);
 
 			try
 			{

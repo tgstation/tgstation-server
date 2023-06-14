@@ -283,7 +283,7 @@ namespace Tgstation.Server.Host.Database
 		public Task Drop(CancellationToken cancellationToken) => Database.EnsureDeletedAsync(cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
+		public async ValueTask<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(logger);
 			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken);
@@ -396,7 +396,7 @@ namespace Tgstation.Server.Host.Database
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
-		public async Task SchemaDowngradeForServerVersion(
+		public async ValueTask SchemaDowngradeForServerVersion(
 			ILogger<DatabaseContext> logger,
 			Version targetVersion,
 			DatabaseType currentDatabaseType,

@@ -12,7 +12,14 @@ namespace Tgstation.Server.Host.Database
 		/// Run an <paramref name="operation"/> in the scope of an <see cref="IDatabaseContext"/>.
 		/// </summary>
 		/// <param name="operation">The operation to run.</param>
-		/// <returns>A <see cref="Task"/> representing the running <paramref name="operation"/>.</returns>
-		Task UseContext(Func<IDatabaseContext, Task> operation);
+		/// <returns>A <see cref="ValueTask"/> representing the running <paramref name="operation"/>.</returns>
+		ValueTask UseContext(Func<IDatabaseContext, ValueTask> operation);
+
+		/// <summary>
+		/// Run an <paramref name="operation"/> in the scope of an <see cref="IDatabaseContext"/>.
+		/// </summary>
+		/// <param name="operation">The operation to run.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running <paramref name="operation"/>.</returns>
+		ValueTask UseContext2(Func<IDatabaseContext, Task> operation);
 	}
 }

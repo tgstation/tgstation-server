@@ -244,7 +244,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task SessionStartupPersist(CancellationToken cancellationToken)
+		protected override async ValueTask SessionStartupPersist(CancellationToken cancellationToken)
 		{
 			await ApplyInitialDmb(cancellationToken);
 			await base.SessionStartupPersist(cancellationToken);

@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public Task RegisterOperation(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
+		public ValueTask RegisterOperation(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
 			=> databaseContextFactory.UseContext(
 				async databaseContext =>
 				{
@@ -168,7 +168,8 @@ namespace Tgstation.Server.Host.Jobs
 				}
 
 				noMoreJobsShouldStart = false;
-			});
+			})
+			.AsTask();
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
