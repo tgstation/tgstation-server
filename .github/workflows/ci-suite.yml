@@ -85,7 +85,7 @@ jobs:
       run: |
         echo "Setting up BYOND."
         FULL_VERSION=${{ matrix.byond }}
-        if [[ "$FULL_VERSION" = "$EDGE" ]] ; then
+        if [[ "$FULL_VERSION" = "EDGE" ]] ; then
             VERSIONS=$(curl https://www.byond.com/download/version.txt)
             FULL_VERSION=$(echo "$VERSIONS" | tail -n1)
             echo "EDGE version evaluated to $FULL_VERSION"
