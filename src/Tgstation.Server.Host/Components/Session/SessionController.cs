@@ -475,7 +475,7 @@ namespace Tgstation.Server.Host.Components.Session
 				new TopicParameters(newRebootState),
 				cancellationToken);
 
-			return result?.ErrorMessage == null;
+			return result != null && result.ErrorMessage == null;
 		}
 
 		/// <inheritdoc />
