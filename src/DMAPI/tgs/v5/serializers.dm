@@ -6,7 +6,7 @@
 
 /datum/tgs_chat_embed/structure/_interop_serialize()
 	var/list/serialized_fields
-	if(islist(fields))
+	if(istype(fields, /list))
 		serialized_fields = list()
 		for(var/datum/tgs_chat_embed/field/field as anything in fields)
 			serialized_fields += list(field._interop_serialize())
@@ -43,7 +43,7 @@
 	. = ..()
 	.["iconUrl"] = icon_url
 	.["proxyIconUrl"] = proxy_icon_url
-	
+
 /datum/tgs_chat_embed/footer/_interop_serialize()
 	return list(
 		"text" = text,
