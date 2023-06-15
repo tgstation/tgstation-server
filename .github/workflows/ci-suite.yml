@@ -65,7 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        byond: [ '512.1488', '513.1542', '514.1589', 'EDGE' ]
+        byond: [ '511.1385', '512.1488', '513.1542', '514.1589', 'EDGE' ]
     runs-on: ubuntu-latest
     steps:
     - name: Install x86 libc Dependencies

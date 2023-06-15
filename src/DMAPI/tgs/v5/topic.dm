@@ -138,7 +138,7 @@
 			return TopicResponse()
 
 		if(DMAPI5_TOPIC_COMMAND_HEALTHCHECK)
-			if(event_handler?.receive_health_checks)
+			if(event_handler && event_handler.receive_health_checks)
 				event_handler.HandleEvent(TGS_EVENT_HEALTH_CHECK)
 			return TopicResponse()
 
