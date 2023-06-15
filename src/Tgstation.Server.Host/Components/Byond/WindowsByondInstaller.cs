@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		{
 			ArgumentNullException.ThrowIfNull(version);
 
-			supportsCli = !sessionConfiguration.DoNotUseDDExe && version >= DDExeVersion;
+			supportsCli = version >= DDExeVersion;
 			supportsMapThreads = version >= MapThreadsVersion;
 			return supportsCli ? "dd.exe" : "dreamdaemon.exe";
 		}

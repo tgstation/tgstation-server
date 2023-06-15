@@ -124,8 +124,6 @@ Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will
 
 - `Session:LowPriorityDeploymentProcesses `: Boolean controlling if DreamMaker and API validation DreamDaemon instances get set to below normal priority processes.
 
-- `Session:DoNotUseDDExe`: Boolean controlling if dd.exe, the CLI DreamDaemon for Windows released in BYOND 515.1598, is NOT used (by default it is when available).
-
 - `FileLogging:Directory`: Override the default directory where server logs are stored. Default is C:/ProgramData/tgstation-server/logs on Windows, /usr/share/tgstation-server/logs otherwise
 
 - `FileLogging:LogLevel`: Can be one of `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`. Restricts what is put into the log files. Currently `Debug` is reccommended for help with error reporting.

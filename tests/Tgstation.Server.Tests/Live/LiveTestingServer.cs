@@ -49,7 +49,7 @@ namespace Tgstation.Server.Tests.Live
 			SerilogContextHelper.AddSwarmNodeIdentifierToTemplate();
 		}
 
-		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010, bool disableDDExe = false)
+		public LiveTestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 15010)
 		{
 			Assert.IsTrue(port >= 10000); // for testing bridge request limit
 			Directory = Environment.GetEnvironmentVariable("TGS_TEST_TEMP_DIRECTORY");
@@ -114,7 +114,6 @@ namespace Tgstation.Server.Tests.Live
 				"General:ByondTopicTimeout=3000",
 				$"Session:HighPriorityLiveDreamDaemon={HighPriorityDreamDaemon}",
 				$"Session:LowPriorityDeploymentProcesses={LowPriorityDeployments}",
-				$"Session:DoNotUseDDExe={disableDDExe}",
 			};
 
 			swarmArgs = new List<string>();

@@ -24,10 +24,5 @@
 		/// If the deployment DreamMaker and DreamDaemon instances are set to be below normal priority processes.
 		/// </summary>
 		public bool LowPriorityDeploymentProcesses { get; set; }
-
-		/// <summary>
-		/// If dd.exe should not be used if it is available.
-		/// </summary>
-		public bool DoNotUseDDExe { get; set; }
 	}
 }
