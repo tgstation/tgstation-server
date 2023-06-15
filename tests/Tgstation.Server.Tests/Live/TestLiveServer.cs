@@ -1052,9 +1052,9 @@ namespace Tgstation.Server.Tests.Live
 							GetInstanceManager(),
 							(ushort)server.Url.Port)
 						.RunTests(
-							cancellationToken,
 							server.HighPriorityDreamDaemon,
-							server.LowPriorityDeployments));
+							server.LowPriorityDeployments,
+							cancellationToken));
 
 					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
 
