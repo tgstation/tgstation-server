@@ -12,7 +12,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -399,7 +398,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			CheckDDPriority();
 
 			// lock on to DD and pause it so it can't health check
-			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").Where(x => !x.HasExited).ToList();
+			var ddProcs = TestLiveServer.GetAllDDProcesses().Where(x => !x.HasExited).ToList();
 			if (ddProcs.Count != 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
@@ -748,11 +747,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 				? "dd"
 				: "DreamDaemon";
 
-			var allProcesses = System.Diagnostics.Process.GetProcessesByName(ddProcessName);
-			if (allProcesses.Length == 0)
+			var allProcesses = TestLiveServer.GetAllDDProcesses().Where(x => !x.HasExited).ToList();
+			if (allProcesses.Count == 0)
 				Assert.Fail("Expected DreamDaemon to be running here");
 
-			if (allProcesses.Length > 1)
+			if (allProcesses.Count > 1)
 				Assert.Fail("Multiple DreamDaemon-like processes running!");
 
 			using var process = allProcesses[0];
@@ -954,7 +953,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 		static bool KillDD(bool require)
 		{
-			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").Where(x => !x.HasExited).ToList();
+			var ddProcs = TestLiveServer.GetAllDDProcesses().Where(x => !x.HasExited).ToList();
 			if (require && ddProcs.Count == 0 || ddProcs.Count > 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
@@ -1091,7 +1090,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				return;
 
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			if (daemonStatus.Status != WatchdogStatus.Offline)
+			if (daemonStatus.Status != WatchdogStatus.Offline || !daemonStatus.LogOutput.Value)
 				return;
 
 			var outerLogsDir = Path.Combine(instanceClient.Metadata.Path, "Diagnostics", "DreamDaemonLogs");

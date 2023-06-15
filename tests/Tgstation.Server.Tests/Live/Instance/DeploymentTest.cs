@@ -57,11 +57,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 					? "dd"
 					: "DreamDaemon";
 
-				var allProcesses = System.Diagnostics.Process.GetProcessesByName(ddProcessName);
-				if (allProcesses.Length == 0)
+				var allProcesses = TestLiveServer.GetAllDDProcesses();
+				if (allProcesses.Count == 0)
 					continue;
 
-				if (allProcesses.Length > 1)
+				if (allProcesses.Count > 1)
 					Assert.Fail("Multiple DreamDaemon-like processes running!");
 
 				using var process = allProcesses[0];

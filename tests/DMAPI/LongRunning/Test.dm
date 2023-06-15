@@ -248,14 +248,6 @@ var/suppress_bridge_spam = FALSE
 	set waitfor = FALSE
 	CheckBridgeLimitsImpl()
 
-
-/proc/BridgeWithoutChunking(command, list/data)
-	var/datum/tgs_api/v5/api = TGS_READ_GLOBAL(tgs)
-	var/bridge_request = api.CreateBridgeRequest(command, data)
-	suppress_bridge_spam = TRUE
-	. = api.PerformBridgeRequest(bridge_request)
-	suppress_bridge_spam = FALSE
-
 /proc/CheckBridgeLimitsImpl()
 	sleep(30)
 
@@ -264,33 +256,30 @@ var/suppress_bridge_spam = FALSE
 	var/old_ai = api.access_identifier
 	api.access_identifier = "tgs_integration_test"
 
-	// Always send chat messages because they can have extremely large payloads with the text
-
-	// bisecting request test
-	var/base = 1
-	var/nextPow = 0
-	var/lastI = 0
-	var/i
 	lastTgsError = null
-	for(i = 1; ; i = base + (2 ** nextPow))
-		var/payload = create_payload(i)
 
-		var/list/result = BridgeWithoutChunking(0, list("chatMessage" = list("text" = "payload:[payload]")))
+	var/limit = 8198 // DMAPI5_BRIDGE_REQUEST_LIMIT
 
-		if(!result || lastTgsError || result["integrationHack"] != "ok")
-			lastTgsError = null
-			if(i == lastI + 1)
-				break
-			i = lastI
-			base = lastI
-			nextPow = 0
-			continue
+	// Always send chat messages because they can have extremely large payloads with the text
+	var/base_bridge_request = api.CreateBridgeRequest(0, list("chatMessage" = list("text" = "payload:")))
 
-		lastI = i
-		++nextPow
+	// In 515 overloaded bridge requests started BUG-ing because of the HTTP 414 response it gets on errors
+	// so now we can only test that the limit is valid
+	// It's fine, chunking will handle the rest
+	var/payload_size = limit - length(base_bridge_request)
+		
+	var/payload = create_payload(payload_size)
+	var/bridge_request = api.CreateBridgeRequest(0, list("chatMessage" = list("text" = "payload:[payload]")))
 
-	// DMAPI5_BRIDGE_REQUEST_LIMIT
-	var/limit = 8198
+	var/list/result
+	try
+		result = api.PerformBridgeRequest(bridge_request)
+	catch(var/exception/e)
+		result = null
+
+	if(!result || lastTgsError || result["integrationHack"] != "ok")
+		FailTest("Failed bridge request limit test!")
+		return
 
 	// this actually gets doubled because it's in two fields for backwards compatibility, but that's fine
 	var/list/final_result = api.Bridge(0, list("chatMessage" = list("text" = "done:[create_payload(limit * 3)]")))

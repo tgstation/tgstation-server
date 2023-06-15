@@ -16,6 +16,7 @@ General:
 Session:
   HighPriorityLiveDreamDaemon: false
   LowPriorityDeploymentProcesses: true
+  DoNotUseDDExe: false
 FileLogging:
   Directory:
   Disable: false

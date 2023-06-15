@@ -45,6 +45,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			try
 			{
+				Logger.LogTrace("Bridge request received");
 				Assert.AreEqual(DMApiParameters.AccessIdentifier, parameters.AccessIdentifier);
 				if (parameters.CommandType == BridgeCommandType.Chunk)
 					return await ProcessChunk<BridgeParameters, BridgeResponse>(
@@ -84,8 +85,9 @@ namespace Tgstation.Server.Tests.Live.Instance
 				}
 
 				Assert.AreEqual("payload", coreMessage);
-				lastBridgeRequestSize = $"http://127.0.0.1:{serverPort}/Bridge?data=".Length + HttpUtility.UrlEncode(
-					JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings)).Length;
+				var serializedRequest = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
+				var actualLastRequest = $"http://127.0.0.1:{serverPort}/Bridge?data=" + HttpUtility.UrlEncode(serializedRequest);
+				lastBridgeRequestSize = actualLastRequest.Length;
 				return new BridgeResponseHack
 				{
 					IntegrationHack = "ok"

@@ -158,6 +158,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			var generalConfigOptionsMock = new Mock<IOptions<GeneralConfiguration>>();
 			generalConfigOptionsMock.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			var sessionConfigOptionsMock = new Mock<IOptions<SessionConfiguration>>();
+			sessionConfigOptionsMock.SetupGet(x => x.Value).Returns(new SessionConfiguration());
 
 			var assemblyInformationProvider = new AssemblyInformationProvider();
 
@@ -167,6 +169,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 					Mock.Of<IIOManager>(),
 					fileDownloader,
 					generalConfigOptionsMock.Object,
+					sessionConfigOptionsMock.Object,
 					Mock.Of<ILogger<WindowsByondInstaller>>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),

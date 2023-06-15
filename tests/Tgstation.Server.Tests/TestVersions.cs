@@ -93,6 +93,8 @@ namespace Tgstation.Server.Tests
 		{
 			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration());
+			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
 
 			// windows only BYOND but can be checked on any system
 			var init1 = CachingFileDownloader.InitializeByondVersion(
@@ -112,6 +114,7 @@ namespace Tgstation.Server.Tests
 				Mock.Of<IIOManager>(),
 				new CachingFileDownloader(Mock.Of<ILogger<CachingFileDownloader>>()),
 				mockGeneralConfigurationOptions.Object,
+				mockSessionConfigurationOptions.Object,
 				Mock.Of<ILogger<WindowsByondInstaller>>());
 
 			const string ArchiveEntryPath = "byond/bin/dd.exe";
@@ -137,6 +140,8 @@ namespace Tgstation.Server.Tests
 			{
 				SkipAddingByondFirewallException = true,
 			});
+			var mockSessionConfigurationOptions = new Mock<IOptions<SessionConfiguration>>();
+			mockSessionConfigurationOptions.SetupGet(x => x.Value).Returns(new SessionConfiguration());
 
 			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
@@ -164,6 +169,7 @@ namespace Tgstation.Server.Tests
 					Mock.Of<IIOManager>(),
 					fileDownloader,
 					mockGeneralConfigurationOptions.Object,
+					mockSessionConfigurationOptions.Object,
 					loggerFactory.CreateLogger<WindowsByondInstaller>())
 				: new PosixByondInstaller(
 					Mock.Of<IPostWriteHandler>(),
