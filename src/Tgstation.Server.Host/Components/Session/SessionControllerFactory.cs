@@ -286,6 +286,7 @@ namespace Tgstation.Server.Host.Components.Session
 				await CheckPagerIsNotRunning(cancellationToken);
 
 				string outputFilePath = null;
+				var preserveLogFile = true;
 				if (launchParameters.LogOutput.Value)
 				{
 					var now = DateTimeOffset.UtcNow;
@@ -299,7 +300,10 @@ namespace Tgstation.Server.Host.Components.Session
 					logger.LogInformation("Logging DreamDaemon output to {path}...", outputFilePath);
 				}
 				else if (!byondLock.SupportsCli)
+				{
 					outputFilePath = gameIOManager.ConcatPath(dmbProvider.Directory, $"{Guid.NewGuid()}.dd.log");
+					preserveLogFile = false;
+				}
 
 				var accessIdentifier = cryptographySuite.GetSecureString();
 
@@ -352,9 +356,12 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							asyncDelayer,
 							loggerFactory.CreateLogger<SessionController>(),
-							() => !launchParameters.LogOutput.Value
-								? LogDDOutput(process, outputFilePath, byondLock.SupportsCli, default) // DCT: None available
-								: Task.CompletedTask,
+							() => LogDDOutput(
+								process,
+								outputFilePath,
+								byondLock.SupportsCli,
+								preserveLogFile,
+								default), // DCT: None available
 							launchParameters.StartupTimeout,
 							false,
 							apiValidate);
@@ -562,18 +569,20 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Attempts to log DreamDaemon output.
 		/// </summary>
 		/// <param name="process">The DreamDaemon <see cref="IProcess"/>.</param>
-		/// <param name="outputFilePath">The path to the DreamDaemon log file. Will be deleted.</param>
+		/// <param name="outputFilePath">The path to the DreamDaemon log file. Will be deleted if <paramref name="preserveFile"/> is <see langword="false"/>.</param>
 		/// <param name="cliSupported">If DreamDaemon was launched with CLI capabilities.</param>
+		/// <param name="preserveFile">If <see langword="false"/>, <paramref name="outputFilePath"/> will be deleted.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task LogDDOutput(IProcess process, string outputFilePath, bool cliSupported, CancellationToken cancellationToken)
+		async Task LogDDOutput(IProcess process, string outputFilePath, bool cliSupported, bool preserveFile, CancellationToken cancellationToken)
 		{
 			try
 			{
-				string ddOutput;
+				string ddOutput = null;
 				if (cliSupported)
 					ddOutput = await process.GetCombinedOutput(cancellationToken);
-				else
+
+				if (ddOutput == null)
 					try
 					{
 						var dreamDaemonLogBytes = await gameIOManager.ReadAllBytes(
@@ -584,14 +593,16 @@ namespace Tgstation.Server.Host.Components.Session
 					}
 					finally
 					{
-						try
-						{
-							await gameIOManager.DeleteFile(outputFilePath, cancellationToken);
-						}
-						catch (Exception ex)
-						{
-							logger.LogWarning(ex, "Failed to delete DreamDaemon log file {outputFilePath}!", outputFilePath);
-						}
+						if (!preserveFile)
+							try
+							{
+								logger.LogTrace("Deleting temporary log file {path}...", outputFilePath);
+								await gameIOManager.DeleteFile(outputFilePath, cancellationToken);
+							}
+							catch (Exception ex)
+							{
+								logger.LogWarning(ex, "Failed to delete DreamDaemon log file {outputFilePath}!", outputFilePath);
+							}
 					}
 
 				logger.LogTrace(
