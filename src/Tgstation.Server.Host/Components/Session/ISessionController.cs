@@ -55,6 +55,11 @@ namespace Tgstation.Server.Host.Components.Session
 		RebootState RebootState { get; }
 
 		/// <summary>
+		/// A <see cref="Task"/> that completes when the server calls /world/TgsNew().
+		/// </summary>
+		Task OnStartup { get; }
+
+		/// <summary>
 		/// A <see cref="Task"/> that completes when the server calls /world/TgsReboot().
 		/// </summary>
 		Task OnReboot { get; }
@@ -113,6 +118,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Replace the <see cref="IDmbProvider"/> in use with a given <paramref name="newProvider"/>, disposing the old one.
 		/// </summary>
 		/// <param name="newProvider">The new <see cref="IDmbProvider"/>.</param>
-		void ReplaceDmbProvider(IDmbProvider newProvider);
+		/// <returns>An <see cref="IDisposable"/> to be disposed once certain that the original <see cref="IDmbProvider"/> is no longer in use.</returns>
+		IDisposable ReplaceDmbProvider(IDmbProvider newProvider);
 	}
 }

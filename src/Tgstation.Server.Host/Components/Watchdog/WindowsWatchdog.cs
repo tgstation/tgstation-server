@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,9 +40,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
+		/// <see cref="List{T}"/> of <see cref="Task"/>s that are waiting to clean up old deployments.
+		/// </summary>
+		readonly List<Task> deploymentCleanupTasks;
+
+		/// <summary>
 		/// The active <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.ActiveLaunchParameters"/>.
 		/// </summary>
 		SwappableDmbProvider pendingSwappable;
+
+		/// <summary>
+		/// The <see cref="TaskCompletionSource"/> representing the cleanup of an unused <see cref="IDmbProvider"/>.
+		/// </summary>
+		volatile TaskCompletionSource deploymentCleanupGate;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsWatchdog"/> class.
@@ -98,11 +110,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				GameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
 				this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+
+				deploymentCleanupTasks = new List<Task>();
 			}
 			catch
 			{
 				// Async dispose is for if we have controllers running, not the case here
-				DisposeAsync().AsTask().GetAwaiter().GetResult();
+				var disposeTask = DisposeAsync();
+				Debug.Assert(disposeTask.IsCompleted, "This should always be true during construction!");
+				disposeTask.GetAwaiter().GetResult();
+
 				throw;
 			}
 		}
@@ -116,6 +133,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ActiveSwappable = null;
 			pendingSwappable?.Dispose();
 			pendingSwappable = null;
+
+			await DrainDeploymentCleanupTasks(true);
 		}
 
 		/// <inheritdoc />
@@ -124,11 +143,55 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (pendingSwappable != null)
 			{
 				var updateTask = BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
-				Logger.LogTrace("Replacing activeSwappable with pendingSwappable...");
+
 				if (!pendingSwappable.Swapped)
 					await PerformDmbSwap(pendingSwappable, cancellationToken);
 
-				Server.ReplaceDmbProvider(pendingSwappable);
+				var currentCompileJobId = Server.ReattachInformation.Dmb.CompileJob.Id;
+
+				await DrainDeploymentCleanupTasks(false);
+
+				IDisposable lingeringDeployment;
+				var localDeploymentCleanupGate = new TaskCompletionSource();
+				async Task CleanupLingeringDeployment()
+				{
+					var lingeringDeploymentExpirySeconds = ActiveLaunchParameters.StartupTimeout.Value;
+					Logger.LogDebug(
+						"Holding old deployment {compileJobId} for up to {expiry} seconds...",
+						currentCompileJobId,
+						lingeringDeploymentExpirySeconds);
+
+					var timeout = AsyncDelayer.Delay(TimeSpan.FromSeconds(lingeringDeploymentExpirySeconds), cancellationToken);
+
+					var completedTask = await Task.WhenAny(
+						localDeploymentCleanupGate.Task,
+						timeout);
+
+					var timedOut = completedTask == timeout;
+					Logger.Log(
+						timedOut
+							? LogLevel.Warning
+							: LogLevel.Trace,
+						"Releasing old deployment {compileJobId}{afterTimeout}",
+						timedOut
+							? " due to timeout!"
+							: "...");
+
+					lingeringDeployment.Dispose();
+				}
+
+				var oldDeploymentCleanupGate = Interlocked.Exchange(ref deploymentCleanupGate, localDeploymentCleanupGate);
+				oldDeploymentCleanupGate?.TrySetResult();
+
+				Logger.LogTrace("Replacing activeSwappable with pendingSwappable...");
+
+				lock (deploymentCleanupTasks)
+				{
+					lingeringDeployment = Server.ReplaceDmbProvider(pendingSwappable);
+					deploymentCleanupTasks.Add(
+						CleanupLingeringDeployment());
+				}
+
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 
@@ -240,6 +303,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await base.SessionStartupPersist(cancellationToken);
 		}
 
+		/// <inheritdoc />
+		protected override async Task<MonitorAction> HandleMonitorWakeup(MonitorActivationReason reason, CancellationToken cancellationToken)
+		{
+			var result = await base.HandleMonitorWakeup(reason, cancellationToken);
+			if (reason == MonitorActivationReason.ActiveServerStartup)
+				await DrainDeploymentCleanupTasks(false);
+
+			return result;
+		}
+
 		/// <summary>
 		/// Create the initial link to the live game directory using <see cref="ActiveSwappable"/>.
 		/// </summary>
@@ -283,6 +356,36 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (suspended)
 					server.Resume();
 			}
+		}
+
+		/// <summary>
+		/// Asynchronously drain <see cref="deploymentCleanupTasks"/>.
+		/// </summary>
+		/// <param name="blocking">If <see langword="true"/>, all <see cref="Task"/>s will be <see langword="await"/>ed. Otherwise, only <see cref="Task"/>s with <see cref="Task.IsCompleted"/> set will be <see langword="await"/>ed.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task DrainDeploymentCleanupTasks(bool blocking)
+		{
+			Logger.LogTrace("DrainDeploymentCleanupTasks...");
+			var localDeploymentCleanupGate = Interlocked.Exchange(ref deploymentCleanupGate, null);
+			localDeploymentCleanupGate?.TrySetResult();
+
+			List<Task> localDeploymentCleanupTasks;
+			lock (deploymentCleanupTasks)
+			{
+				var totalActiveTasks = deploymentCleanupTasks.Count;
+				localDeploymentCleanupTasks = new List<Task>(totalActiveTasks);
+				for (var i = totalActiveTasks - 1; i >= 0; --i)
+				{
+					var currentTask = deploymentCleanupTasks[i];
+					if (!blocking && !currentTask.IsCompleted)
+						continue;
+
+					localDeploymentCleanupTasks.Add(currentTask);
+					deploymentCleanupTasks.RemoveAt(i);
+				}
+			}
+
+			return Task.WhenAll(localDeploymentCleanupTasks);
 		}
 	}
 }

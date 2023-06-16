@@ -34,5 +34,11 @@
 		/// Server primed.
 		/// </summary>
 		ActiveServerPrimed,
+
+		/// <summary>
+		/// Server started.
+		/// </summary>
+		/// <remarks>The monitor misses the first startup of a session.</remarks>
+		ActiveServerStartup,
 	}
 }
