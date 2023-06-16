@@ -43,6 +43,8 @@ COPY tgstation-server.sln ./
 COPY src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj src/Tgstation.Server.Host.Console/
 COPY src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj src/Tgstation.Server.Host.Watchdog/
 COPY src/Tgstation.Server.Api/Tgstation.Server.Api.csproj src/Tgstation.Server.Api/
+COPY src/Tgstation.Server.Common/Tgstation.Server.Common.csproj src/Tgstation.Server.Common/
+COPY src/Tgstation.Server.Host.Common/Tgstation.Server.Host.Common.csproj src/Tgstation.Server.Host.Common/
 
 RUN dotnet restore -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
 
