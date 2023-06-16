@@ -27,6 +27,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public CompileJob CompileJob => baseProvider.CompileJob;
 
 		/// <summary>
+		/// If <see cref="MakeActive(CancellationToken)"/> has been run.
+		/// </summary>
+		public bool Swapped => swapped != 0;
+
+		/// <summary>
 		/// The <see cref="IDmbProvider"/> we are swapping for.
 		/// </summary>
 		readonly IDmbProvider baseProvider;
@@ -40,6 +45,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// The <see cref="ISymlinkFactory"/> to use.
 		/// </summary>
 		readonly ISymlinkFactory symlinkFactory;
+
+		/// <summary>
+		/// Backing field for <see cref="Swapped"/>.
+		/// </summary>
+		volatile int swapped;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SwappableDmbProvider"/> class.
@@ -67,6 +77,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		public async Task MakeActive(CancellationToken cancellationToken)
 		{
+			if (Interlocked.Exchange(ref swapped, 1) != 0)
+				throw new InvalidOperationException("Already swapped!");
+
 			// Note this comment from TGS3:
 			// These next two lines should be atomic but this is the best we can do
 			await ioManager.DeleteDirectory(LiveGameDirectory, cancellationToken);

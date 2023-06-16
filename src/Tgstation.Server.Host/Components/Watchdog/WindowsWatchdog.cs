@@ -125,6 +125,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				var updateTask = BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 				Logger.LogTrace("Replacing activeSwappable with pendingSwappable...");
+				if (!pendingSwappable.Swapped)
+					await PerformDmbSwap(pendingSwappable, cancellationToken);
+
 				Server.ReplaceDmbProvider(pendingSwappable);
 				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
@@ -173,23 +176,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			SwappableDmbProvider windowsProvider = null;
-			bool suspended = false;
 			try
 			{
 				windowsProvider = new SwappableDmbProvider(compileJobProvider, GameIOManager, symlinkFactory);
-
-				Logger.LogDebug("Swapping to compile job {0}...", windowsProvider.CompileJob.Id);
-				try
+				if (ActiveCompileJob.DMApiVersion == null)
 				{
-					Server.Suspend();
-					suspended = true;
+					Logger.LogWarning("Active compile job has no DMAPI! Commencing immediate .dmb swap. Note this behavior is known to be buggy in some DM code contexts. See https://github.com/tgstation/tgstation-server/issues/1550");
+					await PerformDmbSwap(windowsProvider, cancellationToken);
 				}
-				catch (Exception ex)
-				{
-					Logger.LogWarning(ex, "Exception while suspending server!");
-				}
-
-				await windowsProvider.MakeActive(cancellationToken);
 			}
 			catch (Exception ex)
 			{
@@ -198,10 +192,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				providerToDispose.Dispose();
 				throw;
 			}
-
-			// Let this throw hard if it fails
-			if (suspended)
-				Server.Resume();
 
 			pendingSwappable?.Dispose();
 			pendingSwappable = windowsProvider;
@@ -259,6 +249,40 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			Logger.LogTrace("Symlinking compile job...");
 			return ActiveSwappable.MakeActive(cancellationToken);
+		}
+
+		/// <summary>
+		/// Suspends the <see cref="BasicWatchdog.Server"/> and calls <see cref="SwappableDmbProvider.MakeActive(CancellationToken)"/> on a <paramref name="newProvider"/>.
+		/// </summary>
+		/// <param name="newProvider">The <see cref="SwappableDmbProvider"/> to activate.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		async ValueTask PerformDmbSwap(SwappableDmbProvider newProvider, CancellationToken cancellationToken)
+		{
+			Logger.LogDebug("Swapping to compile job {id}...", newProvider.CompileJob.Id);
+
+			var suspended = false;
+			var server = Server;
+			try
+			{
+				server.Suspend();
+				suspended = true;
+			}
+			catch (Exception ex)
+			{
+				Logger.LogWarning(ex, "Exception while suspending server!");
+			}
+
+			try
+			{
+				await newProvider.MakeActive(cancellationToken);
+			}
+			finally
+			{
+				// Let this throw hard if it fails
+				if (suspended)
+					server.Resume();
+			}
 		}
 	}
 }
