@@ -748,7 +748,7 @@ $(function() {
 <div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>            <span class="keyword">using</span> (var provider = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html">TemporaryDmbProvider</a>(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))</div>
 <div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>            await <span class="keyword">using</span> (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, <span class="keyword">true</span>, cancellationToken))</div>
 <div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>            {</div>
-<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>                var launchResult = await controller.LaunchResult;</div>
+<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>                var launchResult = await controller.LaunchResult.WithToken(cancellationToken);</div>
 <div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span> </div>
 <div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>                <span class="keywordflow">if</span> (launchResult.StartupTime.HasValue)</div>
 <div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>                    await controller.Lifetime.WithToken(cancellationToken);</div>
