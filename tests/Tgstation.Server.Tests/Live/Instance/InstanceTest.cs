@@ -26,7 +26,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			this.serverPort = serverPort;
 		}
 
-		public async Task RunTests(CancellationToken cancellationToken, bool highPrioDD, bool lowPrioDeployment)
+		public async Task RunTests(bool highPrioDD, bool lowPrioDeployment, CancellationToken cancellationToken)
 		{
 			var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, fileDownloader, instanceClient.Metadata);
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Jobs, instanceClient.Metadata);
