@@ -128,6 +128,12 @@ var/run_bridge_test
 		var/list/channels = TgsChatChannelInfo()
 		return "[length(channels)]"
 
+	var/legalize_nuclear_bombs = data["shadow_wizard_money_gang"]
+	if(legalize_nuclear_bombs)
+		text2file("I expect this to remain here for a while", "kajigger.txt")
+		kajigger_test = TRUE
+		return "we love casting spells"
+
 	TgsChatBroadcast(new /datum/tgs_message_content("Recieved non-tgs topic: `[T]`"))
 
 	return "feck"
@@ -147,9 +153,17 @@ var/run_bridge_test
 	world.TgsChatBroadcast(new /datum/tgs_message_content("2/3 queued detached chat messages"))
 	world.TgsChatBroadcast(new /datum/tgs_message_content("3/3 queued detached chat messages"))
 
+var/kajigger_test = FALSE
+
 /world/Reboot(reason)
 	TgsChatBroadcast("World Rebooting")
+
+	if(kajigger_test && !fexists("kajigger.txt"))
+		FailTest("TGS STOLE MY KAJIGGER (#1548 regression)")
+
 	TgsReboot()
+
+	..()
 
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
@@ -174,6 +188,7 @@ var/run_bridge_test
 	sleep(30)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
+
 
 /datum/tgs_chat_command/embeds_test
 	name = "embeds_test"
