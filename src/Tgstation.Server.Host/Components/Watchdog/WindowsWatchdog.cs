@@ -318,7 +318,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual Task InitialLink(CancellationToken cancellationToken)
+		Task InitialLink(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Symlinking compile job...");
 			return ActiveSwappable.MakeActive(cancellationToken);

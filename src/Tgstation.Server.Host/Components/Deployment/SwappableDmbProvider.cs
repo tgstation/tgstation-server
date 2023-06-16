@@ -80,9 +80,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (Interlocked.Exchange(ref swapped, 1) != 0)
 				throw new InvalidOperationException("Already swapped!");
 
-			// Note this comment from TGS3:
-			// These next two lines should be atomic but this is the best we can do
-			await ioManager.DeleteDirectory(LiveGameDirectory, cancellationToken);
+			if (symlinkFactory.SymlinkedDirectoriesAreDeletedAsFiles)
+				await ioManager.DeleteFile(LiveGameDirectory, cancellationToken);
+			else
+				await ioManager.DeleteDirectory(LiveGameDirectory, cancellationToken);
+
 			await symlinkFactory.CreateSymbolicLink(
 				ioManager.ResolvePath(baseProvider.Directory),
 				ioManager.ResolvePath(LiveGameDirectory),

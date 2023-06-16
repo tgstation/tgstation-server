@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -22,11 +21,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// </summary>
 	sealed class PosixWatchdog : WindowsWatchdog
 	{
-		/// <summary>
-		/// If the swappable game directory is currently a rename of the compile job.
-		/// </summary>
-		IDmbProvider hardLinkedDmb;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixWatchdog"/> class.
 		/// </summary>
@@ -84,77 +78,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override Task ApplyInitialDmb(CancellationToken cancellationToken) => Task.CompletedTask; // not necessary to hold initial .dmb on Linux because of based inode deletes
-
-		/// <inheritdoc />
-		protected override async Task InitialLink(CancellationToken cancellationToken)
+		protected override Task ApplyInitialDmb(CancellationToken cancellationToken)
 		{
-			// The logic to check for an active live directory is in SwappableDmbProvider, so we just do it again here for safety
-			Logger.LogTrace("Hard linking compile job...");
-
-			// Symlinks are counted as a file on linux??
-			if (await GameIOManager.DirectoryExists(ActiveSwappable.Directory, cancellationToken))
-				await GameIOManager.DeleteDirectory(ActiveSwappable.Directory, cancellationToken);
-			else
-				await GameIOManager.DeleteFile(ActiveSwappable.Directory, cancellationToken);
-
-			// Instead of symlinking to begin with we actually rename the directory
-			await GameIOManager.MoveDirectory(
-				ActiveSwappable.CompileJob.DirectoryName.ToString(),
-				ActiveSwappable.Directory,
-				cancellationToken);
-
-			hardLinkedDmb = ActiveSwappable;
-		}
-
-		/// <inheritdoc />
-		protected override async Task InitController(Task chatTask, ReattachInformation reattachInfo, CancellationToken cancellationToken)
-		{
-			var suspended = false;
-			try
-			{
-				await base.InitController(chatTask, reattachInfo, cancellationToken);
-			}
-			finally
-			{
-				// Then we move it back and apply the symlink
-				if (hardLinkedDmb != null)
-				{
-					try
-					{
-						Logger.LogTrace("Unhardlinking compile job...");
-						Server?.Suspend();
-						suspended = true;
-						var hardLink = hardLinkedDmb.Directory;
-						var originalPosition = hardLinkedDmb.CompileJob.DirectoryName.ToString();
-						await GameIOManager.MoveDirectory(
-							hardLink,
-							originalPosition,
-							default);
-					}
-					catch (Exception ex)
-					{
-						Logger.LogError(
-							ex,
-							"Failed to un-hard link compile job #{compileJobId} ({compileJobDirectory})",
-							hardLinkedDmb.CompileJob.Id,
-							hardLinkedDmb.CompileJob.DirectoryName);
-					}
-
-					hardLinkedDmb = null;
-				}
-			}
-
-			if (reattachInfo != null)
-			{
-				Logger.LogTrace("Skipping symlink due to reattach");
-				return;
-			}
-
-			Logger.LogTrace("Symlinking compile job...");
-			await ActiveSwappable.MakeActive(cancellationToken);
-			if (suspended)
-				Server.Resume();
+			// not necessary to hold initial .dmb on Linux because of based inode deletes
+			return Task.CompletedTask;
 		}
 	}
 }
