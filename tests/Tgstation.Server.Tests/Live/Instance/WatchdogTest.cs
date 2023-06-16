@@ -530,10 +530,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			};
 
 			var json = JsonConvert.SerializeObject(baseTopic, DMApiConstants.SerializerSettings);
-			var topicString = $"tgs_integration_test_tactics3={TopicClient.SanitizeString(json)}";
 
-			var baseSize = topicString.Length;
-			var wrappingSize = baseSize;
+			var baseSize = (int)(DMApiConstants.MaximumTopicRequestLength - 1);
+
+			var topicString = $"tgs_integration_test_tactics3={TopicClient.SanitizeString(json)}";
+			var wrappingSize = topicString.Length;
 
 			while (!cancellationToken.IsCancellationRequested)
 			{
@@ -584,7 +585,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine("TEST: Receiving Topic tests topics...");
 
 			// Receive
-			baseSize = 1;
+			baseSize = (int)(DMApiConstants.MaximumTopicResponseLength - 1);
 			nextPow = 0;
 			lastSize = 0;
 			while (!cancellationToken.IsCancellationRequested)
