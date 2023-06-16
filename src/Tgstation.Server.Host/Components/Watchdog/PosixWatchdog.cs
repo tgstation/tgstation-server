@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override Task ApplyInitialDmb(CancellationToken cancellationToken) => Task.CompletedTask;
+		protected override Task ApplyInitialDmb(CancellationToken cancellationToken) => Task.CompletedTask; // not necessary to hold initial .dmb on Linux because of based inode deletes
 
 		/// <inheritdoc />
 		protected override async Task InitialLink(CancellationToken cancellationToken)
