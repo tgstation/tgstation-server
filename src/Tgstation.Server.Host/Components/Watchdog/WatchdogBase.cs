@@ -796,6 +796,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				MonitorAction nextAction = MonitorAction.Continue;
 				Task activeServerLifetime = null,
 					activeServerReboot = null,
+					activeServerStartup = null,
 					serverPrimed = null,
 					activeLaunchParametersChanged = null,
 					newDmbAvailable = null;
@@ -825,12 +826,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
 									TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
 									TryUpdateTask(ref serverPrimed, () => controller.OnPrime);
+									TryUpdateTask(ref activeServerStartup, () => controller.OnStartup);
 								}
 								else
 								{
 									activeServerLifetime = controller.Lifetime;
 									activeServerReboot = controller.OnReboot;
 									serverPrimed = controller.OnPrime;
+									activeServerStartup = controller.OnStartup;
 									lastController = controller;
 								}
 
@@ -862,6 +865,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							var toWaitOn = Task.WhenAny(
 								activeServerLifetime,
 								activeServerReboot,
+								activeServerStartup,
 								heartbeat,
 								newDmbAvailable,
 								cancelTcs.Task,
@@ -908,7 +912,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 										|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
 										|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat)
-										|| CheckActivationReason(ref serverPrimed, MonitorActivationReason.ActiveServerPrimed);
+										|| CheckActivationReason(ref serverPrimed, MonitorActivationReason.ActiveServerPrimed)
+										|| CheckActivationReason(ref activeServerStartup, MonitorActivationReason.ActiveServerStartup);
 
 									UpdateMonitoredTasks();
 
