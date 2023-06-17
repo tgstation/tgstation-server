@@ -145,7 +145,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var updateTask = BeforeApplyDmb(pendingSwappable.CompileJob, cancellationToken);
 
 				if (!pendingSwappable.Swapped)
+				{
+					// IMPORTANT: THE SESSIONCONTROLLER SHOULD STILL BE PROCESSING THE BRIDGE REQUEST SO WE KNOW DD IS SLEEPING
+					// OTHERWISE, IT COULD RETURN TO /world/Reboot() TOO EARLY AND LOAD THE WRONG .DMB
+					if (!Server.ProcessingRebootBridgeRequest)
+					{
+						// integration test logging will catch this
+						Logger.LogError(
+							"The reboot bridge request completed before the watchdog could suspend the server! This can lead to buggy DreamDaemon behaviour and should be reported! To ensure stability, we will need to hard reboot the server");
+						await updateTask;
+						return MonitorAction.Restart;
+					}
+
 					await PerformDmbSwap(pendingSwappable, cancellationToken);
+				}
 
 				var currentCompileJobId = Server.ReattachInformation.Dmb.CompileJob.Id;
 

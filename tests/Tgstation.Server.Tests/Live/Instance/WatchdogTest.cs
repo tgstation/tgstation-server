@@ -132,7 +132,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async ValueTask RegressionTest1550(CancellationToken cancellationToken)
 		{
 			// we need to cycle deployments twice because TGS holds the initial deployment
-			var job = await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 			var currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);

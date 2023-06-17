@@ -81,6 +81,9 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public bool DMApiAvailable => ReattachInformation.Dmb.CompileJob.DMApiVersion?.Major == DMApiConstants.InteropVersion.Major;
 
+		/// <inheritdoc />
+		public bool ProcessingRebootBridgeRequest => rebootBridgeRequestsProcessing > 0;
+
 		/// <summary>
 		/// The up to date <see cref="Session.ReattachInformation"/>.
 		/// </summary>
@@ -160,6 +163,11 @@ namespace Tgstation.Server.Host.Components.Session
 		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us it's primed.
 		/// </summary>
 		volatile TaskCompletionSource primeTcs;
+
+		/// <summary>
+		/// The number of currently active calls to <see cref="ProcessBridgeRequest(BridgeParameters, CancellationToken)"/> from TgsReboot().
+		/// </summary>
+		volatile uint rebootBridgeRequestsProcessing;
 
 		/// <summary>
 		/// The port to assign DreamDaemon when it queries for it.
@@ -732,14 +740,23 @@ namespace Tgstation.Server.Host.Components.Session
 					Interlocked.Exchange(ref startupTcs, new TaskCompletionSource()).SetResult();
 					break;
 				case BridgeCommandType.Reboot:
-					if (ClosePortOnReboot)
+					Interlocked.Increment(ref rebootBridgeRequestsProcessing);
+					try
 					{
-						chatTrackingContext.Active = false;
-						response.NewPort = 0;
-						portClosedForReboot = true;
+						if (ClosePortOnReboot)
+						{
+							chatTrackingContext.Active = false;
+							response.NewPort = 0;
+							portClosedForReboot = true;
+						}
+
+						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
+					}
+					finally
+					{
+						Interlocked.Decrement(ref rebootBridgeRequestsProcessing);
 					}
 
-					Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
 					break;
 				case BridgeCommandType.Chunk:
 					return await ProcessChunk<BridgeParameters, BridgeResponse>(ProcessBridgeCommand, BridgeError, parameters.Chunk, cancellationToken);

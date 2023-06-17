@@ -50,6 +50,11 @@ namespace Tgstation.Server.Host.Components.Session
 		bool ClosePortOnReboot { get; set; }
 
 		/// <summary>
+		/// If the <see cref="ISessionController"/> is currently processing a bridge request from TgsReboot().
+		/// </summary>
+		bool ProcessingRebootBridgeRequest { get; }
+
+		/// <summary>
 		/// The current <see cref="RebootState"/>.
 		/// </summary>
 		RebootState RebootState { get; }
