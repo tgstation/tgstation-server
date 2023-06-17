@@ -70,7 +70,8 @@ namespace Tgstation.Server.Host.IO.Tests
 		public void TestThrowsOnUnix()
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-				return;
+				Assert.Inconclusive("POSIX only test.");
+
 			var postWriteHandler = new PosixPostWriteHandler(Mock.Of<ILogger<PosixPostWriteHandler>>());
 			var tmpFile = Path.GetTempFileName();
 			File.Delete(tmpFile);
