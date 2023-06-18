@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory.</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ConfigurationFileResponse"/>s for the items in the directory. <see cref="FileTicketResponse.FileTicket"/> and <see cref="IConfigurationFile.LastReadHash"/> will both be <see langword="null"/>.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ConfigurationFileResponse"/>s for the items in the directory. <see cref="FileTicketResponse.FileTicket"/> and <see cref="IConfigurationFile.LastReadHash"/> will both be <see langword="null"/>. <see langword="null"/> will be returned if the operation failed due to access contention.</returns>
 		Task<IReadOnlyList<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory.</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ConfigurationFileResponse"/> of the file.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ConfigurationFileResponse"/> of the file. <see langword="null"/> will be returned if the operation failed due to access contention.</returns>
 		Task<ConfigurationFileResponse> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
@@ -56,8 +56,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="configurationRelativePath">The relative path in the Configuration directory.</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the directory already existed, <see langword="false"/> otherwise.</returns>
-		Task<bool> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the directory already existed, <see langword="false"/> otherwise. <see langword="null"/> will be returned if the operation failed due to access contention.</returns>
+		Task<bool?> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to delete an empty directory at <paramref name="configurationRelativePath"/>.
@@ -65,8 +65,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="configurationRelativePath">The path of the empty directory to delete.</param>
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns><see langword="true"/> if the directory was empty and deleted, <see langword="false"/> otherwise.</returns>
-		Task<bool> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
+		/// <returns><see langword="true"/> if the directory was empty and deleted, <see langword="false"/> otherwise. <see langword="null"/> will be returned if the operation failed due to access contention.</returns>
+		Task<bool?> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Writes to a given <paramref name="configurationRelativePath"/>.
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="systemIdentity">The <see cref="ISystemIdentity"/> for the operation. If <see langword="null"/>, the operation will be performed as the user of the <see cref="Core.Application"/>.</param>
 		/// <param name="previousHash">The hash any existing file must match in order for the write to succeed.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation. Usage may result in partial writes.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ConfigurationFileResponse"/> or <see langword="null"/> if the write failed due to <see cref="IConfigurationFile.LastReadHash"/> conflicts.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ConfigurationFileResponse"/> and associated writing <see cref="FileTicketResponse"/>. <see langword="null"/> will be returned if the operation failed due to access contention.</returns>
 		Task<ConfigurationFileResponse> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken);
 	}
 }
