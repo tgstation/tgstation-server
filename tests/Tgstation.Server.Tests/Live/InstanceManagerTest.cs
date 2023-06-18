@@ -163,6 +163,13 @@ namespace Tgstation.Server.Tests.Live
 			Assert.AreEqual(ConfigurationType.HostWrite, firstTest.ConfigurationType);
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
+			// regression check
+			await instanceManagerClient.Update(new InstanceUpdateRequest
+			{
+				Id = firstTest.Id,
+				AutoUpdateInterval = 9999,
+			}, cancellationToken);
+
 			//can't move online instance
 			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
