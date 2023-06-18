@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.5</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.6</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -111,14 +111,14 @@ $(function() {
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        {</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            var result = Syscall.kill(process.Id, Signum.SIGCONT);</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keywordflow">if</span> (result != 0)</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(result);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        }</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1c0faded339a483cc9e2f513ec7d5cee">   55</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1c0faded339a483cc9e2f513ec7d5cee">SuspendProcess</a>(global::System.Diagnostics.Process process)</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        {</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            var result = Syscall.kill(process.Id, Signum.SIGSTOP);</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="keywordflow">if</span> (result != 0)</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(result);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        }</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a165ac6a2a7394d6dfb4ea96ee77232f8">   63</a></span>        <span class="keyword">public</span> Task&lt;string&gt; <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a165ac6a2a7394d6dfb4ea96ee77232f8">GetExecutingUsername</a>(global::System.Diagnostics.Process process, CancellationToken cancellationToken)</div>

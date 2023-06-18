@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.ReadAllBytes" name="Tgstation.Server.Host.IO.IIOManager.ReadAllBytes">
 <area shape="rect" id="node1" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="936,149,1107,189"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a3b92be081e2beac876e749532a6d1d87" title="Check if it should and run the SetupWizard if necessary." alt="" coords="667,5,864,45"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a11433df2f5ef1444929e43de9d674aef" title="Attempts to log DreamDaemon output." alt="" coords="644,70,887,125"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a452fb29798965858ea58adb4bc466ab3" title="Attempts to log DreamDaemon output." alt="" coords="644,70,887,125"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a7b6d8a1eef58f0e3265a67ebe9036f13" title=" " alt="" coords="652,149,879,189"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination . A Task representing the running o..." alt="" coords="643,214,888,269"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a03ff124547b61f083d759522d846da2a" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config." alt="" coords="648,293,883,333"/>

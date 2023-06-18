@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive" name="Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive">
-<area shape="rect" id="node1" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="5,69,309,109"/>
+<area shape="rect" id="node1" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="5,101,309,141"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c" title="Create a symbolic link." alt="" coords="357,5,592,45"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="384,69,565,109"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="391,133,559,173"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6ca322ea63f5693487917c1ee71c707a" title="Deletes a file at path ." alt="" coords="391,133,559,173"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="391,197,559,237"/>
 </map>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.5</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.6</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -421,7 +421,7 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">   48</span>        {</div>
 <div class="line"><span class="lineno">   49</span>            var result = Syscall.kill(process.Id, Signum.SIGCONT);</div>
 <div class="line"><span class="lineno">   50</span>            <span class="keywordflow">if</span> (result != 0)</div>
-<div class="line"><span class="lineno">   51</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(result);</div>
+<div class="line"><span class="lineno">   51</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
 <div class="line"><span class="lineno">   52</span>        }</div>
 </div><!-- fragment -->
 </div>
@@ -456,7 +456,7 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">   56</span>        {</div>
 <div class="line"><span class="lineno">   57</span>            var result = Syscall.kill(process.Id, Signum.SIGSTOP);</div>
 <div class="line"><span class="lineno">   58</span>            <span class="keywordflow">if</span> (result != 0)</div>
-<div class="line"><span class="lineno">   59</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(result);</div>
+<div class="line"><span class="lineno">   59</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> UnixIOException(Stdlib.GetLastError());</div>
 <div class="line"><span class="lineno">   60</span>        }</div>
 </div><!-- fragment -->
 </div>

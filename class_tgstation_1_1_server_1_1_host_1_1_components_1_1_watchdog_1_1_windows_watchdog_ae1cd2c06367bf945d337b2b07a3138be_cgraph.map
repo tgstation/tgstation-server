@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleMonitorWakeup" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleMonitorWakeup">
+<area shape="rect" id="node1" title="Handles the actions to take when the monitor has to &quot;wake up&quot;. A Task&lt;TResult&gt; resulting in the Monit..." alt="" coords="5,13,333,53"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a8248d0bfb58f7c321a24e9d01c6b60c2" title="Asynchronously drain deploymentCleanupTasks." alt="" coords="381,5,676,60"/>
+</map>

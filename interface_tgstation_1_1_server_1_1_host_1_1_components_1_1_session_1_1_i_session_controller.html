@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.5</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.6</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -129,9 +129,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2059702d832059ed0ce009413cb646af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a2059702d832059ed0ce009413cb646af">EnableCustomChatCommands</a> ()</td></tr>
 <tr class="memdesc:a2059702d832059ed0ce009413cb646af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the reading of custom chat commands from the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess.">ISessionController</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a2059702d832059ed0ce009413cb646af">More...</a><br /></td></tr>
 <tr class="separator:a2059702d832059ed0ce009413cb646af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9ac3e335150ec25eeb656ac7e310403"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#ad9ac3e335150ec25eeb656ac7e310403">ReplaceDmbProvider</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a> newProvider)</td></tr>
-<tr class="memdesc:ad9ac3e335150ec25eeb656ac7e310403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace the IDmbProvider in use with a given <em>newProvider</em> , disposing the old one.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#ad9ac3e335150ec25eeb656ac7e310403">More...</a><br /></td></tr>
-<tr class="separator:ad9ac3e335150ec25eeb656ac7e310403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae10f3a23a21238c5a836af3e203786c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_i_disposable.html">IDisposable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#ae10f3a23a21238c5a836af3e203786c9">ReplaceDmbProvider</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a> newProvider)</td></tr>
+<tr class="memdesc:ae10f3a23a21238c5a836af3e203786c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace the IDmbProvider in use with a given <em>newProvider</em> , disposing the old one.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#ae10f3a23a21238c5a836af3e203786c9">More...</a><br /></td></tr>
+<tr class="separator:ae10f3a23a21238c5a836af3e203786c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html">Tgstation.Server.Host.System.IProcessBase</a></td></tr>
 <tr class="memitem:a9d860a501568835fac115772ee87902d inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d860a501568835fac115772ee87902d">AdjustPriority</a> (bool higher)</td></tr>
 <tr class="memdesc:a9d860a501568835fac115772ee87902d inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set's the owned global::System.Diagnostics.Process.PriorityClass to a non-normal value.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a9d860a501568835fac115772ee87902d">More...</a><br /></td></tr>
@@ -173,9 +173,15 @@ Properties</h2></td></tr>
 <tr class="memitem:abe1552b921cee4e80af4f59b6862a8c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#abe1552b921cee4e80af4f59b6862a8c8">ClosePortOnReboot</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:abe1552b921cee4e80af4f59b6862a8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the port should be rotated off when the world reboots.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#abe1552b921cee4e80af4f59b6862a8c8">More...</a><br /></td></tr>
 <tr class="separator:abe1552b921cee4e80af4f59b6862a8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f0efbcff931c5e49e745ba7776e10c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a7f0efbcff931c5e49e745ba7776e10c5">ProcessingRebootBridgeRequest</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7f0efbcff931c5e49e745ba7776e10c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess.">ISessionController</a> is currently processing a bridge request from TgsReboot().   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a7f0efbcff931c5e49e745ba7776e10c5">More...</a><br /></td></tr>
+<tr class="separator:a7f0efbcff931c5e49e745ba7776e10c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71b97ab7d82ac6304133d90895332e45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a3a9adb69be732dbd67aef59559f830c2">RebootState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a71b97ab7d82ac6304133d90895332e45">RebootState</a><code> [get]</code></td></tr>
 <tr class="memdesc:a71b97ab7d82ac6304133d90895332e45"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a71b97ab7d82ac6304133d90895332e45" title="The current RebootState.">RebootState</a>.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a71b97ab7d82ac6304133d90895332e45">More...</a><br /></td></tr>
 <tr class="separator:a71b97ab7d82ac6304133d90895332e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a978826c2402a6b92de77c011e6f27849"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a978826c2402a6b92de77c011e6f27849">OnStartup</a><code> [get]</code></td></tr>
+<tr class="memdesc:a978826c2402a6b92de77c011e6f27849"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when the server calls /world/TgsNew().   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a978826c2402a6b92de77c011e6f27849">More...</a><br /></td></tr>
+<tr class="separator:a978826c2402a6b92de77c011e6f27849"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a625d6e340c7c82b944a35636c6e47ce3"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a625d6e340c7c82b944a35636c6e47ce3">OnReboot</a><code> [get]</code></td></tr>
 <tr class="memdesc:a625d6e340c7c82b944a35636c6e47ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when the server calls /world/TgsReboot().   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a625d6e340c7c82b944a35636c6e47ce3">More...</a><br /></td></tr>
 <tr class="separator:a625d6e340c7c82b944a35636c6e47ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -238,14 +244,14 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="ad9ac3e335150ec25eeb656ac7e310403" name="ad9ac3e335150ec25eeb656ac7e310403"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9ac3e335150ec25eeb656ac7e310403">&#9670;&#160;</a></span>ReplaceDmbProvider()</h2>
+<a id="ae10f3a23a21238c5a836af3e203786c9" name="ae10f3a23a21238c5a836af3e203786c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae10f3a23a21238c5a836af3e203786c9">&#9670;&#160;</a></span>ReplaceDmbProvider()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Tgstation.Server.Host.Components.Session.ISessionController.ReplaceDmbProvider </td>
+          <td class="memname"><a class="el" href="class_i_disposable.html">IDisposable</a> Tgstation.Server.Host.Components.Session.ISessionController.ReplaceDmbProvider </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a>&#160;</td>
           <td class="paramname"><em>newProvider</em></td><td>)</td>
@@ -261,8 +267,9 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_i_disposable.html">IDisposable</a> to be disposed once certain that the original IDmbProvider is no longer in use.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab100112c49c5d17623a5f8d0d0be0b7c">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa37e5dd1cef7cbe44ccc718033bdeb30">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
 
 </div>
 </div>
@@ -519,8 +526,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a1ca9a908ef86e5a5296826095720a163">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00070">70</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   70</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00080">80</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   80</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -608,8 +615,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad23f514f201deec4a378afd17cb0bd65">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00065">65</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   65</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00075">75</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   75</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -637,8 +644,66 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a1bb042033da859b1176707af6367aff0">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00060">60</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   60</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00070">70</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   70</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a978826c2402a6b92de77c011e6f27849" name="a978826c2402a6b92de77c011e6f27849"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a978826c2402a6b92de77c011e6f27849">&#9670;&#160;</a></span>OnStartup</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.Components.Session.ISessionController.OnStartup</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A Task that completes when the server calls /world/TgsNew().  </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#abf837572955321bf21b941083dc6b76e">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00065">65</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7f0efbcff931c5e49e745ba7776e10c5" name="a7f0efbcff931c5e49e745ba7776e10c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f0efbcff931c5e49e745ba7776e10c5">&#9670;&#160;</a></span>ProcessingRebootBridgeRequest</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Components.Session.ISessionController.ProcessingRebootBridgeRequest</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess.">ISessionController</a> is currently processing a bridge request from TgsReboot().  </p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac1d899781635d4780b297adea207efbd">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00055">55</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -695,8 +760,8 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a06199c8ec541da0905faa9f966ff6890">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00055">55</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00060">60</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>

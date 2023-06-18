@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign">
-   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.5</span>
+   <div id="projectname">tgstation-server<span id="projectnumber">&#160;5.12.6</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -77,6 +77,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Tgstation.Server.Host.IO.ISymlinkFactory Interface Reference</div></div>
 </div><!--header-->
@@ -100,6 +101,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a35bd8c53ef36c4a655e827750a40699c"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c">CreateSymbolicLink</a> (string targetPath, string linkPath, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a35bd8c53ef36c4a655e827750a40699c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a symbolic link.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c">More...</a><br /></td></tr>
 <tr class="separator:a35bd8c53ef36c4a655e827750a40699c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a3d0a1f80b8ef18a12c091461a7016409"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a3d0a1f80b8ef18a12c091461a7016409">SymlinkedDirectoriesAreDeletedAsFiles</a><code> [get]</code></td></tr>
+<tr class="memdesc:a3d0a1f80b8ef18a12c091461a7016409"><td class="mdescLeft">&#160;</td><td class="mdescRight">If directory symlinks must be deleted as files would in the current environment.   <a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a3d0a1f80b8ef18a12c091461a7016409">More...</a><br /></td></tr>
+<tr class="separator:a3d0a1f80b8ef18a12c091461a7016409"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >For creating filesystem symbolic links.  </p>
@@ -151,21 +158,55 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html#ac487bf33d9a5821fb30bfd7b74915fbe">Tgstation.Server.Host.IO.PosixSymlinkFactory</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html#a87a0b1b31b48f65e53e4b3b6f476a2c0">Tgstation.Server.Host.IO.WindowsSymlinkFactory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00068">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive()</a>, and <a class="el" href="_configuration_8cs_source.html#l00372">Tgstation.Server.Host.Components.StaticFiles.Configuration.SymlinkStaticFilesTo()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00078">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive()</a>, and <a class="el" href="_configuration_8cs_source.html#l00372">Tgstation.Server.Host.Components.StaticFiles.Configuration.SymlinkStaticFilesTo()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory_a35bd8c53ef36c4a655e827750a40699c_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory_a35bd8c53ef36c4a655e827750a40699c_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory_a35bd8c53ef36c4a655e827750a40699c_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory_a35bd8c53ef36c4a655e827750a40699c_icgraph">
-<area shape="rect" title="Create a symbolic link." alt="" coords="1008,121,1243,161"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="656,85,960,125"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination . A Task representing the running o..." alt="" coords="685,149,931,204"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a8e8934ab54a29d00c8a6b6b39bd29cb1" title="Handler for MonitorActivationReason.NewDmbAvailable. A Task representing the running operation." alt="" coords="316,5,608,60"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html#aa9454edd6f7300c49be3e349501b2f37" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="337,85,587,125"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a95894cd21ba5de89171ff97a53b7130c" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="335,149,589,189"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#aaadba57551436daceb52699489e5cb29" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="5,141,268,196"/>
+<area shape="rect" title="Create a symbolic link." alt="" coords="1077,91,1312,131"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="725,55,1029,95"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination . A Task representing the running o..." alt="" coords="755,120,1000,175"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a813290868ff3c1fe5cffa0a75ab1db8d" title="Create the initial link to the live game directory using ActiveSwappable." alt="" coords="399,21,653,61"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#af50e7538e911c7085605f2e9a5e5b438" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="375,91,677,131"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#aaadba57551436daceb52699489e5cb29" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="35,5,297,60"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a8e8934ab54a29d00c8a6b6b39bd29cb1" title="Handler for MonitorActivationReason.NewDmbAvailable. A Task representing the running operation." alt="" coords="20,84,312,139"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afcdeb4376d24326a76bc920fe6974b35" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,163,327,203"/>
 </map>
 </div>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a3d0a1f80b8ef18a12c091461a7016409" name="a3d0a1f80b8ef18a12c091461a7016409"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d0a1f80b8ef18a12c091461a7016409">&#9670;&#160;</a></span>SymlinkedDirectoriesAreDeletedAsFiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.IO.ISymlinkFactory.SymlinkedDirectoriesAreDeletedAsFiles</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If directory symlinks must be deleted as files would in the current environment.  </p>
+<p >This is because Linux symlinked directories must be deleted with global::System.IO.File.Delete(string).</p>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html#a4712424adb2dd859cf5eba1af6a986c5">Tgstation.Server.Host.IO.PosixSymlinkFactory</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html#a066aadb7650c2454fe6394a9556ee816">Tgstation.Server.Host.IO.WindowsSymlinkFactory</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_i_symlink_factory_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_symlink_factory_8cs_source.html">ISymlinkFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_swappable_dmb_provider_8cs_source.html#l00078">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider.MakeActive()</a>.</p>
 
 </div>
 </div>

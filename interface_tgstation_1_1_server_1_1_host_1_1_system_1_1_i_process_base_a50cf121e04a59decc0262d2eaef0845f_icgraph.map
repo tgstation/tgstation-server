@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.System.IProcessBase.Suspend" name="Tgstation.Server.Host.System.IProcessBase.Suspend">
+<area shape="rect" id="node1" title="Suspends the process." alt="" coords="725,49,924,89"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#af50e7538e911c7085605f2e9a5e5b438" title="Suspends the BasicWatchdog.Server and calls SwappableDmbProvider.MakeActive(CancellationToken) on a n..." alt="" coords="375,49,677,89"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a8e8934ab54a29d00c8a6b6b39bd29cb1" title="Handler for MonitorActivationReason.NewDmbAvailable. A Task representing the running operation." alt="" coords="20,5,312,60"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#afcdeb4376d24326a76bc920fe6974b35" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,85,327,125"/>
+</map>
