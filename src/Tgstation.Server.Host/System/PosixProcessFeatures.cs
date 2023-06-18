@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.System
 		{
 			var result = Syscall.kill(process.Id, Signum.SIGCONT);
 			if (result != 0)
-				throw new UnixIOException(result);
+				throw new UnixIOException(Stdlib.GetLastError());
 		}
 
 		/// <inheritdoc />
@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.System
 		{
 			var result = Syscall.kill(process.Id, Signum.SIGSTOP);
 			if (result != 0)
-				throw new UnixIOException(result);
+				throw new UnixIOException(Stdlib.GetLastError());
 		}
 
 		/// <inheritdoc />

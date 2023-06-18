@@ -50,9 +50,19 @@ namespace Tgstation.Server.Host.Components.Session
 		bool ClosePortOnReboot { get; set; }
 
 		/// <summary>
+		/// If the <see cref="ISessionController"/> is currently processing a bridge request from TgsReboot().
+		/// </summary>
+		bool ProcessingRebootBridgeRequest { get; }
+
+		/// <summary>
 		/// The current <see cref="RebootState"/>.
 		/// </summary>
 		RebootState RebootState { get; }
+
+		/// <summary>
+		/// A <see cref="Task"/> that completes when the server calls /world/TgsNew().
+		/// </summary>
+		Task OnStartup { get; }
 
 		/// <summary>
 		/// A <see cref="Task"/> that completes when the server calls /world/TgsReboot().
@@ -113,6 +123,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Replace the <see cref="IDmbProvider"/> in use with a given <paramref name="newProvider"/>, disposing the old one.
 		/// </summary>
 		/// <param name="newProvider">The new <see cref="IDmbProvider"/>.</param>
-		void ReplaceDmbProvider(IDmbProvider newProvider);
+		/// <returns>An <see cref="IDisposable"/> to be disposed once certain that the original <see cref="IDmbProvider"/> is no longer in use.</returns>
+		IDisposable ReplaceDmbProvider(IDmbProvider newProvider);
 	}
 }
