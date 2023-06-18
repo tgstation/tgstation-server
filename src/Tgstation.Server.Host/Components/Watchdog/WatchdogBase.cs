@@ -804,6 +804,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var ranInitialDmbCheck = false;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty(SerilogContextHelper.WatchdogMonitorIterationContextProperty, iteration))
+					{
+						TaskCompletionSource nextMonitorWakeupTcs = new TaskCompletionSource();
 						try
 						{
 							Logger.LogTrace("Iteration {iteration} of monitor loop", iteration);
@@ -821,6 +823,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									oldTask = newTaskFactory();
 								}
 
+								controller.RebootGate = nextMonitorWakeupTcs.Task;
 								if (lastController == controller)
 								{
 									TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
@@ -967,6 +970,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								nextAction = MonitorAction.Continue;
 							}
 						}
+						finally
+						{
+							nextMonitorWakeupTcs.SetResult();
+						}
+					}
 			}
 			catch (OperationCanceledException)
 			{
