@@ -1,12 +1,12 @@
 #!/bin/bash
-# Run from git root, assumes dotnet-sdk-6.0 and npm are installed
+# Run from git root
 
 set -e
 set -x
 
 dpkg --add-architecture i386
 apt-get update
-apt-get install -y build-essential binutils lintian debhelper dh-make devscripts xmlstarlet # needs cleanup probably, SO copypasta
+apt-get install -y npm dotnet-sdk-6.0 build-essential binutils lintian debhelper dh-make devscripts xmlstarlet # needs cleanup probably, SO copypasta
 
 export DEBEMAIL="Cyberboss@users.noreply.github.com"
 export DEBFULLNAME="Jordan Dominion"

@@ -219,9 +219,6 @@ jobs:
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
-    - name: Upgrade NPM
-      run: sudo npm install -g npm
-
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}NoService
 
@@ -261,9 +258,6 @@ jobs:
       if: github.event_name != 'push' && github.event_name != 'schedule'
       with:
         ref: "refs/pull/${{ github.event.number }}/merge"
-
-    - name: Upgrade NPM
-      run: npm install -g npm
 
     - name: Build
       run: dotnet build -c ${{ matrix.configuration }}
@@ -318,9 +312,6 @@ jobs:
         mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond.zip" -o byond.zip
-
-    - name: Upgrade NPM
-      run: npm install -g npm
 
     - name: Set TGS_TEST_DUMP_API_SPEC
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'SqlServer' }}
@@ -507,14 +498,6 @@ jobs:
         cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
         curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
 
-    - name: Install Node 12.X
-      uses: actions/setup-node@v3
-      with:
-        node-version: 12.x
-
-    - name: Upgrade NPM
-      run: npm install -g npm
-
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
       with:
@@ -612,11 +595,6 @@ jobs:
     if: "!(cancelled() || failure()) && needs.windows-integration-test.result == 'success'"
     runs-on: ubuntu-latest
     steps:
-    - name: Install Node 12.X
-      uses: actions/setup-node@v3
-      with:
-        node-version: 12.x
-
     - name: Install IBM OpenAPI Validator
       run: npm i -g ibm-openapi-validator@0.51.3
 
@@ -895,11 +873,49 @@ jobs:
         directory: ./code_coverage
         fail_ci_if_error: true
 
+  build-deb:
+    name: Build .deb Package
+    needs: start-ci-run-gate
+    runs-on: ubuntu-latest
+    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ 'amd64' ] # Can't do i386 due to https://github.com/dotnet/core/issues/4595
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Execute Build Script
+      run: sudo build/package/deb/build_package.sh
+
+    - name: Parse TGS version
+      run: |
+        echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+
+    - name: Relocate .deb
+      run: mv ../tgstation-server_${{ env.TGS_VERSION }}-1_${{ matrix.arch }}.deb ./
+
+    - name: Upload .deb Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: package-deb-${{ matrix.arch }}
+        path: tgstation-server_${{ env.TGS_VERSION }}-1_${{ matrix.arch }}.deb
+
+  deployment-gate:
+    name: Deployment Gate
+    needs: [ dox-build, docker-build, build-deb, validate-openapi-spec, upload-code-coverage ]
+    runs-on: ubuntu-latest
+    if: "!(cancelled() || failure()) && needs.dox-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && github.event_name == 'push'"
+    steps:
+    - name: GitHub Requires at Least One Step for a Job
+      run: exit 0
+
   deploy-http:
     name: Deploy HTTP API
-    needs: [upload-code-coverage, validate-openapi-spec]
+    needs: deployment-gate
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')"
+    if: "!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[APIDeploy]')"
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -940,9 +956,9 @@ jobs:
 
   deploy-dm:
     name: Deploy DreamMaker API
-    needs: [upload-code-coverage, validate-openapi-spec]
+    needs: deployment-gate
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]')"
+    if: "!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[DMDeploy]')"
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -982,9 +998,9 @@ jobs:
 
   deploy-client:
     name: Deploy Nuget Packages
-    needs: [upload-code-coverage, validate-openapi-spec]
+    needs: deployment-gate
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && github.event_name != 'schedule' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')"
+    if: "!(cancelled() || failure()) && needs.upload-code-coverage.result == 'success' && needs.validate-openapi-spec.result == 'success' && github.event_name == 'push' && contains(github.event.head_commit.message, '[NugetDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
@@ -1022,7 +1038,7 @@ jobs:
     name: Ensure TGS Release is Latest GitHub Release
     needs: [deploy-dm, deploy-http]
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]')"
+    if: "!(cancelled() || failure()) && (needs.deploy-dm.result == 'success' || needs.deploy-http.result == 'success') && !contains(github.event.head_commit.message, '[TGSDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
@@ -1037,9 +1053,9 @@ jobs:
 
   deploy-tgs:
     name: Deploy TGS
-    needs: [deploy-dm, deploy-http, upload-code-coverage, validate-openapi-spec]
+    needs: [deploy-dm, deploy-http, deployment-gate]
     runs-on: windows-latest
-    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && (needs.upload-code-coverage.result == 'success' || needs.validate-openapi-spec.result == 'success') && github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
+    if: "!(cancelled() || failure()) && needs.deployment-gate.result == 'success' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')"
     steps:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v2
@@ -1080,12 +1096,19 @@ jobs:
         name: openapi-spec
         path: swagger
 
+    - name: Retrieve amd64 .deb
+      uses: actions/download-artifact@v3
+      with:
+        name: package-deb-amd64
+        path: package-deb-amd64
+
     - name: Zip Artifacts
       shell: powershell
       run: |
         &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
         &"C:/Program Files/7-Zip/7z.exe" a ServerService.zip ./ServerService/* -tzip
         &"C:/Program Files/7-Zip/7z.exe" a ServerConsole.zip ./ServerConsole/* -tzip
+        &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
         &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
     - name: Generate Release Notes
@@ -1148,14 +1171,24 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ServerUpdatePackage.zip
+        asset_path: ./package-deb-amd64/ServerUpdatePackage.zip
         asset_name: ServerUpdatePackage.zip
         asset_content_type: application/zip
 
+    - name: Upload amd64 .deb Artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./package-deb-amd64/tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+        asset_name: tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+        asset_content_type: application/octet-stream
+
   deploy-docker:
     name: Deploy TGS (Docker)
-    needs: [deploy-tgs]
-    if: "!(cancelled() || failure()) && github.event_name != 'schedule' && needs.deploy-tgs.result == 'success'"
+    needs: deploy-tgs
+    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
