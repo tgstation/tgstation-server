@@ -14,7 +14,6 @@ using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -86,6 +85,9 @@ namespace Tgstation.Server.Host.Controllers
 								model.LastReadHash,
 								cancellationToken);
 
+						if (newFile == null)
+							return Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess));
+
 						return model.LastReadHash == null ? Accepted(newFile) : Json(newFile);
 					});
 			}
@@ -114,6 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet(Routes.File + "/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
@@ -128,8 +131,9 @@ namespace Tgstation.Server.Host.Controllers
 						var result = await instance
 							.Configuration
 							.Read(filePath, systemIdentity, cancellationToken);
+
 						if (result == null)
-							return this.Gone();
+							return Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess));
 
 						return Json(result);
 					});
@@ -161,6 +165,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet(Routes.List + "/{*directoryPath}")]
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(PaginatedResponse<ConfigurationFileResponse>), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public Task<IActionResult> Directory(
 			string directoryPath,
@@ -180,8 +185,10 @@ namespace Tgstation.Server.Host.Controllers
 							var result = await instance
 								.Configuration
 								.ListDirectory(directoryPath, systemIdentity, cancellationToken);
+
 							if (result == null)
-								return new PaginatableResult<ConfigurationFileResponse>(this.Gone());
+								return new PaginatableResult<ConfigurationFileResponse>(
+									Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess)));
 
 							return new PaginatableResult<ConfigurationFileResponse>(
 								result
@@ -197,6 +204,15 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							return new PaginatableResult<ConfigurationFileResponse>(
 								Forbid());
+						}
+						catch (IOException ex)
+						{
+							Logger.LogInformation(ex, "IOException while enumerating directory!");
+							return new PaginatableResult<ConfigurationFileResponse>(
+								Conflict(new ErrorMessageResponse(ErrorCode.IOError)
+								{
+									AdditionalData = ex.Message,
+								}));
 						}
 					},
 					null,
@@ -231,6 +247,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
 		[ProducesResponseType(typeof(ConfigurationFileResponse), 201)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		public async Task<IActionResult> CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(model);
@@ -247,11 +264,19 @@ namespace Tgstation.Server.Host.Controllers
 				};
 
 				return await WithComponentInstance(
-					async instance => await instance
-						.Configuration
-						.CreateDirectory(model.Path, systemIdentity, cancellationToken)
+					async instance =>
+					{
+						var result = await instance
+							.Configuration
+							.CreateDirectory(model.Path, systemIdentity, cancellationToken);
+
+						if (!result.HasValue)
+							return Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess));
+
+						return result.Value
 							? Json(resultModel)
-							: Created(resultModel));
+							: Created(resultModel);
+					});
 			}
 			catch (IOException e)
 			{
@@ -281,6 +306,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		[ProducesResponseType(204)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		public async Task<IActionResult> DeleteDirectory([FromBody] ConfigurationFileRequest directory, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(directory);
@@ -294,11 +320,19 @@ namespace Tgstation.Server.Host.Controllers
 			try
 			{
 				return await WithComponentInstance(
-					async instance => await instance
-					.Configuration
-					.DeleteDirectory(directory.Path, systemIdentity, cancellationToken)
-						? NoContent()
-						: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)));
+					async instance =>
+					{
+						var result = await instance
+							.Configuration
+							.DeleteDirectory(directory.Path, systemIdentity, cancellationToken);
+
+						if (!result.HasValue)
+							return Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationContendedAccess));
+
+						return result.Value
+							? NoContent()
+							: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty));
+					});
 			}
 			catch (NotImplementedException ex)
 			{
@@ -307,6 +341,14 @@ namespace Tgstation.Server.Host.Controllers
 			catch (UnauthorizedAccessException)
 			{
 				return Forbid();
+			}
+			catch (IOException ex)
+			{
+				Logger.LogInformation(ex, "IOException while deleting directory!");
+				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
+				{
+					Message = ex.Message,
+				});
 			}
 		}
 

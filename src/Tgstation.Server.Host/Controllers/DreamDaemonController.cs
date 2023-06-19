@@ -186,6 +186,14 @@ namespace Tgstation.Server.Host.Controllers
 					return Conflict(new ErrorMessageResponse(ErrorCode.PortNotAvailable));
 			}
 
+#pragma warning disable CS0618 // Type or member is obsolete
+			if (model.HeartbeatSeconds.HasValue && !model.HealthCheckSeconds.HasValue)
+				model.HealthCheckSeconds = model.HeartbeatSeconds;
+
+			if (model.DumpOnHeartbeatRestart.HasValue && !model.DumpOnHealthCheckRestart.HasValue)
+				model.DumpOnHealthCheckRestart = model.DumpOnHeartbeatRestart;
+#pragma warning restore CS0618 // Type or member is obsolete
+
 			var userRights = (DreamDaemonRights)AuthenticationContext.GetRight(RightsType.DreamDaemon);
 
 			bool CheckModified<T>(Expression<Func<Api.Models.Internal.DreamDaemonSettings, T>> expression, DreamDaemonRights requiredRight)
@@ -219,8 +227,8 @@ namespace Tgstation.Server.Host.Controllers
 						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
 						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstancePermissionSet.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
-						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHealthCheckInterval)
-						|| CheckModified(x => x.DumpOnHeartbeatRestart, DreamDaemonRights.CreateDump)
+						|| CheckModified(x => x.HealthCheckSeconds, DreamDaemonRights.SetHealthCheckInterval)
+						|| CheckModified(x => x.DumpOnHealthCheckRestart, DreamDaemonRights.CreateDump)
 						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
 						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters)
 						|| CheckModified(x => x.StartProfiler, DreamDaemonRights.SetProfiler)
@@ -356,8 +364,12 @@ namespace Tgstation.Server.Host.Controllers
 					result.SoftRestart = rstate == RebootState.Restart;
 					result.SoftShutdown = rstate == RebootState.Shutdown;
 					result.StartupTimeout = settings.StartupTimeout.Value;
-					result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
-					result.DumpOnHeartbeatRestart = settings.DumpOnHeartbeatRestart.Value;
+					result.HealthCheckSeconds = settings.HealthCheckSeconds.Value;
+					result.DumpOnHealthCheckRestart = settings.DumpOnHealthCheckRestart.Value;
+#pragma warning disable CS0618 // Type or member is obsolete
+					result.HeartbeatSeconds = settings.HealthCheckSeconds.Value;
+					result.DumpOnHeartbeatRestart = settings.DumpOnHealthCheckRestart.Value;
+#pragma warning restore CS0618 // Type or member is obsolete
 					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
 					result.AdditionalParameters = settings.AdditionalParameters;
 					result.StartProfiler = settings.StartProfiler;

@@ -245,10 +245,8 @@ namespace Tgstation.Server.Host.Database
 			const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
 			var configureFunction = typeof(TDatabaseContext).GetMethod(
 				ConfigureMethodName,
-				BindingFlags.Public | BindingFlags.Static);
-
-			if (configureFunction == null)
-				throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
+				BindingFlags.Public | BindingFlags.Static)
+				?? throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
 
 			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
 		}
@@ -377,22 +375,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddSystemChannels);
+		internal static readonly Type MSLatestMigration = typeof(MSRenameHeartbeatsToHealthChecks);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddSystemChannels);
+		internal static readonly Type MYLatestMigration = typeof(MYRenameHeartbeatsToHealthChecks);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddSystemChannels);
+		internal static readonly Type PGLatestMigration = typeof(PGRenameHeartbeatsToHealthChecks);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddSystemChannels);
+		internal static readonly Type SLLatestMigration = typeof(SLRenameHeartbeatsToHealthChecks);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -555,7 +553,7 @@ namespace Tgstation.Server.Host.Database
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
 			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
 
-			logger.LogInformation("Migrating down to version {0}. Target: {1}", targetVersion, targetMigration);
+			logger.LogInformation("Migrating down to version {targetVersion}. Target: {targetMigration}", targetVersion, targetMigration);
 			try
 			{
 				await migrator.MigrateAsync(targetMigration, cancellationToken);

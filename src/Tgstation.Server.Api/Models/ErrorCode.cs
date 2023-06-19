@@ -288,9 +288,8 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Currently unused.
 		/// </summary>
-		[Obsolete("Unused", true)]
-		[Description("Unknown error code.")]
-		UnusedErrorCode3,
+		[Description("IO operation could not start contended access to the instance's configuration directory!")]
+		ConfigurationContendedAccess,
 
 		/// <summary>
 		/// Attempted to add a chat bot when at or above the <see cref="Instance.ChatBotLimit"/> or it was set to something lower than the existing amount of chat bots.

@@ -12,6 +12,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -62,7 +63,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 				instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 				{
 					StartupTimeout = 15,
-					HeartbeatSeconds = 0,
+					HealthCheckSeconds = 0,
 					Port = TestLiveServer.DDPort,
 					LogOutput = false,
 				}, cancellationToken).AsTask(),
@@ -102,6 +103,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 		{
 			await StartAndLeaveRunning(cancellationToken);
 
+			await RegressionTest1550(cancellationToken);
+
 			var deleteJobTask = TestDeleteByondInstallErrorCasesAndQueing(cancellationToken);
 
 			SessionController.LogTopicRequests = false;
@@ -125,6 +128,54 @@ namespace Tgstation.Server.Tests.Live.Instance
 			var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
 			await WaitForJob(deleteJob, 15, false, null, cancellationToken);
 			await WaitForJob(restartJob, 15, false, null, cancellationToken);
+		}
+
+		async ValueTask RegressionTest1550(CancellationToken cancellationToken)
+		{
+			// we need to cycle deployments twice because TGS holds the initial deployment
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+			var currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+
+			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
+			Assert.IsNotNull(currentStatus.StagedCompileJob);
+			var expectedStaged = currentStatus.StagedCompileJob;
+			Assert.AreNotEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
+
+			await TellWorldToReboot(cancellationToken);
+
+			currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
+
+			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
+
+			var topicRequestResult = await TopicClient.SendTopic(
+				IPAddress.Loopback,
+				$"shadow_wizard_money_gang=1",
+				TestLiveServer.DDPort,
+				cancellationToken);
+
+			Assert.IsNotNull(topicRequestResult);
+			Assert.AreEqual("we love casting spells", topicRequestResult.StringData);
+
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
+
+			currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+
+			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
+			Assert.IsNotNull(currentStatus.StagedCompileJob);
+			Assert.AreEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
+			expectedStaged = currentStatus.StagedCompileJob;
+			Assert.AreNotEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
+
+			await TellWorldToReboot(cancellationToken);
+
+			currentStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(WatchdogStatus.Online, currentStatus.Status);
+			Assert.IsNull(currentStatus.StagedCompileJob);
+			Assert.AreEqual(expectedStaged.Id, currentStatus.ActiveCompileJob.Id);
+
+			await CheckDMApiFail(currentStatus.ActiveCompileJob, cancellationToken, false);
+			await CheckDMApiFail(expectedStaged, cancellationToken, false);
 		}
 
 		async Task<JobResponse> TestDeleteByondInstallErrorCasesAndQueing(CancellationToken cancellationToken)
@@ -256,7 +307,8 @@ namespace Tgstation.Server.Tests.Live.Instance
 					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: E_HANDLE: The handle is invalid.")
 					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 3489660936: Unknown error (0xd0000008)")
 					|| job.ExceptionDetails.Contains("System.InvalidOperationException: No process is associated with this object.")
-					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 2147942424: The program issued a command but the command length is incorrect."))))
+					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 2147942424: The program issued a command but the command length is incorrect.")
+					|| job.ExceptionDetails.Contains("BetterWin32Errors.Win32Exception: 2147942699: Only part of a ReadProcessMemory or WriteProcessMemory request was completed."))))
 					break;
 
 				var restartJob = await instanceClient.DreamDaemon.Restart(cancellationToken);
@@ -370,12 +422,25 @@ namespace Tgstation.Server.Tests.Live.Instance
 		async Task RunHealthCheckTest(bool checkDump, CancellationToken cancellationToken)
 		{
 			System.Console.WriteLine("TEST: WATCHDOG HEALTH CHECK TEST");
-			// enable health checks
-			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+#pragma warning disable CS0618 // Type or member is obsolete
+			// Check reverse mapping
+			var status = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
-				HeartbeatSeconds = 1,
+				DumpOnHealthCheckRestart = !checkDump,
+			}, cancellationToken);
+
+			Assert.AreEqual(!checkDump, status.DumpOnHeartbeatRestart);
+
+			// enable health checks
+			status = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			{
+				HealthCheckSeconds = 1,
 				DumpOnHeartbeatRestart = checkDump,
 			}, cancellationToken);
+
+			Assert.AreEqual(checkDump, status.DumpOnHeartbeatRestart);
+#pragma warning restore CS0618 // Type or member is obsolete
+			Assert.AreEqual(checkDump, status.DumpOnHealthCheckRestart);
 
 			var startJob = await StartDD(cancellationToken);
 
@@ -426,10 +491,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 
 			var timeout = 20;
+			DreamDaemonResponse ddStatus;
 			do
 			{
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-				var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				Assert.AreEqual(1U, ddStatus.HealthCheckSeconds.Value);
+#pragma warning disable CS0618 // Type or member is obsolete
 				Assert.AreEqual(1U, ddStatus.HeartbeatSeconds.Value);
 				if (ddStatus.Status.Value == WatchdogStatus.Offline)
 				{
@@ -443,10 +511,13 @@ namespace Tgstation.Server.Tests.Live.Instance
 			while (timeout > 0);
 
 			// disable health checks
-			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
+			ddStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				HeartbeatSeconds = 0,
 			}, cancellationToken);
+			Assert.AreEqual(0U, ddStatus.HealthCheckSeconds.Value);
+			Assert.AreEqual(0U, ddStatus.HeartbeatSeconds.Value);
+#pragma warning restore CS0618 // Type or member is obsolete
 
 			if (checkDump)
 			{
@@ -542,10 +613,11 @@ namespace Tgstation.Server.Tests.Live.Instance
 			};
 
 			var json = JsonConvert.SerializeObject(baseTopic, DMApiConstants.SerializerSettings);
-			var topicString = $"tgs_integration_test_tactics3={TopicClient.SanitizeString(json)}";
 
-			var baseSize = topicString.Length;
-			var wrappingSize = baseSize;
+			var baseSize = (int)(DMApiConstants.MaximumTopicRequestLength - 1);
+
+			var topicString = $"tgs_integration_test_tactics3={TopicClient.SanitizeString(json)}";
+			var wrappingSize = topicString.Length;
 
 			while (!cancellationToken.IsCancellationRequested)
 			{
@@ -596,7 +668,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 			System.Console.WriteLine("TEST: Receiving Topic tests topics...");
 
 			// Receive
-			baseSize = 1;
+			baseSize = (int)(DMApiConstants.MaximumTopicResponseLength - 1);
 			nextPow = 0;
 			lastSize = 0;
 			while (!cancellationToken.IsCancellationRequested)
@@ -961,32 +1033,28 @@ namespace Tgstation.Server.Tests.Live.Instance
 		public async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.IsNotNull(daemonStatus.StagedCompileJob);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 
-			try
-			{
-				System.Console.WriteLine("TEST: Sending world reboot topic...");
-				var result = await TopicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", TestLiveServer.DDPort, cancellationToken);
-				Assert.AreEqual("ack", result.StringData);
+			System.Console.WriteLine("TEST: Sending world reboot topic...");
+			var result = await TopicClient.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", TestLiveServer.DDPort, cancellationToken);
+			Assert.AreEqual("ack", result.StringData);
 
-				using (var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-				using (tempCts.Token.Register(() => System.Console.WriteLine("TEST ERROR: Timeout in TellWorldToReboot!")))
+			using var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var tempToken = tempCts.Token;
+			using (tempToken.Register(() => System.Console.WriteLine("TEST ERROR: Timeout in TellWorldToReboot!")))
+			{
+				tempCts.CancelAfter(TimeSpan.FromMinutes(2));
+
+				do
 				{
-					tempCts.CancelAfter(TimeSpan.FromMinutes(2));
-					var tempToken = tempCts.Token;
-
-					do
-					{
-						await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
-						daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
-					}
-					while (initialCompileJob.Id == daemonStatus.ActiveCompileJob.Id);
+					await Task.Delay(TimeSpan.FromSeconds(1), tempToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(tempToken);
 				}
+				while (initialCompileJob.Id == daemonStatus.ActiveCompileJob.Id);
 			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
+
+			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
 
 			return daemonStatus;
 		}

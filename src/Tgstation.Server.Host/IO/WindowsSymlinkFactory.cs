@@ -14,6 +14,9 @@ namespace Tgstation.Server.Host.IO
 	sealed class WindowsSymlinkFactory : ISymlinkFactory
 	{
 		/// <inheritdoc />
+		public bool SymlinkedDirectoriesAreDeletedAsFiles => false;
+
+		/// <inheritdoc />
 		public Task CreateSymbolicLink(string targetPath, string linkPath, CancellationToken cancellationToken) => Task.Factory.StartNew(
 			() =>
 			{

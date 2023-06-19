@@ -791,7 +791,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				Visibility = DreamDaemonVisibility.Invisible,
 				StartupTimeout = timeout,
 				TopicRequestTimeout = 0, // not used
-				HeartbeatSeconds = 0, // not used
+				HealthCheckSeconds = 0, // not used
 				StartProfiler = false,
 				LogOutput = logOutput,
 			};
@@ -802,7 +802,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
 			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken))
 			{
-				var launchResult = await controller.LaunchResult;
+				var launchResult = await controller.LaunchResult.WithToken(cancellationToken);
 
 				if (launchResult.StartupTime.HasValue)
 					await controller.Lifetime.WithToken(cancellationToken);
@@ -890,7 +890,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var dmePath = ioManager.ConcatPath(job.DirectoryName.ToString(), dmeFileName);
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
-			var dmeModificationsTask = configuration.CopyDMFilesTo(dmeFileName, ioManager.ResolvePath(job.DirectoryName.ToString()), cancellationToken);
+			var dmeModificationsTask = configuration.CopyDMFilesTo(
+				dmeFileName,
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						job.DirectoryName.ToString(),
+						ioManager.GetDirectoryName(dmeFileName))),
+				cancellationToken);
 
 			var dmeBytes = await dmeReadTask;
 			var dme = Encoding.UTF8.GetString(dmeBytes);

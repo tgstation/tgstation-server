@@ -143,21 +143,27 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					gracefulRebootRequired = false;
 					Server.ResetRebootState();
 
-					await HandleEvent(EventType.WorldReboot, Enumerable.Empty<string>(), false, cancellationToken);
-
-					switch (rebootState)
+					var eventTask = HandleEvent(EventType.WorldReboot, Enumerable.Empty<string>(), false, cancellationToken);
+					try
 					{
-						case Session.RebootState.Normal:
-							return await HandleNormalReboot(cancellationToken);
-						case Session.RebootState.Restart:
-							return MonitorAction.Restart;
-						case Session.RebootState.Shutdown:
-							// graceful shutdown time
-							Chat.QueueWatchdogMessage(
-								"Active server rebooted! Shutting down due to graceful termination request...");
-							return MonitorAction.Exit;
-						default:
-							throw new InvalidOperationException($"Invalid reboot state: {rebootState}");
+						switch (rebootState)
+						{
+							case Session.RebootState.Normal:
+								return await HandleNormalReboot(cancellationToken);
+							case Session.RebootState.Restart:
+								return MonitorAction.Restart;
+							case Session.RebootState.Shutdown:
+								// graceful shutdown time
+								Chat.QueueWatchdogMessage(
+									"Active server rebooted! Shutting down due to graceful termination request...");
+								return MonitorAction.Exit;
+							default:
+								throw new InvalidOperationException($"Invalid reboot state: {rebootState}");
+						}
+					}
+					finally
+					{
+						await eventTask;
 					}
 
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
@@ -170,6 +176,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case MonitorActivationReason.ActiveServerPrimed:
 					await HandleEvent(EventType.WorldPrime, Enumerable.Empty<string>(), false, cancellationToken);
 					break;
+				case MonitorActivationReason.ActiveServerStartup:
+					break; // unused in BasicWatchdog
 				case MonitorActivationReason.HealthCheck:
 				default:
 					throw new InvalidOperationException($"Invalid activation reason: {reason}");

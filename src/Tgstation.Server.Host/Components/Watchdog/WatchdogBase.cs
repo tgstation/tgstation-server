@@ -794,6 +794,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				MonitorAction nextAction = MonitorAction.Continue;
 				Task activeServerLifetime = null,
 					activeServerReboot = null,
+					activeServerStartup = null,
 					serverPrimed = null,
 					activeLaunchParametersChanged = null,
 					newDmbAvailable = null;
@@ -801,6 +802,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var ranInitialDmbCheck = false;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty(SerilogContextHelper.WatchdogMonitorIterationContextProperty, iteration))
+					{
+						TaskCompletionSource nextMonitorWakeupTcs = new TaskCompletionSource();
 						try
 						{
 							Logger.LogTrace("Iteration {iteration} of monitor loop", iteration);
@@ -818,17 +821,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									oldTask = newTaskFactory();
 								}
 
+								controller.RebootGate = nextMonitorWakeupTcs.Task;
 								if (lastController == controller)
 								{
 									TryUpdateTask(ref activeServerLifetime, () => controller.Lifetime);
 									TryUpdateTask(ref activeServerReboot, () => controller.OnReboot);
 									TryUpdateTask(ref serverPrimed, () => controller.OnPrime);
+									TryUpdateTask(ref activeServerStartup, () => controller.OnStartup);
 								}
 								else
 								{
 									activeServerLifetime = controller.Lifetime;
 									activeServerReboot = controller.OnReboot;
 									serverPrimed = controller.OnPrime;
+									activeServerStartup = controller.OnStartup;
 									lastController = controller;
 								}
 
@@ -847,7 +853,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							UpdateMonitoredTasks();
 
-							var healthCheckSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
+							var healthCheckSeconds = ActiveLaunchParameters.HealthCheckSeconds.Value;
 							var healthCheck = healthCheckSeconds == 0
 								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask
@@ -860,6 +866,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							var toWaitOn = Task.WhenAny(
 								activeServerLifetime,
 								activeServerReboot,
+								activeServerStartup,
 								healthCheck,
 								newDmbAvailable,
 								cancelTcs.Task,
@@ -906,7 +913,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 										|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
 										|| CheckActivationReason(ref healthCheck, MonitorActivationReason.HealthCheck)
-										|| CheckActivationReason(ref serverPrimed, MonitorActivationReason.ActiveServerPrimed);
+										|| CheckActivationReason(ref serverPrimed, MonitorActivationReason.ActiveServerPrimed)
+										|| CheckActivationReason(ref activeServerStartup, MonitorActivationReason.ActiveServerStartup);
 
 									UpdateMonitoredTasks();
 
@@ -960,6 +968,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								nextAction = MonitorAction.Continue;
 							}
 						}
+						finally
+						{
+							nextMonitorWakeupTcs.SetResult();
+						}
+					}
 			}
 			catch (OperationCanceledException)
 			{
@@ -1073,13 +1086,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								actionTaken,
 								StringComparison.Ordinal));
 
-						if (ActiveLaunchParameters.DumpOnHeartbeatRestart.Value)
+						if (ActiveLaunchParameters.DumpOnHealthCheckRestart.Value)
 						{
-							Logger.LogDebug("DumpOnHeartbeatRestart enabled.");
+							Logger.LogDebug("DumpOnHealthCheckRestart enabled.");
 							await CreateDump(cancellationToken);
 						}
 						else
-							Logger.LogTrace("DumpOnHeartbeatRestart disabled.");
+							Logger.LogTrace("DumpOnHealthCheckRestart disabled.");
 
 						await DisposeAndNullControllers(cancellationToken);
 						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;

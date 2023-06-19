@@ -133,14 +133,14 @@ namespace Tgstation.Server.Tests.Live
 
 			var connectionFactory = new DatabaseConnectionFactory();
 
-			using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+			using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(LiveTestUtils.RunningInGitHubActions ? 10 : 1));
 			var cancellationToken = cts.Token;
 
 			try
 			{
 				while (true)
 				{
-					using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
+					await using var connection = connectionFactory.CreateConnection(connectionString, databaseType);
 					try
 					{
 						await connection.OpenAsync(cancellationToken);
@@ -1053,9 +1053,9 @@ namespace Tgstation.Server.Tests.Live
 							GetInstanceManager(),
 							(ushort)server.Url.Port)
 						.RunTests(
-							cancellationToken,
 							server.HighPriorityDreamDaemon,
-							server.LowPriorityDeployments));
+							server.LowPriorityDeployments,
+							cancellationToken));
 
 					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
 

@@ -58,6 +58,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		const string CodeModificationsTailFile = "TailInclude.dm";
 
 		/// <summary>
+		/// Default contents of <see cref="CodeModificationsHeadFile"/>.
+		/// </summary>
+		static readonly string DefaultHeadInclude = @$"// TGS AUTO GENERATED HeadInclude.dm{Environment.NewLine}// This file will be included BEFORE all code in your .dme IF a replacement .dme does not exist in this directory{Environment.NewLine}// Please note that changes need to be made available if you are hosting an AGPL licensed codebase{Environment.NewLine}// The presence file in its default state does not constitute a code change that needs to be published by licensing standards{Environment.NewLine}";
+
+		/// <summary>
+		/// Default contents of <see cref="CodeModificationsHeadFile"/>.
+		/// </summary>
+		static readonly string DefaultTailInclude = @$"// TGS AUTO GENERATED TailInclude.dm{Environment.NewLine}// This file will be included AFTER all code in your .dme IF a replacement .dme does not exist in this directory{Environment.NewLine}// Please note that changes need to be made available if you are hosting an AGPL licensed codebase{Environment.NewLine}// The presence file in its default state does not constitute a code change that needs to be published by licensing standards{Environment.NewLine}";
+
+		/// <summary>
 		/// Map of <see cref="EventType"/>s to the filename of the event scripts they trigger.
 		/// </summary>
 		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>(
@@ -227,35 +237,34 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void ListImpl()
 			{
-				try
+				var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
+				result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
 				{
-					var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
-					result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
-					{
-						IsDirectory = true,
-						Path = ioManager.ConcatPath(configurationRelativePath, x),
-					}).OrderBy(file => file.Path));
+					IsDirectory = true,
+					Path = ioManager.ConcatPath(configurationRelativePath, x),
+				}).OrderBy(file => file.Path));
 
-					enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
-					result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
-					{
-						IsDirectory = false,
-						Path = ioManager.ConcatPath(configurationRelativePath, x),
-					}).OrderBy(file => file.Path));
-				}
-				catch (IOException ex)
+				enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
+				result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
 				{
-					logger.LogDebug(ex, "IOException while enumerating direcotry!");
-					result = null;
-					return;
-				}
+					IsDirectory = false,
+					Path = ioManager.ConcatPath(configurationRelativePath, x),
+				}).OrderBy(file => file.Path));
 			}
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			{
+				if (!locked)
+				{
+					logger.LogDebug("Contention when attempting to enumerate directory!");
+					return null;
+				}
+
 				if (systemIdentity == null)
 					ListImpl();
 				else
 					await systemIdentity.RunImpersonated(ListImpl, cancellationToken);
+			}
 
 			return result;
 		}
@@ -270,90 +279,102 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void ReadImpl()
 			{
-				lock (semaphore)
+				try
+				{
+					string GetFileSha()
+					{
+						var content = synchronousIOManager.ReadFile(path);
+						using var sha1 = SHA1.Create();
+						return String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+					}
+
+					var originalSha = GetFileSha();
+
+					var disposeToken = disposeCts.Token;
+					var fileTicket = fileTransferService.CreateDownload(
+						new FileDownloadProvider(
+							() =>
+							{
+								if (disposeToken.IsCancellationRequested)
+									return ErrorCode.InstanceOffline;
+
+								var newSha = GetFileSha();
+								if (newSha != originalSha)
+									return ErrorCode.ConfigurationFileUpdated;
+
+								return null;
+							},
+							async cancellationToken =>
+							{
+								FileStream result = null;
+								void GetFileStream()
+								{
+									result = ioManager.GetFileStream(path, false);
+								}
+
+								using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+								{
+									if (!locked)
+										return null;
+
+									if (systemIdentity == null)
+										await Task.Factory.StartNew(GetFileStream, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+									else
+										await systemIdentity.RunImpersonated(GetFileStream, cancellationToken);
+								}
+
+								return result;
+							},
+							path,
+							false));
+
+					result = new ConfigurationFileResponse
+					{
+						FileTicket = fileTicket.FileTicket,
+						IsDirectory = false,
+						LastReadHash = originalSha,
+						AccessDenied = false,
+						Path = configurationRelativePath,
+					};
+				}
+				catch (UnauthorizedAccessException)
+				{
+					// this happens on windows, dunno about linux
+					bool isDirectory;
 					try
 					{
-						string GetFileSha()
-						{
-							var content = synchronousIOManager.ReadFile(path);
-							using var sha1 = SHA1.Create();
-							return String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
-						}
-
-						var originalSha = GetFileSha();
-
-						var disposeToken = disposeCts.Token;
-						var fileTicket = fileTransferService.CreateDownload(
-							new FileDownloadProvider(
-								() =>
-								{
-									if (disposeToken.IsCancellationRequested)
-										return ErrorCode.InstanceOffline;
-
-									var newSha = GetFileSha();
-									if (newSha != originalSha)
-										return ErrorCode.ConfigurationFileUpdated;
-
-									return null;
-								},
-								async cancellationToken =>
-								{
-									FileStream result = null;
-									void GetFileStream()
-									{
-										result = ioManager.GetFileStream(path, false);
-									}
-
-									using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
-										if (systemIdentity == null)
-											await Task.Factory.StartNew(GetFileStream, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
-										else
-											await systemIdentity.RunImpersonated(GetFileStream, cancellationToken);
-
-									return result;
-								},
-								path,
-								false));
-
-						result = new ConfigurationFileResponse
-						{
-							FileTicket = fileTicket.FileTicket,
-							IsDirectory = false,
-							LastReadHash = originalSha,
-							AccessDenied = false,
-							Path = configurationRelativePath,
-						};
+						isDirectory = synchronousIOManager.IsDirectory(path);
 					}
-					catch (UnauthorizedAccessException)
+					catch (Exception ex)
 					{
-						// this happens on windows, dunno about linux
-						bool isDirectory;
-						try
-						{
-							isDirectory = synchronousIOManager.IsDirectory(path);
-						}
-						catch (Exception ex)
-						{
-							logger.LogDebug(ex, "IsDirectory exception!");
-							isDirectory = false;
-						}
-
-						result = new ConfigurationFileResponse
-						{
-							Path = configurationRelativePath,
-						};
-						if (!isDirectory)
-							result.AccessDenied = true;
-
-						result.IsDirectory = isDirectory;
+						logger.LogDebug(ex, "IsDirectory exception!");
+						isDirectory = false;
 					}
+
+					result = new ConfigurationFileResponse
+					{
+						Path = configurationRelativePath,
+					};
+					if (!isDirectory)
+						result.AccessDenied = true;
+
+					result.IsDirectory = isDirectory;
+				}
 			}
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			{
+				if (!locked)
+				{
+					logger.LogDebug("Contention when attempting to read file!");
+					return null;
+				}
+
 				if (systemIdentity == null)
 					await Task.Factory.StartNew(ReadImpl, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 				else
 					await systemIdentity.RunImpersonated(ReadImpl, cancellationToken);
+			}
 
 			return result;
 		}
@@ -438,93 +459,108 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void WriteImpl()
 			{
-				lock (semaphore)
-					try
+				try
+				{
+					var fileTicket = fileTransferService.CreateUpload(FileUploadStreamKind.ForSynchronousIO);
+					var uploadCancellationToken = disposeCts.Token;
+					async Task UploadHandler()
 					{
-						var fileTicket = fileTransferService.CreateUpload(FileUploadStreamKind.ForSynchronousIO);
-						var uploadCancellationToken = disposeCts.Token;
-						async Task UploadHandler()
+						await using (fileTicket)
 						{
-							await using (fileTicket)
+							var fileHash = previousHash;
+							var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
+							if (uploadStream == null)
+								return; // expired
+
+							bool success = false;
+							void WriteCallback()
 							{
-								var fileHash = previousHash;
-								var uploadStream = await fileTicket.GetResult(uploadCancellationToken);
-								if (uploadStream == null)
-									return; // expired
+								success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, cancellationToken);
+							}
 
-								bool success = false;
-								void WriteCallback()
-								{
-									success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, cancellationToken);
-								}
+							if (fileTicket == null)
+							{
+								logger.LogDebug("File upload ticket for {path} expired!", path);
+								return;
+							}
 
-								if (fileTicket == null)
+							using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+							{
+								if (!locked)
 								{
-									logger.LogDebug("File upload ticket for {path} expired!", path);
+									fileTicket.SetError(ErrorCode.ConfigurationContendedAccess, null);
 									return;
 								}
 
-								using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
-									if (systemIdentity == null)
-										await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
-									else
-										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken);
-
-								if (!success)
-									fileTicket.SetError(ErrorCode.ConfigurationFileUpdated, fileHash);
-								else if (uploadStream.Length > 0)
-									postWriteHandler.HandleWrite(path);
+								if (systemIdentity == null)
+									await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+								else
+									await systemIdentity.RunImpersonated(WriteCallback, cancellationToken);
 							}
+
+							if (!success)
+								fileTicket.SetError(ErrorCode.ConfigurationFileUpdated, fileHash);
+							else if (uploadStream.Length > 0)
+								postWriteHandler.HandleWrite(path);
 						}
-
-						result = new ConfigurationFileResponse
-						{
-							FileTicket = fileTicket.Ticket.FileTicket,
-							LastReadHash = previousHash,
-							IsDirectory = false,
-							AccessDenied = false,
-							Path = configurationRelativePath,
-						};
-
-						lock (disposeCts)
-							uploadTasks = Task.WhenAll(uploadTasks, UploadHandler());
 					}
-					catch (UnauthorizedAccessException)
+
+					result = new ConfigurationFileResponse
 					{
-						// this happens on windows, dunno about linux
-						bool isDirectory;
-						try
-						{
-							isDirectory = synchronousIOManager.IsDirectory(path);
-						}
-						catch (Exception ex)
-						{
-							logger.LogDebug(ex, "IsDirectory exception!");
-							isDirectory = false;
-						}
+						FileTicket = fileTicket.Ticket.FileTicket,
+						LastReadHash = previousHash,
+						IsDirectory = false,
+						AccessDenied = false,
+						Path = configurationRelativePath,
+					};
 
-						result = new ConfigurationFileResponse
-						{
-							Path = configurationRelativePath,
-						};
-						if (!isDirectory)
-							result.AccessDenied = true;
-
-						result.IsDirectory = isDirectory;
+					lock (disposeCts)
+						uploadTasks = Task.WhenAll(uploadTasks, UploadHandler());
+				}
+				catch (UnauthorizedAccessException)
+				{
+					// this happens on windows, dunno about linux
+					bool isDirectory;
+					try
+					{
+						isDirectory = synchronousIOManager.IsDirectory(path);
 					}
+					catch (Exception ex)
+					{
+						logger.LogDebug(ex, "IsDirectory exception!");
+						isDirectory = false;
+					}
+
+					result = new ConfigurationFileResponse
+					{
+						Path = configurationRelativePath,
+					};
+					if (!isDirectory)
+						result.AccessDenied = true;
+
+					result.IsDirectory = isDirectory;
+				}
 			}
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			{
+				if (!locked)
+				{
+					logger.LogDebug("Contention when attempting to write file!");
+					return null;
+				}
+
 				if (systemIdentity == null)
 					await Task.Factory.StartNew(WriteImpl, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 				else
 					await systemIdentity.RunImpersonated(WriteImpl, cancellationToken);
+			}
 
 			return result;
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<bool?> CreateDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -532,11 +568,19 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			bool? result = null;
 			void DoCreate() => result = synchronousIOManager.CreateDirectory(path, cancellationToken);
 
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
+			{
+				if (!locked)
+				{
+					logger.LogDebug("Contention when attempting to create directory!");
+					return null;
+				}
+
 				if (systemIdentity == null)
 					await Task.Factory.StartNew(DoCreate, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 				else
 					await systemIdentity.RunImpersonated(DoCreate, cancellationToken);
+			}
 
 			return result.Value;
 		}
@@ -608,14 +652,20 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<bool?> DeleteDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
 			var result = false;
-			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken))
+			using (SemaphoreSlimContext.TryLock(semaphore, out var locked))
 			{
+				if (!locked)
+				{
+					logger.LogDebug("Contention when attempting to enumerate directory!");
+					return null;
+				}
+
 				void CheckDeleteImpl() => result = synchronousIOManager.DeleteDirectory(path);
 
 				if (systemIdentity != null)
@@ -648,8 +698,29 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken);
 			}
 
+			async Task ValidateCodeModsFolder()
+			{
+				if (await ioManager.DirectoryExists(CodeModificationsSubdirectory, cancellationToken))
+					return;
+
+				await ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken);
+				await Task.WhenAll(
+					ioManager.WriteAllBytes(
+						ioManager.ConcatPath(
+							CodeModificationsSubdirectory,
+							CodeModificationsHeadFile),
+						Encoding.UTF8.GetBytes(DefaultHeadInclude),
+						cancellationToken),
+					ioManager.WriteAllBytes(
+						ioManager.ConcatPath(
+							CodeModificationsSubdirectory,
+							CodeModificationsTailFile),
+						Encoding.UTF8.GetBytes(DefaultTailInclude),
+						cancellationToken));
+			}
+
 			await Task.WhenAll(
-				ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken),
+				ValidateCodeModsFolder(),
 				ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken),
 				ValidateStaticFolder());
 		}

@@ -9,6 +9,12 @@ namespace Tgstation.Server.Host.IO
 	interface ISymlinkFactory
 	{
 		/// <summary>
+		/// If directory symlinks must be deleted as files would in the current environment.
+		/// </summary>
+		/// <remarks>This is because Linux symlinked directories must be deleted with <see cref="global::System.IO.File.Delete(string)"/>.</remarks>
+		bool SymlinkedDirectoriesAreDeletedAsFiles { get; }
+
+		/// <summary>
 		/// Create a symbolic link.
 		/// </summary>
 		/// <param name="targetPath">The path to the hard target.</param>

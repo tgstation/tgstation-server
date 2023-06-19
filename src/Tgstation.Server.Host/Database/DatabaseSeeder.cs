@@ -257,7 +257,7 @@ namespace Tgstation.Server.Host.Database
 
 				if (rowsUpdated > 0)
 					logger.LogInformation(
-						"Updated {0} instances to use database backed BYOND topic timeouts from configuration setting of {1}",
+						"Updated {count} instances to use database backed BYOND topic timeouts from configuration setting of {timeout}",
 						rowsUpdated,
 						generalConfiguration.ByondTopicTimeout);
 			}

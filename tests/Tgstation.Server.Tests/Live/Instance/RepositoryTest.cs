@@ -40,6 +40,7 @@ namespace Tgstation.Server.Tests.Live.Instance
 
 			async Task<JobResponse> Rest()
 			{
+				await Task.Yield();
 				await ApiAssert.ThrowsException<ConflictException, RepositoryResponse>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoCloning);
 				Assert.IsNotNull(clone);
 				Assert.AreEqual(cloneRequest.Origin, clone.Origin);

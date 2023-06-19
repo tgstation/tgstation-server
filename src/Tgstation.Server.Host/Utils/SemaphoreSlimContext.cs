@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Utils
 	/// <summary>
 	/// Async lock context helper.
 	/// </summary>
-	public sealed class SemaphoreSlimContext : IDisposable
+	sealed class SemaphoreSlimContext : IDisposable
 	{
 		/// <summary>
 		/// Asyncronously locks a <paramref name="semaphore"/>.
@@ -18,9 +18,23 @@ namespace Tgstation.Server.Host.Utils
 		public static async ValueTask<SemaphoreSlimContext> Lock(SemaphoreSlim semaphore, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(semaphore);
-			cancellationToken.ThrowIfCancellationRequested();
 			await semaphore.WaitAsync(cancellationToken);
 			return new SemaphoreSlimContext(semaphore);
+		}
+
+		/// <summary>
+		/// Asyncronously attempts to lock a <paramref name="semaphore"/>.
+		/// </summary>
+		/// <param name="semaphore">The <see cref="SemaphoreSlim"/> to lock.</param>
+		/// <param name="locked">The <see cref="bool"/> result of the lock attempt.</param>
+		/// <returns>A <see cref="SemaphoreSlimContext"/> for the lock on success, or <see langword="null"/> if it was not acquired.</returns>
+		public static SemaphoreSlimContext TryLock(SemaphoreSlim semaphore, out bool locked)
+		{
+			ArgumentNullException.ThrowIfNull(semaphore);
+			locked = semaphore.Wait(TimeSpan.Zero);
+			return locked
+				? new SemaphoreSlimContext(semaphore)
+				: null;
 		}
 
 		/// <summary>

@@ -70,13 +70,39 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task<int> Lifetime { get; }
 
 		/// <inheritdoc />
+		public Task OnStartup => startupTcs.Task;
+
+		/// <inheritdoc />
 		public Task OnReboot => rebootTcs.Task;
+
+		/// <inheritdoc />
+		public Task RebootGate
+		{
+			get => rebootGate;
+			set
+			{
+				var tcs = new TaskCompletionSource();
+				Task toAwait = null;
+				async Task Wrap()
+				{
+					await tcs.Task;
+					await toAwait;
+					await value;
+				}
+
+				toAwait = Interlocked.Exchange(ref rebootGate, Wrap());
+				tcs.SetResult();
+			}
+		}
 
 		/// <inheritdoc />
 		public Task OnPrime => primeTcs.Task;
 
 		/// <inheritdoc />
 		public bool DMApiAvailable => ReattachInformation.Dmb.CompileJob.DMApiVersion?.Major == DMApiConstants.InteropVersion.Major;
+
+		/// <inheritdoc />
+		public bool ProcessingRebootBridgeRequest => rebootBridgeRequestsProcessing > 0;
 
 		/// <summary>
 		/// The up to date <see cref="Session.ReattachInformation"/>.
@@ -144,19 +170,39 @@ namespace Tgstation.Server.Host.Components.Session
 		TaskCompletionSource<bool> portAssignmentTcs;
 
 		/// <summary>
+		/// The <see cref="TaskCompletionSource"/> that completes when DD sends a valid startup bridge request.
+		/// </summary>
+		volatile TaskCompletionSource startupTcs;
+
+		/// <summary>
+		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us about a reboot.
+		/// </summary>
+		volatile TaskCompletionSource rebootTcs;
+
+		/// <summary>
+		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us it's primed.
+		/// </summary>
+		volatile TaskCompletionSource primeTcs;
+
+		/// <summary>
+		/// Backing field for <see cref="RebootGate"/>.
+		/// </summary>
+		volatile Task rebootGate;
+
+		/// <summary>
+		/// The number of currently active calls to <see cref="ProcessBridgeRequest(BridgeParameters, CancellationToken)"/> from TgsReboot().
+		/// </summary>
+		volatile uint rebootBridgeRequestsProcessing;
+
+		/// <summary>
 		/// The port to assign DreamDaemon when it queries for it.
 		/// </summary>
 		ushort? nextPort;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us about a reboot.
+		/// The <see cref="ApiValidationStatus"/> for the <see cref="SessionController"/>.
 		/// </summary>
-		TaskCompletionSource rebootTcs;
-
-		/// <summary>
-		/// The <see cref="TaskCompletionSource"/> that completes when DD tells us it's primed.
-		/// </summary>
-		TaskCompletionSource primeTcs;
+		ApiValidationStatus apiValidationStatus;
 
 		/// <summary>
 		/// If we know DreamDaemon currently has it's port closed.
@@ -167,11 +213,6 @@ namespace Tgstation.Server.Host.Components.Session
 		/// If the <see cref="SessionController"/> has been disposed.
 		/// </summary>
 		bool disposed;
-
-		/// <summary>
-		/// The <see cref="ApiValidationStatus"/> for the <see cref="SessionController"/>.
-		/// </summary>
-		ApiValidationStatus apiValidationStatus;
 
 		/// <summary>
 		/// If <see cref="process"/> should be kept alive instead.
@@ -232,8 +273,11 @@ namespace Tgstation.Server.Host.Components.Session
 			apiValidationStatus = ApiValidationStatus.NeverValidated;
 			released = false;
 
+			startupTcs = new TaskCompletionSource();
 			rebootTcs = new TaskCompletionSource();
 			primeTcs = new TaskCompletionSource();
+
+			rebootGate = Task.CompletedTask;
 
 			// Run this asynchronously because we want to try to avoid any effects sending topics to the server while the initial bridge request is processing
 			// It MAY be the source of a DD crash. See this gist https://gist.github.com/Cyberboss/7776bbeff3a957d76affe0eae95c9f14
@@ -496,11 +540,11 @@ namespace Tgstation.Server.Host.Components.Session
 		public void Resume() => process.Resume();
 
 		/// <inheritdoc />
-		public void ReplaceDmbProvider(IDmbProvider dmbProvider)
+		public IDisposable ReplaceDmbProvider(IDmbProvider dmbProvider)
 		{
 			var oldDmb = ReattachInformation.Dmb;
 			ReattachInformation.Dmb = dmbProvider ?? throw new ArgumentNullException(nameof(dmbProvider));
-			oldDmb.Dispose();
+			return oldDmb;
 		}
 
 		/// <inheritdoc />
@@ -639,9 +683,7 @@ namespace Tgstation.Server.Host.Components.Session
 						parsedChannels);
 					break;
 				case BridgeCommandType.Prime:
-					var oldPrimeTcs = primeTcs;
-					primeTcs = new TaskCompletionSource();
-					oldPrimeTcs.SetResult();
+					Interlocked.Exchange(ref primeTcs, new TaskCompletionSource()).SetResult();
 					break;
 				case BridgeCommandType.Kill:
 					Logger.LogInformation("Bridge requested process termination!");
@@ -722,18 +764,27 @@ namespace Tgstation.Server.Host.Components.Session
 
 					// Load custom commands
 					chatTrackingContext.CustomCommands = parameters.CustomCommands;
+					Interlocked.Exchange(ref startupTcs, new TaskCompletionSource()).SetResult();
 					break;
 				case BridgeCommandType.Reboot:
-					if (ClosePortOnReboot)
+					Interlocked.Increment(ref rebootBridgeRequestsProcessing);
+					try
 					{
-						chatTrackingContext.Active = false;
-						response.NewPort = 0;
-						portClosedForReboot = true;
+						if (ClosePortOnReboot)
+						{
+							chatTrackingContext.Active = false;
+							response.NewPort = 0;
+							portClosedForReboot = true;
+						}
+
+						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
+						await RebootGate;
+					}
+					finally
+					{
+						Interlocked.Decrement(ref rebootBridgeRequestsProcessing);
 					}
 
-					var oldRebootTcs = rebootTcs;
-					rebootTcs = new TaskCompletionSource();
-					oldRebootTcs.SetResult();
 					break;
 				case BridgeCommandType.Chunk:
 					return await ProcessChunk<BridgeParameters, BridgeResponse>(ProcessBridgeCommand, BridgeError, parameters.Chunk, cancellationToken);
