@@ -35,3 +35,5 @@ src/Tgstation.Server.Client
 src/Tgstation.Server.Host.Service
 tests
 tools
+artifacts
+packaging
