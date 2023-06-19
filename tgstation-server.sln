@@ -209,11 +209,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deb", "deb", "{457A1F89-620
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "debian", "debian", "{08E7C650-A447-4DE2-974E-ED123B50F8D6}"
 	ProjectSection(SolutionItems) = preProject
+		build\package\deb\debian\changelog = build\package\deb\debian\changelog
 		build\package\deb\debian\control = build\package\deb\debian\control
 		build\package\deb\debian\copyright = build\package\deb\debian\copyright
 		build\package\deb\debian\postinst = build\package\deb\debian\postinst
 		build\package\deb\debian\prerm = build\package\deb\debian\prerm
 		build\package\deb\debian\rules = build\package\deb\debian\rules
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "upstream", "upstream", "{B4B5570C-8071-46DE-BB55-64C13480C606}"
+	ProjectSection(SolutionItems) = preProject
+		build\package\deb\debian\upstream\metadata = build\package\deb\debian\upstream\metadata
 	EndProjectSection
 EndProject
 Global
@@ -403,6 +409,7 @@ Global
 		{2648A85F-61AE-428E-95E1-66D06C7A3768} = {6FF654E6-3E2C-46D4-872D-D528F77D6973}
 		{457A1F89-6201-4430-BCC6-2F4438A54B9E} = {2648A85F-61AE-428E-95E1-66D06C7A3768}
 		{08E7C650-A447-4DE2-974E-ED123B50F8D6} = {457A1F89-6201-4430-BCC6-2F4438A54B9E}
+		{B4B5570C-8071-46DE-BB55-64C13480C606} = {08E7C650-A447-4DE2-974E-ED123B50F8D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}
