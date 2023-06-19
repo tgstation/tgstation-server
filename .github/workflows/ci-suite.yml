@@ -883,9 +883,6 @@ jobs:
       matrix:
         arch: [ 'amd64' ] # Can't do i386 due to https://github.com/dotnet/core/issues/4595
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
     - name: Import GPG Key
       run: |
         sudo apt-get update
@@ -894,12 +891,20 @@ jobs:
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
 
+    - name: Checkout
+      uses: actions/checkout@v3
+
     - name: Execute Build Script
-      run: sudo build/package/deb/build_package.sh
+      env:
+         PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
+      run: sudo -E build/package/deb/build_package.sh
 
     - name: Parse TGS version
       run: |
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+
+    - name: Validate Package Signature
+      run: gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc.asc
 
     - name: Upload .deb Artifact
       uses: actions/upload-artifact@v3

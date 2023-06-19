@@ -1,6 +1,8 @@
 #!/bin/bash
 # Run from git root
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 set -e
 set -x
 
@@ -27,13 +29,25 @@ TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuil
 
 dh_make -p tgstation-server_$TGS_VERSION -y --createorig -s
 
-rm debian/README* debian/changelog debian/*.ex debian/upstream/*.ex
+rm -f debian/README* debian/changelog debian/*.ex debian/upstream/*.ex
 
 cp -r build/package/deb/debian/* debian/
 sed -i "s/~!VERSION!~/$TGS_VERSION/g" debian/changelog
 
 cp build/tgstation-server.service debian/
 
-dpkg-buildpackage
+SIGN_COMMAND="$SCRIPT_DIR/wrap_gpg.sh"
+
+rm -f /tmp/tgs_wrap_gpg_output.log
+
+set +e
+
+dpkg-buildpackage --sign-key=ad03052d1740533e --sign-command="$SIGN_COMMAND"
+
+EXIT_CODE=$?
+
+cat /tmp/tgs_wrap_gpg_output.log
 
 cd ..
+
+exit $EXIT_CODE
