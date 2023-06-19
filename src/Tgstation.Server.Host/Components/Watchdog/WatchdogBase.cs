@@ -862,20 +862,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									cancellationToken);
 
 							// cancel waiting if requested
-							var cancelTcs = new TaskCompletionSource();
 							var toWaitOn = Task.WhenAny(
 								activeServerLifetime,
 								activeServerReboot,
 								activeServerStartup,
 								healthCheck,
 								newDmbAvailable,
-								cancelTcs.Task,
 								activeLaunchParametersChanged,
 								serverPrimed);
 
 							// wait for something to happen
-							using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
-								await toWaitOn;
+							await toWaitOn.WithToken(cancellationToken);
 
 							cancellationToken.ThrowIfCancellationRequested();
 							Logger.LogTrace("Monitor activated");

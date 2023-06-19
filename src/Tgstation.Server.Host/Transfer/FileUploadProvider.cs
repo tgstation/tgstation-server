@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <inheritdoc />
 		public async Task<Stream> GetResult(CancellationToken cancellationToken)
 		{
-			using (cancellationToken.Register(() => streamTcs.TrySetCanceled()))
+			using (cancellationToken.Register(() => streamTcs.TrySetCanceled(cancellationToken)))
 			using (ticketExpiryCts.Token.Register(() => streamTcs.TrySetResult(null)))
 				return await streamTcs.Task;
 		}

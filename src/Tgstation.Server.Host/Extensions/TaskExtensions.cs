@@ -50,9 +50,8 @@ namespace Tgstation.Server.Host.Extensions
 			ArgumentNullException.ThrowIfNull(task);
 
 			var cancelTcs = new TaskCompletionSource();
-			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
+			using (cancellationToken.Register(() => cancelTcs.SetCanceled(cancellationToken)))
 				await Task.WhenAny(task, cancelTcs.Task);
-			cancellationToken.ThrowIfCancellationRequested();
 
 			return await task;
 		}
