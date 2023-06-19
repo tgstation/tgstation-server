@@ -32,13 +32,13 @@
     <RemoveDir Directories="ClientApp" />
     <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsControlPanelVersion) --depth 1 ClientApp" />
     <Message Text="Restoring yarn packages..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="yarn install --immutable" />
+    <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn install --immutable" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
 
   <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="../../build/ControlPanelVersion.props" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
-    <Exec WorkingDirectory="ClientApp" Command="yarn run msbuild" />
+    <Exec WorkingDirectory="ClientApp" Command="npx --yes yarn run msbuild" />
   </Target>
 
   <Target Name="NpmClean" AfterTargets="Clean">
