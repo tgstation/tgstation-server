@@ -886,6 +886,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Import GPG Key
+      run: |
+        gpg --import build/package/public.pgp
+        echo ${{ secrets.PACKAGING_PRIVATE_KEY }} > private.pgp
+        gpg --import private.pgp
+        rm private.pgp
+
     - name: Execute Build Script
       run: sudo build/package/deb/build_package.sh
 
