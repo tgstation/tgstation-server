@@ -888,9 +888,10 @@ jobs:
 
     - name: Import GPG Key
       run: |
-        gpg --import build/package/public.pgp
-        echo ${{ secrets.PACKAGING_PRIVATE_KEY }} > private.pgp
-        gpg --import private.pgp
+        sudo apt-get update
+        sudo apt-get install -y gnupg2
+        echo "${{ secrets.PACKAGING_PRIVATE_KEY }}" > private.pgp
+        echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
 
     - name: Execute Build Script
