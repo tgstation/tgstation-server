@@ -36,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\tgs.docker.sh = build\tgs.docker.sh
 		build\tgs.ico = build\tgs.ico
 		build\tgs.png = build\tgs.png
+		build\tgstation-server.service = build\tgstation-server.service
 		build\Version.props = build\Version.props
 	EndProjectSection
 EndProject

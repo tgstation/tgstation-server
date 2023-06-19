@@ -37,22 +37,23 @@ If using the console version, run ./tgs.bat in the root of the installation dire
 
 #### Linux (Native)
 
-We recommend using Docker for Linux installations, see below. The content of this parent section may be skipped if you choose to do so.
+Installing natively is the recommended way to run tgstation-server on Linux.
 
-The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
+The following dependencies are required.
 
+- aspnetcore-runtime-6.0 (Note, not all supported distros have this package, see the links above for official Microsoft installation instructions)
 - libc6-i386
 - libstdc++6:i386
 - gdb (for using gcore to create core dumps)
 - gcc-multilib (Only on 64-bit systems)
 
-To launch the server, run ./tgs.sh in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.
+If you have SystemD, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server` but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
 
-Note that tgstation-server has only ever been tested on Linux via it's [docker environment](build/Dockerfile#L22). If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
+Alternatively, to launch the server in the current shell, run `./tgs.sh` in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.
 
 #### Docker (Linux)
 
-tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile -t <your tag name>` in the repository root.
+tgstation-server supports running in a docker container. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile -t <your tag name>` in the repository root.
 
 To create a container run
 ```sh

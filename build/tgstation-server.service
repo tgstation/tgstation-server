@@ -1,0 +1,14 @@
+[Unit]
+Description=tgstation-server
+After=network.target
+
+[Service]
+ExecStart=/bin/bash /opt/tgstation-server/tgs.sh General:SetupWizardMode=Never
+Restart=Always
+RestartKillSignal=SIGUSR1
+AmbientCapabilities=CAP_SYS_NICE
+StandardOutput=null
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target
