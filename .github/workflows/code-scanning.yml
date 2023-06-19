@@ -35,7 +35,7 @@ jobs:
         languages: csharp
 
     - name: Build
-      uses: dotnet build -c ReleaseNoService
+      run: dotnet build -c ReleaseNoService
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
