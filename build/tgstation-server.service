@@ -1,6 +1,10 @@
 [Unit]
 Description=tgstation-server
 After=network.target
+After=mysql.service
+After=mariadb.service
+After=postgresql.service
+After=mssql-server.service
 
 [Service]
 ExecStart=/bin/bash /opt/tgstation-server/tgs.sh General:SetupWizardMode=Never

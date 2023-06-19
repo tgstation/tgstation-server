@@ -199,6 +199,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Common", "src\Tgstation.Server.Common\Tgstation.Server.Common.csproj", "{70CD9A98-D31A-44A4-81D1-D02764CEEEFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package", "package", "{2648A85F-61AE-428E-95E1-66D06C7A3768}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deb", "deb", "{457A1F89-6201-4430-BCC6-2F4438A54B9E}"
+	ProjectSection(SolutionItems) = preProject
+		build\package\deb\build_package.sh = build\package\deb\build_package.sh
+		build\package\deb\MakeInstall = build\package\deb\MakeInstall
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "debian", "debian", "{08E7C650-A447-4DE2-974E-ED123B50F8D6}"
+	ProjectSection(SolutionItems) = preProject
+		build\package\deb\debian\control = build\package\deb\debian\control
+		build\package\deb\debian\copyright = build\package\deb\debian\copyright
+		build\package\deb\debian\postinst = build\package\deb\debian\postinst
+		build\package\deb\debian\prerm = build\package\deb\debian\prerm
+		build\package\deb\debian\rules = build\package\deb\debian\rules
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -383,6 +400,9 @@ Global
 		{5813CC33-B16C-485D-A74D-20204DDF6542} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
 		{CE499888-B22B-457C-891E-0EA9DC317228} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{07ED0FD5-E46B-4841-931D-BA2B673E16B2} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
+		{2648A85F-61AE-428E-95E1-66D06C7A3768} = {6FF654E6-3E2C-46D4-872D-D528F77D6973}
+		{457A1F89-6201-4430-BCC6-2F4438A54B9E} = {2648A85F-61AE-428E-95E1-66D06C7A3768}
+		{08E7C650-A447-4DE2-974E-ED123B50F8D6} = {457A1F89-6201-4430-BCC6-2F4438A54B9E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}
