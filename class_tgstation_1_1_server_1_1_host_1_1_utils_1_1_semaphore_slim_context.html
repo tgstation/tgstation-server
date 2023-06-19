@@ -115,9 +115,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ae727eb615a06f31514aaed6f21d6d103"><td class="memItemLeft" align="right" valign="top">static async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103">Lock</a> (SemaphoreSlim semaphore, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ae727eb615a06f31514aaed6f21d6d103"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asyncronously locks a <em>semaphore</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103">More...</a><br /></td></tr>
-<tr class="separator:ae727eb615a06f31514aaed6f21d6d103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29773d588476671bbe480f096d839c91"><td class="memItemLeft" align="right" valign="top">static async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">Lock</a> (SemaphoreSlim semaphore, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a29773d588476671bbe480f096d839c91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asyncronously locks a <em>semaphore</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91">More...</a><br /></td></tr>
+<tr class="separator:a29773d588476671bbe480f096d839c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46e8f9a298cf22f6085ac5df4ad9b28a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a46e8f9a298cf22f6085ac5df4ad9b28a">TryLock</a> (SemaphoreSlim semaphore, out bool locked)</td></tr>
+<tr class="memdesc:a46e8f9a298cf22f6085ac5df4ad9b28a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asyncronously attempts to lock a <em>semaphore</em> .   <a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a46e8f9a298cf22f6085ac5df4ad9b28a">More...</a><br /></td></tr>
+<tr class="separator:a46e8f9a298cf22f6085ac5df4ad9b28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -168,13 +171,13 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_semaphore_slim_context_8cs_source.html#l00035">35</a> of file <a class="el" href="_semaphore_slim_context_8cs_source.html">SemaphoreSlimContext.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>        {</div>
-<div class="line"><span class="lineno">   37</span>            this.lockedSemaphore = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a74782dc45a0675a59d5479e881e23b0c">lockedSemaphore</a>;</div>
-<div class="line"><span class="lineno">   38</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_html_a74782dc45a0675a59d5479e881e23b0c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a74782dc45a0675a59d5479e881e23b0c">Tgstation.Server.Host.Utils.SemaphoreSlimContext.lockedSemaphore</a></div><div class="ttdeci">readonly SemaphoreSlim lockedSemaphore</div><div class="ttdoc">The locked SemaphoreSlim.</div><div class="ttdef"><b>Definition:</b> <a href="_semaphore_slim_context_8cs_source.html#l00029">SemaphoreSlimContext.cs:29</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_semaphore_slim_context_8cs_source.html#l00049">49</a> of file <a class="el" href="_semaphore_slim_context_8cs_source.html">SemaphoreSlimContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>        {</div>
+<div class="line"><span class="lineno">   51</span>            this.lockedSemaphore = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a74782dc45a0675a59d5479e881e23b0c">lockedSemaphore</a>;</div>
+<div class="line"><span class="lineno">   52</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_html_a74782dc45a0675a59d5479e881e23b0c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a74782dc45a0675a59d5479e881e23b0c">Tgstation.Server.Host.Utils.SemaphoreSlimContext.lockedSemaphore</a></div><div class="ttdeci">readonly SemaphoreSlim lockedSemaphore</div><div class="ttdoc">The locked SemaphoreSlim.</div><div class="ttdef"><b>Definition:</b> <a href="_semaphore_slim_context_8cs_source.html#l00043">SemaphoreSlimContext.cs:43</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_semaphore_slim_context_8cs_source.html#l00029">Tgstation.Server.Host.Utils.SemaphoreSlimContext.lockedSemaphore</a>.</p>
+<p class="reference">References <a class="el" href="_semaphore_slim_context_8cs_source.html#l00043">Tgstation.Server.Host.Utils.SemaphoreSlimContext.lockedSemaphore</a>.</p>
 
 </div>
 </div>
@@ -198,8 +201,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae727eb615a06f31514aaed6f21d6d103" name="ae727eb615a06f31514aaed6f21d6d103"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae727eb615a06f31514aaed6f21d6d103">&#9670;&#160;</a></span>Lock()</h2>
+<a id="a29773d588476671bbe480f096d839c91" name="a29773d588476671bbe480f096d839c91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29773d588476671bbe480f096d839c91">&#9670;&#160;</a></span>Lock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -208,7 +211,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a> &gt; Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock </td>
+          <td class="memname">static async ValueTask&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a> &gt; Tgstation.Server.Host.Utils.SemaphoreSlimContext.Lock </td>
           <td>(</td>
           <td class="paramtype">SemaphoreSlim&#160;</td>
           <td class="paramname"><em>semaphore</em>, </td>
@@ -245,62 +248,126 @@ Private Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_semaphore_slim_context_8cs_source.html#l00018">18</a> of file <a class="el" href="_semaphore_slim_context_8cs_source.html">SemaphoreSlimContext.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   19</span>        {</div>
 <div class="line"><span class="lineno">   20</span>            ArgumentNullException.ThrowIfNull(semaphore);</div>
-<div class="line"><span class="lineno">   21</span>            cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><span class="lineno">   22</span>            await semaphore.WaitAsync(cancellationToken);</div>
-<div class="line"><span class="lineno">   23</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a43c83652acf43c93252bf82200233972">SemaphoreSlimContext</a>(semaphore);</div>
-<div class="line"><span class="lineno">   24</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_html_a43c83652acf43c93252bf82200233972"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a43c83652acf43c93252bf82200233972">Tgstation.Server.Host.Utils.SemaphoreSlimContext.SemaphoreSlimContext</a></div><div class="ttdeci">SemaphoreSlimContext(SemaphoreSlim lockedSemaphore)</div><div class="ttdoc">Initializes a new instance of the SemaphoreSlimContext class.</div><div class="ttdef"><b>Definition:</b> <a href="_semaphore_slim_context_8cs_source.html#l00035">SemaphoreSlimContext.cs:35</a></div></div>
+<div class="line"><span class="lineno">   21</span>            await semaphore.WaitAsync(cancellationToken);</div>
+<div class="line"><span class="lineno">   22</span>            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a43c83652acf43c93252bf82200233972">SemaphoreSlimContext</a>(semaphore);</div>
+<div class="line"><span class="lineno">   23</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_html_a43c83652acf43c93252bf82200233972"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a43c83652acf43c93252bf82200233972">Tgstation.Server.Host.Utils.SemaphoreSlimContext.SemaphoreSlimContext</a></div><div class="ttdeci">SemaphoreSlimContext(SemaphoreSlim lockedSemaphore)</div><div class="ttdoc">Initializes a new instance of the SemaphoreSlimContext class.</div><div class="ttdef"><b>Definition:</b> <a href="_semaphore_slim_context_8cs_source.html#l00049">SemaphoreSlimContext.cs:49</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00255">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ChangeSettings()</a>, <a class="el" href="_byond_manager_8cs_source.html#l00137">Tgstation.Server.Host.Components.Byond.ByondManager.ChangeVersion()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00120">Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00345">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl()</a>, <a class="el" href="_configuration_8cs_source.html#l00193">Tgstation.Server.Host.Components.StaticFiles.Configuration.CopyDMFilesTo()</a>, <a class="el" href="_configuration_8cs_source.html#l00537">Tgstation.Server.Host.Components.StaticFiles.Configuration.CreateDirectory()</a>, <a class="el" href="_configuration_8cs_source.html#l00621">Tgstation.Server.Host.Components.StaticFiles.Configuration.DeleteDirectory()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00251">Tgstation.Server.Host.Components.Repository.RepositoryManager.DeleteRepository()</a>, <a class="el" href="_byond_manager_8cs_source.html#l00207">Tgstation.Server.Host.Components.Byond.ByondManager.DeleteVersion()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00633">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAndNullControllers()</a>, <a class="el" href="_buffered_file_stream_provider_8cs_source.html#l00105">Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00270">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatCommand()</a>, <a class="el" href="_configuration_8cs_source.html#l00561">Tgstation.Server.Host.Components.StaticFiles.Configuration.HandleEvent()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00175">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallDirectX()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00315">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Launch()</a>, <a class="el" href="_configuration_8cs_source.html#l00229">Tgstation.Server.Host.Components.StaticFiles.Configuration.ListDirectory()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00785">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00716">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00233">Tgstation.Server.Host.Components.InstanceManager.MoveInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00304">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00370">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance()</a>, <a class="el" href="_configuration_8cs_source.html#l00274">Tgstation.Server.Host.Components.StaticFiles.Configuration.Read()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00324">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ResetRebootState()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00337">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Restart()</a>, <a class="el" href="_byond_manager_8cs_source.html#l00294">Tgstation.Server.Host.Components.Byond.ByondManager.StartAsync()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00361">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00398">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Terminate()</a>, <a class="el" href="_byond_manager_8cs_source.html#l00616">Tgstation.Server.Host.Components.Byond.ByondManager.TrustDmbPath()</a>, and <a class="el" href="_configuration_8cs_source.html#l00442">Tgstation.Server.Host.Components.StaticFiles.Configuration.Write()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00255">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ChangeSettings()</a>, <a class="el" href="_byond_manager_8cs_source.html#l00137">Tgstation.Server.Host.Components.Byond.ByondManager.ChangeVersion()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00120">Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository()</a>, <a class="el" href="_default_i_o_manager_8cs_source.html#l00345">Tgstation.Server.Host.IO.DefaultIOManager.CopyDirectoryImpl()</a>, <a class="el" href="_configuration_8cs_source.html#l00193">Tgstation.Server.Host.Components.StaticFiles.Configuration.CopyDMFilesTo()</a>, <a class="el" href="_repository_manager_8cs_source.html#l00251">Tgstation.Server.Host.Components.Repository.RepositoryManager.DeleteRepository()</a>, <a class="el" href="_byond_manager_8cs_source.html#l00207">Tgstation.Server.Host.Components.Byond.ByondManager.DeleteVersion()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00633">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAndNullControllers()</a>, <a class="el" href="_buffered_file_stream_provider_8cs_source.html#l00105">Tgstation.Server.Host.IO.BufferedFileStreamProvider.GetResultInternal()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00270">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatCommand()</a>, <a class="el" href="_configuration_8cs_source.html#l00595">Tgstation.Server.Host.Components.StaticFiles.Configuration.HandleEvent()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00175">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallDirectX()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00315">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Launch()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00785">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00716">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00233">Tgstation.Server.Host.Components.InstanceManager.MoveInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00304">Tgstation.Server.Host.Components.InstanceManager.OfflineInstance()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00370">Tgstation.Server.Host.Components.InstanceManager.OnlineInstance()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00324">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ResetRebootState()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00337">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Restart()</a>, <a class="el" href="_byond_manager_8cs_source.html#l00294">Tgstation.Server.Host.Components.Byond.ByondManager.StartAsync()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00361">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00398">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Terminate()</a>, and <a class="el" href="_byond_manager_8cs_source.html#l00616">Tgstation.Server.Host.Components.Byond.ByondManager.TrustDmbPath()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_ae727eb615a06f31514aaed6f21d6d103_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_ae727eb615a06f31514aaed6f21d6d103_icgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_ae727eb615a06f31514aaed6f21d6d103_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_ae727eb615a06f31514aaed6f21d6d103_icgraph">
-<area shape="rect" title="Asyncronously locks a semaphore ." alt="" coords="1960,897,2151,937"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_a29773d588476671bbe480f096d839c91_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_a29773d588476671bbe480f096d839c91_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_a29773d588476671bbe480f096d839c91_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_a29773d588476671bbe480f096d839c91_icgraph">
+<area shape="rect" title="Asyncronously locks a semaphore ." alt="" coords="1960,744,2151,784"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a390fcde5ed6ed30d6e5b5b2ebc8273dc" title="Changes the ActiveLaunchParameters. If currently running, may trigger a graceful restart...." alt="" coords="1628,5,1895,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a6def087723e66e640dde136d3d26b056" title="Change the active BYOND version. A Task representing the running operation." alt="" coords="1642,69,1881,109"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a52b3b88c2a5fe92ce0bce72d9f88c611" title="Clone the repository at url . The newly cloned IRepository, null if one already exists." alt="" coords="1614,133,1909,173"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adedef4bd5627e2d13354ded256e4aecc" title="Copies a directory from src &#160;to dest ." alt="" coords="1644,221,1879,261"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3bc9b1cc811f4a13c74e4cf230a3f2f4" title="Copies all files in the CodeModifications directory to destination . A Task&lt;TResult&gt; resulting in the..." alt="" coords="1633,285,1890,325"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#aea0170a67e3d49ea916717999cb63fce" title="Create an empty directory at configurationRelativePath . A Task&lt;TResult&gt; resulting in true if the dir..." alt="" coords="1634,349,1889,389"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a22700759a87364bc081aaa6cbc62a8f3" title="Attempt to delete an empty directory at configurationRelativePath . true if the directory was empty a..." alt="" coords="1635,413,1888,453"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a48d21690a40164c4a11d81be94055395" title="Delete the current repository. A Task representing the running operation." alt="" coords="1643,478,1880,533"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#aa8974e0ffd8ea0cd9d2cc3f76ccebfe7" title="Deletes a given BYOND version from the disk. A Task representing the running operation." alt="" coords="1646,557,1877,597"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a875fe1589eb86e57a50a0e793b0d74f5" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1628,673,1895,727"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="953,688,1224,728"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af619caa031c183aa1aa5adbcf11a3434" title="Start the IWatchdog. A Task representing the running operation." alt="" coords="352,741,579,781"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a24fd29d12e91f659010d483228be1225" title="Attempt to restart the monitor from scratch." alt="" coords="336,675,595,715"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39d65944835fca058d4a4be46eaf81bd" title="Restarts the watchdog. A Task representing the running operation." alt="" coords="352,811,579,851"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="346,887,585,927"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="1659,955,1864,1010"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a75d69d7ce07458b0d83124a1315c1c37" title="Handle a chat command. A Task&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="1611,1035,1912,1075"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a36ececa58c0e6f8781147e44872076c6" title="Handle a given eventType . A Task representing the running operation." alt="" coords="1642,1099,1881,1139"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ace687a0a8ab8b2c11dfa48715dc83c87" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="1644,1163,1879,1218"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a2b7984653cf4f050bb287b79f58062da" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="1642,1243,1881,1283"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a232e9720186876671fb9709f433a507b" title="Move an IInstance. A Task representing the running operation." alt="" coords="1648,1307,1875,1347"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a77615fe1970391e6ebe643dc3033156f" title=" " alt="" coords="1648,1371,1875,1411"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a00b4178d67ebc7ac4b0e3fe87484df15" title="Online an IInstance. A Task representing the running operation." alt="" coords="1648,1435,1875,1475"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9760c4def25e9918f91f51ea180c567e" title="Reads a given configurationRelativePath . A Task&lt;TResult&gt; resulting in the ConfigurationFileResponse ..." alt="" coords="1648,1499,1875,1539"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aaf696fd100732f5b9eb8900e81895bf0" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="1621,1563,1901,1603"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a7b6d8a1eef58f0e3265a67ebe9036f13" title=" " alt="" coords="1648,1627,1875,1667"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog. A Task representing the running operation." alt="" coords="1645,1691,1877,1731"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a03ff124547b61f083d759522d846da2a" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config." alt="" coords="1644,1755,1879,1795"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bf35f3c833aa1ed90b1c7bf82d86ef4" title="Writes to a given configurationRelativePath . A Task&lt;TResult&gt; resulting in the updated ConfigurationF..." alt="" coords="1648,1819,1875,1859"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a48d21690a40164c4a11d81be94055395" title="Delete the current repository. A Task representing the running operation." alt="" coords="1643,350,1880,405"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#aa8974e0ffd8ea0cd9d2cc3f76ccebfe7" title="Deletes a given BYOND version from the disk. A Task representing the running operation." alt="" coords="1646,429,1877,469"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a875fe1589eb86e57a50a0e793b0d74f5" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="1628,545,1895,599"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="953,560,1224,600"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af619caa031c183aa1aa5adbcf11a3434" title="Start the IWatchdog. A Task representing the running operation." alt="" coords="352,613,579,653"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a24fd29d12e91f659010d483228be1225" title="Attempt to restart the monitor from scratch." alt="" coords="336,547,595,587"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39d65944835fca058d4a4be46eaf81bd" title="Restarts the watchdog. A Task representing the running operation." alt="" coords="352,683,579,723"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="346,759,585,799"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#a54e83e45ce4810c5d0ef9518b8a0ce96" title="Gets the shared MemoryStream and its Stream.Length." alt="" coords="1659,827,1864,882"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a75d69d7ce07458b0d83124a1315c1c37" title="Handle a chat command. A Task&lt;TResult&gt; resulting in the MessageContent text to send back." alt="" coords="1611,907,1912,947"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a36ececa58c0e6f8781147e44872076c6" title="Handle a given eventType . A Task representing the running operation." alt="" coords="1642,971,1881,1011"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ace687a0a8ab8b2c11dfa48715dc83c87" title="Attempt to install the DirectX redistributable included with BYOND." alt="" coords="1644,1035,1879,1090"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a232e9720186876671fb9709f433a507b" title="Move an IInstance. A Task representing the running operation." alt="" coords="1648,1115,1875,1155"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a77615fe1970391e6ebe643dc3033156f" title=" " alt="" coords="1648,1179,1875,1219"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a00b4178d67ebc7ac4b0e3fe87484df15" title="Online an IInstance. A Task representing the running operation." alt="" coords="1648,1243,1875,1283"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aaf696fd100732f5b9eb8900e81895bf0" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="1621,1307,1901,1347"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a7b6d8a1eef58f0e3265a67ebe9036f13" title=" " alt="" coords="1648,1371,1875,1411"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog. A Task representing the running operation." alt="" coords="1645,1435,1877,1475"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a03ff124547b61f083d759522d846da2a" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config." alt="" coords="1644,1499,1879,1539"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a179a8024de21623545e688441bb56b96" title="Copies a directory from src &#160;to dest . A Task representing the running operation." alt="" coords="1312,221,1523,261"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a736a0993a11c8e6c5a00682dac054205" title="Handles a watchdog health check." alt="" coords="1272,688,1563,728"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6a174232e66f5070f33b14e2cf15d48" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="963,497,1214,537"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2a1ca4d25ec02eb53ddbcb36088331a1" title="Call from InitController(Task, ReattachInformation, CancellationToken) when a reattach operation fail..." alt="" coords="1285,523,1550,563"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="643,739,905,779"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="5,811,288,851"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#add85accb878e38c5ce694a3ef49ac1a0" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="1315,955,1520,1010"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="1315,1034,1520,1089"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a2a38db71313d0a37018e16b39f123083" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="1282,1171,1553,1211"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="1304,1435,1531,1475"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="975,1435,1202,1475"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="1304,1627,1531,1667"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="1289,1691,1546,1731"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a69c3e27f95b68915afda0542a77a7664" title="Lock the current installation&#39;s location and return a IByondExecutableLock. A Task&lt;TResult&gt; resulting..." alt="" coords="1295,1755,1539,1795"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a736a0993a11c8e6c5a00682dac054205" title="Handles a watchdog health check." alt="" coords="1272,560,1563,600"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6a174232e66f5070f33b14e2cf15d48" title="Starts all ISessionControllers. A Task representing the running operation." alt="" coords="963,369,1214,409"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2a1ca4d25ec02eb53ddbcb36088331a1" title="Call from InitController(Task, ReattachInformation, CancellationToken) when a reattach operation fail..." alt="" coords="1285,395,1550,435"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="643,611,905,651"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions. A Task representing the running operation." alt="" coords="5,683,288,723"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#add85accb878e38c5ce694a3ef49ac1a0" title="Gets the provided MemoryStream. May be called multiple times, though cancelling any may cause all cal..." alt="" coords="1315,827,1520,882"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_buffered_file_stream_provider.html#aa33223cdc5073bce7b311cf3aee8da6e" title="Gets the provided Stream. May be called multiple times, though cancelling any may cause all calls to ..." alt="" coords="1315,906,1520,961"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a2a38db71313d0a37018e16b39f123083" title="Does actions necessary to get an extracted BYOND installation working. A Task representing the runnin..." alt="" coords="1282,1043,1553,1083"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa70355ebb8437fd170e4f75e826f1ad7" title="Initializes the InstanceManager." alt="" coords="1304,1243,1531,1283"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781" title=" " alt="" coords="975,1243,1202,1283"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="1304,1371,1531,1411"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a19ad4bfb1203b937a7183e418dd345ed" title="Handle a restart of the server. A Task representing the running operation." alt="" coords="1289,1435,1546,1475"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a69c3e27f95b68915afda0542a77a7664" title="Lock the current installation&#39;s location and return a IByondExecutableLock. A Task&lt;TResult&gt; resulting..." alt="" coords="1295,1499,1539,1539"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a46e8f9a298cf22f6085ac5df4ad9b28a" name="a46e8f9a298cf22f6085ac5df4ad9b28a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46e8f9a298cf22f6085ac5df4ad9b28a">&#9670;&#160;</a></span>TryLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a> Tgstation.Server.Host.Utils.SemaphoreSlimContext.TryLock </td>
+          <td>(</td>
+          <td class="paramtype">SemaphoreSlim&#160;</td>
+          <td class="paramname"><em>semaphore</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out bool&#160;</td>
+          <td class="paramname"><em>locked</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Asyncronously attempts to lock a <em>semaphore</em> .  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">semaphore</td><td>The SemaphoreSlim to lock.</td></tr>
+    <tr><td class="paramname">locked</td><td>The bool result of the lock attempt.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html" title="Async lock context helper.">SemaphoreSlimContext</a> for the lock on success, or <code>null</code> if it was not acquired.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_semaphore_slim_context_8cs_source.html#l00031">31</a> of file <a class="el" href="_semaphore_slim_context_8cs_source.html">SemaphoreSlimContext.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   32</span>        {</div>
+<div class="line"><span class="lineno">   33</span>            ArgumentNullException.ThrowIfNull(semaphore);</div>
+<div class="line"><span class="lineno">   34</span>            locked = semaphore.Wait(TimeSpan.Zero);</div>
+<div class="line"><span class="lineno">   35</span>            <span class="keywordflow">return</span> locked</div>
+<div class="line"><span class="lineno">   36</span>                ? <span class="keyword">new</span> <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a43c83652acf43c93252bf82200233972">SemaphoreSlimContext</a>(semaphore)</div>
+<div class="line"><span class="lineno">   37</span>                : null;</div>
+<div class="line"><span class="lineno">   38</span>        }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_configuration_8cs_source.html#l00563">Tgstation.Server.Host.Components.StaticFiles.Configuration.CreateDirectory()</a>, <a class="el" href="_configuration_8cs_source.html#l00655">Tgstation.Server.Host.Components.StaticFiles.Configuration.DeleteDirectory()</a>, <a class="el" href="_configuration_8cs_source.html#l00229">Tgstation.Server.Host.Components.StaticFiles.Configuration.ListDirectory()</a>, <a class="el" href="_configuration_8cs_source.html#l00273">Tgstation.Server.Host.Components.StaticFiles.Configuration.Read()</a>, and <a class="el" href="_configuration_8cs_source.html#l00453">Tgstation.Server.Host.Components.StaticFiles.Configuration.Write()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_a46e8f9a298cf22f6085ac5df4ad9b28a_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_a46e8f9a298cf22f6085ac5df4ad9b28a_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_a46e8f9a298cf22f6085ac5df4ad9b28a_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context_a46e8f9a298cf22f6085ac5df4ad9b28a_icgraph">
+<area shape="rect" title="Asyncronously attempts to lock a semaphore ." alt="" coords="308,133,516,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ad238d03b447453c05576b9b6710dc462" title="Create an empty directory at configurationRelativePath . A Task&lt;TResult&gt; resulting in true if the dir..." alt="" coords="5,5,260,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a0fac213fb4cdeed48868d244a486ead5" title="Attempt to delete an empty directory at configurationRelativePath . true if the directory was empty a..." alt="" coords="6,69,259,109"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a2b7984653cf4f050bb287b79f58062da" title="Get ConfigurationFileResponses for all items in a given configurationRelativePath ...." alt="" coords="13,133,252,173"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9760c4def25e9918f91f51ea180c567e" title="Reads a given configurationRelativePath . A Task&lt;TResult&gt; resulting in the ConfigurationFileResponse ..." alt="" coords="19,197,246,237"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4bf35f3c833aa1ed90b1c7bf82d86ef4" title="Writes to a given configurationRelativePath . A Task&lt;TResult&gt; resulting in the updated ConfigurationF..." alt="" coords="19,261,246,301"/>
 </map>
 </div>
 
@@ -329,9 +396,9 @@ Here is the caller graph for this function:</div>
 
 <p>The locked SemaphoreSlim.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_semaphore_slim_context_8cs_source.html#l00029">29</a> of file <a class="el" href="_semaphore_slim_context_8cs_source.html">SemaphoreSlimContext.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_semaphore_slim_context_8cs_source.html#l00043">43</a> of file <a class="el" href="_semaphore_slim_context_8cs_source.html">SemaphoreSlimContext.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_semaphore_slim_context_8cs_source.html#l00035">Tgstation.Server.Host.Utils.SemaphoreSlimContext.SemaphoreSlimContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_semaphore_slim_context_8cs_source.html#l00049">Tgstation.Server.Host.Utils.SemaphoreSlimContext.SemaphoreSlimContext()</a>.</p>
 
 </div>
 </div>

@@ -16,6 +16,6 @@
 <area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content." alt="" coords="1029,389,1199,429"/>
 <area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a97cec04d5bb18549ae09bc89bf2d016f" title="Extract a set of zipFile &#160;to a given path ." alt="" coords="1025,5,1203,45"/>
 <area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4de873180481f7afa206b6282158d62" title="Check that the file at path &#160;exists." alt="" coords="1030,581,1198,621"/>
-<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103" title="Asyncronously locks a semaphore ." alt="" coords="1019,645,1209,685"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="1019,645,1209,685"/>
 <area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ac922bdac0d00614949510725420ddd4e" title="Returns all the contents of a file at path &#160;as a byte array." alt="" coords="1029,709,1199,749"/>
 </map>

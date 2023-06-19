@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="5,70,272,125"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#aebef451cedbed6fe5a4367fe035470a7" title="Clear any stored ReattachInformation. A Task representing the running operation." alt="" coords="340,5,567,45"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2f8ea066a8ae2408f1c86f828d7974f8" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="320,70,587,125"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103" title="Asyncronously locks a semaphore ." alt="" coords="358,149,549,189"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="358,149,549,189"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#aa948dc00c200539206747c99b95986af" title="Clear any stored ReattachInformation." alt="" coords="635,5,864,45"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#ad270ec18822a7a90d8fca9a75c23851a" title="Remove a given model &#160;from the the working set." alt="" coords="912,5,1121,45"/>
 </map>

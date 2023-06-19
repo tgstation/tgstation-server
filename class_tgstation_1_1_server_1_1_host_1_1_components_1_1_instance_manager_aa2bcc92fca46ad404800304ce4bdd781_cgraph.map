@@ -13,5 +13,5 @@
 <area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_utils_1_1_i_async_delayer.html#aeb604334bd297d47506dc23e0d115977" title="Create a Task that completes after a given timeSpan ." alt="" coords="920,197,1101,237"/>
 <area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_controller.html#ae4823b530862b3964ff9540735c7f2e1" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="903,261,1119,301"/>
 <area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#a85af2a0153062b03bde4bd6f1df9d846" title="Create an IInstance." alt="" coords="897,325,1124,365"/>
-<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103" title="Asyncronously locks a semaphore ." alt="" coords="915,389,1106,429"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="915,389,1106,429"/>
 </map>

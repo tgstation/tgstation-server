@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync">
 <area shape="rect" id="node1" title=" " alt="" coords="5,644,244,684"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="300,494,563,534"/>
-<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103" title="Asyncronously locks a semaphore ." alt="" coords="1673,192,1864,232"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="1673,192,1864,232"/>
 <area shape="rect" id="node27" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a1e73c7faa5f961369020355979f55ada" title="Load a saved ReattachInformation. A Task&lt;TResult&gt; resulting in the stored ReattachInformation if any." alt="" coords="318,644,545,684"/>
 <area shape="rect" id="node31" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd" title="Registers a given Job and begins running it." alt="" coords="329,708,533,748"/>
 <area shape="rect" id="node32" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a4820be21214383b7b38ed5408b9082b2" title="Force an update with the active channels on all active IChatTrackingContexts." alt="" coords="292,772,571,812"/>

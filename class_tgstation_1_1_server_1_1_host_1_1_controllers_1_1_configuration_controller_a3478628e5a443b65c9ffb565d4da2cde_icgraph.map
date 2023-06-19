@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts" name="Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts">
-<area shape="rect" id="node1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="297,174,527,229"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828" title="Create a configuration directory." alt="" coords="5,29,249,69"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08" title="Deletes an empty directory ." alt="" coords="6,117,249,157"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#abbe1f7166c3f34f85b4f844611b40735" title="Get the contents of a directory at a directoryPath ." alt="" coords="19,181,235,221"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a6706cf6dc4fa13b3934cf7e0e1a50b1c" title="Get the contents of a file at a filePath ." alt="" coords="19,245,235,285"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a102d0e5dc3a4206d302ea68c6918069d" title="Write to a configuration file." alt="" coords="19,309,235,349"/>
+<area shape="rect" id="node1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="297,126,527,181"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a89959c527a40371fa4f4c3f82ad15828" title="Create a configuration directory." alt="" coords="5,5,249,45"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#ae4fbaa774b0c8f4c4693988e37e0bb08" title="Deletes an empty directory ." alt="" coords="6,69,249,109"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#abbe1f7166c3f34f85b4f844611b40735" title="Get the contents of a directory at a directoryPath ." alt="" coords="19,133,235,173"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a6706cf6dc4fa13b3934cf7e0e1a50b1c" title="Get the contents of a file at a filePath ." alt="" coords="19,197,235,237"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a102d0e5dc3a4206d302ea68c6918069d" title="Write to a configuration file." alt="" coords="19,261,235,301"/>
 </map>

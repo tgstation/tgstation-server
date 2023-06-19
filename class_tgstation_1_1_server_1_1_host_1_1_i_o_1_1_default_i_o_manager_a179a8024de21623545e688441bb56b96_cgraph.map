@@ -5,6 +5,6 @@
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e" title="Combines an array of strings into a path. The combined path." alt="" coords="557,5,755,45"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb" title="Copy a file from src &#160;to dest . A Task representing the running operation." alt="" coords="566,69,746,109"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a35975e796c564e8b5dd5d4a601d0c2e3" title="Create a directory at path . A Task representing the running operation." alt="" coords="547,133,765,173"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#ae727eb615a06f31514aaed6f21d6d103" title="Asyncronously locks a semaphore ." alt="" coords="561,197,751,237"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_utils_1_1_semaphore_slim_context.html#a29773d588476671bbe480f096d839c91" title="Asyncronously locks a semaphore ." alt="" coords="561,197,751,237"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a38ca4ff226c098355ef1b316aa32421d" title="Creates an asynchronous FileStream for sequential writing. The open FileStream." alt="" coords="813,62,1079,117"/>
 </map>
