@@ -115,14 +115,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// Run a given <paramref name="action"/> with the relevant <see cref="IInstance"/>.
 		/// </summary>
 		/// <param name="action">A <see cref="Func{T, TResult}"/> accepting the <see cref="IInstance"/> and returning a <see cref="Task{TResult}"/> with the <see cref="IActionResult"/>.</param>
+		/// <param name="instance">The <see cref="Models.Instance"/> to grab. If <see langword="null"/>, <see cref="ApiController.Instance"/> will be used.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> that should be returned.</returns>
 		/// <remarks>The context of <paramref name="action"/> should be as small as possible so as to avoid race conditions. This function can return a <see cref="ConflictResult"/> if the requested instance was offline.</remarks>
-		protected async Task<IActionResult> WithComponentInstance(Func<IInstanceCore, Task<IActionResult>> action)
+		protected async Task<IActionResult> WithComponentInstance(Func<IInstanceCore, Task<IActionResult>> action, Models.Instance instance = null)
 		{
 			if (action == null)
 				throw new ArgumentNullException(nameof(action));
 
-			using var instanceReference = instanceManager.GetInstanceReference(Instance);
+			instance ??= Instance;
+
+			using var instanceReference = instanceManager.GetInstanceReference(instance);
 			using (LogContext.PushProperty(SerilogContextHelper.InstanceReferenceContextProperty, instanceReference.Uid))
 			{
 				if (instanceReference == null)
