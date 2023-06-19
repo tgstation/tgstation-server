@@ -8,6 +8,14 @@ dpkg --add-architecture i386
 apt-get update
 apt-get install -y npm dotnet-sdk-6.0 build-essential binutils lintian debhelper dh-make devscripts xmlstarlet # needs cleanup probably, SO copypasta
 
+CURRENT_COMMIT=$(git rev-parse HEAD)
+
+rm -rf packaging
+git worktree remove packaging
+git worktree add -f packaging $CURRENT_COMMIT
+cd packaging
+rm -f .git
+
 export DEBEMAIL="Cyberboss@users.noreply.github.com"
 export DEBFULLNAME="Jordan Dominion"
 
@@ -19,3 +27,5 @@ cp build/package/deb/debian/* debian/
 cp build/tgstation-server.service debian/
 
 dpkg-buildpackage
+
+cd ..
