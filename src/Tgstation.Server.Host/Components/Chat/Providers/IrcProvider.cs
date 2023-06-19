@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		ulong channelIdCounter;
 
 		/// <summary>
-		/// The <see cref="Task"/> used for <see cref="IrcConnection.Listen(bool)"/>.
+		/// The <see cref="ValueTask"/> used for <see cref="IrcConnection.Listen(bool)"/>.
 		/// </summary>
 		Task listenTask;
 
@@ -164,11 +164,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
+		public override async ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(message);
 
-			return Task.Factory.StartNew(
+			await Task.Factory.StartNew(
 				() =>
 				{
 					// IRC doesn't allow newlines
@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+		public override async ValueTask<Func<string, string, ValueTask>> SendUpdateMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
@@ -292,10 +292,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override Task<Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(
+		protected override async ValueTask<Dictionary<Models.ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(
 			IEnumerable<Models.ChatChannel> channels,
 			CancellationToken cancellationToken)
-			=> Task.Factory.StartNew(
+			=> await Task.Factory.StartNew(
 				() =>
 				{
 					if (channels.Any(x => x.IrcChannel == null))
@@ -366,7 +366,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				TaskScheduler.Current);
 
 		/// <inheritdoc />
-		protected override async Task Connect(CancellationToken cancellationToken)
+		protected override async ValueTask Connect(CancellationToken cancellationToken)
 		{
 			disconnecting = false;
 			cancellationToken.ThrowIfCancellationRequested();
@@ -455,7 +455,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
+		protected override async ValueTask DisconnectImpl(CancellationToken cancellationToken)
 		{
 			try
 			{

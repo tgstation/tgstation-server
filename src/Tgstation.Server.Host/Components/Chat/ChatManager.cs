@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Serilog.Context;
 
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Common.Extensions;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop;
@@ -369,7 +370,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			logger.LogTrace("Sending deployment message for RevisionInformation: {revisionInfoId}", revisionInformation.Id);
 
-			var callbacks = new List<Func<string, string, Task>>();
+			var callbacks = new List<Func<string, string, ValueTask>>();
 
 			var task = Task.WhenAll(
 				wdChannels.Select(
@@ -412,11 +413,12 @@ namespace Tgstation.Server.Host.Components.Chat
 			async Task CollateTasks(string errorMessage, string dreamMakerOutput)
 			{
 				await task;
-				await Task.WhenAll(
+				await ValueTaskExtensions.WhenAll(
 					callbacks.Select(
 						x => x(
 							errorMessage,
-							dreamMakerOutput)));
+							dreamMakerOutput)),
+					callbacks.Count);
 			}
 
 			return (errorMessage, dreamMakerOutput) => AddMessageTask(CollateTasks(errorMessage, dreamMakerOutput));
@@ -928,7 +930,9 @@ namespace Tgstation.Server.Host.Components.Chat
 					lock (providers)
 						foreach (var providerKvp in providers)
 							if (!messageTasks.ContainsKey(providerKvp.Value))
-								messageTasks.Add(providerKvp.Value, providerKvp.Value.NextMessage(cancellationToken));
+								messageTasks.Add(
+									providerKvp.Value,
+									providerKvp.Value.NextMessage(cancellationToken).AsTask());
 
 					if (messageTasks.Count == 0)
 					{
@@ -999,30 +1003,32 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task SendMessage(IEnumerable<ulong> channelIds, Message replyTo, MessageContent message, CancellationToken cancellationToken)
 		{
-			channelIds = channelIds.ToList();
+			var channelIdsList = channelIds.ToList();
 
 			logger.LogTrace(
 				"Chat send \"{message}\"{embed} to channels: [{channelIdsCommaSeperated}]",
 				message.Text,
 				message.Embed != null ? " (with embed)" : String.Empty,
-				String.Join(", ", channelIds));
+				String.Join(", ", channelIdsList));
 
-			if (!channelIds.Any())
+			if (!channelIdsList.Any())
 				return Task.CompletedTask;
 
-			return Task.WhenAll(
-				channelIds.Select(x =>
+			return ValueTaskExtensions.WhenAll(
+				channelIdsList.Select(x =>
 				{
 					ChannelMapping channelMapping;
 					lock (mappedChannels)
 						if (!mappedChannels.TryGetValue(x, out channelMapping))
-							return Task.CompletedTask;
+							return ValueTask.CompletedTask;
 					IProvider provider;
 					lock (providers)
 						if (!providers.TryGetValue(channelMapping.ProviderId, out provider))
-							return Task.CompletedTask;
+							return ValueTask.CompletedTask;
 					return provider.SendMessage(replyTo, message, channelMapping.ProviderChannelId, cancellationToken);
-				}));
+				}),
+				channelIdsList.Count)
+				.AsTask();
 		}
 
 		/// <summary>

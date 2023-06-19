@@ -84,7 +84,7 @@ namespace Tgstation.Server.Tests.Live
 			await base.DisposeAsync();
 		}
 
-		public override Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
+		public override ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(message);
 
@@ -96,10 +96,10 @@ namespace Tgstation.Server.Tests.Live
 			if (random.Next(0, 100) > 70)
 				throw new Exception("Random SendMessage failure!"); */
 
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 
-		public override Task<Func<string, string, Task>> SendUpdateMessage(RevisionInformation revisionInformation, Version byondVersion, DateTimeOffset? estimatedCompletionTime, string gitHubOwner, string gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)
+		public override ValueTask<Func<string, string, ValueTask>> SendUpdateMessage(RevisionInformation revisionInformation, Version byondVersion, DateTimeOffset? estimatedCompletionTime, string gitHubOwner, string gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(revisionInformation);
 			ArgumentNullException.ThrowIfNull(byondVersion);
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Tests.Live
 			if (random.Next(0, 100) > 70)
 				throw new Exception("Random SendUpdateMessage failure!"); */
 
-			return Task.FromResult<Func<string, string, Task>>((_, _) =>
+			return ValueTask.FromResult<Func<string, string, ValueTask>>((_, _) =>
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 
@@ -122,11 +122,11 @@ namespace Tgstation.Server.Tests.Live
 				if (random.Next(0, 100) > 70)
 					throw new Exception("Random SendUpdateMessage failure!"); */
 
-				return Task.CompletedTask;
+				return ValueTask.CompletedTask;
 			});
 		}
 
-		protected override Task Connect(CancellationToken cancellationToken)
+		protected override ValueTask Connect(CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -136,20 +136,20 @@ namespace Tgstation.Server.Tests.Live
 
 			connected = true;
 			connectedOnce = true;
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 
-		protected override Task DisconnectImpl(CancellationToken cancellationToken)
+		protected override ValueTask DisconnectImpl(CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			connected = false;
 
 			if (random.Next(0, 100) > 70)
 				throw new Exception("Random disconnection failure!");
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 
-		protected override Task<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
+		protected override ValueTask<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannelsImpl(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			channels = channels.ToList();
 
@@ -159,7 +159,7 @@ namespace Tgstation.Server.Tests.Live
 			if (random.Next(0, 100) > 70)
 				throw new Exception("Random MapChannelsImpl failure!"); */
 
-			return Task.FromResult(
+			return ValueTask.FromResult(
 				new Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>(
 					channels.Select(
 						channel => new KeyValuePair<ChatChannel, IEnumerable<ChannelRepresentation>>(

@@ -39,27 +39,27 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		void InitialMappingComplete();
 
 		/// <summary>
-		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect.
+		/// Get a <see cref="ValueTask{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
-		/// <remarks>Note that private messages will come in the form of <see cref="ChannelRepresentation"/>s not returned in <see cref="MapChannels(IEnumerable{ChatChannel}, CancellationToken)"/>. Do not <see cref="IDisposable.Dispose"/> the <see cref="IProvider"/> on continuations run from the returned <see cref="Task"/>.</remarks>
-		Task<Message> NextMessage(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
+		/// <remarks>Note that private messages will come in the form of <see cref="ChannelRepresentation"/>s not returned in <see cref="MapChannels(IEnumerable{ChatChannel}, CancellationToken)"/>.</remarks>
+		ValueTask<Message> NextMessage(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gracefully disconnects the provider. Permanently stops the reconnection timer.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Disconnect(CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask Disconnect(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get the <see cref="ChannelRepresentation"/>s for given <paramref name="channels"/>.
 		/// </summary>
 		/// <param name="channels">The <see cref="Api.Models.ChatChannel"/>s to map.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the <see cref="ChatChannel"/>'s <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
-		Task<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Dictionary{TKey, TValue}"/> of the <see cref="ChatChannel"/>'s <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/>.</returns>
+		ValueTask<Dictionary<ChatChannel, IEnumerable<ChannelRepresentation>>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Send a message to the <see cref="IProvider"/>.
@@ -68,8 +68,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="message">The <see cref="MessageContent"/>.</param>
 		/// <param name="channelId">The <see cref="ChannelRepresentation.RealId"/> to send to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
+		/// <returns>A <see cref="ValueTask"/> representing the running operation.</returns>
+		ValueTask SendMessage(Message replyTo, MessageContent message, ulong channelId, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Set the interval at which the provider starts jobs to try to reconnect.
@@ -90,8 +90,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="channelId">The <see cref="ChannelRepresentation.RealId"/> to send to.</param>
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</returns>
-		Task<Func<string, string, Task>> SendUpdateMessage(
+		/// <returns>A <see cref="ValueTask{TResult}"/> resulting in a <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</returns>
+		ValueTask<Func<string, string, ValueTask>> SendUpdateMessage(
 			RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
