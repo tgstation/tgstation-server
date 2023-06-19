@@ -29,7 +29,7 @@ dh_make -p tgstation-server_$TGS_VERSION -y --createorig -s
 
 rm debian/README* debian/changelog debian/*.ex debian/upstream/*.ex
 
-cp build/package/deb/debian/* debian/
+cp -r build/package/deb/debian/* debian/
 sed -i "s/~!VERSION!~/$TGSVERSION/g" debian/changelog
 
 cp build/tgstation-server.service debian/
