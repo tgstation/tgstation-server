@@ -26,14 +26,6 @@ jobs:
       security-events: write
     if: ${{ vars.TGS_ENABLE_CODE_QL }} == 'true'
     steps:
-    - name: Install Node 12.X
-      uses: actions/setup-node@v3
-      with:
-        node-version: 12.x
-
-    - name: Upgrade NPM
-      run: npm install -g npm
-
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -42,8 +34,8 @@ jobs:
       with:
         languages: csharp
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    - name: Build
+      uses: dotnet build -c ReleaseNoService
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
