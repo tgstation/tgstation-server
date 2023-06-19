@@ -428,11 +428,13 @@ namespace Tgstation.Server.Host.Controllers
 			if (renamed)
 			{
 				// ignoring retval because we don't care if it's offline
-				await WithComponentInstance(async componentInstance =>
-				{
-					await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken);
-					return null;
-				});
+				await WithComponentInstance(
+					async componentInstance =>
+					{
+						await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken);
+						return null;
+					},
+					originalModel);
 			}
 
 			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
@@ -490,11 +492,13 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
 			{
 				// ignoring retval because we don't care if it's offline
-				await WithComponentInstance(async componentInstance =>
-				{
-					await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value);
-					return null;
-				});
+				await WithComponentInstance(
+					async componentInstance =>
+					{
+						await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value);
+						return null;
+					},
+					originalModel);
 			}
 
 			await CheckAccessible(api, cancellationToken);

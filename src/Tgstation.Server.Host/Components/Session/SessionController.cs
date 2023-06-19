@@ -76,6 +76,26 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task OnReboot => rebootTcs.Task;
 
 		/// <inheritdoc />
+		public Task RebootGate
+		{
+			get => rebootGate;
+			set
+			{
+				var tcs = new TaskCompletionSource();
+				Task toAwait = null;
+				async Task Wrap()
+				{
+					await tcs.Task;
+					await toAwait;
+					await value;
+				}
+
+				toAwait = Interlocked.Exchange(ref rebootGate, Wrap());
+				tcs.SetResult();
+			}
+		}
+
+		/// <inheritdoc />
 		public Task OnPrime => primeTcs.Task;
 
 		/// <inheritdoc />
@@ -165,6 +185,11 @@ namespace Tgstation.Server.Host.Components.Session
 		volatile TaskCompletionSource primeTcs;
 
 		/// <summary>
+		/// Backing field for <see cref="RebootGate"/>.
+		/// </summary>
+		volatile Task rebootGate;
+
+		/// <summary>
 		/// The number of currently active calls to <see cref="ProcessBridgeRequest(BridgeParameters, CancellationToken)"/> from TgsReboot().
 		/// </summary>
 		volatile uint rebootBridgeRequestsProcessing;
@@ -251,6 +276,8 @@ namespace Tgstation.Server.Host.Components.Session
 			startupTcs = new TaskCompletionSource();
 			rebootTcs = new TaskCompletionSource();
 			primeTcs = new TaskCompletionSource();
+
+			rebootGate = Task.CompletedTask;
 
 			// Run this asynchronously because we want to try to avoid any effects sending topics to the server while the initial bridge request is processing
 			// It MAY be the source of a DD crash. See this gist https://gist.github.com/Cyberboss/7776bbeff3a957d76affe0eae95c9f14
@@ -751,6 +778,7 @@ namespace Tgstation.Server.Host.Components.Session
 						}
 
 						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
+						await RebootGate;
 					}
 					finally
 					{

@@ -70,6 +70,11 @@ namespace Tgstation.Server.Host.Components.Session
 		Task OnReboot { get; }
 
 		/// <summary>
+		/// A <see cref="Task"/> that must complete before a TgsReboot() bridge request can complete.
+		/// </summary>
+		Task RebootGate { set; }
+
+		/// <summary>
 		/// A <see cref="Task"/> that completes when the server calls /world/TgsInitializationComplete().
 		/// </summary>
 		Task OnPrime { get; }
