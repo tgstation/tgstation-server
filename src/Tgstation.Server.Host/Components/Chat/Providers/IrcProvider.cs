@@ -407,7 +407,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				await NonBlockingListen(cancellationToken);
 
 				var nickCheckCompleteTcs = new TaskCompletionSource();
-				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled()))
+				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled(cancellationToken)))
 				{
 					listenTask = Task.Factory.StartNew(
 					async () =>

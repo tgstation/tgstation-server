@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.IO.Tests
 				.Setup(x => x.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, It.IsAny<CancellationToken>()))
 				.Returns<HttpRequestMessage, HttpCompletionOption, CancellationToken>((request, option, cancellationToken) =>
 				{
-					cancellationToken.Register(() => tcs.TrySetCanceled());
+					cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
 					return tcs.Task;
 				})
 				.Verifiable();

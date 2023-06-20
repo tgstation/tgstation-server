@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Mono.Unix;
+using Mono.Unix.Native;
+
 using Tgstation.Server.Host.Common;
 
 namespace Tgstation.Server.Host.Watchdog
@@ -148,6 +151,7 @@ namespace Tgstation.Server.Host.Watchdog
 							try
 							{
 								process.Start();
+								var childPid = process.Id;
 
 								using (var processCts = new CancellationTokenSource())
 								using (processCts.Token.Register(() => tcs.TrySetResult(null)))
@@ -173,7 +177,59 @@ namespace Tgstation.Server.Host.Watchdog
 										logger.LogWarning(ex, "Error triggering timeout!");
 									}
 								}))
-									await tcs.Task.ConfigureAwait(false);
+								{
+									var processTask = tcs.Task;
+									while (!processTask.IsCompleted)
+									{
+										var signalTcs = new TaskCompletionSource<object>();
+										using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+										async ValueTask CheckSignal()
+										{
+											if (isWindows)
+												return;
+
+											try
+											{
+												using var unixSignal = new UnixSignal(Signum.SIGUSR1);
+												if (!unixSignal.IsSet)
+												{
+													logger.LogTrace("Waiting for SIGUSR1...");
+													while (!unixSignal.IsSet)
+														await Task.Delay(TimeSpan.FromMilliseconds(250), cts.Token);
+
+													logger.LogTrace("SIGUSR1 received!");
+												}
+												else
+													logger.LogDebug("SIGUSR1 has already been sent");
+											}
+											catch (OperationCanceledException)
+											{
+											}
+										}
+
+										var checkerTask = CheckSignal();
+										try
+										{
+											var signalTask = signalTcs.Task;
+
+											var completedTask = await Task.WhenAny(processTask, signalTask);
+											if (completedTask == signalTask)
+											{
+												logger.LogInformation("Received SIGUSR1, forwarding to main TGS process!");
+												var result = Syscall.kill(childPid, Signum.SIGUSR1);
+												if (result != 0)
+													logger.LogWarning(
+														new UnixIOException(Stdlib.GetLastError()),
+														"Failed to forward SIGUSR1!");
+											}
+										}
+										finally
+										{
+											cts.Cancel();
+											await checkerTask;
+										}
+									}
+								}
 							}
 							catch (InvalidOperationException ex)
 							{
