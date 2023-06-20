@@ -803,7 +803,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty(SerilogContextHelper.WatchdogMonitorIterationContextProperty, iteration))
 					{
-						TaskCompletionSource nextMonitorWakeupTcs = new TaskCompletionSource();
+						var nextMonitorWakeupTcs = new TaskCompletionSource();
 						try
 						{
 							Logger.LogTrace("Iteration {iteration} of monitor loop", iteration);
