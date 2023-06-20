@@ -24,6 +24,8 @@
   <ItemGroup>
     <!-- Usage: Logging abstractions -->
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <!-- Usage: POSIX support for signals -->
+    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <!-- Usage: Linting -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>

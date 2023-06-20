@@ -1,0 +1,27 @@
+Source: tgstation-server
+Section: web
+Priority: optional
+Maintainer: Jordan Dominion <Cyberboss@users.noreply.github.com>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+ dotnet-sdk-6.0,
+ npm,
+Standards-Version: 4.6.2
+Homepage: https://tgstation.github.io/tgstation-server
+Vcs-Browser: https://github.com/tgstation/tgstation-server
+Vcs-Git: https://github.com/tgstation/tgstation-server.git
+
+Package: tgstation-server
+Architecture: any
+Depends:
+ ${misc:Depends},
+ aspnetcore-runtime-6.0,
+ libc6-i386,
+ libstdc++6:i386 [amd64],
+ libstdc++6 [i386],
+ gcc-multilib [amd64],
+Recommends:
+ gdb,
+Description: A production scale tool for BYOND server management
+ This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and locally merging GitHub Pull Requests for test deployments.

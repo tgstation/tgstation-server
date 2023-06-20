@@ -3,6 +3,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Extensions;
+
 namespace Tgstation.Server.Host.IO
 {
 	/// <inheritdoc />
@@ -99,7 +101,8 @@ namespace Tgstation.Server.Host.IO
 			},
 			cancellationToken,
 			DefaultIOManager.BlockingTaskCreationOptions,
-			TaskScheduler.Current);
+			TaskScheduler.Current)
+			.WithToken(cancellationToken);
 
 		/// <inheritdoc />
 		public Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(

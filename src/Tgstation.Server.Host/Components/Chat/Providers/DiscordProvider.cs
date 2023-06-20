@@ -646,7 +646,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Task<Result> localGatewayTask;
 				gatewayReadyTcs = new TaskCompletionSource();
 
-				using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled());
+				using var gatewayConnectionAbortRegistration = cancellationToken.Register(() => gatewayReadyTcs.TrySetCanceled(cancellationToken));
 				gatewayCancellationToken.Register(() => Logger.LogTrace("Stopping gateway client..."));
 
 				// reconnects keep happening until we stop or it faults, our auto-reconnector will handle the latter

@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+install:
+		mkdir -p $(DESTDIR)/opt/tgstation-server
+		cp -r artifacts/* $(DESTDIR)/opt/tgstation-server
+
+uninstall:
+		mkdir -p $(DESTDIR)/opt/tgstation-server
+		cp -r artifacts/* $(DESTDIR)/opt/tgstation-server/
