@@ -78,7 +78,7 @@ $(function() {
 <p >[<img src="https://img.shields.io/github/license/tgstation/tgstation-server.svg" alt="GitHub license" style="pointer-events: none;" class="inline"/>](LICENSE) <a href="http://isitmaintained.com/project/tgstation/tgstation-server" title="Average time to resolve an issue"><img src="http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg" alt="Average time to resolve an issue" style="pointer-events: none;" class="inline"/></a> <a href="https://www.nuget.org/packages/Tgstation.Server.Api"><img src="https://img.shields.io/nuget/v/Tgstation.Server.Api.svg" alt="NuGet version" style="pointer-events: none;" class="inline"/></a> <a href="https://www.nuget.org/packages/Tgstation.Server.Client"><img src="https://img.shields.io/nuget/v/Tgstation.Server.Client.svg" alt="NuGet version" style="pointer-events: none;" class="inline"/></a></p>
 <p ><a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/made-with-c-sharp.svg" alt="forthebadge" style="pointer-events: none;" class="inline"/></a> <a href="https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a"><img src="https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif" alt="forinfinityandbyond" class="inline"/></a></p>
 <p ><a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/built-with-love.svg" alt="forthebadge" style="pointer-events: none;" class="inline"/></a> <a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg" alt="forthebadge" style="pointer-events: none;" class="inline"/></a></p>
-<p >This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.</p>
+<p >This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server), the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and locally merging GitHub Pull Requests for test deployments.</p>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Legacy Servers</h2>
 <p >Older server versions can be found in the V# branches of this repository. Note that the current server fully incompatible with installations before version 4. Only some static files may be copied over: <a href="https://github.com/tgstation/tgstation-server#static-files">https://github.com/tgstation/tgstation-server#static-files</a></p>
@@ -103,19 +103,20 @@ Windows</h3>
 <p >If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.</p>
 <h3><a class="anchor" id="autotoc_md6"></a>
 Linux (Native)</h3>
-<p >We recommend using Docker for Linux installations, see below. The content of this parent section may be skipped if you choose to do so.</p>
-<p >The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime</p>
+<p >Installing natively is the recommended way to run tgstation-server on Linux.</p>
+<p >The following dependencies are required.</p>
 <ul>
+<li>aspnetcore-runtime-6.0 (Note, not all supported distros have this package, see the links above for official Microsoft installation instructions)</li>
 <li>libc6-i386</li>
 <li>libstdc++6:i386</li>
 <li>gdb (for using gcore to create core dumps)</li>
 <li>gcc-multilib (Only on 64-bit systems)</li>
 </ul>
-<p >To launch the server, run ./tgs.sh in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.</p>
-<p >Note that tgstation-server has only ever been tested on Linux via it's <a href="build/Dockerfile#L22">docker environment</a>. If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.</p>
+<p >If you have SystemD, we recommend installing the service unit <a href="./build/tgstation-server.service">here</a>. It assumes TGS is installed into <code>/opt/tgstation-server</code> but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.</p>
+<p >Alternatively, to launch the server in the current shell, run <code>./tgs.sh</code> in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.</p>
 <h3><a class="anchor" id="autotoc_md7"></a>
 Docker (Linux)</h3>
-<p >tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems. The official image repository is located at <a href="https://hub.docker.com/r/tgstation/server">https://hub.docker.com/r/tgstation/server</a>. It can also be built locally by running <code>docker build . -f build/Dockerfile -t &lt;your tag name&gt;</code> in the repository root.</p>
+<p >tgstation-server supports running in a docker container. The official image repository is located at <a href="https://hub.docker.com/r/tgstation/server">https://hub.docker.com/r/tgstation/server</a>. It can also be built locally by running <code>docker build . -f build/Dockerfile -t &lt;your tag name&gt;</code> in the repository root.</p>
 <p >To create a container run </p><div class="fragment"><div class="line">docker run \</div>
 <div class="line">    -ti \ # Start with interactive terminal the first time to run the setup wizard</div>
 <div class="line">    --restart=always \ # Recommended for maximum uptime</div>

@@ -193,7 +193,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00009">9</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00011">11</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aba874ec794084e164acb19d73c7c1dee" name="aba874ec794084e164acb19d73c7c1dee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aba874ec794084e164acb19d73c7c1dee">&#9670;&#160;</a></span>Console()</h2>
@@ -212,22 +212,22 @@ Private Attributes</h2></td></tr>
 
 <p>Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html">Console</a> class.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00030">30</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   31</span>        {</div>
-<div class="line"><span class="lineno">   32</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
-<div class="line"><span class="lineno">   33</span>            global::System.Console.CancelKeyPress += (sender, e) =&gt;</div>
-<div class="line"><span class="lineno">   34</span>            {</div>
-<div class="line"><span class="lineno">   35</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a>)</div>
-<div class="line"><span class="lineno">   36</span>                {</div>
-<div class="line"><span class="lineno">   37</span>                    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ab6d4a4d9769abaa77b2955d28ea66b1f">disposed</a>)</div>
-<div class="line"><span class="lineno">   38</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a>.Cancel();</div>
-<div class="line"><span class="lineno">   39</span>                }</div>
-<div class="line"><span class="lineno">   40</span>            };</div>
-<div class="line"><span class="lineno">   41</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console_html_a10d46881a4846e87d58bac73d392d665"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">Tgstation.Server.Host.IO.Console.cancelKeyCts</a></div><div class="ttdeci">readonly CancellationTokenSource cancelKeyCts</div><div class="ttdoc">The CancellationTokenSource for CancelKeyPress.</div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00020">Console.cs:20</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console_html_ab6d4a4d9769abaa77b2955d28ea66b1f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ab6d4a4d9769abaa77b2955d28ea66b1f">Tgstation.Server.Host.IO.Console.disposed</a></div><div class="ttdeci">bool disposed</div><div class="ttdoc">If the Console was disposed.</div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00025">Console.cs:25</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00032">32</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>        {</div>
+<div class="line"><span class="lineno">   34</span>            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
+<div class="line"><span class="lineno">   35</span>            global::System.Console.CancelKeyPress += (sender, e) =&gt;</div>
+<div class="line"><span class="lineno">   36</span>            {</div>
+<div class="line"><span class="lineno">   37</span>                lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a>)</div>
+<div class="line"><span class="lineno">   38</span>                {</div>
+<div class="line"><span class="lineno">   39</span>                    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ab6d4a4d9769abaa77b2955d28ea66b1f">disposed</a>)</div>
+<div class="line"><span class="lineno">   40</span>                        <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a>.Cancel();</div>
+<div class="line"><span class="lineno">   41</span>                }</div>
+<div class="line"><span class="lineno">   42</span>            };</div>
+<div class="line"><span class="lineno">   43</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console_html_a10d46881a4846e87d58bac73d392d665"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">Tgstation.Server.Host.IO.Console.cancelKeyCts</a></div><div class="ttdeci">readonly CancellationTokenSource cancelKeyCts</div><div class="ttdoc">The CancellationTokenSource for CancelKeyPress.</div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00022">Console.cs:22</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console_html_ab6d4a4d9769abaa77b2955d28ea66b1f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ab6d4a4d9769abaa77b2955d28ea66b1f">Tgstation.Server.Host.IO.Console.disposed</a></div><div class="ttdeci">bool disposed</div><div class="ttdoc">If the Console was disposed.</div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00027">Console.cs:27</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_console_8cs_source.html#l00020">Tgstation.Server.Host.IO.Console.cancelKeyCts</a>, and <a class="el" href="_console_8cs_source.html#l00025">Tgstation.Server.Host.IO.Console.disposed</a>.</p>
+<p class="reference">References <a class="el" href="_console_8cs_source.html#l00022">Tgstation.Server.Host.IO.Console.cancelKeyCts</a>, and <a class="el" href="_console_8cs_source.html#l00027">Tgstation.Server.Host.IO.Console.disposed</a>.</p>
 
 </div>
 </div>
@@ -257,14 +257,14 @@ Private Attributes</h2></td></tr>
 
 <p>Assert that the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html">Console</a> is available, throwing an InvalidOperationException otherwise.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00127">127</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  128</span>        {</div>
-<div class="line"><span class="lineno">  129</span>            <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a7fede11791f3ad6ab39f29cb5ce0075c">Available</a>)</div>
-<div class="line"><span class="lineno">  130</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Console unavailable&quot;</span>);</div>
-<div class="line"><span class="lineno">  131</span>        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console_html_a7fede11791f3ad6ab39f29cb5ce0075c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a7fede11791f3ad6ab39f29cb5ce0075c">Tgstation.Server.Host.IO.Console.Available</a></div><div class="ttdeci">bool Available</div><div class="ttdoc">If the IConsole is visible to the user.</div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00012">Console.cs:12</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00130">130</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  131</span>        {</div>
+<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">if</span> (!<a class="code hl_property" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a7fede11791f3ad6ab39f29cb5ce0075c">Available</a>)</div>
+<div class="line"><span class="lineno">  133</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Console unavailable&quot;</span>);</div>
+<div class="line"><span class="lineno">  134</span>        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console_html_a7fede11791f3ad6ab39f29cb5ce0075c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a7fede11791f3ad6ab39f29cb5ce0075c">Tgstation.Server.Host.IO.Console.Available</a></div><div class="ttdeci">bool Available</div><div class="ttdoc">If the IConsole is visible to the user.</div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00014">Console.cs:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_console_8cs_source.html#l00012">Tgstation.Server.Host.IO.Console.Available</a>.</p>
+<p class="reference">References <a class="el" href="_console_8cs_source.html#l00014">Tgstation.Server.Host.IO.Console.Available</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ad10bdc2971cb4068b3fe0d46aa7cb167">Tgstation.Server.Host.IO.Console.PressAnyKeyAsync()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#aede6acd9f36e1f2e1670c18eb5d7795b">Tgstation.Server.Host.IO.Console.ReadLineAsync()</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#aa038503e15f044245a1a0d30b0de1b6d">Tgstation.Server.Host.IO.Console.WriteAsync()</a>.</p>
 <div class="dynheader">
@@ -298,16 +298,16 @@ Here is the caller graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00044">44</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>        {</div>
-<div class="line"><span class="lineno">   46</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a>)</div>
-<div class="line"><span class="lineno">   47</span>            {</div>
-<div class="line"><span class="lineno">   48</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a>.Dispose();</div>
-<div class="line"><span class="lineno">   49</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ab6d4a4d9769abaa77b2955d28ea66b1f">disposed</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   50</span>            }</div>
-<div class="line"><span class="lineno">   51</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00046">46</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>        {</div>
+<div class="line"><span class="lineno">   48</span>            lock (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a>)</div>
+<div class="line"><span class="lineno">   49</span>            {</div>
+<div class="line"><span class="lineno">   50</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a10d46881a4846e87d58bac73d392d665">cancelKeyCts</a>.Dispose();</div>
+<div class="line"><span class="lineno">   51</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ab6d4a4d9769abaa77b2955d28ea66b1f">disposed</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   52</span>            }</div>
+<div class="line"><span class="lineno">   53</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_console_8cs_source.html#l00020">Tgstation.Server.Host.IO.Console.cancelKeyCts</a>, and <a class="el" href="_console_8cs_source.html#l00025">Tgstation.Server.Host.IO.Console.disposed</a>.</p>
+<p class="reference">References <a class="el" href="_console_8cs_source.html#l00022">Tgstation.Server.Host.IO.Console.cancelKeyCts</a>, and <a class="el" href="_console_8cs_source.html#l00027">Tgstation.Server.Host.IO.Console.disposed</a>.</p>
 
 </div>
 </div>
@@ -338,7 +338,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#ad674c458bbe343698fb0da3494bf3e37">Tgstation.Server.Host.IO.IConsole</a>.</p>
 
-<p class="reference">References <a class="el" href="_console_8cs_source.html#l00127">Tgstation.Server.Host.IO.Console.CheckAvailable()</a>.</p>
+<p class="reference">References <a class="el" href="_console_8cs_source.html#l00130">Tgstation.Server.Host.IO.Console.CheckAvailable()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -389,7 +389,7 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#acae9e2a36d9f2907a69390221443db34">Tgstation.Server.Host.IO.IConsole</a>.</p>
 
-<p class="reference">References <a class="el" href="_console_8cs_source.html#l00127">Tgstation.Server.Host.IO.Console.CheckAvailable()</a>.</p>
+<p class="reference">References <a class="el" href="_console_8cs_source.html#l00130">Tgstation.Server.Host.IO.Console.CheckAvailable()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -447,7 +447,7 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470">Tgstation.Server.Host.IO.IConsole</a>.</p>
 
-<p class="reference">References <a class="el" href="_console_8cs_source.html#l00127">Tgstation.Server.Host.IO.Console.CheckAvailable()</a>.</p>
+<p class="reference">References <a class="el" href="_console_8cs_source.html#l00130">Tgstation.Server.Host.IO.Console.CheckAvailable()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -483,9 +483,9 @@ Here is the call graph for this function:</div>
 
 <p>The CancellationTokenSource for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ab866e78375ea43803c7d8a64b181e21c" title="Gets a CancellationToken that triggers if Crtl+C or an equivalent is pressed.">CancelKeyPress</a>.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00020">20</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00022">22</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_console_8cs_source.html#l00030">Tgstation.Server.Host.IO.Console.Console()</a>, and <a class="el" href="_console_8cs_source.html#l00044">Tgstation.Server.Host.IO.Console.Dispose()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_console_8cs_source.html#l00032">Tgstation.Server.Host.IO.Console.Console()</a>, and <a class="el" href="_console_8cs_source.html#l00046">Tgstation.Server.Host.IO.Console.Dispose()</a>.</p>
 
 </div>
 </div>
@@ -511,9 +511,9 @@ Here is the call graph for this function:</div>
 
 <p>If the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html">Console</a> was disposed.  </p>
 
-<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00025">25</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00027">27</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_console_8cs_source.html#l00030">Tgstation.Server.Host.IO.Console.Console()</a>, and <a class="el" href="_console_8cs_source.html#l00044">Tgstation.Server.Host.IO.Console.Dispose()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_console_8cs_source.html#l00032">Tgstation.Server.Host.IO.Console.Console()</a>, and <a class="el" href="_console_8cs_source.html#l00046">Tgstation.Server.Host.IO.Console.Dispose()</a>.</p>
 
 </div>
 </div>
@@ -542,9 +542,9 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#ab35fa75560527910780645de7dc54ca8">Tgstation.Server.Host.IO.IConsole</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00012">12</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00014">14</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_console_8cs_source.html#l00127">Tgstation.Server.Host.IO.Console.CheckAvailable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_console_8cs_source.html#l00130">Tgstation.Server.Host.IO.Console.CheckAvailable()</a>.</p>
 
 </div>
 </div>
@@ -572,7 +572,7 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a850a82073bea75fd1c0011f92aa91191">Tgstation.Server.Host.IO.IConsole</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00015">15</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_console_8cs_source.html#l00017">17</a> of file <a class="el" href="_console_8cs_source.html">Console.cs</a>.</p>
 
 </div>
 </div>

@@ -721,7 +721,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  407</span>                await <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#af74b65e6c05dba2490bb2fb62bdb7f40">NonBlockingListen</a>(cancellationToken);</div>
 <div class="line"><span class="lineno">  408</span> </div>
 <div class="line"><span class="lineno">  409</span>                var nickCheckCompleteTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
-<div class="line"><span class="lineno">  410</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; nickCheckCompleteTcs.TrySetCanceled()))</div>
+<div class="line"><span class="lineno">  410</span>                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; nickCheckCompleteTcs.TrySetCanceled(cancellationToken)))</div>
 <div class="line"><span class="lineno">  411</span>                {</div>
 <div class="line"><span class="lineno">  412</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a4973331fd7986b7f14ec00426b474253">listenTask</a> = Task.Factory.StartNew(</div>
 <div class="line"><span class="lineno">  413</span>                    async () =&gt;</div>

@@ -236,12 +236,15 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   50</span>            ArgumentNullException.ThrowIfNull(task);</div>
 <div class="line"><span class="lineno">   51</span> </div>
 <div class="line"><span class="lineno">   52</span>            var cancelTcs = <span class="keyword">new</span> TaskCompletionSource();</div>
-<div class="line"><span class="lineno">   53</span>            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; cancelTcs.SetCanceled()))</div>
-<div class="line"><span class="lineno">   54</span>                await Task.WhenAny(task, cancelTcs.Task);</div>
-<div class="line"><span class="lineno">   55</span>            cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><span class="lineno">   53</span>            Task completedTask;</div>
+<div class="line"><span class="lineno">   54</span>            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; cancelTcs.SetCanceled(cancellationToken)))</div>
+<div class="line"><span class="lineno">   55</span>                completedTask = await Task.WhenAny(task, cancelTcs.Task);</div>
 <div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">return</span> await task;</div>
-<div class="line"><span class="lineno">   58</span>        }</div>
+<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">if</span> (completedTask != task)</div>
+<div class="line"><span class="lineno">   58</span>                await cancelTcs.Task;</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">return</span> await task;</div>
+<div class="line"><span class="lineno">   61</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
