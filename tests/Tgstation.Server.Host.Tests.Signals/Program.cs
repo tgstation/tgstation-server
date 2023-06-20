@@ -9,6 +9,7 @@ using Moq;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.Tests.Signals
 {
@@ -24,7 +25,9 @@ namespace Tgstation.Server.Host.Tests.Signals
 				.Callback(() => tcs.SetResult())
 				.Returns(Task.CompletedTask);
 
-			using var signalHandler = new PosixSignalHandler(mockServerControl.Object,  Mock.Of<ILogger<PosixSignalHandler>>());
+			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
+			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+			using var signalHandler = new PosixSignalHandler(mockServerControl.Object, mockAsyncDelayer.Object, Mock.Of<ILogger<PosixSignalHandler>>());
 
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
@@ -40,7 +43,7 @@ namespace Tgstation.Server.Host.Tests.Signals
 			await signalHandler.StopAsync(default).WithToken(cts.Token);
 			Assert.IsFalse(tcs.Task.IsCompleted);
 
-			using var signalHandler2 = new PosixSignalHandler(mockServerControl.Object, Mock.Of<ILogger<PosixSignalHandler>>());
+			using var signalHandler2 = new PosixSignalHandler(mockServerControl.Object, mockAsyncDelayer.Object, Mock.Of<ILogger<PosixSignalHandler>>());
 			await signalHandler2.StartAsync(default);
 
 			using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(20));

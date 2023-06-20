@@ -20,12 +20,15 @@ namespace Tgstation.Server.Host.System.Tests
 		[TestMethod]
 		public void TestConstruction()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(null, null, null));
 
 			var mockServerControl = Mock.Of<IServerControl>();
-			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, null, null));
 
-			new PosixSignalHandler(mockServerControl, Mock.Of<ILogger<PosixSignalHandler>>()).Dispose();
+			var mockAsyncDelayer = Mock.Of<IAsyncDelayer>();
+			Assert.ThrowsException<ArgumentNullException>(() => new PosixSignalHandler(mockServerControl, mockAsyncDelayer, null));
+
+			new PosixSignalHandler(mockServerControl, mockAsyncDelayer, Mock.Of<ILogger<PosixSignalHandler>>()).Dispose();
 		}
 
 		[TestMethod]

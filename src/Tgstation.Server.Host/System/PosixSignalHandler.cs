@@ -8,6 +8,7 @@ using Mono.Unix;
 using Mono.Unix.Native;
 
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.System
 {
@@ -17,9 +18,19 @@ namespace Tgstation.Server.Host.System
 	sealed class PosixSignalHandler : IHostedService, IDisposable
 	{
 		/// <summary>
+		/// Check for signals each time this amount of milliseconds pass.
+		/// </summary>
+		const int CheckDelayMs = 250;
+
+		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="PosixSignalHandler"/>.
 		/// </summary>
 		readonly IServerControl serverControl;
+
+		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="PosixSignalHandler"/>.
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="PosixSignalHandler"/>.
@@ -40,10 +51,12 @@ namespace Tgstation.Server.Host.System
 		/// Initializes a new instance of the <see cref="PosixSignalHandler"/> class.
 		/// </summary>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public PosixSignalHandler(IServerControl serverControl, ILogger<PosixSignalHandler> logger)
+		public PosixSignalHandler(IServerControl serverControl, IAsyncDelayer asyncDelayer, ILogger<PosixSignalHandler> logger)
 		{
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			cancellationTokenSource = new CancellationTokenSource();
@@ -87,23 +100,17 @@ namespace Tgstation.Server.Host.System
 				logger.LogTrace("Started SignalChecker");
 
 				using var unixSignal = new UnixSignal(Signum.SIGUSR1);
-				logger.LogTrace("Waiting for SIGUSR1...");
-				var cancellationToken = cancellationTokenSource.Token;
-
-				var tcs = new TaskCompletionSource();
-				using (cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken)))
+				if (!unixSignal.IsSet)
 				{
-					ThreadPool.RegisterWaitForSingleObject(
-						unixSignal,
-						(o, timeout) => tcs.TrySetResult(),
-						null,
-						Timeout.Infinite,
-						true);
+					logger.LogTrace("Waiting for SIGUSR1...");
+					var cancellationToken = cancellationTokenSource.Token;
+					while (!unixSignal.IsSet)
+						await asyncDelayer.Delay(TimeSpan.FromMilliseconds(CheckDelayMs), cancellationToken);
 
-					await tcs.Task;
+					logger.LogTrace("SIGUSR1 received!");
 				}
-
-				logger.LogTrace("SIGUSR1 received!");
+				else
+					logger.LogDebug("SIGUSR1 has already been sent");
 
 				logger.LogTrace("Triggering graceful shutdown...");
 				await serverControl.GracefulShutdown();
