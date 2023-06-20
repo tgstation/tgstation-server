@@ -1240,3 +1240,22 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: build/Dockerfile
         tags: "latest,v${{ env.TGS_VERSION }}"
+
+  deploy-ppa:
+    name: Deploy TGS (PPA)
+    needs: deploy-tgs
+    if: "!(cancelled() || failure()) && needs.deploy-tgs.result == 'success'"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Parse TGS version
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xmlstarlet
+        echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
+
+    - name: Trigger tgstation-ppa workflow
+      run: |
+        curl -XPOST -u "${{ secrets.DEV_PUSH_USERNAME }}:${{ secrets.DEV_PUSH_TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/tgstation/tgstation-ppa/actions/workflows/add_tgs_version.yml/dispatches --data '{"ref":"main","inputs":{"tgs_semver": "${{ env.TGS_VERSION }}"}}'
