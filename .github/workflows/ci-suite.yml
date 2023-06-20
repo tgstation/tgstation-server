@@ -903,14 +903,20 @@ jobs:
       run: |
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
-    - name: Validate Package Signature
-      run: gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc.asc
+    - name: Validate .dsc Signature
+      run: gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
 
     - name: Upload .deb Artifact
       uses: actions/upload-artifact@v3
       with:
         name: package-deb-${{ matrix.arch }}
         path: tgstation-server_${{ env.TGS_VERSION }}-1_${{ matrix.arch }}.deb
+
+    - name: Upload .dsc Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: package-dsc
+        path: tgstation-server_${{ env.TGS_VERSION }}-1.dsc
 
   deployment-gate:
     name: Deployment Gate
@@ -1112,6 +1118,12 @@ jobs:
         name: package-deb-amd64
         path: package-deb-amd64
 
+    - name: Retrieve .dsc
+      uses: actions/download-artifact@v3
+      with:
+        name: package-dsc
+        path: package-dsc
+
     - name: Zip Artifacts
       shell: powershell
       run: |
@@ -1193,6 +1205,16 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./package-deb-amd64/tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
         asset_name: tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
+        asset_content_type: application/octet-stream
+
+    - name: Upload .dsc Artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./package-dsc/tgstation-server_${{ env.TGS_VERSION }}-1.dsc
+        asset_name: tgstation-server_${{ env.TGS_VERSION }}-1.dsc
         asset_content_type: application/octet-stream
 
   deploy-docker:
