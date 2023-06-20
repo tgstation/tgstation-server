@@ -909,17 +909,14 @@ jobs:
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
         gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
 
-    - name: Upload .deb Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: package-deb-${{ matrix.arch }}
-        path: tgstation-server_${{ env.TGS_VERSION }}-1_${{ matrix.arch }}.deb
+    - name: Create Packaging Archive
+      run: tar cfJ tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz tgstation-server_*
 
-    - name: Upload .dsc Artifact
+    - name: Upload Packaging Archive
       uses: actions/upload-artifact@v3
       with:
-        name: package-dsc
-        path: tgstation-server_${{ env.TGS_VERSION }}-1.dsc
+        name: packaging-debian
+        path: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
 
   deployment-gate:
     name: Deployment Gate
@@ -1115,17 +1112,11 @@ jobs:
         name: openapi-spec
         path: swagger
 
-    - name: Retrieve amd64 .deb
+    - name: Retrieve Debian Packaging Archive
       uses: actions/download-artifact@v3
       with:
-        name: package-deb-amd64
-        path: package-deb-amd64
-
-    - name: Retrieve .dsc
-      uses: actions/download-artifact@v3
-      with:
-        name: package-dsc
-        path: package-dsc
+        name: packaging-debian
+        path: packaging-debian
 
     - name: Zip Artifacts
       shell: powershell
@@ -1200,25 +1191,15 @@ jobs:
         asset_name: ServerUpdatePackage.zip
         asset_content_type: application/zip
 
-    - name: Upload amd64 .deb Artifact
+    - name: Upload Debian Pacakaging Artifact
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./package-deb-amd64/tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
-        asset_name: tgstation-server_${{ env.TGS_VERSION }}-1_amd64.deb
-        asset_content_type: application/vnd.debian.binary-package
-
-    - name: Upload .dsc Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./package-dsc/tgstation-server_${{ env.TGS_VERSION }}-1.dsc
-        asset_name: tgstation-server_${{ env.TGS_VERSION }}-1.dsc
-        asset_content_type: application/octet-stream
+        asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+        asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
+        asset_content_type: application/x-tar
 
   deploy-docker:
     name: Deploy TGS (Docker)
