@@ -1,11 +1,6 @@
 #!/bin/bash
 
 echo "----------------------------------------------------------------------------------------------------" >> /tmp/tgs_wrap_gpg_output.log
-if [[ -z "$PACKAGING_PRIVATE_KEY_PASSPHRASE" ]]; then
-    echo "No passphrase provided. Exec'ing gpg with original args: \"$@\"" >> /tmp/tgs_wrap_gpg_output.log
-    exec gpg "$@"
-fi
-
 echo "Original gpg args: \"$@\"" >> /tmp/tgs_wrap_gpg_output.log
 
 # S/O copypasta
