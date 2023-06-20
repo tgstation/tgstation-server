@@ -1000,6 +1000,7 @@ namespace Tgstation.Server.Tests.Live
 			try
 			{
 				Api.Models.Instance instance;
+				long initialStaged, initialActive;
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					if (server.DumpOpenApiSpecpath)
@@ -1057,6 +1058,13 @@ namespace Tgstation.Server.Tests.Live
 							cancellationToken));
 
 					await Task.WhenAll(rootTest, adminTest, instancesTest, instanceTests, usersTest);
+
+					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+					Assert.IsNotNull(dd.StagedCompileJob);
+					Assert.AreNotEqual(dd.StagedCompileJob.Id, dd.ActiveCompileJob.Id);
+					initialActive = dd.ActiveCompileJob.Id.Value;
+					initialStaged = dd.StagedCompileJob.Id.Value;
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
@@ -1134,6 +1142,10 @@ namespace Tgstation.Server.Tests.Live
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+					Assert.IsNotNull(dd.StagedCompileJob);
+					Assert.AreNotEqual(dd.StagedCompileJob.Id, dd.ActiveCompileJob.Id);
+					Assert.AreEqual(initialStaged, dd.StagedCompileJob.Id);
+					Assert.AreEqual(initialActive, dd.ActiveCompileJob.Id);
 
 					var chatReadTask = instanceClient.ChatBots.List(null, cancellationToken);
 
@@ -1154,6 +1166,13 @@ namespace Tgstation.Server.Tests.Live
 					var connectedChannelCount = currentChatBots.Where(x => x.Enabled.Value).SelectMany(x => x.Channels).Count();
 
 					Assert.AreEqual(connectedChannelCount, channelsPresent);
+
+					await WatchdogTest.TellWorldToReboot2(instanceClient, cancellationToken);
+
+					dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
+					Assert.IsNull(dd.StagedCompileJob);
+					Assert.AreEqual(initialStaged, dd.ActiveCompileJob.Id);
 
 					await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 					dd = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
