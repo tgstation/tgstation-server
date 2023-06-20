@@ -1,5 +1,5 @@
 Source: tgstation-server
-Section: unknown
+Section: web
 Priority: optional
 Maintainer: Jordan Dominion <Cyberboss@users.noreply.github.com>
 Rules-Requires-Root: no
