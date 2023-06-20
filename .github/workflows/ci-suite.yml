@@ -903,8 +903,11 @@ jobs:
       run: |
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
-    - name: Validate .dsc Signature
-      run: gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
+    - name: Validate Signatures
+      run: |
+        gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1.dsc
+        gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.changes
+        gpg --verify tgstation-server_${{ env.TGS_VERSION }}-1_amd64.buildinfo
 
     - name: Upload .deb Artifact
       uses: actions/upload-artifact@v3
