@@ -896,6 +896,7 @@ jobs:
 
     - name: Execute Build Script
       env:
+         PACKAGING_KEYGRIP: ${{ vars.PACKAGING_KEYGRIP }}
          PACKAGING_PRIVATE_KEY_PASSPHRASE: ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }}
       run: sudo -E build/package/deb/build_package.sh
 
