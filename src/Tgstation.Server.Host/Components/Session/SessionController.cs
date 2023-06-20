@@ -21,6 +21,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Utils;
 
@@ -778,7 +779,7 @@ namespace Tgstation.Server.Host.Components.Session
 						}
 
 						Interlocked.Exchange(ref rebootTcs, new TaskCompletionSource()).SetResult();
-						await RebootGate;
+						await RebootGate.WithToken(cancellationToken);
 					}
 					finally
 					{
