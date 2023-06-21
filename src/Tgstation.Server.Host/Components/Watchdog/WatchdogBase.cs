@@ -402,15 +402,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task HandleRestart(Version updateVersion, bool gracefulShutdown, CancellationToken cancellationToken)
+		public async Task HandleRestart(Version updateVersion, bool handlerMayDelayShutdownWithExtremelyLongRunningTasks, CancellationToken cancellationToken)
 		{
-			if (gracefulShutdown)
+			if (handlerMayDelayShutdownWithExtremelyLongRunningTasks)
 			{
 				await Terminate(true, cancellationToken);
 
 				if (Status != WatchdogStatus.Offline)
 				{
-					Logger.LogTrace("Waiting for server to gracefully shut down.");
+					Logger.LogDebug("Waiting for server to gracefully shut down.");
 					await monitorTask.WithToken(cancellationToken);
 				}
 				else

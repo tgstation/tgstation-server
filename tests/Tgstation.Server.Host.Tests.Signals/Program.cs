@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Tests.Signals
 
 			var tcs = new TaskCompletionSource();
 			mockServerControl
-				.Setup(x => x.GracefulShutdown())
+				.Setup(x => x.GracefulShutdown(It.IsAny<bool>()))
 				.Callback(() => tcs.SetResult())
 				.Returns(Task.CompletedTask);
 
