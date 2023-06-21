@@ -23,6 +23,7 @@
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <ApplicationManifest>manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
