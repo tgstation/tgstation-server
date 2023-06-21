@@ -9,6 +9,7 @@ After=mssql-server.service
 [Service]
 ExecStart=/bin/bash /opt/tgstation-server/tgs.sh General:SetupWizardMode=Never
 Restart=Always
+KillMode=process
 RestartKillSignal=SIGUSR1
 AmbientCapabilities=CAP_SYS_NICE
 StandardOutput=null
