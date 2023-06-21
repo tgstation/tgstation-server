@@ -950,7 +950,7 @@ jobs:
         path: swagger
 
     - name: Create GitHub Release
-      uses: juitnow/github-action-create-release@v1
+      uses: juitnow/github-action-create-release@80dc88a9d09c0ee394a4a31b0450e8cbe62996ef # v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
@@ -1026,24 +1026,24 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Publish Tgstation.Server.Api to NuGet
-      uses: alirezanet/publish-nuget@v3.0.0
-      with:
-        PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
-        TAG_COMMIT: false
-        INCLUDE_SYMBOLS: true
-        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
-
     - name: Publish Tgstation.Server.Common to NuGet
-      uses: alirezanet/publish-nuget@v3.0.0
+      uses: alirezanet/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc # v3.0.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
         TAG_COMMIT: false
         INCLUDE_SYMBOLS: true
         NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
+    - name: Publish Tgstation.Server.Api to NuGet
+      uses: alirezanet/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc # v3.0.0
+      with:
+        PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
+        TAG_COMMIT: false
+        INCLUDE_SYMBOLS: true
+        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
     - name: Publish Tgstation.Server.Client to NuGet
-      uses: alirezanet/publish-nuget@v3.0.0
+      uses: alirezanet/publish-nuget@c12b8546b67672ee38ac87bea491ac94a587f7cc # v3.0.0
       with:
         PROJECT_FILE_PATH: src/Tgstation.Server.Common/Tgstation.Server.Common.csproj
         TAG_COMMIT: false
@@ -1233,7 +1233,7 @@ jobs:
         echo "TGS_VERSION=$(xmlstarlet sel -N X="http://schemas.microsoft.com/developer/msbuild/2003" --template --value-of /X:Project/X:PropertyGroup/X:TgsCoreVersion build/Version.props)" >> $GITHUB_ENV
 
     - name: Docker Build and Push
-      uses: elgohr/Publish-Docker-Github-Action@v5
+      uses: elgohr/Publish-Docker-Github-Action@43dc228e327224b2eda11c8883232afd5b34943b # v5
       with:
         name: tgstation/server
         username: ${{ secrets.DOCKER_USERNAME }}
