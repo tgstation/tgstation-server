@@ -181,33 +181,37 @@ namespace Tgstation.Server.Host.Watchdog
 									var processTask = tcs.Task;
 									while (!processTask.IsCompleted)
 									{
-										var signalTcs = new TaskCompletionSource<object>();
+										var signalTcs = new TaskCompletionSource<Signum>();
 										using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-										async ValueTask CheckSignal()
+										async Task CheckSignal(Signum signum)
 										{
 											if (isWindows)
 												return;
 
 											try
 											{
-												using var unixSignal = new UnixSignal(Signum.SIGUSR1);
+												using var unixSignal = new UnixSignal(signum);
 												if (!unixSignal.IsSet)
 												{
-													logger.LogTrace("Waiting for SIGUSR1...");
+													logger.LogTrace("Waiting for {signum}...", signum);
 													while (!unixSignal.IsSet)
 														await Task.Delay(TimeSpan.FromMilliseconds(250), cts.Token);
 
-													logger.LogTrace("SIGUSR1 received!");
+													logger.LogTrace("{signum} received!", signum);
 												}
 												else
-													logger.LogDebug("SIGUSR1 has already been sent");
+													logger.LogDebug("{signum} has already been sent", signum);
+
+												signalTcs.TrySetResult(signum);
 											}
 											catch (OperationCanceledException)
 											{
 											}
 										}
 
-										var checkerTask = CheckSignal();
+										var checkerTask = Task.WhenAll(
+											CheckSignal(Signum.SIGUSR1),
+											CheckSignal(Signum.SIGUSR2));
 										try
 										{
 											var signalTask = signalTcs.Task;
@@ -215,12 +219,14 @@ namespace Tgstation.Server.Host.Watchdog
 											var completedTask = await Task.WhenAny(processTask, signalTask);
 											if (completedTask == signalTask)
 											{
-												logger.LogInformation("Received SIGUSR1, forwarding to main TGS process!");
-												var result = Syscall.kill(childPid, Signum.SIGUSR1);
+												var signalReceived = await signalTask;
+												logger.LogInformation("Received {signalReceived}, forwarding to main TGS process!", signalReceived);
+												var result = Syscall.kill(childPid, signalReceived);
 												if (result != 0)
 													logger.LogWarning(
 														new UnixIOException(Stdlib.GetLastError()),
-														"Failed to forward SIGUSR1!");
+														"Failed to forward {signalReceived}!",
+														signalReceived);
 											}
 										}
 										finally
