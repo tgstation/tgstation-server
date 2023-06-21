@@ -118,6 +118,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DCC75431-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E82104F4-F5C4-4786-ACD4-B635166CDB21}"
 	ProjectSection(SolutionItems) = preProject
+		.github\CODEOWNERS = .github\CODEOWNERS
 		.github\CODE_OF_CONDUCT.md = .github\CODE_OF_CONDUCT.md
 		.github\CONTRIBUTING.md = .github\CONTRIBUTING.md
 		.github\ISSUE_TEMPLATE.md = .github\ISSUE_TEMPLATE.md
