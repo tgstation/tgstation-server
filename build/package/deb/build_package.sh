@@ -42,10 +42,10 @@ rm -f /tmp/tgs_wrap_gpg_output.log
 
 set +e
 
-if [[ -z "$PACKAGING_PRIVATE_KEY_PASSPHRASE" ]]; then
+if [[ -z "$PACKAGING_KEYGRIP" ]]; then
     dpkg-buildpackage --no-sign
 else
-    dpkg-buildpackage --sign-key=ad03052d1740533e --sign-command="$SIGN_COMMAND"
+    dpkg-buildpackage --sign-key=$PACKAGING_KEYGRIP --sign-command="$SIGN_COMMAND"
 fi
 
 EXIT_CODE=$?
