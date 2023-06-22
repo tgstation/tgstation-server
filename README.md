@@ -23,10 +23,13 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Installation
 
-1. [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The `ServerService` package will only work on Windows. Choose `ServerConsole` if that is not your target OS or you prefer not to use the Windows service.
-2. Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
+Follow the instructions for your OS below.
 
 #### Windows
+
+[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). You probably want the `ServerService` package. Choose `ServerConsole` if you prefer not to use the Windows service.
+
+Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
 
 If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
 
@@ -34,24 +37,55 @@ Should you want a clean start, be sure to first uninstall the service by running
 
 If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
 
-
-#### Linux (Native)
+#### Linux
 
 Installing natively is the recommended way to run tgstation-server on Linux.
+
+##### Ubuntu
+
+Install TGS and all it's dependencies via our apt repository with this one-liner:
+
+```sh
+sudo dpkg --add-architecture i386 \
+&& sudo apt update \
+&& sudo apt install -y software-properties-common \
+&& sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv B6FD15EE7ED77676EAEAF910EEEDC8280A307527 \
+&& sudo add-apt-repository -y "deb https://tgstation.github.io/tgstation-ppa/debian unstable main" \
+&& sudo apt update \
+&& sudo apt install -y tgstation-server
+```
+
+##### Debian
+
+The `aspnetcore-runtime-6.0` package isn't yet available on mainline Debian and must be [installed from Microsoft](https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian) first. Use the following one-liner to add their packages repository.
+
+```sh
+curl -L https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -o packages-microsoft-prod.deb \
+&& sudo dpkg -i packages-microsoft-prod.deb \
+&& rm packages-microsoft-prod.deb
+```
+
+After that, run the same command as the Ubuntu installation.
+
+_Support for more distros coming soon_
+
+##### Manual
 
 The following dependencies are required.
 
 - aspnetcore-runtime-6.0 (Note, not all supported distros have this package, see the links above for official Microsoft installation instructions)
 - libc6-i386
 - libstdc++6:i386
-- gdb (for using gcore to create core dumps)
 - gcc-multilib (Only on 64-bit systems)
+- gdb (for using gcore to create core dumps)
 
-If you have SystemD, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server` but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
+[Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). Choose `ServerConsole`.
+
+If you have SystemD installed, we recommend installing the service unit [here](./build/tgstation-server.service). It assumes TGS is installed into `/opt/tgstation-server` and you will be using the  but feel free to adjust it to your needs. Note that the server will need to have it's configuration file setup before running with SystemD.
 
 Alternatively, to launch the server in the current shell, run `./tgs.sh` in the root of the installation directory. The process will run in a blocking fashion. SIGQUIT will close the server, terminating all live game instances.
 
-#### Docker (Linux)
+##### Docker
 
 tgstation-server supports running in a docker container. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile -t <your tag name>` in the repository root.
 
@@ -213,11 +247,13 @@ Note that the live detach for DreamDaemon servers is only supported for updates 
 
 For the Windows service version stop the `tgstation-server` service
 
+For the SystemD managed service, use `systemctl stop tgstation-server`. DO NOT USE `systemctl kill` as this can create orphaned processes while leaving TGS running.
+
 For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process
 
 For the docker version run `docker stop <your container name>`
 
-### Updating
+### Updating the Game
 
 ## Integrating
 
@@ -371,11 +407,17 @@ Instances can be either part of a swarm or not. Once in the database they cannot
 
 tgstation-server is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.
 
-### Updating
+### Updating TGS
 
-TGS can self update without stopping your DreamDaemon servers. Releases made to this repository are bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Because of this REVERTING TO LOWER VERSIONS IS NOT OFFICIALLY SUPPORTED, do so at your own risk (check changes made to `/src/Tgstation.Server.Host/Models/Migrations`).
+TGS can self update without stopping your DreamDaemon servers. Releases made to this repository are bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Reverting to lower versions works but only works so far back in time, do so at your own risk (check changes made to `/src/Tgstation.Server.Host/Models/Migrations`).
 
 Major version updates may require additional action on the part of the user (apart from the configuration changes).
+
+#### Linux Notes
+
+If TGS was installed via a package manager, using the TGS self updater will cause the version to change without notifying said package manager. This is not necessarily a problem if you're okay with the deviation.
+
+To avoid this, use the package manager to update TGS. It is just as seamless as the self-updater.
 
 #### Notifications
 
