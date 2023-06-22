@@ -153,8 +153,7 @@ namespace Tgstation.Server.Host.IO
 			() =>
 			{
 				path = ResolvePath(path);
-				if (extension == null)
-					throw new ArgumentNullException(extension);
+				ArgumentNullException.ThrowIfNull(extension);
 				var results = new List<string>();
 				foreach (var fileName in Directory.EnumerateFiles(
 					path,
