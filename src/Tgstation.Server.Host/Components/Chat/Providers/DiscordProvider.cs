@@ -962,7 +962,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						embedErrors.Add(
 							String.Format(
 								CultureInfo.InvariantCulture,
-								"Null or whitespace field author at index {0}!",
+								"Null or whitespace field name at index {0}!",
 								i));
 						invalid = true;
 					}
@@ -972,7 +972,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						embedErrors.Add(
 							String.Format(
 								CultureInfo.InvariantCulture,
-								"Null or whitespace field author at index {0}!",
+								"Null or whitespace field value at index {0}!",
 								i));
 						invalid = true;
 					}
