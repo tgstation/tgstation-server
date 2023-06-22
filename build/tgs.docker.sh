@@ -14,7 +14,6 @@ if [ ! -f $PROD_CONFIG ]; then
 	fi
 
 	echo "$PROD_CONFIG not detected! Creating empty and running setup wizard..."
-	# Important, config reloading doesn't work with symlinks
 	echo "{}" > $PROD_CONFIG
 fi
 
