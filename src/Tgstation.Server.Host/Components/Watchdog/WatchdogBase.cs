@@ -449,7 +449,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -509,7 +509,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						? "Launching..."
 						: "Reattaching..."); // simple announce
 				if (reattachInfo == null)
-					eventTask = HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken);
+					eventTask = HandleEventImpl(EventType.WatchdogLaunch, Enumerable.Empty<string>(), false, cancellationToken);
 			}
 
 			// since neither server is running, this is safe to do
@@ -693,13 +693,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="relayToSession">If the event should be sent to DreamDaemon.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
+		protected async Task HandleEventImpl(EventType eventType, IEnumerable<string> parameters, bool relayToSession, CancellationToken cancellationToken)
 		{
 			try
 			{
-				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, cancellationToken) : Task.CompletedTask;
+				var sessionEventTask = relayToSession ? ((IEventConsumer)this).HandleEvent(eventType, parameters, false, cancellationToken) : Task.CompletedTask;
 				await Task.WhenAll(
-					eventConsumer.HandleEvent(eventType, parameters, cancellationToken),
+					eventConsumer.HandleEvent(eventType, parameters, false, cancellationToken),
 					sessionEventTask);
 			}
 			catch (JobException ex)
@@ -1005,7 +1005,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = HandleEvent(
+				var eventTask = HandleEventImpl(
 					releaseServers
 						? EventType.WatchdogDetach
 						: EventType.WatchdogShutdown,

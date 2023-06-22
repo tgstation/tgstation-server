@@ -333,6 +333,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				await eventConsumer.HandleEvent(
 					EventType.RepoMergeConflict,
 					arguments,
+					false,
 					cancellationToken);
 				return new TestMergeResult
 				{
@@ -359,6 +360,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						progressReporter.CreateSection("Update Submodules", progressFactor),
 						username,
 						password,
+						false,
 						cancellationToken);
 				}
 			}
@@ -371,6 +373,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					testMergeParameters.TargetCommitSha,
 					testMergeParameters.Comment,
 				},
+				false,
 				cancellationToken);
 
 			return new TestMergeResult
@@ -392,7 +395,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			ArgumentNullException.ThrowIfNull(committish);
 			ArgumentNullException.ThrowIfNull(progressReporter);
 			logger.LogDebug("Checkout object: {committish}...", committish);
-			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoCheckout, new List<string> { committish }, false, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -411,15 +414,21 @@ namespace Tgstation.Server.Host.Components.Repository
 					progressReporter.CreateSection(null, 1.0 / 3),
 					username,
 					password,
+					false,
 					cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public async Task FetchOrigin(string username, string password, JobProgressReporter progressReporter, CancellationToken cancellationToken)
+		public async Task FetchOrigin(
+			JobProgressReporter progressReporter,
+			string username,
+			string password,
+			bool deploymentPipeline,
+			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(progressReporter);
 			logger.LogDebug("Fetch origin...");
-			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), deploymentPipeline, cancellationToken);
 			await Task.Factory.StartNew(
 				() =>
 				{
@@ -458,10 +467,11 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public async Task ResetToOrigin(
+			JobProgressReporter progressReporter,
 			string username,
 			string password,
 			bool updateSubmodules,
-			JobProgressReporter progressReporter,
+			bool deploymentPipeline,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(progressReporter);
@@ -469,7 +479,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new JobException(ErrorCode.RepoReferenceRequired);
 			logger.LogTrace("Reset to origin...");
 			var trackedBranch = libGitRepo.Head.TrackedBranch;
-			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken);
+			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, deploymentPipeline, cancellationToken);
 			await ResetToSha(
 				trackedBranch.Tip.Sha,
 				progressReporter.CreateSection(null, updateSubmodules ? 2.0 / 3 : 1.0),
@@ -480,6 +490,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					progressReporter.CreateSection(null, 1.0 / 3),
 					username,
 					password,
+					deploymentPipeline,
 					cancellationToken);
 		}
 
@@ -547,9 +558,10 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public async Task<bool?> MergeOrigin(
+			JobProgressReporter progressReporter,
 			string committerName,
 			string committerEmail,
-			JobProgressReporter progressReporter,
+			bool deploymentPipeline,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(progressReporter);
@@ -606,7 +618,17 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
-				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { oldTip.Sha, trackedBranch.Tip.Sha, oldHead.FriendlyName ?? UnknownReference, trackedBranch.FriendlyName }, cancellationToken);
+				await eventConsumer.HandleEvent(
+					EventType.RepoMergeConflict,
+					new List<string>
+					{
+						oldTip.Sha,
+						trackedBranch.Tip.Sha,
+						oldHead.FriendlyName ?? UnknownReference,
+						trackedBranch.FriendlyName,
+					},
+					deploymentPipeline,
+					cancellationToken);
 				return null;
 			}
 
@@ -615,12 +637,13 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public async Task<bool> Sychronize(
+			JobProgressReporter progressReporter,
 			string username,
 			string password,
 			string committerName,
 			string committerEmail,
-			JobProgressReporter progressReporter,
 			bool synchronizeTrackedBranch,
+			bool deploymentPipeline,
 			CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(committerName);
@@ -661,6 +684,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						ioMananger.ResolvePath(),
 					},
+					deploymentPipeline,
 					cancellationToken);
 			}
 			finally
@@ -964,9 +988,15 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="progressReporter"><see cref="JobProgressReporter"/> of the operation.</param>
 		/// <param name="username">The username for the <see cref="credentialsProvider"/>.</param>
 		/// <param name="password">The password for the <see cref="credentialsProvider"/>.</param>
+		/// <param name="deploymentPipeline">If any events created should be marked as part of the deployment pipeline.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task UpdateSubmodules(JobProgressReporter progressReporter, string username, string password, CancellationToken cancellationToken)
+		async Task UpdateSubmodules(
+			JobProgressReporter progressReporter,
+			string username,
+			string password,
+			bool deploymentPipeline,
+			CancellationToken cancellationToken)
 		{
 			var submoduleCount = libGitRepo.Submodules.Count();
 			if (submoduleCount == 0)
@@ -1032,7 +1062,11 @@ namespace Tgstation.Server.Host.Components.Repository
 					}
 				}
 
-				await eventConsumer.HandleEvent(EventType.RepoSubmoduleUpdate, new List<string> { submodule.Name }, cancellationToken);
+				await eventConsumer.HandleEvent(
+					EventType.RepoSubmoduleUpdate,
+					new List<string> { submodule.Name },
+					deploymentPipeline,
+					cancellationToken);
 			}
 		}
 

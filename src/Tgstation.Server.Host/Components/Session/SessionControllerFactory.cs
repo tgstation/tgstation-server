@@ -549,6 +549,7 @@ namespace Tgstation.Server.Host.Components.Session
 						{
 							process.Id.ToString(CultureInfo.InvariantCulture),
 						},
+						false,
 						cancellationToken);
 
 				return process;
