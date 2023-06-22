@@ -17,6 +17,7 @@ artifacts/
 /src/Tgstation.Server.Host/appsettings.*.json
 /src/Tgstation.Server.Host/appsettings.*.yml
 /src/Tgstation.Server.Host/wwwroot
+/src/Tgstation.Server.Host/--applicationName
 /src/Tgstation.Server.Host/ClientApp
 /tools/ReleaseNotes/release_notes.md
 /tools/ReleaseNotes/Properties/launchSettings.json
