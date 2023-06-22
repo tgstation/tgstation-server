@@ -17,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 
 using Newtonsoft.Json;
 
@@ -420,14 +419,6 @@ namespace Tgstation.Server.Host.Core
 
 			logger.LogDebug("Content Root: {contentRoot}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {webRoot}", hostingEnvironment.WebRootPath);
-
-			// attempt to restart the server if the configuration changes
-			if (serverControl.WatchdogPresent)
-				ChangeToken.OnChange(Configuration.GetReloadToken, () =>
-				{
-					logger.LogInformation("Configuration change detected");
-					serverControl.Restart();
-				});
 
 			// setup the HTTP request pipeline
 			// Add additional logging context to the request

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,14 +50,24 @@ namespace Tgstation.Server.Host
 		{
 			ArgumentNullException.ThrowIfNull(args);
 
+			// need to shove this arg in to disable config reloading unless a user specifically overrides it
+			if (!args.Any(arg => arg.Contains("hostBuilder:reloadConfigOnChange", StringComparison.OrdinalIgnoreCase))
+				&& String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("hostBuilder__reloadConfigOnChange")))
+			{
+				var oldArgs = args;
+				args = new string[oldArgs.Length + 1];
+				Array.Copy(oldArgs, args, oldArgs.Length);
+				args[oldArgs.Length] = "--hostBuilder:reloadConfigOnChange=false";
+			}
+
 			var basePath = IOManager.ResolvePath();
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
 				.ConfigureAppConfiguration((context, builder) =>
 				{
 					builder.SetBasePath(basePath);
 
-					builder.AddYamlFile("appsettings.yml", optional: true, reloadOnChange: true)
-						.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: true);
+					builder.AddYamlFile("appsettings.yml", optional: true, reloadOnChange: false)
+						.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: false);
 
 					// reorganize the builder so our yaml configs don't override the env/cmdline configs
 					// values obtained via debugger
