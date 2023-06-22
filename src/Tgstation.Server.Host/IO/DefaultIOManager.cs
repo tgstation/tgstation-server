@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Utils;
 
 namespace Tgstation.Server.Host.IO
@@ -387,7 +388,7 @@ namespace Tgstation.Server.Host.IO
 
 				async Task CopyThisFile()
 				{
-					await subdirCreationTask;
+					await subdirCreationTask.WithToken(cancellationToken);
 					using var lockContext = semaphore != null
 						? await SemaphoreSlimContext.Lock(semaphore, cancellationToken)
 						: null;
