@@ -1,4 +1,4 @@
-<map id="Tgstation.Server.Host.Server.Restart" name="Tgstation.Server.Host.Server.Restart">
-<area shape="rect" id="node1" title="Restarts the Host. A Task representing the running operation." alt="" coords="245,5,437,45"/>
+<map id="Tgstation.Server.Host.Server.RestartImpl" name="Tgstation.Server.Host.Server.RestartImpl">
+<area shape="rect" id="node1" title="Implements Restart()." alt="" coords="245,5,437,45"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a2343e099613579929e08bbc59f28c1c5" title="Attempt to update with a given updateExecutor . true if the update started successfully,..." alt="" coords="5,5,197,45"/>
 </map>
