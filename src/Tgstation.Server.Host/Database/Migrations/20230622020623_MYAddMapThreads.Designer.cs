@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
-	[Migration("20230427155613_MYAddMapThreads")]
+	[Migration("20230622020623_MYAddMapThreads")]
 	partial class MYAddMapThreads
 	{
 		/// <inheritdoc />
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "6.0.15")
+				.HasAnnotation("ProductVersion", "7.0.7")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -83,6 +83,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 				MySqlPropertyBuilderExtensions.HasCharSet(b.Property<string>("IrcChannel"), "utf8mb4");
 
 				b.Property<bool?>("IsAdminChannel")
+					.IsRequired()
+					.HasColumnType("tinyint(1)");
+
+				b.Property<bool?>("IsSystemChannel")
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
 
@@ -201,11 +205,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
 
-				b.Property<bool?>("DumpOnHeartbeatRestart")
+				b.Property<bool?>("DumpOnHealthCheckRestart")
 					.IsRequired()
 					.HasColumnType("tinyint(1)");
 
-				b.Property<uint?>("HeartbeatSeconds")
+				b.Property<uint?>("HealthCheckSeconds")
 					.IsRequired()
 					.HasColumnType("int unsigned");
 

@@ -7,20 +7,19 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Adds the MapThreads DreamDaemonSettings column for SQLite.
+	/// Adds the MapThreads DreamDaemonSettings column for MYSQL.
 	/// </summary>
-	public partial class SLAddMapThreads : Migration
+	public partial class MYAddMapThreads : Migration
 	{
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			if (migrationBuilder == null)
-				throw new ArgumentNullException(nameof(migrationBuilder));
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
 
 			migrationBuilder.AddColumn<uint>(
 				name: "MapThreads",
 				table: "DreamDaemonSettings",
-				type: "INTEGER",
+				type: "int unsigned",
 				nullable: false,
 				defaultValue: 0u);
 		}
@@ -28,8 +27,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			if (migrationBuilder == null)
-				throw new ArgumentNullException(nameof(migrationBuilder));
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
 
 			migrationBuilder.DropColumn(
 				name: "MapThreads",

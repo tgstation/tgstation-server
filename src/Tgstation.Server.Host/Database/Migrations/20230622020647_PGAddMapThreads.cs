@@ -7,15 +7,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Adds the MapThreads DreamDaemonSettings column for MSSQL.
+	/// Adds the MapThreads DreamDaemonSettings column for PostgresSQL.
 	/// </summary>
-	public partial class MSAddMapThreads : Migration
+	public partial class PGAddMapThreads : Migration
 	{
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			if (migrationBuilder == null)
-				throw new ArgumentNullException(nameof(migrationBuilder));
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
 
 			migrationBuilder.AddColumn<long>(
 				name: "MapThreads",
@@ -28,8 +27,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			if (migrationBuilder == null)
-				throw new ArgumentNullException(nameof(migrationBuilder));
+			ArgumentNullException.ThrowIfNull(migrationBuilder);
 
 			migrationBuilder.DropColumn(
 				name: "MapThreads",
