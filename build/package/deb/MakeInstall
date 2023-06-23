@@ -5,8 +5,10 @@ install:
 		cp -r artifacts/* $(DESTDIR)/opt/tgstation-server
 		mkdir -p $(DESTDIR)/etc/tgstation-server
 		cp artifacts/appsettings.yml $(DESTDIR)/etc/tgstation-server/appsettings.ex.yml
-		echo -e "# tgstation-server configration file\n" > $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml
+		echo -e "# tgstation-server configuration file\n# See /etc/tgstation-server/appsettings.ex.yml for details on individual configuration options" > $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml
 		dh_link $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml $(DESTDIR)/opt/tgstation-server/appsettings.Production.yml
+		mkdir -p $(DESTDIR)/usr/local/bin
+		cp build/package/deb/tgs-configure $(DESTDIR)/usr/local/bin/
 
 uninstall:
 		mkdir -p $(DESTDIR)/opt/tgstation-server
