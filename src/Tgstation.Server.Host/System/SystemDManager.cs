@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			if (SendSDNotify("RELOADING=1"))
+			if (SendSDNotify("WATCHDOG=1"))
 			{
 				logger.LogDebug("SystemD detected");
 				runTask = RunAsync(watchdogCts.Token);
