@@ -206,6 +206,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deb", "deb", "{457A1F89-620
 	ProjectSection(SolutionItems) = preProject
 		build\package\deb\build_package.sh = build\package\deb\build_package.sh
 		build\package\deb\MakeInstall = build\package\deb\MakeInstall
+		build\package\deb\tgs-configure = build\package\deb\tgs-configure
 		build\package\deb\wrap_gpg.sh = build\package\deb\wrap_gpg.sh
 	EndProjectSection
 EndProject

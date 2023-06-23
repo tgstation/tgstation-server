@@ -281,7 +281,8 @@ namespace Tgstation.Server.Host.Components
 				platformIdentifier,
 				fileTransferService,
 				loggerFactory.CreateLogger<StaticFiles.Configuration>(),
-				generalConfiguration);
+				generalConfiguration,
+				sessionConfiguration);
 			var eventConsumer = new EventConsumer(configuration);
 			var repoManager = new RepositoryManager(
 				repositoryFactory,

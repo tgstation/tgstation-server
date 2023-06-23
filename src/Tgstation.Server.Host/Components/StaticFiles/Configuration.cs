@@ -129,6 +129,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="SessionConfiguration"/> for <see cref="Configuration"/>.
+		/// </summary>
+		readonly SessionConfiguration sessionConfiguration;
+
+		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for <see cref="Configuration"/>. Also used as a <see langword="lock"/> <see cref="object"/>.
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -155,6 +160,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		/// <param name="generalConfiguration">The value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="sessionConfiguration">The value of <see cref="sessionConfiguration"/>.</param>
 		public Configuration(
 			IIOManager ioManager,
 			ISynchronousIOManager synchronousIOManager,
@@ -164,7 +170,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			IPlatformIdentifier platformIdentifier,
 			IFileTransferTicketProvider fileTransferService,
 			ILogger<Configuration> logger,
-			GeneralConfiguration generalConfiguration)
+			GeneralConfiguration generalConfiguration,
+			SessionConfiguration sessionConfiguration)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
@@ -175,6 +182,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.generalConfiguration = generalConfiguration ?? throw new ArgumentNullException(nameof(generalConfiguration));
+			this.sessionConfiguration = sessionConfiguration ?? throw new ArgumentNullException(nameof(sessionConfiguration));
 
 			semaphore = new SemaphoreSlim(1);
 			disposeCts = new CancellationTokenSource();
@@ -592,7 +600,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />
-		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, bool deploymentPipeline, CancellationToken cancellationToken)
 		{
 			ArgumentNullException.ThrowIfNull(parameters);
 
@@ -639,6 +647,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						noShellExecute: true))
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
+						if (sessionConfiguration.LowPriorityDeploymentProcesses)
+							script.AdjustPriority(false);
+
 						var exitCode = await script.Lifetime;
 						cancellationToken.ThrowIfCancellationRequested();
 						var scriptOutput = await script.GetCombinedOutput(cancellationToken);

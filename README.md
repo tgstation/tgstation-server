@@ -419,9 +419,15 @@ If TGS was installed via a package manager, using the TGS self updater will caus
 
 To avoid this, use the package manager to update TGS. It is just as seamless as the self-updater.
 
+##### apt
+
+```sh
+sudo apt update && sudo apt upgrade -y
+```
+
 #### Notifications
 
-If a server update is available, it will be indicated in the response from the GET /Administration endpoint. For more active notifications, you can subscribe to [this GitHub discussion](https://github.com/tgstation/tgstation-server/discussions/1322).
+If a server update is available, it will be indicated in the response from the GET /Administration endpoint and shown as a green exclamation mark in the webpanel navbar. For more active notifications, you can subscribe to [this GitHub discussion](https://github.com/tgstation/tgstation-server/discussions/1322).
 
 ### Users
 
