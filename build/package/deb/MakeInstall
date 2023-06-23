@@ -1,10 +1,10 @@
 #!/usr/bin/make -f
 
 install:
-		install -d $(DESTDIR)/opt/tgstation-server
-		cd artifacts && for f in $(find .); do install "$f" $(DESTDIR)/opt/tgstation-server/; done
-		install -d $(DESTDIR)/etc/tgstation-server
-		install build/package/deb/appsettings.Initial.yml $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml
-		dh_link $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml $(DESTDIR)/opt/tgstation-server/appsettings.Production.yml
-		install -d $(DESTDIR)/usr/bin
-		install build/package/deb/tgs-configure $(DESTDIR)/usr/bin/
+		install -d "$(DESTDIR)/opt/tgstation-server"
+		cd artifacts && for f in $(find .); do install "$f" "$(DESTDIR)/opt/tgstation-server/$f"; done
+		install -d "$(DESTDIR)/etc/tgstation-server"
+		install build/package/deb/appsettings.Initial.yml "$(DESTDIR)/etc/tgstation-server/appsettings.Production.yml"
+		ln -s $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml "$(DESTDIR)/opt/tgstation-server/appsettings.Production.yml"
+		install -d "$(DESTDIR)/usr/bin"
+		install build/package/deb/tgs-configure "$(DESTDIR)/usr/bin/"
