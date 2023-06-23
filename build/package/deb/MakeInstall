@@ -2,7 +2,7 @@
 
 install:
 		install -d $(DESTDIR)/opt/tgstation-server
-		cp -r artifacts/* $(DESTDIR)/opt/tgstation-server
+		cd artifacts && for f in $(find .); do install "$f" $(DESTDIR)/opt/tgstation-server/; done
 		install -d $(DESTDIR)/etc/tgstation-server
 		install build/package/deb/appsettings.Initial.yml $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml
 		dh_link $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml $(DESTDIR)/opt/tgstation-server/appsettings.Production.yml
