@@ -25,4 +25,4 @@ override_dh_strip:
 override_dh_shlibdeps:
 
 override_dh_installsystemd:
-	dh_installsystemd -v --name=tgstation-server --restart-after-upgrade
+	dh_installsystemd -v --restart-after-upgrade
