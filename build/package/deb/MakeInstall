@@ -1,14 +1,14 @@
 #!/usr/bin/make -f
 
 install:
-		mkdir -p $(DESTDIR)/opt/tgstation-server
+		install -d $(DESTDIR)/opt/tgstation-server
 		cp -r artifacts/* $(DESTDIR)/opt/tgstation-server
-		mkdir -p $(DESTDIR)/etc/tgstation-server
+		install -d $(DESTDIR)/etc/tgstation-server
 		cp artifacts/appsettings.yml $(DESTDIR)/etc/tgstation-server/appsettings.ex.yml
 		echo -e "# tgstation-server configuration file\n# See /etc/tgstation-server/appsettings.ex.yml for details on individual configuration options" > $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml
 		dh_link $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml $(DESTDIR)/opt/tgstation-server/appsettings.Production.yml
-		mkdir -p $(DESTDIR)/usr/local/bin
-		install build/package/deb/tgs-configure $(DESTDIR)/usr/local/bin/
+		install -d $(DESTDIR)/usr/bin
+		install build/package/deb/tgs-configure $(DESTDIR)/usr/bin/
 
 uninstall:
 		mkdir -p $(DESTDIR)/opt/tgstation-server
