@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess" name="Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateDreamDaemonProcess">
 <area shape="rect" id="node1" title="Creates the DreamDaemon IProcess." alt="" coords="5,126,264,181"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac" title="Handle a given eventType ." alt="" coords="342,5,581,45"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c" title="Handle a given eventType ." alt="" coords="342,5,581,45"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a0179fc566d4995932f66a0480fa34287" title="Launch a IProcess." alt="" coords="352,69,571,109"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html#a3493714e50b54482ee2739479cf02d56" title="Register a given process &#160;for network prompt reaping." alt="" coords="333,133,590,173"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a25959f5d45d10e44c570751a957a3f43" title="Change a given securityLevel &#160;into the appropriate DreamDaemon command line word." alt="" coords="313,197,610,237"/>

@@ -69,5 +69,6 @@ var searchData=
   ['swarmservice_66',['SwarmService',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html',1,'Tgstation::Server::Host::Swarm']]],
   ['swarmupdateoperation_67',['SwarmUpdateOperation',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_operation.html',1,'Tgstation::Server::Host::Swarm']]],
   ['swarmupdaterequest_68',['SwarmUpdateRequest',['../class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_update_request.html',1,'Tgstation::Server::Host::Swarm']]],
-  ['synchronousiomanager_69',['SynchronousIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html',1,'Tgstation::Server::Host::IO']]]
+  ['synchronousiomanager_69',['SynchronousIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html',1,'Tgstation::Server::Host::IO']]],
+  ['systemdmanager_70',['SystemDManager',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html',1,'Tgstation::Server::Host::System']]]
 ];

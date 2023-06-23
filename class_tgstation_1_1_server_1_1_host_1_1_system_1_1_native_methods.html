@@ -139,6 +139,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a58ae40ae048891db7c2c1855e9213563"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a58ae40ae048891db7c2c1855e9213563">MiniDumpWriteDump</a> (IntPtr hProcess, uint processId, SafeHandle hFile, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a00ec674953395b165b47e2b463023b49">MiniDumpType</a> dumpType, IntPtr expParam, IntPtr userStreamParam, IntPtr callbackParam)</td></tr>
 <tr class="memdesc:a58ae40ae048891db7c2c1855e9213563"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <a href="https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump">https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a58ae40ae048891db7c2c1855e9213563">More...</a><br /></td></tr>
 <tr class="separator:a58ae40ae048891db7c2c1855e9213563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a491f8c2f0d112b0dc89d1380f1865297"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a491f8c2f0d112b0dc89d1380f1865297">sd_notify</a> (int unset_environment, [MarshalAs(UnmanagedType.LPUTF8Str)] string state)</td></tr>
+<tr class="memdesc:a491f8c2f0d112b0dc89d1380f1865297"><td class="mdescLeft">&#160;</td><td class="mdescRight">See <a href="https://www.freedesktop.org/software/systemd/man/sd_notify.html">https://www.freedesktop.org/software/systemd/man/sd_notify.html</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods.html#a491f8c2f0d112b0dc89d1380f1865297">More...</a><br /></td></tr>
+<tr class="separator:a491f8c2f0d112b0dc89d1380f1865297"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Native Windows methods used by the code.  </p>
@@ -715,6 +718,49 @@ Here is the caller graph for this function:</div>
 <map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods_a296b0d4142b98474bde14a1d32b2e727_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods_a296b0d4142b98474bde14a1d32b2e727_icgraph">
 <area shape="rect" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms685086(v=vs.85).aspx." alt="" coords="327,5,528,45"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a0a3d91e35d40c3f6c6bdf126aec6d112" title="Resume a given suspended Process." alt="" coords="5,5,279,45"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a491f8c2f0d112b0dc89d1380f1865297" name="a491f8c2f0d112b0dc89d1380f1865297"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a491f8c2f0d112b0dc89d1380f1865297">&#9670;&#160;</a></span>sd_notify()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int Tgstation.Server.Host.System.NativeMethods.sd_notify </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>unset_environment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">[MarshalAs(UnmanagedType.LPUTF8Str)] string&#160;</td>
+          <td class="paramname"><em>state</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>See <a href="https://www.freedesktop.org/software/systemd/man/sd_notify.html">https://www.freedesktop.org/software/systemd/man/sd_notify.html</a>.  </p>
+
+<p class="reference">Referenced by <a class="el" href="_system_d_manager_8cs_source.html#l00133">Tgstation.Server.Host.System.SystemDManager.RunAsync()</a>, and <a class="el" href="_system_d_manager_8cs_source.html#l00202">Tgstation.Server.Host.System.SystemDManager.SendSDNotify()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods_a491f8c2f0d112b0dc89d1380f1865297_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods_a491f8c2f0d112b0dc89d1380f1865297_icgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods_a491f8c2f0d112b0dc89d1380f1865297_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_native_methods_a491f8c2f0d112b0dc89d1380f1865297_icgraph">
+<area shape="rect" title="See https://www.freedesktop.org/software/systemd/man/sd_notify.html." alt="" coords="757,35,956,75"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#aaae78a0d7223ef6d7e76091f3d08fbc8" title="Runs the SystemDManager." alt="" coords="252,5,451,45"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#ae11ee32aa27a117987d833967fd14b11" title="Send a sd_notify command ." alt="" coords="499,63,709,103"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_system_d_manager.html#a38636b010be6635846724f52a929ff7b" title=" " alt="" coords="5,35,204,75"/>
 </map>
 </div>
 

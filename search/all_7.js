@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['gameiomanager_0',['gameIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a1ff309648594dba65ebd5f5be0742b0a',1,'Tgstation::Server::Host::Components::Session::SessionControllerFactory']]],
-  ['gameiomanager_1',['GameIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a61cde2a19bd6fc5619a5bad94a3c5f9b',1,'Tgstation::Server::Host::Components::Watchdog::WindowsWatchdog']]],
+  ['gameiomanager_0',['GameIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a61cde2a19bd6fc5619a5bad94a3c5f9b',1,'Tgstation::Server::Host::Components::Watchdog::WindowsWatchdog']]],
+  ['gameiomanager_1',['gameIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a1ff309648594dba65ebd5f5be0742b0a',1,'Tgstation::Server::Host::Components::Session::SessionControllerFactory']]],
   ['gamestaticfilessubdirectory_2',['GameStaticFilesSubdirectory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae8e07adce00ed418cb29954182699623',1,'Tgstation::Server::Host::Components::StaticFiles::Configuration']]],
   ['gatewaycts_3',['gatewayCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a6b6a170efd3f74b5c5f12cc41d7d0b5f',1,'Tgstation::Server::Host::Components::Chat::Providers::DiscordProvider']]],
   ['gatewayreadytcs_4',['gatewayReadyTcs',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a9c68a7a7bcd8b837c8b9b128890e9015',1,'Tgstation::Server::Host::Components::Chat::Providers::DiscordProvider']]],

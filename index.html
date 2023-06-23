@@ -385,36 +385,39 @@ Updating TGS</h2>
 Linux Notes</h3>
 <p >If TGS was installed via a package manager, using the TGS self updater will cause the version to change without notifying said package manager. This is not necessarily a problem if you're okay with the deviation.</p>
 <p >To avoid this, use the package manager to update TGS. It is just as seamless as the self-updater.</p>
-<h3><a class="anchor" id="autotoc_md30"></a>
+<h4><a class="anchor" id="autotoc_md30"></a>
+apt</h4>
+<div class="fragment"><div class="line">sudo apt update &amp;&amp; sudo apt upgrade -y</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md31"></a>
 Notifications</h3>
-<p >If a server update is available, it will be indicated in the response from the GET /Administration endpoint. For more active notifications, you can subscribe to <a href="https://github.com/tgstation/tgstation-server/discussions/1322">this GitHub discussion</a>.</p>
-<h2><a class="anchor" id="autotoc_md31"></a>
+<p >If a server update is available, it will be indicated in the response from the GET /Administration endpoint and shown as a green exclamation mark in the webpanel navbar. For more active notifications, you can subscribe to <a href="https://github.com/tgstation/tgstation-server/discussions/1322">this GitHub discussion</a>.</p>
+<h2><a class="anchor" id="autotoc_md32"></a>
 Users</h2>
 <p >All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found <a href="src/Tgstation.Server.Api/DefaultCredentials.cs">here</a>. It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the <code>Database:ResetAdminPassword</code> configuration setting.</p>
 <p >Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be <em>database based</em> or <em>system based</em>. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.</p>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md33"></a>
 Instances</h2>
 <p >A TGS deployment is made up with a set of instances, which each represent a production BYOND server. As many instances as desired can be created. Be aware, however, due to the nature of BYOND, this will quickly result in system resource exhaustion.</p>
 <p >An instance is stored in a single folder anywhere on a system and is made up of several components: The source code git repository, the BYOND installations, the compiler, the watchdog, chat bots, and static file management systems.</p>
-<h4><a class="anchor" id="autotoc_md33"></a>
+<h4><a class="anchor" id="autotoc_md34"></a>
 Instance Users</h4>
 <p >All users with access to an instance have an InstanceUser object associated with the two that defines more rights specific to that instance (i.e. Deploy code, modify bots, edit other InstanceUsers).</p>
-<h3><a class="anchor" id="autotoc_md34"></a>
+<h3><a class="anchor" id="autotoc_md35"></a>
 Repository</h3>
 <p >The <code>Repository</code> folder is a git repository containing the code of the game you wish to host. It can be cloned from any public or private remote repository and has capabilities to affect changes back to it. All the standard benefits of git are utilized (i.e. check out any revision or reference).</p>
 <p >Additional features become available if the remote repository is hosted on <a href="https://github.com/">https://github.com/</a>. Namely the Test Merge feature, which allows you to take a pull request opened on the repository and compile it into a game deployment for testing. Information about test merges is available in game via the DMAPI and via the main API as well.</p>
 <p >Manual operations on the repository while an instance is running may lead to git data corruption. Thankfully, it's simple enough to delete and reclone the repository via the API.</p>
-<h3><a class="anchor" id="autotoc_md35"></a>
+<h3><a class="anchor" id="autotoc_md36"></a>
 Byond</h3>
 <p >The <code>Byond</code> folder contains installations of <a href="https://secure.byond.com/">BYOND</a> versions. The version which is used by your game code can be changed on a whim (Note that only versions &gt;= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.</p>
-<h3><a class="anchor" id="autotoc_md36"></a>
+<h3><a class="anchor" id="autotoc_md37"></a>
 Compiler</h3>
 <p >The compiler deploys code from the <code>Repository</code> folder to the <code>Game</code> folder and compiles it either by autodetecting the <code>.dme</code> or having it set by configuration. Several other step are also run such as validating the DMAPI version and creating symlinks for static files are done at this point. The compiler also applies server side code modifications and duplicates compiled code for the watchdog as well (See following section).</p>
-<h3><a class="anchor" id="autotoc_md37"></a>
+<h3><a class="anchor" id="autotoc_md38"></a>
 Watchdog</h3>
 <p >The watchdog is responsible for starting and keeping your server running. It functions by launching two servers which are hot-swapped on <code>/world/Reboot</code>s and during crashes to prevent downtime. This hot swapping feature is also what allows TGS to deploy updates to live servers without bringing them down.</p>
 <p >DreamDaemon can be finicky and will crash with several high load games or bad DM code. The watchdog has several failure prevention methods to keep at least one server running while these issues are sorted out.</p>
-<h3><a class="anchor" id="autotoc_md38"></a>
+<h3><a class="anchor" id="autotoc_md39"></a>
 Chat Bots</h3>
 <p >TGS supports creating infinite chat bots for notifying staff or players of things like code deployments and uptime in. Currently the following providers are supported</p>
 <ul>
@@ -426,7 +429,7 @@ Chat Bots</h3>
 </ul>
 <p >More can be added by providing a new implementation of the <a href="src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs">IProvider</a> interface</p>
 <p >Bots have a set of built-in commands that can be triggered via <code>!tgs</code>, mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the <code>/datum/tgs_chat_command</code> type (See <code>tgs.dm</code> for details). Invocation for custom commands can be restricted to certain channels.</p>
-<h3><a class="anchor" id="autotoc_md39"></a>
+<h3><a class="anchor" id="autotoc_md40"></a>
 Static Files</h3>
 <p >All files in game code deployments are considered transient by default, meaning when new code is deployed, changes will be lost. Static files allow you to specify which files and folders stick around throughout all deployments.</p>
 <p >The <code>StaticFiles</code> folder contains 3 root folders which cannot be deleted and operate under special rules</p><ul>
@@ -436,18 +439,18 @@ Static Files</h3>
 </ul>
 <p >These files can be modified either in host mode or system user mode. In host mode, TGS itself is responsible for reading and writing the files. In system user mode read and write actions are performed using the system account of the logged on User, enabling the use of ACLs to control access to files. Database users will not be able to use the static file system if this mode is configured for an instance.</p>
 <p >This folder may be freely modified manually just beware this may cause in-progress deployments to error if done on Windows systems.</p>
-<h3><a class="anchor" id="autotoc_md40"></a>
+<h3><a class="anchor" id="autotoc_md41"></a>
 CodeModifications</h3>
 <p >When a deployment is made by the compiler, all the contents of this folder are copied over the repository contents. Then one of two code change modes are selected based on the prescense of certain files.</p>
 <p >If <code>&lt;target dme&gt;.dme</code> is present, that .dme will be used instead of the repository's <code>.dme</code></p>
 <p >Otherwise the files <code>HeadInclude.dm</code> and <code>TailInclude.dm</code> are searched for and added as include lines to the top and bottom of the target <code>.dme</code> repsectively if they exist. These files can contain any valid DreamMaker code (Including <code>#include</code>ing other <code>.dm</code> files!) allowing you to modify the a repository's code on a per instance basis</p>
-<h3><a class="anchor" id="autotoc_md41"></a>
+<h3><a class="anchor" id="autotoc_md42"></a>
 EventScripts</h3>
 <p >This folder can contain anything. But, when certain events occur in the instance, TGS will look here for <code>.bat</code> or <code>.sh</code> files with the same name and run those with corresponding arguments. List of supported events can be found <a href="src/Tgstation.Server.Host/Components/Events/EventType.cs">here</a>.</p>
-<h3><a class="anchor" id="autotoc_md42"></a>
+<h3><a class="anchor" id="autotoc_md43"></a>
 GameStaticFiles</h3>
 <p >Any files and folders contained in this root level of this folder will be symbolically linked to all deployments at the time they are created. This allows persistent game data (BYOND <code>.sav</code>s or code configuration files for example) to persist across all deployments. This folder contains a .tgsignore file which can be used to prevent symlinks from being generated by entering the names of files and folders (1 per line)</p>
-<h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="autotoc_md44"></a>
 Clients</h2>
 <p >Here are tools for interacting with the TGS web API</p>
 <ul>
@@ -457,7 +460,7 @@ Clients</h2>
 <li><a href="https://www.nuget.org/packages/Tgstation.Server.Api">Tgstation.Server.Api</a>: A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.</li>
 </ul>
 <p >Contact project maintainers to get your client added to this list</p>
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="autotoc_md45"></a>
 Backup/Restore</h1>
 <p >Note that tgstation-server is NOT a backup solution, the onus is on the server runners.</p>
 <p >The <code>Repository</code> folder should be backed up on the remote server, do not rely on the instance copy to store changes.</p>
@@ -466,15 +469,15 @@ Backup/Restore</h1>
 <p >The database should be fully backed up.</p>
 <p >To restore an installation from backups, first restore the instance <code>Configuration</code> folder in its new home. Then restore the database, modifying the <code>Path</code> column in the <code>Instances</code> table where necessary to point to the new instances. Then start the server pointed at the new database.</p>
 <p >Should you end up with a lost database for some reason or want to reattach a detached instance you can reattach an existing folder by creating an empty file named <code>TGS4_ALLOW_INSTANCE_ATTACH</code> inside it (This is automatically created when detaching instances). Then create a new instance with that path, this will bypass the empty folder check. Note that this will not restore things such as user permissions, server config options, or deployment metadata. Those must be reconfigured manually.</p>
-<h1><a class="anchor" id="autotoc_md45"></a>
+<h1><a class="anchor" id="autotoc_md46"></a>
 Troubleshooting</h1>
 <p >Feel free to ask for help <a href="https://github.com/tgstation/tgstation-server/discussions">on the discussions page</a>.</p>
-<h1><a class="anchor" id="autotoc_md46"></a>
+<h1><a class="anchor" id="autotoc_md47"></a>
 Contributing</h1>
 <ul>
 <li>See CONTRIBUTING.md</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md47"></a>
+<h1><a class="anchor" id="autotoc_md48"></a>
 Licensing</h1>
 <ul>
 <li>The DMAPI for the project is licensed under the MIT license.</li>

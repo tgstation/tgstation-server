@@ -1,5 +1,5 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent">
-<area shape="rect" id="node1" title="Handle a given eventType . A Task representing the running operation." alt="" coords="999,159,1247,199"/>
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEventImpl" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEventImpl">
+<area shape="rect" id="node1" title="Handle a given eventType &#160;without re&#45;throwing errors." alt="" coords="999,159,1272,199"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a7f6314f04d25300b61c73a5fdede8cfb" title="Handles the actions to take when the monitor has to &quot;wake up&quot;. A Task&lt;TResult&gt; resulting in the Monit..." alt="" coords="643,95,951,135"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="665,159,928,199"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6845304123ed975aec4de3dc79bf8551" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore." alt="" coords="657,248,936,288"/>

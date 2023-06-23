@@ -116,24 +116,25 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8954b7610df4c6ad14ccf71126651044"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a8954b7610df4c6ad14ccf71126651044">EventConsumer</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html">IConfiguration</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a50e81e8ba4fb2abd36df79dfc922b3d0">configuration</a>)</td></tr>
 <tr class="memdesc:a8954b7610df4c6ad14ccf71126651044"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html">EventConsumer</a> class.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a8954b7610df4c6ad14ccf71126651044">More...</a><br /></td></tr>
 <tr class="separator:a8954b7610df4c6ad14ccf71126651044"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a574b2b2de6422a7e43d448fa66f9a0e3"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a574b2b2de6422a7e43d448fa66f9a0e3">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string &gt; parameters, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a574b2b2de6422a7e43d448fa66f9a0e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> . <dl class="params"><dt>Parameters</dt><dd>
+<tr class="memitem:ab7dda852fa0f174044f0bb1564f2cb02"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#ab7dda852fa0f174044f0bb1564f2cb02">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string &gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab7dda852fa0f174044f0bb1564f2cb02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> . <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7" title="Types of events. Mirror in tgs.dm.">EventType</a>.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a574b2b2de6422a7e43d448fa66f9a0e3">More...</a><br /></td></tr>
-<tr class="separator:a574b2b2de6422a7e43d448fa66f9a0e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#ab7dda852fa0f174044f0bb1564f2cb02">More...</a><br /></td></tr>
+<tr class="separator:ab7dda852fa0f174044f0bb1564f2cb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a541045879b6d679230dfeb27f9246f9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a541045879b6d679230dfeb27f9246f9c">SetWatchdog</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>)</td></tr>
 <tr class="memdesc:a541045879b6d679230dfeb27f9246f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <em>watchdog</em>  for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html">EventConsumer</a>.   <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a541045879b6d679230dfeb27f9246f9c">More...</a><br /></td></tr>
 <tr class="separator:a541045879b6d679230dfeb27f9246f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac217567aa6bd7e43c8cfd976eee05aac"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string &gt; parameters, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ac217567aa6bd7e43c8cfd976eee05aac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">More...</a><br /></td></tr>
-<tr class="separator:ac217567aa6bd7e43c8cfd976eee05aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acefbbc13736d330bb4214aaea995955c"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c">HandleEvent</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7">EventType</a> eventType, IEnumerable&lt; string &gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:acefbbc13736d330bb4214aaea995955c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a given <em>eventType</em> .   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c">More...</a><br /></td></tr>
+<tr class="separator:acefbbc13736d330bb4214aaea995955c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -183,8 +184,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a574b2b2de6422a7e43d448fa66f9a0e3" name="a574b2b2de6422a7e43d448fa66f9a0e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a574b2b2de6422a7e43d448fa66f9a0e3">&#9670;&#160;</a></span>HandleEvent()</h2>
+<a id="ab7dda852fa0f174044f0bb1564f2cb02" name="ab7dda852fa0f174044f0bb1564f2cb02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7dda852fa0f174044f0bb1564f2cb02">&#9670;&#160;</a></span>HandleEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,6 +205,12 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>deploymentPipeline</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em>&#160;</td>
         </tr>
@@ -219,6 +226,7 @@ Private Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>The <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7" title="Types of events. Mirror in tgs.dm.">EventType</a>.</td></tr>
     <tr><td class="paramname">parameters</td><td>An IEnumerable&lt;T&gt; of string parameters for <em>eventType</em> .</td></tr>
+    <tr><td class="paramname">deploymentPipeline</td><td>If this event is part of the deployment pipeline.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
@@ -226,7 +234,7 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c">Tgstation.Server.Host.Components.Events.IEventConsumer</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_event_consumer_8cs_source.html#l00034">34</a> of file <a class="el" href="_event_consumer_8cs_source.html">EventConsumer.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>        {</div>
@@ -235,21 +243,21 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   38</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a> == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   39</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;EventConsumer used without watchdog set!&quot;</span>);</div>
 <div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>            var scriptTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a50e81e8ba4fb2abd36df79dfc922b3d0">configuration</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(eventType, parameters, cancellationToken);</div>
-<div class="line"><span class="lineno">   42</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">HandleEvent</a>(eventType, parameters, cancellationToken);</div>
+<div class="line"><span class="lineno">   41</span>            var scriptTask = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#a50e81e8ba4fb2abd36df79dfc922b3d0">configuration</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c">HandleEvent</a>(eventType, parameters, deploymentPipeline, cancellationToken);</div>
+<div class="line"><span class="lineno">   42</span>            await <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c">HandleEvent</a>(eventType, parameters, deploymentPipeline, cancellationToken);</div>
 <div class="line"><span class="lineno">   43</span>            await scriptTask;</div>
 <div class="line"><span class="lineno">   44</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_html_af92b5fafe9cd48f3e8ad61f4354588c6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a></div><div class="ttdeci">IWatchdog watchdog</div><div class="ttdoc">The IWatchdog for the EventConsumer.</div><div class="ttdef"><b>Definition:</b> <a href="_event_consumer_8cs_source.html#l00022">EventConsumer.cs:22</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_html_ac217567aa6bd7e43c8cfd976eee05aac"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent</a></div><div class="ttdeci">Task HandleEvent(EventType eventType, IEnumerable&lt; string &gt; parameters, CancellationToken cancellationToken)</div><div class="ttdoc">Handle a given eventType .</div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer_html_acefbbc13736d330bb4214aaea995955c"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent</a></div><div class="ttdeci">Task HandleEvent(EventType eventType, IEnumerable&lt; string &gt; parameters, bool deploymentPipeline, CancellationToken cancellationToken)</div><div class="ttdoc">Handle a given eventType .</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_event_consumer_8cs_source.html#l00017">Tgstation.Server.Host.Components.Events.EventConsumer.configuration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent()</a>, and <a class="el" href="_event_consumer_8cs_source.html#l00022">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a>.</p>
+<p class="reference">References <a class="el" href="_event_consumer_8cs_source.html#l00017">Tgstation.Server.Host.Components.Events.EventConsumer.configuration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c">Tgstation.Server.Host.Components.Events.IEventConsumer.HandleEvent()</a>, and <a class="el" href="_event_consumer_8cs_source.html#l00022">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_a574b2b2de6422a7e43d448fa66f9a0e3_cgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_ab7dda852fa0f174044f0bb1564f2cb02_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_ab7dda852fa0f174044f0bb1564f2cb02_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_ab7dda852fa0f174044f0bb1564f2cb02_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer_ab7dda852fa0f174044f0bb1564f2cb02_cgraph">
 <area shape="rect" title="Handle a given eventType . A Task representing the running operation." alt="" coords="5,5,240,45"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac" title="Handle a given eventType ." alt="" coords="288,5,527,45"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#acefbbc13736d330bb4214aaea995955c" title="Handle a given eventType ." alt="" coords="288,5,527,45"/>
 </map>
 </div>
 
@@ -281,13 +289,12 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_event_consumer_8cs_source.html#l00050">50</a> of file <a class="el" href="_event_consumer_8cs_source.html">EventConsumer.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   51</span>        {</div>
-<div class="line"><span class="lineno">   52</span><span class="preprocessor">#pragma warning disable IDE0016 </span><span class="comment">// Use &#39;throw&#39; expression</span></div>
-<div class="line"><span class="lineno">   53</span>            ArgumentNullException.ThrowIfNull(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>);</div>
-<div class="line"><span class="lineno">   54</span><span class="preprocessor">#pragma warning restore IDE0016 </span><span class="comment">// Use &#39;throw&#39; expression</span></div>
-<div class="line"><span class="lineno">   55</span>            <span class="keywordflow">if</span> (this.watchdog != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   56</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;watchdog already set!&quot;</span>);</div>
-<div class="line"><span class="lineno">   57</span>            this.watchdog = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>;</div>
-<div class="line"><span class="lineno">   58</span>        }</div>
+<div class="line"><span class="lineno">   52</span>            ArgumentNullException.ThrowIfNull(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>);</div>
+<div class="line"><span class="lineno">   53</span>            <span class="keywordflow">if</span> (this.watchdog != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   54</span>                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;watchdog already set!&quot;</span>);</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>            this.watchdog = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html#af92b5fafe9cd48f3e8ad61f4354588c6">watchdog</a>;</div>
+<div class="line"><span class="lineno">   57</span>        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_event_consumer_8cs_source.html#l00022">Tgstation.Server.Host.Components.Events.EventConsumer.watchdog</a>.</p>
 

@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.System.SystemDManager" name="Tgstation.Server.Host.System.SystemDManager">
+<area shape="rect" id="node1" title="Implements the SystemD notify service protocol." alt="" coords="99,79,298,119"/>
+<area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts." alt="" coords="142,5,255,31"/>
+<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="280,5,371,31"/>
+</map>

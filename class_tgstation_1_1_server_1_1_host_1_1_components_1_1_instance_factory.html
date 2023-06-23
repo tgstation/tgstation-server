@@ -556,7 +556,7 @@ Private Attributes</h2></td></tr>
 
 <p>Test that the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a7a33f13d048aedc87473fd5d2c31c11e" title="The ILibGit2RepositoryFactory for the InstanceFactory.">repositoryFactory</a> is functional.  </p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_factory_8cs_source.html#l00418">Tgstation.Server.Host.Components.InstanceFactory.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_factory_8cs_source.html#l00419">Tgstation.Server.Host.Components.InstanceFactory.StartAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -729,137 +729,138 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  281</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a3c8f7e67bf286c73dd25994db7ed31a5">platformIdentifier</a>,</div>
 <div class="line"><span class="lineno">  282</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#af1345e89d1c471642261b431528d0bd8">fileTransferService</a>,</div>
 <div class="line"><span class="lineno">  283</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;StaticFiles.Configuration&gt;(),</div>
-<div class="line"><span class="lineno">  284</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aa06616bc07291790c57bea22bd90a48d">generalConfiguration</a>);</div>
-<div class="line"><span class="lineno">  285</span>            var eventConsumer = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html">EventConsumer</a>(configuration);</div>
-<div class="line"><span class="lineno">  286</span>            var repoManager = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>(</div>
-<div class="line"><span class="lineno">  287</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a7a33f13d048aedc87473fd5d2c31c11e">repositoryFactory</a>,</div>
-<div class="line"><span class="lineno">  288</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a9c02f76180a5f7555c683994e9f4529e">repositoryCommands</a>,</div>
-<div class="line"><span class="lineno">  289</span>                repoIoManager,</div>
-<div class="line"><span class="lineno">  290</span>                eventConsumer,</div>
-<div class="line"><span class="lineno">  291</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aca83a69059579020791c6d62721c08fd">postWriteHandler</a>,</div>
-<div class="line"><span class="lineno">  292</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a4d6da6bb274e033bc40a93953cee3079">gitRemoteFeaturesFactory</a>,</div>
-<div class="line"><span class="lineno">  293</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html">Repository</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a68c2bad270e3619dd680e14ba886b805">Repository</a>&gt;(),</div>
-<div class="line"><span class="lineno">  294</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>&gt;(),</div>
-<div class="line"><span class="lineno">  295</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aa06616bc07291790c57bea22bd90a48d">generalConfiguration</a>);</div>
-<div class="line"><span class="lineno">  296</span>            <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  297</span>            {</div>
-<div class="line"><span class="lineno">  298</span>                var byond = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html">ByondManager</a>(byondIOManager, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a9b4acf6f948993eac90206dae7dc1c8d">byondInstaller</a>, eventConsumer, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html">ByondManager</a>&gt;());</div>
-<div class="line"><span class="lineno">  299</span> </div>
-<div class="line"><span class="lineno">  300</span>                var dmbFactory = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html">DmbFactory</a>(</div>
-<div class="line"><span class="lineno">  301</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b570e9e9d997c7b93842a93f1a362d6">databaseContextFactory</a>,</div>
-<div class="line"><span class="lineno">  302</span>                    gameIoManager,</div>
-<div class="line"><span class="lineno">  303</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afbdfcaca2188f1e0277cd5f0b9ad8ce8">remoteDeploymentManagerFactory</a>,</div>
-<div class="line"><span class="lineno">  304</span>                    eventConsumer,</div>
-<div class="line"><span class="lineno">  305</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html">DmbFactory</a>&gt;(),</div>
-<div class="line"><span class="lineno">  306</span>                    metadata);</div>
-<div class="line"><span class="lineno">  307</span>                <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  308</span>                {</div>
-<div class="line"><span class="lineno">  309</span>                    var commandFactory = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html">CommandFactory</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ac44fead7dfc02bdd99aea10b729e82ed">assemblyInformationProvider</a>, byond, repoManager, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b570e9e9d997c7b93842a93f1a362d6">databaseContextFactory</a>, dmbFactory, metadata);</div>
-<div class="line"><span class="lineno">  310</span> </div>
-<div class="line"><span class="lineno">  311</span>                    var chatManager = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a86c6ee3938a05c7ce3adf413911345ce">chatFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html#a018e6e40f5996e0f47441b03e54b32b3">CreateChatManager</a>(commandFactory, metadata.ChatSettings);</div>
-<div class="line"><span class="lineno">  312</span>                    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  313</span>                    {</div>
-<div class="line"><span class="lineno">  314</span>                        var reattachInfoHandler = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>(</div>
-<div class="line"><span class="lineno">  315</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b570e9e9d997c7b93842a93f1a362d6">databaseContextFactory</a>,</div>
-<div class="line"><span class="lineno">  316</span>                            dmbFactory,</div>
-<div class="line"><span class="lineno">  317</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a5fdcd121985cce7d20f2d61e0ea5eca4">processExecutor</a>,</div>
-<div class="line"><span class="lineno">  318</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>&gt;(),</div>
-<div class="line"><span class="lineno">  319</span>                            metadata);</div>
-<div class="line"><span class="lineno">  320</span> </div>
-<div class="line"><span class="lineno">  321</span>                        var sessionControllerFactory = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html">SessionControllerFactory</a>(</div>
-<div class="line"><span class="lineno">  322</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a5fdcd121985cce7d20f2d61e0ea5eca4">processExecutor</a>,</div>
-<div class="line"><span class="lineno">  323</span>                            byond,</div>
-<div class="line"><span class="lineno">  324</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b6080e35383ff3c7f8695eef39522d4">topicClientFactory</a>,</div>
-<div class="line"><span class="lineno">  325</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ae61c8c28bfce67853a5b1acbcd095533">cryptographySuite</a>,</div>
-<div class="line"><span class="lineno">  326</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ac44fead7dfc02bdd99aea10b729e82ed">assemblyInformationProvider</a>,</div>
-<div class="line"><span class="lineno">  327</span>                            gameIoManager,</div>
-<div class="line"><span class="lineno">  328</span>                            diagnosticsIOManager,</div>
-<div class="line"><span class="lineno">  329</span>                            chatManager,</div>
-<div class="line"><span class="lineno">  330</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#af4c3eca3b6ba03440f6f2397eeb2ccc3">networkPromptReaper</a>,</div>
-<div class="line"><span class="lineno">  331</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a3c8f7e67bf286c73dd25994db7ed31a5">platformIdentifier</a>,</div>
-<div class="line"><span class="lineno">  332</span>                            bridgeRegistrar,</div>
-<div class="line"><span class="lineno">  333</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a978034e4b8017f55b969b65a4949b4b6">serverPortProvider</a>,</div>
-<div class="line"><span class="lineno">  334</span>                            eventConsumer,</div>
-<div class="line"><span class="lineno">  335</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a4c02d912b0aa9a205a02fe3c21204314">asyncDelayer</a>,</div>
-<div class="line"><span class="lineno">  336</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>,</div>
-<div class="line"><span class="lineno">  337</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html">SessionControllerFactory</a>&gt;(),</div>
-<div class="line"><span class="lineno">  338</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a3d66c0e1162c4ac158d101272ef48388">sessionConfiguration</a>,</div>
-<div class="line"><span class="lineno">  339</span>                            metadata);</div>
-<div class="line"><span class="lineno">  340</span> </div>
-<div class="line"><span class="lineno">  341</span>                        var watchdog = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ab5bda9a81248be0498e668f2b148aa82">watchdogFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a7776b90becee310dbf88b39c649ed4e7">CreateWatchdog</a>(</div>
-<div class="line"><span class="lineno">  342</span>                            chatManager,</div>
-<div class="line"><span class="lineno">  343</span>                            dmbFactory,</div>
-<div class="line"><span class="lineno">  344</span>                            reattachInfoHandler,</div>
-<div class="line"><span class="lineno">  345</span>                            sessionControllerFactory,</div>
-<div class="line"><span class="lineno">  346</span>                            gameIoManager,</div>
-<div class="line"><span class="lineno">  347</span>                            diagnosticsIOManager,</div>
-<div class="line"><span class="lineno">  348</span>                            configuration, <span class="comment">// watchdog doesn&#39;t need itself as an event consumer</span></div>
-<div class="line"><span class="lineno">  349</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afbdfcaca2188f1e0277cd5f0b9ad8ce8">remoteDeploymentManagerFactory</a>,</div>
-<div class="line"><span class="lineno">  350</span>                            metadata,</div>
-<div class="line"><span class="lineno">  351</span>                            metadata.DreamDaemonSettings);</div>
-<div class="line"><span class="lineno">  352</span>                        <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  353</span>                        {</div>
-<div class="line"><span class="lineno">  354</span>                            eventConsumer.SetWatchdog(watchdog);</div>
-<div class="line"><span class="lineno">  355</span>                            commandFactory.SetWatchdog(watchdog);</div>
-<div class="line"><span class="lineno">  356</span> </div>
-<div class="line"><span class="lineno">  357</span>                            Instance instance = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  358</span>                            var dreamMaker = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html">DreamMaker</a>(</div>
-<div class="line"><span class="lineno">  359</span>                                byond,</div>
-<div class="line"><span class="lineno">  360</span>                                gameIoManager,</div>
-<div class="line"><span class="lineno">  361</span>                                configuration,</div>
-<div class="line"><span class="lineno">  362</span>                                sessionControllerFactory,</div>
-<div class="line"><span class="lineno">  363</span>                                eventConsumer,</div>
-<div class="line"><span class="lineno">  364</span>                                chatManager,</div>
-<div class="line"><span class="lineno">  365</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a5fdcd121985cce7d20f2d61e0ea5eca4">processExecutor</a>,</div>
-<div class="line"><span class="lineno">  366</span>                                dmbFactory,</div>
-<div class="line"><span class="lineno">  367</span>                                repoManager,</div>
-<div class="line"><span class="lineno">  368</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afbdfcaca2188f1e0277cd5f0b9ad8ce8">remoteDeploymentManagerFactory</a>,</div>
-<div class="line"><span class="lineno">  369</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a4c02d912b0aa9a205a02fe3c21204314">asyncDelayer</a>,</div>
-<div class="line"><span class="lineno">  370</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html">DreamMaker</a>&gt;(),</div>
-<div class="line"><span class="lineno">  371</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a3d66c0e1162c4ac158d101272ef48388">sessionConfiguration</a>,</div>
-<div class="line"><span class="lineno">  372</span>                                metadata);</div>
-<div class="line"><span class="lineno">  373</span> </div>
-<div class="line"><span class="lineno">  374</span>                            instance = <span class="keyword">new</span> Instance(</div>
-<div class="line"><span class="lineno">  375</span>                                metadata,</div>
-<div class="line"><span class="lineno">  376</span>                                repoManager,</div>
-<div class="line"><span class="lineno">  377</span>                                byond,</div>
-<div class="line"><span class="lineno">  378</span>                                dreamMaker,</div>
-<div class="line"><span class="lineno">  379</span>                                watchdog,</div>
-<div class="line"><span class="lineno">  380</span>                                chatManager,</div>
-<div class="line"><span class="lineno">  381</span>                                configuration,</div>
-<div class="line"><span class="lineno">  382</span>                                dmbFactory,</div>
-<div class="line"><span class="lineno">  383</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a6913b05824f8ac83a8b5d87386ca96aa">jobManager</a>,</div>
-<div class="line"><span class="lineno">  384</span>                                eventConsumer,</div>
-<div class="line"><span class="lineno">  385</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afbdfcaca2188f1e0277cd5f0b9ad8ce8">remoteDeploymentManagerFactory</a>,</div>
-<div class="line"><span class="lineno">  386</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a4c02d912b0aa9a205a02fe3c21204314">asyncDelayer</a>,</div>
-<div class="line"><span class="lineno">  387</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;Instance&gt;());</div>
-<div class="line"><span class="lineno">  388</span> </div>
-<div class="line"><span class="lineno">  389</span>                            <span class="keywordflow">return</span> instance;</div>
-<div class="line"><span class="lineno">  390</span>                        }</div>
-<div class="line"><span class="lineno">  391</span>                        <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  392</span>                        {</div>
-<div class="line"><span class="lineno">  393</span>                            await watchdog.DisposeAsync();</div>
-<div class="line"><span class="lineno">  394</span>                            <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  395</span>                        }</div>
-<div class="line"><span class="lineno">  396</span>                    }</div>
-<div class="line"><span class="lineno">  397</span>                    <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  398</span>                    {</div>
-<div class="line"><span class="lineno">  399</span>                        await chatManager.DisposeAsync();</div>
-<div class="line"><span class="lineno">  400</span>                        <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  401</span>                    }</div>
-<div class="line"><span class="lineno">  402</span>                }</div>
-<div class="line"><span class="lineno">  403</span>                <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  404</span>                {</div>
-<div class="line"><span class="lineno">  405</span>                    dmbFactory.Dispose();</div>
-<div class="line"><span class="lineno">  406</span>                    <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  407</span>                }</div>
-<div class="line"><span class="lineno">  408</span>            }</div>
-<div class="line"><span class="lineno">  409</span>            <span class="keywordflow">catch</span></div>
-<div class="line"><span class="lineno">  410</span>            {</div>
-<div class="line"><span class="lineno">  411</span>                repoManager.Dispose();</div>
-<div class="line"><span class="lineno">  412</span>                <span class="keywordflow">throw</span>;</div>
-<div class="line"><span class="lineno">  413</span>            }</div>
-<div class="line"><span class="lineno">  414</span>        }</div>
+<div class="line"><span class="lineno">  284</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aa06616bc07291790c57bea22bd90a48d">generalConfiguration</a>,</div>
+<div class="line"><span class="lineno">  285</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a3d66c0e1162c4ac158d101272ef48388">sessionConfiguration</a>);</div>
+<div class="line"><span class="lineno">  286</span>            var eventConsumer = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html">EventConsumer</a>(configuration);</div>
+<div class="line"><span class="lineno">  287</span>            var repoManager = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>(</div>
+<div class="line"><span class="lineno">  288</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a7a33f13d048aedc87473fd5d2c31c11e">repositoryFactory</a>,</div>
+<div class="line"><span class="lineno">  289</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a9c02f76180a5f7555c683994e9f4529e">repositoryCommands</a>,</div>
+<div class="line"><span class="lineno">  290</span>                repoIoManager,</div>
+<div class="line"><span class="lineno">  291</span>                eventConsumer,</div>
+<div class="line"><span class="lineno">  292</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aca83a69059579020791c6d62721c08fd">postWriteHandler</a>,</div>
+<div class="line"><span class="lineno">  293</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a4d6da6bb274e033bc40a93953cee3079">gitRemoteFeaturesFactory</a>,</div>
+<div class="line"><span class="lineno">  294</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html">Repository</a>.<a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a68c2bad270e3619dd680e14ba886b805">Repository</a>&gt;(),</div>
+<div class="line"><span class="lineno">  295</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html">RepositoryManager</a>&gt;(),</div>
+<div class="line"><span class="lineno">  296</span>                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aa06616bc07291790c57bea22bd90a48d">generalConfiguration</a>);</div>
+<div class="line"><span class="lineno">  297</span>            <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  298</span>            {</div>
+<div class="line"><span class="lineno">  299</span>                var byond = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html">ByondManager</a>(byondIOManager, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a9b4acf6f948993eac90206dae7dc1c8d">byondInstaller</a>, eventConsumer, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html">ByondManager</a>&gt;());</div>
+<div class="line"><span class="lineno">  300</span> </div>
+<div class="line"><span class="lineno">  301</span>                var dmbFactory = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html">DmbFactory</a>(</div>
+<div class="line"><span class="lineno">  302</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b570e9e9d997c7b93842a93f1a362d6">databaseContextFactory</a>,</div>
+<div class="line"><span class="lineno">  303</span>                    gameIoManager,</div>
+<div class="line"><span class="lineno">  304</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afbdfcaca2188f1e0277cd5f0b9ad8ce8">remoteDeploymentManagerFactory</a>,</div>
+<div class="line"><span class="lineno">  305</span>                    eventConsumer,</div>
+<div class="line"><span class="lineno">  306</span>                    <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html">DmbFactory</a>&gt;(),</div>
+<div class="line"><span class="lineno">  307</span>                    metadata);</div>
+<div class="line"><span class="lineno">  308</span>                <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  309</span>                {</div>
+<div class="line"><span class="lineno">  310</span>                    var commandFactory = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html">CommandFactory</a>(<a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ac44fead7dfc02bdd99aea10b729e82ed">assemblyInformationProvider</a>, byond, repoManager, <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b570e9e9d997c7b93842a93f1a362d6">databaseContextFactory</a>, dmbFactory, metadata);</div>
+<div class="line"><span class="lineno">  311</span> </div>
+<div class="line"><span class="lineno">  312</span>                    var chatManager = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a86c6ee3938a05c7ce3adf413911345ce">chatFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html#a018e6e40f5996e0f47441b03e54b32b3">CreateChatManager</a>(commandFactory, metadata.ChatSettings);</div>
+<div class="line"><span class="lineno">  313</span>                    <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  314</span>                    {</div>
+<div class="line"><span class="lineno">  315</span>                        var reattachInfoHandler = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>(</div>
+<div class="line"><span class="lineno">  316</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b570e9e9d997c7b93842a93f1a362d6">databaseContextFactory</a>,</div>
+<div class="line"><span class="lineno">  317</span>                            dmbFactory,</div>
+<div class="line"><span class="lineno">  318</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a5fdcd121985cce7d20f2d61e0ea5eca4">processExecutor</a>,</div>
+<div class="line"><span class="lineno">  319</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html">SessionPersistor</a>&gt;(),</div>
+<div class="line"><span class="lineno">  320</span>                            metadata);</div>
+<div class="line"><span class="lineno">  321</span> </div>
+<div class="line"><span class="lineno">  322</span>                        var sessionControllerFactory = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html">SessionControllerFactory</a>(</div>
+<div class="line"><span class="lineno">  323</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a5fdcd121985cce7d20f2d61e0ea5eca4">processExecutor</a>,</div>
+<div class="line"><span class="lineno">  324</span>                            byond,</div>
+<div class="line"><span class="lineno">  325</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b6080e35383ff3c7f8695eef39522d4">topicClientFactory</a>,</div>
+<div class="line"><span class="lineno">  326</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ae61c8c28bfce67853a5b1acbcd095533">cryptographySuite</a>,</div>
+<div class="line"><span class="lineno">  327</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ac44fead7dfc02bdd99aea10b729e82ed">assemblyInformationProvider</a>,</div>
+<div class="line"><span class="lineno">  328</span>                            gameIoManager,</div>
+<div class="line"><span class="lineno">  329</span>                            diagnosticsIOManager,</div>
+<div class="line"><span class="lineno">  330</span>                            chatManager,</div>
+<div class="line"><span class="lineno">  331</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#af4c3eca3b6ba03440f6f2397eeb2ccc3">networkPromptReaper</a>,</div>
+<div class="line"><span class="lineno">  332</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a3c8f7e67bf286c73dd25994db7ed31a5">platformIdentifier</a>,</div>
+<div class="line"><span class="lineno">  333</span>                            bridgeRegistrar,</div>
+<div class="line"><span class="lineno">  334</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a978034e4b8017f55b969b65a4949b4b6">serverPortProvider</a>,</div>
+<div class="line"><span class="lineno">  335</span>                            eventConsumer,</div>
+<div class="line"><span class="lineno">  336</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a4c02d912b0aa9a205a02fe3c21204314">asyncDelayer</a>,</div>
+<div class="line"><span class="lineno">  337</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>,</div>
+<div class="line"><span class="lineno">  338</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html">SessionControllerFactory</a>&gt;(),</div>
+<div class="line"><span class="lineno">  339</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a3d66c0e1162c4ac158d101272ef48388">sessionConfiguration</a>,</div>
+<div class="line"><span class="lineno">  340</span>                            metadata);</div>
+<div class="line"><span class="lineno">  341</span> </div>
+<div class="line"><span class="lineno">  342</span>                        var watchdog = <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ab5bda9a81248be0498e668f2b148aa82">watchdogFactory</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a7776b90becee310dbf88b39c649ed4e7">CreateWatchdog</a>(</div>
+<div class="line"><span class="lineno">  343</span>                            chatManager,</div>
+<div class="line"><span class="lineno">  344</span>                            dmbFactory,</div>
+<div class="line"><span class="lineno">  345</span>                            reattachInfoHandler,</div>
+<div class="line"><span class="lineno">  346</span>                            sessionControllerFactory,</div>
+<div class="line"><span class="lineno">  347</span>                            gameIoManager,</div>
+<div class="line"><span class="lineno">  348</span>                            diagnosticsIOManager,</div>
+<div class="line"><span class="lineno">  349</span>                            configuration, <span class="comment">// watchdog doesn&#39;t need itself as an event consumer</span></div>
+<div class="line"><span class="lineno">  350</span>                            <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afbdfcaca2188f1e0277cd5f0b9ad8ce8">remoteDeploymentManagerFactory</a>,</div>
+<div class="line"><span class="lineno">  351</span>                            metadata,</div>
+<div class="line"><span class="lineno">  352</span>                            metadata.DreamDaemonSettings);</div>
+<div class="line"><span class="lineno">  353</span>                        <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  354</span>                        {</div>
+<div class="line"><span class="lineno">  355</span>                            eventConsumer.SetWatchdog(watchdog);</div>
+<div class="line"><span class="lineno">  356</span>                            commandFactory.SetWatchdog(watchdog);</div>
+<div class="line"><span class="lineno">  357</span> </div>
+<div class="line"><span class="lineno">  358</span>                            Instance instance = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  359</span>                            var dreamMaker = <span class="keyword">new</span> <a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html">DreamMaker</a>(</div>
+<div class="line"><span class="lineno">  360</span>                                byond,</div>
+<div class="line"><span class="lineno">  361</span>                                gameIoManager,</div>
+<div class="line"><span class="lineno">  362</span>                                configuration,</div>
+<div class="line"><span class="lineno">  363</span>                                sessionControllerFactory,</div>
+<div class="line"><span class="lineno">  364</span>                                eventConsumer,</div>
+<div class="line"><span class="lineno">  365</span>                                chatManager,</div>
+<div class="line"><span class="lineno">  366</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a5fdcd121985cce7d20f2d61e0ea5eca4">processExecutor</a>,</div>
+<div class="line"><span class="lineno">  367</span>                                dmbFactory,</div>
+<div class="line"><span class="lineno">  368</span>                                repoManager,</div>
+<div class="line"><span class="lineno">  369</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afbdfcaca2188f1e0277cd5f0b9ad8ce8">remoteDeploymentManagerFactory</a>,</div>
+<div class="line"><span class="lineno">  370</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a4c02d912b0aa9a205a02fe3c21204314">asyncDelayer</a>,</div>
+<div class="line"><span class="lineno">  371</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;<a class="code hl_class" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html">DreamMaker</a>&gt;(),</div>
+<div class="line"><span class="lineno">  372</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a3d66c0e1162c4ac158d101272ef48388">sessionConfiguration</a>,</div>
+<div class="line"><span class="lineno">  373</span>                                metadata);</div>
+<div class="line"><span class="lineno">  374</span> </div>
+<div class="line"><span class="lineno">  375</span>                            instance = <span class="keyword">new</span> Instance(</div>
+<div class="line"><span class="lineno">  376</span>                                metadata,</div>
+<div class="line"><span class="lineno">  377</span>                                repoManager,</div>
+<div class="line"><span class="lineno">  378</span>                                byond,</div>
+<div class="line"><span class="lineno">  379</span>                                dreamMaker,</div>
+<div class="line"><span class="lineno">  380</span>                                watchdog,</div>
+<div class="line"><span class="lineno">  381</span>                                chatManager,</div>
+<div class="line"><span class="lineno">  382</span>                                configuration,</div>
+<div class="line"><span class="lineno">  383</span>                                dmbFactory,</div>
+<div class="line"><span class="lineno">  384</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a6913b05824f8ac83a8b5d87386ca96aa">jobManager</a>,</div>
+<div class="line"><span class="lineno">  385</span>                                eventConsumer,</div>
+<div class="line"><span class="lineno">  386</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afbdfcaca2188f1e0277cd5f0b9ad8ce8">remoteDeploymentManagerFactory</a>,</div>
+<div class="line"><span class="lineno">  387</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a4c02d912b0aa9a205a02fe3c21204314">asyncDelayer</a>,</div>
+<div class="line"><span class="lineno">  388</span>                                <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afe93210d51c3cd078d16a4b510c3ebe8">loggerFactory</a>.CreateLogger&lt;Instance&gt;());</div>
+<div class="line"><span class="lineno">  389</span> </div>
+<div class="line"><span class="lineno">  390</span>                            <span class="keywordflow">return</span> instance;</div>
+<div class="line"><span class="lineno">  391</span>                        }</div>
+<div class="line"><span class="lineno">  392</span>                        <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  393</span>                        {</div>
+<div class="line"><span class="lineno">  394</span>                            await watchdog.DisposeAsync();</div>
+<div class="line"><span class="lineno">  395</span>                            <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  396</span>                        }</div>
+<div class="line"><span class="lineno">  397</span>                    }</div>
+<div class="line"><span class="lineno">  398</span>                    <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  399</span>                    {</div>
+<div class="line"><span class="lineno">  400</span>                        await chatManager.DisposeAsync();</div>
+<div class="line"><span class="lineno">  401</span>                        <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  402</span>                    }</div>
+<div class="line"><span class="lineno">  403</span>                }</div>
+<div class="line"><span class="lineno">  404</span>                <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  405</span>                {</div>
+<div class="line"><span class="lineno">  406</span>                    dmbFactory.Dispose();</div>
+<div class="line"><span class="lineno">  407</span>                    <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  408</span>                }</div>
+<div class="line"><span class="lineno">  409</span>            }</div>
+<div class="line"><span class="lineno">  410</span>            <span class="keywordflow">catch</span></div>
+<div class="line"><span class="lineno">  411</span>            {</div>
+<div class="line"><span class="lineno">  412</span>                repoManager.Dispose();</div>
+<div class="line"><span class="lineno">  413</span>                <span class="keywordflow">throw</span>;</div>
+<div class="line"><span class="lineno">  414</span>            }</div>
+<div class="line"><span class="lineno">  415</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html">Tgstation.Server.Host.Components.Byond.ByondManager</a></div><div class="ttdef"><b>Definition:</b> <a href="_byond_manager_8cs_source.html#l00022">ByondManager.cs:23</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html">Tgstation.Server.Host.Components.Chat.Commands.CommandFactory</a></div><div class="ttdef"><b>Definition:</b> <a href="_command_factory_8cs_source.html#l00014">CommandFactory.cs:15</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html">Tgstation.Server.Host.Components.Deployment.DmbFactory</a></div><div class="ttdoc">Standard IDmbFactory.</div><div class="ttdef"><b>Definition:</b> <a href="_dmb_factory_8cs_source.html#l00022">DmbFactory.cs:23</a></div></div>
@@ -960,11 +961,11 @@ Here is the caller graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_instance_factory_8cs_source.html#l00418">418</a> of file <a class="el" href="_instance_factory_8cs_source.html">InstanceFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  419</span>        {</div>
-<div class="line"><span class="lineno">  420</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ade02e9746380fbab6b087a74bd701dbe">CheckSystemCompatibility</a>();</div>
-<div class="line"><span class="lineno">  421</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a9b4acf6f948993eac90206dae7dc1c8d">byondInstaller</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad014a7849a1246dc316a9ac3d8a43d16">CleanCache</a>(cancellationToken);</div>
-<div class="line"><span class="lineno">  422</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="_instance_factory_8cs_source.html#l00419">419</a> of file <a class="el" href="_instance_factory_8cs_source.html">InstanceFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  420</span>        {</div>
+<div class="line"><span class="lineno">  421</span>            <a class="code hl_function" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ade02e9746380fbab6b087a74bd701dbe">CheckSystemCompatibility</a>();</div>
+<div class="line"><span class="lineno">  422</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a9b4acf6f948993eac90206dae7dc1c8d">byondInstaller</a>.<a class="code hl_function" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad014a7849a1246dc316a9ac3d8a43d16">CleanCache</a>(cancellationToken);</div>
+<div class="line"><span class="lineno">  423</span>        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory_html_ade02e9746380fbab6b087a74bd701dbe"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ade02e9746380fbab6b087a74bd701dbe">Tgstation.Server.Host.Components.InstanceFactory.CheckSystemCompatibility</a></div><div class="ttdeci">void CheckSystemCompatibility()</div><div class="ttdoc">Test that the repositoryFactory is functional.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer_html_ad014a7849a1246dc316a9ac3d8a43d16"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad014a7849a1246dc316a9ac3d8a43d16">Tgstation.Server.Host.Components.Byond.IByondInstaller.CleanCache</a></div><div class="ttdeci">Task CleanCache(CancellationToken cancellationToken)</div><div class="ttdoc">Attempts to cleans the BYOND cache folder for the system.</div></div>
 </div><!-- fragment -->
@@ -1083,7 +1084,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_instance_factory_8cs_source.html#l00076">76</a> of file <a class="el" href="_instance_factory_8cs_source.html">InstanceFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_factory_8cs_source.html#l00260">Tgstation.Server.Host.Components.InstanceFactory.CreateInstance()</a>, <a class="el" href="_instance_factory_8cs_source.html#l00194">Tgstation.Server.Host.Components.InstanceFactory.InstanceFactory()</a>, and <a class="el" href="_instance_factory_8cs_source.html#l00418">Tgstation.Server.Host.Components.InstanceFactory.StartAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_factory_8cs_source.html#l00260">Tgstation.Server.Host.Components.InstanceFactory.CreateInstance()</a>, <a class="el" href="_instance_factory_8cs_source.html#l00194">Tgstation.Server.Host.Components.InstanceFactory.InstanceFactory()</a>, and <a class="el" href="_instance_factory_8cs_source.html#l00419">Tgstation.Server.Host.Components.InstanceFactory.StartAsync()</a>.</p>
 
 </div>
 </div>
