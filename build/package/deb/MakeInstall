@@ -8,7 +8,3 @@ install:
 		dh_link $(DESTDIR)/etc/tgstation-server/appsettings.Production.yml $(DESTDIR)/opt/tgstation-server/appsettings.Production.yml
 		install -d $(DESTDIR)/usr/bin
 		install build/package/deb/tgs-configure $(DESTDIR)/usr/bin/
-
-uninstall:
-		mkdir -p $(DESTDIR)/opt/tgstation-server
-		cp -r artifacts/* $(DESTDIR)/opt/tgstation-server/
