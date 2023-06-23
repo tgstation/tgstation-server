@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Mono.Unix;
-using Mono.Unix.Native;
 
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Core;
@@ -59,6 +58,13 @@ namespace Tgstation.Server.Host.System
 		/// If TGS is going to restart.
 		/// </summary>
 		bool restartInProgress;
+
+		/// <summary>
+		/// Get the current total nanoseconds value of the CLOCK_MONOTONIC clock.
+		/// </summary>
+		/// <returns>A <see cref="long"/> representing the clock time in nanoseconds.</returns>
+		/// <remarks>See https://linux.die.net/man/3/clock_gettime.</remarks>
+		static long GetMonotonicUsec() => global::System.Diagnostics.Stopwatch.GetTimestamp(); // HACK: https://github.com/dotnet/runtime/blob/v6.0.19/src/libraries/Native/Unix/System.Native/pal_time.c#L51 clock_gettime_nsec_np is an OSX only thing apparently...
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SystemDManager"/> class.
@@ -154,27 +160,10 @@ namespace Tgstation.Server.Host.System
 
 			applicationLifetime.ApplicationStarted.Register(() => CheckReady());
 			applicationLifetime.ApplicationStopping.Register(
-				() =>
-				{
-					string command;
-					if (restartInProgress)
-					{
-						if (NativeMethods.clock_gettime(NativeMethods.ClockId.CLOCK_MONOTONIC, out var tp) != 0)
-						{
-							logger.LogError(new UnixIOException(Stdlib.GetLastError()), "clock_gettime failed!");
-							command = "RELOADING=1"; // SystemD can cope
-						}
-						else
-						{
-							const long SecondsToNanoSeconds = 1000000000; // https://github.com/dotnet/runtime/blob/0f71880d79fc027dd2c0f8c83113af0ad0bb6f55/src/native/libs/System.Native/pal_time.c#L22C5-L22C38
-							command = $"RELOADING=1\nMONOTONIC_USEC={(tp.tv_sec * SecondsToNanoSeconds) + tp.tv_usec}";
-						}
-					}
-					else
-						command = "STOPPING=1";
-
-					SendSDNotify(command);
-				});
+				() => SendSDNotify(
+					restartInProgress
+						? $"RELOADING=1\nMONOTONIC_USEC={GetMonotonicUsec()}"
+						: "STOPPING=1"));
 
 			try
 			{
