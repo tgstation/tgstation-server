@@ -1,5 +1,4 @@
 #!/bin/sh
 
-pushd /opt/tgstation-server
-dotnet /opt/tgstation-server/lib/Default/Tgstation.Server.Host.dll General:SetupWizardMode=Only
-popd
+cd /opt/tgstation-server
+exec dotnet /opt/tgstation-server/lib/Default/Tgstation.Server.Host.dll General:SetupWizardMode=Only
