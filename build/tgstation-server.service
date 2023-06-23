@@ -7,13 +7,17 @@ After=postgresql.service
 After=mssql-server.service
 
 [Service]
+Type=notify
+NotifyAccess=all
 ExecStart=/bin/bash /opt/tgstation-server/tgs.sh General:SetupWizardMode=Never
+TimeoutStartSec=600
 Restart=Always
 KillMode=process
 RestartKillSignal=SIGUSR2
 AmbientCapabilities=CAP_SYS_NICE
 StandardOutput=null
 StandardError=null
+WatchdogSec=60
 
 [Install]
 WantedBy=multi-user.target

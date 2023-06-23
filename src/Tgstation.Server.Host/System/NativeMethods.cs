@@ -127,5 +127,15 @@ namespace Tgstation.Server.Host.System
 			IntPtr expParam,
 			IntPtr userStreamParam,
 			IntPtr callbackParam);
+
+		/// <summary>
+		/// See https://www.freedesktop.org/software/systemd/man/sd_notify.html.
+		/// </summary>
+#pragma warning disable IDE0079
+#pragma warning disable CA2101 // https://github.com/dotnet/roslyn-analyzers/issues/5479#issuecomment-1603665900
+		[DllImport("libsystemd.so.0", CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+		public static extern int sd_notify(int unset_environment, [MarshalAs(UnmanagedType.LPUTF8Str)] string state);
+#pragma warning restore CA2101
+#pragma warning restore IDE0079
 	}
 }

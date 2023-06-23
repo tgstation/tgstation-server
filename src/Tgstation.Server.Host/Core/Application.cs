@@ -336,6 +336,9 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 
 				services.AddSingleton<IHostedService, PosixSignalHandler>();
+
+				services.AddSingleton<SystemDManager>();
+				services.AddSingleton<IHostedService>(x => x.GetRequiredService<SystemDManager>());
 			}
 
 			// configure file transfer services
