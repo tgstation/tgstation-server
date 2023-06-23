@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
 if [ "$1" = "configure" ]; then
-	deb-systemd-invoke mask tgstation-server
+	# disable first time startup so user can configure
+	deb-systemd-helper mask 'tgstation-server.service' >/dev/null || true
 fi
 
 #DEBHELPER#
