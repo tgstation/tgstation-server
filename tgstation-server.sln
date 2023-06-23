@@ -204,6 +204,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package", "package", "{2648
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deb", "deb", "{457A1F89-6201-4430-BCC6-2F4438A54B9E}"
 	ProjectSection(SolutionItems) = preProject
+		build\package\deb\appsettings.Initial.yml = build\package\deb\appsettings.Initial.yml
 		build\package\deb\build_package.sh = build\package\deb\build_package.sh
 		build\package\deb\MakeInstall = build\package\deb\MakeInstall
 		build\package\deb\tgs-configure = build\package\deb\tgs-configure
