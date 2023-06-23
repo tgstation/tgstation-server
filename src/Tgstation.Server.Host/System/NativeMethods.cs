@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
+using Mono.Unix.Native;
+
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>
@@ -42,6 +44,14 @@ namespace Tgstation.Server.Host.System
 			WithHandleData = 0x00000004,
 			WithUnloadedModules = 0x00000020,
 			WithThreadInfo = 0x00001000,
+		}
+
+		/// <summary>
+		/// See https://linux.die.net/man/3/clock_gettime.
+		/// </summary>
+		public enum ClockId : int
+		{
+			CLOCK_MONOTONIC = 1, // from linux/time.h. God forbid this breaks uncannily
 		}
 
 		/// <summary>
@@ -137,5 +147,12 @@ namespace Tgstation.Server.Host.System
 		public static extern int sd_notify(int unset_environment, [MarshalAs(UnmanagedType.LPUTF8Str)] string state);
 #pragma warning restore CA2101
 #pragma warning restore IDE0079
+
+		/// <summary>
+		/// See https://linux.die.net/man/3/clock_gettime.
+		/// </summary>
+		/// <remarks>We're relying on the portablility of <see cref="Timeval"/> for this to work. Untested on x86, but I don't think that's supported anymore?</remarks>
+		[DllImport("libc", SetLastError = true)]
+		public static extern int clock_gettime(ClockId clk_id, out Timeval tp);
 	}
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Mono.Unix;
+using Mono.Unix.Native;
 
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Core;
@@ -153,10 +154,27 @@ namespace Tgstation.Server.Host.System
 
 			applicationLifetime.ApplicationStarted.Register(() => CheckReady());
 			applicationLifetime.ApplicationStopping.Register(
-				() => SendSDNotify(
-					restartInProgress
-						? "RELOADING=1"
-						: "STOPPING=1"));
+				() =>
+				{
+					string command;
+					if (restartInProgress)
+					{
+						if (NativeMethods.clock_gettime(NativeMethods.ClockId.CLOCK_MONOTONIC, out var tp) != 0)
+						{
+							logger.LogError(new UnixIOException(Stdlib.GetLastError()), "clock_gettime failed!");
+							command = "RELOADING=1"; // SystemD can cope
+						}
+						else
+						{
+							const long SecondsToNanoSeconds = 1000000000; // https://github.com/dotnet/runtime/blob/0f71880d79fc027dd2c0f8c83113af0ad0bb6f55/src/native/libs/System.Native/pal_time.c#L22C5-L22C38
+							command = $"RELOADING=1\nMONOTONIC_USEC={(tp.tv_sec * SecondsToNanoSeconds) + tp.tv_usec}";
+						}
+					}
+					else
+						command = "STOPPING=1";
+
+					SendSDNotify(command);
+				});
 
 			try
 			{
