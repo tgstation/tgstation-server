@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.System
 	sealed class SystemDManager : IHostedService, IRestartHandler, IDisposable
 	{
 		/// <summary>
+		/// The sd_notify command for notifying the watchdog we are alive.
+		/// </summary>
+		const string SDNotifyWatchdog = "WATCHDOG=1";
+
+		/// <summary>
 		/// The <see cref="IHostApplicationLifetime"/> for the <see cref="SystemDManager"/>.
 		/// </summary>
 		readonly IHostApplicationLifetime applicationLifetime;
@@ -104,7 +109,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			if (SendSDNotify("WATCHDOG=1"))
+			if (SendSDNotify(SDNotifyWatchdog))
 			{
 				logger.LogDebug("SystemD detected");
 				runTask = RunAsync(watchdogCts.Token);
@@ -176,10 +181,7 @@ namespace Tgstation.Server.Host.System
 				{
 					await Task.Delay(milliseconds, cancellationToken);
 
-					logger.LogTrace("Sending sd_notify WATCHDOG=1");
-					var result = NativeMethods.sd_notify(0, "WATCHDOG=1");
-					if (result <= 0)
-						logger.LogError(new UnixIOException(result), "sd_notify READY=1 failed!");
+					SendSDNotify(SDNotifyWatchdog);
 				}
 			}
 			catch (OperationCanceledException ex)
