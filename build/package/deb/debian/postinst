@@ -1,12 +1,12 @@
 #!/bin/sh -e
 
-if [[ "$1" = "configure" ]]; then
+if [ "$1" = "configure" ]; then
 	systemctl mask tgstation-server
 fi
 
 #DEBHELPER#
 
-if [[ "$1" = "configure" ]]; then
+if [ "$1" = "configure" ]; then
 	echo "  _            _        _   _                                                "
 	echo " | |_ __ _ ___| |_ __ _| |_(_) ___  _ __        ___  ___ _ ____   _____ _ __ "
 	echo " | __/ _` / __| __/ _` | __| |/ _ \| '_ \ _____/ __|/ _ \ '__\ \ / / _ \ '__|"
