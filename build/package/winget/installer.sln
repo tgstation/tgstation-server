@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Service.Configure", "Tgstation.Server.Host.Service.Configure\Tgstation.Server.Host.Service.Configure.csproj", "{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Tgstation.Server.Host.Service.Msi", "Tgstation.Server.Host.Service.Msi\Tgstation.Server.Host.Service.Msi.vdproj", "{C7BE7AC6-D020-4497-84DE-282C24BA575D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Api", "..\..\..\src\Tgstation.Server.Api\Tgstation.Server.Api.csproj", "{8B4A208D-A48A-4A5D-8B94-E2661138865D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Common", "..\..\..\src\Tgstation.Server.Common\Tgstation.Server.Common.csproj", "{70CD9A98-D31A-44A4-81D1-D02764CEEEFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Common", "..\..\..\src\Tgstation.Server.Host.Common\Tgstation.Server.Host.Common.csproj", "{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Service", "..\..\..\src\Tgstation.Server.Host.Service\Tgstation.Server.Host.Service.csproj", "{29927416-3B78-49A7-A560-5CCAA638B6B4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog", "..\..\..\src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj", "{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host", "..\..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj", "{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7BE7AC6-D020-4497-84DE-282C24BA575D}.Release|Any CPU.ActiveCfg = Release
+		{C7BE7AC6-D020-4497-84DE-282C24BA575D}.Release|Any CPU.Build.0 = Release
+		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70CD9A98-D31A-44A4-81D1-D02764CEEEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70CD9A98-D31A-44A4-81D1-D02764CEEEFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF3968A0-EA81-4464-B2D4-C7D40F6B5BCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29927416-3B78-49A7-A560-5CCAA638B6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29927416-3B78-49A7-A560-5CCAA638B6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2D682C-6BF0-439C-850B-6AB945BBEAEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBC981CA-0309-468F-984F-067BA2A6DF99}
+	EndGlobalSection
+EndGlobal

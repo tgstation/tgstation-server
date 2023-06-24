@@ -15,7 +15,11 @@ $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
 
 (Get-Content build/package/winget/Tgstation.Server.Host.Service.Msi/Tgstation.Server.Host.Service.Msi.vdproj).Replace('22.47.5', $tgsVersion) | Set-Content build/package/winget/Tgstation.Server.Host.Service.Msi/Tgstation.Server.Host.Service.Msi.vdproj
 
+dotnet restore
+cd build/package/winget
+dotnet build -c Release Tgstation.Server.Host.Service.Configure/Tgstation.Server.Host.Service.Configure
+
 # We make _some_ assumptions
-DevEnv tgstation-server.sln /Project build/package/winget/Tgstation.Server.Host.Service.Msi/Tgstation.Server.Host.Service.Msi.vdproj /build Release
+DevEnv installer.sln /Project Tgstation.Server.Host.Service.Msi/Tgstation.Server.Host.Service.Msi.vdproj /build Release
 
 cd ..

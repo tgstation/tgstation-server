@@ -235,9 +235,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "winget", "winget", "{506B9092-AF88-4DA2-84FD-C11646B695B0}"
 	ProjectSection(SolutionItems) = preProject
 		build\package\winget\build_package.ps1 = build\package\winget\build_package.ps1
+		build\package\winget\installer.sln = build\package\winget\installer.sln
+		build\package\winget\install_banner.jpg = build\package\winget\install_banner.jpg
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Service.Configure", "build\package\winget\Tgstation.Server.Host.Service.Configure\Tgstation.Server.Host.Service.Configure.csproj", "{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315}"
+	ProjectSection(ProjectDependencies) = postProject
+		{29927416-3B78-49A7-A560-5CCAA638B6B4} = {29927416-3B78-49A7-A560-5CCAA638B6B4}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "manifest", "manifest", "{3F141E03-6ABB-46A8-AA24-1B4B6814E58F}"
 	ProjectSection(SolutionItems) = preProject
@@ -246,7 +251,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "manifest", "manifest", "{3F
 		build\package\winget\manifest\Tgstation.Server.yaml = build\package\winget\manifest\Tgstation.Server.yaml
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Tgstation.Server.Host.Service.Msi", "build\package\winget\Tgstation.Server.Host.Service.Msi\Tgstation.Server.Host.Service.Msi.vdproj", "{73F75AAF-7885-490A-8262-B5C852AC8A47}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tgstation.Server.Host.Service.Msi", "Tgstation.Server.Host.Service.Msi", "{F5B9D394-229B-44A1-AD12-D8C078F06814}"
+	ProjectSection(SolutionItems) = preProject
+		build\package\winget\Tgstation.Server.Host.Service.Msi\Tgstation.Server.Host.Service.Msi.vdproj = build\package\winget\Tgstation.Server.Host.Service.Msi\Tgstation.Server.Host.Service.Msi.vdproj
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -409,14 +417,6 @@ Global
 		{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315}.ReleaseNoService|Any CPU.ActiveCfg = Release|Any CPU
-		{73F75AAF-7885-490A-8262-B5C852AC8A47}.Debug|Any CPU.ActiveCfg = Release
-		{73F75AAF-7885-490A-8262-B5C852AC8A47}.Debug|Any CPU.Build.0 = Release
-		{73F75AAF-7885-490A-8262-B5C852AC8A47}.DebugNoService|Any CPU.ActiveCfg = Release
-		{73F75AAF-7885-490A-8262-B5C852AC8A47}.DebugNoService|Any CPU.Build.0 = Release
-		{73F75AAF-7885-490A-8262-B5C852AC8A47}.Release|Any CPU.ActiveCfg = Release
-		{73F75AAF-7885-490A-8262-B5C852AC8A47}.Release|Any CPU.Build.0 = Release
-		{73F75AAF-7885-490A-8262-B5C852AC8A47}.ReleaseNoService|Any CPU.ActiveCfg = Release
-		{73F75AAF-7885-490A-8262-B5C852AC8A47}.ReleaseNoService|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -452,7 +452,7 @@ Global
 		{506B9092-AF88-4DA2-84FD-C11646B695B0} = {2648A85F-61AE-428E-95E1-66D06C7A3768}
 		{6CC73878-8C37-4ACC-ADAA-A60EBDBC2315} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
 		{3F141E03-6ABB-46A8-AA24-1B4B6814E58F} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
-		{73F75AAF-7885-490A-8262-B5C852AC8A47} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
+		{F5B9D394-229B-44A1-AD12-D8C078F06814} = {506B9092-AF88-4DA2-84FD-C11646B695B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}
