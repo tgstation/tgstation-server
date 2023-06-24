@@ -9,7 +9,8 @@ After=mssql-server.service
 [Service]
 Type=notify-reload
 NotifyAccess=all
-ExecStart=/bin/bash /opt/tgstation-server/tgs.sh General:SetupWizardMode=Never
+WorkingDirectory=/opt/tgstation-server
+ExecStart=/usr/bin/dotnet Tgstation.Server.Host.Console.dll --General:SetupWizardMode=Never
 TimeoutStartSec=600
 Restart=Always
 KillMode=process
