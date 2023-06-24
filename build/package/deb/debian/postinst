@@ -1,14 +1,9 @@
 #!/bin/sh -e
 
-if [ "$1" = "configure" ]; then
-	# Copy appsettings.Initial.yml to .Production to make the symlink work
-	cp /etc/tgstation-server/appsettings.Initial.yml /etc/tgstation-server/appsettings.Production.yml
-	chown 600 /etc/tgstation-server/appsettings.Production.yml
-fi
-
 #DEBHELPER#
 
 if [ "$1" = "configure" ]; then
+	chmod 600 /etc/tgstation-server
 	deb-systemd-helper stop 'tgstation-server.service' >/dev/null || true
 
 	echo "  _            _        _   _                                                "
