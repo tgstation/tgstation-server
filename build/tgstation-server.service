@@ -7,17 +7,20 @@ After=postgresql.service
 After=mssql-server.service
 
 [Service]
-Type=notify
+Type=notify-reload
 NotifyAccess=all
-ExecStart=/bin/bash /opt/tgstation-server/tgs.sh General:SetupWizardMode=Never
+WorkingDirectory=/opt/tgstation-server
+ExecStart=/usr/bin/dotnet Tgstation.Server.Host.Console.dll --General:SetupWizardMode=Never
 TimeoutStartSec=600
 Restart=Always
 KillMode=process
+ReloadSignal=SIGUSR2
 RestartKillSignal=SIGUSR2
 AmbientCapabilities=CAP_SYS_NICE
 StandardOutput=null
 StandardError=null
 WatchdogSec=60
+WatchdogSignal=SIGTERM
 
 [Install]
 WantedBy=multi-user.target

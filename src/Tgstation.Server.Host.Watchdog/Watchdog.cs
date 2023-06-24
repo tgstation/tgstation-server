@@ -11,9 +11,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using Mono.Unix;
-using Mono.Unix.Native;
-
 using Tgstation.Server.Host.Common;
 
 namespace Tgstation.Server.Host.Watchdog
@@ -71,7 +68,8 @@ namespace Tgstation.Server.Host.Watchdog
 				{
 					// VS special tactics
 					// just copy the shit where it belongs
-					Directory.Delete(assemblyStoragePath, true);
+					if (Directory.Exists(assemblyStoragePath))
+						Directory.Delete(assemblyStoragePath, true);
 					Directory.CreateDirectory(defaultAssemblyPath);
 
 					var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/net6.0";
@@ -128,8 +126,8 @@ namespace Tgstation.Server.Host.Watchdog
 
 							if (runConfigure)
 							{
-								logger.LogInformation("Running configuration check and wizard if necessary...");
-								arguments.Add("General:SetupWizardMode=Only");
+								logger.LogInformation("Running configuration check and wizard...");
+								arguments.Add("--General:SetupWizardMode=Only");
 							}
 
 							arguments.AddRange(args);
@@ -179,61 +177,19 @@ namespace Tgstation.Server.Host.Watchdog
 								}))
 								{
 									var processTask = tcs.Task;
-									while (!processTask.IsCompleted)
+									using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+									var checkerTask = isWindows
+										? Task.CompletedTask
+										: SignalChecker.CheckSignals(logger, childPid, cts.Token);
+									try
 									{
-										var signalTcs = new TaskCompletionSource<Signum>();
-										using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-										async Task CheckSignal(Signum signum)
-										{
-											if (isWindows)
-												return;
-
-											try
-											{
-												using var unixSignal = new UnixSignal(signum);
-												if (!unixSignal.IsSet)
-												{
-													logger.LogTrace("Waiting for {signum}...", signum);
-													while (!unixSignal.IsSet)
-														await Task.Delay(TimeSpan.FromMilliseconds(250), cts.Token);
-
-													logger.LogTrace("{signum} received!", signum);
-												}
-												else
-													logger.LogDebug("{signum} has already been sent", signum);
-
-												signalTcs.TrySetResult(signum);
-											}
-											catch (OperationCanceledException)
-											{
-											}
-										}
-
-										var checkerTask = Task.WhenAll(
-											CheckSignal(Signum.SIGUSR1),
-											CheckSignal(Signum.SIGUSR2));
-										try
-										{
-											var signalTask = signalTcs.Task;
-
-											var completedTask = await Task.WhenAny(processTask, signalTask);
-											if (completedTask == signalTask)
-											{
-												var signalReceived = await signalTask;
-												logger.LogInformation("Received {signalReceived}, forwarding to main TGS process!", signalReceived);
-												var result = Syscall.kill(childPid, signalReceived);
-												if (result != 0)
-													logger.LogWarning(
-														new UnixIOException(Stdlib.GetLastError()),
-														"Failed to forward {signalReceived}!",
-														signalReceived);
-											}
-										}
-										finally
-										{
-											cts.Cancel();
-											await checkerTask;
-										}
+										await processTask;
+									}
+									finally
+									{
+										cts.Cancel();
+										await checkerTask;
 									}
 								}
 							}
@@ -252,8 +208,19 @@ namespace Tgstation.Server.Host.Watchdog
 										process.WaitForExit();
 									}
 								}
-								catch (InvalidOperationException)
+								catch (InvalidOperationException ex2)
 								{
+									logger.LogWarning(ex2, "Error killing host process!");
+								}
+
+								try
+								{
+									if (File.Exists(updateDirectory))
+										File.Delete(updateDirectory);
+								}
+								catch (Exception ex2)
+								{
+									logger.LogWarning(ex2, "Error deleting comms file!");
 								}
 
 								logger.LogInformation("Host exited!");

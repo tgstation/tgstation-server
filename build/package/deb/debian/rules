@@ -15,6 +15,7 @@ override_dh_auto_build:
 		cd src/Tgstation.Server.Host && dotnet publish -c Release -o ../../artifacts/lib/Default
 		mv artifacts/lib/Default/appsettings.yml artifacts/appsettings.yml
 		rm artifacts/lib/Default/Tgstation.Server.Host
+		rm artifacts/Tgstation.Server.Host.Console
 
 override_dh_auto_install:
 		cp build/package/deb/MakeInstall ./Makefile

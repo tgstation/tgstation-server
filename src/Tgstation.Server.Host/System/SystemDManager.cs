@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.System
 	sealed class SystemDManager : IHostedService, IRestartHandler, IDisposable
 	{
 		/// <summary>
+		/// The sd_notify command for notifying the watchdog we are alive.
+		/// </summary>
+		const string SDNotifyWatchdog = "WATCHDOG=1";
+
+		/// <summary>
 		/// The <see cref="IHostApplicationLifetime"/> for the <see cref="SystemDManager"/>.
 		/// </summary>
 		readonly IHostApplicationLifetime applicationLifetime;
@@ -53,6 +58,13 @@ namespace Tgstation.Server.Host.System
 		/// If TGS is going to restart.
 		/// </summary>
 		bool restartInProgress;
+
+		/// <summary>
+		/// Get the current total nanoseconds value of the CLOCK_MONOTONIC clock.
+		/// </summary>
+		/// <returns>A <see cref="long"/> representing the clock time in nanoseconds.</returns>
+		/// <remarks>See https://linux.die.net/man/3/clock_gettime.</remarks>
+		static long GetMonotonicUsec() => global::System.Diagnostics.Stopwatch.GetTimestamp(); // HACK: https://github.com/dotnet/runtime/blob/v6.0.19/src/libraries/Native/Unix/System.Native/pal_time.c#L51 clock_gettime_nsec_np is an OSX only thing apparently...
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SystemDManager"/> class.
@@ -104,7 +116,7 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			if (SendSDNotify("RELOADING=1"))
+			if (SendSDNotify(SDNotifyWatchdog))
 			{
 				logger.LogDebug("SystemD detected");
 				runTask = RunAsync(watchdogCts.Token);
@@ -150,7 +162,7 @@ namespace Tgstation.Server.Host.System
 			applicationLifetime.ApplicationStopping.Register(
 				() => SendSDNotify(
 					restartInProgress
-						? "RELOADING=1"
+						? $"RELOADING=1\nMONOTONIC_USEC={GetMonotonicUsec()}"
 						: "STOPPING=1"));
 
 			try
@@ -165,21 +177,29 @@ namespace Tgstation.Server.Host.System
 					return;
 				}
 
-				logger.LogDebug("Starting watchdog loop with interval of {usec}us", watchdogUsec);
-
 				var microseconds = UInt64.Parse(watchdogUsec, CultureInfo.InvariantCulture);
-				var milliseconds = (int)(microseconds / 1000);
-				if (milliseconds == 0)
-					milliseconds = 1;
+				var timeoutIntervalMillis = (int)(microseconds / 1000);
 
+				logger.LogDebug("Starting watchdog loop with interval of {timeoutInterval}ms", timeoutIntervalMillis);
+
+				var timeoutInterval = TimeSpan.FromMilliseconds(timeoutIntervalMillis);
+				var nextExpectedTimeout = DateTimeOffset.UtcNow + timeoutInterval;
+				var timeToNextExpectedTimeout = nextExpectedTimeout - DateTimeOffset.UtcNow;
 				while (!cancellationToken.IsCancellationRequested)
 				{
-					await Task.Delay(milliseconds, cancellationToken);
+					var delayInterval = timeToNextExpectedTimeout / 2;
+					await Task.Delay(delayInterval, cancellationToken);
 
-					logger.LogTrace("Sending sd_notify WATCHDOG=1");
-					var result = NativeMethods.sd_notify(0, "WATCHDOG=1");
-					if (result <= 0)
-						logger.LogError(new UnixIOException(result), "sd_notify READY=1 failed!");
+					var notifySuccess = SendSDNotify(SDNotifyWatchdog);
+
+					var now = DateTimeOffset.UtcNow;
+					if (notifySuccess)
+						nextExpectedTimeout = now + timeoutInterval;
+
+					timeToNextExpectedTimeout = nextExpectedTimeout - now;
+
+					if (!notifySuccess)
+						logger.LogWarning("Missed systemd heartbeat! Expected timeout in {timeoutMs}ms...", timeToNextExpectedTimeout.TotalMilliseconds);
 				}
 			}
 			catch (OperationCanceledException ex)
@@ -202,7 +222,17 @@ namespace Tgstation.Server.Host.System
 		bool SendSDNotify(string command)
 		{
 			logger.LogTrace("Sending sd_notify {message}...", command);
-			var result = NativeMethods.sd_notify(0, command);
+			int result;
+			try
+			{
+				result = NativeMethods.sd_notify(0, command);
+			}
+			catch (Exception ex)
+			{
+				logger.LogInformation(ex, "Exception attempting to invoke sd_notify!");
+				return false;
+			}
+
 			if (result > 0)
 				return true;
 
