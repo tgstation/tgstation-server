@@ -6,7 +6,7 @@ PackageVersion: 0.0.0 # Set before publish by wingetcreate
 Installers:
 - InstallerUrl: https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v0.0.0/tgstation-server.msi # Set before publish by wingetcreate
   InstallerLocale: en-US
-  Architecture: x64
+  Architecture: x86
   InstallerType: msi
   Scope: machine
   InstallerSha256: F749672C1BDBAC8CD8AEF7352B97E54C21CF389D798D0ED245CA75EC72521460
