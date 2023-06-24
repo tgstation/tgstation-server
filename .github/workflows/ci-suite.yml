@@ -892,8 +892,15 @@ jobs:
         echo ${{ secrets.PACKAGING_PRIVATE_KEY_PASSPHRASE }} | gpg --batch --yes --passphrase-fd 0 --import private.pgp
         rm private.pgp
 
-    - name: Checkout
+    - name: Checkout (Branch)
       uses: actions/checkout@v3
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Execute Build Script
       env:
@@ -937,6 +944,16 @@ jobs:
     - name: Disable Out of Process Building
       working-directory: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/VSI/DisableOutOfProcBuild
       run: ./DisableOutOfProcBuild.exe
+
+    - name: Checkout (Branch)
+      uses: actions/checkout@v3
+      if: github.event_name == 'push' || github.event_name == 'schedule'
+
+    - name: Checkout (PR Merge)
+      uses: actions/checkout@v3
+      if: github.event_name != 'push' && github.event_name != 'schedule'
+      with:
+        ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Build .vdproj
       shell: powershell
