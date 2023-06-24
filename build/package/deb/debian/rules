@@ -7,7 +7,7 @@ export DH_VERBOSE = 1
 
 override_dh_auto_clean:
 		rm -rf artifacts
-		dotnet clean -c ReleaseNoService
+		dotnet clean -c ReleaseNoFramework
 
 override_dh_auto_build:
 		dotnet restore

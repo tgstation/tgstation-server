@@ -220,10 +220,10 @@ jobs:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}NoService
+      run: dotnet build -c ${{ matrix.configuration }}NoFramework
 
     - name: Run Unit Tests
-      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
+      run: sudo dotnet test --no-build --logger GitHubActions --filter FullyQualifiedName!~TestLiveServer -c ${{ matrix.configuration }}NoFramework --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings --results-directory ./TestResults tgstation-server.sln
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -543,13 +543,13 @@ jobs:
         ref: "refs/pull/${{ github.event.number }}/merge"
 
     - name: Build
-      run: dotnet build -c ${{ matrix.configuration }}NoService tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
+      run: dotnet build -c ${{ matrix.configuration }}NoFramework tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
 
     - name: Run Live Tests
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }}NoService --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
+        dotnet test -c ${{ matrix.configuration }}NoFramework --filter FullyQualifiedName~TestLiveServer --logger GitHubActions --no-build --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings --results-directory ../../TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v3
@@ -563,7 +563,7 @@ jobs:
         cd src/Tgstation.Server.Host.Console
         dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/Console/lib/Default
+        dotnet publish -c ${{ matrix.configuration }}NoFramework --no-build -o ../../Artifacts/Console/lib/Default
         mv ../../Artifacts/Console/lib/Default/appsettings.yml ../../Artifacts/Console/appsettings.yml
         rm ../../Artifacts/Console/lib/Default/Tgstation.Server.Host
         rm ../../Artifacts/Console/Tgstation.Server.Host.Console
@@ -572,7 +572,7 @@ jobs:
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/ServerUpdate
+        dotnet publish -c ${{ matrix.configuration }}NoFramework --no-build -o ../../Artifacts/ServerUpdate
         rm ../../Artifacts/ServerUpdate/appsettings.yml
         rm ../../Artifacts/ServerUpdate/Tgstation.Server.Host
 

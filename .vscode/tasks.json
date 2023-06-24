@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "msbuild",
-                "-p:Configuration=DebugNoService"
+                "-p:Configuration=DebugNoFramework"
             ],
             "problemMatcher": "$msCompile",
             "group": {
@@ -21,7 +21,7 @@
             "type": "process",
             "args": [
                 "test",
-                "-p:Configuration=DebugNoService"
+                "-p:Configuration=DebugNoFramework"
             ],
             "problemMatcher": "$msCompile",
             "group": {
