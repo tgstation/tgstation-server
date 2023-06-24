@@ -253,6 +253,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "manifest", "manifest", "{3F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tgstation.Server.Host.Service.Msi", "Tgstation.Server.Host.Service.Msi", "{F5B9D394-229B-44A1-AD12-D8C078F06814}"
 	ProjectSection(SolutionItems) = preProject
+		build\package\winget\Tgstation.Server.Host.Service.Msi\README.md = build\package\winget\Tgstation.Server.Host.Service.Msi\README.md
 		build\package\winget\Tgstation.Server.Host.Service.Msi\Tgstation.Server.Host.Service.Msi.vdproj = build\package\winget\Tgstation.Server.Host.Service.Msi\Tgstation.Server.Host.Service.Msi.vdproj
 	EndProjectSection
 EndProject
