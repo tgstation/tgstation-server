@@ -1,6 +1,10 @@
 #!/bin/sh -e
 
 if [ "$1" = "configure" ]; then
+	# Copy appsettings.Initial.yml to .Production to make the symlink work
+	cp /etc/tgstation-server/appsettings.Initial.yml /etc/tgstation-server/appsettings.Production.yml
+	chown 600 /etc/tgstation-server/appsettings.Production.yml
+
 	# disable first time startup so user can configure
 	deb-systemd-helper mask 'tgstation-server.service' >/dev/null || true
 fi

@@ -216,6 +216,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "debian", "debian", "{08E7C6
 		build\package\deb\debian\changelog = build\package\deb\debian\changelog
 		build\package\deb\debian\control = build\package\deb\debian\control
 		build\package\deb\debian\copyright = build\package\deb\debian\copyright
+		build\package\deb\debian\links = build\package\deb\debian\links
 		build\package\deb\debian\postinst = build\package\deb\debian\postinst
 		build\package\deb\debian\prerm = build\package\deb\debian\prerm
 		build\package\deb\debian\rules = build\package\deb\debian\rules
