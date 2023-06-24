@@ -222,7 +222,17 @@ namespace Tgstation.Server.Host.System
 		bool SendSDNotify(string command)
 		{
 			logger.LogTrace("Sending sd_notify {message}...", command);
-			var result = NativeMethods.sd_notify(0, command);
+			int result;
+			try
+			{
+				result = NativeMethods.sd_notify(0, command);
+			}
+			catch (Exception ex)
+			{
+				logger.LogInformation(ex, "Exception attempting to invoke sd_notify!");
+				return false;
+			}
+
 			if (result > 0)
 				return true;
 
