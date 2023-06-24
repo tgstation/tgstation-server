@@ -26,7 +26,39 @@ Follow the instructions for your OS below.
 
 #### Windows
 
-Download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0) (Choose the option to `Run Server Apps` for your system). If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Most modern systems have it by default. Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server), you can test this by opening a command prompt and running `dotnet --list-runtimes`.
+##### Installer
+
+If you don't have it installed already, download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+
+You should also ensure that your .NET Framework runtime version is >= v4.7.2. Most modern systems have it by default so this isn't much of a concern. If, somehow, you don't have it installed, it can be downloaded [here](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472).
+
+[Download the latest release .msi](https://github.com/tgstation/tgstation-server/releases/latest). Executing it will take you through the process of installing and configuring your server.
+
+##### winget
+
+If you have [winget]() installed. You can easily install the latest version of tgstation-server (provided Microsoft has approved the most recent package manifest).
+
+Simply run the following command:
+```sh
+winget install tgstation-server
+```
+
+If you get an error like `This file does not have an app associated with it for performing this action.` run with the `--silent` flag:
+```sh
+winget install tgstation-server --silent
+```
+
+You won't be prompted to run the setup wizard. However, you can do so immediately after via the shortcut placed on your desktop.
+
+NOTE: 
+
+`winget` should, theoretically, install the ASP .NET Core 6.0 Runtime as a pre-reqiusite. At the time of this writing, this functionality is untested (TODO). If the runtime isn't automatically installed for you, see above or below for steps on how to download and install it manually.
+
+##### Manual
+
+If you don't have it installed already, download and install the [ASP .NET Core Runtime (>= v6.0)](https://dotnet.microsoft.com/download/dotnet/6.0). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server). You can test this by opening a command prompt and running `dotnet --list-runtimes`.
+
+You should also ensure that your .NET Framework runtime version is >= v4.7.2. Most modern systems have it by default so this isn't much of a concern. If, somehow, you don't have it installed, it can be downloaded [here](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472).
 
 [Download the latest release .zip](https://github.com/tgstation/tgstation-server/releases/latest). You probably want the `ServerService` package. Choose `ServerConsole` if you prefer not to use the Windows service.
 
@@ -36,7 +68,7 @@ If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.
 
 Should you want a clean start, be sure to first uninstall the service by running `Tgstation.Server.Host.Service.exe -u` from the command line.
 
-If using the console version, run ./tgs.bat in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
+If using the console version, run `./tgs.bat` in the root of the installation directory. Ctrl+C will close the server, terminating all live game instances.
 
 #### Linux
 

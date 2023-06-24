@@ -8,6 +8,7 @@ coverage:
 comment:
   layout: "header, diff, changes"
 ignore:
+  - "build"
   - "src/Tgstation.Server.Host/Database/Design"
   - "src/Tgstation.Server.Host/Database/Migrations/MySqlDatabaseContextModelSnapshot.cs"
   - "src/Tgstation.Server.Host/Database/Migrations/PostgresSqlDatabaseContextModelSnapshot.cs"

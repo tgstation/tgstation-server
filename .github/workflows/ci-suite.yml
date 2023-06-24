@@ -920,11 +920,39 @@ jobs:
         name: packaging-debian
         path: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
 
+  build-msi:
+    name: Build .msi Package
+    needs: start-ci-run-gate
+    runs-on: windows-latest
+    if: "!(cancelled() || failure()) && needs.start-ci-run-gate.result == 'success'"
+    steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.TGS_DOTNET_VERSION }}
+
+    - name: Setup VS Dev Environment
+      uses: seanmiddleditch/gha-setup-vsdevenv@v4
+
+    - name: Disable Out of Process Building
+      working-directory: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/VSI/DisableOutOfProcBuild
+      run: ./DisableOutOfProcBuild.exe
+
+    - name: Build .vdproj
+      shell: powershell
+      run: build/package/winget/build_package.ps1
+
+    - name: Upload .msi
+      uses: actions/upload-artifact@v3
+      with:
+        name: packaging-windows
+        path: packaging/build/package/winget/Tgstation.Server.Host.Service.Msi/Release/tgstation-server.msi
+
   deployment-gate:
     name: Deployment Gate
-    needs: [ dox-build, docker-build, build-deb, validate-openapi-spec, upload-code-coverage ]
+    needs: [ dox-build, docker-build, build-deb, validate-openapi-spec, upload-code-coverage, build-msi ]
     runs-on: ubuntu-latest
-    if: "!(cancelled() || failure()) && needs.dox-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && github.event_name == 'push'"
+    if: "!(cancelled() || failure()) && needs.dox-build.result == 'success' && needs.docker-build.result == 'success' && needs.build-deb.result == 'success' && needs.build-msi.result == 'success' && needs.validate-openapi-spec.result == 'success' && needs.upload-code-coverage.result == 'success' && github.event_name == 'push'"
     steps:
     - name: GitHub Requires at Least One Step for a Job
       run: exit 0
@@ -1120,6 +1148,12 @@ jobs:
         name: packaging-debian
         path: packaging-debian
 
+    - name: Retrieve .msi
+      uses: actions/download-artifact@v3
+      with:
+        name: packaging-windows
+        path: packaging-windows
+
     - name: Zip Artifacts
       shell: powershell
       run: |
@@ -1202,6 +1236,16 @@ jobs:
         asset_path: ./packaging-debian/tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
         asset_name: tgstation-server-v${{ env.TGS_VERSION }}.debian.packaging.tar.xz
         asset_content_type: application/x-tar
+
+    - name: Upload .msi
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./packaging-windows/tgstation-server.msi
+        asset_name: tgstation-server.msi
+        asset_content_type: application/octet-stream
 
   deploy-docker:
     name: Deploy TGS (Docker)

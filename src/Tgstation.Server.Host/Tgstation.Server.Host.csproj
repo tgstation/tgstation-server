@@ -9,19 +9,16 @@
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
     <NoWarn>API1000</NoWarn>
+    <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
+    <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+    <ApplicationManifest>../../build/manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
-    <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..</DockerfileContext>
-    <ApplicationManifest>manifest.xml</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -86,7 +83,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
     <!-- Usage: Automatic migration generation using command line -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
-      <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: Sqlite ORM plugin -->
@@ -117,7 +113,6 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <!-- Usage: Linting -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <!-- Usage: OpenAPI spec generator -->
@@ -143,15 +138,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="ClientApp\package-lock.json" />
-    <Content Remove="ClientApp\package.json" />
-    <Content Remove="ClientApp\tsconfig.json" />
-    <Content Remove="ClientApp\tslint.json" />
-    <None Include="ClientApp\package-lock.json" />
-    <None Include="ClientApp\package.json" />
-    <None Include="ClientApp\tsconfig.json" />
+    <Content Remove="ClientApp\**\*.json" />
+    <None Include="ClientApp\**\*.json" />
     <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\package.json;ClientApp\package-lock.json" />
     <AdditionalFiles Include="../../build/stylecop.json" />
+    <AdditionalFiles Include="../../build/manifest.xml" />
   </ItemGroup>
 
   <ItemGroup>

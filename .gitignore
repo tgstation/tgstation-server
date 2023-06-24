@@ -24,3 +24,4 @@ release_notes.md
 *nupkg
 *.sqlite3
 packaging/
+build/package/winget/Tgstation.Server.Host.Service.Msi/Release/

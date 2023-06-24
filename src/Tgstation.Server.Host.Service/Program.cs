@@ -44,6 +44,18 @@ namespace Tgstation.Server.Host.Service
 		public bool Install { get; set; }
 
 		/// <summary>
+		/// The --force or -f option.
+		/// </summary>
+		[Option(ShortName = "f")]
+		public bool Force { get; set; }
+
+		/// <summary>
+		/// The --silent or -s option.
+		/// </summary>
+		[Option(ShortName = "s")]
+		public bool Silent { get; set; }
+
+		/// <summary>
 		/// The --configure or -c option.
 		/// </summary>
 		[Option(ShortName = "c")]
@@ -82,14 +94,16 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Attempt to install the TGS Service.
 		/// </summary>
-		static void RunServiceInstall()
+		void RunServiceInstall()
 		{
 			// First check if the service already exists
-			if (Environment.UserInteractive)
+			if (Force || Environment.UserInteractive)
 				foreach (ServiceController sc in ServiceController.GetServices())
 					if (sc.ServiceName == "tgstation-server" || sc.ServiceName == "tgstation-server-4")
 					{
-						DialogResult result = MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo);
+						DialogResult result = !Force
+							? MessageBox.Show($"You already have another TGS service installed ({sc.ServiceName}). Would you like to uninstall it now? Pressing \"No\" will cancel this install.", "TGS Service", MessageBoxButtons.YesNo)
+							: DialogResult.Yes;
 						if (result != DialogResult.Yes)
 							return; // is this needed after exit?
 
@@ -103,6 +117,10 @@ namespace Tgstation.Server.Host.Service
 						// And remove it
 						using var serviceInstaller = new ServiceInstaller();
 						serviceInstaller.Context = new InstallContext($"old-{sc.ServiceName}-uninstall.log", null);
+
+						if (Silent)
+							serviceInstaller.Context.Parameters["LogToConsole"] = false.ToString();
+
 						serviceInstaller.ServiceName = sc.ServiceName;
 						serviceInstaller.Uninstall(null);
 					}
@@ -112,8 +130,10 @@ namespace Tgstation.Server.Host.Service
 			processInstaller.Account = ServiceAccount.LocalSystem;
 
 			installer.Context = new InstallContext("tgs-install.log", new string[] { String.Format(CultureInfo.InvariantCulture, "/assemblypath={0}", Assembly.GetEntryAssembly().Location) });
-			installer.Description = "/tg/station 13 server running as a windows service";
-			installer.DisplayName = "/tg/station server";
+			if (Silent)
+				installer.Context.Parameters["LogToConsole"] = false.ToString();
+			installer.Description = "tgstation-server running as a windows service";
+			installer.DisplayName = "tgstation-server";
 			installer.StartType = ServiceStartMode.Automatic;
 			installer.ServicesDependedOn = new string[] { "Tcpip", "Dhcp", "Dnscache" };
 			installer.ServiceName = ServerService.Name;
@@ -149,7 +169,7 @@ namespace Tgstation.Server.Host.Service
 					{
 						UseShellExecute = true,
 						Verb = "runas",
-						Arguments = String.Format(CultureInfo.InvariantCulture, "{0} {1}", Install ? "-i" : Uninstall ? "-u" : String.Empty, Configure ? "-c" : String.Empty),
+						Arguments = $"{(Install ? "-i" : Uninstall ? "-u" : String.Empty)} {(Configure ? "-c" : String.Empty)} {(Force ? "-f" : String.Empty)}",
 						FileName = exe,
 						WorkingDirectory = Environment.CurrentDirectory,
 					};
@@ -165,16 +185,16 @@ namespace Tgstation.Server.Host.Service
 
 				RunServiceInstall();
 
-				if (Configure)
-				{
+				if (Configure && !Silent)
 					Console.WriteLine("For this first run we'll launch the console runner so you may use the setup wizard.");
-					Console.WriteLine("If it starts successfully, feel free to close it and then start the service from the Windows control panel.");
-				}
 			}
 			else if (Uninstall)
 				using (var installer = new ServiceInstaller())
 				{
 					installer.Context = new InstallContext("tgs-uninstall.log", null);
+					if (Silent)
+						installer.Context.Parameters["LogToConsole"] = false.ToString();
+
 					installer.ServiceName = ServerService.Name;
 					installer.Uninstall(null);
 				}
@@ -185,11 +205,23 @@ namespace Tgstation.Server.Host.Service
 			}
 
 			if (Configure)
+				await RunConfigure(CancellationToken.None); // DCT: None available
+		}
+
+		/// <summary>
+		/// Runs the host application with the setup wizard.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task RunConfigure(CancellationToken cancellationToken)
+		{
+			using var loggerFactory = LoggerFactory.Create(builder =>
 			{
-				using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-				await WatchdogFactory.CreateWatchdog(loggerFactory)
-					.RunAsync(true, Array.Empty<string>(), CancellationToken.None); // DCT: None available
-			}
+				if (!Silent)
+					builder.AddConsole();
+			});
+			await WatchdogFactory.CreateWatchdog(loggerFactory)
+				.RunAsync(true, Array.Empty<string>(), cancellationToken);
 		}
 	}
 }

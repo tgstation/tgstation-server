@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the Dotnet 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
+You need the Dotnet 6.0 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.2 build chain. In order to build the .msi installer, you'll need [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or greater and the [Visual Studio Installer Projects Extension](https://marketplace.visualstudio.com/items?itemName=VisualStudioClient.MicrosoftVisualStudio2022InstallerProjects).
 
 The recommended IDE is Visual Studio 2019 which has installation options for both of these.
 
